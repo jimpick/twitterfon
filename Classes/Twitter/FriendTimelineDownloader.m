@@ -3,6 +3,8 @@
 #import "Message.h"
 
 #define PASSWORD @"phoenix"
+//#define USE_LOACAL_FILE
+#define DEBUG_WITH_PUBLIC_TIMELINE
 
 @interface NSObject (FriendTimelineDownloaderDelegate)
 - (void)friendTimelineDownloaderDidSucceed:(FriendTimelineDownloader*)sender messages:(NSArray*)messages;
@@ -37,15 +39,17 @@
 	[buf release];
 
 	// for debug
-//*
+#ifdef USE_LOCAL_FILE
 	NSString* s = [NSString stringWithContentsOfFile:@"/Users/psychs/Desktop/response.txt"];
 	buf = [[s dataUsingEncoding:NSUTF8StringEncoding] retain];
 	[self connectionDidFinishLoading:nil];
-//*/
-	
-//*
-	//NSString* url = @"http://limechat.net/statuses/friends_timeline.json";
+#else
+
+#ifdef DEBUG_WITH_PUBLIC_TIMELINE
 	NSString* url = @"http://twitter.com/statuses/public_timeline.json";
+#else
+	NSString* url = @"http://twitter.com/statuses/friends_timeline.json";
+#endif
 	
 	url = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)url, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
 	NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
@@ -53,7 +57,8 @@
 														timeoutInterval:60.0];
 	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
 	buf = [[NSMutableData data] retain];
-//*/
+
+#endif
 }
 
 - (void)connection:(NSURLConnection *)aConn didReceiveResponse:(NSURLResponse *)response
@@ -111,7 +116,7 @@
 {
 	if ([challenge previousFailureCount] == 0) {
 		NSLog(@"trying auth");
-		NSString* user = @"Psychs";
+		NSString* user = @"naan";
 		NSString* pass = PASSWORD;
 		NSURLCredential* cred = [NSURLCredential credentialWithUser:user password:pass persistence:NSURLCredentialPersistenceNone];
 		[[challenge sender] useCredential:cred forAuthenticationChallenge:challenge];

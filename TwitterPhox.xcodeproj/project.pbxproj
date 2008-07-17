@@ -109,9 +109,9 @@
 			isa = PBXGroup;
 			children = (
 				6EF551760E2F46A4003C0191 /* Controllers */,
+				6EFA46690E2B4AE6006A076C /* JSON */,
 				6EFA466A0E2B4B01006A076C /* ImageStore */,
 				6EFA46680E2B4ADD006A076C /* Twitter */,
-				6EFA46690E2B4AE6006A076C /* JSON */,
 			);
 			path = Classes;
 			sourceTree = "<group>";

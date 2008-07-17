@@ -30,10 +30,6 @@
 	return self;
 }
 
-- (IBAction)refresh:(id)sender {
-	[self.tableView reloadData];
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 	return 1;

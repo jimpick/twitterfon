@@ -14,14 +14,13 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-
+    self.tableView.separatorColor = [UIColor colorWithRed:0.784 green:969 blue:996 alpha:1.0];
 	[friendTimeline update];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
 	if (self = [super initWithStyle:style]) {
-        self.tableView.separatorColor = [UIColor colorWithRed:0.784 green:969 blue:996 alpha:1.0];
 	}
 	return self;
 }
@@ -48,7 +47,8 @@
 		cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 	}
 	cell.message = m;
-	cell.imageView.image = [imageStore getImage:m.user.profileImageUrl];
+	//cell.imageView.image = [imageStore getImage:m.user.profileImageUrl];
+    cell.image = [imageStore getImage:m.user.profileImageUrl];
 	[cell update];
 	return cell;
 }
@@ -77,11 +77,6 @@
 
 - (void)imageStoreDidGetNewImage:(ImageStore*)sender url:(NSString*)url {
 	[self.tableView reloadData];
-    //[self.tableView setNeedsDisplay];
-}
-
-- (IBAction)refresh:(id)sender {
-	[friendTimeline update];
 }
 
 - (void)friendTimelineControllerDidReceiveNewMessage:(FriendTimelineController*)sender message:(Message*)msg {

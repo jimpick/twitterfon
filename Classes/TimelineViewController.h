@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
-#import "TableViewController.h"
+#import "ImageStore.h"
+#include "FriendTimelineController.h"
 
 @interface TimelineViewController : UITableViewController {
     IBOutlet ImageStore* imageStore;

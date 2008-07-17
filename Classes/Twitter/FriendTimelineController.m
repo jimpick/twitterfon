@@ -56,7 +56,8 @@
 	
 	if (delegate) {
 		int i;
-		for (i=[ary count]-1; i>=0; i--) {
+		//for (i=[ary count]-1; i>=0; i--) {
+		for (i=0; i < [ary count]; ++i) {
 			Message* m = [ary objectAtIndex:i];
 			if (m.messageId > lastMessageId) {
 				[messages addObject:m];
@@ -91,10 +92,10 @@
     textLabel.numberOfLines = 10;
     
     textLabel.text = m.text;
-    bounds = CGRectMake(0, 0, 236, 200);
+    bounds = CGRectMake(0, 0, 240, 200);
     result = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
-    if (result.size.height < 30) result.size.height = 30;
-    result.size.height += 30;
+    result.size.height += 18 + 2;
+    if (result.size.height < 48 + 1) result.size.height = 48 + 1;
     [textLabel release];
     return result.size.height;
 }

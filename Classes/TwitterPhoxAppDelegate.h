@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface TwitterPhoxAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
-	IBOutlet UITableView *tableView;
 	IBOutlet UIWindow *window;
 	IBOutlet UITabBarController *tabBarController;
 }

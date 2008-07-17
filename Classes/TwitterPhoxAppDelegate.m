@@ -17,7 +17,8 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	
-	// Add the tab bar controller's current view as a subview of the window
+	// Select timeline view at startup time
+    tabBarController.selectedIndex = 1;
 	[window addSubview:tabBarController.view];
 }
 
@@ -27,7 +28,6 @@
 */
 
 /*
- Optional UITabBarControllerDelegate method
 - (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
 }
 */

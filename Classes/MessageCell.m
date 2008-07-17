@@ -49,12 +49,12 @@
     CGRect rc = self.contentView.bounds;
     CGRect bounds;
 
-    const int TOP = 24;
-    const int LEFT = 72;
+    const int TOP = 18;
+    const int LEFT = 68;
     const int HMARGIN = 10;
-    const int VMARGIN = 6;
+    const int VMARGIN = 0;
 		
-    imageView.frame = CGRectMake(12, 6, 48, 48);
+    //imageView.frame = CGRectMake(12, 0, 52, 52);
 
     nameLabel.frame = CGRectMake(LEFT, VMARGIN, rc.size.width - LEFT - HMARGIN, 16);
     bounds = CGRectMake(LEFT, TOP, rc.size.width - LEFT - HMARGIN, rc.size.height - TOP);
