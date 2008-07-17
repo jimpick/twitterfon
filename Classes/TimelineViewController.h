@@ -1,8 +1,9 @@
 #import <UIKit/UIKit.h>
 #import "TableViewController.h"
 
-@interface TimelineViewController : UIViewController {
-	IBOutlet TableViewController* tableView;
+@interface TimelineViewController : UITableViewController {
+    IBOutlet ImageStore* imageStore;
+	IBOutlet FriendTimelineController* friendTimeline;
 }
 
 @end

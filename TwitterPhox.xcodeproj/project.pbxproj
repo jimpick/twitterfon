@@ -17,7 +17,6 @@
 		6E4657230E2ED082002AF530 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E4657220E2ED082002AF530 /* PostView.xib */; };
 		6E4657300E2ED19F002AF530 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E46572F0E2ED19F002AF530 /* PostViewController.m */; };
 		6E4657550E2EE2E2002AF530 /* library.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E4657540E2EE2E2002AF530 /* library.png */; };
-		6E8999270E2BC30B0034A28F /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8999260E2BC30B0034A28F /* TableViewController.m */; };
 		6EE2037C0E2DA59D00443A4F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE2037B0E2DA59D00443A4F /* SettingsViewController.m */; };
 		6EE203C90E2DAEA200443A4F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE203C70E2DAEA200443A4F /* SettingsTableViewController.m */; };
 		6EFA43DF0E2B0323006A076C /* timeline.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EFA43DA0E2B0323006A076C /* timeline.png */; };
@@ -55,8 +54,6 @@
 		6E46572E0E2ED19F002AF530 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
 		6E46572F0E2ED19F002AF530 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
 		6E4657540E2EE2E2002AF530 /* library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = library.png; path = Images/library.png; sourceTree = "<group>"; };
-		6E8999250E2BC30B0034A28F /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
-		6E8999260E2BC30B0034A28F /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		6EE2037A0E2DA59D00443A4F /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6EE2037B0E2DA59D00443A4F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		6EE203C70E2DAEA200443A4F /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
@@ -111,23 +108,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				6EF551760E2F46A4003C0191 /* Controllers */,
 				6EFA466A0E2B4B01006A076C /* ImageStore */,
 				6EFA46680E2B4ADD006A076C /* Twitter */,
 				6EFA46690E2B4AE6006A076C /* JSON */,
-				6EFA46910E2B4DB4006A076C /* MessageCell.h */,
-				6EFA46920E2B4DB4006A076C /* MessageCell.m */,
-				6E46572E0E2ED19F002AF530 /* PostViewController.h */,
-				6E46572F0E2ED19F002AF530 /* PostViewController.m */,
-				1D3623240D0F684500981E51 /* TwitterPhoxAppDelegate.h */,
-				1D3623250D0F684500981E51 /* TwitterPhoxAppDelegate.m */,
-				6EFA468D0E2B4D50006A076C /* TimelineViewController.h */,
-				6EFA468E0E2B4D50006A076C /* TimelineViewController.m */,
-				6E8999250E2BC30B0034A28F /* TableViewController.h */,
-				6E8999260E2BC30B0034A28F /* TableViewController.m */,
-				6EE2037A0E2DA59D00443A4F /* SettingsViewController.h */,
-				6EE2037B0E2DA59D00443A4F /* SettingsViewController.m */,
-				6EE203C70E2DAEA200443A4F /* SettingsTableViewController.m */,
-				6EE203C80E2DAEA200443A4F /* SettingsTableViewController.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -182,6 +166,25 @@
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6EF551760E2F46A4003C0191 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6EFA46910E2B4DB4006A076C /* MessageCell.h */,
+				6EFA46920E2B4DB4006A076C /* MessageCell.m */,
+				6E46572E0E2ED19F002AF530 /* PostViewController.h */,
+				6E46572F0E2ED19F002AF530 /* PostViewController.m */,
+				1D3623240D0F684500981E51 /* TwitterPhoxAppDelegate.h */,
+				1D3623250D0F684500981E51 /* TwitterPhoxAppDelegate.m */,
+				6EFA468D0E2B4D50006A076C /* TimelineViewController.h */,
+				6EFA468E0E2B4D50006A076C /* TimelineViewController.m */,
+				6EE2037A0E2DA59D00443A4F /* SettingsViewController.h */,
+				6EE2037B0E2DA59D00443A4F /* SettingsViewController.m */,
+				6EE203C70E2DAEA200443A4F /* SettingsTableViewController.m */,
+				6EE203C80E2DAEA200443A4F /* SettingsTableViewController.h */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 		6EFA43E50E2B032E006A076C /* Images */ = {
@@ -317,7 +320,6 @@
 				6EFA46870E2B4B48006A076C /* User.m in Sources */,
 				6EFA468F0E2B4D50006A076C /* TimelineViewController.m in Sources */,
 				6EFA46930E2B4DB4006A076C /* MessageCell.m in Sources */,
-				6E8999270E2BC30B0034A28F /* TableViewController.m in Sources */,
 				6EE2037C0E2DA59D00443A4F /* SettingsViewController.m in Sources */,
 				6EE203C90E2DAEA200443A4F /* SettingsTableViewController.m in Sources */,
 				6E4657300E2ED19F002AF530 /* PostViewController.m in Sources */,
