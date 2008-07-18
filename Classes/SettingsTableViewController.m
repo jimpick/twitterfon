@@ -18,14 +18,14 @@
 	[super viewDidLoad];
 
     // If the settings are empty, focus to username text area.
-	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-    if (username == nil) {
+	NSString *user = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *pass = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    if (user == nil) {
         [usernameField becomeFirstResponder];
     }
     else {
-        usernameField.text = username;
-        passwordField.text = password;
+        usernameField.text = user;
+        passwordField.text = pass;
     }
 }
 
