@@ -14,10 +14,6 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    self.tableView.separatorColor = [UIColor colorWithRed:0.784 green:969 blue:996 alpha:1.0];
-	[friendTimeline update:@"statuses/friends_timeline"];
-	//[friendTimeline update:@"statuses/replies"];
-	//[friendTimeline update:@"direct_messages"];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -76,6 +72,36 @@
 	[super didReceiveMemoryWarning];
 }
 
+//
+// UITabBarControllerDelegate
+//
+- (void)didSelectViewController:(int)aIndex
+{
+    index = aIndex;
+    NSLog(@"Select view %d", index);
+    switch (index) {
+    case 1:
+        self.tableView.separatorColor = [UIColor colorWithRed:0.784 green:0.969 blue:0.996 alpha:1.0];
+        [friendTimeline update:@"statuses/friends_timeline"];
+        break;
+        
+    case 2:
+        self.tableView.separatorColor =  [UIColor colorWithRed:0.894 green:1.000 blue:0.800 alpha:1.0];
+        self.tableView.backgroundColor = [UIColor colorWithRed:0.745 green:0.910 blue:0.608 alpha:1.0];
+        [friendTimeline update:@"statuses/replies"];
+        break;
+        
+    case 3:
+        self.tableView.separatorColor =  [UIColor colorWithRed:0.992 green:0.910 blue:0.800 alpha:1.0];
+        self.tableView.backgroundColor = [UIColor colorWithRed:0.878 green:0.729 blue:0.545 alpha:1.0];
+        [friendTimeline update:@"direct_messages"];
+        break;
+    }
+}
+
+//
+// ImageStoreDelegate
+//
 - (void)imageStoreDidGetNewImage:(ImageStore*)sender url:(NSString*)url {
 	[self.tableView reloadData];
 }
@@ -84,6 +110,9 @@
 	[imageStore getImage:msg.user.profileImageUrl];
 }
 
+//
+// TimelineDelegate
+//
 - (void)timelineDidUpdate:(Timeline*)sender {
 	[self.tableView reloadData];
 }

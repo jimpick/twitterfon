@@ -4,7 +4,10 @@
 
 @interface TimelineViewController : UITableViewController {
     IBOutlet ImageStore* imageStore;
-	IBOutlet Timeline* friendTimeline;
+	IBOutlet Timeline*   friendTimeline;
+    int                  index;
 }
+
+- (void)didSelectViewController:(int)index;
 
 @end

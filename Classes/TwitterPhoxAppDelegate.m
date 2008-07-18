@@ -9,6 +9,11 @@
 #import "TwitterPhoxAppDelegate.h"
 
 
+@interface NSObject (TimelineViewControllerDelegate)
+- (void)didSelectViewController:(int)sender;
+@end 
+
+
 @implementation TwitterPhoxAppDelegate
 
 @synthesize window;
@@ -36,10 +41,11 @@
 	[window addSubview:tabBarController.view];
 }
 
-/*
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+- (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController {
+    if ([viewController respondsToSelector:@selector(didSelectViewController:)]) {
+        [viewController didSelectViewController:tabBar.selectedIndex];
+    }
 }
-*/
 
 /*
 - (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {

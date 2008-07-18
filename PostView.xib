@@ -30,7 +30,7 @@
 					<object class="IBUIButton" id="144549830">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{20, 9}, {280, 180}}</string>
+						<string key="NSFrame">{{10, 10}, {300, 180}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -58,7 +58,7 @@
 					<object class="IBUITextView" id="45178900">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">288</int>
-						<string key="NSFrame">{{22, 12}, {276, 174}}</string>
+						<string key="NSFrame">{{12, 12}, {296, 176}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -139,7 +139,7 @@
 							<int key="NSColorSpace">6</int>
 							<string key="NSCatalogName">System</string>
 							<string key="NSColorName">controlDarkShadowColor</string>
-							<object class="NSColor" key="NSColor" id="428533118">
+							<object class="NSColor" key="NSColor">
 								<int key="NSColorSpace">3</int>
 								<bytes key="NSWhite">MAA</bytes>
 							</object>
@@ -152,10 +152,8 @@
 				<string key="NSFrameSize">{320, 244}</string>
 				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">6</int>
-					<string key="NSCatalogName">System</string>
-					<string key="NSColorName">keyboardFocusIndicatorColor</string>
-					<reference key="NSColor" ref="428533118"/>
+					<int key="NSColorSpace">1</int>
+					<bytes key="NSRGB">MC42ODIzNTI5NiAwLjkxMzcyNTUgMC45MjU0OTAyAA</bytes>
 				</object>
 			</object>
 		</object>
@@ -229,8 +227,8 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="895108448"/>
 							<reference ref="144549830"/>
-							<reference ref="45178900"/>
 							<reference ref="734234916"/>
+							<reference ref="45178900"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 					</object>

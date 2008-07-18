@@ -10,7 +10,9 @@
 #import "JSON.h"
 #import "Message.h"
 
-//#define USE_LOACAL_FILE
+//#define USE_LOCAL_FILE
+#define FILE_NAME "/Users/kaz/work/iphone/TwitterPhox/etc/error.json"
+
 //#define DEBUG_WITH_PUBLIC_TIMELINE
 
 @interface NSObject (TimelineDownloaderDelegate)
@@ -46,7 +48,8 @@
 
 	// for debug
 #ifdef USE_LOCAL_FILE
-	NSString* s = [NSString stringWithContentsOfFile:@"/Users/psychs/Desktop/response.txt"];
+
+	NSString* s = [NSString stringWithContentsOfFile:@FILE_NAME];
 	buf = [[s dataUsingEncoding:NSUTF8StringEncoding] retain];
 	[self connectionDidFinishLoading:nil];
 #else
@@ -157,24 +160,38 @@
     }
 
 	NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
+
+    NSLog(@"%@", s);
 	
-	NSArray* ary = [s JSONValue];
-	NSMutableArray* messages = [NSMutableArray array];
+	NSObject* obj = [s JSONValue];
+
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        NSDictionary* dic = (NSDictionary*)obj;
+        NSString *msg = [dic objectForKey:@"error"];
+        if (msg == nil) msg = @"";
+        NSLog(@"Twitter returns an error: %@", msg);
+        [self showDialog:@"Server error" withMessage:msg];
+    }
+    else if ([obj isKindOfClass:[NSArray class]]) {
+
+        NSMutableArray* messages = [NSMutableArray array];
+        NSArray *ary = (NSArray*)obj;
+        int i;
+        for (i=[ary count]-1; i >= 0; --i) {
+            Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i]];
+            [messages addObject:m];
+        }
 	
-	int i;
-	for (i=[ary count]-1; i >= 0; --i) {
-		Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i]];
-		[messages addObject:m];
-	}
+        [conn autorelease];
+        conn = nil;
+        [buf autorelease];
+        buf = nil;
 	
-	[conn autorelease];
-	conn = nil;
-	[buf autorelease];
-	buf = nil;
-	
-	if (delegate && [delegate respondsToSelector:@selector(timelineDownloaderDidSucceed:messages:)]) {
-		[delegate timelineDownloaderDidSucceed:self messages:messages];
-	}
+        if (delegate && [delegate respondsToSelector:@selector(timelineDownloaderDidSucceed:messages:)]) {
+            [delegate timelineDownloaderDidSucceed:self messages:messages];
+        }
+    }
+    
 }
 
 - (void)showDialog:(NSString*)title withMessage:(NSString*)msg
