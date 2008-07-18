@@ -29,7 +29,14 @@
 	if (![n isKindOfClass:[NSNull class]]) inReplyToUserId = [n longValue];
 	
 	NSDictionary* userDic = [dic objectForKey:@"user"];
-	if (userDic) user = [[User alloc] initWithJsonDictionary:userDic];
+	if (userDic) {
+        user = [[User alloc] initWithJsonDictionary:userDic];
+    }
+    else {
+        userDic = [dic objectForKey:@"sender"];
+        user = [[User alloc] initWithJsonDictionary:userDic];
+    }
+    
 
 	return self;
 }

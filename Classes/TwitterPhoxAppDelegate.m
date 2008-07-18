@@ -24,7 +24,7 @@
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
-    NSLog(@"%@ %@", username, password);
+    //NSLog(@"%@ %@", username, password);
 
     if (username == nil || password == nil) {
         tabBarController.selectedIndex = 4;

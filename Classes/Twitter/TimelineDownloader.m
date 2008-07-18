@@ -39,7 +39,7 @@
 	return conn != nil;
 }
 
-- (void)get
+- (void)get:(NSString*)aMethod
 {
 	[conn release];
 	[buf release];
@@ -58,10 +58,14 @@
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
-	NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/%@.json",
+    method = aMethod;
+
+	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/%@.json",
                               username,
                               password,
-                              @"statuses/friends_timeline"]; 
+                              method];
+
+    NSLog(@"%@", url);
 #endif
 
 	url = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)url, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
@@ -76,6 +80,40 @@
 
 - (void)connection:(NSURLConnection *)aConn didReceiveResponse:(NSURLResponse *)response
 {
+    NSHTTPURLResponse* res = (NSHTTPURLResponse*)response;
+    if (res) {
+        NSLog(@"Status: %d", res.statusCode);
+        status = res.statusCode;
+
+        switch (status) {
+
+        case 400:
+            [self showDialog:@"Rate limit exceeded" withMessage:@"Client may not access twitter 100 times per hours."];
+            break;
+            
+        case 401:
+            [self showDialog:@"Authentication Failed" withMessage:@"Wrong username/Email and password combination."];
+            break;
+
+        case 200:
+        case 304:
+            break;
+
+        case 403:
+        case 404:
+        case 500:
+        case 502:
+        case 503:
+        default:
+        {
+            NSString *msg = [NSString stringWithFormat:@"Twitter server responded with an error (code: %d)", status];
+            [self showDialog:@"Server responded an error" withMessage:msg];
+            break;
+        }
+        }
+    }
+    
+    
 	[buf setLength:0];
 }
 
@@ -90,10 +128,18 @@
 	conn = nil;
 	[buf autorelease];
 	buf = nil;
-	
-	NSLog(@"Connection failed! Error - %@ %@",
-				[error localizedDescription],
-				[[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+
+    NSString *msg = [NSString stringWithFormat:@"Error: %@ (request: %@)",
+                              [error localizedDescription], method];
+
+    [self showDialog:@"Connection Failed" withMessage:msg];
+
+    msg = [NSString stringWithFormat:@"Error: %@ %@",
+                    [error localizedDescription],
+                    [[error userInfo] objectForKey:NSErrorFailingURLStringKey]];
+
+    NSLog(@"Connection failed! %@", msg);
+
 	
 	if (delegate && [delegate respondsToSelector:@selector(timelineDownloaderDidFail:error:)]) {
 		[delegate timelineDownloaderDidFail:self error:error];
@@ -102,13 +148,21 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)aConn
 {
+
+    if (status != 200) {
+        [conn autorelease];
+        conn = nil;
+        [buf autorelease];
+        buf = nil;
+    }
+
 	NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
 	
 	NSArray* ary = [s JSONValue];
 	NSMutableArray* messages = [NSMutableArray array];
 	
 	int i;
-	for (i=[ary count]-1; i>=0; i--) {
+	for (i=[ary count]-1; i >= 0; --i) {
 		Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i]];
 		[messages addObject:m];
 	}
@@ -123,16 +177,16 @@
 	}
 }
 
--(void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+- (void)showDialog:(NSString*)title withMessage:(NSString*)msg
 {
-	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Authentication Failed" 
-                                              message:@"Twitter server returns 401 authentication Required."
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                              message:msg
                                               delegate:self
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles: nil];
-	[alert show];	
-	[alert release];
+            [alert show];	
+            [alert release];
 }
+
 
 @end

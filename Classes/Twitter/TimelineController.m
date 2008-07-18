@@ -36,18 +36,16 @@
 	return [messages objectAtIndex:[messages count] - i - 1];
 }
 
-- (void)update
+- (void)update:(NSString*)method
 {
 	if (timelineConn) return;
 	
 	timelineConn = [[TimelineDownloader alloc] initWithDelegate:self];
-	[timelineConn get];
+	[timelineConn get:method];
 }
 
 - (void)timelineDownloaderDidSucceed:(TimelineDownloader*)sender messages:(NSArray*)ary
 {
-	NSLog(@"timeline ok");
-	
 	[timelineConn autorelease];
 	timelineConn = nil;
 
@@ -56,7 +54,6 @@
 	
 	if (delegate) {
 		int i;
-		//for (i=[ary count]-1; i>=0; i--) {
 		for (i=0; i < [ary count]; ++i) {
 			Message* m = [ary objectAtIndex:i];
 			if (m.messageId > lastMessageId) {
@@ -76,8 +73,6 @@
 
 - (void)timelineDownloaderDidFail:(TimelineDownloader*)sender error:(NSError*)error
 {
-	NSLog(@"timeline error");
-	
 	[timelineConn autorelease];
 	timelineConn = nil;
 }

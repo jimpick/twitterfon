@@ -15,7 +15,9 @@
 {
 	[super viewDidLoad];
     self.tableView.separatorColor = [UIColor colorWithRed:0.784 green:969 blue:996 alpha:1.0];
-	[friendTimeline update];
+	//[friendTimeline update:@"statuses/friends_timeline"];
+	[friendTimeline update:@"statuses/replies"];
+	//[friendTimeline update:@"direct_messages"];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style

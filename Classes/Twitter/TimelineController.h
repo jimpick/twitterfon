@@ -11,7 +11,7 @@
 
 @property (nonatomic, readonly) NSArray* messages;
 
-- (void)update;
+- (void)update:(NSString*)method;
 
 - (int)countMessages;
 - (Message*)messageAtIndex:(int)i;

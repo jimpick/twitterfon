@@ -2,14 +2,17 @@
 
 @interface TimelineDownloader : NSObject
 {
-	NSObject* delegate;
-	NSURLConnection* conn;
-	NSMutableData* buf;
+	NSObject*           delegate;
+	NSURLConnection*    conn;
+	NSMutableData*      buf;
+    int                 status;
+    NSString*           method;
 }
 
 @property (nonatomic, readonly) BOOL active;
 
 - (id)initWithDelegate:(NSObject*)delegate;
-- (void)get;
+- (void)showDialog:(NSString*)title withMessage:(NSString*)msg;
+- (void)get:(NSString*)method;
 
 @end
