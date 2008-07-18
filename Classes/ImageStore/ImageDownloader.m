@@ -39,6 +39,7 @@
 																	    timeoutInterval:60.0];
 	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
 	buf = [[NSMutableData data] retain];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 + (ImageDownloader*)imageDownloaderWithDelegate:(id)aDelegate url:(NSString*)url
@@ -60,6 +61,7 @@
 
 - (void)connection:(NSURLConnection *)aConn didFailWithError:(NSError *)error
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	[conn autorelease];
 	conn = nil;
 	[buf autorelease];
@@ -76,6 +78,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)aConn
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	[image release];
 	image = [[UIImage imageWithData:buf] retain] ;
 

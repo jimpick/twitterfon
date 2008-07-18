@@ -100,7 +100,7 @@
 }
 
 //
-// ImageStoreDelegate
+// ImageStoreDelegate
 //
 - (void)imageStoreDidGetNewImage:(ImageStore*)sender url:(NSString*)url {
 	[self.tableView reloadData];

@@ -83,7 +83,7 @@
     UILabel *textLabel = [[UILabel alloc] initWithFrame: CGRectZero];
     Message *m = [self messageAtIndex: indexPath.row];
 
-    textLabel.font = [UIFont systemFontOfSize:12];
+    textLabel.font = [UIFont systemFontOfSize:13];
     textLabel.numberOfLines = 10;
     
     textLabel.text = m.text;

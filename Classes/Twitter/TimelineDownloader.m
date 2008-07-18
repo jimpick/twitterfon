@@ -78,6 +78,8 @@
 	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
 	buf = [[NSMutableData data] retain];
 
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
 #endif
 }
 
@@ -91,7 +93,6 @@
         switch (status) {
 
         case 400:
-            [self showDialog:@"Rate limit exceeded" withMessage:@"Client may not access twitter 100 times per hours."];
             break;
             
         case 401:
@@ -127,6 +128,8 @@
 
 - (void)connection:(NSURLConnection *)aConn didFailWithError:(NSError *)error
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
 	[conn autorelease];
 	conn = nil;
 	[buf autorelease];
@@ -152,6 +155,12 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)aConn
 {
 
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+	NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
+
+    NSLog(@"%@", s);
+	
     if (status != 200) {
         [conn autorelease];
         conn = nil;
@@ -159,10 +168,6 @@
         buf = nil;
     }
 
-	NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
-
-    NSLog(@"%@", s);
-	
 	NSObject* obj = [s JSONValue];
 
     if ([obj isKindOfClass:[NSDictionary class]]) {

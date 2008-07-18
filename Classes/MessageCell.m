@@ -22,7 +22,7 @@
     textLabel.backgroundColor = [UIColor clearColor];
     textLabel.textColor = [UIColor blackColor];
     textLabel.highlightedTextColor = [UIColor whiteColor];
-    textLabel.font = [UIFont systemFontOfSize:12];
+    textLabel.font = [UIFont systemFontOfSize:13];
     textLabel.numberOfLines = 10;
     textLabel.textAlignment = UITextAlignmentLeft;
     textLabel.contentMode = UIViewContentModeTopLeft;
