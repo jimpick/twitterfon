@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface FriendTimelineDownloader : NSObject
+@interface TimelineDownloader : NSObject
 {
 	NSObject* delegate;
 	NSURLConnection* conn;

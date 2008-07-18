@@ -1,10 +1,10 @@
 #import <UIKit/UIKit.h>
 #import "ImageStore.h"
-#include "FriendTimelineController.h"
+#include "TimelineController.h"
 
 @interface TimelineViewController : UITableViewController {
     IBOutlet ImageStore* imageStore;
-	IBOutlet FriendTimelineController* friendTimeline;
+	IBOutlet TimelineController* friendTimeline;
 }
 
 @end

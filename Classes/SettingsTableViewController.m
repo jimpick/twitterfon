@@ -18,9 +18,15 @@
 	[super viewDidLoad];
 
     // If the settings are empty, focus to username text area.
-    UITextField *text = (UITextField*)[username viewWithTag:TEXTFIELD_TAG];
-    [text becomeFirstResponder];
-    
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    if (username == nil) {
+        [usernameField becomeFirstResponder];
+    }
+    else {
+        usernameField.text = username;
+        passwordField.text = password;
+    }
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -83,9 +89,12 @@
 - (IBAction) done: (id) sender
 {
     [usernameField resignFirstResponder];
-    NSLog(@"%@", usernameField.text);
     [passwordField resignFirstResponder];
-    NSLog(@"%@", passwordField.text);
+
+    [[NSUserDefaults standardUserDefaults] setObject:usernameField.text forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setObject:passwordField.text forKey:@"password"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField

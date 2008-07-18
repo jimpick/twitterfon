@@ -16,9 +16,23 @@
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	
-	// Select timeline view at startup time
-    tabBarController.selectedIndex = 1;
+
+#if 0 // for debugging
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
+#endif
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+
+    NSLog(@"%@ %@", username, password);
+
+    if (username == nil || password == nil) {
+        tabBarController.selectedIndex = 4;
+    }
+    else {
+        tabBarController.selectedIndex = 1;
+    }
+    
 	[window addSubview:tabBarController.view];
 }
 

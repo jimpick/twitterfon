@@ -1,13 +1,13 @@
-#import "FriendTimelineController.h"
+#import "TimelineController.h"
 #import "JSON.h"
 
-@interface NSObject (FriendTimelineControllerDelegate)
-- (void)friendTimelineControllerDidReceiveNewMessage:(FriendTimelineController*)sender message:(Message*)msg;
-- (void)friendTimelineControllerDidUpdate:(FriendTimelineController*)sender;
+@interface NSObject (TimelineControllerDelegate)
+- (void)timelineControllerDidReceiveNewMessage:(TimelineController*)sender message:(Message*)msg;
+- (void)timelineControllerDidUpdate:(TimelineController*)sender;
 @end
 
 
-@implementation FriendTimelineController
+@implementation TimelineController
 
 @synthesize messages;
 
@@ -40,11 +40,11 @@
 {
 	if (timelineConn) return;
 	
-	timelineConn = [[FriendTimelineDownloader alloc] initWithDelegate:self];
+	timelineConn = [[TimelineDownloader alloc] initWithDelegate:self];
 	[timelineConn get];
 }
 
-- (void)friendTimelineDownloaderDidSucceed:(FriendTimelineDownloader*)sender messages:(NSArray*)ary
+- (void)timelineDownloaderDidSucceed:(TimelineDownloader*)sender messages:(NSArray*)ary
 {
 	NSLog(@"timeline ok");
 	
@@ -62,19 +62,19 @@
 			if (m.messageId > lastMessageId) {
 				[messages addObject:m];
 				
-				if ([delegate respondsToSelector:@selector(friendTimelineControllerDidReceiveNewMessage:message:)]) {
-					[delegate friendTimelineControllerDidReceiveNewMessage:self message:m];
+				if ([delegate respondsToSelector:@selector(timelineControllerDidReceiveNewMessage:message:)]) {
+					[delegate timelineControllerDidReceiveNewMessage:self message:m];
 				}
 			}
 		}
 		
-		if ([delegate respondsToSelector:@selector(friendTimelineControllerDidUpdate:)]) {
-			[delegate friendTimelineControllerDidUpdate:self];
+		if ([delegate respondsToSelector:@selector(timelineControllerDidUpdate:)]) {
+			[delegate timelineControllerDidUpdate:self];
 		}
 	}
 }
 
-- (void)friendTimelineDownloaderDidFail:(FriendTimelineDownloader*)sender error:(NSError*)error
+- (void)timelineDownloaderDidFail:(TimelineDownloader*)sender error:(NSError*)error
 {
 	NSLog(@"timeline error");
 	

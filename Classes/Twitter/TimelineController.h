@@ -1,12 +1,12 @@
 #import <UIKit/UIKit.h>
 #import "Message.h"
-#import "FriendTimelineDownloader.h"
+#import "TimelineDownloader.h"
 
-@interface FriendTimelineController : NSObject
+@interface TimelineController : NSObject
 {
 	IBOutlet NSObject* delegate;
 	NSMutableArray* messages;
-	FriendTimelineDownloader* timelineConn;
+	TimelineDownloader* timelineConn;
 }
 
 @property (nonatomic, readonly) NSArray* messages;

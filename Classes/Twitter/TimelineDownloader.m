@@ -1,18 +1,24 @@
-#import "FriendTimelineDownloader.h"
+//
+//  TimelineDownloader.m
+//  TwitterPhox
+//
+//  Created by kaz on 7/13/08.
+//  Copyright naan studio 2008. All rights reserved.
+//
+
+#import "TimelineDownloader.h"
 #import "JSON.h"
 #import "Message.h"
 
-#define PASSWORD @"phoenix"
 //#define USE_LOACAL_FILE
-#define DEBUG_WITH_PUBLIC_TIMELINE
+//#define DEBUG_WITH_PUBLIC_TIMELINE
 
-@interface NSObject (FriendTimelineDownloaderDelegate)
-- (void)friendTimelineDownloaderDidSucceed:(FriendTimelineDownloader*)sender messages:(NSArray*)messages;
-- (void)friendTimelineDownloaderDidFail:(FriendTimelineDownloader*)sender error:(NSError*)error;
+@interface NSObject (TimelineDownloaderDelegate)
+- (void)timelineDownloaderDidSucceed:(TimelineDownloader*)sender messages:(NSArray*)messages;
+- (void)timelineDownloaderDidFail:(TimelineDownloader*)sender error:(NSError*)error;
 @end
 
-
-@implementation FriendTimelineDownloader
+@implementation TimelineDownloader
 
 - (id)initWithDelegate:(NSObject*)aDelegate
 {
@@ -48,9 +54,16 @@
 #ifdef DEBUG_WITH_PUBLIC_TIMELINE
 	NSString* url = @"http://twitter.com/statuses/public_timeline.json";
 #else
-	NSString* url = @"http://twitter.com/statuses/friends_timeline.json";
+
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+
+	NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/%@.json",
+                              username,
+                              password,
+                              @"statuses/friends_timeline"]; 
 #endif
-	
+
 	url = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)url, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
 	NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
 														cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -82,16 +95,14 @@
 				[error localizedDescription],
 				[[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
 	
-	if (delegate && [delegate respondsToSelector:@selector(friendTimelineDownloaderDidFail:error:)]) {
-		[delegate friendTimelineDownloaderDidFail:self error:error];
+	if (delegate && [delegate respondsToSelector:@selector(timelineDownloaderDidFail:error:)]) {
+		[delegate timelineDownloaderDidFail:self error:error];
 	}
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)aConn
 {
 	NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
-	
-	//NSLog(s);
 	
 	NSArray* ary = [s JSONValue];
 	NSMutableArray* messages = [NSMutableArray array];
@@ -107,23 +118,21 @@
 	[buf autorelease];
 	buf = nil;
 	
-	if (delegate && [delegate respondsToSelector:@selector(friendTimelineDownloaderDidSucceed:messages:)]) {
-		[delegate friendTimelineDownloaderDidSucceed:self messages:messages];
+	if (delegate && [delegate respondsToSelector:@selector(timelineDownloaderDidSucceed:messages:)]) {
+		[delegate timelineDownloaderDidSucceed:self messages:messages];
 	}
 }
 
 -(void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-	if ([challenge previousFailureCount] == 0) {
-		NSLog(@"trying auth");
-		NSString* user = @"naan";
-		NSString* pass = PASSWORD;
-		NSURLCredential* cred = [NSURLCredential credentialWithUser:user password:pass persistence:NSURLCredentialPersistenceNone];
-		[[challenge sender] useCredential:cred forAuthenticationChallenge:challenge];
-	} else {
-		NSLog(@"failed auth");
-		[[challenge sender] cancelAuthenticationChallenge:challenge];
-	}
+	// open an alert with just an OK button
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Authentication Failed" 
+                                              message:@"Twitter server returns 401 authentication Required."
+                                              delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
 }
 
 @end

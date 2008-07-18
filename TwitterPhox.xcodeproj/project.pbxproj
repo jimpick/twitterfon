@@ -30,8 +30,8 @@
 		6EFA46790E2B4B41006A076C /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA46730E2B4B41006A076C /* NSString+SBJSON.m */; };
 		6EFA467A0E2B4B41006A076C /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA46750E2B4B41006A076C /* NSObject+SBJSON.m */; };
 		6EFA467B0E2B4B41006A076C /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA46780E2B4B41006A076C /* SBJSON.m */; };
-		6EFA46840E2B4B48006A076C /* FriendTimelineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA467D0E2B4B48006A076C /* FriendTimelineController.m */; };
-		6EFA46850E2B4B48006A076C /* FriendTimelineDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA467F0E2B4B48006A076C /* FriendTimelineDownloader.m */; };
+		6EFA46840E2B4B48006A076C /* TimelineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA467D0E2B4B48006A076C /* TimelineController.m */; };
+		6EFA46850E2B4B48006A076C /* TimelineDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA467F0E2B4B48006A076C /* TimelineDownloader.m */; };
 		6EFA46860E2B4B48006A076C /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA46810E2B4B48006A076C /* Message.m */; };
 		6EFA46870E2B4B48006A076C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA46830E2B4B48006A076C /* User.m */; };
 		6EFA468F0E2B4D50006A076C /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA468E0E2B4D50006A076C /* TimelineViewController.m */; };
@@ -75,10 +75,10 @@
 		6EFA46760E2B4B41006A076C /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SBJSON.h"; path = "Classes/JSON/NSString+SBJSON.h"; sourceTree = "<group>"; };
 		6EFA46770E2B4B41006A076C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSON.h; path = Classes/JSON/JSON.h; sourceTree = "<group>"; };
 		6EFA46780E2B4B41006A076C /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJSON.m; path = Classes/JSON/SBJSON.m; sourceTree = "<group>"; };
-		6EFA467C0E2B4B48006A076C /* FriendTimelineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendTimelineController.h; path = Classes/Twitter/FriendTimelineController.h; sourceTree = "<group>"; };
-		6EFA467D0E2B4B48006A076C /* FriendTimelineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendTimelineController.m; path = Classes/Twitter/FriendTimelineController.m; sourceTree = "<group>"; };
-		6EFA467E0E2B4B48006A076C /* FriendTimelineDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendTimelineDownloader.h; path = Classes/Twitter/FriendTimelineDownloader.h; sourceTree = "<group>"; };
-		6EFA467F0E2B4B48006A076C /* FriendTimelineDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendTimelineDownloader.m; path = Classes/Twitter/FriendTimelineDownloader.m; sourceTree = "<group>"; };
+		6EFA467C0E2B4B48006A076C /* TimelineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineController.h; path = Classes/Twitter/TimelineController.h; sourceTree = "<group>"; };
+		6EFA467D0E2B4B48006A076C /* TimelineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineController.m; path = Classes/Twitter/TimelineController.m; sourceTree = "<group>"; };
+		6EFA467E0E2B4B48006A076C /* TimelineDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineDownloader.h; path = Classes/Twitter/TimelineDownloader.h; sourceTree = "<group>"; };
+		6EFA467F0E2B4B48006A076C /* TimelineDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineDownloader.m; path = Classes/Twitter/TimelineDownloader.m; sourceTree = "<group>"; };
 		6EFA46800E2B4B48006A076C /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.h; path = Classes/Twitter/Message.h; sourceTree = "<group>"; };
 		6EFA46810E2B4B48006A076C /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Message.m; path = Classes/Twitter/Message.m; sourceTree = "<group>"; };
 		6EFA46820E2B4B48006A076C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = Classes/Twitter/User.h; sourceTree = "<group>"; };
@@ -204,10 +204,10 @@
 		6EFA46680E2B4ADD006A076C /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
-				6EFA467C0E2B4B48006A076C /* FriendTimelineController.h */,
-				6EFA467D0E2B4B48006A076C /* FriendTimelineController.m */,
-				6EFA467E0E2B4B48006A076C /* FriendTimelineDownloader.h */,
-				6EFA467F0E2B4B48006A076C /* FriendTimelineDownloader.m */,
+				6EFA467C0E2B4B48006A076C /* TimelineController.h */,
+				6EFA467D0E2B4B48006A076C /* TimelineController.m */,
+				6EFA467E0E2B4B48006A076C /* TimelineDownloader.h */,
+				6EFA467F0E2B4B48006A076C /* TimelineDownloader.m */,
 				6EFA46800E2B4B48006A076C /* Message.h */,
 				6EFA46810E2B4B48006A076C /* Message.m */,
 				6EFA46820E2B4B48006A076C /* User.h */,
@@ -314,8 +314,8 @@
 				6EFA46790E2B4B41006A076C /* NSString+SBJSON.m in Sources */,
 				6EFA467A0E2B4B41006A076C /* NSObject+SBJSON.m in Sources */,
 				6EFA467B0E2B4B41006A076C /* SBJSON.m in Sources */,
-				6EFA46840E2B4B48006A076C /* FriendTimelineController.m in Sources */,
-				6EFA46850E2B4B48006A076C /* FriendTimelineDownloader.m in Sources */,
+				6EFA46840E2B4B48006A076C /* TimelineController.m in Sources */,
+				6EFA46850E2B4B48006A076C /* TimelineDownloader.m in Sources */,
 				6EFA46860E2B4B48006A076C /* Message.m in Sources */,
 				6EFA46870E2B4B48006A076C /* User.m in Sources */,
 				6EFA468F0E2B4D50006A076C /* TimelineViewController.m in Sources */,

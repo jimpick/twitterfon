@@ -79,11 +79,11 @@
 	[self.tableView reloadData];
 }
 
-- (void)friendTimelineControllerDidReceiveNewMessage:(FriendTimelineController*)sender message:(Message*)msg {
+- (void)timelineControllerDidReceiveNewMessage:(TimelineController*)sender message:(Message*)msg {
 	[imageStore getImage:msg.user.profileImageUrl];
 }
 
-- (void)friendTimelineControllerDidUpdate:(FriendTimelineController*)sender {
+- (void)timelineControllerDidUpdate:(TimelineController*)sender {
 	[self.tableView reloadData];
 }
 
