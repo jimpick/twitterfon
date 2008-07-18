@@ -156,7 +156,6 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
 	NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", s);
 
     [conn autorelease];
     conn = nil;
@@ -166,6 +165,7 @@
 	NSObject* obj = [s JSONValue];
 
     if ([obj isKindOfClass:[NSDictionary class]]) {
+        NSLog(@"%@", s);
         NSDictionary* dic = (NSDictionary*)obj;
         NSString *msg = [dic objectForKey:@"error"];
         if (msg == nil) msg = @"";

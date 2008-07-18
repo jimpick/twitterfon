@@ -44,7 +44,7 @@
     CGRect rc = self.contentView.bounds;
     CGRect bounds;
 
-    const int TOP = 18;
+    const int TOP = 16;
     const int LEFT = 68;
     const int HMARGIN = 10;
     const int VMARGIN = 0;

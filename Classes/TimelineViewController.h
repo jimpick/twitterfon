@@ -6,8 +6,10 @@
     IBOutlet ImageStore* imageStore;
 	IBOutlet Timeline*   friendTimeline;
     int                  index;
+    NSString*            username;
+    BOOL                 loaded;
 }
 
-- (void)didSelectViewController:(int)index;
+- (void)didSelectViewController:(int)index username:(NSString*)username;
 
 @end

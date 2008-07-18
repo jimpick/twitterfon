@@ -11,6 +11,7 @@
 @interface TwitterPhoxAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
 	IBOutlet UIWindow *window;
 	IBOutlet UITabBarController *tabBarController;
+    NSString* username;
 }
 
 @property (nonatomic, retain) UIWindow *window;

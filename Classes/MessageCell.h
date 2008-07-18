@@ -3,9 +3,9 @@
 
 @interface MessageCell : UITableViewCell
 {
-	Message*     message;
-	UILabel*     nameLabel;
-	UILabel*     textLabel;
+	Message*    message;
+	UILabel*    nameLabel;
+	UILabel*    textLabel;
 }
 
 @property (nonatomic, assign) Message* message;

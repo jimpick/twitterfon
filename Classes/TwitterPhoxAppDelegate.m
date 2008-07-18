@@ -10,7 +10,7 @@
 
 
 @interface NSObject (TimelineViewControllerDelegate)
-- (void)didSelectViewController:(int)sender;
+- (void)didSelectViewController:(int)sender username:(NSString*)username;
 @end 
 
 
@@ -26,7 +26,7 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
 #endif
-	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
     //NSLog(@"%@ %@", username, password);
@@ -42,8 +42,8 @@
 }
 
 - (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController {
-    if ([viewController respondsToSelector:@selector(didSelectViewController:)]) {
-        [viewController didSelectViewController:tabBar.selectedIndex];
+    if ([viewController respondsToSelector:@selector(didSelectViewController:username:)]) {
+        [viewController didSelectViewController:tabBar.selectedIndex username:username];
     }
 }
 

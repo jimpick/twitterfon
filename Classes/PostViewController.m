@@ -23,13 +23,12 @@
 
 - (void)viewDidLoad {
     [text becomeFirstResponder];
-
 }
 
 - (IBAction) cancel: (id) sender
 {
-/*
-    //[toolbar removeFromSuperview];
+
+    [toolbar removeFromSuperview];
     [charCount removeFromSuperview];
     
 	CATransition *animation = [CATransition animation];
@@ -37,13 +36,13 @@
 	
 	// Set the type and if appropriate direction of the transition, 
 	[animation setType:kCATransitionPush];
-	[animation setSubtype:kCATransitionFromBottom];
+	[animation setSubtype:kCATransitionFromTop];
 
 	[animation setDuration:0.5];
 	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
 	
 	[[self.view layer] addAnimation:animation forKey:kAnimationKey];
-*/
+
     [text resignFirstResponder];
 }
 
@@ -54,6 +53,21 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+/*
+    [self.view insertSubView:toolbar atIndex:1];
+
+	CATransition *animation = [CATransition animation];
+	//[animation setDelegate:self];
+	
+	// Set the type and if appropriate direction of the transition, 
+	[animation setType:kCATransitionMoveIn];
+	[animation setSubtype:kCATransitionFromBottom];
+
+	[animation setDuration:0.5];
+	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+	
+	[[self.view layer] addAnimation:animation forKey:kAnimationKey];
+*/
     [text becomeFirstResponder];
 }
 

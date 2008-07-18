@@ -89,7 +89,7 @@
     textLabel.text = m.text;
     bounds = CGRectMake(0, 0, 240, 200);
     result = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
-    result.size.height += 18 + 2;
+    result.size.height += 18;
     if (result.size.height < 48 + 1) result.size.height = 48 + 1;
     [textLabel release];
     return result.size.height;

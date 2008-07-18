@@ -4,6 +4,11 @@
 
 @implementation TimelineViewController
 
+- (void)init
+{
+    loaded = false;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
@@ -47,6 +52,16 @@
 	cell.message = m;
     cell.image = [imageStore getImage:m.user.profileImageUrl];
 	[cell update];
+    if (index == 1) {
+        NSString *str = [NSString stringWithFormat:@"@%@", username];
+        NSRange r = [m.text rangeOfString:str];
+        if (r.location != NSNotFound) {
+            cell.contentView.backgroundColor = [UIColor colorWithRed:0.745 green:0.910 blue:0.608 alpha:1.0];
+        }
+        else {
+            cell.contentView.backgroundColor = [UIColor colorWithRed:0.682 green:0.914 blue:0.925 alpha:1.0];
+        }
+    }
 	return cell;
 }
 
@@ -75,28 +90,30 @@
 //
 // UITabBarControllerDelegate
 //
-- (void)didSelectViewController:(int)aIndex
+- (void)didSelectViewController:(int)aIndex username:(NSString*)aUsername
 {
     index = aIndex;
-    NSLog(@"Select view %d", index);
+    username = aUsername;
+    
     switch (index) {
     case 1:
         self.tableView.separatorColor = [UIColor colorWithRed:0.784 green:0.969 blue:0.996 alpha:1.0];
-        [friendTimeline update:@"statuses/friends_timeline"];
+        if (!loaded) [friendTimeline update:@"statuses/friends_timeline"];
         break;
         
     case 2:
         self.tableView.separatorColor =  [UIColor colorWithRed:0.894 green:1.000 blue:0.800 alpha:1.0];
         self.tableView.backgroundColor = [UIColor colorWithRed:0.745 green:0.910 blue:0.608 alpha:1.0];
-        [friendTimeline update:@"statuses/replies"];
+        if (!loaded) [friendTimeline update:@"statuses/replies"];
         break;
         
     case 3:
         self.tableView.separatorColor =  [UIColor colorWithRed:0.992 green:0.910 blue:0.800 alpha:1.0];
         self.tableView.backgroundColor = [UIColor colorWithRed:0.878 green:0.729 blue:0.545 alpha:1.0];
-        [friendTimeline update:@"direct_messages"];
+        if (!loaded) [friendTimeline update:@"direct_messages"];
         break;
     }
+    loaded = true;
 }
 
 //
