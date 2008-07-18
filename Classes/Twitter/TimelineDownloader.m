@@ -92,13 +92,11 @@
 
         switch (status) {
 
-        case 400:
-            break;
-            
         case 401:
             [self showDialog:@"Authentication Failed" withMessage:@"Wrong username/Email and password combination."];
             break;
 
+        case 400:
         case 200:
         case 304:
             break;
@@ -158,16 +156,13 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
 	NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
-
     NSLog(@"%@", s);
-	
-    if (status != 200) {
-        [conn autorelease];
-        conn = nil;
-        [buf autorelease];
-        buf = nil;
-    }
 
+    [conn autorelease];
+    conn = nil;
+    [buf autorelease];
+    buf = nil;
+	
 	NSObject* obj = [s JSONValue];
 
     if ([obj isKindOfClass:[NSDictionary class]]) {
@@ -187,16 +182,10 @@
             [messages addObject:m];
         }
 	
-        [conn autorelease];
-        conn = nil;
-        [buf autorelease];
-        buf = nil;
-	
         if (delegate && [delegate respondsToSelector:@selector(timelineDownloaderDidSucceed:messages:)]) {
             [delegate timelineDownloaderDidSucceed:self messages:messages];
         }
     }
-    
 }
 
 - (void)showDialog:(NSString*)title withMessage:(NSString*)msg
