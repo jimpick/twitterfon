@@ -8,5 +8,6 @@
 }
 
 - (UIImage*)getImage:(NSString*)url;
++ (NSMutableDictionary*)getSharedImageStore;
 
 @end

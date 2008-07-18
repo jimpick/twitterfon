@@ -1,13 +1,13 @@
-#import "TimelineController.h"
+#import "Timeline.h"
 #import "JSON.h"
 
-@interface NSObject (TimelineControllerDelegate)
-- (void)timelineControllerDidReceiveNewMessage:(TimelineController*)sender message:(Message*)msg;
-- (void)timelineControllerDidUpdate:(TimelineController*)sender;
+@interface NSObject (TimelineDelegate)
+- (void)timelineDidReceiveNewMessage:(Timeline*)sender message:(Message*)msg;
+- (void)timelineDidUpdate:(Timeline*)sender;
 @end
 
 
-@implementation TimelineController
+@implementation Timeline
 
 @synthesize messages;
 
@@ -59,14 +59,14 @@
 			if (m.messageId > lastMessageId) {
 				[messages addObject:m];
 				
-				if ([delegate respondsToSelector:@selector(timelineControllerDidReceiveNewMessage:message:)]) {
-					[delegate timelineControllerDidReceiveNewMessage:self message:m];
+				if ([delegate respondsToSelector:@selector(timelineDidReceiveNewMessage:message:)]) {
+					[delegate timelineDidReceiveNewMessage:self message:m];
 				}
 			}
 		}
 		
-		if ([delegate respondsToSelector:@selector(timelineControllerDidUpdate:)]) {
-			[delegate timelineControllerDidUpdate:self];
+		if ([delegate respondsToSelector:@selector(timelineDidUpdate:)]) {
+			[delegate timelineDidUpdate:self];
 		}
 	}
 }

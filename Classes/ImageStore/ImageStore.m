@@ -12,17 +12,27 @@
 
 @implementation ImageStore
 
+static NSMutableDictionary* theImageStore = nil;
+
++ (NSMutableDictionary*)getSharedImageStore
+{
+    if (theImageStore == nil) {
+        theImageStore = [[NSMutableDictionary dictionary] retain];
+    }
+    return theImageStore;
+}
+
 - (id)init
 {
 	self = [super init];
-	images = [[NSMutableDictionary dictionary] retain];
-	conns = [[NSMutableDictionary dictionary] retain];
+	images = [ImageStore getSharedImageStore];
+	conns  = [[NSMutableDictionary dictionary] retain];
 	return self;
 }
 
 - (void)dealloc
 {
-	[images release];
+//	[images release];
 	[conns release];
 	[super dealloc];
 }

@@ -15,8 +15,8 @@
 {
 	[super viewDidLoad];
     self.tableView.separatorColor = [UIColor colorWithRed:0.784 green:969 blue:996 alpha:1.0];
-	//[friendTimeline update:@"statuses/friends_timeline"];
-	[friendTimeline update:@"statuses/replies"];
+	[friendTimeline update:@"statuses/friends_timeline"];
+	//[friendTimeline update:@"statuses/replies"];
 	//[friendTimeline update:@"direct_messages"];
 }
 
@@ -49,7 +49,6 @@
 		cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 	}
 	cell.message = m;
-	//cell.imageView.image = [imageStore getImage:m.user.profileImageUrl];
     cell.image = [imageStore getImage:m.user.profileImageUrl];
 	[cell update];
 	return cell;
@@ -81,11 +80,11 @@
 	[self.tableView reloadData];
 }
 
-- (void)timelineControllerDidReceiveNewMessage:(TimelineController*)sender message:(Message*)msg {
+- (void)timelineDidReceiveNewMessage:(Timeline*)sender message:(Message*)msg {
 	[imageStore getImage:msg.user.profileImageUrl];
 }
 
-- (void)timelineControllerDidUpdate:(TimelineController*)sender {
+- (void)timelineDidUpdate:(Timeline*)sender {
 	[self.tableView reloadData];
 }
 

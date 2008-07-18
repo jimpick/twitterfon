@@ -2,7 +2,7 @@
 #import "Message.h"
 #import "TimelineDownloader.h"
 
-@interface TimelineController : NSObject
+@interface Timeline : NSObject
 {
 	IBOutlet NSObject* delegate;
 	NSMutableArray* messages;

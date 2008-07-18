@@ -3,7 +3,6 @@
 @implementation MessageCell
 
 @synthesize message;
-@synthesize imageView;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -29,10 +28,6 @@
     textLabel.contentMode = UIViewContentModeTopLeft;
     [self.contentView addSubview:textLabel];
 
-    // imageView
-    imageView = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
-    [self.contentView addSubview:imageView];
-
 	return self;
 }
 
@@ -54,8 +49,6 @@
     const int HMARGIN = 10;
     const int VMARGIN = 0;
 		
-    //imageView.frame = CGRectMake(12, 0, 52, 52);
-
     nameLabel.frame = CGRectMake(LEFT, VMARGIN, rc.size.width - LEFT - HMARGIN, 16);
     bounds = CGRectMake(LEFT, TOP, rc.size.width - LEFT - HMARGIN, rc.size.height - TOP);
     textLabel.frame = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
