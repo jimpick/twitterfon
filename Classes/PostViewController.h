@@ -13,7 +13,10 @@
     IBOutlet UIView*     toolbar;
     IBOutlet UITextView* text;
     IBOutlet UILabel*    charCount;
+    UITabBarController*  tab;
 }
+
+@property (nonatomic, assign) UITextView *text;
 
 - (IBAction) cancel: (id) sender;
 - (IBAction) send: (id) sender;

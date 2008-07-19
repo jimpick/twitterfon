@@ -10,9 +10,11 @@
 #import "PostViewController.h"
 
 
-#define kAnimationKey @"transitionViewAnimation"
+#define kAnimationKey @"transitionViewAnimation2"
 
 @implementation PostViewController
+
+@synthesize text;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
@@ -22,28 +24,12 @@
 }
 
 - (void)viewDidLoad {
-    [text becomeFirstResponder];
 }
 
 - (IBAction) cancel: (id) sender
 {
-
-    [toolbar removeFromSuperview];
-    [charCount removeFromSuperview];
-    
-	CATransition *animation = [CATransition animation];
-	//[animation setDelegate:self];
-	
-	// Set the type and if appropriate direction of the transition, 
-	[animation setType:kCATransitionPush];
-	[animation setSubtype:kCATransitionFromTop];
-
-	[animation setDuration:0.5];
-	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-	
-	[[self.view layer] addAnimation:animation forKey:kAnimationKey];
-
     [text resignFirstResponder];
+    tab.selectedIndex = 1;
 }
 
 - (IBAction) send: (id) sender
@@ -53,22 +39,12 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-/*
-    [self.view insertSubView:toolbar atIndex:1];
-
-	CATransition *animation = [CATransition animation];
-	//[animation setDelegate:self];
-	
-	// Set the type and if appropriate direction of the transition, 
-	[animation setType:kCATransitionMoveIn];
-	[animation setSubtype:kCATransitionFromBottom];
-
-	[animation setDuration:0.5];
-	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-	
-	[[self.view layer] addAnimation:animation forKey:kAnimationKey];
-*/
+    [super viewWillAppear:animated];
     [text becomeFirstResponder];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -87,12 +63,22 @@
 	[super dealloc];
 }
 
+- (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username
+{
+    tab = tabBar;
+}
+
+- (void)countCharacter
+{
+
+}
+
 //
 // UITextViewDelegate
 //
 - (void)textViewDidChange:(UITextView *)textView
 {
-    int length = [textView.text length];
+    int length = [text.text length];
     length = 140 - length;
     if (length < 0) {
         charCount.textColor = [UIColor redColor];

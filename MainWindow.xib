@@ -40,21 +40,23 @@
 			<object class="IBUITabBarController" id="1034742383">
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-				<object class="IBUIViewController" key="IBUISelectedViewController" id="1024858337">
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="765670903">
-						<string key="IBUITitle">Timeline</string>
+				<object class="IBUIViewController" key="IBUISelectedViewController" id="543814472">
+					<string key="IBUITitle">Settings</string>
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="983218240">
+						<string key="IBUITitle">Settings</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">timeline.png</string>
+							<string key="NSResourceName">settings.png</string>
 						</object>
 						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="1034742383"/>
-					<string key="IBUINibName">TimelineView</string>
+					<string key="IBUINibName">SettingsView</string>
 				</object>
 				<object class="NSMutableArray" key="IBUIViewControllers">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIViewController" id="427445922">
+						<string key="IBUITitle">Post</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="371320876">
 							<string key="IBUITitle">Post</string>
 							<object class="NSCustomResource" key="IBUIImage">
@@ -66,8 +68,21 @@
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<string key="IBUINibName">PostView</string>
 					</object>
-					<reference ref="1024858337"/>
+					<object class="IBUIViewController" id="1024858337">
+						<string key="IBUITitle">Timeline</string>
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="765670903">
+							<string key="IBUITitle">Timeline</string>
+							<object class="NSCustomResource" key="IBUIImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">timeline.png</string>
+							</object>
+							<reference key="IBUITabBar"/>
+						</object>
+						<reference key="IBUIParentViewController" ref="1034742383"/>
+						<string key="IBUINibName">TimelineView</string>
+					</object>
 					<object class="IBUIViewController" id="268481961">
+						<string key="IBUITitle">Replies</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="807309489">
 							<string key="IBUITitle">Replies</string>
 							<object class="NSCustomResource" key="IBUIImage">
@@ -80,6 +95,7 @@
 						<string key="IBUINibName">TimelineView</string>
 					</object>
 					<object class="IBUIViewController" id="162757575">
+						<string key="IBUITitle">Messages</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="742600235">
 							<string key="IBUITitle">Messages</string>
 							<object class="NSCustomResource" key="IBUIImage">
@@ -91,19 +107,7 @@
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<string key="IBUINibName">TimelineView</string>
 					</object>
-					<object class="IBUIViewController" id="543814472">
-						<string key="IBUITitle">Settings</string>
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="983218240">
-							<string key="IBUITitle">Settings</string>
-							<object class="NSCustomResource" key="IBUIImage">
-								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">settings.png</string>
-							</object>
-							<reference key="IBUITabBar"/>
-						</object>
-						<reference key="IBUIParentViewController" ref="1034742383"/>
-						<string key="IBUINibName">SettingsView</string>
-					</object>
+					<reference ref="543814472"/>
 				</object>
 				<object class="IBUITabBar" key="IBUITabBar" id="795333663">
 					<nil key="NSNextResponder"/>
@@ -401,8 +405,19 @@
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">text</string>
-						<string key="NS.object.0">UITextView</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>charCount</string>
+							<string>text</string>
+							<string>toolbar</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UILabel</string>
+							<string>UITextView</string>
+							<string>UIView</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>

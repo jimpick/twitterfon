@@ -10,9 +10,12 @@
 
 
 @interface NSObject (TimelineViewControllerDelegate)
-- (void)didSelectViewController:(int)sender username:(NSString*)username;
-@end 
+- (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
+@end
 
+@interface NSObject (PostViewControllerDelegate)
+- (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
+@end
 
 @implementation TwitterPhoxAppDelegate
 
@@ -43,15 +46,9 @@
 
 - (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController {
     if ([viewController respondsToSelector:@selector(didSelectViewController:username:)]) {
-        [viewController didSelectViewController:tabBar.selectedIndex username:username];
+        [viewController didSelectViewController:tabBar username:username];
     }
 }
-
-/*
-- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
-}
-*/
-
 
 - (void)dealloc {
 	[tabBarController release];

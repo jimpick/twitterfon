@@ -15,9 +15,9 @@
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
 		6E3AD94A0E3090B000338AF3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E3AD9490E3090B000338AF3 /* QuartzCore.framework */; };
 		6E46570C0E2ECB78002AF530 /* post.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E46570B0E2ECB78002AF530 /* post.png */; };
-		6E4657230E2ED082002AF530 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E4657220E2ED082002AF530 /* PostView.xib */; };
 		6E4657300E2ED19F002AF530 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E46572F0E2ED19F002AF530 /* PostViewController.m */; };
 		6E4657550E2EE2E2002AF530 /* library.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E4657540E2EE2E2002AF530 /* library.png */; };
+		6EC1CCD40E31FC2C00311F80 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1CCD30E31FC2C00311F80 /* PostView.xib */; };
 		6EE2037C0E2DA59D00443A4F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE2037B0E2DA59D00443A4F /* SettingsViewController.m */; };
 		6EE203C90E2DAEA200443A4F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE203C70E2DAEA200443A4F /* SettingsTableViewController.m */; };
 		6EFA43DF0E2B0323006A076C /* timeline.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EFA43DA0E2B0323006A076C /* timeline.png */; };
@@ -52,10 +52,10 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E3AD9490E3090B000338AF3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6E46570B0E2ECB78002AF530 /* post.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = post.png; path = Images/post.png; sourceTree = "<group>"; };
-		6E4657220E2ED082002AF530 /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostView.xib; sourceTree = "<group>"; };
 		6E46572E0E2ED19F002AF530 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
 		6E46572F0E2ED19F002AF530 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
 		6E4657540E2EE2E2002AF530 /* library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = library.png; path = Images/library.png; sourceTree = "<group>"; };
+		6EC1CCD30E31FC2C00311F80 /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostView.xib; sourceTree = "<group>"; };
 		6EE2037A0E2DA59D00443A4F /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6EE2037B0E2DA59D00443A4F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		6EE203C70E2DAEA200443A4F /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 			children = (
 				6EFA43E50E2B032E006A076C /* Images */,
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
-				6E4657220E2ED082002AF530 /* PostView.xib */,
+				6EC1CCD30E31FC2C00311F80 /* PostView.xib */,
 				6EFA446C0E2B31A9006A076C /* SettingsView.xib */,
 				282CCBFD0DB6C98000C4EA27 /* TimelineView.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -299,8 +299,8 @@
 				6EFA43E30E2B0323006A076C /* Icon.png in Resources */,
 				6EFA446D0E2B31A9006A076C /* SettingsView.xib in Resources */,
 				6E46570C0E2ECB78002AF530 /* post.png in Resources */,
-				6E4657230E2ED082002AF530 /* PostView.xib in Resources */,
 				6E4657550E2EE2E2002AF530 /* library.png in Resources */,
+				6EC1CCD40E31FC2C00311F80 /* PostView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
