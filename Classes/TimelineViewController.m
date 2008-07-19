@@ -108,6 +108,7 @@
     else {
         postView.text.text  = [NSString stringWithFormat:@"d %@ %@ ", m.user.screenName, postView.text.text];
     }
+    [postView setCharCount];
 }
 
 //

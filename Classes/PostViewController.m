@@ -24,6 +24,7 @@
 }
 
 - (void)viewDidLoad {
+    charCount.font = [UIFont boldSystemFontOfSize:16];
 }
 
 - (IBAction) cancel: (id) sender
@@ -73,20 +74,30 @@
 
 }
 
+- (void)setCharCount
+{
+    int length = [text.text length];
+    length = 140 - length;
+    if (length == 140) {
+        sendButton.enabled = false;
+    }
+    else if (length < 0) {
+        sendButton.enabled = false;
+        charCount.textColor = [UIColor redColor];
+    }
+    else {
+        sendButton.enabled = true;
+        charCount.textColor = [UIColor whiteColor];
+    }
+    charCount.text = [NSString stringWithFormat:@"%d", length];    
+}
+
 //
 // UITextViewDelegate
 //
 - (void)textViewDidChange:(UITextView *)textView
 {
-    int length = [text.text length];
-    length = 140 - length;
-    if (length < 0) {
-        charCount.textColor = [UIColor redColor];
-    }
-    else {
-        charCount.textColor = [UIColor whiteColor];
-    }
-    charCount.text = [NSString stringWithFormat:@"%d", length];
+    [self setCharCount];
 }
 
 @end
