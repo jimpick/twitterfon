@@ -1,6 +1,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "TimelineViewController.h"
-#import "TwitterPhoxAppDelegate.h"
+#import "TwitterFonAppDelegate.h"
 #import "MessageCell.h"
 
 @interface NSObject (TimelineViewControllerDelegate)

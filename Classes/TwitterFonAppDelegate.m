@@ -6,7 +6,7 @@
 //  Copyright naan studio 2008. All rights reserved.
 //
 
-#import "TwitterPhoxAppDelegate.h"
+#import "TwitterFonAppDelegate.h"
 
 
 @interface NSObject (TimelineViewControllerDelegate)
@@ -17,11 +17,11 @@
 - (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
 @end
 
-@interface TwitterPhoxAppDelegate (Private)
+@interface TwitterFonAppDelegate (Private)
 - (void)createEditableCopyOfDatabaseIfNeeded;
 @end
 
-@implementation TwitterPhoxAppDelegate
+@implementation TwitterFonAppDelegate
 
 @synthesize window;
 @synthesize tabBarController;

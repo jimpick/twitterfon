@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TwitterPhoxAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
+@interface TwitterFonAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
 	IBOutlet UIWindow *window;
 	IBOutlet UITabBarController *tabBarController;
     NSString* username;
