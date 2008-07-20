@@ -144,7 +144,7 @@ static sqlite3_stmt *update_statement = nil;
 
 - (void)requestImage:(User*)aUser
 {
-    [[[ImageDownloader alloc] imageDownloaderWithDelegate:self url:user.profileImageUrl] retain];
+    [[ImageDownloader alloc] imageDownloaderWithDelegate:self url:user.profileImageUrl];
 }
 
 - (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
@@ -164,13 +164,11 @@ static sqlite3_stmt *update_statement = nil;
 
 - (void)imageDownloaderDidFail:(ImageDownloader*)sender error:(NSError*)error
 {
-    [sender release];
 }
 
 - (void)dealloc
 {
     [image release];
-	[downloader release];
 	[super dealloc];
 }
 @end

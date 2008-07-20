@@ -1,7 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
 #import "User.h"
-#import "ImageDownloader.h"
 
 @interface ProfileImage : NSObject
 {
@@ -10,7 +9,6 @@
 	UIImage*            image;
     BOOL                needUpdate;
     sqlite3*            database;
-    ImageDownloader*    downloader;
 }
 
 @property (nonatomic, readonly) UIImage* image;

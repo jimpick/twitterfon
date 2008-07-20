@@ -16,7 +16,7 @@
 	[conn release];
 	[super dealloc];
 }
-s
+
 - (ImageDownloader*)imageDownloaderWithDelegate:(id)aDelegate url:(NSString*)anUrl
 {
     self = [super init];
@@ -60,6 +60,7 @@ s
 	if (delegate && [delegate respondsToSelector:@selector(imageDownloaderDidFail:error:)]) {
 		[delegate imageDownloaderDidFail:self error:error];
 	}
+    [self autorelease];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)aConn
@@ -73,6 +74,7 @@ s
 	conn = nil;
 	[buf autorelease];
 	buf = nil;
+    [self autorelease];
 }
 
 @end
