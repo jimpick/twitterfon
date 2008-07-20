@@ -17,6 +17,10 @@
 - (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
 @end
 
+@interface TwitterPhoxAppDelegate (Private)
+- (void)createEditableCopyOfDatabaseIfNeeded;
+@end
+
 @implementation TwitterPhoxAppDelegate
 
 @synthesize window;
@@ -55,14 +59,16 @@
     }
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
 	[tabBarController release];
 	[window release];
 	[super dealloc];
 }
 
 // Creates a writable copy of the bundled default database in the application Documents directory.
-- (void)createEditableCopyOfDatabaseIfNeeded {
+- (void)createEditableCopyOfDatabaseIfNeeded
+{
     // First, test for existence.
     BOOL success;
     NSFileManager *fileManager = [NSFileManager defaultManager];

@@ -72,20 +72,6 @@
 	[super dealloc];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-}
-
 - (void)didReceiveMemoryWarning 
 {
 	[super didReceiveMemoryWarning];
@@ -163,8 +149,7 @@
 // TimelineDownloaderDelegate
 //
 - (void)timelineDidReceiveNewMessage:(Timeline*)sender message:(Message*)msg {
-//	[imageStore getImage:msg.user delegate:self];
-    	[self.tableView reloadData];
+	[imageStore getImage:msg.user delegate:self];
 }
 
 - (void)timelineDidUpdate:(Timeline*)sender {
