@@ -20,6 +20,7 @@
 		6E46570C0E2ECB78002AF530 /* post.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E46570B0E2ECB78002AF530 /* post.png */; };
 		6E4657300E2ED19F002AF530 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E46572F0E2ED19F002AF530 /* PostViewController.m */; };
 		6E4657550E2EE2E2002AF530 /* library.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E4657540E2EE2E2002AF530 /* library.png */; };
+		6E5DC7050E332A840064EF04 /* PostTweet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5DC7030E332A840064EF04 /* PostTweet.m */; };
 		6EC1CCD40E31FC2C00311F80 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1CCD30E31FC2C00311F80 /* PostView.xib */; };
 		6EE2037C0E2DA59D00443A4F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE2037B0E2DA59D00443A4F /* SettingsViewController.m */; };
 		6EE203C90E2DAEA200443A4F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE203C70E2DAEA200443A4F /* SettingsTableViewController.m */; };
@@ -62,6 +63,8 @@
 		6E46572E0E2ED19F002AF530 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
 		6E46572F0E2ED19F002AF530 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
 		6E4657540E2EE2E2002AF530 /* library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = library.png; path = Images/library.png; sourceTree = "<group>"; };
+		6E5DC7030E332A840064EF04 /* PostTweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostTweet.m; path = Classes/Twitter/PostTweet.m; sourceTree = "<group>"; };
+		6E5DC7040E332A840064EF04 /* PostTweet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostTweet.h; path = Classes/Twitter/PostTweet.h; sourceTree = "<group>"; };
 		6EC1CCD30E31FC2C00311F80 /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostView.xib; sourceTree = "<group>"; };
 		6EE2037A0E2DA59D00443A4F /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6EE2037B0E2DA59D00443A4F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
@@ -226,6 +229,8 @@
 				6EFA46810E2B4B48006A076C /* Message.m */,
 				6EFA46820E2B4B48006A076C /* User.h */,
 				6EFA46830E2B4B48006A076C /* User.m */,
+				6E5DC7030E332A840064EF04 /* PostTweet.m */,
+				6E5DC7040E332A840064EF04 /* PostTweet.h */,
 			);
 			name = Twitter;
 			path = ..;
@@ -341,6 +346,7 @@
 				6EE203C90E2DAEA200443A4F /* SettingsTableViewController.m in Sources */,
 				6E4657300E2ED19F002AF530 /* PostViewController.m in Sources */,
 				6E2D75490E32C422001A2952 /* ProfileImage.m in Sources */,
+				6E5DC7050E332A840064EF04 /* PostTweet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

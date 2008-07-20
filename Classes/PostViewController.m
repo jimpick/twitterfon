@@ -35,7 +35,9 @@
 
 - (IBAction) send: (id) sender
 {
-    [text resignFirstResponder];
+//    [text resignFirstResponder];
+    post = [[PostTweet alloc] initWithDelegate:self];
+    [post post:text.text];
 }
 
 - (void)viewWillAppear:(BOOL)animated

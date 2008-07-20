@@ -1,14 +1,12 @@
 #import <UIKit/UIKit.h>
 
-@interface TimelineDownloader : NSObject
+@interface PostTweet : NSObject
 {
 	NSObject*           delegate;
 	NSURLConnection*    conn;
 	NSMutableData*      buf;
-    NSString*           method;
 }
 
 - (id)initWithDelegate:(NSObject*)delegate;
-- (void)get:(NSString*)method;
-
+- (void)post:(NSString*)tweet;
 @end

@@ -6,26 +6,55 @@
 //  Copyright naan studio 2008. All rights reserved.
 //
 
-#import "TimelineDownloader.h"
+#import "PostTweet.h"
 #import "JSON.h"
 #import "Message.h"
 
-//#define USE_LOCAL_FILE
-#define FILE_NAME "/Users/kaz/work/iphone/TwitterPhox/etc/error.json"
-
-//#define DEBUG_WITH_PUBLIC_TIMELINE
-
-@interface NSObject (TimelineDownloaderDelegate)
-- (void)timelineDownloaderDidSucceed:(TimelineDownloader*)sender messages:(NSArray*)messages;
-- (void)timelineDownloaderDidFail:(TimelineDownloader*)sender error:(NSError*)error;
+@interface NSObject (PostTweetDelegate)
+- (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)messages;
+- (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error;
 @end
 
-@interface TimelineDownloader (Private)
+@interface PostTweet (Private)
 - (void)showDialog:(NSString*)title withMessage:(NSString*)msg;
-- (void)get:(NSString*)method;
+- (NSString *) urlencode: (NSString *) url;
 @end
 
-@implementation TimelineDownloader
+@implementation PostTweet
+
+-(NSString *) urlencode: (NSString *) url
+{
+    NSArray *escapeChars = [NSArray arrayWithObjects:@";" , @"/" , @"?" , @":" ,
+                            @"@" , @"&" , @"=" , @"+" ,
+                            @"$" , @"," , @"[" , @"]",
+                            @"#", @"!", @"'", @"(", 
+                            @")", @"*", nil];
+    
+    NSArray *replaceChars = [NSArray arrayWithObjects:@"%3B" , @"%2F" , @"%3F" ,
+                             @"%3A" , @"%40" , @"%26" ,
+                             @"%3D" , @"%2B" , @"%24" ,
+                             @"%2C" , @"%5B" , @"%5D", 
+                             @"%23", @"%21", @"%27",
+                             @"%28", @"%29", @"%2A", nil];
+    
+    int len = [escapeChars count];
+    
+    NSMutableString *temp = [url mutableCopy];
+    
+    int i;
+    for(i = 0; i < len; i++)
+    {
+        
+        [temp replaceOccurrencesOfString: [escapeChars objectAtIndex:i]
+                              withString:[replaceChars objectAtIndex:i]
+                                 options:NSLiteralSearch
+                                   range:NSMakeRange(0, [temp length])];
+    }
+    
+    NSString *out = [NSString stringWithString: temp];
+    
+    return out;
+}
 
 - (id)initWithDelegate:(NSObject*)aDelegate
 {
@@ -41,52 +70,46 @@
 	[super dealloc];
 }
 
-- (void)get:(NSString*)aMethod
+- (void)post:(NSString*)tweet
 {
 	[conn release];
 	[buf release];
 
-	// for debug
-#ifdef USE_LOCAL_FILE
-
-	NSString* s = [NSString stringWithContentsOfFile:@FILE_NAME];
-	buf = [[s dataUsingEncoding:NSUTF8StringEncoding] retain];
-	[self connectionDidFinishLoading:nil];
-#else
-
-#ifdef DEBUG_WITH_PUBLIC_TIMELINE
-	NSString* url = @"http://twitter.com/statuses/public_timeline.json";
-#else
-
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
-    method = aMethod;
-
-	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/%@.json",
-                              username,
-                              password,
-                              method];
+	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/statuses/update.json",
+                     username, password];
 
     NSLog(@"%@", url);
-#endif
-
+    
+    NSString *postString = [NSString stringWithFormat:@"status=%@&source=TwitterFox", [self urlencode:tweet]];
+    
 	url = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)url, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
-	NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
-                                      cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                      timeoutInterval:60.0];
+	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
+													cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+													timeoutInterval:60.0];
+    
+    [req setHTTPMethod:@"POST"];
+    [req setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    int contentLength = [postString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+    
+    [req setValue:[NSString stringWithFormat:@"%d", contentLength] forHTTPHeaderField:@"Content-Length"];
+    [req setHTTPBody:[NSData dataWithBytes:[postString UTF8String] length:contentLength]];
+    
 	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
 	buf = [[NSMutableData data] retain];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-
-#endif
 }
 
 - (void)connection:(NSURLConnection *)aConn didReceiveResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse* res = (NSHTTPURLResponse*)response;
     if (res) {
+        NSLog(@"Post finish: %d", res.statusCode);
+
         switch (res.statusCode) {
 
         case 401:
@@ -130,8 +153,7 @@
 	[buf autorelease];
 	buf = nil;
 
-    NSString *msg = [NSString stringWithFormat:@"Error: %@ (request: %@)",
-                              [error localizedDescription], method];
+    NSString *msg = [NSString stringWithFormat:@"Can't send tweet: %@", [error localizedDescription]];
 
     [self showDialog:@"Connection Failed" withMessage:msg];
 
@@ -142,8 +164,8 @@
     NSLog(@"Connection failed! %@", msg);
 
 	
-	if (delegate && [delegate respondsToSelector:@selector(timelineDownloaderDidFail:error:)]) {
-		[delegate timelineDownloaderDidFail:self error:error];
+	if (delegate && [delegate respondsToSelector:@selector(postTweetDidFail:error:)]) {
+		[delegate postTweetDidFail:self error:error];
 	}
 }
 
@@ -153,7 +175,6 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
 	NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
-
     [conn autorelease];
     conn = nil;
     [buf autorelease];
@@ -162,25 +183,19 @@
 	NSObject* obj = [s JSONValue];
 
     if ([obj isKindOfClass:[NSDictionary class]]) {
-        NSLog(@"%@", s);
         NSDictionary* dic = (NSDictionary*)obj;
         NSString *msg = [dic objectForKey:@"error"];
-        if (msg == nil) msg = @"";
-        NSLog(@"Twitter returns an error: %@", msg);
-        [self showDialog:@"Server error" withMessage:msg];
-    }
-    else if ([obj isKindOfClass:[NSArray class]]) {
-
-        NSMutableArray* messages = [NSMutableArray array];
-        NSArray *ary = (NSArray*)obj;
-        int i;
-        for (i=[ary count]-1; i >= 0; --i) {
-            Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i]];
-            [messages addObject:m];
+        if (msg) {
+            NSLog(@"%@", s);
+            if (msg == nil) msg = @"";
+            NSLog(@"Twitter returns an error: %@", msg);
+            [self showDialog:@"Server error" withMessage:msg];
         }
-	
-        if (delegate && [delegate respondsToSelector:@selector(timelineDownloaderDidSucceed:messages:)]) {
-            [delegate timelineDownloaderDidSucceed:self messages:messages];
+        else {
+            Message* m = [Message messageWithJsonDictionary:dic];
+            if (delegate && [delegate respondsToSelector:@selector(postTweetDidSuceed:message:)]) {
+                [delegate postTweetDidSucceed:self message:m];
+            }
         }
     }
 }

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "PostTweet.h"
 
 @interface PostViewController : UIViewController {
     IBOutlet UIView*     toolbar;
@@ -15,6 +15,7 @@
     IBOutlet UILabel*    charCount;
     IBOutlet UIBarItem*  sendButton;
     UITabBarController*  tab;
+    PostTweet*           post;
 }
 
 @property (nonatomic, assign) UITextView *text;
