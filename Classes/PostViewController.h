@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PostTweet.h"
+#include "Message.h"
 
 @interface PostViewController : UIViewController {
     IBOutlet UIView*     toolbar;
@@ -19,6 +20,9 @@
 }
 
 @property (nonatomic, assign) UITextView *text;
+
+- (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)message;
+- (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error;
 
 - (void) setCharCount;
 - (IBAction) cancel: (id) sender;

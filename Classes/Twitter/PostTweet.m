@@ -10,14 +10,14 @@
 #import "JSON.h"
 #import "Message.h"
 
-@interface NSObject (PostTweetDelegate)
-- (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)messages;
-- (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error;
-@end
-
 @interface PostTweet (Private)
 - (void)showDialog:(NSString*)title withMessage:(NSString*)msg;
 - (NSString *) urlencode: (NSString *) url;
+@end
+
+@interface NSObject (PostTweetDelegate)
+- (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)messages;
+- (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error;
 @end
 
 @implementation PostTweet
@@ -83,7 +83,7 @@
 
     NSLog(@"%@", url);
     
-    NSString *postString = [NSString stringWithFormat:@"status=%@&source=TwitterFox", [self urlencode:tweet]];
+    NSString *postString = [NSString stringWithFormat:@"status=%@&source=TwitterFon", [self urlencode:tweet]];
     
 	url = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)url, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
 	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
@@ -193,7 +193,7 @@
         }
         else {
             Message* m = [Message messageWithJsonDictionary:dic];
-            if (delegate && [delegate respondsToSelector:@selector(postTweetDidSuceed:message:)]) {
+            if (delegate && [delegate respondsToSelector:@selector(postTweetDidSucceed:message:)]) {
                 [delegate postTweetDidSucceed:self message:m];
             }
         }

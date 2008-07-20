@@ -36,6 +36,11 @@
 	return [messages objectAtIndex:[messages count] - i - 1];
 }
 
+- (void)insertMessage:(Message*)m
+{
+    [messages addObject:m];
+}
+
 - (void)update:(NSString*)method
 {
 	if (timelineConn) return;

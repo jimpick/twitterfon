@@ -15,5 +15,6 @@
 
 - (int)countMessages;
 - (Message*)messageAtIndex:(int)i;
-    
+- (void)insertMessage:(Message*)m;
+
 @end

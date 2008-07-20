@@ -9,8 +9,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PostViewController.h"
 
-
-#define kAnimationKey @"transitionViewAnimation2"
+@interface NSObject (PostTweetDelegate)
+- (void)postTweetDidSucceed:(Message*)message;
+@end
 
 @implementation PostViewController
 
@@ -75,6 +76,19 @@
 - (void)countCharacter
 {
 
+}
+
+- (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)message
+{
+    UIViewController *view = [tab.viewControllers objectAtIndex:1];
+    if ([view respondsToSelector:@selector(postTweetDidSucceed:)]) {
+        [view postTweetDidSucceed:message];
+    }      
+}
+
+- (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error
+{
+    tab.selectedIndex = 0;
 }
 
 - (void)setCharCount

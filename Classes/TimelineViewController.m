@@ -113,6 +113,16 @@
     [postView setCharCount];
 }
 
+- (void)postTweetDidSucceed:(Message*)message
+{
+    
+    NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil];
+    [friendTimeline insertMessage:message];
+    [self.tableView beginUpdates];
+    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+    [self.tableView endUpdates];    
+}
+
 //
 // UITabBarControllerDelegate
 //

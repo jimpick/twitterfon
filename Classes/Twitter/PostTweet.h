@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "Message.h"
 
 @interface PostTweet : NSObject
 {
@@ -10,3 +11,4 @@
 - (id)initWithDelegate:(NSObject*)delegate;
 - (void)post:(NSString*)tweet;
 @end
+
