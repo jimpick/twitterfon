@@ -35,9 +35,10 @@
 
 - (IBAction) send: (id) sender
 {
-//    [text resignFirstResponder];
     post = [[PostTweet alloc] initWithDelegate:self];
     [post post:text.text];
+    [text resignFirstResponder];
+    tab.selectedIndex = 1;
 }
 
 - (void)viewWillAppear:(BOOL)animated
