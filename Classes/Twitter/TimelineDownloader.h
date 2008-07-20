@@ -12,7 +12,5 @@
 @property (nonatomic, readonly) BOOL active;
 
 - (id)initWithDelegate:(NSObject*)delegate;
-- (void)showDialog:(NSString*)title withMessage:(NSString*)msg;
-- (void)get:(NSString*)method;
 
 @end

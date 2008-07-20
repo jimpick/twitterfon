@@ -13,11 +13,16 @@
 //#define USE_LOCAL_FILE
 #define FILE_NAME "/Users/kaz/work/iphone/TwitterPhox/etc/error.json"
 
-#define DEBUG_WITH_PUBLIC_TIMELINE
+//#define DEBUG_WITH_PUBLIC_TIMELINE
 
 @interface NSObject (TimelineDownloaderDelegate)
 - (void)timelineDownloaderDidSucceed:(TimelineDownloader*)sender messages:(NSArray*)messages;
 - (void)timelineDownloaderDidFail:(TimelineDownloader*)sender error:(NSError*)error;
+@end
+
+@interface TimelineDownloader (Private)
+- (void)showDialog:(NSString*)title withMessage:(NSString*)msg;
+- (void)get:(NSString*)method;
 @end
 
 @implementation TimelineDownloader

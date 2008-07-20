@@ -2,16 +2,13 @@
 
 @interface ImageDownloader : NSObject
 {
-	NSObject* delegate;
-	NSString* url;
-	NSMutableData* buf;
-	UIImage* image;
-	NSURLConnection* conn;
+	NSObject*           delegate;
+	NSMutableData*      buf;
+	NSURLConnection*    conn;
 }
 
-@property (nonatomic, readonly) UIImage* image;
-@property (nonatomic, readonly) NSString* url;
+@property (nonatomic, readonly) NSMutableData* buf;
 
-+ (ImageDownloader*)imageDownloaderWithDelegate:(id)aDelegate url:(NSString*)url;
+- (ImageDownloader*)imageDownloaderWithDelegate:(id)aDelegate url:(NSString*)url;
 
 @end

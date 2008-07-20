@@ -13,5 +13,7 @@
 }
 
 - (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

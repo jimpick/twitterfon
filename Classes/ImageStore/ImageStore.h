@@ -1,13 +1,12 @@
 #import <UIKit/UIKit.h>
+#import "User.h"
 
 @interface ImageStore : NSObject
 {
-	IBOutlet NSObject* delegate;
+	IBOutlet NSObject*   delegate;
 	NSMutableDictionary* images;
-	NSMutableDictionary* conns;
 }
 
-- (UIImage*)getImage:(NSString*)url;
-+ (NSMutableDictionary*)getSharedImageStore;
+- (UIImage*)getImage:(User*)user delegate:(id)aDelegate;
 
 @end

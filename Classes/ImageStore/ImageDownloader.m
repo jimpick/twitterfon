@@ -8,45 +8,31 @@
 
 @implementation ImageDownloader
 
-@synthesize image;
-@synthesize url;
-
-- (id)initWithDelegate:(id)aDelegate;
-{
-	self = [super init];
-	delegate = aDelegate;
-	return self;
-}
+@synthesize buf;
 
 - (void)dealloc
 {
-	[url release];
 	[buf release];
-	[image release];
 	[conn release];
 	[super dealloc];
 }
-
-- (void)start:(NSString*)anUrl
+s
+- (ImageDownloader*)imageDownloaderWithDelegate:(id)aDelegate url:(NSString*)anUrl
 {
-	[url autorelease];
-	[conn autorelease];
-	[buf autorelease];
-	
-	url = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)anUrl, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
+    self = [super init];
+    delegate = aDelegate;
+    
+	NSLog(@"Get image from %@", anUrl);
+    
+    NSString *url = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)anUrl, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
 	NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
-																	    cachePolicy:NSURLRequestUseProtocolCachePolicy
-																	    timeoutInterval:60.0];
+                                         cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                     timeoutInterval:60.0];
 	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
-	buf = [[NSMutableData data] retain];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-}
-
-+ (ImageDownloader*)imageDownloaderWithDelegate:(id)aDelegate url:(NSString*)url
-{
-	ImageDownloader* d = [[[ImageDownloader alloc] initWithDelegate:aDelegate] autorelease];
-	[d start:url];
-	return d;
+	buf  = [[NSMutableData data] retain];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;    
+    
+	return self;
 }
 
 - (void)connection:(NSURLConnection *)aConn didReceiveResponse:(NSURLResponse *)response
@@ -79,17 +65,14 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)aConn
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	[image release];
-	image = [[UIImage imageWithData:buf] retain] ;
 
+	if (delegate && [delegate respondsToSelector:@selector(imageDownloaderDidSucceed:)]) {
+		[delegate imageDownloaderDidSucceed:self];
+	}
 	[conn autorelease];
 	conn = nil;
 	[buf autorelease];
 	buf = nil;
-	
-	if (delegate && [delegate respondsToSelector:@selector(imageDownloaderDidSucceed:)]) {
-		[delegate imageDownloaderDidSucceed:self];
-	}
 }
 
 @end

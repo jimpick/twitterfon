@@ -15,6 +15,5 @@
 
 - (int)countMessages;
 - (Message*)messageAtIndex:(int)i;
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
     
 @end

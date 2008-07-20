@@ -3,8 +3,6 @@
 #import "TwitterPhoxAppDelegate.h"
 #import "MessageCell.h"
 
-#define kAnimationKey @"transitionViewAnimation"
-
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
 @end 
@@ -54,7 +52,7 @@
 		cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 	}
 	cell.message = m;
-    cell.image = [imageStore getImage:m.user.profileImageUrl];
+    cell.image = [imageStore getImage:m.user delegate:self];
 	[cell update];
     if (index == 1) {
         NSString *str = [NSString stringWithFormat:@"@%@", username];
@@ -96,6 +94,24 @@
 //
 // UITableViewDelegate
 //
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGRect bounds;
+    CGRect result;
+    UILabel *textLabel = [[UILabel alloc] initWithFrame: CGRectZero];
+    Message *m = [friendTimeline messageAtIndex:indexPath.row];
+    
+    textLabel.font = [UIFont systemFontOfSize:13];
+    textLabel.numberOfLines = 10;
+    
+    textLabel.text = m.text;
+    bounds = CGRectMake(0, 0, 240, 200);
+    result = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
+    result.size.height += 18;
+    if (result.size.height < 48 + 1) result.size.height = 48 + 1;
+    [textLabel release];
+    return result.size.height;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray* views = [tab viewControllers];
@@ -139,17 +155,18 @@
 //
 // ImageStoreDelegate
 //
-- (void)imageStoreDidGetNewImage:(ImageStore*)sender url:(NSString*)url {
+- (void)imageStoreDidGetNewImage:(UIImage*)image {
 	[self.tableView reloadData];
 }
 
+//
+// TimelineDownloaderDelegate
+//
 - (void)timelineDidReceiveNewMessage:(Timeline*)sender message:(Message*)msg {
-	[imageStore getImage:msg.user.profileImageUrl];
+//	[imageStore getImage:msg.user delegate:self];
+    	[self.tableView reloadData];
 }
 
-//
-// TimelineDelegate
-//
 - (void)timelineDidUpdate:(Timeline*)sender {
 	[self.tableView reloadData];
 }

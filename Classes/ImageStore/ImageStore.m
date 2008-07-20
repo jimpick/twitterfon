@@ -1,13 +1,10 @@
+#import "ProfileImage.h"
 #import "ImageStore.h"
 #import "ImageDownloader.h"
 
-@interface NSObject (ImageStoreDelegate)
-- (void)imageStoreDidGetNewImage:(ImageStore*)sender url:(NSString*)url;
-@end
-
-
 @interface ImageStore (Private)
 - (void)sendRequestForImage:(NSString*)url;
++ (NSMutableDictionary*)getSharedImageStore;
 @end
 
 @implementation ImageStore
@@ -25,48 +22,23 @@ static NSMutableDictionary* theImageStore = nil;
 - (id)init
 {
 	self = [super init];
-	images = [ImageStore getSharedImageStore];
-	conns  = [[NSMutableDictionary dictionary] retain];
+	images   = [ImageStore getSharedImageStore];
 	return self;
 }
 
 - (void)dealloc
 {
-//	[images release];
-	[conns release];
 	[super dealloc];
 }
 
-- (UIImage*)getImage:(NSString*)url
+- (UIImage*)getImage:(User*)user delegate:(id)aDelegate
 {
-	UIImage* image = [images objectForKey:url];
-	if (!image && ![conns objectForKey:url]) {
-		[self sendRequestForImage:url];
-	}
-	return image;
-}
-
-- (void)sendRequestForImage:(NSString*)url
-{
-	ImageDownloader* d = [ImageDownloader imageDownloaderWithDelegate:self url:url];
-	[conns setObject:d forKey:url];
-}
-
-- (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
-{
-	NSString* url = [[sender.url retain] autorelease];
-	
-	UIImage* image = sender.image;
-	if (image) [images setObject:image forKey:url];
-	[conns removeObjectForKey:url];
-	if (delegate && [delegate respondsToSelector:@selector(imageStoreDidGetNewImage:url:)]) {
-		[delegate imageStoreDidGetNewImage:self url:url];
-	}
-}
-
-- (void)imageDownloaderDidFail:(ImageDownloader*)sender error:(NSError*)error
-{
-	[conns removeObjectForKey:sender.url];
+	ProfileImage* image = [images objectForKey:user.profileImageUrl];
+	if (!image) {  
+        image = [[[ProfileImage alloc] initWithUser:user delegate:aDelegate] retain];
+        [images setObject:image forKey:user.profileImageUrl];
+    }
+    return image.image;
 }
 
 @end

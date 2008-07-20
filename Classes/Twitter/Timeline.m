@@ -77,22 +77,4 @@
 	timelineConn = nil;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGRect bounds;
-    CGRect result;
-    UILabel *textLabel = [[UILabel alloc] initWithFrame: CGRectZero];
-    Message *m = [self messageAtIndex: indexPath.row];
-
-    textLabel.font = [UIFont systemFontOfSize:13];
-    textLabel.numberOfLines = 10;
-    
-    textLabel.text = m.text;
-    bounds = CGRectMake(0, 0, 240, 200);
-    result = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
-    result.size.height += 18;
-    if (result.size.height < 48 + 1) result.size.height = 48 + 1;
-    [textLabel release];
-    return result.size.height;
-}
-
 @end
