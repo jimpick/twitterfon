@@ -14,6 +14,7 @@ static sqlite3_stmt* select_statement = nil;
 @synthesize messageId;
 @synthesize text;
 @synthesize user;
+@synthesize unread;
 
 - (void)dealloc
 {
@@ -38,9 +39,16 @@ static sqlite3_stmt* select_statement = nil;
         user = [[User alloc] initWithJsonDictionary:userDic];
     }
     
-    [self insertDB:type];    
-
+    [self insertDB:type];
+    unread = true;
+    
 	return self;
+}
+
+
++ (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type
+{
+	return [[[Message alloc] initWithJsonDictionary:dic type:type] autorelease];
 }
 
 - (void)insertDB:(MessageType)type
@@ -86,9 +94,5 @@ static sqlite3_stmt* select_statement = nil;
 
 }
 
-+ (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type
-{
-	return [[[Message alloc] initWithJsonDictionary:dic type:type] autorelease];
-}
 
 @end

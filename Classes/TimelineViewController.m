@@ -2,6 +2,7 @@
 #import "TimelineViewController.h"
 #import "TwitterFonAppDelegate.h"
 #import "MessageCell.h"
+#import "ColorUtils.h"
 
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
@@ -52,18 +53,26 @@
 	}
 	cell.message = m;
     cell.image = [imageStore getImage:m.user delegate:self];
-	[cell update];
+
     if (index == 1) {
         NSString *str = [NSString stringWithFormat:@"@%@", username];
         NSRange r = [m.text rangeOfString:str];
         if (r.location != NSNotFound) {
-
-            cell.contentView.backgroundColor = [UIColor colorWithRed:0.745 green:0.910 blue:0.608 alpha:1.0];
+            cell.contentView.backgroundColor = [UIColor repliesColor:m.unread];
         }
         else {
-            cell.contentView.backgroundColor = [UIColor colorWithRed:0.682 green:0.914 blue:0.925 alpha:1.0];
+            cell.contentView.backgroundColor = [UIColor friendColor:m.unread];
         }
     }
+    else if (index == 2) {
+        cell.contentView.backgroundColor = [UIColor repliesColor:m.unread];
+    }
+    else if (index == 3) {
+        cell.contentView.backgroundColor = [UIColor messageColor:m.unread];
+    }
+    
+	[cell update];
+    
 	return cell;
 }
 
@@ -137,19 +146,19 @@
 
     switch (index) {
         case 1:
-            self.tableView.separatorColor = [UIColor colorWithRed:0.784 green:0.969 blue:0.996 alpha:1.0];
+            self.tableView.separatorColor = [UIColor friendColorBorder];
             if (!loaded) [timeline update:MSG_TYPE_FRIENDS];
             break;
             
         case 2:
-            self.tableView.separatorColor =  [UIColor colorWithRed:0.894 green:1.000 blue:0.800 alpha:1.0];
-            self.tableView.backgroundColor = [UIColor colorWithRed:0.745 green:0.910 blue:0.608 alpha:1.0];
+            self.tableView.separatorColor =  [UIColor repliesColorBorder];
+            self.tableView.backgroundColor = [UIColor repliesColor];
             if (!loaded) [timeline update:MSG_TYPE_REPLIES];
             break;
             
         case 3:
-            self.tableView.separatorColor =  [UIColor colorWithRed:0.992 green:0.910 blue:0.800 alpha:1.0];
-            self.tableView.backgroundColor = [UIColor colorWithRed:0.878 green:0.729 blue:0.545 alpha:1.0];
+            self.tableView.separatorColor =  [UIColor messageColorBorder];
+            self.tableView.backgroundColor = [UIColor messageColor];
             if (!loaded) [timeline update:MSG_TYPE_MESSAGES];
     }
     loaded = true;
@@ -158,24 +167,23 @@
 //
 // ImageStoreDelegate
 //
-- (void)imageStoreDidGetNewImage:(UIImage*)image {
+- (void)imageStoreDidGetNewImage:(UIImage*)image
+{
 	[self.tableView reloadData];
 }
 
 //
 // TimelineDownloaderDelegate
 //
-- (void)timelineDidReceiveNewMessage:(Timeline*)sender message:(Message*)msg {
+- (void)timelineDidReceiveNewMessage:(Timeline*)sender message:(Message*)msg
+{
 	[imageStore getImage:msg.user delegate:self];
 }
 
-- (void)timelineDidUpdate:(Timeline*)sender indexPaths:(NSArray*)indexPaths{
-
+- (void)timelineDidUpdate:(Timeline*)sender indexPaths:(NSArray*)indexPaths
+{
     [self.tableView beginUpdates];
     [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
     [self.tableView endUpdates];    
 }
-
-
-
 @end

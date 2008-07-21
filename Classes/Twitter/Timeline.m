@@ -48,7 +48,7 @@ static sqlite3_stmt *select_statement = nil;
 {
 	if (timelineConn) return;
     
-    type = type;
+    type = aType;
 
 	timelineConn = [[TimelineDownloader alloc] initWithDelegate:self];
 	[timelineConn get:type];
@@ -74,7 +74,7 @@ static sqlite3_stmt *select_statement = nil;
         m.user.screenName      = [[NSString stringWithUTF8String:(char*)sqlite3_column_text(select_statement, 3)] copy];
         m.user.profileImageUrl = [[NSString stringWithUTF8String:(char*)sqlite3_column_text(select_statement, 4)] copy];
         m.text                 = [[NSString stringWithUTF8String:(char*)sqlite3_column_text(select_statement, 5)] copy];
-        
+        m.unread = false;
         [messages addObject:m];
     }
     sqlite3_reset(select_statement);
@@ -96,6 +96,8 @@ static sqlite3_stmt *select_statement = nil;
             long messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longValue];
 			if (messageId > lastMessageId) {
                 Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type];                
+                m.unread = true;
+                
 				[messages addObject:m];
                 
                 [indexPaths addObject:[NSIndexPath indexPathForRow:j inSection:0]];
@@ -107,7 +109,7 @@ static sqlite3_stmt *select_statement = nil;
 			}
 		}
 		
-		if ([delegate respondsToSelector:@selector(timelineDidUpdate:indexPaths:)]) {
+		if (j && [delegate respondsToSelector:@selector(timelineDidUpdate:indexPaths:)]) {
 			[delegate timelineDidUpdate:self indexPaths:indexPaths];
 		}
 	}
