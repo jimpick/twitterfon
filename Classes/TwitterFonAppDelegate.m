@@ -15,6 +15,7 @@
 
 @interface NSObject (PostViewControllerDelegate)
 - (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
+- (void)didLeaveViewController;
 @end
 
 @interface TwitterFonAppDelegate (Private)
@@ -51,7 +52,7 @@
     else {
         tabBarController.selectedIndex = 1;
     }
-    
+    previousViewIndex = tabBarController.selectedIndex;
 	[window addSubview:tabBarController.view];
 }
 
@@ -59,6 +60,11 @@
     if ([viewController respondsToSelector:@selector(didSelectViewController:username:)]) {
         [viewController didSelectViewController:tabBar username:username];
     }
+    UIViewController *prev = [[tabBar viewControllers] objectAtIndex:previousViewIndex];
+    if ([prev respondsToSelector:@selector(didLeaveViewController)]) {
+        [prev didLeaveViewController];
+    }
+    previousViewIndex = tabBar.selectedIndex;
 }
 
 - (void)dealloc

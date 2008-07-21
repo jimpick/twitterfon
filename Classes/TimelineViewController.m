@@ -143,7 +143,7 @@
     if (!loaded) {
         [timeline restore:index - 1];
     }
-
+    
     switch (index) {
         case 1:
             self.tableView.separatorColor = [UIColor friendColorBorder];
@@ -162,6 +162,17 @@
             if (!loaded) [timeline update:MSG_TYPE_MESSAGES];
     }
     loaded = true;
+
+}
+
+- (void)didLeaveViewController
+{
+    self.tabBarItem.badgeValue = nil;
+    for (int i = 0; i < [timeline countMessages]; ++i) {
+        Message* m = [timeline messageAtIndex:i];
+        m.unread = false;
+    }
+    [self.tableView reloadData];
 }
 
 //
@@ -182,6 +193,7 @@
 
 - (void)timelineDidUpdate:(Timeline*)sender indexPaths:(NSArray*)indexPaths
 {
+    self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", [indexPaths count]];
     [self.tableView beginUpdates];
     [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
     [self.tableView endUpdates];    

@@ -11,7 +11,8 @@
 @interface TwitterFonAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
 	IBOutlet UIWindow *window;
 	IBOutlet UITabBarController *tabBarController;
-    NSString* username;
+    NSString*   username;
+    int         previousViewIndex;
 }
 
 @property (nonatomic, retain) UIWindow *window;
