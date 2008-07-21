@@ -7,9 +7,7 @@
     IBOutlet ImageStore* imageStore;
 	IBOutlet Timeline*   timeline;
     UITabBarController*  tab;
-    int                  index;
     NSString*            username;
-    BOOL                 loaded;
 }
 
 - (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;

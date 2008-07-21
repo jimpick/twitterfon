@@ -20,7 +20,27 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    loaded = false;
+
+    int tag = self.tabBarItem.tag;
+    [timeline restore:tag - 1];
+    
+    switch (tag) {
+        case 1:
+            self.tableView.separatorColor = [UIColor friendColorBorder];
+            [timeline update:MSG_TYPE_FRIENDS];
+            break;
+            
+        case 2:
+            self.tableView.separatorColor =  [UIColor repliesColorBorder];
+            self.tableView.backgroundColor = [UIColor repliesColor];
+            [timeline update:MSG_TYPE_REPLIES];
+            break;
+            
+        case 3:
+            self.tableView.separatorColor =  [UIColor messageColorBorder];
+            self.tableView.backgroundColor = [UIColor messageColor];
+            [timeline update:MSG_TYPE_MESSAGES];
+    }
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -54,6 +74,7 @@
 	cell.message = m;
     cell.image = [imageStore getImage:m.user delegate:self];
 
+    int index = self.tabBarItem.tag;
     if (index == 1) {
         NSString *str = [NSString stringWithFormat:@"@%@", username];
         NSRange r = [m.text rangeOfString:str];
@@ -112,7 +133,7 @@
     PostViewController *postView = (PostViewController*)[views objectAtIndex:0];
   	Message* m = [timeline messageAtIndex:indexPath.row];
     tab.selectedIndex = 0;
-    if (index != 3) {
+    if (self.tabBarItem.tag != 3) {
         postView.text.text  = [NSString stringWithFormat:@"%@@%@ ", postView.text.text, m.user.screenName];
     }
     else {
@@ -137,32 +158,7 @@
 - (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)aUsername
 {
     username = aUsername;
-    index = tabBar.selectedIndex;
     tab = tabBar;
-
-    if (!loaded) {
-        [timeline restore:index - 1];
-    }
-    
-    switch (index) {
-        case 1:
-            self.tableView.separatorColor = [UIColor friendColorBorder];
-            if (!loaded) [timeline update:MSG_TYPE_FRIENDS];
-            break;
-            
-        case 2:
-            self.tableView.separatorColor =  [UIColor repliesColorBorder];
-            self.tableView.backgroundColor = [UIColor repliesColor];
-            if (!loaded) [timeline update:MSG_TYPE_REPLIES];
-            break;
-            
-        case 3:
-            self.tableView.separatorColor =  [UIColor messageColorBorder];
-            self.tableView.backgroundColor = [UIColor messageColor];
-            if (!loaded) [timeline update:MSG_TYPE_MESSAGES];
-    }
-    loaded = true;
-
 }
 
 - (void)didLeaveViewController
