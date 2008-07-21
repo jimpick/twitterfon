@@ -4,9 +4,10 @@
 
 @interface Timeline : NSObject
 {
-	IBOutlet NSObject* delegate;
-	NSMutableArray* messages;
+	IBOutlet NSObject*  delegate;
+	NSMutableArray*     messages;
 	TimelineDownloader* timelineConn;
+    MessageType         type;
 }
 
 @property (nonatomic, readonly) NSArray* messages;

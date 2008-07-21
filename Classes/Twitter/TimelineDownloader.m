@@ -176,17 +176,9 @@ NSString* sMethods[3] = {
         [self showDialog:@"Server error" withMessage:msg];
     }
     else if ([obj isKindOfClass:[NSArray class]]) {
-
-        NSMutableArray* messages = [NSMutableArray array];
         NSArray *ary = (NSArray*)obj;
-        int i;
-        for (i=[ary count]-1; i >= 0; --i) {
-            Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type];
-            [messages addObject:m];
-        }
-	
         if (delegate && [delegate respondsToSelector:@selector(timelineDownloaderDidSucceed:messages:)]) {
-            [delegate timelineDownloaderDidSucceed:self messages:messages];
+            [delegate timelineDownloaderDidSucceed:self messages:ary];
         }
     }
 }

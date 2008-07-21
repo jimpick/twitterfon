@@ -7,7 +7,6 @@
 - (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
 @end 
 
-
 @implementation TimelineViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -115,7 +114,7 @@
 
 - (void)postTweetDidSucceed:(Message*)message
 {
-    
+   
     NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil];
     [timeline insertMessage:message];
     [self.tableView beginUpdates];
@@ -131,20 +130,27 @@
     username = aUsername;
     index = tabBar.selectedIndex;
     tab = tabBar;
-    if (index == 1) {
-        self.tableView.separatorColor = [UIColor colorWithRed:0.784 green:0.969 blue:0.996 alpha:1.0];
-//        if (!loaded) [timeline restore:MSG_TYPE_FRIENDS];
-        if (!loaded) [timeline update:MSG_TYPE_FRIENDS];
+
+    if (!loaded) {
+        [timeline restore:index - 1];
     }
-    else if (index == 2) {
-        self.tableView.separatorColor =  [UIColor colorWithRed:0.894 green:1.000 blue:0.800 alpha:1.0];
-        self.tableView.backgroundColor = [UIColor colorWithRed:0.745 green:0.910 blue:0.608 alpha:1.0];
-//        if (!loaded) [timeline update:MSG_TYPE_REPLIES];
-    }
-    else if (index == 3) {
-        self.tableView.separatorColor =  [UIColor colorWithRed:0.992 green:0.910 blue:0.800 alpha:1.0];
-        self.tableView.backgroundColor = [UIColor colorWithRed:0.878 green:0.729 blue:0.545 alpha:1.0];
-//        if (!loaded) [timeline update:MSG_TYPE_MESSAGES];
+
+    switch (index) {
+        case 1:
+            self.tableView.separatorColor = [UIColor colorWithRed:0.784 green:0.969 blue:0.996 alpha:1.0];
+            if (!loaded) [timeline update:MSG_TYPE_FRIENDS];
+            break;
+            
+        case 2:
+            self.tableView.separatorColor =  [UIColor colorWithRed:0.894 green:1.000 blue:0.800 alpha:1.0];
+            self.tableView.backgroundColor = [UIColor colorWithRed:0.745 green:0.910 blue:0.608 alpha:1.0];
+            if (!loaded) [timeline update:MSG_TYPE_REPLIES];
+            break;
+            
+        case 3:
+            self.tableView.separatorColor =  [UIColor colorWithRed:0.992 green:0.910 blue:0.800 alpha:1.0];
+            self.tableView.backgroundColor = [UIColor colorWithRed:0.878 green:0.729 blue:0.545 alpha:1.0];
+            if (!loaded) [timeline update:MSG_TYPE_MESSAGES];
     }
     loaded = true;
 }
@@ -163,8 +169,11 @@
 	[imageStore getImage:msg.user delegate:self];
 }
 
-- (void)timelineDidUpdate:(Timeline*)sender {
-	[self.tableView reloadData];
+- (void)timelineDidUpdate:(Timeline*)sender indexPaths:(NSArray*)indexPaths{
+
+    [self.tableView beginUpdates];
+    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+    [self.tableView endUpdates];    
 }
 
 

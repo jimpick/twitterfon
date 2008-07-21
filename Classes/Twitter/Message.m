@@ -70,7 +70,7 @@ static sqlite3_stmt* select_statement = nil;
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
     }
-    sqlite3_bind_int(insert_statement,  1, messageId);
+    sqlite3_bind_int64(insert_statement,  1, messageId);
     sqlite3_bind_int(insert_statement,  2, type);
     sqlite3_bind_int(insert_statement,  3, user.userId);
     sqlite3_bind_text(insert_statement, 4, [user.screenName UTF8String], -1, SQLITE_TRANSIENT);

@@ -7,7 +7,7 @@ static sqlite3_stmt *select_statement = nil;
 
 @interface NSObject (TimelineDelegate)
 - (void)timelineDidReceiveNewMessage:(Timeline*)sender message:(Message*)msg;
-- (void)timelineDidUpdate:(Timeline*)sender;
+- (void)timelineDidUpdate:(Timeline*)sender indexPaths:(NSArray*)indexPaths;
 @end
 
 @implementation Timeline
@@ -44,15 +44,17 @@ static sqlite3_stmt *select_statement = nil;
     [messages addObject:m];
 }
 
-- (void)update:(MessageType)type
+- (void)update:(MessageType)aType
 {
 	if (timelineConn) return;
-	
+    
+    type = type;
+
 	timelineConn = [[TimelineDownloader alloc] initWithDelegate:self];
 	[timelineConn get:type];
 }
 
-- (void)restore:(MessageType)type
+- (void)restore:(MessageType)aType
 {
     sqlite3* database = [DBConnection getSharedDatabase];
 
@@ -63,12 +65,12 @@ static sqlite3_stmt *select_statement = nil;
         }
     }    
 
-    sqlite3_bind_int(select_statement, 1, type);
+    sqlite3_bind_int(select_statement, 1, aType);
     while (sqlite3_step(select_statement) == SQLITE_ROW) {
         Message *m = [[Message alloc] init];
         m.user     = [[User alloc] init];
-        m.messageId   = (int)sqlite3_column_text(select_statement, 0);
-        m.user.userId = (int)sqlite3_column_text(select_statement, 2);
+        m.messageId            = (long)sqlite3_column_int64(select_statement, 0);
+        m.user.userId          = (int)sqlite3_column_int(select_statement, 2);
         m.user.screenName      = [[NSString stringWithUTF8String:(char*)sqlite3_column_text(select_statement, 3)] copy];
         m.user.profileImageUrl = [[NSString stringWithUTF8String:(char*)sqlite3_column_text(select_statement, 4)] copy];
         m.text                 = [[NSString stringWithUTF8String:(char*)sqlite3_column_text(select_statement, 5)] copy];
@@ -84,15 +86,20 @@ static sqlite3_stmt *select_statement = nil;
 	[timelineConn autorelease];
 	timelineConn = nil;
 
+    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
 	long lastMessageId = 0;
-	if ([messages count] > 0) lastMessageId = ((Message*)[messages objectAtIndex:0]).messageId;
+	if ([messages count] > 0) lastMessageId = ((Message*)[messages lastObject]).messageId;
 	
 	if (delegate) {
-		int i;
-		for (i=0; i < [ary count]; ++i) {
-			Message* m = [ary objectAtIndex:i];
-			if (m.messageId > lastMessageId) {
+		int i, j = 0;
+        for (i=[ary count]-1; i >= 0; --i) {
+            long messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longValue];
+			if (messageId > lastMessageId) {
+                Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type];                
 				[messages addObject:m];
+                
+                [indexPaths addObject:[NSIndexPath indexPathForRow:j inSection:0]];
+                ++j;
 				
 				if ([delegate respondsToSelector:@selector(timelineDidReceiveNewMessage:message:)]) {
 					[delegate timelineDidReceiveNewMessage:self message:m];
@@ -100,8 +107,8 @@ static sqlite3_stmt *select_statement = nil;
 			}
 		}
 		
-		if ([delegate respondsToSelector:@selector(timelineDidUpdate:)]) {
-			[delegate timelineDidUpdate:self];
+		if ([delegate respondsToSelector:@selector(timelineDidUpdate:indexPaths:)]) {
+			[delegate timelineDidUpdate:self indexPaths:indexPaths];
 		}
 	}
 }
