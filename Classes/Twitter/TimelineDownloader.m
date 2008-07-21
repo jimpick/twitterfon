@@ -47,7 +47,7 @@ NSString* sMethods[3] = {
 	[super dealloc];
 }
 
-- (void)get:(MessageType)aType
+- (void)get:(MessageType)aType since_id:(long)since_id
 {
 	[conn release];
 	[buf release];
@@ -63,16 +63,18 @@ NSString* sMethods[3] = {
 #ifdef DEBUG_WITH_PUBLIC_TIMELINE
 	NSString* url = @"http://twitter.com/statuses/public_timeline.json";
 #else
-
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
     type = aType;
+    
+    if (since_id <= 0) since_id = 1;
 
-	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/%@.json",
-                              username,
-                              password,
-                              sMethods[type]];
+	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/%@.json?since_id=%d",
+                     username,
+                     password,
+                     sMethods[type],
+                     since_id];
 
     NSLog(@"%@", url);
 #endif
@@ -159,7 +161,7 @@ NSString* sMethods[3] = {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
 	NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
-
+    
     [conn autorelease];
     conn = nil;
     [buf autorelease];
@@ -180,6 +182,9 @@ NSString* sMethods[3] = {
         if (delegate && [delegate respondsToSelector:@selector(timelineDownloaderDidSucceed:messages:)]) {
             [delegate timelineDownloaderDidSucceed:self messages:ary];
         }
+    }
+    else {
+        NSLog(@"Null or wrong response: %@", s);
     }
 }
 

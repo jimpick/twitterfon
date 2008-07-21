@@ -154,9 +154,12 @@
    
     NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil];
     [timeline insertMessage:message];
-    [self.tableView beginUpdates];
-    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
-    [self.tableView endUpdates];    
+
+    if (tab && tab.selectedIndex == self.tabBarItem.tag) {
+        [self.tableView beginUpdates];
+        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView endUpdates];
+    }
 }
 
 //

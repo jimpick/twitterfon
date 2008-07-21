@@ -81,7 +81,7 @@
 
 - (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)message
 {
-    UIViewController *view = [tab.viewControllers objectAtIndex:1];
+    UIViewController *view = [tab.viewControllers objectAtIndex:TAB_FRIENDS];
     if ([view respondsToSelector:@selector(postTweetDidSucceed:)]) {
         [view postTweetDidSucceed:message];
     }      

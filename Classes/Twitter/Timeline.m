@@ -51,7 +51,10 @@ static sqlite3_stmt *select_statement = nil;
     type = aType;
 
 	timelineConn = [[TimelineDownloader alloc] initWithDelegate:self];
-	[timelineConn get:type];
+
+	long lastMessageId = 0;
+	if ([messages count] > 0) lastMessageId = ((Message*)[messages lastObject]).messageId;    
+	[timelineConn get:type since_id:lastMessageId];
 }
 
 - (void)restore:(MessageType)aType
