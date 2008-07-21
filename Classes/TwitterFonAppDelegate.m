@@ -43,7 +43,9 @@
 
     //NSLog(@"%@ %@", username, password);
 
-    if (username == nil || password == nil) {
+    if (username == nil || password == nil ||
+        [username compare:@""] == 0 ||
+        [password compare:@""] == 0) {
         tabBarController.selectedIndex = 4;
     }
     else {

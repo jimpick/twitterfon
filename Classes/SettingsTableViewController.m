@@ -29,6 +29,14 @@
     }
 }
 
+- (void) saveSettings
+{
+    [[NSUserDefaults standardUserDefaults] setObject:usernameField.text forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setObject:passwordField.text forKey:@"password"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
 	if (self = [super initWithStyle:style]) {
@@ -82,7 +90,14 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+    if (textField == usernameField) {
+        [passwordField becomeFirstResponder];
+    }
+    else {
+        [textField resignFirstResponder];
+        [self saveSettings];
+        
+    }
     return YES;
 }
 
@@ -91,10 +106,7 @@
     [usernameField resignFirstResponder];
     [passwordField resignFirstResponder];
 
-    [[NSUserDefaults standardUserDefaults] setObject:usernameField.text forKey:@"username"];
-    [[NSUserDefaults standardUserDefaults] setObject:passwordField.text forKey:@"password"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-
+    [self saveSettings];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
