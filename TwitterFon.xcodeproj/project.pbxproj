@@ -15,6 +15,7 @@
 		6EDC01240E33E6DA00FF142E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */; };
 		6EDC012F0E33E6F000FF142E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */; };
 		6EDC015D0E33E75700FF142E /* imagesdb.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6EDC015C0E33E75700FF142E /* imagesdb.sql */; };
+		6EDC01D10E344B5600FF142E /* DBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC01D00E344B5600FF142E /* DBConnection.m */; };
 		6EED142A0E33E59B00C71EA4 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14060E33E59B00C71EA4 /* ImageDownloader.m */; };
 		6EED142B0E33E59B00C71EA4 /* ImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14080E33E59B00C71EA4 /* ImageStore.m */; };
 		6EED142C0E33E59B00C71EA4 /* ProfileImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED140A0E33E59B00C71EA4 /* ProfileImage.m */; };
@@ -55,6 +56,8 @@
 		6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6EDC015C0E33E75700FF142E /* imagesdb.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = imagesdb.sql; sourceTree = "<group>"; };
+		6EDC01CF0E344B5600FF142E /* DBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBConnection.h; sourceTree = "<group>"; };
+		6EDC01D00E344B5600FF142E /* DBConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBConnection.m; sourceTree = "<group>"; };
 		6EED14050E33E59B00C71EA4 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		6EED14060E33E59B00C71EA4 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
 		6EED14070E33E59B00C71EA4 /* ImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageStore.h; sourceTree = "<group>"; };
@@ -119,6 +122,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				6EDC01CE0E344B5600FF142E /* DB */,
 				6EED14040E33E59B00C71EA4 /* ImageStore */,
 				6EED140B0E33E59B00C71EA4 /* JSON */,
 				6EED14130E33E59B00C71EA4 /* MessageCell.h */,
@@ -190,6 +194,15 @@
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6EDC01CE0E344B5600FF142E /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				6EDC01CF0E344B5600FF142E /* DBConnection.h */,
+				6EDC01D00E344B5600FF142E /* DBConnection.m */,
+			);
+			path = DB;
 			sourceTree = "<group>";
 		};
 		6EED14040E33E59B00C71EA4 /* ImageStore */ = {
@@ -332,6 +345,7 @@
 				6EED14380E33E59B00C71EA4 /* TimelineDownloader.m in Sources */,
 				6EED14390E33E59B00C71EA4 /* User.m in Sources */,
 				6EDC01160E33E69600FF142E /* TwitterFonAppDelegate.m in Sources */,
+				6EDC01D10E344B5600FF142E /* DBConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

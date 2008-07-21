@@ -39,7 +39,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [friendTimeline countMessages];
+	return [timeline countMessages];
 }
 
 
@@ -47,7 +47,7 @@
 	static NSString* MyIdentifier = @"MessageCell";
 	
 	MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-	Message* m = [friendTimeline messageAtIndex:indexPath.row];
+	Message* m = [timeline messageAtIndex:indexPath.row];
 	if (!cell) {
 		cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 	}
@@ -84,7 +84,7 @@
     CGRect bounds;
     CGRect result;
     UILabel *textLabel = [[UILabel alloc] initWithFrame: CGRectZero];
-    Message *m = [friendTimeline messageAtIndex:indexPath.row];
+    Message *m = [timeline messageAtIndex:indexPath.row];
     
     textLabel.font = [UIFont systemFontOfSize:13];
     textLabel.numberOfLines = 10;
@@ -102,7 +102,7 @@
 {
     NSArray* views = [tab viewControllers];
     PostViewController *postView = (PostViewController*)[views objectAtIndex:0];
-  	Message* m = [friendTimeline messageAtIndex:indexPath.row];
+  	Message* m = [timeline messageAtIndex:indexPath.row];
     tab.selectedIndex = 0;
     if (index != 3) {
         postView.text.text  = [NSString stringWithFormat:@"%@@%@ ", postView.text.text, m.user.screenName];
@@ -117,7 +117,7 @@
 {
     
     NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil];
-    [friendTimeline insertMessage:message];
+    [timeline insertMessage:message];
     [self.tableView beginUpdates];
     [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
     [self.tableView endUpdates];    
@@ -133,17 +133,17 @@
     tab = tabBar;
     if (index == 1) {
         self.tableView.separatorColor = [UIColor colorWithRed:0.784 green:0.969 blue:0.996 alpha:1.0];
-        if (!loaded) [friendTimeline update:@"statuses/friends_timeline"];
+        if (!loaded) [timeline update:@"statuses/friends_timeline"];
     }
     else if (index == 2) {
         self.tableView.separatorColor =  [UIColor colorWithRed:0.894 green:1.000 blue:0.800 alpha:1.0];
         self.tableView.backgroundColor = [UIColor colorWithRed:0.745 green:0.910 blue:0.608 alpha:1.0];
-        if (!loaded) [friendTimeline update:@"statuses/replies"];
+        if (!loaded) [timeline update:@"statuses/replies"];
     }
     else if (index == 3) {
         self.tableView.separatorColor =  [UIColor colorWithRed:0.992 green:0.910 blue:0.800 alpha:1.0];
         self.tableView.backgroundColor = [UIColor colorWithRed:0.878 green:0.729 blue:0.545 alpha:1.0];
-        if (!loaded) [friendTimeline update:@"direct_messages"];
+        if (!loaded) [timeline update:@"direct_messages"];
     }
     loaded = true;
 }

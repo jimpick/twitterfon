@@ -1,15 +1,13 @@
 #import "ProfileImage.h"
 #import "ImageDownloader.h"
+#import "DBConnection.h"
 
 @interface NSObject (ImageStoreDelegate)
 - (void)imageStoreDidGetNewImage:(UIImage*)image;
 @end
 
 //sqlite3 statements
-static sqlite3*             theDatabase = nil;
-
 static sqlite3_stmt *insert_statement = nil;
-static sqlite3_stmt *delete_statement = nil;
 static sqlite3_stmt *select_statement = nil;
 static sqlite3_stmt *update_statement = nil;
 
@@ -24,44 +22,12 @@ static sqlite3_stmt *update_statement = nil;
 @synthesize image;
 @synthesize user;
 
-+ (sqlite3*)getSharedDatabase
-{
-    if (theDatabase == nil) {
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"imagesdb.sql"];
-        // Open the database. The database was prepared outside the application.
-        if (sqlite3_open([path UTF8String], &theDatabase) != SQLITE_OK) {
-            // Even though the open failed, call close to properly clean up resources.
-            sqlite3_close(theDatabase);
-            NSAssert1(0, @"Failed to open database with message '%s'.", sqlite3_errmsg(theDatabase));
-            // Additional error handling, as appropriate...
-        }
-    }
-    return theDatabase;
-}
-
-+ (void)garbageCollection
-{
-    sqlite3* db = [ProfileImage getSharedDatabase];
-    sqlite3_stmt *statement;
-    const char *sql = "SELECT count(uid) from images";
-    if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
-        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(db));
-    }    
-    if (sqlite3_step(statement) == SQLITE_ROW) {
-        int count = sqlite3_column_int(statement, 0);
-        NSLog(@"Database row count = %d", count);
-    }
-    sqlite3_finalize(statement);
-}
-
 - (ProfileImage*)initWithUser:(User*)aUser delegate:(id)aDelegate
 {
 	self = [super init];
     user = aUser;
     delegate = aDelegate;
-    database = [ProfileImage getSharedDatabase];
+    database = [DBConnection getSharedDatabase];
 	
     if (select_statement == nil) {
         const char *sql = "SELECT url, image FROM images WHERE uid=?";
@@ -125,7 +91,7 @@ static sqlite3_stmt *update_statement = nil;
 - (void)insertImage:(ImageDownloader*)sender
 {
     if (insert_statement == nil) {
-        static char *sql = "INSERT INTO images VALUES(?, ?, ?)";
+        static char *sql = "INSERT INTO images VALUES(?, ?, ?, DATETIME('now'))";
         if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
@@ -154,7 +120,7 @@ static sqlite3_stmt *update_statement = nil;
         [self updateImage:sender];
     }
     else {
-//        [self insertImage:sender];
+        [self insertImage:sender];
     }
 
 	if (delegate && [delegate respondsToSelector:@selector(imageStoreDidGetNewImage:)]) {

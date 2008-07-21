@@ -40,34 +40,22 @@
 			<object class="IBUITabBarController" id="1034742383">
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-				<object class="IBUIViewController" key="IBUISelectedViewController" id="543814472">
-					<string key="IBUITitle">Settings</string>
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="983218240">
-						<string key="IBUITitle">Settings</string>
+				<object class="IBUIViewController" key="IBUISelectedViewController" id="427445922">
+					<string key="IBUITitle">Post</string>
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="371320876">
+						<string key="IBUITitle">Post</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">settings.png</string>
+							<string key="NSResourceName">post.png</string>
 						</object>
 						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="1034742383"/>
-					<string key="IBUINibName">SettingsView</string>
+					<string key="IBUINibName">PostView</string>
 				</object>
 				<object class="NSMutableArray" key="IBUIViewControllers">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="IBUIViewController" id="427445922">
-						<string key="IBUITitle">Post</string>
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="371320876">
-							<string key="IBUITitle">Post</string>
-							<object class="NSCustomResource" key="IBUIImage">
-								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">post.png</string>
-							</object>
-							<reference key="IBUITabBar"/>
-						</object>
-						<reference key="IBUIParentViewController" ref="1034742383"/>
-						<string key="IBUINibName">PostView</string>
-					</object>
+					<reference ref="427445922"/>
 					<object class="IBUIViewController" id="1024858337">
 						<string key="IBUITitle">Timeline</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="765670903">
@@ -107,7 +95,19 @@
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<string key="IBUINibName">TimelineView</string>
 					</object>
-					<reference ref="543814472"/>
+					<object class="IBUIViewController" id="543814472">
+						<string key="IBUITitle">Settings</string>
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="983218240">
+							<string key="IBUITitle">Settings</string>
+							<object class="NSCustomResource" key="IBUIImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">settings.png</string>
+							</object>
+							<reference key="IBUITabBar"/>
+						</object>
+						<reference key="IBUIParentViewController" ref="1034742383"/>
+						<string key="IBUINibName">SettingsView</string>
+					</object>
 				</object>
 				<object class="IBUITabBar" key="IBUITabBar" id="795333663">
 					<nil key="NSNextResponder"/>
@@ -314,7 +314,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UIApplication</string>
 					<string>UIResponder</string>
-					<string>{{449, 556}, {320, 480}}</string>
+					<string>{{635, 457}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>TimelineViewController</string>

@@ -5,7 +5,7 @@
 
 @interface TimelineViewController : UITableViewController {
     IBOutlet ImageStore* imageStore;
-	IBOutlet Timeline*   friendTimeline;
+	IBOutlet Timeline*   timeline;
     UITabBarController*  tab;
     int                  index;
     NSString*            username;
