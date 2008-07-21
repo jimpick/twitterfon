@@ -8,6 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "PostViewController.h"
+#import "TwitterFonAppDelegate.h"
 
 @interface NSObject (PostTweetDelegate)
 - (void)postTweetDidSucceed:(Message*)message;
@@ -31,7 +32,7 @@
 - (IBAction) cancel: (id) sender
 {
     [text resignFirstResponder];
-    tab.selectedIndex = 1;
+    tab.selectedIndex = TAB_FRIENDS;
 }
 
 - (IBAction) send: (id) sender
@@ -39,7 +40,7 @@
     post = [[PostTweet alloc] initWithDelegate:self];
     [post post:text.text];
     [text resignFirstResponder];
-    tab.selectedIndex = 1;
+    tab.selectedIndex = TAB_FRIENDS;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -88,7 +89,7 @@
 
 - (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error
 {
-    tab.selectedIndex = 0;
+    tab.selectedIndex = TAB_POST;
 }
 
 - (void)setCharCount

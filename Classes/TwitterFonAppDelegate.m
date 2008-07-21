@@ -16,6 +16,7 @@
 @interface NSObject (PostViewControllerDelegate)
 - (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
 - (void)didLeaveViewController;
+- (void)loadTimeline;
 @end
 
 @interface TwitterFonAppDelegate (Private)
@@ -47,12 +48,20 @@
     if (username == nil || password == nil ||
         [username compare:@""] == 0 ||
         [password compare:@""] == 0) {
-        tabBarController.selectedIndex = 4;
+        tabBarController.selectedIndex = TAB_SETTINGS;
     }
     else {
-        tabBarController.selectedIndex = 1;
+        tabBarController.selectedIndex = TAB_FRIENDS;
     }
     previousViewIndex = tabBarController.selectedIndex;
+/*    
+    for (int i = 0; i < [tabBarController.viewControllers count]; ++i) {
+        UIViewController *v = [tabBarController.viewControllers objectAtIndex:i];
+       if ([v respondsToSelector:@selector(loadTimeline)]) {
+           [v loadTimeline];
+       }
+    }
+*/    
 	[window addSubview:tabBarController.view];
 }
 

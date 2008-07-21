@@ -20,26 +20,33 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-
     int tag = self.tabBarItem.tag;
-    [timeline restore:tag - 1];
-    
+
     switch (tag) {
-        case 1:
+        case TAB_FRIENDS:
             self.tableView.separatorColor = [UIColor friendColorBorder];
-            [timeline update:MSG_TYPE_FRIENDS];
             break;
             
-        case 2:
+        case TAB_REPLIES:
             self.tableView.separatorColor =  [UIColor repliesColorBorder];
             self.tableView.backgroundColor = [UIColor repliesColor];
-            [timeline update:MSG_TYPE_REPLIES];
             break;
             
-        case 3:
+        case TAB_MESSAGES:
             self.tableView.separatorColor =  [UIColor messageColorBorder];
             self.tableView.backgroundColor = [UIColor messageColor];
             [timeline update:MSG_TYPE_MESSAGES];
+    }
+    [timeline restore:tag - 1];
+    [timeline update:tag - 1];
+}
+
+- (void) loadTimeline
+{
+    int index = self.tabBarItem.tag - 1;
+    [timeline restore:index];
+    if (index != MSG_TYPE_MESSAGES) {
+        [timeline update:index];
     }
 }
 
@@ -74,8 +81,8 @@
 	cell.message = m;
     cell.image = [imageStore getImage:m.user delegate:self];
 
-    int index = self.tabBarItem.tag;
-    if (index == 1) {
+    int tag = self.tabBarItem.tag;
+    if (tag == TAB_FRIENDS) {
         NSString *str = [NSString stringWithFormat:@"@%@", username];
         NSRange r = [m.text rangeOfString:str];
         if (r.location != NSNotFound) {
@@ -85,10 +92,10 @@
             cell.contentView.backgroundColor = [UIColor friendColor:m.unread];
         }
     }
-    else if (index == 2) {
+    else if (tag == TAB_REPLIES) {
         cell.contentView.backgroundColor = [UIColor repliesColor:m.unread];
     }
-    else if (index == 3) {
+    else if (tag == TAB_MESSAGES) {
         cell.contentView.backgroundColor = [UIColor messageColor:m.unread];
     }
     
@@ -132,8 +139,8 @@
     NSArray* views = [tab viewControllers];
     PostViewController *postView = (PostViewController*)[views objectAtIndex:0];
   	Message* m = [timeline messageAtIndex:indexPath.row];
-    tab.selectedIndex = 0;
-    if (self.tabBarItem.tag != 3) {
+    tab.selectedIndex = TAB_POST;
+    if (self.tabBarItem.tag != TAB_MESSAGES) {
         postView.text.text  = [NSString stringWithFormat:@"%@@%@ ", postView.text.text, m.user.screenName];
     }
     else {
@@ -190,8 +197,10 @@
 - (void)timelineDidUpdate:(Timeline*)sender indexPaths:(NSArray*)indexPaths
 {
     self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", [indexPaths count]];
-    [self.tableView beginUpdates];
-    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
-    [self.tableView endUpdates];    
+    if (tab && tab.selectedIndex == self.tabBarItem.tag) {
+        [self.tableView beginUpdates];
+        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView endUpdates];    
+    }
 }
 @end

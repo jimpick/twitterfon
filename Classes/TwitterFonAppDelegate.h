@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    TAB_POST,
+    TAB_FRIENDS,
+    TAB_REPLIES,
+    TAB_MESSAGES,
+    TAB_SETTINGS,
+} TAB_ITEM;
+
 @interface TwitterFonAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
 	IBOutlet UIWindow *window;
 	IBOutlet UITabBarController *tabBarController;
