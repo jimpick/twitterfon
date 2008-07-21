@@ -11,7 +11,8 @@
 
 @property (nonatomic, readonly) NSArray* messages;
 
-- (void)update:(NSString*)method;
+- (void)update:(MessageType)type;
+- (void)restore:(MessageType)type;
 
 - (int)countMessages;
 - (Message*)messageAtIndex:(int)i;

@@ -133,17 +133,18 @@
     tab = tabBar;
     if (index == 1) {
         self.tableView.separatorColor = [UIColor colorWithRed:0.784 green:0.969 blue:0.996 alpha:1.0];
-        if (!loaded) [timeline update:@"statuses/friends_timeline"];
+//        if (!loaded) [timeline restore:MSG_TYPE_FRIENDS];
+        if (!loaded) [timeline update:MSG_TYPE_FRIENDS];
     }
     else if (index == 2) {
         self.tableView.separatorColor =  [UIColor colorWithRed:0.894 green:1.000 blue:0.800 alpha:1.0];
         self.tableView.backgroundColor = [UIColor colorWithRed:0.745 green:0.910 blue:0.608 alpha:1.0];
-        if (!loaded) [timeline update:@"statuses/replies"];
+//        if (!loaded) [timeline update:MSG_TYPE_REPLIES];
     }
     else if (index == 3) {
         self.tableView.separatorColor =  [UIColor colorWithRed:0.992 green:0.910 blue:0.800 alpha:1.0];
         self.tableView.backgroundColor = [UIColor colorWithRed:0.878 green:0.729 blue:0.545 alpha:1.0];
-        if (!loaded) [timeline update:@"direct_messages"];
+//        if (!loaded) [timeline update:MSG_TYPE_MESSAGES];
     }
     loaded = true;
 }

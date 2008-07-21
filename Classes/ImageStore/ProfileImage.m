@@ -30,7 +30,7 @@ static sqlite3_stmt *update_statement = nil;
     database = [DBConnection getSharedDatabase];
 	
     if (select_statement == nil) {
-        const char *sql = "SELECT url, image FROM images WHERE uid=?";
+        const char *sql = "SELECT url, image FROM images WHERE user_id=?";
         int ret;
         if ((ret = sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL)) != SQLITE_OK) {
             NSLog(@"%s", sqlite3_errmsg(database));
@@ -68,7 +68,7 @@ static sqlite3_stmt *update_statement = nil;
 - (void)updateImage:(ImageDownloader*)sender
 {
     if (update_statement == nil) {
-        const char *sql = "UPDATE images set url = ?, image = ? where uid = ?";
+        const char *sql = "UPDATE images set url = ?, image = ?, updated_at = DATETIME('now') where user_id = ?";
         if (sqlite3_prepare_v2(database, sql, -1, &update_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
@@ -116,7 +116,7 @@ static sqlite3_stmt *update_statement = nil;
 - (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
 {
 	image = [[UIImage imageWithData:sender.buf] retain];
-    if (needUpdate) {
+    if (1) {
         [self updateImage:sender];
     }
     else {

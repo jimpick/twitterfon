@@ -9,10 +9,10 @@
 #import "PostTweet.h"
 #import "JSON.h"
 #import "Message.h"
+#import "StringUtil.h"
 
 @interface PostTweet (Private)
 - (void)showDialog:(NSString*)title withMessage:(NSString*)msg;
-- (NSString *) urlencode: (NSString *) url;
 @end
 
 @interface NSObject (PostTweetDelegate)
@@ -21,40 +21,6 @@
 @end
 
 @implementation PostTweet
-
--(NSString *) urlencode: (NSString *) url
-{
-    NSArray *escapeChars = [NSArray arrayWithObjects:@";" , @"/" , @"?" , @":" ,
-                            @"@" , @"&" , @"=" , @"+" ,
-                            @"$" , @"," , @"[" , @"]",
-                            @"#", @"!", @"'", @"(", 
-                            @")", @"*", nil];
-    
-    NSArray *replaceChars = [NSArray arrayWithObjects:@"%3B" , @"%2F" , @"%3F" ,
-                             @"%3A" , @"%40" , @"%26" ,
-                             @"%3D" , @"%2B" , @"%24" ,
-                             @"%2C" , @"%5B" , @"%5D", 
-                             @"%23", @"%21", @"%27",
-                             @"%28", @"%29", @"%2A", nil];
-    
-    int len = [escapeChars count];
-    
-    NSMutableString *temp = [url mutableCopy];
-    
-    int i;
-    for(i = 0; i < len; i++)
-    {
-        
-        [temp replaceOccurrencesOfString: [escapeChars objectAtIndex:i]
-                              withString:[replaceChars objectAtIndex:i]
-                                 options:NSLiteralSearch
-                                   range:NSMakeRange(0, [temp length])];
-    }
-    
-    NSString *out = [NSString stringWithString: temp];
-    
-    return out;
-}
 
 - (id)initWithDelegate:(NSObject*)aDelegate
 {
@@ -83,7 +49,7 @@
 
     NSLog(@"%@", url);
     
-    NSString *postString = [NSString stringWithFormat:@"status=%@&source=TwitterFon", [self urlencode:tweet]];
+    NSString *postString = [NSString stringWithFormat:@"status=%@&source=TwitterFon", [tweet encodeAsURIComponent]];
     
 	url = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)url, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
 	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
@@ -192,7 +158,7 @@
             [self showDialog:@"Server error" withMessage:msg];
         }
         else {
-            Message* m = [Message messageWithJsonDictionary:dic];
+            Message* m = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
             if (delegate && [delegate respondsToSelector:@selector(postTweetDidSucceed:message:)]) {
                 [delegate postTweetDidSucceed:self message:m];
             }

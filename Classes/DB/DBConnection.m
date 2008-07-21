@@ -9,7 +9,7 @@ static sqlite3*             theDatabase = nil;
     if (theDatabase == nil) {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"imagesdb.sql"];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"db.sql"];
         // Open the database. The database was prepared outside the application.
         if (sqlite3_open([path UTF8String], &theDatabase) != SQLITE_OK) {
             // Even though the open failed, call close to properly clean up resources.
@@ -18,24 +18,35 @@ static sqlite3*             theDatabase = nil;
             // Additional error handling, as appropriate...
         }
 
-//        [DBConnection garbageCollection:theDatabase];
+        [DBConnection garbageCollection:theDatabase];
     }
     return theDatabase;
 }
 
+const char * sqls[4] = {
+    "DELETE FROM images WHERE updated_at <= (SELECT user_id FROM images order by updated_at LIMIT 1 OFFSET 1000)",
+    "DELETE FROM timelines WHERE id <= (SELECT id FROM timelines WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 40)",
+    "DELETE FROM timelines WHERE id <= (SELECT id FROM timelines WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 40)",
+    "DELETE FROM timelines WHERE id <= (SELECT id FROM timelines WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 40)"
+};
+
 + (void)garbageCollection:(sqlite3*)db
 {
-    sqlite3_stmt *statement;
-    const char *sql = "SELECT count(uid) from images";
-    if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
-        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(db));
-    }    
-    if (sqlite3_step(statement) == SQLITE_ROW) {
-        int count = sqlite3_column_int(statement, 0);
-        NSLog(@"Database row count = %d", count);
+    sqlite3_stmt* statement;
+    int i;
+    int success;
+    
+    for (i = 0; i < 4; ++i) {
+        if (sqlite3_prepare_v2(db, sqls[i], -1, &statement, NULL) != SQLITE_OK) {
+            NSLog(@"%s", sqlite3_errmsg(db));
+            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(db));
+        }
+        success = sqlite3_step(statement);
+        sqlite3_finalize(statement);
+        if (success != SQLITE_DONE) {
+            NSAssert1(0, @"Error: failed to delete from database with message '%s'.", sqlite3_errmsg(db));
+        }
     }
-    sqlite3_finalize(statement);
-
 }
 
 @end

@@ -10,6 +10,13 @@
 #import "JSON.h"
 #import "Message.h"
 
+static 
+NSString* sMethods[3] = {
+    @"statuses/friends_timeline",
+    @"statuses/replies",
+    @"direct_messages",
+};
+
 //#define USE_LOCAL_FILE
 #define FILE_NAME "/Users/kaz/work/iphone/TwitterPhox/etc/error.json"
 
@@ -22,7 +29,6 @@
 
 @interface TimelineDownloader (Private)
 - (void)showDialog:(NSString*)title withMessage:(NSString*)msg;
-- (void)get:(NSString*)method;
 @end
 
 @implementation TimelineDownloader
@@ -41,7 +47,7 @@
 	[super dealloc];
 }
 
-- (void)get:(NSString*)aMethod
+- (void)get:(MessageType)aType
 {
 	[conn release];
 	[buf release];
@@ -61,12 +67,12 @@
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
-    method = aMethod;
+    type = aType;
 
 	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/%@.json",
                               username,
                               password,
-                              method];
+                              sMethods[type]];
 
     NSLog(@"%@", url);
 #endif
@@ -131,7 +137,7 @@
 	buf = nil;
 
     NSString *msg = [NSString stringWithFormat:@"Error: %@ (request: %@)",
-                              [error localizedDescription], method];
+                              [error localizedDescription], sMethods[type]];
 
     [self showDialog:@"Connection Failed" withMessage:msg];
 
@@ -175,7 +181,7 @@
         NSArray *ary = (NSArray*)obj;
         int i;
         for (i=[ary count]-1; i >= 0; --i) {
-            Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i]];
+            Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type];
             [messages addObject:m];
         }
 	

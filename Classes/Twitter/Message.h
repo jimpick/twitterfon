@@ -1,30 +1,25 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
+#import "sqlite3.h"
+
+typedef enum {
+    MSG_TYPE_FRIENDS = 0,
+    MSG_TYPE_REPLIES,
+    MSG_TYPE_MESSAGES,
+} MessageType;
 
 @interface Message : NSObject
 {
-	long messageId;
-	NSString* text;
-	NSString* createdAt;
-	long inReplyToStatusId;
-	long inReplyToUserId;
-	NSString* source;
-	BOOL favorited;
-	BOOL truncated;
-	User* user;
+	long        messageId;
+	NSString*   text;
+	User*       user;
 }
 
-@property (nonatomic, readonly) long messageId;
-@property (nonatomic, readonly) NSString* text;
-@property (nonatomic, readonly) NSString* createdAt;
-@property (nonatomic, readonly) long inReplyToStatusId;
-@property (nonatomic, readonly) long inReplyToUserId;
-@property (nonatomic, readonly) NSString* source;
-@property (nonatomic, readonly) BOOL favorited;
-@property (nonatomic, readonly) BOOL truncated;
-@property (nonatomic, readonly) User* user;
+@property (nonatomic, assign) long messageId;
+@property (nonatomic, assign) NSString* text;
+@property (nonatomic, assign) User* user;
 
-+ (Message*)messageWithJsonDictionary:(NSDictionary*)dic;
-- (Message*)initWithJsonDictionary:(NSDictionary*)dic;
++ (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type;
+- (Message*)initWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type;
 
 @end

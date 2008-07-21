@@ -77,11 +77,11 @@
     NSError *error;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:@"imagesdb.sql"];
+    NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:@"db.sql"];
     success = [fileManager fileExistsAtPath:writableDBPath];
     if (success) return;
     // The writable database does not exist, so copy the default to the appropriate location.
-    NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"imagesdb.sql"];
+    NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"db.sql"];
     success = [fileManager copyItemAtPath:defaultDBPath toPath:writableDBPath error:&error];
     if (!success) {
         NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);

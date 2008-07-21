@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "Message.h"
 
 @interface ImageDownloader : NSObject
 {
