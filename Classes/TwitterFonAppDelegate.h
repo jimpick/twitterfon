@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PostViewController.h"
 
 typedef enum {
-    TAB_POST,
     TAB_FRIENDS,
     TAB_REPLIES,
     TAB_MESSAGES,
@@ -17,13 +17,15 @@ typedef enum {
 } TAB_ITEM;
 
 @interface TwitterFonAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
-	IBOutlet UIWindow *window;
-	IBOutlet UITabBarController *tabBarController;
-    NSString*   username;
-    int         previousViewIndex;
+	IBOutlet UIWindow*              window;
+	IBOutlet UITabBarController*    tabBarController;
+    IBOutlet PostViewController*    postView;
+    NSString*                       username;
+    int                             previousViewIndex;
 }
 
-@property (nonatomic, retain) UIWindow *window;
-@property (nonatomic, retain) UITabBarController *tabBarController;
+@property (nonatomic, retain) UIWindow*             window;
+@property (nonatomic, retain) UITabBarController*   tabBarController;
+@property (nonatomic, retain) PostViewController*   postView;
 
 @end

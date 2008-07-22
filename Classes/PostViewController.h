@@ -8,23 +8,29 @@
 
 #import <UIKit/UIKit.h>
 #import "PostTweet.h"
-#include "Message.h"
+#import "Message.h"
+#import "SendingWindow.h"
 
 @interface PostViewController : UIViewController {
     IBOutlet UIView*     toolbar;
     IBOutlet UITextView* text;
     IBOutlet UILabel*    charCount;
     IBOutlet UIBarItem*  sendButton;
-    UITabBarController*  tab;
+    IBOutlet NSObject*   delegate;
+    IBOutlet NSObject*   appDelegate;
     PostTweet*           post;
+    
+   	IBOutlet SendingWindow* sendingWindow;
 }
-
-@property (nonatomic, assign) UITextView *text;
 
 - (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)message;
 - (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error;
 
+- (void)startEditWithString:(NSString*)message setDelegate:(id)delegate;
+- (void)startEditWithDelegate:(id)delegate;
+
 - (void) setCharCount;
+
 - (IBAction) cancel: (id) sender;
 - (IBAction) send: (id) sender;
 

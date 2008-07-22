@@ -27,6 +27,7 @@
 
 @synthesize window;
 @synthesize tabBarController;
+@synthesize postView;
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application

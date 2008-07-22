@@ -4,8 +4,11 @@
 #import "MessageCell.h"
 #import "ColorUtils.h"
 
+#define kAnimationKey @"transitionViewAnimation"
+
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
+- (void)didSelectFriend:(Message*)m;
 @end 
 
 @implementation TimelineViewController
@@ -14,13 +17,14 @@
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
 	}
+    
 	return self;
 }
 
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    int tag = self.tabBarItem.tag;
+    tag = [self navigationController].tabBarItem.tag;
 
     switch (tag) {
         case TAB_FRIENDS:
@@ -37,16 +41,16 @@
             self.tableView.backgroundColor = [UIColor messageColor];
             [timeline update:MSG_TYPE_MESSAGES];
     }
-    [timeline restore:tag - 1];
-    [timeline update:tag - 1];
+
+    [timeline restore:tag];
+    [timeline update:tag];
 }
 
 - (void) loadTimeline
 {
-    int index = self.tabBarItem.tag - 1;
-    [timeline restore:index];
-    if (index != MSG_TYPE_MESSAGES) {
-        [timeline update:index];
+    [timeline restore:tag];
+    if (tag != MSG_TYPE_MESSAGES) {
+        [timeline update:tag];
     }
 }
 
@@ -81,7 +85,6 @@
 	cell.message = m;
     cell.image = [imageStore getImage:m.user delegate:self];
 
-    int tag = self.tabBarItem.tag;
     if (tag == TAB_FRIENDS) {
         NSString *str = [NSString stringWithFormat:@"@%@", username];
         NSRange r = [m.text rangeOfString:str];
@@ -113,6 +116,35 @@
 	[super didReceiveMemoryWarning];
 }
 
+- (void) showPostView:(PostViewController*)postView
+{
+    [[self navigationController] setNavigationBarHidden:TRUE animated:YES];
+    
+	CATransition *animation = [CATransition animation];
+    [animation setDelegate:self];
+    [animation setType:kCATransitionMoveIn];
+    [animation setSubtype:kCATransitionFromBottom];
+	[animation setDuration:0.5];
+	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+	
+	[[postView.view layer] addAnimation:animation forKey:kAnimationKey];
+}
+
+- (IBAction) post: (id) sender
+{
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    PostViewController* postView = appDelegate.postView;
+
+    [self.view addSubview:postView.view];
+    [postView startEditWithDelegate:self];
+    [self showPostView:postView];
+}
+
+- (IBAction) reload: (id) sender
+{
+}
+
+
 //
 // UITableViewDelegate
 //
@@ -136,17 +168,31 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray* views = [tab viewControllers];
-    PostViewController *postView = (PostViewController*)[views objectAtIndex:0];
   	Message* m = [timeline messageAtIndex:indexPath.row];
-    tab.selectedIndex = TAB_POST;
-    if (self.tabBarItem.tag != TAB_MESSAGES) {
-        postView.text.text  = [NSString stringWithFormat:@"%@@%@ ", postView.text.text, m.user.screenName];
+    
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    PostViewController* postView = appDelegate.postView;
+    
+    if (postView.view.hidden == false) return;
+
+    NSString *msg;
+    if (tag == MSG_TYPE_MESSAGES) {
+        msg = [NSString stringWithFormat:@"d %@ ", m.user.screenName];
     }
     else {
-        postView.text.text  = [NSString stringWithFormat:@"d %@ %@ ", m.user.screenName, postView.text.text];
+        msg = [NSString stringWithFormat:@"@%@ ", m.user.screenName];
     }
-    [postView setCharCount];
+
+    [self.view addSubview:postView.view];
+    [postView startEditWithString:msg setDelegate:self];
+
+    [self showPostView:postView];
+
+}
+
+- (void)postViewAnimationDidStart
+{
+    [[self navigationController] setNavigationBarHidden:FALSE animated:YES];
 }
 
 - (void)postTweetDidSucceed:(Message*)message
@@ -155,7 +201,7 @@
     NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil];
     [timeline insertMessage:message];
 
-    if (tab && tab.selectedIndex == self.tabBarItem.tag) {
+    if (!self.view.hidden) {
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
         [self.tableView endUpdates];
@@ -168,7 +214,7 @@
 - (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)aUsername
 {
     username = aUsername;
-    tab = tabBar;
+//    tab = tabBar;
 }
 
 - (void)didLeaveViewController
@@ -200,7 +246,7 @@
 - (void)timelineDidUpdate:(Timeline*)sender indexPaths:(NSArray*)indexPaths
 {
     self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", [indexPaths count]];
-    if (tab && tab.selectedIndex == self.tabBarItem.tag) {
+    if (!self.view.hidden) {
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
         [self.tableView endUpdates];    

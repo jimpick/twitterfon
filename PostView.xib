@@ -90,14 +90,6 @@
 								<int key="IBUISystemItemIdentifier">5</int>
 								<reference key="IBUIToolbar" ref="895108448"/>
 							</object>
-							<object class="IBUIBarButtonItem" id="825098275">
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">library.png</string>
-								</object>
-								<int key="IBUIStyle">1</int>
-								<reference key="IBUIToolbar" ref="895108448"/>
-							</object>
 							<object class="IBUIBarButtonItem" id="461837085">
 								<int key="IBUIStyle">1</int>
 								<int key="IBUISystemItemIdentifier">15</int>
@@ -283,7 +275,6 @@
 						<reference key="object" ref="895108448"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="825098275"/>
 							<reference ref="338592812"/>
 							<reference ref="461837085"/>
 							<reference ref="78299126"/>
@@ -291,11 +282,6 @@
 							<reference ref="263716746"/>
 						</object>
 						<reference key="parent" ref="191373211"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">21</int>
-						<reference key="object" ref="825098275"/>
-						<reference key="parent" ref="895108448"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">20</int>
@@ -342,7 +328,6 @@
 					<string>17.IBPluginDependency</string>
 					<string>19.IBPluginDependency</string>
 					<string>20.IBPluginDependency</string>
-					<string>21.IBPluginDependency</string>
 					<string>22.IBPluginDependency</string>
 					<string>29.IBPluginDependency</string>
 					<string>7.IBPluginDependency</string>
@@ -353,7 +338,6 @@
 					<string>PostViewController</string>
 					<string>UIResponder</string>
 					<string>{{1175, 633}, {320, 480}}</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -399,6 +383,14 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">PostTweet</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">Classes/Twitter/PostTweet.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">PostViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
@@ -406,11 +398,15 @@
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>cancel:</string>
+							<string>postTweetDidFail:error:</string>
+							<string>postTweetDidSucceed:message:</string>
 							<string>send:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
+							<string>PostTweet</string>
+							<string>PostTweet</string>
 							<string>id</string>
 						</object>
 					</object>
@@ -439,7 +435,7 @@
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.LastKnownRelativeProjectPath">TwitterPhox.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">TwitterFon.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 	</data>
 </archive>
