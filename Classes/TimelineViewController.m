@@ -159,6 +159,7 @@
 
 - (IBAction) reload: (id) sender
 {
+    [timeline update:tag];
 }
 
 
