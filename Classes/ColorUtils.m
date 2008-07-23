@@ -55,7 +55,7 @@ static UIColor *messageColorBorder  = nil;
     if (repliesColorUnread == nil) {
         repliesColorUnread = [[UIColor colorWithRed:0.671 green:0.898 blue:0.443 alpha:1.0] retain];
     }
-    return unread ? repliesColorUnread : repliesColor;
+    return unread ? repliesColorUnread : [UIColor repliesColor];
 }
 + (UIColor*)repliesColorBorder
 {
@@ -76,7 +76,7 @@ static UIColor *messageColorBorder  = nil;
     if (messageColorUnread == nil) {
         messageColorUnread = [[UIColor colorWithRed:0.898 green:0.671 blue:0.443 alpha:1.0] retain];
     }
-    return unread ? messageColorUnread : messageColor;
+    return unread ? messageColorUnread : [UIColor messageColor];
 }
 + (UIColor*)messageColorBorder
 {
