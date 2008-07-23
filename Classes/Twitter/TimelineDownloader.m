@@ -70,7 +70,7 @@ NSString* sMethods[3] = {
     
     if (since_id <= 0) since_id = 1;
 
-	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/%@.json?since_id=%d",
+	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/%@.json",
                      username,
                      password,
                      sMethods[type],
@@ -95,6 +95,7 @@ NSString* sMethods[3] = {
 {
     NSHTTPURLResponse* res = (NSHTTPURLResponse*)response;
     if (res) {
+        NSLog(@"Response: %d", res.statusCode);
         switch (res.statusCode) {
 
         case 401:
@@ -160,8 +161,7 @@ NSString* sMethods[3] = {
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
-	NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
-    
+    NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
     [conn autorelease];
     conn = nil;
     [buf autorelease];
