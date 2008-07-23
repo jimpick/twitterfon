@@ -85,11 +85,7 @@
 {
     post = [[PostTweet alloc] initWithDelegate:self];
     [post post:text.text];
-    sendingWindow.windowLevel = UIWindowLevelAlert;
-    [sendingWindow makeKeyAndVisible];
-    sendingWindow.label.text = @"Sending...";
-    sendingWindow.label.font = [UIFont boldSystemFontOfSize:18];
-    [sendingWindow.indicator startAnimating];
+    [sendingWindow show];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -105,8 +101,7 @@
 
 - (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)message
 {
-    [sendingWindow resignKeyWindow];
-    sendingWindow.hidden = true;
+    [sendingWindow hide];
     
     if ([delegate respondsToSelector:@selector(postTweetDidSucceed:)]) {
         [delegate postTweetDidSucceed:message];
@@ -120,18 +115,11 @@
 
 - (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error
 {
-    [sendingWindow.indicator stopAnimating];
-    sendingWindow.label.text = @"Failed to send a tweet";
+    [sendingWindow fail];
     [post autorelease];
 
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(disableSendingWindow:) userInfo:nil repeats:NO];
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:3 target:sendingWindow selector:@selector(hide) userInfo:nil repeats:NO];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-}
-
-- (void)disableSendingWindow:(NSTimer*)timer
-{
-    [sendingWindow resignKeyWindow];
-    sendingWindow.hidden = true;
 }
 
 - (void)setCharCount

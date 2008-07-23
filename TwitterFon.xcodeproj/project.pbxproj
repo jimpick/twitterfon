@@ -18,6 +18,7 @@
 		6E2BD3D30E35D52E003A8F69 /* SendingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2BD3D20E35D52E003A8F69 /* SendingWindow.m */; };
 		6E8774820E347F2E00EBE275 /* StringUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8774810E347F2E00EBE275 /* StringUtil.m */; };
 		6E8776880E34931300EBE275 /* ColorUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8776870E34931300EBE275 /* ColorUtils.m */; };
+		6EAF29400E36F97E00129692 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EAF293F0E36F97E00129692 /* alert.png */; };
 		6EDC01160E33E69600FF142E /* TwitterFonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC01150E33E69600FF142E /* TwitterFonAppDelegate.m */; };
 		6EDC01240E33E6DA00FF142E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */; };
 		6EDC012F0E33E6F000FF142E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */; };
@@ -68,6 +69,7 @@
 		6E8774810E347F2E00EBE275 /* StringUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StringUtil.m; path = Classes/StringUtil.m; sourceTree = "<group>"; };
 		6E8776860E34931300EBE275 /* ColorUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorUtils.h; path = Classes/ColorUtils.h; sourceTree = "<group>"; };
 		6E8776870E34931300EBE275 /* ColorUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorUtils.m; path = Classes/ColorUtils.m; sourceTree = "<group>"; };
+		6EAF293F0E36F97E00129692 /* alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alert.png; sourceTree = "<group>"; };
 		6EDC01140E33E69600FF142E /* TwitterFonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterFonAppDelegate.h; sourceTree = "<group>"; };
 		6EDC01150E33E69600FF142E /* TwitterFonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterFonAppDelegate.m; sourceTree = "<group>"; };
 		6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -285,6 +287,7 @@
 		6EED14400E33E5BF00C71EA4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6EAF293F0E36F97E00129692 /* alert.png */,
 				6E2BD11E0E35B3D2003A8F69 /* Default.png */,
 				6E2BCF1A0E3591B8003A8F69 /* postbutton.png */,
 				6E2BCF250E3596D4003A8F69 /* friends.png */,
@@ -356,6 +359,7 @@
 				6E2BCF1B0E3591B8003A8F69 /* postbutton.png in Resources */,
 				6E2BCF260E3596D4003A8F69 /* friends.png in Resources */,
 				6E2BD11F0E35B3D2003A8F69 /* Default.png in Resources */,
+				6EAF29400E36F97E00129692 /* alert.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

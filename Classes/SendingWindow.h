@@ -12,9 +12,11 @@
 @interface SendingWindow : UIWindow {
     IBOutlet UILabel*                   label;
     IBOutlet UIActivityIndicatorView*   indicator;
+    IBOutlet UIImageView*               alert;
 }
 
-@property(nonatomic, retain) IBOutlet UILabel* label;
-@property(nonatomic, retain) IBOutlet UIActivityIndicatorView *indicator;
+- (void) show;
+- (void) fail;
+- (void) hide;
 
 @end

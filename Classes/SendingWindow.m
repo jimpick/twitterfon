@@ -11,7 +11,29 @@
 
 @implementation SendingWindow
 
-@synthesize label;
-@synthesize indicator;
+- (void) show
+{
+    self.windowLevel = UIWindowLevelAlert;
+    alert.hidden = true;
+    label.text = @"Sending...";
+    label.font = [UIFont boldSystemFontOfSize:18];
+    indicator.hidden = false;
+    [indicator startAnimating];
+    [self makeKeyAndVisible];
+}
+
+- (void) fail
+{
+    alert.hidden = false;
+    indicator.hidden = true;
+    [indicator stopAnimating];
+    label.text = @"Failed to send a tweet";
+}
+
+- (void) hide
+{
+    [self resignKeyWindow];
+    self.hidden = true;
+}
 
 @end
