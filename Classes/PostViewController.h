@@ -19,6 +19,7 @@
     IBOutlet NSObject*   delegate;
     IBOutlet NSObject*   appDelegate;
     PostTweet*           post;
+    BOOL                 didPost;
     
    	IBOutlet SendingWindow* sendingWindow;
 }

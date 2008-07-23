@@ -14,9 +14,8 @@
 
 @interface NSObject (PostTweetDelegate)
 - (void)postTweetDidSucceed:(Message*)message;
-- (void)postTweetDidFail;
 - (void)postViewAnimationDidStart;
-- (void)postViewAnimationDidFinish;
+- (void)postViewAnimationDidFinish:(BOOL)didPost;
 - (void)postViewAnimationDidCancel;
 @end
 
@@ -34,6 +33,21 @@
     self.view.hidden = true;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+}
+
+- (void)viewDidDisappear:(BOOL)animated 
+{
+}
 
 - (void)startEditWithString:(NSString*)message setDelegate:(id)aDelegate
 {
@@ -46,6 +60,7 @@
     delegate = aDelegate;
     [self setCharCount];
     self.view.hidden = false;
+    didPost = false;
     [text becomeFirstResponder];
     NSRange range = {[text.text length], 0};
     text.selectedRange = range;
@@ -54,7 +69,6 @@
 - (IBAction) cancel: (id) sender
 {
     [text resignFirstResponder];
-
     self.view.hidden = true;
     
 	CATransition *animation = [CATransition animation];
@@ -73,6 +87,7 @@
     [post post:text.text];
     sendingWindow.windowLevel = UIWindowLevelAlert;
     [sendingWindow makeKeyAndVisible];
+    sendingWindow.label.text = @"Sending...";
     sendingWindow.label.font = [UIFont boldSystemFontOfSize:18];
     [sendingWindow.indicator startAnimating];
 }
@@ -90,23 +105,33 @@
 
 - (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)message
 {
-//    UIViewController *view = [tab.viewControllers objectAtIndex:TAB_FRIENDS];
-//    if ([view respondsToSelector:@selector(postTweetDidSucceed:)]) {
-//        [view postTweetDidSucceed:message];
-//    }      
     [sendingWindow resignKeyWindow];
     sendingWindow.hidden = true;
     
-    //text.text = @"";
+    if ([delegate respondsToSelector:@selector(postTweetDidSucceed:)]) {
+        [delegate postTweetDidSucceed:message];
+    }       
+    
+    text.text = @"";
     [post autorelease];
     [self cancel:self];
+    didPost = true;
 }
 
 - (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error
 {
-    text.editable = true;
-    [sendingWindow resignKeyWindow];
+    [sendingWindow.indicator stopAnimating];
+    sendingWindow.label.text = @"Failed to send a tweet";
     [post autorelease];
+
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(disableSendingWindow:) userInfo:nil repeats:NO];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+}
+
+- (void)disableSendingWindow:(NSTimer*)timer
+{
+    [sendingWindow resignKeyWindow];
+    sendingWindow.hidden = true;
 }
 
 - (void)setCharCount
@@ -153,8 +178,8 @@
 	
 	// Inform the delegate if it implements the corresponding method
 	if (finished) {
-		if ([delegate respondsToSelector:@selector(postViewAnimationDidFinish)]) {
-			[delegate postViewAnimationDidFinish];
+		if ([delegate respondsToSelector:@selector(postViewAnimationDidFinish:)]) {
+			[delegate postViewAnimationDidFinish:didPost];
         }
 	}
 	else {

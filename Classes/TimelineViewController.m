@@ -7,9 +7,8 @@
 #define kAnimationKey @"transitionViewAnimation"
 
 @interface NSObject (TimelineViewControllerDelegate)
-- (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
-- (void)didSelectFriend:(Message*)m;
-@end 
+- (void)postTweetDidSucceed:(Message*)message;
+@end
 
 @implementation TimelineViewController
 
@@ -25,7 +24,7 @@
 {
 	[super viewDidLoad];
     tag = [self navigationController].tabBarItem.tag;
-
+	username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     switch (tag) {
         case TAB_FRIENDS:
             self.tableView.separatorColor = [UIColor friendColorBorder];
@@ -44,6 +43,27 @@
 
     [timeline restore:tag];
     [timeline update:tag];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+    [self.tableView reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+}
+
+- (void)viewDidDisappear:(BOOL)animated 
+{
+    [self navigationController].tabBarItem.badgeValue = nil;
+    for (int i = 0; i < [timeline countMessages]; ++i) {
+        Message* m = [timeline messageAtIndex:i];
+        m.unread = false;
+    }
 }
 
 - (void) loadTimeline
@@ -118,15 +138,12 @@
 
 - (void) showPostView:(PostViewController*)postView
 {
-    [[self navigationController] setNavigationBarHidden:TRUE animated:YES];
-    
 	CATransition *animation = [CATransition animation];
     [animation setDelegate:self];
     [animation setType:kCATransitionMoveIn];
     [animation setSubtype:kCATransitionFromBottom];
 	[animation setDuration:0.5];
 	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-	
 	[[postView.view layer] addAnimation:animation forKey:kAnimationKey];
 }
 
@@ -135,7 +152,7 @@
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
 
-    [self.view addSubview:postView.view];
+    [[self navigationController].view addSubview:postView.view];
     [postView startEditWithDelegate:self];
     [self showPostView:postView];
 }
@@ -183,7 +200,7 @@
         msg = [NSString stringWithFormat:@"@%@ ", m.user.screenName];
     }
 
-    [self.view addSubview:postView.view];
+    [[self navigationController].view addSubview:postView.view];
     [postView startEditWithString:msg setDelegate:self];
 
     [self showPostView:postView];
@@ -195,36 +212,43 @@
     [[self navigationController] setNavigationBarHidden:FALSE animated:YES];
 }
 
-- (void)postTweetDidSucceed:(Message*)message
+- (void)postViewAnimationDidFinish:(BOOL)didPost
 {
-   
-    NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil];
-    [timeline insertMessage:message];
-
-    if (!self.view.hidden) {
+    if (didPost && tag == TAB_FRIENDS) {
+        //
+        // Do animation if the controller displays friends timeline.
+        //
+        NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
         [self.tableView endUpdates];
     }
 }
 
+- (void)postTweetDidSucceed:(Message*)message
+{
+    if (tag == TAB_FRIENDS) {
+        [timeline insertMessage:message];
+    }
+    else if (tag == TAB_REPLIES) {
+        //
+        //  If the controller doesn't handle friends timeline, pass the message to app delegate then
+        // app delegate passes the message to friends timeline view controller.
+        //
+        // If the view controller is direct messages, do nothing.
+        //
+        NSObject *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+        if (appDelegate && [appDelegate respondsToSelector:@selector(postTweetDidSucceed:)]) {
+            [appDelegate postTweetDidSucceed:message];
+        }
+    }
+}
+
 //
 // UITabBarControllerDelegate
 //
-- (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)aUsername
+- (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
 {
-    username = aUsername;
-//    tab = tabBar;
-}
-
-- (void)didLeaveViewController
-{
-    self.tabBarItem.badgeValue = nil;
-    for (int i = 0; i < [timeline countMessages]; ++i) {
-        Message* m = [timeline messageAtIndex:i];
-        m.unread = false;
-    }
-    [self.tableView reloadData];
 }
 
 //
@@ -245,7 +269,7 @@
 
 - (void)timelineDidUpdate:(Timeline*)sender indexPaths:(NSArray*)indexPaths
 {
-    self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", [indexPaths count]];
+    [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", [indexPaths count]];
     if (!self.view.hidden) {
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];

@@ -164,6 +164,12 @@
             }
         }
     }
+    else {
+        NSLog(@"%@", s);
+        if (delegate && [delegate respondsToSelector:@selector(postTweetDidFail:error:)]) {
+            [delegate postTweetDidFail:self error:nil];
+        }
+    }
 }
 
 - (void)showDialog:(NSString*)title withMessage:(NSString*)msg

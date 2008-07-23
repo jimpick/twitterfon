@@ -12,6 +12,10 @@
 - (void)createEditableCopyOfDatabaseIfNeeded;
 @end
 
+@interface NSObject (TimelineViewControllerDelegate)
+- (void)postTweetDidSucceed:(Message*)message;
+@end
+
 @implementation TwitterFonAppDelegate
 
 @synthesize window;
@@ -52,6 +56,16 @@
 	[tabBarController release];
 	[window release];
 	[super dealloc];
+}
+
+// Bypass posted message to friends timeline view...
+//
+- (void)postTweetDidSucceed:(Message*)message
+{
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
+    UIViewController *c = nav.topViewController;
+    [c postTweetDidSucceed:message];
+    
 }
 
 // Creates a writable copy of the bundled default database in the application Documents directory.
