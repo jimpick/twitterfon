@@ -23,8 +23,10 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    tag = [self navigationController].tabBarItem.tag;
+    unread   = 0;
+    tag      = [self navigationController].tabBarItem.tag;
 	username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    
     switch (tag) {
         case TAB_FRIENDS:
             self.tableView.separatorColor = [UIColor friendColorBorder];
@@ -64,6 +66,7 @@
         Message* m = [timeline messageAtIndex:i];
         m.unread = false;
     }
+    unread = 0;
 }
 
 - (void) loadTimeline
@@ -270,7 +273,8 @@
 
 - (void)timelineDidUpdate:(Timeline*)sender indexPaths:(NSArray*)indexPaths
 {
-    [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", [indexPaths count]];
+    unread += [indexPaths count];
+    [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unread];
     if (!self.view.hidden) {
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];

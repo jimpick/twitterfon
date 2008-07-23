@@ -8,6 +8,7 @@
 	IBOutlet Timeline*              timeline;
     NSString*                       username;
     int                             tag;
+    int                             unread;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
