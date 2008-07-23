@@ -20,8 +20,6 @@ typedef enum {
 	IBOutlet UIWindow*              window;
 	IBOutlet UITabBarController*    tabBarController;
     IBOutlet PostViewController*    postView;
-    NSString*                       username;
-    int                             previousViewIndex;
 }
 
 @property (nonatomic, retain) UIWindow*             window;

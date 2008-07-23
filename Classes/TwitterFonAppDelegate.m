@@ -8,17 +8,6 @@
 
 #import "TwitterFonAppDelegate.h"
 
-
-@interface NSObject (TimelineViewControllerDelegate)
-- (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
-@end
-
-@interface NSObject (PostViewControllerDelegate)
-- (void)didSelectViewController:(UITabBarController*)tabBar username:(NSString*)username;
-- (void)didLeaveViewController;
-- (void)loadTimeline;
-@end
-
 @interface TwitterFonAppDelegate (Private)
 - (void)createEditableCopyOfDatabaseIfNeeded;
 @end
@@ -41,7 +30,7 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
 #endif
-	username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
     //NSLog(@"%@ %@", username, password);
@@ -54,27 +43,8 @@
     else {
         tabBarController.selectedIndex = TAB_FRIENDS;
     }
-    previousViewIndex = tabBarController.selectedIndex;
-/*    
-    for (int i = 0; i < [tabBarController.viewControllers count]; ++i) {
-        UIViewController *v = [tabBarController.viewControllers objectAtIndex:i];
-       if ([v respondsToSelector:@selector(loadTimeline)]) {
-           [v loadTimeline];
-       }
-    }
-*/    
+   
 	[window addSubview:tabBarController.view];
-}
-
-- (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController {
-    if ([viewController respondsToSelector:@selector(didSelectViewController:username:)]) {
-        [viewController didSelectViewController:tabBar username:username];
-    }
-    UIViewController *prev = [[tabBar viewControllers] objectAtIndex:previousViewIndex];
-    if ([prev respondsToSelector:@selector(didLeaveViewController)]) {
-        [prev didLeaveViewController];
-    }
-    previousViewIndex = tabBar.selectedIndex;
 }
 
 - (void)dealloc
