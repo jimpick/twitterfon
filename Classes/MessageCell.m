@@ -28,6 +28,8 @@
     textLabel.contentMode = UIViewContentModeTopLeft;
     [self.contentView addSubview:textLabel];
 
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
 	return self;
 }
 
