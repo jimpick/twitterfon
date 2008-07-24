@@ -11,10 +11,13 @@
 
 @interface WebViewController : UIViewController {
     IBOutlet UIWebView* webView;
+    IBOutlet UIButton*  button;
     NSString*           url;
     BOOL                needsReload;
 }
 
 - (void)setUrl:(NSString*)aUrl;
+
+- (IBAction)reload:(id)sender;
 
 @end

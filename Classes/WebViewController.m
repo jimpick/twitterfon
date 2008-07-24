@@ -13,6 +13,11 @@
 
 #define kAnimationKey @"transitionViewAnimation"
 
+@interface WebViewController(Private)
+- (void)setUrlBar:(NSString*)aUrl;
+@end
+
+
 @implementation WebViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -31,6 +36,8 @@
                                                            action:@selector(postTweet:)];
     self.navigationItem.rightBarButtonItem = postButton;
     needsReload = false;
+    button.font = [UIFont systemFontOfSize:14];
+    button.lineBreakMode = UILineBreakModeTailTruncation;
     url = [[NSString alloc] init];
 }
 
@@ -40,14 +47,40 @@
     if (animated && needsReload) {
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
         self.title = url;
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [self setUrlBar:url];
     }
+}
+
+- (IBAction)reload:(id)sender
+{
+    [webView reload];
+}
+
+- (void)setUrlBar:(NSString*)aUrl
+{
+    [button setTitle:[NSString stringWithFormat:@"  %@", aUrl] forState:UIControlStateDisabled];
+}
+
+- (BOOL)webView:(UIWebView *)aWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    return true;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)aWebView
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)aWebView
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.title = [aWebView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    NSURL *aUrl = aWebView.request.mainDocumentURL;
+    [self setUrlBar:aUrl.absoluteString];
+}
+
+- (void)webView:(UIWebView *)aWebView didFailLoadWithError:(NSError *)error
+{
 }
 
 - (void)setUrl:(NSString*)aUrl

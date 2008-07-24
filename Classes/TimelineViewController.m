@@ -1,6 +1,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "TimelineViewController.h"
 #import "TwitterFonAppDelegate.h"
+#import "WebViewController.h"
+#import "PostViewController.h"
 #import "MessageCell.h"
 #import "ColorUtils.h"
 #import "StringUtil.h"
@@ -198,6 +200,10 @@
     NSString *text = m.text;
     NSMutableArray *array = [[NSMutableArray alloc] init];
     if ([text matches:pat withSubstring:array]) {
+
+        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+        WebViewController *webView = appDelegate.webView;
+        
         webView.hidesBottomBarWhenPushed = YES;
         [webView setUrl:[array objectAtIndex:0]];
         [[self navigationController] pushViewController:webView animated:YES];
