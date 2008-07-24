@@ -2,17 +2,10 @@
 #import "TimelineViewController.h"
 #import "TwitterFonAppDelegate.h"
 #import "MessageCell.h"
-#import "UserCell.h"
 #import "ColorUtils.h"
-
-#define kAnimationKey @"transitionViewAnimation"
 
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)postTweetDidSucceed:(Message*)message;
-@end
-
-@interface TimelineViewController(Private)
-- (void) showPostView:(PostViewController*)postView;
 @end
 
 @implementation TimelineViewController
@@ -161,10 +154,7 @@
     }
     
     [[self navigationController].view addSubview:postView.view];
-    [postView startEditWithString:msg setDelegate:self];
-    
-    [self showPostView:postView];
-    
+    [postView startEditWithString:msg insertAfter:FALSE setDelegate:self];
 }
 
 - (void)dealloc {
@@ -176,17 +166,6 @@
 	[super didReceiveMemoryWarning];
 }
 
-- (void) showPostView:(PostViewController*)postView
-{
-	CATransition *animation = [CATransition animation];
-    [animation setDelegate:self];
-    [animation setType:kCATransitionMoveIn];
-    [animation setSubtype:kCATransitionFromBottom];
-	[animation setDuration:0.5];
-	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-	[[postView.view layer] addAnimation:animation forKey:kAnimationKey];
-}
-
 - (IBAction) post: (id) sender
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
@@ -194,7 +173,6 @@
 
     [[self navigationController].view addSubview:postView.view];
     [postView startEditWithDelegate:self];
-    [self showPostView:postView];
 }
 
 - (IBAction) reload: (id) sender
@@ -227,10 +205,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Message *m = [timeline messageAtIndex:indexPath.row];
-    userTimeline.message = m;
-    [[self navigationController] pushViewController:userTimeline animated:YES];
-
+//    Message *m = [timeline messageAtIndex:indexPath.row];
+    webView.hidesBottomBarWhenPushed = YES;
+    webView.url = @"http://www.naan.net/";
+    [[self navigationController] pushViewController:webView animated:YES];
 }
 
 - (void)postViewAnimationDidStart

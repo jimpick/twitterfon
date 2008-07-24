@@ -16,12 +16,11 @@
 		6E2BD0C10E35AE04003A8F69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */; };
 		6E2BD11F0E35B3D2003A8F69 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BD11E0E35B3D2003A8F69 /* Default.png */; };
 		6E2BD3D30E35D52E003A8F69 /* SendingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2BD3D20E35D52E003A8F69 /* SendingWindow.m */; };
+		6E38EF830E38277F00887690 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E38EF820E38277F00887690 /* WebViewController.m */; };
 		6E8774820E347F2E00EBE275 /* StringUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8774810E347F2E00EBE275 /* StringUtil.m */; };
 		6E8776880E34931300EBE275 /* ColorUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8776870E34931300EBE275 /* ColorUtils.m */; };
 		6E87D23D0E37369300F11DCD /* ProfileImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E87D23B0E37369300F11DCD /* ProfileImageButton.m */; };
-		6E87D4BD0E37466B00F11DCD /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E87D4BC0E37466B00F11DCD /* UserCell.m */; };
 		6EAF29400E36F97E00129692 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EAF293F0E36F97E00129692 /* alert.png */; };
-		6EAF2A440E371BA100129692 /* UserTimelineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAF2A430E371BA100129692 /* UserTimelineController.m */; };
 		6EAF2AED0E3721DC00129692 /* tom_normal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6EAF2AEC0E3721DC00129692 /* tom_normal.jpg */; };
 		6EDC01160E33E69600FF142E /* TwitterFonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC01150E33E69600FF142E /* TwitterFonAppDelegate.m */; };
 		6EDC01240E33E6DA00FF142E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */; };
@@ -69,17 +68,15 @@
 		6E2BD11E0E35B3D2003A8F69 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		6E2BD3D10E35D52E003A8F69 /* SendingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendingWindow.h; sourceTree = "<group>"; };
 		6E2BD3D20E35D52E003A8F69 /* SendingWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendingWindow.m; sourceTree = "<group>"; };
+		6E38EF810E38277F00887690 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		6E38EF820E38277F00887690 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		6E8774800E347F2E00EBE275 /* StringUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringUtil.h; path = Classes/StringUtil.h; sourceTree = "<group>"; };
 		6E8774810E347F2E00EBE275 /* StringUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StringUtil.m; path = Classes/StringUtil.m; sourceTree = "<group>"; };
 		6E8776860E34931300EBE275 /* ColorUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorUtils.h; path = Classes/ColorUtils.h; sourceTree = "<group>"; };
 		6E8776870E34931300EBE275 /* ColorUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorUtils.m; path = Classes/ColorUtils.m; sourceTree = "<group>"; };
 		6E87D23B0E37369300F11DCD /* ProfileImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileImageButton.m; sourceTree = "<group>"; };
 		6E87D23C0E37369300F11DCD /* ProfileImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImageButton.h; sourceTree = "<group>"; };
-		6E87D4BB0E37466B00F11DCD /* UserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCell.h; sourceTree = "<group>"; };
-		6E87D4BC0E37466B00F11DCD /* UserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCell.m; sourceTree = "<group>"; };
 		6EAF293F0E36F97E00129692 /* alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alert.png; sourceTree = "<group>"; };
-		6EAF2A420E371BA100129692 /* UserTimelineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTimelineController.h; sourceTree = "<group>"; };
-		6EAF2A430E371BA100129692 /* UserTimelineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTimelineController.m; sourceTree = "<group>"; };
 		6EAF2AEC0E3721DC00129692 /* tom_normal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = tom_normal.jpg; path = ../../../Desktop/tom_normal.jpg; sourceTree = SOURCE_ROOT; };
 		6EDC01140E33E69600FF142E /* TwitterFonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitterFonAppDelegate.h; path = Classes/TwitterFonAppDelegate.h; sourceTree = "<group>"; };
 		6EDC01150E33E69600FF142E /* TwitterFonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitterFonAppDelegate.m; path = Classes/TwitterFonAppDelegate.m; sourceTree = "<group>"; };
@@ -223,15 +220,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6E8265C70E3750FE005D2370 /* UserTimeline */ = {
+		6E38EF7F0E38275300887690 /* Web View */ = {
 			isa = PBXGroup;
 			children = (
-				6EAF2A420E371BA100129692 /* UserTimelineController.h */,
-				6EAF2A430E371BA100129692 /* UserTimelineController.m */,
-				6E87D4BB0E37466B00F11DCD /* UserCell.h */,
-				6E87D4BC0E37466B00F11DCD /* UserCell.m */,
+				6E38EF810E38277F00887690 /* WebViewController.h */,
+				6E38EF820E38277F00887690 /* WebViewController.m */,
 			);
-			name = UserTimeline;
+			name = "Web View";
 			sourceTree = "<group>";
 		};
 		6E8265C80E375119005D2370 /* Post */ = {
@@ -284,7 +279,7 @@
 				6E8265CA0E37513B005D2370 /* Settings */,
 				6E8265C90E375122005D2370 /* FriendsTimeline */,
 				6E8265C80E375119005D2370 /* Post */,
-				6E8265C70E3750FE005D2370 /* UserTimeline */,
+				6E38EF7F0E38275300887690 /* Web View */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -443,9 +438,8 @@
 				6E8774820E347F2E00EBE275 /* StringUtil.m in Sources */,
 				6E8776880E34931300EBE275 /* ColorUtils.m in Sources */,
 				6E2BD3D30E35D52E003A8F69 /* SendingWindow.m in Sources */,
-				6EAF2A440E371BA100129692 /* UserTimelineController.m in Sources */,
 				6E87D23D0E37369300F11DCD /* ProfileImageButton.m in Sources */,
-				6E87D4BD0E37466B00F11DCD /* UserCell.m in Sources */,
+				6E38EF830E38277F00887690 /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

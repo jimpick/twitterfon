@@ -27,7 +27,7 @@
 - (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)message;
 - (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error;
 
-- (void)startEditWithString:(NSString*)message setDelegate:(id)delegate;
+- (void)startEditWithString:(NSString*)message insertAfter:(BOOL)intertAfter setDelegate:(id)delegate;
 - (void)startEditWithDelegate:(id)delegate;
 
 - (void) setCharCount;

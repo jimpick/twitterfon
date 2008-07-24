@@ -10,7 +10,8 @@
 #import "PostViewController.h"
 #import "TwitterFonAppDelegate.h"
 
-#define kAnimationKey @"transitionViewAnimation2"
+#define kShowAnimationkey @"showAnimation"
+#define kHideAnimationKey @"hideAnimation"
 
 @interface NSObject (PostTweetDelegate)
 - (void)postTweetDidSucceed:(Message*)message;
@@ -30,6 +31,7 @@
 
 - (void)viewDidLoad {
     charCount.font = [UIFont boldSystemFontOfSize:16];
+    text.font = [UIFont systemFontOfSize:16];
     self.view.hidden = true;
 }
 
@@ -49,9 +51,22 @@
 {
 }
 
-- (void)startEditWithString:(NSString*)message setDelegate:(id)aDelegate
+- (void)startEditWithString:(NSString*)message insertAfter:(BOOL)insertAfter setDelegate:(id)aDelegate
 {
+    NSRange range;
+    if (insertAfter) {
+        range.location = [text.text length];
+    }
     text.text = [NSString stringWithFormat:@"%@%@", text.text, message];
+    
+    if (!insertAfter) {
+        range.location = [text.text length];
+    }
+
+    self.view.hidden = false;
+    range.length = 0;
+    [text becomeFirstResponder];
+    text.selectedRange = range;
     [self startEditWithDelegate:aDelegate];
 }
 
@@ -62,8 +77,15 @@
     self.view.hidden = false;
     didPost = false;
     [text becomeFirstResponder];
-    NSRange range = {[text.text length], 0};
-    text.selectedRange = range;
+
+    CATransition *animation = [CATransition animation];
+    [animation setDelegate:self];
+    [animation setType:kCATransitionMoveIn];
+    [animation setSubtype:kCATransitionFromBottom];
+    [animation setDuration:0.5];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [[self.view layer] addAnimation:animation forKey:kShowAnimationkey];
+
 }
 
 - (IBAction) cancel: (id) sender
@@ -78,7 +100,7 @@
 	[animation setDuration:0.5];
 	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
 	
-	[[self.view layer] addAnimation:animation forKey:kAnimationKey];
+	[[self.view layer] addAnimation:animation forKey:kHideAnimationKey];
 }
 
 - (IBAction) send: (id) sender
@@ -153,26 +175,27 @@
 //
 - (void)animationDidStart:(CAAnimation *)animation
 {
-	// Inform the delegate if the delegate implements the corresponding method
-	if([delegate respondsToSelector:@selector(postViewAnimationDidStart)]) {
-		[delegate postViewAnimationDidStart];
+    if (animation == [[self.view layer] animationForKey:kHideAnimationKey]) {
+        if([delegate respondsToSelector:@selector(postViewAnimationDidStart)]) {
+            [delegate postViewAnimationDidStart];
+        }
     }
 }
 
 - (void)animationDidStop:(CAAnimation *)animation finished:(BOOL)finished 
 {
-	    
-    [self.view removeFromSuperview];
+    if (animation == [[self.view layer] animationForKey:kHideAnimationKey]) {	    
+        [self.view removeFromSuperview];
 	
-	// Inform the delegate if it implements the corresponding method
-	if (finished) {
-		if ([delegate respondsToSelector:@selector(postViewAnimationDidFinish:)]) {
-			[delegate postViewAnimationDidFinish:didPost];
+        if (finished) {
+            if ([delegate respondsToSelector:@selector(postViewAnimationDidFinish:)]) {
+                [delegate postViewAnimationDidFinish:didPost];
+            }
         }
-	}
-	else {
-		if ([delegate respondsToSelector:@selector(postViewAnimationDidCancel)]) {
-			[delegate postViewAnimationDidCancel];
+        else {
+            if ([delegate respondsToSelector:@selector(postViewAnimationDidCancel)]) {
+                [delegate postViewAnimationDidCancel];
+            }
         }
 	}
 }

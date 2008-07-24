@@ -8,9 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="106"/>
-			<integer value="299"/>
-			<integer value="233"/>
+			<integer value="164"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -198,7 +196,7 @@
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 			</object>
 			<object class="IBUIView" id="308163607">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">290</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -322,14 +320,13 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{320, 240}</string>
-				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MC42ODIzNTI5NiAwLjkxMzcyNTUgMC45MjU0OTAyAA</bytes>
 				</object>
 			</object>
 			<object class="IBUIWindow" id="803290311">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -398,7 +395,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{320, 480}</string>
-				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MSAxIDEgMAA</bytes>
@@ -705,22 +701,10 @@
 						<reference key="object" ref="643361368"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="386635562"/>
 							<reference ref="446488881"/>
+							<reference ref="386635562"/>
 						</object>
 						<reference key="parent" ref="1031856950"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">167</int>
-						<reference key="object" ref="386635562"/>
-						<reference key="parent" ref="643361368"/>
-						<string key="objectName">Reload button</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">168</int>
-						<reference key="object" ref="446488881"/>
-						<reference key="parent" ref="643361368"/>
-						<string key="objectName">Post button</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">165</int>
@@ -949,6 +933,18 @@
 						<reference key="object" ref="422656019"/>
 						<reference key="parent" ref="1015813765"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">168</int>
+						<reference key="object" ref="446488881"/>
+						<reference key="parent" ref="643361368"/>
+						<string key="objectName">Post button</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">167</int>
+						<reference key="object" ref="386635562"/>
+						<reference key="parent" ref="643361368"/>
+						<string key="objectName">Reload button</string>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -999,7 +995,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UIApplication</string>
 					<string>UIResponder</string>
-					<string>{{480, 479}, {320, 480}}</string>
+					<string>{{160, 522}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1037,7 +1033,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>SendingWindow</string>
-					<string>{{521, 693}, {320, 480}}</string>
+					<string>{{738, 704}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1215,11 +1211,13 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>imageStore</string>
 							<string>timeline</string>
+							<string>webView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>ImageStore</string>
 							<string>Timeline</string>
+							<string>WebViewController</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -1248,6 +1246,18 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/TwitterFonAppDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WebViewController</string>
+					<string key="superclassName">UIViewController</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">webView</string>
+						<string key="NS.object.0">UIWebView</string>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">Classes/WebViewController.h</string>
 					</object>
 				</object>
 			</object>
