@@ -38,7 +38,9 @@
     needsReload = false;
     button.font = [UIFont systemFontOfSize:14];
     button.lineBreakMode = UILineBreakModeTailTruncation;
+    
     url = [[NSString alloc] init];
+    tinyURLStore = [[NSMutableDictionary alloc] init];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -85,10 +87,15 @@
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.title = [aWebView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    NSURL *aUrl = aWebView.request.mainDocumentURL;
-    [self setUrlBar:aUrl.absoluteString];
+    NSURL *aURL = aWebView.request.mainDocumentURL;
+    [self setUrlBar:aURL.absoluteString];
     backButton.enabled = (webView.canGoBack) ? true : false;
     forwardButton.enabled = (webView.canGoForward) ? true : false;
+    
+    if (needsToDecodeTinyURL) {
+        [tinyURLStore setValue:url forKey:aURL.absoluteString];
+        needsToDecodeTinyURL = false;
+    }
 }
 
 - (void)webView:(UIWebView *)aWebView didFailLoadWithError:(NSError *)error
@@ -98,6 +105,8 @@
 - (void)setUrl:(NSString*)aUrl
 {
     needsReload = ([url compare:aUrl] == 0)  ? false : true;
+    NSRange r = [aUrl rangeOfString:@"http://tinyurl.com"];
+    needsToDecodeTinyURL = (r.location != NSNotFound) ? true : false;
     url = [aUrl copy];
 }
 
@@ -107,10 +116,17 @@
     PostViewController* postView = appDelegate.postView;
     
     if (postView.view.hidden == false) return;
+
+    NSString *aURL = webView.request.URL.absoluteString;
+    NSString *decoded = [tinyURLStore valueForKey:aURL];
+    
+    //
+    // Needs to encode to tinyURL...
+    //
     
     [[self navigationController].view addSubview:postView.view];
     UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
-    [postView startEditWithString:[NSString stringWithFormat:@" %@", url] insertAfter:TRUE setDelegate:c];
+    [postView startEditWithString:[NSString stringWithFormat:@" %@", decoded ? decoded : aURL] insertAfter:TRUE setDelegate:c];
     
 }
 
@@ -121,6 +137,7 @@
 
 
 - (void)dealloc {
+    [tinyURLStore release];
     [url release];
 	[super dealloc];
 }

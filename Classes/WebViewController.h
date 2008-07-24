@@ -16,8 +16,10 @@
     IBOutlet UIBarButtonItem *backButton;
     IBOutlet UIBarButtonItem *forwardButton;
     
-    NSString*           url;
-    BOOL                needsReload;
+    NSMutableDictionary*    tinyURLStore;
+    NSString*               url;
+    BOOL                    needsReload;
+    BOOL                    needsToDecodeTinyURL;
 }
 
 - (void)setUrl:(NSString*)aUrl;
