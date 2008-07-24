@@ -89,7 +89,7 @@ static sqlite3_stmt *select_statement = nil;
 	[timelineConn autorelease];
 	timelineConn = nil;
 
-    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+    NSMutableArray *indexPaths = [[[NSMutableArray alloc] init] autorelease];
 	long lastMessageId = 0;
 	if ([messages count] > 0) lastMessageId = ((Message*)[messages lastObject]).messageId;
 	
