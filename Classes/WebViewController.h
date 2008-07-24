@@ -10,10 +10,11 @@
 
 
 @interface WebViewController : UIViewController {
-    IBOutlet UIWebView*     webView;
-    NSString*               url;
+    IBOutlet UIWebView* webView;
+    NSString*           url;
+    BOOL                needsReload;
 }
 
-@property(nonatomic, copy) NSString* url;
+- (void)setUrl:(NSString*)aUrl;
 
 @end

@@ -3,6 +3,8 @@
 #import "TwitterFonAppDelegate.h"
 #import "MessageCell.h"
 #import "ColorUtils.h"
+#import "StringUtil.h"
+#import "REString.h"
 
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)postTweetDidSucceed:(Message*)message;
@@ -42,7 +44,7 @@
     }
 
     [timeline restore:tag];
-    [timeline update:tag];
+//    [timeline update:tag];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -107,11 +109,9 @@
 	}
     
 	cell.message = m;
-    //cell.image = [imageStore getImage:m.user delegate:self];
-
+    cell.imageView.row = indexPath.row;
     [cell.imageView setImage:[imageStore getImage:m.user delegate:self] forState:UIControlStateNormal];
     [cell.imageView addTarget:self action:@selector(didTouchProfileImage:) forControlEvents:UIControlEventTouchUpInside];
-    cell.imageView.row = indexPath.row;
     
     if (tag == TAB_FRIENDS) {
         NSString *str = [NSString stringWithFormat:@"@%@", username];
@@ -186,39 +186,28 @@
 //
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGRect bounds;
-    CGRect result;
-    UILabel *textLabel = [[UILabel alloc] initWithFrame: CGRectZero];
     Message *m = [timeline messageAtIndex:indexPath.row];
-        
-    textLabel.font = [UIFont systemFontOfSize:13];
-    textLabel.numberOfLines = 10;
-    
-    textLabel.text = m.text;
-    bounds = CGRectMake(0, 0, 240, 200);
-    result = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
-    result.size.height += 18;
-    if (result.size.height < 48 + 1) result.size.height = 48 + 1;
-    [textLabel release];
-    return result.size.height;
+    return [MessageCell heightForCell:m.text];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    Message *m = [timeline messageAtIndex:indexPath.row];
-    webView.hidesBottomBarWhenPushed = YES;
-    webView.url = @"http://www.naan.net/";
-    [[self navigationController] pushViewController:webView animated:YES];
-}
-
-- (void)postViewAnimationDidStart
-{
-    [[self navigationController] setNavigationBarHidden:FALSE animated:YES];
+    Message *m = [timeline messageAtIndex:indexPath.row];
+    if (!m) return;
+    NSString *pat = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
+    NSString *text = m.text;
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    if ([text matches:pat withSubstring:array]) {
+        webView.hidesBottomBarWhenPushed = YES;
+        [webView setUrl:[array objectAtIndex:0]];
+        [[self navigationController] pushViewController:webView animated:YES];
+    }
 }
 
 - (void)postViewAnimationDidFinish:(BOOL)didPost
 {
-    if (didPost && tag == TAB_FRIENDS) {
+    if (didPost && tag == TAB_FRIENDS &&
+        self.navigationController.topViewController == self) {
         //
         // Do animation if the controller displays friends timeline.
         //

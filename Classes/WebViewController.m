@@ -15,21 +15,12 @@
 
 @implementation WebViewController
 
-@synthesize url;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
 	}
 	return self;
 }
-
-/*
- Implement loadView if you want to create a view hierarchy programmatically
-- (void)loadView {
-}
- */
-
 
 - (void)viewDidLoad
 {
@@ -39,17 +30,29 @@
                                                            target:self
                                                            action:@selector(postTweet:)];
     self.navigationItem.rightBarButtonItem = postButton;
+    needsReload = false;
+    url = [[NSString alloc] init];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (animated) {
+    if (animated && needsReload) {
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
         self.title = url;
     }
 }
 
+- (void)webViewDidFinishLoad:(UIWebView *)aWebView
+{
+    self.title = [aWebView stringByEvaluatingJavaScriptFromString:@"document.title"];
+}
+
+- (void)setUrl:(NSString*)aUrl
+{
+    needsReload = ([url compare:aUrl] == 0)  ? false : true;
+    url = [aUrl copy];
+}
 
 - (void)postTweet:(id)sender
 {
@@ -59,7 +62,8 @@
     if (postView.view.hidden == false) return;
     
     [[self navigationController].view addSubview:postView.view];
-    [postView startEditWithString:url insertAfter:TRUE setDelegate:self];
+    UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
+    [postView startEditWithString:[NSString stringWithFormat:@" %@", url] insertAfter:TRUE setDelegate:c];
     
 }
 
@@ -71,6 +75,7 @@
 
 - (void)dealloc {
 	[super dealloc];
+    [url release];
 }
 
 

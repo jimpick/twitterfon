@@ -15,9 +15,7 @@
 
 @interface NSObject (PostTweetDelegate)
 - (void)postTweetDidSucceed:(Message*)message;
-- (void)postViewAnimationDidStart;
 - (void)postViewAnimationDidFinish:(BOOL)didPost;
-- (void)postViewAnimationDidCancel;
 @end
 
 @implementation PostViewController
@@ -79,7 +77,7 @@
     [text becomeFirstResponder];
 
     CATransition *animation = [CATransition animation];
-    [animation setDelegate:self];
+//    [animation setDelegate:self];
     [animation setType:kCATransitionMoveIn];
     [animation setSubtype:kCATransitionFromBottom];
     [animation setDuration:0.5];
@@ -173,30 +171,15 @@
 //
 // CAAnimationDelegate
 //
-- (void)animationDidStart:(CAAnimation *)animation
-{
-    if (animation == [[self.view layer] animationForKey:kHideAnimationKey]) {
-        if([delegate respondsToSelector:@selector(postViewAnimationDidStart)]) {
-            [delegate postViewAnimationDidStart];
-        }
-    }
-}
-
 - (void)animationDidStop:(CAAnimation *)animation finished:(BOOL)finished 
 {
-    if (animation == [[self.view layer] animationForKey:kHideAnimationKey]) {	    
-        [self.view removeFromSuperview];
+    [self.view removeFromSuperview];
 	
-        if (finished) {
-            if ([delegate respondsToSelector:@selector(postViewAnimationDidFinish:)]) {
-                [delegate postViewAnimationDidFinish:didPost];
-            }
+    if (finished) {
+        if ([delegate respondsToSelector:@selector(postViewAnimationDidFinish:)]) {
+            [delegate postViewAnimationDidFinish:didPost];
         }
-        else {
-            if ([delegate respondsToSelector:@selector(postViewAnimationDidCancel)]) {
-                [delegate postViewAnimationDidCancel];
-            }
-        }
-	}
+    }
+
 }
 @end

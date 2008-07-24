@@ -15,5 +15,6 @@
 @property (nonatomic, assign) ProfileImageButton* imageView;
 
 - (void)update;
++ (CGFloat)heightForCell:(NSString*)text;
 
 @end

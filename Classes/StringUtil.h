@@ -10,4 +10,9 @@
 
 @interface NSString (NSStringUtils)
 - (NSString*)encodeAsURIComponent;
+- (NSString*)escapeHTML;
+- (NSString*)unescapeHTML;
++ (NSString*)localizedString:(NSString*)key;
 @end
+
+
