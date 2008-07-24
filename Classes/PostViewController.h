@@ -24,9 +24,6 @@
    	IBOutlet SendingWindow* sendingWindow;
 }
 
-- (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)message;
-- (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error;
-
 - (void)startEditWithString:(NSString*)message insertAfter:(BOOL)intertAfter setDelegate:(id)delegate;
 - (void)startEditWithDelegate:(id)delegate;
 
@@ -34,5 +31,6 @@
 
 - (IBAction) cancel: (id) sender;
 - (IBAction) send: (id) sender;
+- (IBAction) clear: (id) sender;
 
 @end

@@ -9,7 +9,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="164"/>
-			<integer value="235"/>
+			<integer value="233"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -257,6 +257,11 @@
 								<int key="IBUISystemItemIdentifier">1</int>
 								<reference key="IBUIToolbar" ref="609196020"/>
 							</object>
+							<object class="IBUIBarButtonItem" id="855750933">
+								<string key="IBUITitle">Clear</string>
+								<int key="IBUIStyle">1</int>
+								<reference key="IBUIToolbar" ref="609196020"/>
+							</object>
 							<object class="IBUIBarButtonItem" id="122934535">
 								<int key="IBUISystemItemIdentifier">5</int>
 								<reference key="IBUIToolbar" ref="609196020"/>
@@ -277,7 +282,7 @@
 					<object class="IBUILabel" id="474449565">
 						<reference key="NSNextResponder" ref="308163607"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{216, 210}, {36, 21}}</string>
+						<string key="NSFrame">{{216, 211}, {36, 21}}</string>
 						<reference key="NSSuperview" ref="308163607"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -608,6 +613,14 @@
 					</object>
 					<int key="connectionID">300</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">clear:</string>
+						<reference key="source" ref="855750933"/>
+						<reference key="destination" ref="749060780"/>
+					</object>
+					<int key="connectionID">305</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -910,6 +923,7 @@
 							<reference ref="1064367590"/>
 							<reference ref="638520527"/>
 							<reference ref="122934535"/>
+							<reference ref="855750933"/>
 						</object>
 						<reference key="parent" ref="308163607"/>
 					</object>
@@ -942,6 +956,11 @@
 						<int key="objectID">241</int>
 						<reference key="object" ref="423124433"/>
 						<reference key="parent" ref="957960031"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">304</int>
+						<reference key="object" ref="855750933"/>
+						<reference key="parent" ref="609196020"/>
 					</object>
 				</object>
 			</object>
@@ -988,6 +1007,7 @@
 					<string>272.IBPluginDependency</string>
 					<string>3.CustomClassName</string>
 					<string>3.IBPluginDependency</string>
+					<string>304.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1018,7 +1038,7 @@
 					<string>PostViewController</string>
 					<string>{{14, 1065}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{1061, 873}, {320, 240}}</string>
+					<string>{{387, 696}, {320, 240}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1037,6 +1057,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>TwitterFonAppDelegate</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
@@ -1060,7 +1081,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">301</int>
+			<int key="maxID">305</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1085,14 +1106,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">PostTweet</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/Twitter/PostTweet.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">PostViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
@@ -1100,15 +1113,13 @@
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>cancel:</string>
-							<string>postTweetDidFail:error:</string>
-							<string>postTweetDidSucceed:message:</string>
+							<string>clear:</string>
 							<string>send:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
-							<string>PostTweet</string>
-							<string>PostTweet</string>
+							<string>id</string>
 							<string>id</string>
 						</object>
 					</object>
