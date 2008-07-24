@@ -40,11 +40,13 @@
     if (animated && needsReload) {
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
         self.title = url;
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     }
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)aWebView
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.title = [aWebView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 
