@@ -31,6 +31,8 @@
     charCount.font = [UIFont boldSystemFontOfSize:16];
     text.font = [UIFont systemFontOfSize:16];
     self.view.hidden = true;
+    textRange.location = 0;
+    textRange.length = 0;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -51,20 +53,17 @@
 
 - (void)startEditWithString:(NSString*)message insertAfter:(BOOL)insertAfter setDelegate:(id)aDelegate
 {
-    NSRange range;
-    if (insertAfter) {
-        range.location = [text.text length];
-    }
-    text.text = [NSString stringWithFormat:@"%@%@", text.text, message];
+    NSMutableString *str = [NSMutableString stringWithString:text.text];
+    [str insertString:message atIndex:textRange.location];
     
     if (!insertAfter) {
-        range.location = [text.text length];
+        textRange.location += [message length];
     }
-
     self.view.hidden = false;
-    range.length = 0;
+    textRange.length = 0;
+    text.text = str;
     [text becomeFirstResponder];
-    text.selectedRange = range;
+    text.selectedRange = textRange;
     [self startEditWithDelegate:aDelegate];
 }
 
@@ -88,6 +87,7 @@
 
 - (IBAction) cancel: (id) sender
 {
+    textRange = text.selectedRange;
     [text resignFirstResponder];
     self.view.hidden = true;
     

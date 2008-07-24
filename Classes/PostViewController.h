@@ -20,6 +20,7 @@
     IBOutlet NSObject*   appDelegate;
     PostTweet*           post;
     BOOL                 didPost;
+    NSRange              textRange;
     
    	IBOutlet SendingWindow* sendingWindow;
 }
