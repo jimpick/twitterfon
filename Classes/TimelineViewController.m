@@ -55,14 +55,10 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-    if (animated) {
-        [self.tableView reloadData];
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -70,12 +66,14 @@
 
 - (void)viewDidDisappear:(BOOL)animated 
 {
-    [self navigationController].tabBarItem.badgeValue = nil;
-    for (int i = 0; i < [timeline countMessages]; ++i) {
-        Message* m = [timeline messageAtIndex:i];
-        m.unread = false;
+    if (!animated) {
+        [self navigationController].tabBarItem.badgeValue = nil;
+        for (int i = 0; i < [timeline countMessages]; ++i) {
+            Message* m = [timeline messageAtIndex:i];
+            m.unread = false;
+        }
+        unread = 0;
     }
-    unread = 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
