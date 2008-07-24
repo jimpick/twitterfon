@@ -12,6 +12,10 @@
 @interface WebViewController : UIViewController {
     IBOutlet UIWebView* webView;
     IBOutlet UIButton*  button;
+
+    IBOutlet UIBarButtonItem *backButton;
+    IBOutlet UIBarButtonItem *forwardButton;
+    
     NSString*           url;
     BOOL                needsReload;
 }
@@ -19,5 +23,7 @@
 - (void)setUrl:(NSString*)aUrl;
 
 - (IBAction)reload:(id)sender;
+- (IBAction)goBack: (id)sender;
+- (IBAction)goForward: (id)sender;
 
 @end

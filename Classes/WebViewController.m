@@ -56,6 +56,16 @@
     [webView reload];
 }
 
+- (IBAction) goBack:(id)sender
+{
+    [webView goBack];
+}
+
+- (IBAction) goForward:(id)sender
+{
+    [webView goForward];
+}
+
 - (void)setUrlBar:(NSString*)aUrl
 {
     [button setTitle:[NSString stringWithFormat:@"  %@", aUrl] forState:UIControlStateDisabled];
@@ -77,6 +87,8 @@
     self.title = [aWebView stringByEvaluatingJavaScriptFromString:@"document.title"];
     NSURL *aUrl = aWebView.request.mainDocumentURL;
     [self setUrlBar:aUrl.absoluteString];
+    backButton.enabled = (webView.canGoBack) ? true : false;
+    forwardButton.enabled = (webView.canGoForward) ? true : false;
 }
 
 - (void)webView:(UIWebView *)aWebView didFailLoadWithError:(NSError *)error
