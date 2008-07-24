@@ -188,7 +188,6 @@
 									<bytes key="NSWhite">MAA</bytes>
 									<reference key="NSCustomColorSpace" ref="427383192"/>
 								</object>
-								<bool key="IBUIClearsOnBeginEditing">YES</bool>
 								<float key="IBUIMinimumFontSize">1.700000e+01</float>
 								<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 									<int key="IBUIReturnKeyType">9</int>
@@ -571,6 +570,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">UITableViewCell</string>
+					<string key="superclassName">UIView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
@@ -579,7 +579,7 @@
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.LastKnownRelativeProjectPath">TwitterPhox.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">TwitterFon.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 	</data>
 </archive>
