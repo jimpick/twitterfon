@@ -3,11 +3,12 @@
 @implementation MessageCell
 
 @synthesize message;
+@synthesize imageView;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
 	[super initWithFrame:frame reuseIdentifier:reuseIdentifier];
-
+    
     // name label
     nameLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
     nameLabel.backgroundColor = [UIColor clearColor];
@@ -27,7 +28,11 @@
     textLabel.textAlignment = UITextAlignmentLeft;
     textLabel.contentMode = UIViewContentModeTopLeft;
     [self.contentView addSubview:textLabel];
+    
+    imageView = [[[ProfileImageButton alloc] initWithFrame:CGRectZero] autorelease];
+    [self.contentView addSubview:imageView];
 
+    //self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
 	return self;
@@ -50,7 +55,9 @@
     const int LEFT = 68;
     const int HMARGIN = 10;
     const int VMARGIN = 0;
-		
+
+    imageView.frame = CGRectMake(10, 0, 48, rc.size.height);
+    
     nameLabel.frame = CGRectMake(LEFT, VMARGIN, rc.size.width - LEFT - HMARGIN, 16);
     bounds = CGRectMake(LEFT, TOP, rc.size.width - LEFT - HMARGIN, rc.size.height - TOP);
     textLabel.frame = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];

@@ -2,12 +2,17 @@
 #import "TimelineViewController.h"
 #import "TwitterFonAppDelegate.h"
 #import "MessageCell.h"
+#import "UserCell.h"
 #import "ColorUtils.h"
 
 #define kAnimationKey @"transitionViewAnimation"
 
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)postTweetDidSucceed:(Message*)message;
+@end
+
+@interface TimelineViewController(Private)
+- (void) showPostView:(PostViewController*)postView;
 @end
 
 @implementation TimelineViewController
@@ -53,7 +58,9 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-    [self.tableView reloadData];
+    if (animated) {
+        [self.tableView reloadData];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -96,8 +103,8 @@
 	return [timeline countMessages];
 }
 
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	static NSString* MyIdentifier = @"MessageCell";
 	
 	MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MyIdentifier];
@@ -105,9 +112,14 @@
 	if (!cell) {
 		cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 	}
+    
 	cell.message = m;
-    cell.image = [imageStore getImage:m.user delegate:self];
+    //cell.image = [imageStore getImage:m.user delegate:self];
 
+    [cell.imageView setImage:[imageStore getImage:m.user delegate:self] forState:UIControlStateNormal];
+    [cell.imageView addTarget:self action:@selector(didTouchProfileImage:) forControlEvents:UIControlEventTouchUpInside];
+    cell.imageView.row = indexPath.row;
+    
     if (tag == TAB_FRIENDS) {
         NSString *str = [NSString stringWithFormat:@"@%@", username];
         NSRange r = [m.text rangeOfString:str];
@@ -128,6 +140,31 @@
 	[cell update];
     
 	return cell;
+}
+
+- (void)didTouchProfileImage:(id)sender
+{
+    ProfileImageButton *button = (ProfileImageButton*)sender;
+    Message* m = [timeline messageAtIndex:button.row];
+    
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    PostViewController* postView = appDelegate.postView;
+    
+    if (postView.view.hidden == false) return;
+    
+    NSString *msg;
+    if (tag == MSG_TYPE_MESSAGES) {
+        msg = [NSString stringWithFormat:@"d %@ ", m.user.screenName];
+    }
+    else {
+        msg = [NSString stringWithFormat:@"@%@ ", m.user.screenName];
+    }
+    
+    [[self navigationController].view addSubview:postView.view];
+    [postView startEditWithString:msg setDelegate:self];
+    
+    [self showPostView:postView];
+    
 }
 
 - (void)dealloc {
@@ -169,12 +206,13 @@
 //
 // UITableViewDelegate
 //
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     CGRect bounds;
     CGRect result;
     UILabel *textLabel = [[UILabel alloc] initWithFrame: CGRectZero];
     Message *m = [timeline messageAtIndex:indexPath.row];
-    
+        
     textLabel.font = [UIFont systemFontOfSize:13];
     textLabel.numberOfLines = 10;
     
@@ -189,25 +227,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  	Message* m = [timeline messageAtIndex:indexPath.row];
-    
-    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    PostViewController* postView = appDelegate.postView;
-    
-    if (postView.view.hidden == false) return;
-
-    NSString *msg;
-    if (tag == MSG_TYPE_MESSAGES) {
-        msg = [NSString stringWithFormat:@"d %@ ", m.user.screenName];
-    }
-    else {
-        msg = [NSString stringWithFormat:@"@%@ ", m.user.screenName];
-    }
-
-    [[self navigationController].view addSubview:postView.view];
-    [postView startEditWithString:msg setDelegate:self];
-
-    [self showPostView:postView];
+    Message *m = [timeline messageAtIndex:indexPath.row];
+    userTimeline.message = m;
+    [[self navigationController] pushViewController:userTimeline animated:YES];
 
 }
 

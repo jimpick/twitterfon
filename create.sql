@@ -5,6 +5,7 @@ CREATE TABLE timelines (
        'screen_name'            CHAR(256),
        'profile_image_url'      CHAR(1024),
        'text'                   CHAR(256)
+       'created_at'             DATETIME,
 );
 
 CREATE TABLE images (
