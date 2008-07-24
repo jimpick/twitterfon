@@ -58,7 +58,7 @@
 - (NSString*)unescapeHTML
 {
 	NSMutableString* s = [NSMutableString string];
-	NSMutableString* target = [self mutableCopy];
+	NSMutableString* target = [[self mutableCopy] autorelease];
 	NSCharacterSet* chs = [NSCharacterSet characterSetWithCharactersInString:@"&"];
 	
 	while ([target length] > 0) {

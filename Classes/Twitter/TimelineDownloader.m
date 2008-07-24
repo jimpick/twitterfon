@@ -79,8 +79,9 @@ NSString* sMethods[3] = {
     NSLog(@"%@", url);
 #endif
 
-	url = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)url, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
-	NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
+    NSString *cURL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)url, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
+    [cURL autorelease];
+	NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:cURL]
                                       cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                       timeoutInterval:60.0];
 	buf = [[NSMutableData data] retain];
@@ -161,7 +162,7 @@ NSString* sMethods[3] = {
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
-    NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
+    NSString* s = [[[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding]autorelease];
     [conn autorelease];
     conn = nil;
     [buf autorelease];

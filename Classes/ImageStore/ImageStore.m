@@ -35,7 +35,7 @@ static NSMutableDictionary* theImageStore = nil;
 {
 	ProfileImage* image = [images objectForKey:user.profileImageUrl];
 	if (!image) {  
-        image = [[[ProfileImage alloc] initWithUser:user delegate:aDelegate] retain];
+        image = [[[ProfileImage alloc] initWithUser:user delegate:aDelegate] autorelease];
         [images setObject:image forKey:user.profileImageUrl];
     }
     return image.image;

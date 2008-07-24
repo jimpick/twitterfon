@@ -25,11 +25,13 @@
 	NSLog(@"Get image from %@", anUrl);
     
     NSString *url = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)anUrl, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
+    [url autorelease];
 	NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
-                                         cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                     timeoutInterval:60.0];
-	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
+                                      cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                      timeoutInterval:60.0];
 	buf  = [[NSMutableData data] retain];
+	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
+
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;    
     
 	return self;

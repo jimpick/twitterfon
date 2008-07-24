@@ -92,7 +92,7 @@
     result.size.height += 18;
     if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
     [textLabel release];
-return result.size.height;
+    return result.size.height;
 
 }
 

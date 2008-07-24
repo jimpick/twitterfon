@@ -51,10 +51,12 @@
     
     NSString *postString = [NSString stringWithFormat:@"status=%@&source=TwitterFon", [tweet encodeAsURIComponent]];
     
-	url = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)url, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
-	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
+	NSString *cURL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)url, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
+    [cURL autorelease];
+	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:cURL]
 													cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
 													timeoutInterval:60.0];
+    
     
     [req setHTTPMethod:@"POST"];
     [req setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -140,7 +142,7 @@
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
-	NSString* s = [[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding];
+	NSString* s = [[[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding] autorelease];
     [conn autorelease];
     conn = nil;
     [buf autorelease];

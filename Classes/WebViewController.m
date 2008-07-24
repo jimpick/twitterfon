@@ -109,8 +109,8 @@
 
 
 - (void)dealloc {
-	[super dealloc];
     [url release];
+	[super dealloc];
 }
 
 

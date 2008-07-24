@@ -14,12 +14,17 @@
 
 @implementation TimelineViewController
 
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
 	}
     
 	return self;
+}
+
+- (void)dealloc {
+	[super dealloc];
 }
 
 - (void)viewDidLoad
@@ -28,7 +33,7 @@
     unread   = 0;
     tag      = [self navigationController].tabBarItem.tag;
 	username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    
+
     switch (tag) {
         case TAB_FRIENDS:
             self.tableView.separatorColor = [UIColor friendColorBorder];
@@ -44,10 +49,10 @@
             self.tableView.backgroundColor = [UIColor messageColor];
             [timeline update:MSG_TYPE_MESSAGES];
     }
-
     [timeline restore:tag];
     [timeline update:tag];
 }
+
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
@@ -73,27 +78,10 @@
     unread = 0;
 }
 
-- (void) loadTimeline
-{
-    [timeline restore:tag];
-    if (tag != MSG_TYPE_MESSAGES) {
-        [timeline update:tag];
-    }
-}
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-	if (self = [super initWithStyle:style]) {
-	}
-	return self;
-}
-
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 	return 1;
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -103,7 +91,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	static NSString* MyIdentifier = @"MessageCell";
-	
+
 	MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MyIdentifier];
 	Message* m = [timeline messageAtIndex:indexPath.row];
 	if (!cell) {
@@ -133,7 +121,7 @@
     }
     
 	[cell update];
-    
+
 	return cell;
 }
 
@@ -157,10 +145,6 @@
     
     [[self navigationController].view addSubview:postView.view];
     [postView startEditWithString:msg insertAfter:FALSE setDelegate:self];
-}
-
-- (void)dealloc {
-	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning 
@@ -197,9 +181,8 @@
     Message *m = [timeline messageAtIndex:indexPath.row];
     if (!m) return;
     NSString *pat = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
-    NSString *text = m.text;
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    if ([text matches:pat withSubstring:array]) {
+    NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
+    if ([m.text matches:pat withSubstring:array]) {
 
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         WebViewController *webView = appDelegate.webView;
@@ -261,19 +244,25 @@
 //
 // TimelineDownloaderDelegate
 //
-- (void)timelineDidReceiveNewMessage:(Timeline*)sender message:(Message*)msg
+- (void)timelineDidReceiveNewMessage:(Message*)msg
 {
 	[imageStore getImage:msg.user delegate:self];
 }
 
-- (void)timelineDidUpdate:(Timeline*)sender indexPaths:(NSArray*)indexPaths
+- (void)timelineDidUpdate:(int)count
 {
-    unread += [indexPaths count];
+    unread += count;
     [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unread];
+
     if (!self.view.hidden) {
+        NSMutableArray *indexPath = [[[NSMutableArray alloc] init] autorelease];
+        for (int i = 0; i < count; ++i) {
+            [indexPath addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+        }        
         [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];
         [self.tableView endUpdates];    
     }
+
 }
 @end
