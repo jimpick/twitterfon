@@ -44,7 +44,7 @@
     }
 
     [timeline restore:tag];
-//    [timeline update:tag];
+    [timeline update:tag];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
