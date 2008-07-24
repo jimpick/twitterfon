@@ -83,8 +83,8 @@ NSString* sMethods[3] = {
 	NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
                                       cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                       timeoutInterval:60.0];
-	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
 	buf = [[NSMutableData data] retain];
+	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 

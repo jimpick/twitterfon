@@ -64,8 +64,8 @@
     [req setValue:[NSString stringWithFormat:@"%d", contentLength] forHTTPHeaderField:@"Content-Length"];
     [req setHTTPBody:[NSData dataWithBytes:[postString UTF8String] length:contentLength]];
     
-	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
 	buf = [[NSMutableData data] retain];
+	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
