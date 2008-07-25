@@ -77,16 +77,12 @@ NSString* sMethods[3] = {
     // Convert MySQL date format to HTTP date
     //
     if (since) {
-        NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc]
-                                           initWithDateFormat:@"%a %b %d %H:%M:%S %z %Y"
-                                           allowNaturalLanguage:NO] autorelease];
-        NSDate *date = [dateFormatter dateFromString:since];
-        
-        NSTimeZone *tz = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-        NSString* since_param = [date descriptionWithCalendarFormat:@"%a, %d %b %Y %H:%M:%S GMT" 
-                                                           timeZone:tz 
-                                                             locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]];
-        url = [NSString stringWithFormat:@"%@?since=%@", url, since_param];
+        struct tm time;
+        char timestr[128];
+        setenv("TZ", "GMT", 1);
+        strptime([since UTF8String], "%a %b %d %H:%M:%S %z %Y", &time);
+        strftime(timestr, 128, "%a, %d %b %Y %H:%M:%S GMT", &time);
+        url = [NSString stringWithFormat:@"%@?since=%s", url, timestr];
     }
 
 #endif
