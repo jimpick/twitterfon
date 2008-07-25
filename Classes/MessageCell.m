@@ -44,18 +44,18 @@
 	nameLabel.text = message.user.screenName;
 	textLabel.text = [message.text unescapeHTML];  
     self.accessoryType = message.accessoryType;
-    if (self.accessoryType == UITableViewCellAccessoryNone) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    else {
-        self.selectionStyle = UITableViewCellSelectionStyleBlue;
-    }
 }
 
 - (void)layoutSubviews
 {
 	[super layoutSubviews];
     self.backgroundColor = self.contentView.backgroundColor;	
+    if (self.accessoryType == UITableViewCellAccessoryNone) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    else {
+        self.selectionStyle = UITableViewCellSelectionStyleBlue;
+    }
     imageView.frame = CGRectMake(IMAGE_PADDING, 0, IMAGE_WIDTH, message.cellHeight);
     textLabel.frame = [textLabel textRectForBounds:message.textBounds limitedToNumberOfLines:10];
 }
