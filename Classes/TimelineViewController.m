@@ -88,12 +88,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString* MyIdentifier = @"MessageCell";
-
-	MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+	MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
 	Message* m = [timeline messageAtIndex:indexPath.row];
 	if (!cell) {
-		cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
+		cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
 	}
     
 	cell.message = m;
@@ -171,7 +169,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Message *m = [timeline messageAtIndex:indexPath.row];
-    return [MessageCell heightForCell:m.text];
+    return m.cellHeight;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -255,7 +253,7 @@
     if (!self.view.hidden) {
         NSMutableArray *indexPath = [[[NSMutableArray alloc] init] autorelease];
         for (int i = 0; i < count; ++i) {
-            [indexPath addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            [indexPath addObject:[[NSIndexPath indexPathForRow:i inSection:0] autorelease]];
         }        
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];

@@ -6,7 +6,8 @@ static sqlite3_stmt* insert_statement = nil;
 static sqlite3_stmt* select_statement = nil;
 
 @interface Message (Private)
-- (void)insertDB:(MessageType)type;
+- (void)insertDB;
+- (void)updateAttribute;
 @end
 
 @implementation Message
@@ -15,6 +16,10 @@ static sqlite3_stmt* select_statement = nil;
 @synthesize text;
 @synthesize user;
 @synthesize unread;
+@synthesize textBounds;
+@synthesize cellHeight;
+@synthesize hasURL;
+@synthesize accessoryType;
 
 - (void)dealloc
 {
@@ -23,9 +28,11 @@ static sqlite3_stmt* select_statement = nil;
   	[super dealloc];
 }
 
-- (Message*)initWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type
+- (Message*)initWithJsonDictionary:(NSDictionary*)dic type:(MessageType)aType
 {
 	self = [super init];
+    
+    type = aType;
     
 	messageId = [[dic objectForKey:@"id"] longValue];
 	text      = [[dic objectForKey:@"text"] copy];
@@ -39,10 +46,63 @@ static sqlite3_stmt* select_statement = nil;
         user = [[User alloc] initWithJsonDictionary:userDic];
     }
     
-    [self insertDB:type];
+    [self insertDB];
+    [self updateAttribute];
     unread = true;
     
 	return self;
+}
+
+- (void)updateAttribute
+{
+    // Calculate cell height here
+    //
+    CGRect bounds;
+    CGRect result;
+    UILabel *textLabel = [[UILabel alloc] initWithFrame: CGRectZero];
+    
+    textLabel.font = [UIFont systemFontOfSize:13];
+    textLabel.numberOfLines = 10;
+    
+    textLabel.text = text;
+    bounds = CGRectMake(0, 0, 320 - INDICATOR_WIDTH - LEFT, 200);
+    result = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
+    result.size.height += 18;
+    if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
+    cellHeight = result.size.height;
+    [textLabel release];
+    
+    // Set accessoryType
+    //
+    NSRange r = [text rangeOfString:@"http://"];
+    if (r.location != NSNotFound) {    
+        accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    else {
+        accessoryType = UITableViewCellAccessoryNone;
+    }
+
+    // Set text bounds
+    //
+    textBounds = CGRectMake(LEFT, TOP, CELL_WIDTH, cellHeight - TOP);
+}
+
++ (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type
+{
+    // sqlite3 statement should be:
+    //  SELECT id, type, user_id, screen_name, profile_image_url, text, created_at FROM messsages
+    //
+    Message *m              = [[[Message alloc] init] autorelease];
+    m.user                  = [[User alloc] init];
+    m.messageId             = (sqlite_int64)sqlite3_column_int64(statement, 0);
+    m.user.userId           = (uint32_t)sqlite3_column_int(statement, 2);
+    m.user.screenName       = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
+    m.user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 4)];
+    m.text                  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 5)];
+    m.unread = false;
+    [m updateAttribute];
+    
+    return m;
 }
 
 
@@ -51,7 +111,7 @@ static sqlite3_stmt* select_statement = nil;
 	return [[[Message alloc] initWithJsonDictionary:dic type:type] autorelease];
 }
 
-- (void)insertDB:(MessageType)type
+- (void)insertDB
 {
     sqlite3* database = [DBConnection getSharedDatabase];
 
@@ -93,6 +153,5 @@ static sqlite3_stmt* select_statement = nil;
     }
 
 }
-
 
 @end

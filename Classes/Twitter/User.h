@@ -3,14 +3,14 @@
 
 @interface User : NSObject
 {
-	long        userId;
+	uint32_t    userId;
 	NSString*   screenName;
 	NSString*   profileImageUrl;
 }
 
-@property (nonatomic, assign) long      userId;
-@property (nonatomic, assign) NSString*   screenName;
-@property (nonatomic, assign) NSString*   profileImageUrl;
+@property (nonatomic, assign) uint32_t  userId;
+@property (nonatomic, copy)   NSString* screenName;
+@property (nonatomic, copy)   NSString* profileImageUrl;
 
 - (User*)initWithJsonDictionary:(NSDictionary*)dic;
 

@@ -2,6 +2,8 @@
 #import "Message.h"
 #import "ProfileImageButton.h"
 
+#define MESSAGE_REUSE_INDICATOR @"MessageCell"
+
 @interface MessageCell : UITableViewCell
 {
 	Message*        message;
@@ -15,6 +17,5 @@
 @property (nonatomic, assign) ProfileImageButton*   imageView;
 
 - (void)update;
-+ (CGFloat)heightForCell:(NSString*)text;
 
 @end

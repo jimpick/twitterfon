@@ -70,14 +70,7 @@ static sqlite3_stmt *select_statement = nil;
 
     sqlite3_bind_int(select_statement, 1, aType);
     while (sqlite3_step(select_statement) == SQLITE_ROW) {
-        Message *m              = [[Message alloc] init];
-        m.user                  = [[User alloc] init];
-        m.messageId             = (long)sqlite3_column_int64(select_statement, 0);
-        m.user.userId           = (int)sqlite3_column_int(select_statement, 2);
-        m.user.screenName       = [[NSString stringWithUTF8String:(char*)sqlite3_column_text(select_statement, 3)] copy];
-        m.user.profileImageUrl  = [[NSString stringWithUTF8String:(char*)sqlite3_column_text(select_statement, 4)] copy];
-        m.text                  = [[NSString stringWithUTF8String:(char*)sqlite3_column_text(select_statement, 5)] copy];
-        m.unread = false;
+        Message *m = [Message initWithDB:select_statement type:aType];
         [messages addObject:m];
     }
     sqlite3_reset(select_statement);
