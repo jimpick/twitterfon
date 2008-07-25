@@ -47,6 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     id o = [json fragmentWithString:self error:&error];
     if (!o)
         NSLog(@"%@", error);
+    [json release];
     return o;
 }
 
