@@ -318,16 +318,16 @@
 		6EED141D0E33E59B00C71EA4 /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
+				6EED14260E33E59B00C71EA4 /* User.h */,
+				6EED14270E33E59B00C71EA4 /* User.m */,
 				6EED141E0E33E59B00C71EA4 /* Message.h */,
 				6EED141F0E33E59B00C71EA4 /* Message.m */,
-				6EED14200E33E59B00C71EA4 /* PostTweet.h */,
-				6EED14210E33E59B00C71EA4 /* PostTweet.m */,
 				6EED14220E33E59B00C71EA4 /* Timeline.h */,
 				6EED14230E33E59B00C71EA4 /* Timeline.m */,
 				6EED14240E33E59B00C71EA4 /* TimelineDownloader.h */,
 				6EED14250E33E59B00C71EA4 /* TimelineDownloader.m */,
-				6EED14260E33E59B00C71EA4 /* User.h */,
-				6EED14270E33E59B00C71EA4 /* User.m */,
+				6EED14200E33E59B00C71EA4 /* PostTweet.h */,
+				6EED14210E33E59B00C71EA4 /* PostTweet.m */,
 			);
 			path = Twitter;
 			sourceTree = "<group>";

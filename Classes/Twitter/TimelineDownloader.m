@@ -47,7 +47,7 @@ NSString* sMethods[3] = {
 	[super dealloc];
 }
 
-- (void)get:(MessageType)aType since_id:(long)since_id
+- (void)get:(MessageType)aType since:(NSString*)since
 {
 	[conn release];
 	[buf release];
@@ -68,19 +68,32 @@ NSString* sMethods[3] = {
 
     type = aType;
     
-    if (since_id <= 0) since_id = 1;
-
 	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/%@.json",
                      username,
                      password,
-                     sMethods[type],
-                     since_id];
+                     sMethods[type]];
 
-    NSLog(@"%@", url);
+    //
+    // Convert MySQL date format to HTTP date
+    //
+    if (since) {
+        NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc]
+                                           initWithDateFormat:@"%a %b %d %H:%M:%S %z %Y"
+                                           allowNaturalLanguage:NO] autorelease];
+        NSDate *date = [dateFormatter dateFromString:since];
+        
+        NSTimeZone *tz = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+        NSString* since_param = [date descriptionWithCalendarFormat:@"%a, %d %b %Y %H:%M:%S GMT" 
+                                                           timeZone:tz 
+                                                             locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]];
+        url = [NSString stringWithFormat:@"%@?since=%@", url, since_param];
+    }
+
 #endif
 
     NSString *cURL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)url, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
     [cURL autorelease];
+    NSLog(@"%@", cURL);
 	NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:cURL]
                                       cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                       timeoutInterval:60.0];
@@ -169,7 +182,7 @@ NSString* sMethods[3] = {
     buf = nil;
 	
 	NSObject* obj = [s JSONValue];
-
+    
     if ([obj isKindOfClass:[NSDictionary class]]) {
         NSLog(@"%@", s);
         NSDictionary* dic = (NSDictionary*)obj;
@@ -180,6 +193,7 @@ NSString* sMethods[3] = {
     }
     else if ([obj isKindOfClass:[NSArray class]]) {
         NSArray *ary = (NSArray*)obj;
+        NSLog(@"received %d objects", [ary count]);
         if (delegate && [delegate respondsToSelector:@selector(timelineDownloaderDidSucceed:messages:)]) {
             [delegate timelineDownloaderDidSucceed:self messages:ary];
         }

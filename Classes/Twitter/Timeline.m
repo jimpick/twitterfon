@@ -52,9 +52,9 @@ static sqlite3_stmt *select_statement = nil;
 
 	timelineConn = [[TimelineDownloader alloc] initWithDelegate:self];
 
-	long lastMessageId = 0;
-	if ([messages count] > 0) lastMessageId = ((Message*)[messages lastObject]).messageId;    
-	[timelineConn get:type since_id:lastMessageId];
+	NSString* lastMessageDate = nil;
+	if ([messages count] > 0) lastMessageDate = ((Message*)[messages lastObject]).createdAt;    
+	[timelineConn get:type since:lastMessageDate];
 }
 
 - (void)restore:(MessageType)aType
@@ -62,7 +62,7 @@ static sqlite3_stmt *select_statement = nil;
     sqlite3* database = [DBConnection getSharedDatabase];
 
     if (select_statement== nil) {
-        static char *sql = "SELECT * FROM timelines WHERE type = ? order BY id limit 40";
+        static char *sql = "SELECT * FROM messages WHERE type = ? order BY id limit 40";
         if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }

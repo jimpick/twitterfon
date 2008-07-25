@@ -1,4 +1,4 @@
-CREATE TABLE timelines (
+CREATE TABLE messages (
        'id'                     INTEGER PRIMARY KEY,
        'type'                   INTEGER,
        'user_id'                INTEGER,

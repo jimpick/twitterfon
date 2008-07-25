@@ -20,26 +20,26 @@ typedef enum {
 @interface Message : NSObject
 {
 	sqlite_int64    messageId;
-	NSString*   text;
-	User*       user;
+	User*           user;
+	NSString*       text;
+    NSString*       createdAt;
 
-    BOOL        unread;
-    MessageType type;
-    BOOL        hasURL;
-    CGRect      textBounds;
-    CGFloat     cellHeight;
+    BOOL            unread;
+    MessageType     type;
+    CGRect          textBounds;
+    CGFloat         cellHeight;
     
     UITableViewCellAccessoryType accessoryType;
 }
 
 @property (nonatomic, assign) sqlite_int64  messageId;
-@property (nonatomic, assign) User*     user;
-@property (nonatomic, copy)   NSString* text;
+@property (nonatomic, assign) User*         user;
+@property (nonatomic, copy)   NSString*     text;
+@property (nonatomic, copy)   NSString*     createdAt;
 
-@property (nonatomic, assign) BOOL      unread;
-@property (nonatomic, assign) BOOL      hasURL;
-@property (nonatomic, assign) CGRect    textBounds;
-@property (nonatomic, assign) CGFloat   cellHeight;
+@property (nonatomic, assign) BOOL          unread;
+@property (nonatomic, assign) CGRect        textBounds;
+@property (nonatomic, assign) CGFloat       cellHeight;
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 
 + (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type;

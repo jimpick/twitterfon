@@ -10,6 +10,6 @@
 }
 
 - (id)initWithDelegate:(NSObject*)delegate;
-- (void)get:(MessageType)type since_id:(long)since_id;
+- (void)get:(MessageType)type since:(NSString*)since;
 
 @end
