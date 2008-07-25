@@ -46,6 +46,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+
+    backButton.enabled = (webView.canGoBack) ? true : false;
+    forwardButton.enabled = (webView.canGoForward) ? true : false;
+    
     if (animated && needsReload) {
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
         self.title = url;
