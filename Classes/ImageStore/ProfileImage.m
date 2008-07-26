@@ -117,6 +117,9 @@ static sqlite3_stmt *update_statement = nil;
 - (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
 {
 	image = [[UIImage imageWithData:sender.buf] retain];
+    if (!image) {
+        return;
+    }
     if (needUpdate) {
         [self updateImage:sender];
     }
