@@ -29,6 +29,7 @@
 		6EDC012F0E33E6F000FF142E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */; };
 		6EDC01D10E344B5600FF142E /* DBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC01D00E344B5600FF142E /* DBConnection.m */; };
 		6EDC03890E34679300FF142E /* db.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6EDC03880E34679300FF142E /* db.sql */; };
+		6EEBF6DD0E3B1EAC0003EA63 /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6DB0E3B1EAC0003EA63 /* Connection.m */; };
 		6EED142A0E33E59B00C71EA4 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14060E33E59B00C71EA4 /* ImageDownloader.m */; };
 		6EED142B0E33E59B00C71EA4 /* ImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14080E33E59B00C71EA4 /* ImageStore.m */; };
 		6EED142C0E33E59B00C71EA4 /* ProfileImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED140A0E33E59B00C71EA4 /* ProfileImage.m */; };
@@ -89,6 +90,8 @@
 		6EDC01CF0E344B5600FF142E /* DBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBConnection.h; sourceTree = "<group>"; };
 		6EDC01D00E344B5600FF142E /* DBConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBConnection.m; sourceTree = "<group>"; };
 		6EDC03880E34679300FF142E /* db.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sql; sourceTree = "<group>"; };
+		6EEBF6DB0E3B1EAC0003EA63 /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Connection.m; path = Network/Connection.m; sourceTree = "<group>"; };
+		6EEBF6DC0E3B1EAC0003EA63 /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Connection.h; path = Network/Connection.h; sourceTree = "<group>"; };
 		6EED14050E33E59B00C71EA4 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		6EED14060E33E59B00C71EA4 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
 		6EED14070E33E59B00C71EA4 /* ImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageStore.h; sourceTree = "<group>"; };
@@ -153,6 +156,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				6EEBF6C90E3AE3780003EA63 /* Network */,
 				6EDC025B0E34537600FF142E /* Controllers */,
 				6EDC01CE0E344B5600FF142E /* DB */,
 				6EED14040E33E59B00C71EA4 /* ImageStore */,
@@ -286,6 +290,15 @@
 				6E38EF7F0E38275300887690 /* Web View */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		6EEBF6C90E3AE3780003EA63 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				6EEBF6DB0E3B1EAC0003EA63 /* Connection.m */,
+				6EEBF6DC0E3B1EAC0003EA63 /* Connection.h */,
+			);
+			name = Network;
 			sourceTree = "<group>";
 		};
 		6EED14040E33E59B00C71EA4 /* ImageStore */ = {
@@ -446,6 +459,7 @@
 				6E38EF830E38277F00887690 /* WebViewController.m in Sources */,
 				6E00667E0E38719C00D44C31 /* main.m in Sources */,
 				6E0066810E3871A300D44C31 /* REString.m in Sources */,
+				6EEBF6DD0E3B1EAC0003EA63 /* Connection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
