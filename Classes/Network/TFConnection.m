@@ -6,23 +6,17 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
-#import "Connection.h"
+#import "TFConnection.h"
 
-@interface NSObject (ConnectionDelegate)
-- (void)connectionDidSucceed:(Connection*)sender content:(NSString*)content;
-- (void)connectionDidFail:(Connection*)sender error:(NSError*)error;
-@end
+@implementation TFConnection
 
-@interface Connection (Private)
-- (void)alertError:(NSString*)title withMessage:(NSString*)msg;
-@end
-
-@implementation Connection
+@synthesize buf;
 
 - (id)initWithDelegate:(NSObject*)aDelegate
 {
 	self = [super init];
 	delegate = aDelegate;
+    statusCode = 0;
 	return self;
 }
 
@@ -36,6 +30,9 @@
 
 - (void)get:(NSString*)aURL
 {
+    [conn release];
+	[buf release];
+
     NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
     [URL autorelease];
     NSLog(@"%@", URL);
@@ -48,15 +45,37 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
--(void)post
+-(void)post:(NSString*)aURL body:(NSString*)body
 {
-}
+    [conn release];
+	[buf release];
 
+    NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
+    [URL autorelease];
+	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+                                                       cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                   timeoutInterval:60.0];
+    
+    
+    [req setHTTPMethod:@"POST"];
+    [req setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    int contentLength = [body lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+    
+    [req setValue:[NSString stringWithFormat:@"%d", contentLength] forHTTPHeaderField:@"Content-Length"];
+    [req setHTTPBody:[NSData dataWithBytes:[body UTF8String] length:contentLength]];
+    
+	buf = [[NSMutableData data] retain];
+	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+}
 
 - (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse* res = (NSHTTPURLResponse*)response;
     if (res) {
+        statusCode = res.statusCode;
         NSLog(@"Response: %d", res.statusCode);
         switch (res.statusCode) {
                 
@@ -98,18 +117,20 @@
 	[buf autorelease];
 	buf = nil;
     
-    [self alertError:@"Connection Failed" withMessage:[error localizedDescription]];
-    
     NSString* msg = [NSString stringWithFormat:@"Error: %@ %@",
                      [error localizedDescription],
                      [[error userInfo] objectForKey:NSErrorFailingURLStringKey]];
     
     NSLog(@"Connection failed: %@", msg);
     
-	
-	if (delegate && [delegate respondsToSelector:@selector(connectionDidFail:error:)]) {
-		[delegate connectionDidFail:self error:error];
-	}
+    [self TFConnectionDidFailWithError:error];
+    
+}
+
+
+- (void)TFConnectionDidFailWithError:(NSError*)error
+{
+    // To be implemented in subclass
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)aConn
@@ -117,15 +138,19 @@
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
-    NSString* s = [[[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding]autorelease];
+    NSString* s = [[[NSString alloc] initWithData:buf encoding:NSUTF8StringEncoding] autorelease];
+    
+    [self TFConnectionDidFinishLoading:s];
+
     [conn autorelease];
     conn = nil;
     [buf autorelease];
     buf = nil;
-    
-    if (delegate && [delegate respondsToSelector:@selector(connectionDidSucceed:content:)]) {
-        [delegate connectionDidSucceed:self content:s];
-    }    
+}
+
+- (void)TFConnectionDidFinishLoading:(NSString*)content
+{
+    // To be implemented in subclass
 }
 
 - (void)alertError:(NSString*)title withMessage:(NSString*)msg

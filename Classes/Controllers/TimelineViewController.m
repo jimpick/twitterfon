@@ -195,7 +195,7 @@
         //
         // Do animation if the controller displays friends timeline.
         //
-        NSArray *indexPaths = [[NSArray arrayWithObjects:[[NSIndexPath indexPathForRow:0 inSection:0] autorelease], nil] autorelease];
+        NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
         [self.tableView endUpdates];
@@ -258,7 +258,7 @@
     if (!self.view.hidden) {
         NSMutableArray *indexPath = [[[NSMutableArray alloc] init] autorelease];
         for (int i = 0; i < count; ++i) {
-            [indexPath addObject:[[NSIndexPath indexPathForRow:i inSection:0] autorelease]];
+            [indexPath addObject:[NSIndexPath indexPathForRow:i inSection:0]];
         }        
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];

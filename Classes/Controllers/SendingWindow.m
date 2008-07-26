@@ -15,19 +15,24 @@
 {
     self.windowLevel = UIWindowLevelAlert;
     alert.hidden = true;
-    label.text = @"Sending...";
-    label.font = [UIFont boldSystemFontOfSize:18];
+
+    message.text = @"Sending...";
+    message.font = [UIFont boldSystemFontOfSize:18];
+    errorMessage.text = @"";
+    errorMessage.font = [UIFont boldSystemFontOfSize:18];
+    
     indicator.hidden = false;
     [indicator startAnimating];
     [self makeKeyAndVisible];
 }
 
-- (void) fail
+- (void) fail:(NSString*)error
 {
     alert.hidden = false;
     indicator.hidden = true;
     [indicator stopAnimating];
-    label.text = @"Failed to send a tweet";
+    message.text = @"Failed to send a tweet";
+    errorMessage.text = error;
 }
 
 - (void) hide

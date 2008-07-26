@@ -1,15 +1,8 @@
 #import <UIKit/UIKit.h>
-#import "Message.h"
+#import "TFConnection.h"
 
-@interface ImageDownloader : NSObject
+@interface ImageDownloader : TFConnection
 {
-	NSObject*           delegate;
-	NSMutableData*      buf;
-	NSURLConnection*    conn;
 }
-
-@property (nonatomic, readonly) NSMutableData* buf;
-
-- (ImageDownloader*)imageDownloaderWithDelegate:(id)aDelegate url:(NSString*)url;
 
 @end

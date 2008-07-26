@@ -83,6 +83,10 @@ static sqlite3_stmt *select_statement = nil;
 {
 	[timelineConn autorelease];
 	timelineConn = nil;
+    
+    if (ary == nil) {
+        return;
+    }
 
 	long lastMessageId = 0;
 	if ([messages count] > 0) lastMessageId = ((Message*)[messages lastObject]).messageId;

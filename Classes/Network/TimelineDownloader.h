@@ -1,15 +1,11 @@
 #import <UIKit/UIKit.h>
+#import "TFConnection.h"
 #import "Message.h"
 
-@interface TimelineDownloader : NSObject
+@interface TimelineDownloader : TFConnection
 {
-	NSObject*           delegate;
-	NSURLConnection*    conn;
-	NSMutableData*      buf;
-    MessageType         type;
 }
 
-- (id)initWithDelegate:(NSObject*)delegate;
 - (void)get:(MessageType)type since:(NSString*)since;
 
 @end

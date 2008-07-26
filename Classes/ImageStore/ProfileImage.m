@@ -110,7 +110,8 @@ static sqlite3_stmt *update_statement = nil;
 
 - (void)requestImage:(User*)aUser
 {
-    [[ImageDownloader alloc] imageDownloaderWithDelegate:self url:user.profileImageUrl];
+    ImageDownloader* dl = [[ImageDownloader alloc] initWithDelegate:self];
+    [dl get:user.profileImageUrl];
 }
 
 - (void)imageDownloaderDidSucceed:(ImageDownloader*)sender

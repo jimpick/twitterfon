@@ -1,14 +1,10 @@
 #import <UIKit/UIKit.h>
-#import "Message.h"
+#import "TFConnection.h"
 
-@interface PostTweet : NSObject
+@interface PostTweet : TFConnection
 {
-	NSObject*           delegate;
-	NSURLConnection*    conn;
-	NSMutableData*      buf;
 }
 
-- (id)initWithDelegate:(NSObject*)delegate;
 - (void)post:(NSString*)tweet;
 @end
 

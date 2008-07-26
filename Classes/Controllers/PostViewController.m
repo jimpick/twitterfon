@@ -129,7 +129,9 @@
     [sendingWindow hide];
     
     if ([delegate respondsToSelector:@selector(postTweetDidSucceed:)]) {
-        [delegate postTweetDidSucceed:dic];
+        if (dic) {
+            [delegate postTweetDidSucceed:dic];
+        }
     }       
     
     text.text = @"";
@@ -138,9 +140,9 @@
     didPost = true;
 }
 
-- (void)postTweetDidFail
+- (void)postTweetDidFail:(NSString*)error
 {
-    [sendingWindow fail];
+    [sendingWindow fail:error];
     [post autorelease];
 
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:3 target:sendingWindow selector:@selector(hide) userInfo:nil repeats:NO];

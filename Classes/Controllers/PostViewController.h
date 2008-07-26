@@ -12,7 +12,6 @@
 #import "SendingWindow.h"
 
 @interface PostViewController : UIViewController {
-    IBOutlet UIView*     toolbar;
     IBOutlet UITextView* text;
     IBOutlet UILabel*    charCount;
     IBOutlet UIBarItem*  sendButton;
