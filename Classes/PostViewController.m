@@ -14,7 +14,7 @@
 #define kHideAnimationKey @"hideAnimation"
 
 @interface NSObject (PostTweetDelegate)
-- (void)postTweetDidSucceed:(Message*)message;
+- (void)postTweetDidSucceed:(NSDictionary*)message;
 - (void)postViewAnimationDidFinish:(BOOL)didPost;
 @end
 
@@ -124,12 +124,12 @@
 	[super dealloc];
 }
 
-- (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)message
+- (void)postTweetDidSucceed:(NSDictionary*)dic
 {
     [sendingWindow hide];
     
     if ([delegate respondsToSelector:@selector(postTweetDidSucceed:)]) {
-        [delegate postTweetDidSucceed:message];
+        [delegate postTweetDidSucceed:dic];
     }       
     
     text.text = @"";
@@ -138,7 +138,7 @@
     didPost = true;
 }
 
-- (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error
+- (void)postTweetDidFail
 {
     [sendingWindow fail];
     [post autorelease];

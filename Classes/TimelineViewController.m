@@ -203,8 +203,14 @@
     }
 }
 
-- (void)postTweetDidSucceed:(Message*)message
+- (void)postTweetDidSucceed:(NSDictionary*)dic
 {
+    if (tag == TAB_MESSAGES) {
+        return;
+    }
+    
+    Message *message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
+    
     if (tag == TAB_FRIENDS) {
         [timeline insertMessage:message];
     }

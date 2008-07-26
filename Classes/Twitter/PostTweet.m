@@ -16,8 +16,8 @@
 @end
 
 @interface NSObject (PostTweetDelegate)
-- (void)postTweetDidSucceed:(PostTweet*)sender message:(Message*)messages;
-- (void)postTweetDidFail:(PostTweet*)sender error:(NSError*)error;
+- (void)postTweetDidSucceed:(NSDictionary*)dic;
+- (void)postTweetDidFail;
 @end
 
 @implementation PostTweet
@@ -132,8 +132,8 @@
     NSLog(@"Connection failed! %@", msg);
 
 	
-	if (delegate && [delegate respondsToSelector:@selector(postTweetDidFail:error:)]) {
-		[delegate postTweetDidFail:self error:error];
+	if (delegate && [delegate respondsToSelector:@selector(postTweetDidFail:)]) {
+		[delegate postTweetDidFail];
 	}
 }
 
@@ -158,18 +158,20 @@
             if (msg == nil) msg = @"";
             NSLog(@"Twitter returns an error: %@", msg);
             [self showDialog:@"Server error" withMessage:msg];
+            if (delegate && [delegate respondsToSelector:@selector(postTweetDidFail)]) {
+                [delegate postTweetDidFail];
+            }
         }
         else {
-            Message* m = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
-            if (delegate && [delegate respondsToSelector:@selector(postTweetDidSucceed:message:)]) {
-                [delegate postTweetDidSucceed:self message:m];
+            if (delegate && [delegate respondsToSelector:@selector(postTweetDidSucceed:)]) {
+                [delegate postTweetDidSucceed:dic];
             }
         }
     }
     else {
         NSLog(@"%@", s);
-        if (delegate && [delegate respondsToSelector:@selector(postTweetDidFail:error:)]) {
-            [delegate postTweetDidFail:self error:nil];
+        if (delegate && [delegate respondsToSelector:@selector(postTweetDidFai:)]) {
+            [delegate postTweetDidFail];
         }
     }
 }
