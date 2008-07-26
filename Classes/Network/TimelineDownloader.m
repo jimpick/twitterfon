@@ -65,27 +65,27 @@ NSString* sMethods[3] = {
 - (void)TFConnectionDidFinishLoading:(NSString*)content
 {
     switch (statusCode) {
-        case 401:
+        case 401: // Not Authorized: either you need to provide authentication credentials, or the credentials provided aren't valid.
             [self alertError:@"Authentication Failed" withMessage:@"Wrong username/Email and password combination."];
             return;
-            break;
             
-        case 400:
-        case 200:
-        case 304:
+        case 304: // Not Modified: there was no new data to return.
+            return;
+
+        case 400: // Bad Request: your request is invalid, and we'll return an error message that tells you why. This is the status code returned if you've exceeded the rate limit
+        case 200: // OK: everything went awesome.
+        case 403: // Forbidden: we understand your request, but are refusing to fulfill it.  An accompanying error message should explain why.
             break;
                 
-        case 403:
-        case 404:
-        case 500:
-        case 502:
-        case 503:
+        case 404: // Not Found: either you're requesting an invalid URI or the resource in question doesn't exist (ex: no such user). 
+        case 500: // Internal Server Error: we did something wrong.  Please post to the group about it and the Twitter team will investigate.
+        case 502: // Bad Gateway: returned if Twitter is down or being upgraded.
+        case 503: // Service Unavailable: the Twitter servers are up, but are overloaded with requests.  Try again later.
         default:
         {
             NSString *msg = [NSString stringWithFormat:@"%@ responded %d", response.URL.host, statusCode];
             [self alertError:@"Server responded an error" withMessage:msg];
             return;
-            break;
         }
     }
     
