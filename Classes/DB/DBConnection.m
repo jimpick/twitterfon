@@ -18,7 +18,7 @@ static sqlite3*             theDatabase = nil;
             // Additional error handling, as appropriate...
         }
 
-        [DBConnection garbageCollection:theDatabase];
+        [DBConnection deleteOldCache:theDatabase];
     }
     return theDatabase;
 }
@@ -36,7 +36,7 @@ const char * sqls[4] = {
 #endif
 };
 
-+ (void)garbageCollection:(sqlite3*)db
++ (void)deleteOldCache:(sqlite3*)db
 {
     sqlite3_stmt* statement;
     int i;

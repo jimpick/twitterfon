@@ -6,6 +6,6 @@
 }
 
 + (sqlite3*)getSharedDatabase;
-+ (void)garbageCollection:(sqlite3*)db;
++ (void)deleteOldCache:(sqlite3*)db;
 
 @end
