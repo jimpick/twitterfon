@@ -47,7 +47,6 @@
         case TAB_MESSAGES:
             self.tableView.separatorColor =  [UIColor messageColorBorder];
             self.tableView.backgroundColor = [UIColor messageColor];
-            [timeline update:MSG_TYPE_MESSAGES];
     }
     [timeline restore:tag];
     [timeline update:tag];

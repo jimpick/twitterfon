@@ -53,7 +53,9 @@ static sqlite3_stmt *select_statement = nil;
 	timelineConn = [[TimelineDownloader alloc] initWithDelegate:self];
 
 	NSString* lastMessageDate = nil;
-	if ([messages count] > 0) lastMessageDate = ((Message*)[messages lastObject]).createdAt;    
+	if ([messages count] > 0) {
+            lastMessageDate = ((Message*)[messages lastObject]).createdAt;
+    }
 	[timelineConn get:type since:lastMessageDate];
 }
 
