@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PostViewController.h"
 #import "TwitterFonAppDelegate.h"
+#import "TinyURL.h"
 
 #define kShowAnimationkey @"showAnimation"
 #define kHideAnimationKey @"hideAnimation"
@@ -51,14 +52,30 @@
 {
 }
 
-- (void)startEditWithString:(NSString*)message insertAfter:(BOOL)insertAfter setDelegate:(id)aDelegate
+- (void)startEditWithString:(NSString*)message setDelegate:(id)aDelegate
 {
     NSMutableString *str = [NSMutableString stringWithString:text.text];
     [str insertString:message atIndex:textRange.location];
-    
-    if (!insertAfter) {
-        textRange.location += [message length];
+    textRange.location += [message length];
+
+    self.view.hidden = false;
+    textRange.length = 0;
+    text.text = str;
+    [text becomeFirstResponder];
+    text.selectedRange = textRange;
+    [self startEditWithDelegate:aDelegate];
+}
+
+- (void)startEditWithURL:(NSString*)URL setDelegate:(id)aDelegate
+{
+    if ([TinyURL needToDecode:URL]) {
+        TinyURL *encoder = [[TinyURL alloc] initWithDelegate:self];
+        [encoder encode:URL];
     }
+
+    // Always append the URL to tail
+    NSString *str = [NSString stringWithFormat:@"%@ %@", text.text, URL];
+    
     self.view.hidden = false;
     textRange.length = 0;
     text.text = str;
@@ -111,6 +128,7 @@
 - (IBAction) clear: (id) sender
 {
     text.text = @"";
+    sendButton.enabled = false;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -165,6 +183,33 @@
         charCount.textColor = [UIColor whiteColor];
     }
     charCount.text = [NSString stringWithFormat:@"%d", length];
+}
+
+//
+// TinyURLDelegate
+//
+- (void)encodeTinyURLDidSucceed:(NSString*)tinyURL URL:(NSString*)URL
+{
+    NSRange r = [text.text rangeOfString:URL];
+    if (r.location != NSNotFound) {
+        NSMutableString *str = [NSMutableString stringWithString:text.text];
+        [str replaceCharactersInRange:r withString:tinyURL];
+        text.text = str;
+        if (--r.location < 0) r.location = 0;
+        r.length = 0;
+        text.selectedRange = r;
+    }
+}
+
+- (void)tinyURLDidFail:(TinyURL*)sender error:(NSString*)error
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"encode tinyURL error"
+                                                    message:error
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles: nil];
+    [alert show];	
+    [alert release];
 }
 
 //

@@ -24,7 +24,8 @@
    	IBOutlet SendingWindow* sendingWindow;
 }
 
-- (void)startEditWithString:(NSString*)message insertAfter:(BOOL)intertAfter setDelegate:(id)delegate;
+- (void)startEditWithString:(NSString*)message setDelegate:(id)delegate;
+- (void)startEditWithURL:(NSString*)URL setDelegate:(id)delegate;
 - (void)startEditWithDelegate:(id)delegate;
 
 - (void) setCharCount;

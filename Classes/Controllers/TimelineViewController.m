@@ -139,7 +139,7 @@
     }
     
     [[self navigationController].view addSubview:postView.view];
-    [postView startEditWithString:msg insertAfter:FALSE setDelegate:self];
+    [postView startEditWithString:msg setDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning 

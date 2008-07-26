@@ -22,6 +22,7 @@
 		6EDC012F0E33E6F000FF142E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */; };
 		6EDC01D10E344B5600FF142E /* DBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC01D00E344B5600FF142E /* DBConnection.m */; };
 		6EDC03890E34679300FF142E /* db.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6EDC03880E34679300FF142E /* db.sql */; };
+		6EDD27740E3B5429002E09A0 /* TinyURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDD27730E3B5429002E09A0 /* TinyURL.m */; };
 		6EEBF7000E3B1F390003EA63 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6FA0E3B1F390003EA63 /* ImageDownloader.m */; };
 		6EEBF7010E3B1F390003EA63 /* PostTweet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6FC0E3B1F390003EA63 /* PostTweet.m */; };
 		6EEBF7020E3B1F390003EA63 /* TimelineDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6FE0E3B1F390003EA63 /* TimelineDownloader.m */; };
@@ -77,6 +78,8 @@
 		6EDC01CF0E344B5600FF142E /* DBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBConnection.h; sourceTree = "<group>"; };
 		6EDC01D00E344B5600FF142E /* DBConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBConnection.m; sourceTree = "<group>"; };
 		6EDC03880E34679300FF142E /* db.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sql; sourceTree = "<group>"; };
+		6EDD27720E3B5429002E09A0 /* TinyURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TinyURL.h; path = Network/TinyURL.h; sourceTree = "<group>"; };
+		6EDD27730E3B5429002E09A0 /* TinyURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TinyURL.m; path = Network/TinyURL.m; sourceTree = "<group>"; };
 		6EEBF6F90E3B1F390003EA63 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageDownloader.h; path = Network/ImageDownloader.h; sourceTree = "<group>"; };
 		6EEBF6FA0E3B1F390003EA63 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageDownloader.m; path = Network/ImageDownloader.m; sourceTree = "<group>"; };
 		6EEBF6FB0E3B1F390003EA63 /* PostTweet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostTweet.h; path = Network/PostTweet.h; sourceTree = "<group>"; };
@@ -303,6 +306,8 @@
 				6EEBF6FE0E3B1F390003EA63 /* TimelineDownloader.m */,
 				6E092C390E3B41D40039FEE3 /* TFConnection.h */,
 				6E092C3A0E3B41D40039FEE3 /* TFConnection.m */,
+				6EDD27720E3B5429002E09A0 /* TinyURL.h */,
+				6EDD27730E3B5429002E09A0 /* TinyURL.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -460,6 +465,7 @@
 				6EEBF7250E3B20910003EA63 /* SendingWindow.m in Sources */,
 				6EEBF7280E3B209A0003EA63 /* WebViewController.m in Sources */,
 				6E092C3B0E3B41D40039FEE3 /* TFConnection.m in Sources */,
+				6EDD27740E3B5429002E09A0 /* TinyURL.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

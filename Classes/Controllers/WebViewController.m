@@ -124,13 +124,9 @@
     NSString *aURL = webView.request.URL.absoluteString;
     NSString *decoded = [tinyURLStore valueForKey:aURL];
     
-    //
-    // Needs to encode to tinyURL...
-    //
-    
     [[self navigationController].view addSubview:postView.view];
     UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
-    [postView startEditWithString:[NSString stringWithFormat:@" %@", decoded ? decoded : aURL] insertAfter:TRUE setDelegate:c];
+    [postView startEditWithURL:(decoded) ? decoded : aURL setDelegate:c];
     
 }
 
