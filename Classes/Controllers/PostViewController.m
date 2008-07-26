@@ -1,6 +1,6 @@
 //
 //  PostViewController.m
-//  TwitterPhox
+//  TwitterFon
 //
 //  Created by kaz on 7/16/08.
 //  Copyright 2008 naan studio. All rights reserved.

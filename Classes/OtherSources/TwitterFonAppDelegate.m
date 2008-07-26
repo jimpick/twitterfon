@@ -1,6 +1,6 @@
 //
-//  TwitterPhoxAppDelegate.m
-//  TwitterPhox
+//  TwitterFonAppDelegate.m
+//  TwitterFon
 //
 //  Created by kaz on 7/13/08.
 //  Copyright naan studio 2008. All rights reserved.
