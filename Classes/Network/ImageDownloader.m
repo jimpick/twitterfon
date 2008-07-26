@@ -13,6 +13,15 @@
 	[super dealloc];
 }
 
+- (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)response
+{
+    NSHTTPURLResponse* res = (NSHTTPURLResponse*)response;
+    if (res) {
+        statusCode = res.statusCode;
+    }
+	[buf setLength:0];
+}
+
 - (void)TFConnectionDidFailWithError:(NSError*)error
 {
 	if (delegate && [delegate respondsToSelector:@selector(imageDownloaderDidFail:error:)]) {
