@@ -8,9 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="309"/>
-			<integer value="164"/>
-			<integer value="233"/>
+			<integer value="255"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -50,7 +48,6 @@
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">friends.png</string>
 						</object>
-						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="1034742383"/>
 					<string key="IBUINibName">TimelineView</string>
@@ -66,7 +63,6 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="IBUIViewController" id="1031856950">
 							<object class="IBUINavigationItem" key="IBUINavigationItem" id="643361368">
-								<reference key="IBUINavigationBar"/>
 								<string key="IBUITitle">Friends</string>
 								<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="386635562">
 									<int key="IBUIStyle">1</int>
@@ -97,7 +93,6 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">replies.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<string key="IBUINibName">TimelineView</string>
@@ -137,7 +132,6 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">messages.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<string key="IBUINibName">TimelineView</string>
@@ -177,7 +171,6 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">settings.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<string key="IBUINibName">SettingsView</string>
@@ -198,7 +191,7 @@
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 			</object>
 			<object class="IBUIView" id="308163607">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">290</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -314,14 +307,13 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{320, 240}</string>
-				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MC42ODIzNTI5NiAwLjkxMzcyNTUgMC45MjU0OTAyAA</bytes>
 				</object>
 			</object>
 			<object class="IBUIWindow" id="803290311">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -386,10 +378,11 @@
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
 						</object>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-						<float key="IBUIAlpha">8.000000e-01</float>
+						<float key="IBUIAlpha">7.000000e-01</float>
 					</object>
 				</object>
 				<string key="NSFrameSize">{320, 480}</string>
+				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MSAxIDEgMAA</bytes>
@@ -421,6 +414,7 @@
 							<int key="NSvFlags">306</int>
 							<string key="NSFrameSize">{320, 416}</string>
 							<reference key="NSSuperview" ref="965255302"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -436,6 +430,7 @@
 									<int key="NSvFlags">292</int>
 									<string key="NSFrame">{{72, 10}, {240, 24}}</string>
 									<reference key="NSSuperview" ref="32471571"/>
+									<reference key="NSWindow"/>
 									<bool key="IBUIOpaque">NO</bool>
 									<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 									<bool key="IBUIEnabled">NO</bool>
@@ -457,6 +452,7 @@
 							</object>
 							<string key="NSFrame">{{0, 416}, {320, 44}}</string>
 							<reference key="NSSuperview" ref="965255302"/>
+							<reference key="NSWindow"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							<object class="NSMutableArray" key="IBUIItems">
@@ -484,6 +480,7 @@
 					</object>
 					<string key="NSFrameSize">{320, 460}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -1257,7 +1254,7 @@
 					<string>PostViewController</string>
 					<string>{{14, 1065}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{387, 696}, {320, 240}}</string>
+					<string>{{606, 450}, {320, 240}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1270,7 +1267,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>SendingWindow</string>
-					<string>{{738, 704}, {320, 480}}</string>
+					<string>{{547, 645}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
