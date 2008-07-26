@@ -13,15 +13,6 @@
 	[super dealloc];
 }
 
-- (ImageDownloader*)imageDownloaderWithDelegate:(id)aDelegate url:(NSString*)anURL
-{
-    self = [super initWithDelegate:aDelegate];
-	NSLog(@"Get image from %@", anURL);
-    
-    [self get:anURL];
-	return self;
-}
-
 - (void)TFConnectionDidFailWithError:(NSError*)error
 {
 	if (delegate && [delegate respondsToSelector:@selector(imageDownloaderDidFail:error:)]) {
