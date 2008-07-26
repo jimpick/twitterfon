@@ -10,41 +10,41 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
-		6E00667E0E38719C00D44C31 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E00667D0E38719C00D44C31 /* main.m */; };
-		6E0066810E3871A300D44C31 /* REString.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E00667F0E3871A300D44C31 /* REString.m */; };
 		6E2BCF1B0E3591B8003A8F69 /* postbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF1A0E3591B8003A8F69 /* postbutton.png */; };
 		6E2BCF260E3596D4003A8F69 /* friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF250E3596D4003A8F69 /* friends.png */; };
 		6E2BD0C10E35AE04003A8F69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */; };
 		6E2BD11F0E35B3D2003A8F69 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BD11E0E35B3D2003A8F69 /* Default.png */; };
-		6E2BD3D30E35D52E003A8F69 /* SendingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2BD3D20E35D52E003A8F69 /* SendingWindow.m */; };
-		6E38EF830E38277F00887690 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E38EF820E38277F00887690 /* WebViewController.m */; };
-		6E8774820E347F2E00EBE275 /* StringUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8774810E347F2E00EBE275 /* StringUtil.m */; };
-		6E8776880E34931300EBE275 /* ColorUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8776870E34931300EBE275 /* ColorUtils.m */; };
-		6E87D23D0E37369300F11DCD /* ProfileImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E87D23B0E37369300F11DCD /* ProfileImageButton.m */; };
 		6EAF29400E36F97E00129692 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EAF293F0E36F97E00129692 /* alert.png */; };
 		6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA50E38D3A0006E8AB7 /* forward.png */; };
 		6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA60E38D3A0006E8AB7 /* back.png */; };
-		6EDC01160E33E69600FF142E /* TwitterFonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC01150E33E69600FF142E /* TwitterFonAppDelegate.m */; };
 		6EDC01240E33E6DA00FF142E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */; };
 		6EDC012F0E33E6F000FF142E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */; };
 		6EDC01D10E344B5600FF142E /* DBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC01D00E344B5600FF142E /* DBConnection.m */; };
 		6EDC03890E34679300FF142E /* db.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6EDC03880E34679300FF142E /* db.sql */; };
-		6EEBF6DD0E3B1EAC0003EA63 /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6DB0E3B1EAC0003EA63 /* Connection.m */; };
-		6EED142A0E33E59B00C71EA4 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14060E33E59B00C71EA4 /* ImageDownloader.m */; };
+		6EEBF6FF0E3B1F390003EA63 /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6F80E3B1F390003EA63 /* Connection.m */; };
+		6EEBF7000E3B1F390003EA63 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6FA0E3B1F390003EA63 /* ImageDownloader.m */; };
+		6EEBF7010E3B1F390003EA63 /* PostTweet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6FC0E3B1F390003EA63 /* PostTweet.m */; };
+		6EEBF7020E3B1F390003EA63 /* TimelineDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6FE0E3B1F390003EA63 /* TimelineDownloader.m */; };
+		6EEBF70C0E3B1FD40003EA63 /* ColorUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7040E3B1FD40003EA63 /* ColorUtils.m */; };
+		6EEBF70D0E3B1FD40003EA63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7050E3B1FD40003EA63 /* main.m */; };
+		6EEBF70E0E3B1FD40003EA63 /* REString.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7070E3B1FD40003EA63 /* REString.m */; };
+		6EEBF70F0E3B1FD40003EA63 /* StringUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7090E3B1FD40003EA63 /* StringUtil.m */; };
+		6EEBF7100E3B1FD40003EA63 /* TwitterFonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */; };
+		6EEBF7150E3B20610003EA63 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7120E3B20610003EA63 /* SettingsViewController.m */; };
+		6EEBF7160E3B20610003EA63 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7130E3B20610003EA63 /* SettingsTableViewController.m */; };
+		6EEBF71D0E3B20830003EA63 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7180E3B20830003EA63 /* MessageCell.m */; };
+		6EEBF71E0E3B20830003EA63 /* ProfileImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF71A0E3B20830003EA63 /* ProfileImageButton.m */; };
+		6EEBF71F0E3B20830003EA63 /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF71C0E3B20830003EA63 /* TimelineViewController.m */; };
+		6EEBF7240E3B20910003EA63 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7210E3B20910003EA63 /* PostViewController.m */; };
+		6EEBF7250E3B20910003EA63 /* SendingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7230E3B20910003EA63 /* SendingWindow.m */; };
+		6EEBF7280E3B209A0003EA63 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7270E3B209A0003EA63 /* WebViewController.m */; };
 		6EED142B0E33E59B00C71EA4 /* ImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14080E33E59B00C71EA4 /* ImageStore.m */; };
 		6EED142C0E33E59B00C71EA4 /* ProfileImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED140A0E33E59B00C71EA4 /* ProfileImage.m */; };
 		6EED142D0E33E59B00C71EA4 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED140E0E33E59B00C71EA4 /* NSObject+SBJSON.m */; };
 		6EED142E0E33E59B00C71EA4 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14100E33E59B00C71EA4 /* NSString+SBJSON.m */; };
 		6EED142F0E33E59B00C71EA4 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14120E33E59B00C71EA4 /* SBJSON.m */; };
-		6EED14300E33E59B00C71EA4 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14140E33E59B00C71EA4 /* MessageCell.m */; };
-		6EED14310E33E59B00C71EA4 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14160E33E59B00C71EA4 /* PostViewController.m */; };
-		6EED14320E33E59B00C71EA4 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14180E33E59B00C71EA4 /* SettingsTableViewController.m */; };
-		6EED14330E33E59B00C71EA4 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED141A0E33E59B00C71EA4 /* SettingsViewController.m */; };
-		6EED14340E33E59B00C71EA4 /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED141C0E33E59B00C71EA4 /* TimelineViewController.m */; };
 		6EED14350E33E59B00C71EA4 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED141F0E33E59B00C71EA4 /* Message.m */; };
-		6EED14360E33E59B00C71EA4 /* PostTweet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14210E33E59B00C71EA4 /* PostTweet.m */; };
 		6EED14370E33E59B00C71EA4 /* Timeline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14230E33E59B00C71EA4 /* Timeline.m */; };
-		6EED14380E33E59B00C71EA4 /* TimelineDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14250E33E59B00C71EA4 /* TimelineDownloader.m */; };
 		6EED14390E33E59B00C71EA4 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14270E33E59B00C71EA4 /* User.m */; };
 		6EED143D0E33E5BA00C71EA4 /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EED143A0E33E5BA00C71EA4 /* SettingsView.xib */; };
 		6EED143E0E33E5BA00C71EA4 /* TimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EED143B0E33E5BA00C71EA4 /* TimelineView.xib */; };
@@ -63,37 +63,51 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* TwitterFon_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterFon_Prefix.pch; sourceTree = "<group>"; };
 		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		6E00667D0E38719C00D44C31 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Classes/main.m; sourceTree = "<group>"; };
-		6E00667F0E3871A300D44C31 /* REString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = REString.m; path = Classes/REString.m; sourceTree = "<group>"; };
-		6E0066800E3871A300D44C31 /* REString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REString.h; path = Classes/REString.h; sourceTree = "<group>"; };
 		6E2BCF1A0E3591B8003A8F69 /* postbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = postbutton.png; sourceTree = "<group>"; };
 		6E2BCF250E3596D4003A8F69 /* friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends.png; sourceTree = "<group>"; };
 		6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6E2BD11E0E35B3D2003A8F69 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		6E2BD3D10E35D52E003A8F69 /* SendingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendingWindow.h; sourceTree = "<group>"; };
-		6E2BD3D20E35D52E003A8F69 /* SendingWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendingWindow.m; sourceTree = "<group>"; };
-		6E38EF810E38277F00887690 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
-		6E38EF820E38277F00887690 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
-		6E8774800E347F2E00EBE275 /* StringUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringUtil.h; path = Classes/StringUtil.h; sourceTree = "<group>"; };
-		6E8774810E347F2E00EBE275 /* StringUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StringUtil.m; path = Classes/StringUtil.m; sourceTree = "<group>"; };
-		6E8776860E34931300EBE275 /* ColorUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorUtils.h; path = Classes/ColorUtils.h; sourceTree = "<group>"; };
-		6E8776870E34931300EBE275 /* ColorUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorUtils.m; path = Classes/ColorUtils.m; sourceTree = "<group>"; };
-		6E87D23B0E37369300F11DCD /* ProfileImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileImageButton.m; sourceTree = "<group>"; };
-		6E87D23C0E37369300F11DCD /* ProfileImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImageButton.h; sourceTree = "<group>"; };
 		6EAF293F0E36F97E00129692 /* alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alert.png; sourceTree = "<group>"; };
 		6ED17FA50E38D3A0006E8AB7 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
 		6ED17FA60E38D3A0006E8AB7 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
-		6EDC01140E33E69600FF142E /* TwitterFonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitterFonAppDelegate.h; path = Classes/TwitterFonAppDelegate.h; sourceTree = "<group>"; };
-		6EDC01150E33E69600FF142E /* TwitterFonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitterFonAppDelegate.m; path = Classes/TwitterFonAppDelegate.m; sourceTree = "<group>"; };
 		6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6EDC01CF0E344B5600FF142E /* DBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBConnection.h; sourceTree = "<group>"; };
 		6EDC01D00E344B5600FF142E /* DBConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBConnection.m; sourceTree = "<group>"; };
 		6EDC03880E34679300FF142E /* db.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sql; sourceTree = "<group>"; };
-		6EEBF6DB0E3B1EAC0003EA63 /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Connection.m; path = Network/Connection.m; sourceTree = "<group>"; };
-		6EEBF6DC0E3B1EAC0003EA63 /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Connection.h; path = Network/Connection.h; sourceTree = "<group>"; };
-		6EED14050E33E59B00C71EA4 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
-		6EED14060E33E59B00C71EA4 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		6EEBF6F70E3B1F390003EA63 /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Connection.h; path = Network/Connection.h; sourceTree = "<group>"; };
+		6EEBF6F80E3B1F390003EA63 /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Connection.m; path = Network/Connection.m; sourceTree = "<group>"; };
+		6EEBF6F90E3B1F390003EA63 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageDownloader.h; path = Network/ImageDownloader.h; sourceTree = "<group>"; };
+		6EEBF6FA0E3B1F390003EA63 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageDownloader.m; path = Network/ImageDownloader.m; sourceTree = "<group>"; };
+		6EEBF6FB0E3B1F390003EA63 /* PostTweet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostTweet.h; path = Network/PostTweet.h; sourceTree = "<group>"; };
+		6EEBF6FC0E3B1F390003EA63 /* PostTweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostTweet.m; path = Network/PostTweet.m; sourceTree = "<group>"; };
+		6EEBF6FD0E3B1F390003EA63 /* TimelineDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineDownloader.h; path = Network/TimelineDownloader.h; sourceTree = "<group>"; };
+		6EEBF6FE0E3B1F390003EA63 /* TimelineDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineDownloader.m; path = Network/TimelineDownloader.m; sourceTree = "<group>"; };
+		6EEBF7030E3B1FD40003EA63 /* ColorUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorUtils.h; path = Classes/OtherSources/ColorUtils.h; sourceTree = "<group>"; };
+		6EEBF7040E3B1FD40003EA63 /* ColorUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorUtils.m; path = Classes/OtherSources/ColorUtils.m; sourceTree = "<group>"; };
+		6EEBF7050E3B1FD40003EA63 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Classes/OtherSources/main.m; sourceTree = "<group>"; };
+		6EEBF7060E3B1FD40003EA63 /* REString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REString.h; path = Classes/OtherSources/REString.h; sourceTree = "<group>"; };
+		6EEBF7070E3B1FD40003EA63 /* REString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = REString.m; path = Classes/OtherSources/REString.m; sourceTree = "<group>"; };
+		6EEBF7080E3B1FD40003EA63 /* StringUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringUtil.h; path = Classes/OtherSources/StringUtil.h; sourceTree = "<group>"; };
+		6EEBF7090E3B1FD40003EA63 /* StringUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StringUtil.m; path = Classes/OtherSources/StringUtil.m; sourceTree = "<group>"; };
+		6EEBF70A0E3B1FD40003EA63 /* TwitterFonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitterFonAppDelegate.h; path = Classes/OtherSources/TwitterFonAppDelegate.h; sourceTree = "<group>"; };
+		6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitterFonAppDelegate.m; path = Classes/OtherSources/TwitterFonAppDelegate.m; sourceTree = "<group>"; };
+		6EEBF7110E3B20610003EA63 /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsTableViewController.h; path = Controllers/SettingsTableViewController.h; sourceTree = "<group>"; };
+		6EEBF7120E3B20610003EA63 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Controllers/SettingsViewController.m; sourceTree = "<group>"; };
+		6EEBF7130E3B20610003EA63 /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsTableViewController.m; path = Controllers/SettingsTableViewController.m; sourceTree = "<group>"; };
+		6EEBF7140E3B20610003EA63 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = Controllers/SettingsViewController.h; sourceTree = "<group>"; };
+		6EEBF7170E3B20830003EA63 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageCell.h; path = Controllers/MessageCell.h; sourceTree = "<group>"; };
+		6EEBF7180E3B20830003EA63 /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageCell.m; path = Controllers/MessageCell.m; sourceTree = "<group>"; };
+		6EEBF7190E3B20830003EA63 /* ProfileImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileImageButton.h; path = Controllers/ProfileImageButton.h; sourceTree = "<group>"; };
+		6EEBF71A0E3B20830003EA63 /* ProfileImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileImageButton.m; path = Controllers/ProfileImageButton.m; sourceTree = "<group>"; };
+		6EEBF71B0E3B20830003EA63 /* TimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineViewController.h; path = Controllers/TimelineViewController.h; sourceTree = "<group>"; };
+		6EEBF71C0E3B20830003EA63 /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineViewController.m; path = Controllers/TimelineViewController.m; sourceTree = "<group>"; };
+		6EEBF7200E3B20910003EA63 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostViewController.h; path = Controllers/PostViewController.h; sourceTree = "<group>"; };
+		6EEBF7210E3B20910003EA63 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostViewController.m; path = Controllers/PostViewController.m; sourceTree = "<group>"; };
+		6EEBF7220E3B20910003EA63 /* SendingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SendingWindow.h; path = Controllers/SendingWindow.h; sourceTree = "<group>"; };
+		6EEBF7230E3B20910003EA63 /* SendingWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SendingWindow.m; path = Controllers/SendingWindow.m; sourceTree = "<group>"; };
+		6EEBF7260E3B209A0003EA63 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = Controllers/WebViewController.h; sourceTree = "<group>"; };
+		6EEBF7270E3B209A0003EA63 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = Controllers/WebViewController.m; sourceTree = "<group>"; };
 		6EED14070E33E59B00C71EA4 /* ImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageStore.h; sourceTree = "<group>"; };
 		6EED14080E33E59B00C71EA4 /* ImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageStore.m; sourceTree = "<group>"; };
 		6EED14090E33E59B00C71EA4 /* ProfileImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImage.h; sourceTree = "<group>"; };
@@ -105,24 +119,10 @@
 		6EED14100E33E59B00C71EA4 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
 		6EED14110E33E59B00C71EA4 /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
 		6EED14120E33E59B00C71EA4 /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
-		6EED14130E33E59B00C71EA4 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
-		6EED14140E33E59B00C71EA4 /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
-		6EED14150E33E59B00C71EA4 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
-		6EED14160E33E59B00C71EA4 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
-		6EED14170E33E59B00C71EA4 /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
-		6EED14180E33E59B00C71EA4 /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
-		6EED14190E33E59B00C71EA4 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		6EED141A0E33E59B00C71EA4 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		6EED141B0E33E59B00C71EA4 /* TimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimelineViewController.h; sourceTree = "<group>"; };
-		6EED141C0E33E59B00C71EA4 /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimelineViewController.m; sourceTree = "<group>"; };
 		6EED141E0E33E59B00C71EA4 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		6EED141F0E33E59B00C71EA4 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
-		6EED14200E33E59B00C71EA4 /* PostTweet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostTweet.h; sourceTree = "<group>"; };
-		6EED14210E33E59B00C71EA4 /* PostTweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostTweet.m; sourceTree = "<group>"; };
 		6EED14220E33E59B00C71EA4 /* Timeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timeline.h; sourceTree = "<group>"; };
 		6EED14230E33E59B00C71EA4 /* Timeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timeline.m; sourceTree = "<group>"; };
-		6EED14240E33E59B00C71EA4 /* TimelineDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimelineDownloader.h; sourceTree = "<group>"; };
-		6EED14250E33E59B00C71EA4 /* TimelineDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimelineDownloader.m; sourceTree = "<group>"; };
 		6EED14260E33E59B00C71EA4 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		6EED14270E33E59B00C71EA4 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		6EED143A0E33E5BA00C71EA4 /* SettingsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsView.xib; sourceTree = "<group>"; };
@@ -189,16 +189,16 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				6E00667D0E38719C00D44C31 /* main.m */,
+				6EEBF7030E3B1FD40003EA63 /* ColorUtils.h */,
+				6EEBF7040E3B1FD40003EA63 /* ColorUtils.m */,
+				6EEBF7050E3B1FD40003EA63 /* main.m */,
+				6EEBF7060E3B1FD40003EA63 /* REString.h */,
+				6EEBF7070E3B1FD40003EA63 /* REString.m */,
+				6EEBF7080E3B1FD40003EA63 /* StringUtil.h */,
+				6EEBF7090E3B1FD40003EA63 /* StringUtil.m */,
+				6EEBF70A0E3B1FD40003EA63 /* TwitterFonAppDelegate.h */,
+				6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */,
 				28A0AB4B0D9B1048005BE974 /* TwitterFon_Prefix.pch */,
-				6E8774800E347F2E00EBE275 /* StringUtil.h */,
-				6E8774810E347F2E00EBE275 /* StringUtil.m */,
-				6E00667F0E3871A300D44C31 /* REString.m */,
-				6E0066800E3871A300D44C31 /* REString.h */,
-				6E8776860E34931300EBE275 /* ColorUtils.h */,
-				6E8776870E34931300EBE275 /* ColorUtils.m */,
-				6EDC01140E33E69600FF142E /* TwitterFonAppDelegate.h */,
-				6EDC01150E33E69600FF142E /* TwitterFonAppDelegate.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -231,8 +231,8 @@
 		6E38EF7F0E38275300887690 /* Web View */ = {
 			isa = PBXGroup;
 			children = (
-				6E38EF810E38277F00887690 /* WebViewController.h */,
-				6E38EF820E38277F00887690 /* WebViewController.m */,
+				6EEBF7260E3B209A0003EA63 /* WebViewController.h */,
+				6EEBF7270E3B209A0003EA63 /* WebViewController.m */,
 			);
 			name = "Web View";
 			sourceTree = "<group>";
@@ -240,10 +240,10 @@
 		6E8265C80E375119005D2370 /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				6EED14150E33E59B00C71EA4 /* PostViewController.h */,
-				6EED14160E33E59B00C71EA4 /* PostViewController.m */,
-				6E2BD3D10E35D52E003A8F69 /* SendingWindow.h */,
-				6E2BD3D20E35D52E003A8F69 /* SendingWindow.m */,
+				6EEBF7200E3B20910003EA63 /* PostViewController.h */,
+				6EEBF7210E3B20910003EA63 /* PostViewController.m */,
+				6EEBF7220E3B20910003EA63 /* SendingWindow.h */,
+				6EEBF7230E3B20910003EA63 /* SendingWindow.m */,
 			);
 			name = Post;
 			sourceTree = "<group>";
@@ -251,12 +251,12 @@
 		6E8265C90E375122005D2370 /* FriendsTimeline */ = {
 			isa = PBXGroup;
 			children = (
-				6EED14130E33E59B00C71EA4 /* MessageCell.h */,
-				6EED14140E33E59B00C71EA4 /* MessageCell.m */,
-				6E87D23C0E37369300F11DCD /* ProfileImageButton.h */,
-				6E87D23B0E37369300F11DCD /* ProfileImageButton.m */,
-				6EED141B0E33E59B00C71EA4 /* TimelineViewController.h */,
-				6EED141C0E33E59B00C71EA4 /* TimelineViewController.m */,
+				6EEBF7170E3B20830003EA63 /* MessageCell.h */,
+				6EEBF7180E3B20830003EA63 /* MessageCell.m */,
+				6EEBF7190E3B20830003EA63 /* ProfileImageButton.h */,
+				6EEBF71A0E3B20830003EA63 /* ProfileImageButton.m */,
+				6EEBF71B0E3B20830003EA63 /* TimelineViewController.h */,
+				6EEBF71C0E3B20830003EA63 /* TimelineViewController.m */,
 			);
 			name = FriendsTimeline;
 			sourceTree = "<group>";
@@ -264,10 +264,10 @@
 		6E8265CA0E37513B005D2370 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				6EED14170E33E59B00C71EA4 /* SettingsTableViewController.h */,
-				6EED14180E33E59B00C71EA4 /* SettingsTableViewController.m */,
-				6EED14190E33E59B00C71EA4 /* SettingsViewController.h */,
-				6EED141A0E33E59B00C71EA4 /* SettingsViewController.m */,
+				6EEBF7110E3B20610003EA63 /* SettingsTableViewController.h */,
+				6EEBF7130E3B20610003EA63 /* SettingsTableViewController.m */,
+				6EEBF7140E3B20610003EA63 /* SettingsViewController.h */,
+				6EEBF7120E3B20610003EA63 /* SettingsViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -295,8 +295,14 @@
 		6EEBF6C90E3AE3780003EA63 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				6EEBF6DB0E3B1EAC0003EA63 /* Connection.m */,
-				6EEBF6DC0E3B1EAC0003EA63 /* Connection.h */,
+				6EEBF6F70E3B1F390003EA63 /* Connection.h */,
+				6EEBF6F80E3B1F390003EA63 /* Connection.m */,
+				6EEBF6F90E3B1F390003EA63 /* ImageDownloader.h */,
+				6EEBF6FA0E3B1F390003EA63 /* ImageDownloader.m */,
+				6EEBF6FB0E3B1F390003EA63 /* PostTweet.h */,
+				6EEBF6FC0E3B1F390003EA63 /* PostTweet.m */,
+				6EEBF6FD0E3B1F390003EA63 /* TimelineDownloader.h */,
+				6EEBF6FE0E3B1F390003EA63 /* TimelineDownloader.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -304,8 +310,6 @@
 		6EED14040E33E59B00C71EA4 /* ImageStore */ = {
 			isa = PBXGroup;
 			children = (
-				6EED14050E33E59B00C71EA4 /* ImageDownloader.h */,
-				6EED14060E33E59B00C71EA4 /* ImageDownloader.m */,
 				6EED14070E33E59B00C71EA4 /* ImageStore.h */,
 				6EED14080E33E59B00C71EA4 /* ImageStore.m */,
 				6EED14090E33E59B00C71EA4 /* ProfileImage.h */,
@@ -337,10 +341,6 @@
 				6EED141F0E33E59B00C71EA4 /* Message.m */,
 				6EED14220E33E59B00C71EA4 /* Timeline.h */,
 				6EED14230E33E59B00C71EA4 /* Timeline.m */,
-				6EED14240E33E59B00C71EA4 /* TimelineDownloader.h */,
-				6EED14250E33E59B00C71EA4 /* TimelineDownloader.m */,
-				6EED14200E33E59B00C71EA4 /* PostTweet.h */,
-				6EED14210E33E59B00C71EA4 /* PostTweet.m */,
 			);
 			path = Twitter;
 			sourceTree = "<group>";
@@ -434,32 +434,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EED142A0E33E59B00C71EA4 /* ImageDownloader.m in Sources */,
 				6EED142B0E33E59B00C71EA4 /* ImageStore.m in Sources */,
 				6EED142C0E33E59B00C71EA4 /* ProfileImage.m in Sources */,
 				6EED142D0E33E59B00C71EA4 /* NSObject+SBJSON.m in Sources */,
 				6EED142E0E33E59B00C71EA4 /* NSString+SBJSON.m in Sources */,
 				6EED142F0E33E59B00C71EA4 /* SBJSON.m in Sources */,
-				6EED14300E33E59B00C71EA4 /* MessageCell.m in Sources */,
-				6EED14310E33E59B00C71EA4 /* PostViewController.m in Sources */,
-				6EED14320E33E59B00C71EA4 /* SettingsTableViewController.m in Sources */,
-				6EED14330E33E59B00C71EA4 /* SettingsViewController.m in Sources */,
-				6EED14340E33E59B00C71EA4 /* TimelineViewController.m in Sources */,
 				6EED14350E33E59B00C71EA4 /* Message.m in Sources */,
-				6EED14360E33E59B00C71EA4 /* PostTweet.m in Sources */,
 				6EED14370E33E59B00C71EA4 /* Timeline.m in Sources */,
-				6EED14380E33E59B00C71EA4 /* TimelineDownloader.m in Sources */,
 				6EED14390E33E59B00C71EA4 /* User.m in Sources */,
-				6EDC01160E33E69600FF142E /* TwitterFonAppDelegate.m in Sources */,
 				6EDC01D10E344B5600FF142E /* DBConnection.m in Sources */,
-				6E8774820E347F2E00EBE275 /* StringUtil.m in Sources */,
-				6E8776880E34931300EBE275 /* ColorUtils.m in Sources */,
-				6E2BD3D30E35D52E003A8F69 /* SendingWindow.m in Sources */,
-				6E87D23D0E37369300F11DCD /* ProfileImageButton.m in Sources */,
-				6E38EF830E38277F00887690 /* WebViewController.m in Sources */,
-				6E00667E0E38719C00D44C31 /* main.m in Sources */,
-				6E0066810E3871A300D44C31 /* REString.m in Sources */,
-				6EEBF6DD0E3B1EAC0003EA63 /* Connection.m in Sources */,
+				6EEBF6FF0E3B1F390003EA63 /* Connection.m in Sources */,
+				6EEBF7000E3B1F390003EA63 /* ImageDownloader.m in Sources */,
+				6EEBF7010E3B1F390003EA63 /* PostTweet.m in Sources */,
+				6EEBF7020E3B1F390003EA63 /* TimelineDownloader.m in Sources */,
+				6EEBF70C0E3B1FD40003EA63 /* ColorUtils.m in Sources */,
+				6EEBF70D0E3B1FD40003EA63 /* main.m in Sources */,
+				6EEBF70E0E3B1FD40003EA63 /* REString.m in Sources */,
+				6EEBF70F0E3B1FD40003EA63 /* StringUtil.m in Sources */,
+				6EEBF7100E3B1FD40003EA63 /* TwitterFonAppDelegate.m in Sources */,
+				6EEBF7150E3B20610003EA63 /* SettingsViewController.m in Sources */,
+				6EEBF7160E3B20610003EA63 /* SettingsTableViewController.m in Sources */,
+				6EEBF71D0E3B20830003EA63 /* MessageCell.m in Sources */,
+				6EEBF71E0E3B20830003EA63 /* ProfileImageButton.m in Sources */,
+				6EEBF71F0E3B20830003EA63 /* TimelineViewController.m in Sources */,
+				6EEBF7240E3B20910003EA63 /* PostViewController.m in Sources */,
+				6EEBF7250E3B20910003EA63 /* SendingWindow.m in Sources */,
+				6EEBF7280E3B209A0003EA63 /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
