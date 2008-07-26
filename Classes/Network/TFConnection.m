@@ -71,35 +71,13 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
-- (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)response
+- (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)aResponse
 {
-    NSHTTPURLResponse* res = (NSHTTPURLResponse*)response;
-    if (res) {
-        statusCode = res.statusCode;
-        NSLog(@"Response: %d", res.statusCode);
-        switch (res.statusCode) {
-                
-            case 401:
-            case 400:
-            case 200:
-            case 304:
-                break;
-                
-            case 403:
-            case 404:
-            case 500:
-            case 502:
-            case 503:
-            default:
-            {
-                NSString *msg = [NSString stringWithFormat:@"%@ responded %d", response.URL.host, res.statusCode];
-                [self alertError:@"Server responded an error" withMessage:msg];
-                break;
-            }
-        }
+    response = (NSHTTPURLResponse*)aResponse;
+    if (response) {
+        statusCode = response.statusCode;
+        NSLog(@"Response: %d", statusCode);
     }
-    
-    
 	[buf setLength:0];
 }
 

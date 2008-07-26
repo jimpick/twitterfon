@@ -35,16 +35,6 @@
     
 }
 
-
-- (void)connection:(NSURLConnection *)aConn didReceiveResponse:(NSURLResponse *)response
-{
-    [super connection:aConn didReceiveResponse:response];
-    NSHTTPURLResponse* res = (NSHTTPURLResponse*)response;
-    if (res.statusCode == 401) {
-        [self alertError:@"Authentication Failed" withMessage:@"Wrong username/Email and password combination."];
-    }
-}
-
 - (void)TFConnectionDidFailWithError:(NSError*)error
 {
     NSString *errorMessage = [error localizedDescription];
@@ -55,6 +45,32 @@
 
 - (void)TFConnectionDidFinishLoading:(NSString*)content
 {
+    
+    switch (statusCode) {
+        case 401:
+            [self alertError:@"Authentication Failed" withMessage:@"Wrong username/Email and password combination."];
+            return;
+            break;
+            
+        case 400:
+        case 200:
+        case 304:
+            break;
+            
+        case 403:
+        case 404:
+        case 500:
+        case 502:
+        case 503:
+        default:
+        {
+            NSString *msg = [NSString stringWithFormat:@"%@ responded %d", response.URL.host, statusCode];
+            [self alertError:@"Server responded an error" withMessage:msg];
+            return;
+            break;
+        }
+    }
+    
 	NSObject* obj = [content JSONValue];
 
     if ([obj isKindOfClass:[NSDictionary class]]) {

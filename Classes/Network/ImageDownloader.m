@@ -13,29 +13,16 @@
 	[super dealloc];
 }
 
-- (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)response
-{
-    NSHTTPURLResponse* res = (NSHTTPURLResponse*)response;
-    if (res) {
-        statusCode = res.statusCode;
-    }
-	[buf setLength:0];
-}
-
 - (void)TFConnectionDidFailWithError:(NSError*)error
 {
-	if (delegate && [delegate respondsToSelector:@selector(imageDownloaderDidFail:error:)]) {
-		[delegate imageDownloaderDidFail:self error:error];
-	}
+    [delegate imageDownloaderDidFail:self error:error];
     [self autorelease];
 }   
 
 - (void)TFConnectionDidFinishLoading:(NSString*)content
 {
     if (statusCode == 200) {
-        if (delegate && [delegate respondsToSelector:@selector(imageDownloaderDidSucceed:)]) {
-            [delegate imageDownloaderDidSucceed:self];
-        }
+        [delegate imageDownloaderDidSucceed:self];
     }
     [self autorelease];
 }

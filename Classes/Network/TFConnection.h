@@ -10,6 +10,7 @@
 {
 	NSObject*           delegate;
 	NSURLConnection*    conn;
+    NSHTTPURLResponse*  response;
 	NSMutableData*      buf;
     int                 statusCode;
 }
