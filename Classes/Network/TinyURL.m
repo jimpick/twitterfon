@@ -54,7 +54,7 @@
         [delegate encodeTinyURLDidSucceed:content URL:givenURL];
     }
     else {
-        [delegate tinyURLDidFail:self error:[NSString stringWithFormat:@"tinyURL server responded %d", statusCode]];
+        [delegate tinyURLDidFail:self error:[NSString stringWithFormat:@"tinyURL server responded with %d", statusCode]];
     }
     [self autorelease];
 }

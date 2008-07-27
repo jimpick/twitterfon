@@ -102,7 +102,7 @@ NSString* sMethods[3] = {
         default:
         {
             NSString *msg = [NSString stringWithFormat:@"%@ responded %d", response.URL.host, statusCode];
-            [self alertError:@"Server responded an error" withMessage:msg];
+            [self alertError:@"Server responded with an error" withMessage:msg];
             return;
         }
     }
@@ -113,7 +113,7 @@ NSString* sMethods[3] = {
         NSDictionary* dic = (NSDictionary*)obj;
         NSString *msg = [dic objectForKey:@"error"];
         if (msg) {
-            NSLog(@"Twitter returns an error: %@", msg);
+            NSLog(@"Twitter responded with an error: %@", msg);
             [self alertError:@"Server error" withMessage:msg];
             [delegate twitterClientDidFail:self error:msg];
         }

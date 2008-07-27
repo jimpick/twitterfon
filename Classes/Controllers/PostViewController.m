@@ -208,7 +208,7 @@
 
 - (void)tinyURLDidFail:(TinyURL*)sender error:(NSString*)error
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"encode tinyURL error"
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TinyURL error"
                                                     message:error
                                                    delegate:self
                                           cancelButtonTitle:@"OK"
