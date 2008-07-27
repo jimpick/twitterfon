@@ -145,7 +145,7 @@
 - (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj;
 {
     NSDictionary *dic = nil;
-    if ([obj isKindOfClass:[NSDictionary class]]) {
+    if (obj && [obj isKindOfClass:[NSDictionary class]]) {
         dic = (NSDictionary*)obj;    
     }
     
