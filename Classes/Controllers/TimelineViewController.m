@@ -243,7 +243,7 @@
 }
 
 //
-// TimelineDownloaderDelegate
+// TimelineDelegate
 //
 - (void)timelineDidReceiveNewMessage:(Message*)msg
 {

@@ -1,12 +1,13 @@
 //
-//  TimelineDownloader.m
-//  TwitterPhox
+//  TwitterClient.m
+//  TwitterFon
 //
 //  Created by kaz on 7/13/08.
 //  Copyright naan studio 2008. All rights reserved.
 //
 
-#import "TimelineDownloader.h"
+#import "TwitterClient.h"
+#import "StringUtil.h"
 #import "JSON.h"
 #import "Message.h"
 
@@ -19,12 +20,12 @@ NSString* sMethods[3] = {
 
 //#define DEBUG_WITH_PUBLIC_TIMELINE
 
-@interface NSObject (TimelineDownloaderDelegate)
-- (void)timelineDownloaderDidSucceed:(TimelineDownloader*)sender messages:(NSArray*)messages;
-- (void)timelineDownloaderDidFail:(TimelineDownloader*)sender error:(NSError*)error;
+@interface NSObject (TwitterClientDelegate)
+- (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)messages;
+- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error;
 @end
 
-@implementation TimelineDownloader
+@implementation TwitterClient
 
 - (void)get:(MessageType)type since:(NSString*)since
 {
@@ -56,10 +57,27 @@ NSString* sMethods[3] = {
     [super get:url];
 }
 
+- (void)post:(NSString*)tweet
+{
+    
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    
+	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/statuses/update.json",
+                     username, password];
+    
+    NSLog(@"%@", url);
+    
+    NSString *postString = [NSString stringWithFormat:@"status=%@&source=TwitterFon", [tweet encodeAsURIComponent]];
+    
+    [self post:url body:postString];
+    
+}
+
 - (void)TFConnectionDidFailWithError:(NSError*)error
 {
     [self alertError:@"Connection Failed" withMessage:[error localizedDescription]];
-    [delegate timelineDownloaderDidFail:self error:error];
+    [delegate twitterClientDidFail:self error:[error localizedDescription]];
 }
 
 - (void)TFConnectionDidFinishLoading:(NSString*)content
@@ -92,23 +110,47 @@ NSString* sMethods[3] = {
     NSObject* obj = [content JSONValue];
     
     if ([obj isKindOfClass:[NSDictionary class]]) {
+        NSDictionary* dic = (NSDictionary*)obj;
+        NSString *msg = [dic objectForKey:@"error"];
+        if (msg) {
+            NSLog(@"Twitter returns an error: %@", msg);
+            [self alertError:@"Server error" withMessage:msg];
+            [delegate twitterClientDidFail:self error:msg];
+        }
+        else {
+            [delegate twitterClientDidSucceed:self messages:obj];
+        }
+    }
+    else if ([obj isKindOfClass:[NSArray class]]) {
+        [delegate twitterClientDidSucceed:self messages:obj];
+    }
+    else {
+        NSLog(@"Null or wrong response: %@", content);
+        [delegate twitterClientDidSucceed:self messages:nil];
+    }
+    
+#if 0
+    if ([obj isKindOfClass:[NSDictionary class]]) {
         NSLog(@"%@", content);
         NSDictionary* dic = (NSDictionary*)obj;
         NSString *msg = [dic objectForKey:@"error"];
-        if (msg == nil) msg = @"";
+        if (msg == nil) {
+            msg = @"";
+        }
         NSLog(@"Twitter returns an error: %@", msg);
-        [self alertError:@"Server error" withMessage:msg];
-		[delegate timelineDownloaderDidFail:self error:nil];
+//        [self alertError:@"Server error" withMessage:msg];
+		[delegate twitterClientDidFail:self error:nil];
     }
     else if ([obj isKindOfClass:[NSArray class]]) {
         NSArray *ary = (NSArray*)obj;
         NSLog(@"received %d objects", [ary count]);
-        [delegate timelineDownloaderDidSucceed:self messages:ary];
+        [delegate twitterClientDidSucceed:self messages:ary];
     }
     else {
         NSLog(@"Null or wrong response: %@", content);
-        [delegate timelineDownloaderDidSucceed:self messages:nil];
+        [delegate twitterClientDidSucceed:self messages:nil];
     }
+#endif
 }
 
 @end

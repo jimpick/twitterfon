@@ -120,7 +120,7 @@
 
 - (IBAction) send: (id) sender
 {
-    post = [[PostTweet alloc] initWithDelegate:self];
+    post = [[TwitterClient alloc] initWithDelegate:self];
     [post post:text.text];
     [sendingWindow show];
 }
@@ -142,8 +142,13 @@
 	[super dealloc];
 }
 
-- (void)postTweetDidSucceed:(NSDictionary*)dic
+- (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj;
 {
+    NSDictionary *dic = nil;
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        dic = (NSDictionary*)obj;    
+    }
+    
     [sendingWindow hide];
     
     if ([delegate respondsToSelector:@selector(postTweetDidSucceed:)]) {
@@ -155,10 +160,10 @@
     text.text = @"";
     [post autorelease];
     [self cancel:self];
-    didPost = true;
+    didPost = (dic) ? true : false;
 }
 
-- (void)postTweetDidFail:(NSString*)error
+- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error
 {
     [sendingWindow fail:error];
     [post autorelease];

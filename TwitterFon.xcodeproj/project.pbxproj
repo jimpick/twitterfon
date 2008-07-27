@@ -15,6 +15,7 @@
 		6E2BCF260E3596D4003A8F69 /* friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF250E3596D4003A8F69 /* friends.png */; };
 		6E2BD0C10E35AE04003A8F69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */; };
 		6E2BD11F0E35B3D2003A8F69 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BD11E0E35B3D2003A8F69 /* Default.png */; };
+		6E335EA40E3BBE0C008B15BB /* TwitterClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E335EA30E3BBE0C008B15BB /* TwitterClient.m */; };
 		6EAF29400E36F97E00129692 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EAF293F0E36F97E00129692 /* alert.png */; };
 		6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA50E38D3A0006E8AB7 /* forward.png */; };
 		6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA60E38D3A0006E8AB7 /* back.png */; };
@@ -24,8 +25,6 @@
 		6EDC03890E34679300FF142E /* db.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6EDC03880E34679300FF142E /* db.sql */; };
 		6EDD27740E3B5429002E09A0 /* TinyURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDD27730E3B5429002E09A0 /* TinyURL.m */; };
 		6EEBF7000E3B1F390003EA63 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6FA0E3B1F390003EA63 /* ImageDownloader.m */; };
-		6EEBF7010E3B1F390003EA63 /* PostTweet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6FC0E3B1F390003EA63 /* PostTweet.m */; };
-		6EEBF7020E3B1F390003EA63 /* TimelineDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6FE0E3B1F390003EA63 /* TimelineDownloader.m */; };
 		6EEBF70C0E3B1FD40003EA63 /* ColorUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7040E3B1FD40003EA63 /* ColorUtils.m */; };
 		6EEBF70D0E3B1FD40003EA63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7050E3B1FD40003EA63 /* main.m */; };
 		6EEBF70E0E3B1FD40003EA63 /* REString.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7070E3B1FD40003EA63 /* REString.m */; };
@@ -70,6 +69,8 @@
 		6E2BCF250E3596D4003A8F69 /* friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends.png; sourceTree = "<group>"; };
 		6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6E2BD11E0E35B3D2003A8F69 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		6E335EA20E3BBE0C008B15BB /* TwitterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitterClient.h; path = Network/TwitterClient.h; sourceTree = "<group>"; };
+		6E335EA30E3BBE0C008B15BB /* TwitterClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitterClient.m; path = Network/TwitterClient.m; sourceTree = "<group>"; };
 		6EAF293F0E36F97E00129692 /* alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alert.png; sourceTree = "<group>"; };
 		6ED17FA50E38D3A0006E8AB7 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
 		6ED17FA60E38D3A0006E8AB7 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
@@ -82,10 +83,6 @@
 		6EDD27730E3B5429002E09A0 /* TinyURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TinyURL.m; path = Network/TinyURL.m; sourceTree = "<group>"; };
 		6EEBF6F90E3B1F390003EA63 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageDownloader.h; path = Network/ImageDownloader.h; sourceTree = "<group>"; };
 		6EEBF6FA0E3B1F390003EA63 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageDownloader.m; path = Network/ImageDownloader.m; sourceTree = "<group>"; };
-		6EEBF6FB0E3B1F390003EA63 /* PostTweet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostTweet.h; path = Network/PostTweet.h; sourceTree = "<group>"; };
-		6EEBF6FC0E3B1F390003EA63 /* PostTweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostTweet.m; path = Network/PostTweet.m; sourceTree = "<group>"; };
-		6EEBF6FD0E3B1F390003EA63 /* TimelineDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineDownloader.h; path = Network/TimelineDownloader.h; sourceTree = "<group>"; };
-		6EEBF6FE0E3B1F390003EA63 /* TimelineDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineDownloader.m; path = Network/TimelineDownloader.m; sourceTree = "<group>"; };
 		6EEBF7030E3B1FD40003EA63 /* ColorUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorUtils.h; path = Classes/OtherSources/ColorUtils.h; sourceTree = "<group>"; };
 		6EEBF7040E3B1FD40003EA63 /* ColorUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorUtils.m; path = Classes/OtherSources/ColorUtils.m; sourceTree = "<group>"; };
 		6EEBF7050E3B1FD40003EA63 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Classes/OtherSources/main.m; sourceTree = "<group>"; };
@@ -300,12 +297,10 @@
 			children = (
 				6EEBF6F90E3B1F390003EA63 /* ImageDownloader.h */,
 				6EEBF6FA0E3B1F390003EA63 /* ImageDownloader.m */,
-				6EEBF6FB0E3B1F390003EA63 /* PostTweet.h */,
-				6EEBF6FC0E3B1F390003EA63 /* PostTweet.m */,
-				6EEBF6FD0E3B1F390003EA63 /* TimelineDownloader.h */,
-				6EEBF6FE0E3B1F390003EA63 /* TimelineDownloader.m */,
 				6E092C390E3B41D40039FEE3 /* TFConnection.h */,
 				6E092C3A0E3B41D40039FEE3 /* TFConnection.m */,
+				6E335EA20E3BBE0C008B15BB /* TwitterClient.h */,
+				6E335EA30E3BBE0C008B15BB /* TwitterClient.m */,
 				6EDD27720E3B5429002E09A0 /* TinyURL.h */,
 				6EDD27730E3B5429002E09A0 /* TinyURL.m */,
 			);
@@ -449,8 +444,6 @@
 				6EED14390E33E59B00C71EA4 /* User.m in Sources */,
 				6EDC01D10E344B5600FF142E /* DBConnection.m in Sources */,
 				6EEBF7000E3B1F390003EA63 /* ImageDownloader.m in Sources */,
-				6EEBF7010E3B1F390003EA63 /* PostTweet.m in Sources */,
-				6EEBF7020E3B1F390003EA63 /* TimelineDownloader.m in Sources */,
 				6EEBF70C0E3B1FD40003EA63 /* ColorUtils.m in Sources */,
 				6EEBF70D0E3B1FD40003EA63 /* main.m in Sources */,
 				6EEBF70E0E3B1FD40003EA63 /* REString.m in Sources */,
@@ -466,6 +459,7 @@
 				6EEBF7280E3B209A0003EA63 /* WebViewController.m in Sources */,
 				6E092C3B0E3B41D40039FEE3 /* TFConnection.m in Sources */,
 				6EDD27740E3B5429002E09A0 /* TinyURL.m in Sources */,
+				6E335EA40E3BBE0C008B15BB /* TwitterClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

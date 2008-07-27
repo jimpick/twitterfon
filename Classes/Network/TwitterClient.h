@@ -2,10 +2,11 @@
 #import "TFConnection.h"
 #import "Message.h"
 
-@interface TimelineDownloader : TFConnection
+@interface TwitterClient : TFConnection
 {
 }
 
 - (void)get:(MessageType)type since:(NSString*)since;
+- (void)post:(NSString*)tweet;
 
 @end

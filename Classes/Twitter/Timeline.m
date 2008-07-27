@@ -25,7 +25,7 @@ static sqlite3_stmt *select_statement = nil;
 - (void)dealloc
 {
 	[messages release];
-	[timelineConn release];
+	[twitterClient release];
 	[super dealloc];
 }
 
@@ -46,17 +46,17 @@ static sqlite3_stmt *select_statement = nil;
 
 - (void)update:(MessageType)aType
 {
-	if (timelineConn) return;
+	if (twitterClient) return;
     
     type = aType;
 
-	timelineConn = [[TimelineDownloader alloc] initWithDelegate:self];
+	twitterClient = [[TwitterClient alloc] initWithDelegate:self];
 
 	NSString* lastMessageDate = nil;
 	if ([messages count] > 0) {
             lastMessageDate = ((Message*)[messages lastObject]).createdAt;
     }
-	[timelineConn get:type since:lastMessageDate];
+	[twitterClient get:type since:lastMessageDate];
 }
 
 - (void)restore:(MessageType)aType
@@ -79,12 +79,18 @@ static sqlite3_stmt *select_statement = nil;
   
 }
 
-- (void)timelineDownloaderDidSucceed:(TimelineDownloader*)sender messages:(NSArray*)ary
+- (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj
 {
-	[timelineConn autorelease];
-	timelineConn = nil;
+	[twitterClient autorelease];
+	twitterClient = nil;
+
+    if (obj == nil) return;
     
-    if (ary == nil) {
+    NSArray *ary = nil;
+    if ([obj isKindOfClass:[NSArray class]]) {
+        ary = (NSArray*)obj;
+    }
+    else {
         return;
     }
 
@@ -114,10 +120,10 @@ static sqlite3_stmt *select_statement = nil;
 	}
 }
 
-- (void)timelineDownloaderDidFail:(TimelineDownloader*)sender error:(NSError*)error
+- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error
 {
-	[timelineConn autorelease];
-	timelineConn = nil;
+	[twitterClient autorelease];
+	twitterClient = nil;
 }
 
 @end

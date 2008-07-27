@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PostTweet.h"
+#import "TwitterClient.h"
 #import "Message.h"
 #import "SendingWindow.h"
 
@@ -17,7 +17,7 @@
     IBOutlet UIBarItem*  sendButton;
     IBOutlet NSObject*   delegate;
     IBOutlet NSObject*   appDelegate;
-    PostTweet*           post;
+    TwitterClient*       post;
     BOOL                 didPost;
     NSRange              textRange;
     
