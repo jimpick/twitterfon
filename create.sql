@@ -1,11 +1,12 @@
 CREATE TABLE messages (
-       'id'                     INTEGER PRIMARY KEY,
+       'id'                     INTEGER,
        'type'                   INTEGER,
        'user_id'                INTEGER,
        'screen_name'            CHAR(256),
        'profile_image_url'      CHAR(1024),
        'text'                   CHAR(256),
-       'created_at'             DATETIME
+       'created_at'             DATETIME,
+PRIMARY KEY(id, type)
 );
 
 CREATE TABLE images (

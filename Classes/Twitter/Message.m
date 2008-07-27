@@ -122,13 +122,14 @@ static sqlite3_stmt* select_statement = nil;
     sqlite3* database = [DBConnection getSharedDatabase];
 
     if (select_statement== nil) {
-        static char *sql = "SELECT id FROM messages WHERE id=?";
+        static char *sql = "SELECT id FROM messages WHERE id=? and type=?";
         if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
     }
     
-    sqlite3_bind_int(select_statement, 1, messageId);
+    sqlite3_bind_int64(select_statement, 1, messageId);
+    sqlite3_bind_int(select_statement, 2, type);
     if (sqlite3_step(select_statement) == SQLITE_ROW) {
         sqlite3_reset(select_statement);
         return;
@@ -136,7 +137,7 @@ static sqlite3_stmt* select_statement = nil;
     sqlite3_reset(select_statement);
     
     
-    NSLog(@"Insert %d:%@:%@", user.userId, user.screenName, text);
+    NSLog(@"Insert %lld:%d:%@:%@", messageId, user.userId, user.screenName, text);
     
     if (insert_statement == nil) {
         static char *sql = "INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?)";
