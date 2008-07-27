@@ -8,14 +8,15 @@ typedef enum {
     MSG_TYPE_MESSAGES,
 } MessageType;
 
-#define IMAGE_PADDING   10
-#define H_MARGIN        10
-#define INDICATOR_WIDTH 23
-#define IMAGE_WIDTH     48
+#define IMAGE_PADDING       10
+#define H_MARGIN            10
+#define INDICATOR_WIDTH     20
+#define DETAIL_BUTTON_WIDTH 19
+#define IMAGE_WIDTH         48
 
-#define TOP             16
-#define LEFT            (IMAGE_PADDING * 2 + IMAGE_WIDTH)
-#define CELL_WIDTH      (320 - INDICATOR_WIDTH - LEFT)
+#define TOP                 16
+#define LEFT                (IMAGE_PADDING * 2 + IMAGE_WIDTH)
+#define CELL_WIDTH          (320 - INDICATOR_WIDTH - LEFT)
 
 @interface Message : NSObject
 {

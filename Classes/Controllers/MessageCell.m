@@ -2,10 +2,17 @@
 #import "ColorUtils.h"
 #import "StringUtil.h"
 
+@interface NSObject (MessageCellDelegate)
+- (void)didTouchDetailButton:(id)sender;
+@end
+
+@interface MessageCell (Private)
+- (void)didTouchAccessory:(id)sender;
+@end
+
 @implementation MessageCell
 
 @synthesize message;
-@synthesize imageView;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -18,7 +25,7 @@
     nameLabel.highlightedTextColor = [UIColor whiteColor];
     nameLabel.font = [UIFont boldSystemFontOfSize:14];
     nameLabel.textAlignment = UITextAlignmentLeft;
-    nameLabel.frame = CGRectMake(LEFT, 0, CELL_WIDTH, 16);
+    nameLabel.frame = CGRectMake(LEFT, 0, CELL_WIDTH - DETAIL_BUTTON_WIDTH, 16);
     
     [self.contentView addSubview:nameLabel];
 		
@@ -33,14 +40,24 @@
     textLabel.contentMode = UIViewContentModeTopLeft;
     [self.contentView addSubview:textLabel];
     
-    imageView = [[[ProfileImageButton alloc] initWithFrame:CGRectZero] autorelease];
-    [self.contentView addSubview:imageView];
-
+    self.selectionStyle = UITableViewCellSelectionStyleBlue;
+    
+    self.target = self;
+    self.accessoryAction = @selector(didTouchAccessory:);
+    
 	return self;
 }
 
-- (void)update
+- (void)didTouchAccessory:(id)sender
 {
+    if (delegate) {
+        [delegate didTouchDetailButton:self];
+    }
+}
+
+- (void)update:(id)aDelegate
+{
+    delegate = aDelegate;
 	nameLabel.text = message.user.screenName;
 	textLabel.text = [message.text unescapeHTML];  
     self.accessoryType = message.accessoryType;
@@ -50,13 +67,6 @@
 {
 	[super layoutSubviews];
     self.backgroundColor = self.contentView.backgroundColor;	
-    if (self.accessoryType == UITableViewCellAccessoryNone) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    else {
-        self.selectionStyle = UITableViewCellSelectionStyleBlue;
-    }
-    imageView.frame = CGRectMake(IMAGE_PADDING, 0, IMAGE_WIDTH, message.cellHeight);
     textLabel.frame = [textLabel textRectForBounds:message.textBounds limitedToNumberOfLines:10];
 }
 

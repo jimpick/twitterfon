@@ -33,7 +33,6 @@
 		6EEBF7150E3B20610003EA63 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7120E3B20610003EA63 /* SettingsViewController.m */; };
 		6EEBF7160E3B20610003EA63 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7130E3B20610003EA63 /* SettingsTableViewController.m */; };
 		6EEBF71D0E3B20830003EA63 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7180E3B20830003EA63 /* MessageCell.m */; };
-		6EEBF71E0E3B20830003EA63 /* ProfileImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF71A0E3B20830003EA63 /* ProfileImageButton.m */; };
 		6EEBF71F0E3B20830003EA63 /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF71C0E3B20830003EA63 /* TimelineViewController.m */; };
 		6EEBF7240E3B20910003EA63 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7210E3B20910003EA63 /* PostViewController.m */; };
 		6EEBF7250E3B20910003EA63 /* SendingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7230E3B20910003EA63 /* SendingWindow.m */; };
@@ -98,8 +97,6 @@
 		6EEBF7140E3B20610003EA63 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = Controllers/SettingsViewController.h; sourceTree = "<group>"; };
 		6EEBF7170E3B20830003EA63 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageCell.h; path = Controllers/MessageCell.h; sourceTree = "<group>"; };
 		6EEBF7180E3B20830003EA63 /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageCell.m; path = Controllers/MessageCell.m; sourceTree = "<group>"; };
-		6EEBF7190E3B20830003EA63 /* ProfileImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileImageButton.h; path = Controllers/ProfileImageButton.h; sourceTree = "<group>"; };
-		6EEBF71A0E3B20830003EA63 /* ProfileImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileImageButton.m; path = Controllers/ProfileImageButton.m; sourceTree = "<group>"; };
 		6EEBF71B0E3B20830003EA63 /* TimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineViewController.h; path = Controllers/TimelineViewController.h; sourceTree = "<group>"; };
 		6EEBF71C0E3B20830003EA63 /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineViewController.m; path = Controllers/TimelineViewController.m; sourceTree = "<group>"; };
 		6EEBF7200E3B20910003EA63 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostViewController.h; path = Controllers/PostViewController.h; sourceTree = "<group>"; };
@@ -253,8 +250,6 @@
 			children = (
 				6EEBF7170E3B20830003EA63 /* MessageCell.h */,
 				6EEBF7180E3B20830003EA63 /* MessageCell.m */,
-				6EEBF7190E3B20830003EA63 /* ProfileImageButton.h */,
-				6EEBF71A0E3B20830003EA63 /* ProfileImageButton.m */,
 				6EEBF71B0E3B20830003EA63 /* TimelineViewController.h */,
 				6EEBF71C0E3B20830003EA63 /* TimelineViewController.m */,
 			);
@@ -452,7 +447,6 @@
 				6EEBF7150E3B20610003EA63 /* SettingsViewController.m in Sources */,
 				6EEBF7160E3B20610003EA63 /* SettingsTableViewController.m in Sources */,
 				6EEBF71D0E3B20830003EA63 /* MessageCell.m in Sources */,
-				6EEBF71E0E3B20830003EA63 /* ProfileImageButton.m in Sources */,
 				6EEBF71F0E3B20830003EA63 /* TimelineViewController.m in Sources */,
 				6EEBF7240E3B20910003EA63 /* PostViewController.m in Sources */,
 				6EEBF7250E3B20910003EA63 /* SendingWindow.m in Sources */,

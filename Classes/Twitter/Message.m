@@ -58,6 +58,20 @@ static sqlite3_stmt* select_statement = nil;
 
 - (void)updateAttribute
 {
+    // Set accessoryType and bounds width
+    //
+    NSRange r = [text rangeOfString:@"http://"];
+    int textWidth = CELL_WIDTH;
+    if (r.location != NSNotFound) {    
+        //accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        textWidth -= DETAIL_BUTTON_WIDTH;
+    }
+    else {
+        accessoryType = UITableViewCellAccessoryNone;
+    }
+    
+    
     // Calculate cell height here
     //
     CGRect bounds;
@@ -68,26 +82,14 @@ static sqlite3_stmt* select_statement = nil;
     textLabel.numberOfLines = 10;
     
     textLabel.text = text;
-    bounds = CGRectMake(0, 0, 320 - INDICATOR_WIDTH - LEFT, 200);
+    bounds = CGRectMake(0, 0, textWidth, 200);
     result = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
     result.size.height += 18;
     if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
     cellHeight = result.size.height;
     [textLabel release];
-    
-    // Set accessoryType
-    //
-    NSRange r = [text rangeOfString:@"http://"];
-    if (r.location != NSNotFound) {    
-        accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    else {
-        accessoryType = UITableViewCellAccessoryNone;
-    }
 
-    // Set text bounds
-    //
-    textBounds = CGRectMake(LEFT, TOP, CELL_WIDTH, cellHeight - TOP);
+    textBounds = CGRectMake(LEFT, TOP, textWidth, cellHeight - TOP);
 }
 
 + (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type

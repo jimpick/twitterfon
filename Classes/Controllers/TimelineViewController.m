@@ -1,3 +1,11 @@
+//
+//  TimelieViewController.m
+//  TwitterFon
+//
+//  Created by kaz on 7/23/08.
+//  Copyright 2008 naan studio. All rights reserved.
+//
+
 #import <QuartzCore/QuartzCore.h>
 #import "TimelineViewController.h"
 #import "TwitterFonAppDelegate.h"
@@ -94,10 +102,8 @@
 	}
     
 	cell.message = m;
-    cell.imageView.row = indexPath.row;
-    [cell.imageView setImage:[imageStore getImage:m.user delegate:self] forState:UIControlStateNormal];
-    [cell.imageView addTarget:self action:@selector(didTouchProfileImage:) forControlEvents:UIControlEventTouchUpInside];
-    
+    cell.image = [imageStore getImage:m.user delegate:self];
+
     if (tag == TAB_FRIENDS) {
         NSString *str = [NSString stringWithFormat:@"@%@", username];
         NSRange r = [m.text rangeOfString:str];
@@ -114,32 +120,27 @@
     else if (tag == TAB_MESSAGES) {
         cell.contentView.backgroundColor = [UIColor messageColor:m.unread];
     }
-    
-	[cell update];
+   
+	[cell update:self];
 
 	return cell;
 }
 
-- (void)didTouchProfileImage:(id)sender
+- (void)didTouchDetailButton:(MessageCell*)cell
 {
-    ProfileImageButton *button = (ProfileImageButton*)sender;
-    Message* m = [timeline messageAtIndex:button.row];
-    
-    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    PostViewController* postView = appDelegate.postView;
-    
-    if (postView.view.hidden == false) return;
-    
-    NSString *msg;
-    if (tag == MSG_TYPE_MESSAGES) {
-        msg = [NSString stringWithFormat:@"d %@ ", m.user.screenName];
+    Message *m = cell.message;
+    if (!m) return;
+    NSString *pat = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
+    NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
+    if ([m.text matches:pat withSubstring:array]) {
+        
+        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+        WebViewController *webView = appDelegate.webView;
+        
+        webView.hidesBottomBarWhenPushed = YES;
+        [webView setUrl:[array objectAtIndex:0]];
+        [[self navigationController] pushViewController:webView animated:YES];
     }
-    else {
-        msg = [NSString stringWithFormat:@"@%@ ", m.user.screenName];
-    }
-    
-    [[self navigationController].view addSubview:postView.view];
-    [postView startEditWithString:msg setDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning 
@@ -173,19 +174,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Message *m = [timeline messageAtIndex:indexPath.row];
-    if (!m) return;
-    NSString *pat = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
-    NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
-    if ([m.text matches:pat withSubstring:array]) {
-
-        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        WebViewController *webView = appDelegate.webView;
-        
-        webView.hidesBottomBarWhenPushed = YES;
-        [webView setUrl:[array objectAtIndex:0]];
-        [[self navigationController] pushViewController:webView animated:YES];
+    Message* m = [timeline messageAtIndex:indexPath.row];
+    
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    PostViewController* postView = appDelegate.postView;
+    
+    if (postView.view.hidden == false) return;
+    
+    NSString *msg;
+    if (tag == MSG_TYPE_MESSAGES) {
+        msg = [NSString stringWithFormat:@"d %@ ", m.user.screenName];
     }
+    else {
+        msg = [NSString stringWithFormat:@"@%@ ", m.user.screenName];
+    }
+    
+    [[self navigationController].view addSubview:postView.view];
+    [postView startEditWithString:msg setDelegate:self];
 }
 
 - (void)postViewAnimationDidFinish:(BOOL)didPost
@@ -257,6 +262,10 @@
 
     if (!self.view.hidden) {
         NSMutableArray *indexPath = [[[NSMutableArray alloc] init] autorelease];
+        //
+        // Avoid to create too many table cell.
+        //
+        if (count > 8) count = 8;
         for (int i = 0; i < count; ++i) {
             [indexPath addObject:[NSIndexPath indexPathForRow:i inSection:0]];
         }        

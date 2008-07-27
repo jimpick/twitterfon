@@ -1,6 +1,5 @@
 #import <UIKit/UIKit.h>
 #import "Message.h"
-#import "ProfileImageButton.h"
 
 #define MESSAGE_REUSE_INDICATOR @"MessageCell"
 
@@ -9,13 +8,11 @@
 	Message*        message;
 	UILabel*        nameLabel;
 	UILabel*        textLabel;
-
-    ProfileImageButton* imageView;
+    NSObject*       delegate;
 }
 
 @property (nonatomic, assign) Message*              message;
-@property (nonatomic, assign) ProfileImageButton*   imageView;
 
-- (void)update;
+- (void)update:(id)delegate;
 
 @end
