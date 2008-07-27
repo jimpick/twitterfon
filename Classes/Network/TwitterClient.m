@@ -128,29 +128,6 @@ NSString* sMethods[3] = {
         NSLog(@"Null or wrong response: %@", content);
         [delegate twitterClientDidSucceed:self messages:nil];
     }
-    
-#if 0
-    if ([obj isKindOfClass:[NSDictionary class]]) {
-        NSLog(@"%@", content);
-        NSDictionary* dic = (NSDictionary*)obj;
-        NSString *msg = [dic objectForKey:@"error"];
-        if (msg == nil) {
-            msg = @"";
-        }
-        NSLog(@"Twitter returns an error: %@", msg);
-//        [self alertError:@"Server error" withMessage:msg];
-		[delegate twitterClientDidFail:self error:nil];
-    }
-    else if ([obj isKindOfClass:[NSArray class]]) {
-        NSArray *ary = (NSArray*)obj;
-        NSLog(@"received %d objects", [ary count]);
-        [delegate twitterClientDidSucceed:self messages:ary];
-    }
-    else {
-        NSLog(@"Null or wrong response: %@", content);
-        [delegate twitterClientDidSucceed:self messages:nil];
-    }
-#endif
 }
 
 @end
