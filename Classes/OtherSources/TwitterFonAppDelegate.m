@@ -13,7 +13,7 @@
 @end
 
 @interface NSObject (TimelineViewControllerDelegate)
-- (void)postTweetDidSucceed:(Message*)message;
+- (void)postTweetDidSucceed:(NSDictionary*)dic;
 @end
 
 @implementation TwitterFonAppDelegate
@@ -61,11 +61,11 @@
 
 // Bypass posted message to friends timeline view...
 //
-- (void)postTweetDidSucceed:(Message*)message
+- (void)postTweetDidSucceedDelegate:(NSDictionary*)dic
 {
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
     UIViewController *c = nav.topViewController;
-    [c postTweetDidSucceed:message];
+    [c postTweetDidSucceed:dic];
     
 }
 

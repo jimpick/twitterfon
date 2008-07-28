@@ -17,7 +17,7 @@
 #import "REString.h"
 
 @interface NSObject (TimelineViewControllerDelegate)
-- (void)postTweetDidSucceed:(Message*)message;
+- (void)postTweetDidSucceedDelegate:(NSDictionary*)dic;
 @end
 
 @implementation TimelineViewController
@@ -62,10 +62,10 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -213,9 +213,8 @@
         return;
     }
     
-    Message *message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
-    
     if (tag == TAB_FRIENDS) {
+        Message *message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
         [timeline insertMessage:message];
     }
     else if (tag == TAB_REPLIES) {
@@ -226,8 +225,8 @@
         // If the view controller is direct messages, do nothing.
         //
         NSObject *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        if (appDelegate && [appDelegate respondsToSelector:@selector(postTweetDidSucceed:)]) {
-            [appDelegate postTweetDidSucceed:message];
+        if (appDelegate && [appDelegate respondsToSelector:@selector(postTweetDidSucceedDelegate:)]) {
+            [appDelegate postTweetDidSucceedDelegate:dic];
         }
     }
 }
