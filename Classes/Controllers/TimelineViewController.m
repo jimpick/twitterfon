@@ -209,15 +209,11 @@
 
 - (void)postTweetDidSucceed:(NSDictionary*)dic
 {
-    if (tag == TAB_MESSAGES) {
-        return;
-    }
-    
     if (tag == TAB_FRIENDS) {
         Message *message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
         [timeline insertMessage:message];
     }
-    else if (tag == TAB_REPLIES) {
+    else {
         //
         //  If the controller doesn't handle friends timeline, pass the message to app delegate then
         // app delegate passes the message to friends timeline view controller.

@@ -19,6 +19,7 @@
     IBOutlet NSObject*   appDelegate;
     TwitterClient*       post;
     BOOL                 didPost;
+    BOOL                 isDirectMessage;
     NSRange              textRange;
     
    	IBOutlet SendingWindow* sendingWindow;

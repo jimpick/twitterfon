@@ -121,7 +121,11 @@
 - (IBAction) send: (id) sender
 {
     post = [[TwitterClient alloc] initWithDelegate:self];
-    [post post:text.text];
+
+	NSRange r = [text.text rangeOfString:@"d "];
+	isDirectMessage = (r.location == 0) ? true : false;
+
+	[post post:text.text];
     [sendingWindow show];
 }
 
@@ -152,7 +156,7 @@
     [sendingWindow hide];
     
     if ([delegate respondsToSelector:@selector(postTweetDidSucceed:)]) {
-        if (dic) {
+        if (dic && !isDirectMessage) {
             [delegate postTweetDidSucceed:dic];
         }
     }       
