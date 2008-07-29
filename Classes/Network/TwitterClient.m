@@ -68,7 +68,7 @@ NSString* sMethods[3] = {
     
     NSLog(@"%@", url);
     
-    NSString *postString = [NSString stringWithFormat:@"status=%@&source=TwitterFon", [tweet encodeAsURIComponent]];
+    NSString *postString = [NSString stringWithFormat:@"status=%@&source=twitterfon", [tweet encodeAsURIComponent]];
     
     [self post:url body:postString];
     
