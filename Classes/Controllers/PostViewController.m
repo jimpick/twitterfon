@@ -30,7 +30,7 @@
 
 - (void)viewDidLoad {
     charCount.font = [UIFont boldSystemFontOfSize:16];
-    text.font = [UIFont systemFontOfSize:16];
+    text.font = [UIFont systemFontOfSize:18];
     self.view.hidden = true;
     textRange.location = 0;
     textRange.length = 0;
