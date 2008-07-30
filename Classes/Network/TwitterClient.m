@@ -85,9 +85,11 @@ NSString* sMethods[3] = {
     switch (statusCode) {
         case 401: // Not Authorized: either you need to provide authentication credentials, or the credentials provided aren't valid.
             [self alertError:@"Authentication Failed" withMessage:@"Wrong username/Email and password combination."];
+            [delegate twitterClientDidFail:self error:@"Wrong username/Email and password combination."];
             return;
             
         case 304: // Not Modified: there was no new data to return.
+            [delegate twitterClientDidSucceed:self messages:nil];
             return;
 
         case 400: // Bad Request: your request is invalid, and we'll return an error message that tells you why. This is the status code returned if you've exceeded the rate limit
@@ -103,6 +105,7 @@ NSString* sMethods[3] = {
         {
             NSString *msg = [NSString stringWithFormat:@"%@ responded %d", response.URL.host, statusCode];
             [self alertError:@"Server responded with an error" withMessage:msg];
+            [delegate twitterClientDidFail:self error:msg];            
             return;
         }
     }
