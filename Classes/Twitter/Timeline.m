@@ -120,8 +120,16 @@ static sqlite3_stmt *select_statement = nil;
 	}
 }
 
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error
+- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
+                                                    message:detail
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles: nil];
+    [alert show];	
+    [alert release];
+    
 	[twitterClient autorelease];
 	twitterClient = nil;
 }

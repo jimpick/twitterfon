@@ -22,7 +22,7 @@ NSString* sMethods[3] = {
 
 @interface NSObject (TwitterClientDelegate)
 - (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)messages;
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error;
+- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail;
 @end
 
 @implementation TwitterClient
@@ -76,16 +76,14 @@ NSString* sMethods[3] = {
 
 - (void)TFConnectionDidFailWithError:(NSError*)error
 {
-    [self alertError:@"Connection Failed" withMessage:[error localizedDescription]];
-    [delegate twitterClientDidFail:self error:[error localizedDescription]];
+    [delegate twitterClientDidFail:self error:@"Connection Failed" detail:[error localizedDescription]];
 }
 
 - (void)TFConnectionDidFinishLoading:(NSString*)content
 {
     switch (statusCode) {
         case 401: // Not Authorized: either you need to provide authentication credentials, or the credentials provided aren't valid.
-            [self alertError:@"Authentication Failed" withMessage:@"Wrong username/Email and password combination."];
-            [delegate twitterClientDidFail:self error:@"Wrong username/Email and password combination."];
+            [delegate twitterClientDidFail:self error:@"Authentication Failed" detail:@"Wrong username/Email and password combination."];
             return;
             
         case 304: // Not Modified: there was no new data to return.
@@ -103,9 +101,7 @@ NSString* sMethods[3] = {
         case 503: // Service Unavailable: the Twitter servers are up, but are overloaded with requests.  Try again later.
         default:
         {
-            NSString *msg = [NSString stringWithFormat:@"%@ responded %d", response.URL.host, statusCode];
-            [self alertError:@"Server responded with an error" withMessage:msg];
-            [delegate twitterClientDidFail:self error:msg];            
+            [delegate twitterClientDidFail:self error:@"Server responded with an error" detail:[NSHTTPURLResponse localizedStringForStatusCode:statusCode]];
             return;
         }
     }
@@ -117,8 +113,7 @@ NSString* sMethods[3] = {
         NSString *msg = [dic objectForKey:@"error"];
         if (msg) {
             NSLog(@"Twitter responded with an error: %@", msg);
-            [self alertError:@"Server error" withMessage:msg];
-            [delegate twitterClientDidFail:self error:msg];
+            [delegate twitterClientDidFail:self error:@"Server error" detail:msg];
         }
         else {
             [delegate twitterClientDidSucceed:self messages:obj];

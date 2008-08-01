@@ -167,9 +167,9 @@
     didPost = (dic) ? true : false;
 }
 
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error
+- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    [sendingWindow fail:error];
+    [sendingWindow fail:detail];
     [post autorelease];
 
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:3 target:sendingWindow selector:@selector(hide) userInfo:nil repeats:NO];
