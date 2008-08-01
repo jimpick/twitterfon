@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TwitterClient.h"
 #import "Message.h"
-#import "SendingWindow.h"
+#import "ProgressWindow.h"
 
 @interface PostViewController : UIViewController {
     IBOutlet UITextView* text;

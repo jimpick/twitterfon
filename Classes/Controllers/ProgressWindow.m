@@ -6,7 +6,7 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
-#import "SendingWindow.h"
+#import "ProgressWindow.h"
 
 
 @implementation ProgressWindow
