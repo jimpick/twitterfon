@@ -22,7 +22,7 @@
     BOOL                 isDirectMessage;
     NSRange              textRange;
     
-   	IBOutlet SendingWindow* sendingWindow;
+   	IBOutlet ProgressWindow* progressWindow;
 }
 
 - (void)startEditWithString:(NSString*)message setDelegate:(id)delegate;

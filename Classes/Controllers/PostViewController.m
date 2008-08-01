@@ -126,7 +126,7 @@
 	isDirectMessage = (r.location == 0) ? true : false;
 
 	[post post:text.text];
-    [sendingWindow show];
+    [progressWindow show];
 }
 
 - (IBAction) clear: (id) sender
@@ -153,7 +153,7 @@
         dic = (NSDictionary*)obj;    
     }
     
-    [sendingWindow hide];
+    [progressWindow hide];
     
     if ([delegate respondsToSelector:@selector(postTweetDidSucceed:)]) {
         if (dic && !isDirectMessage) {
@@ -169,11 +169,15 @@
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    [sendingWindow fail:detail];
+    [progressWindow hide];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
+                                                    message:detail
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles: nil];
+    [alert show];	
+    [alert release];    
     [post autorelease];
-
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:3 target:sendingWindow selector:@selector(hide) userInfo:nil repeats:NO];
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 }
 
 - (void)setCharCount

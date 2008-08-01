@@ -9,35 +9,23 @@
 #import "SendingWindow.h"
 
 
-@implementation SendingWindow
+@implementation ProgressWindow
 
 - (void) show
 {
     self.windowLevel = UIWindowLevelAlert;
-    alert.hidden = true;
 
     message.text = @"Sending...";
     message.font = [UIFont boldSystemFontOfSize:18];
-    errorMessage.text = @"";
-    errorMessage.font = [UIFont boldSystemFontOfSize:18];
-    
     indicator.hidden = false;
     [indicator startAnimating];
     [self makeKeyAndVisible];
 }
 
-- (void) fail:(NSString*)error
-{
-    alert.hidden = false;
-    indicator.hidden = true;
-    [indicator stopAnimating];
-    message.text = @"Failed to send a tweet";
-    errorMessage.text = error;
-}
-
 - (void) hide
 {
     [self resignKeyWindow];
+    [indicator stopAnimating];
     self.hidden = true;
 }
 

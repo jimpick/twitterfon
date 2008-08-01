@@ -9,15 +9,12 @@
 #import <UIKit/UIKit.h>
 
 
-@interface SendingWindow : UIWindow {
+@interface ProgressWindow : UIWindow {
     IBOutlet UILabel*                   message;
-    IBOutlet UILabel*                   errorMessage;
     IBOutlet UIActivityIndicatorView*   indicator;
-    IBOutlet UIImageView*               alert;
 }
 
 - (void) show;
-- (void) fail:(NSString*)error;
 - (void) hide;
 
 @end
