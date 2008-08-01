@@ -8,6 +8,8 @@
 
 #import "TFConnection.h"
 
+#define NETWORK_TIMEOUT 120.0
+
 @implementation TFConnection
 
 @synthesize buf;
@@ -38,7 +40,7 @@
     NSLog(@"%@", URL);
 	NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:URL]
                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                     timeoutInterval:60.0];
+                                     timeoutInterval:NETWORK_TIMEOUT];
 	buf  = [[NSMutableData data] retain];
 	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
     
@@ -54,7 +56,7 @@
     [URL autorelease];
 	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
                                                        cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                   timeoutInterval:60.0];
+                                                   timeoutInterval:NETWORK_TIMEOUT];
     
     
     [req setHTTPMethod:@"POST"];
