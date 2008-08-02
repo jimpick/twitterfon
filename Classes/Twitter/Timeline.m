@@ -102,7 +102,7 @@ static sqlite3_stmt *select_statement = nil;
         for (i=[ary count]-1; i >= 0; --i) {
             long messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longValue];
 			if (messageId > lastMessageId) {
-                Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type];                
+                Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type storeDB:true];                
                 m.unread = true;
                 
 				[messages addObject:m];

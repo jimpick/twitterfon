@@ -210,7 +210,7 @@
 - (void)postTweetDidSucceed:(NSDictionary*)dic
 {
     if (tag == TAB_FRIENDS) {
-        Message *message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
+        Message *message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS storeDB:false];
         [timeline insertMessage:message];
     }
     else {
