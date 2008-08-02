@@ -43,8 +43,8 @@ typedef enum {
 @property (nonatomic, assign) CGFloat       cellHeight;
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 
-+ (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type storeDB:(BOOL)storeDB;
++ (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type;
 + (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type;
-- (Message*)initWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type storeDB:(BOOL)storeDB;
+- (Message*)initWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type;
 
 @end

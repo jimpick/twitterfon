@@ -30,7 +30,7 @@ static sqlite3_stmt* select_statement = nil;
   	[super dealloc];
 }
 
-- (Message*)initWithJsonDictionary:(NSDictionary*)dic type:(MessageType)aType storeDB:(BOOL)storeDB
+- (Message*)initWithJsonDictionary:(NSDictionary*)dic type:(MessageType)aType
 {
 	self = [super init];
     
@@ -49,9 +49,7 @@ static sqlite3_stmt* select_statement = nil;
         user = [[User alloc] initWithJsonDictionary:userDic];
     }
     
-    if (storeDB) {
-        [self insertDB];
-    }
+    [self insertDB];
     [self updateAttribute];
     unread = true;
     
@@ -114,9 +112,9 @@ static sqlite3_stmt* select_statement = nil;
 }
 
 
-+ (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type storeDB:(BOOL)storeDB
++ (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type
 {
-	return [[[Message alloc] initWithJsonDictionary:dic type:type storeDB:storeDB] autorelease];
+	return [[[Message alloc] initWithJsonDictionary:dic type:type] autorelease];
 }
 
 - (void)insertDB
