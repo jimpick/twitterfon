@@ -36,7 +36,7 @@ static sqlite3_stmt* select_statement = nil;
     
     type = aType;
     
-	messageId = [[dic objectForKey:@"id"] longValue];
+	messageId = [[dic objectForKey:@"id"] longLongValue];
 	text      = [[dic objectForKey:@"text"] copy];
     createdAt = [[dic objectForKey:@"created_at"] copy];
 	
@@ -117,10 +117,10 @@ static sqlite3_stmt* select_statement = nil;
 	return [[[Message alloc] initWithJsonDictionary:dic type:type] autorelease];
 }
 
-- (void)insertDB
++ (BOOL)isExist:(sqlite_int64)aMessageId type:(MessageType)aType
 {
     sqlite3* database = [DBConnection getSharedDatabase];
-
+    
     if (select_statement== nil) {
         static char *sql = "SELECT id FROM messages WHERE id=? and type=?";
         if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
@@ -128,17 +128,22 @@ static sqlite3_stmt* select_statement = nil;
         }
     }
     
-    sqlite3_bind_int64(select_statement, 1, messageId);
-    sqlite3_bind_int(select_statement, 2, type);
-    if (sqlite3_step(select_statement) == SQLITE_ROW) {
-        sqlite3_reset(select_statement);
+    sqlite3_bind_int64(select_statement, 1, aMessageId);
+    sqlite3_bind_int(select_statement, 2, aType);
+    BOOL result = (sqlite3_step(select_statement) == SQLITE_ROW) ? true : false;
+    sqlite3_reset(select_statement);
+    return result;
+}
+
+- (void)insertDB
+{
+    if ([Message isExist:messageId type:type]) {
         return;
     }
-    sqlite3_reset(select_statement);
-    
     
     NSLog(@"Insert %lld:%d:%@:%@", messageId, user.userId, user.screenName, text);
-    
+    sqlite3* database = [DBConnection getSharedDatabase];
+
     if (insert_statement == nil) {
         static char *sql = "INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?)";
         if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {

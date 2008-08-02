@@ -52,9 +52,14 @@ static sqlite3_stmt *select_statement = nil;
 
 	twitterClient = [[TwitterClient alloc] initWithDelegate:self];
 
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString* lastMessageDate = nil;
-	if ([messages count] > 0) {
-            lastMessageDate = ((Message*)[messages lastObject]).createdAt;
+    for (int i = [messages count] -1; i >= 0; --i) {
+        Message *m = [messages objectAtIndex:i];
+        if ([m.user.screenName compare:username] != NSOrderedSame) {
+            lastMessageDate = ((Message*)[messages objectAtIndex:i]).createdAt;
+            break;
+        }
     }
 	[twitterClient get:type since:lastMessageDate];
 }
@@ -94,29 +99,24 @@ static sqlite3_stmt *select_statement = nil;
         return;
     }
 
-	long lastMessageId = 0;
-	if ([messages count] > 0) lastMessageId = ((Message*)[messages lastObject]).messageId;
-	
-	if (delegate) {
-		int i, unread = 0;
-        for (i=[ary count]-1; i >= 0; --i) {
-            long messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longValue];
-			if (messageId > lastMessageId) {
-                Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type];                
-                m.unread = true;
+    int unread = 0;
+    for (int i = [ary count]-1; i >= 0; --i) {
+        sqlite_int64 messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
+        if (![Message isExist:messageId type:type]) {
+            Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type];
+            m.unread = true;
                 
-				[messages addObject:m];
-                ++unread;
+            [messages addObject:m];
+            ++unread;
 				
-				if ([delegate respondsToSelector:@selector(timelineDidReceiveNewMessage:)]) {
-					[delegate timelineDidReceiveNewMessage:m];
-				}
-			}
+            if ([delegate respondsToSelector:@selector(timelineDidReceiveNewMessage:)]) {
+                [delegate timelineDidReceiveNewMessage:m];
+            }
 		}
-		
-		if (unread && [delegate respondsToSelector:@selector(timelineDidUpdate:)]) {
-			[delegate timelineDidUpdate:unread];
-		}
+    }
+	
+    if (delegate && unread && [delegate respondsToSelector:@selector(timelineDidUpdate:)]) {
+        [delegate timelineDidUpdate:unread];
 	}
 }
 
