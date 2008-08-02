@@ -52,6 +52,11 @@
 	[window addSubview:tabBarController.view];
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [postView checkProgressWindowState];
+}
+
 - (void)dealloc
 {
 	[tabBarController release];

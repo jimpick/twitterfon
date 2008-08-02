@@ -17,16 +17,16 @@
 
     message.text = @"Sending...";
     message.font = [UIFont boldSystemFontOfSize:18];
-    indicator.hidden = false;
     [indicator startAnimating];
+    self.hidden = false;
     [self makeKeyAndVisible];
 }
 
 - (void) hide
 {
+    self.hidden = true;
     [self resignKeyWindow];
     [indicator stopAnimating];
-    self.hidden = true;
 }
 
 @end

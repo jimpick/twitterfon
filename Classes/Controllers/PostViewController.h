@@ -28,6 +28,7 @@
 - (void)startEditWithString:(NSString*)message setDelegate:(id)delegate;
 - (void)startEditWithURL:(NSString*)URL setDelegate:(id)delegate;
 - (void)startEditWithDelegate:(id)delegate;
+- (void)checkProgressWindowState;
 
 - (void) setCharCount;
 

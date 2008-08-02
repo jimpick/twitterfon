@@ -163,13 +163,13 @@
     
     text.text = @"";
     [post autorelease];
+    post = nil;
     [self cancel:self];
     didPost = (dic) ? true : false;
 }
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    [progressWindow hide];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
                                                     message:detail
                                                    delegate:self
@@ -178,6 +178,8 @@
     [alert show];	
     [alert release];    
     [post autorelease];
+    post = nil;
+    [progressWindow hide];
 }
 
 - (void)setCharCount
@@ -196,6 +198,13 @@
         charCount.textColor = [UIColor whiteColor];
     }
     charCount.text = [NSString stringWithFormat:@"%d", length];
+}
+
+- (void)checkProgressWindowState
+{
+    if (post == nil) {
+        [progressWindow hide];
+    }
 }
 
 //
