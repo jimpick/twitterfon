@@ -3,11 +3,13 @@
 #import "StringUtil.h"
 
 @interface NSObject (MessageCellDelegate)
-- (void)didTouchDetailButton:(id)sender;
+- (void)didTouchDetailButton:(MessageCell*)cell;
+- (void)didTouchProfileImage:(MessageCell*)cell;
 @end
 
 @interface MessageCell (Private)
 - (void)didTouchAccessory:(id)sender;
+- (void)didTouchProfileImage:(id)sender;
 @end
 
 static UIImage* sLinkButton = nil;
@@ -16,6 +18,7 @@ static UIImage* sHighlightedLinkButton = nil;
 @implementation MessageCell
 
 @synthesize message;
+@synthesize profileImage;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -43,13 +46,33 @@ static UIImage* sHighlightedLinkButton = nil;
     textLabel.contentMode = UIViewContentModeTopLeft;
     [self.contentView addSubview:textLabel];
     
+    profileImage = [UIButton buttonWithType:UIButtonTypeCustom];
+    [profileImage addTarget:self action:@selector(didTouchProfileImage:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:profileImage];
+
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 	return self;
 }
+
+- (void)dealloc
+{
+    [nameLabel release];
+    [textLabel release];
+    [profileImage release];
+    [super dealloc];
+}    
 
 - (void)didTouchAccessory:(id)sender
 {
     if (delegate) {
         [delegate didTouchDetailButton:self];
+    }
+}
+
+- (void)didTouchProfileImage:(id)sender
+{
+    if (delegate) {
+        [delegate didTouchProfileImage:self];
     }
 }
 
@@ -79,6 +102,7 @@ static UIImage* sHighlightedLinkButton = nil;
 	[super layoutSubviews];
     self.backgroundColor = self.contentView.backgroundColor;	
     textLabel.frame = [textLabel textRectForBounds:message.textBounds limitedToNumberOfLines:10];
+    profileImage.frame = CGRectMake(IMAGE_PADDING, 0, IMAGE_WIDTH, message.cellHeight);
 }
 
 + (UIImage*) linkButton

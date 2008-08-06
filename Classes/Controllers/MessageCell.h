@@ -9,9 +9,12 @@
 	UILabel*        nameLabel;
 	UILabel*        textLabel;
     NSObject*       delegate;
+    UIButton*       profileImage;
 }
 
-@property (nonatomic, assign) Message*              message;
+@property (nonatomic, assign) Message*  message;
+@property (nonatomic, assign) UIButton* profileImage;
+
 
 - (void)update:(id)delegate;
 

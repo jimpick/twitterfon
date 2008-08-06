@@ -102,7 +102,8 @@
 	}
     
 	cell.message = m;
-    cell.image = [imageStore getImage:m.user delegate:self];
+//    cell.image = [imageStore getImage:m.user delegate:self];
+    [cell.profileImage setImage:[imageStore getImage:m.user delegate:self] forState:UIControlStateNormal];
 
     if (tag == TAB_FRIENDS) {
         NSString *str = [NSString stringWithFormat:@"@%@", username];
@@ -174,7 +175,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Message* m = [timeline messageAtIndex:indexPath.row];
+}
+
+- (void)didTouchProfileImage:(MessageCell*)cell
+{
+    Message* m = cell.message;
     
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
