@@ -499,7 +499,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos2.0]" = DefaultProfileUuid;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F74D6AA-1337-43EC-9E34-0AFB081302DE";
+				"PROVISIONING_PROFILE[sdk=iphoneos2.0]" = "0F74D6AA-1337-43EC-9E34-0AFB081302DE";
 				SDKROOT = iphoneos2.0;
 			};
 			name = Distribution;
