@@ -15,4 +15,7 @@
 
 - (void)update:(id)delegate;
 
++ (UIImage*) linkButton;
++ (UIImage*) hilightedLinkButton;
+
 @end

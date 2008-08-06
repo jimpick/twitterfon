@@ -10,6 +10,9 @@
 - (void)didTouchAccessory:(id)sender;
 @end
 
+static UIImage* sLinkButton = nil;
+static UIImage* sHighlightedLinkButton = nil;
+
 @implementation MessageCell
 
 @synthesize message;
@@ -40,11 +43,6 @@
     textLabel.contentMode = UIViewContentModeTopLeft;
     [self.contentView addSubview:textLabel];
     
-    self.selectionStyle = UITableViewCellSelectionStyleBlue;
-    
-    self.target = self;
-    self.accessoryAction = @selector(didTouchAccessory:);
-    
 	return self;
 }
 
@@ -59,8 +57,21 @@
 {
     delegate = aDelegate;
 	nameLabel.text = message.user.screenName;
-	textLabel.text = [message.text unescapeHTML];  
-    self.accessoryType = message.accessoryType;
+	textLabel.text = [message.text unescapeHTML];
+    //
+    // Added custom hyperlink button here.
+    //
+    if (message.accessoryType == UITableViewCellAccessoryDetailDisclosureButton) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = CGRectMake(288, 0, 32, 32);
+        [button setImage:[MessageCell linkButton] forState:UIControlStateNormal];
+        [button setImage:[MessageCell hilightedLinkButton] forState:UIControlStateHighlighted];
+        [button addTarget:self action:@selector(didTouchAccessory:) forControlEvents:UIControlEventTouchUpInside];
+        self.accessoryView = button;
+    }
+    else {
+        self.accessoryView = nil;
+    }
 }
 
 - (void)layoutSubviews
@@ -68,6 +79,22 @@
 	[super layoutSubviews];
     self.backgroundColor = self.contentView.backgroundColor;	
     textLabel.frame = [textLabel textRectForBounds:message.textBounds limitedToNumberOfLines:10];
+}
+
++ (UIImage*) linkButton
+{
+    if (sLinkButton == nil) {
+        sLinkButton = [[UIImage imageNamed:@"link.png"] retain];
+    }
+    return sLinkButton;
+}
+
++ (UIImage*) hilightedLinkButton
+{
+    if (sHighlightedLinkButton == nil) {
+        sHighlightedLinkButton = [[UIImage imageNamed:@"link_highlighted.png"] retain];
+    }
+    return sHighlightedLinkButton;
 }
 
 @end
