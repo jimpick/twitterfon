@@ -77,8 +77,28 @@
     [button setTitle:[NSString stringWithFormat:@"  %@", aUrl] forState:UIControlStateDisabled];
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [[UIApplication sharedApplication] openURL:openingURL];
+    }
+}
+
 - (BOOL)webView:(UIWebView *)aWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+    [openingURL release];
+    openingURL = [request.URL copy];
+    NSRange r = [[request.URL absoluteString] rangeOfString:@"http://maps.google.com/"];
+    if (r.location != NSNotFound) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TwitterFon"
+                                                        message:@"You are opening Google Maps"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Open Maps", nil];
+        [alert show];	
+        [alert release];
+        return false;
+    }
     return true;
 }
 
@@ -108,7 +128,8 @@
 
 - (void)setUrl:(NSString*)aUrl
 {
-    needsReload = ([url compare:aUrl] == 0)  ? false : true;
+//    needsReload = ([url compare:aUrl] == 0)  ? false : true;
+    needsReload = true;
     NSRange r = [aUrl rangeOfString:@"http://tinyurl.com"];
     needsToDecodeTinyURL = (r.location != NSNotFound) ? true : false;
     url = [aUrl copy];
@@ -137,6 +158,7 @@
 
 
 - (void)dealloc {
+    [openingURL release];
     [tinyURLStore release];
     [url release];
 	[super dealloc];
