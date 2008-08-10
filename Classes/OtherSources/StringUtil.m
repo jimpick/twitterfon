@@ -11,9 +11,20 @@
 @implementation NSString (NSStringUtils)
 - (NSString*)encodeAsURIComponent
 {
-    NSString* s = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, NULL, kCFStringEncodingUTF8);
-    return [s autorelease];
+	const char* p = [self UTF8String];
+	NSMutableString* result = [NSMutableString string];
+	
+	for (;*p ;p++) {
+		unsigned char c = *p;
+		if ('0' <= c && c <= '9' || 'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || c == '-' || c == '_') {
+			[result appendFormat:@"%c", c];
+		} else {
+			[result appendFormat:@"%%%02X", c];
+		}
+	}
+	return result;
 }
+
 
 - (NSString*)escapeHTML
 {
