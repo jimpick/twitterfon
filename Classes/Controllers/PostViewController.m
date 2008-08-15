@@ -120,6 +120,12 @@
 
 - (IBAction) send: (id) sender
 {
+    int length = [text.text length];
+    if (length == 0) {
+        sendButton.enabled = false;
+        return;
+    }
+    
     post = [[TwitterClient alloc] initWithDelegate:self];
 
 	NSRange r = [text.text rangeOfString:@"d "];
