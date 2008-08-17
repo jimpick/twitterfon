@@ -17,6 +17,8 @@ static sqlite3_stmt* select_statement = nil;
 @synthesize text;
 @synthesize createdAt;
 
+@synthesize timestamp;
+
 @synthesize unread;
 @synthesize textBounds;
 @synthesize cellHeight;
@@ -27,6 +29,7 @@ static sqlite3_stmt* select_statement = nil;
     [text release];
     [user release];
     [createdAt release];
+    [timestamp release];
   	[super dealloc];
 }
 
@@ -90,6 +93,44 @@ static sqlite3_stmt* select_statement = nil;
     [textLabel release];
 
     textBounds = CGRectMake(LEFT, TOP, textWidth, cellHeight - TOP);
+    
+    // Calculate distance time and create timestamp
+    //
+    struct tm created;
+    setenv("TZ", "GMT", 1);
+    strptime([createdAt UTF8String], "%a %b %d %H:%M:%S %z %Y", &created);
+    time_t now;
+    time(&now);
+    int distance = (int)difftime(now, mktime(&created));
+    if (distance < 0) distance = 0;
+
+    if (distance < 60) {
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "sec" : "secs"];
+    }
+    else if (distance < 60 * 60) {  
+        distance = distance / 60;
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "min" : "mins"];
+    }  
+    else if (distance < 60 * 60 * 24) {
+        distance = distance / 60 / 60;
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "hour" : "hours"];
+    }
+    else if (distance < 60 * 60 * 24 * 7) {
+        distance = distance / 60 / 60 / 24;
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "day" : "days"];
+    }
+    else if (distance < 60 * 60 * 24 * 7 * 4) {
+        distance = distance / 60 / 60 / 24 / 7;
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "week" : "weeks"];
+    }
+    else {
+        NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+        [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:mktime(&created)];        
+        self.timestamp = [dateFormatter stringFromDate:date];
+    }
 }
 
 + (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type

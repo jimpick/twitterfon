@@ -31,8 +31,7 @@ static UIImage* sHighlightedLinkButton = nil;
     nameLabel.highlightedTextColor = [UIColor whiteColor];
     nameLabel.font = [UIFont boldSystemFontOfSize:14];
     nameLabel.textAlignment = UITextAlignmentLeft;
-    nameLabel.frame = CGRectMake(LEFT, 0, CELL_WIDTH - DETAIL_BUTTON_WIDTH, 16);
-    
+    nameLabel.frame = CGRectMake(LEFT, 0, CELL_WIDTH - DETAIL_BUTTON_WIDTH, TOP);
     [self.contentView addSubview:nameLabel];
 		
     // text label
@@ -46,6 +45,16 @@ static UIImage* sHighlightedLinkButton = nil;
     textLabel.contentMode = UIViewContentModeTopLeft;
     [self.contentView addSubview:textLabel];
     
+    // timestamp
+    timestamp = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+    timestamp.backgroundColor = [UIColor clearColor];
+    timestamp.textColor = [UIColor grayColor];
+    timestamp.highlightedTextColor = [UIColor whiteColor];
+    timestamp.font = [UIFont systemFontOfSize:12];
+    timestamp.textAlignment = UITextAlignmentRight;
+    timestamp.frame = CGRectMake(TIMESTAMP_LEFT, 0, TIMESTAMP_WIDTH, TOP);
+    [self.contentView addSubview:timestamp];    
+        
     profileImage = [UIButton buttonWithType:UIButtonTypeCustom];
     [profileImage addTarget:self action:@selector(didTouchProfileImage:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:profileImage];
@@ -58,6 +67,7 @@ static UIImage* sHighlightedLinkButton = nil;
 {
     [nameLabel release];
     [textLabel release];
+    [timestamp release];
     [profileImage release];
     [super dealloc];
 }    
@@ -81,6 +91,7 @@ static UIImage* sHighlightedLinkButton = nil;
     delegate = aDelegate;
 	nameLabel.text = message.user.screenName;
 	textLabel.text = [message.text unescapeHTML];
+    timestamp.text = message.timestamp;
     //
     // Added custom hyperlink button here.
     //
