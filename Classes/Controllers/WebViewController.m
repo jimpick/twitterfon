@@ -60,8 +60,12 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [webView stopLoading];
-    [webView loadHTMLString:@"<html><style>html { width:320px; height:480px; background-color:white; }</style><body></body></html>" baseURL:nil];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [webView loadHTMLString:@"<html><style>html { width:320px; height:480px; background-color:white; }</style><body></body></html>" baseURL:nil];
 }
 
 - (IBAction)reload:(id)sender
