@@ -7,6 +7,7 @@
 //
 
 #import "SettingsTableViewController.h"
+#import "TwitterFonAppDelegate.h"
 
 @implementation SettingsTableViewController
 
@@ -95,18 +96,9 @@
     }
     else {
         [textField resignFirstResponder];
-        [self saveSettings];
-        
     }
-    return YES;
-}
-
-- (IBAction) done: (id) sender
-{
-    [usernameField resignFirstResponder];
-    [passwordField resignFirstResponder];
-
     [self saveSettings];
+    return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField

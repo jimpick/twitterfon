@@ -16,6 +16,4 @@
     IBOutlet UITextField*     passwordField;
 }
 
-- (IBAction) done: (id) sender;
-
 @end
