@@ -35,7 +35,7 @@ NSString* sMethods[3] = {
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
-	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/%@.json",
+	NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/%@.json",
                      username,
                      password,
                      sMethods[type]];
@@ -63,7 +63,7 @@ NSString* sMethods[3] = {
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
     
-	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/statuses/update.json",
+	NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/statuses/update.json",
                      username, password];
     
     NSLog(@"%@", url);

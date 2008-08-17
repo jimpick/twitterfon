@@ -57,6 +57,13 @@
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [webView stopLoading];
+    [webView loadHTMLString:@"<html><style>html { width:320px; height:480px; background-color:white; }</style><body></body></html>" baseURL:nil];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
 - (IBAction)reload:(id)sender
 {
     [webView reload];
@@ -88,17 +95,34 @@
 {
     [openingURL release];
     openingURL = [request.URL copy];
-    NSRange r = [[request.URL absoluteString] rangeOfString:@"http://maps.google.com/"];
+    NSString *aURL = [request.URL absoluteString];
+    self.title = aURL;
+    [self setUrlBar:aURL];
+    
+    NSRange r = [aURL rangeOfString:@"http://maps.google.com/"];
     if (r.location != NSNotFound) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TwitterFon"
                                                         message:@"You are opening Google Maps"
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"Open Maps", nil];
+                                              otherButtonTitles:@"Open", nil];
         [alert show];	
         [alert release];
         return false;
     }
+    
+    r = [aURL rangeOfString:@"http://www.youtube.com/"];
+    if (r.location != NSNotFound) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TwitterFon"
+                                                        message:@"You are opening YouTube"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Open", nil];
+        [alert show];	
+        [alert release];
+        return false;
+    }
+    
     return true;
 }
 
@@ -124,6 +148,16 @@
 
 - (void)webView:(UIWebView *)aWebView didFailLoadWithError:(NSError *)error
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    if ([error code] <= NSURLErrorBadURL) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed to load the page"
+                                                        message:[error localizedDescription]
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];	
+        [alert release];
+    }
 }
 
 - (void)setUrl:(NSString*)aUrl
