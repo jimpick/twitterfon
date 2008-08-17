@@ -9,81 +9,39 @@
 #import "ColorUtils.h"
 
 
-static UIColor *friendColor         = nil;
-static UIColor *friendColorUnread   = nil;
-static UIColor *friendColorBorder   = nil;
-static UIColor *repliesColor        = nil;
-static UIColor *repliesColorUnread  = nil;
-static UIColor *repliesColorBorder  = nil;
-static UIColor *messageColor        = nil;
-static UIColor *messageColorUnread  = nil;
-static UIColor *messageColorBorder  = nil;
-
+static UIColor *sFriendColor         = nil;
+static UIColor *sFriendColorUnread   = nil;
+static UIColor *sRepliesColor        = nil;
+static UIColor *sRepliesColorUnread  = nil;
+static UIColor *sMessageColor        = nil;
+static UIColor *sMessageColorUnread  = nil;
 
 @implementation UIColor (NSStringUtils)
 
-+ (UIColor*)friendColor
++ (void) initTwitterFonColorScheme
 {
-    if (friendColor == nil) {
-        friendColor = [[UIColor colorWithRed:0.682 green:0.914 blue:0.925 alpha:1.0] retain];
-    }
-    return friendColor;
+    sFriendColor         = [[UIColor colorWithRed:0.682 green:0.914 blue:0.925 alpha:1.0] retain];    
+    sFriendColorUnread   = [[UIColor colorWithRed:0.451 green:0.898 blue:0.898 alpha:1.0] retain];
+    sRepliesColor        = [[UIColor colorWithRed:0.745 green:0.910 blue:0.608 alpha:1.0] retain];
+    sRepliesColorUnread  = [[UIColor colorWithRed:0.671 green:0.898 blue:0.443 alpha:1.0] retain];
+    sMessageColor        = [[UIColor colorWithRed:0.878 green:0.729 blue:0.545 alpha:1.0] retain];
+    sMessageColorUnread  = [[UIColor colorWithRed:0.898 green:0.671 blue:0.443 alpha:1.0] retain];
 }
+
 + (UIColor*)friendColor:(BOOL)unread
 {
-    if (friendColorUnread == nil) {
-        friendColorUnread = [[UIColor colorWithRed:0.451 green:0.898 blue:0.898 alpha:1.0] retain];
-    }
-    return unread ? friendColorUnread : [UIColor friendColor];
+    return unread ? sFriendColorUnread : sFriendColor;
 }
-+ (UIColor*)friendColorBorder
-{
-    if (friendColorBorder == nil) {
-        friendColorBorder = [[UIColor colorWithRed:0.784 green:0.969 blue:0.996 alpha:1.0] retain];
-    }
-    return friendColorBorder;
-}
-+ (UIColor*)repliesColor
-{
-    if (repliesColor == nil) {
-        repliesColor = [[UIColor colorWithRed:0.745 green:0.910 blue:0.608 alpha:1.0] retain];
-    }
-    return repliesColor;
-}
+
 + (UIColor*)repliesColor:(BOOL)unread
 {
-    if (repliesColorUnread == nil) {
-        repliesColorUnread = [[UIColor colorWithRed:0.671 green:0.898 blue:0.443 alpha:1.0] retain];
-    }
-    return unread ? repliesColorUnread : [UIColor repliesColor];
+
+    return unread ? sRepliesColorUnread : sRepliesColor;
 }
-+ (UIColor*)repliesColorBorder
-{
-    if (repliesColorBorder == nil) {
-        repliesColorBorder = [[UIColor colorWithRed:0.894 green:1.000 blue:0.800 alpha:1.0] retain];
-    }
-    return repliesColorBorder;
-}
-+ (UIColor*)messageColor
-{
-    if (messageColor == nil) {
-        messageColor = [[UIColor colorWithRed:0.878 green:0.729 blue:0.545 alpha:1.0] retain];
-    }
-    return messageColor;
-}
+
 + (UIColor*)messageColor:(BOOL)unread
 {
-    if (messageColorUnread == nil) {
-        messageColorUnread = [[UIColor colorWithRed:0.898 green:0.671 blue:0.443 alpha:1.0] retain];
-    }
-    return unread ? messageColorUnread : [UIColor messageColor];
-}
-+ (UIColor*)messageColorBorder
-{
-    if (messageColorBorder == nil) {
-        messageColorBorder = [[UIColor colorWithRed:0.992 green:0.910 blue:0.800 alpha:1.0] retain];
-    }
-    return messageColorBorder;
+    return unread ? sMessageColorUnread : sMessageColor;
 }
 
 @end

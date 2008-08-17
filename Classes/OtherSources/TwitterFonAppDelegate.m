@@ -7,6 +7,7 @@
 //
 
 #import "TwitterFonAppDelegate.h"
+#import "ColorUtils.h"
 
 @interface TwitterFonAppDelegate (Private)
 - (void)createEditableCopyOfDatabaseIfNeeded;
@@ -50,6 +51,7 @@
     }
    
 	[window addSubview:tabBarController.view];
+    [UIColor initTwitterFonColorScheme];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

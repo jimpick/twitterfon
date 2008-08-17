@@ -9,13 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface UIColor (UIColorUtils)
-+ (UIColor*)friendColor;
++ (void)initTwitterFonColorScheme;
 + (UIColor*)friendColor:(BOOL)unread;
-+ (UIColor*)friendColorBorder;
-+ (UIColor*)repliesColor;
 + (UIColor*)repliesColor:(BOOL)unread;
-+ (UIColor*)repliesColorBorder;
-+ (UIColor*)messageColor;
 + (UIColor*)messageColor:(BOOL)unread;
-+ (UIColor*)messageColorBorder;
 @end

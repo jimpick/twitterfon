@@ -44,17 +44,17 @@
 
     switch (tag) {
         case TAB_FRIENDS:
-            self.tableView.separatorColor = [UIColor friendColorBorder];
+            self.tableView.separatorColor = [UIColor whiteColor];
             break;
             
         case TAB_REPLIES:
-            self.tableView.separatorColor =  [UIColor repliesColorBorder];
-            self.tableView.backgroundColor = [UIColor repliesColor];
+            self.tableView.separatorColor =  [UIColor whiteColor];
+            self.tableView.backgroundColor = [UIColor repliesColor:false];
             break;
             
         case TAB_MESSAGES:
-            self.tableView.separatorColor =  [UIColor messageColorBorder];
-            self.tableView.backgroundColor = [UIColor messageColor];
+            self.tableView.separatorColor =  [UIColor whiteColor];
+            self.tableView.backgroundColor = [UIColor messageColor:false];
     }
     [timeline restore:tag];
     [timeline update:tag];
