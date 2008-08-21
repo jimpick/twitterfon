@@ -8,6 +8,7 @@
 	Message*        message;
 	UILabel*        nameLabel;
 	UILabel*        textLabel;
+    UILabel*        timestamp;
 
     NSObject*       delegate;
     UIButton*       profileImage;

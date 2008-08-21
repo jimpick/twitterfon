@@ -175,6 +175,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    Message *m = [timeline messageAtIndex:indexPath.row];
+    [userTimeline setMessage:m image:[imageStore getImage:m.user delegate:self]];
+    [[self navigationController] pushViewController:userTimeline animated:true];
 }
 
 - (void)didTouchProfileImage:(MessageCell*)cell

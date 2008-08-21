@@ -3,7 +3,12 @@
 @implementation User
 
 @synthesize userId;
+@synthesize name;
 @synthesize screenName;
+@synthesize location;
+@synthesize description;
+@synthesize url;
+@synthesize followersCount;
 @synthesize profileImageUrl;
 
 - (User*)initWithJsonDictionary:(NSDictionary*)dic
@@ -11,8 +16,34 @@
 	self = [super init];
 	
 	userId          = [[dic objectForKey:@"id"] longValue];
+    
+    NSArray* array = [dic allKeys];
+    for (int i=0; i < [array count]; ++i) {
+        NSLog(@"%@", [array objectAtIndex:i]);
+    }
+    name            = [[dic objectForKey:@"name"] copy];
 	screenName      = [[dic objectForKey:@"screen_name"] copy];
-	profileImageUrl = [[dic objectForKey:@"profile_image_url"] copy];
+	location        = [[dic objectForKey:@"location"] copy];
+	description     = [[dic objectForKey:@"description"] copy];
+	url             = [[dic objectForKey:@"url"] copy];
+    followersCount  = [[dic objectForKey:@"followers_count"] longValue];
+    profileImageUrl = [[dic objectForKey:@"profile_image_url"] copy];
+    
+    if ([name isKindOfClass:[NSNull class]]) {
+        name = @"";
+    }
+    if ([screenName isKindOfClass:[NSNull class]]) {
+        screenName = @"";
+    }
+    if ([location isKindOfClass:[NSNull class]]) {
+        location = @"";
+    }
+    if ([description isKindOfClass:[NSNull class]]) {
+        description = @"";
+    }
+    if ([url isKindOfClass:[NSNull class]]) {
+        url = @"";
+    }
 	
 	return self;
 }

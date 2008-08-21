@@ -10,7 +10,13 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
+		6E08FB770E5D252200106492 /* UserTimelineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08FB760E5D252200106492 /* UserTimelineController.m */; };
+		6E08FB9E0E5D266B00106492 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08FB9D0E5D266B00106492 /* UserCell.m */; };
 		6E092C3B0E3B41D40039FEE3 /* TFConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E092C3A0E3B41D40039FEE3 /* TFConnection.m */; };
+		6E1029110E5D362C00440C58 /* UserMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1029100E5D362C00440C58 /* UserMessageCell.m */; };
+		6E1029E60E5D42BC00440C58 /* favorited.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1029E40E5D42BC00440C58 /* favorited.png */; };
+		6E1029E70E5D42BC00440C58 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1029E50E5D42BC00440C58 /* favorite.png */; };
+		6E102AE30E5DEC7A00440C58 /* db1.1.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6E102AE20E5DEC7A00440C58 /* db1.1.sql */; };
 		6E2BCF1B0E3591B8003A8F69 /* postbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF1A0E3591B8003A8F69 /* postbutton.png */; };
 		6E2BCF260E3596D4003A8F69 /* friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF250E3596D4003A8F69 /* friends.png */; };
 		6E2BD0C10E35AE04003A8F69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */; };
@@ -63,8 +69,17 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* TwitterFon_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterFon_Prefix.pch; sourceTree = "<group>"; };
 		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		6E08FB750E5D252200106492 /* UserTimelineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserTimelineController.h; path = Controllers/UserTimelineController.h; sourceTree = "<group>"; };
+		6E08FB760E5D252200106492 /* UserTimelineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserTimelineController.m; path = Controllers/UserTimelineController.m; sourceTree = "<group>"; };
+		6E08FB9C0E5D266B00106492 /* UserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserCell.h; path = Controllers/UserCell.h; sourceTree = "<group>"; };
+		6E08FB9D0E5D266B00106492 /* UserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserCell.m; path = Controllers/UserCell.m; sourceTree = "<group>"; };
 		6E092C390E3B41D40039FEE3 /* TFConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TFConnection.h; path = Network/TFConnection.h; sourceTree = "<group>"; };
 		6E092C3A0E3B41D40039FEE3 /* TFConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TFConnection.m; path = Network/TFConnection.m; sourceTree = "<group>"; };
+		6E10290F0E5D362C00440C58 /* UserMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserMessageCell.h; path = Controllers/UserMessageCell.h; sourceTree = "<group>"; };
+		6E1029100E5D362C00440C58 /* UserMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserMessageCell.m; path = Controllers/UserMessageCell.m; sourceTree = "<group>"; };
+		6E1029E40E5D42BC00440C58 /* favorited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorited.png; sourceTree = "<group>"; };
+		6E1029E50E5D42BC00440C58 /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite.png; sourceTree = "<group>"; };
+		6E102AE20E5DEC7A00440C58 /* db1.1.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = db1.1.sql; sourceTree = "<group>"; };
 		6E2BCF1A0E3591B8003A8F69 /* postbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = postbutton.png; sourceTree = "<group>"; };
 		6E2BCF250E3596D4003A8F69 /* friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends.png; sourceTree = "<group>"; };
 		6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -156,7 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				6EEBF6C90E3AE3780003EA63 /* Network */,
-				6EDC025B0E34537600FF142E /* Controllers */,
+				6EDC025B0E34537600FF142E /* Views */,
 				6EDC01CE0E344B5600FF142E /* DB */,
 				6EED14040E33E59B00C71EA4 /* ImageStore */,
 				6EED140B0E33E59B00C71EA4 /* JSON */,
@@ -211,6 +226,7 @@
 				6EED143B0E33E5BA00C71EA4 /* TimelineView.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				6EDC03880E34679300FF142E /* db.sql */,
+				6E102AE20E5DEC7A00440C58 /* db1.1.sql */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -225,6 +241,19 @@
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6E102A360E5DD63D00440C58 /* UesrTimeline */ = {
+			isa = PBXGroup;
+			children = (
+				6E08FB9C0E5D266B00106492 /* UserCell.h */,
+				6E08FB9D0E5D266B00106492 /* UserCell.m */,
+				6E10290F0E5D362C00440C58 /* UserMessageCell.h */,
+				6E1029100E5D362C00440C58 /* UserMessageCell.m */,
+				6E08FB750E5D252200106492 /* UserTimelineController.h */,
+				6E08FB760E5D252200106492 /* UserTimelineController.m */,
+			);
+			name = UesrTimeline;
 			sourceTree = "<group>";
 		};
 		6E38EF7F0E38275300887690 /* Web View */ = {
@@ -278,15 +307,16 @@
 			path = DB;
 			sourceTree = "<group>";
 		};
-		6EDC025B0E34537600FF142E /* Controllers */ = {
+		6EDC025B0E34537600FF142E /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				6E8265CA0E37513B005D2370 /* Settings */,
 				6E8265C90E375122005D2370 /* FriendsTimeline */,
+				6E102A360E5DD63D00440C58 /* UesrTimeline */,
 				6E8265C80E375119005D2370 /* Post */,
 				6E38EF7F0E38275300887690 /* Web View */,
 			);
-			name = Controllers;
+			name = Views;
 			sourceTree = "<group>";
 		};
 		6EEBF6C90E3AE3780003EA63 /* Network */ = {
@@ -345,6 +375,8 @@
 		6EED14400E33E5BF00C71EA4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6E1029E40E5D42BC00440C58 /* favorited.png */,
+				6E1029E50E5D42BC00440C58 /* favorite.png */,
 				6ED17FA50E38D3A0006E8AB7 /* forward.png */,
 				6ED17FA60E38D3A0006E8AB7 /* back.png */,
 				6E2BD11E0E35B3D2003A8F69 /* Default.png */,
@@ -423,6 +455,9 @@
 				6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */,
 				6E3703E70E49137E00952688 /* link.png in Resources */,
 				6E3704060E491B4500952688 /* link_highlighted.png in Resources */,
+				6E1029E60E5D42BC00440C58 /* favorited.png in Resources */,
+				6E1029E70E5D42BC00440C58 /* favorite.png in Resources */,
+				6E102AE30E5DEC7A00440C58 /* db1.1.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +493,9 @@
 				6EDD27740E3B5429002E09A0 /* TinyURL.m in Sources */,
 				6E335EA40E3BBE0C008B15BB /* TwitterClient.m in Sources */,
 				6EE9354D0E42FFF6008084DF /* ProgressWindow.m in Sources */,
+				6E08FB770E5D252200106492 /* UserTimelineController.m in Sources */,
+				6E08FB9E0E5D266B00106492 /* UserCell.m in Sources */,
+				6E1029110E5D362C00440C58 /* UserMessageCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

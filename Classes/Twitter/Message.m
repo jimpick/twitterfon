@@ -16,6 +16,9 @@ static sqlite3_stmt* select_statement = nil;
 @synthesize user;
 @synthesize text;
 @synthesize createdAt;
+@synthesize source;
+@synthesize favorited;
+@synthesize timestamp;
 
 @synthesize unread;
 @synthesize textBounds;
@@ -27,6 +30,7 @@ static sqlite3_stmt* select_statement = nil;
     [text release];
     [user release];
     [createdAt release];
+    [timestamp release];
   	[super dealloc];
 }
 
@@ -39,6 +43,8 @@ static sqlite3_stmt* select_statement = nil;
 	messageId = [[dic objectForKey:@"id"] longLongValue];
 	text      = [[dic objectForKey:@"text"] copy];
     createdAt = [[dic objectForKey:@"created_at"] copy];
+    source    = [[dic objectForKey:@"source"] copy];
+    favorited = [[dic objectForKey:@"favorited"] isKindOfClass:[NSNull class]] ? 0 : 1;
 	
 	NSDictionary* userDic = [dic objectForKey:@"user"];
 	if (userDic) {
@@ -84,12 +90,51 @@ static sqlite3_stmt* select_statement = nil;
     textLabel.text = text;
     bounds = CGRectMake(0, 0, textWidth, 200);
     result = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
-    result.size.height += 18;
+    result.size.height += 18 + 16;
     if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
     cellHeight = result.size.height;
     [textLabel release];
 
     textBounds = CGRectMake(LEFT, TOP, textWidth, cellHeight - TOP);
+    
+    // Calculate distance time and create timestamp
+    //
+    struct tm created;
+    setenv("TZ", "GMT", 1);
+    strptime([createdAt UTF8String], "%a %b %d %H:%M:%S %z %Y", &created);
+    time_t now;
+    time(&now);
+    int distance = (int)difftime(now, mktime(&created));
+    if (distance < 0) distance = 0;
+
+    if (distance < 60) {
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "sec" : "secs"];
+    }
+    else if (distance < 60 * 60) {  
+        distance = distance / 60;
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "min" : "mins"];
+    }  
+    else if (distance < 60 * 60 * 24) {
+        distance = distance / 60 / 60;
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "hour" : "hours"];
+    }
+    else if (distance < 60 * 60 * 24 * 7) {
+        distance = distance / 60 / 60 / 24;
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "day" : "days"];
+    }
+    else if (distance < 60 * 60 * 24 * 7 * 4) {
+        distance = distance / 60 / 60 / 24 / 7;
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "week" : "weeks"];
+    }
+    else {
+        NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+        [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:mktime(&created)];        
+        self.timestamp = [dateFormatter stringFromDate:date];
+    }
+
 }
 
 + (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type
@@ -99,12 +144,21 @@ static sqlite3_stmt* select_statement = nil;
     //
     Message *m              = [[[Message alloc] init] autorelease];
     m.user                  = [[User alloc] init];
+    
     m.messageId             = (sqlite_int64)sqlite3_column_int64(statement, 0);
-    m.user.userId           = (uint32_t)sqlite3_column_int(statement, 2);
-    m.user.screenName       = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
-    m.user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 4)];
-    m.text                  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 5)];
-    m.createdAt             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 6)];
+    m.text                  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 2)];
+    m.createdAt             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
+    m.source                = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 4)];
+    m.favorited             = (BOOL)sqlite3_column_int(statement, 5);
+    
+    m.user.userId           = (uint32_t)sqlite3_column_int(statement, 6);
+    m.user.name             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 7)];
+    m.user.screenName       = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 8)];
+    m.user.location         = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 9)];
+    m.user.description      = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 10)];
+    m.user.url              = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 11)];
+    m.user.followersCount   = (uint32_t)sqlite3_column_int(statement, 12);
+    m.user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 13)];
     m.unread = false;
     [m updateAttribute];
     
@@ -145,18 +199,27 @@ static sqlite3_stmt* select_statement = nil;
     sqlite3* database = [DBConnection getSharedDatabase];
 
     if (insert_statement == nil) {
-        static char *sql = "INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?)";
+        static char *sql = "INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
     }
-    sqlite3_bind_int64(insert_statement,  1, messageId);
-    sqlite3_bind_int(insert_statement,  2, type);
-    sqlite3_bind_int(insert_statement,  3, user.userId);
-    sqlite3_bind_text(insert_statement, 4, [user.screenName UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement, 5, [user.profileImageUrl UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement, 6, [text UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement, 7, [createdAt UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int64(insert_statement, 1, messageId);
+    sqlite3_bind_int(insert_statement,   2, type);
+
+    sqlite3_bind_text(insert_statement,  3, [text UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement,  4, [createdAt UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement,  5, [source UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(insert_statement,   6, favorited);
+    
+    sqlite3_bind_int(insert_statement,   7, user.userId);
+    sqlite3_bind_text(insert_statement,  8, [user.name UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement,  9, [user.screenName UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement, 10, [user.location UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement, 11, [user.description UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement, 12, [user.url UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(insert_statement,  13, user.followersCount);
+    sqlite3_bind_text(insert_statement, 14, [user.profileImageUrl UTF8String], -1, SQLITE_TRANSIENT);
     
     int success = sqlite3_step(insert_statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.

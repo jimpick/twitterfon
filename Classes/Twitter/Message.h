@@ -26,6 +26,9 @@ typedef enum {
 	User*           user;
 	NSString*       text;
     NSString*       createdAt;
+    NSString*       source;
+    BOOL            favorited;
+    NSString*       timestamp;
 
     BOOL            unread;
     MessageType     type;
@@ -39,6 +42,9 @@ typedef enum {
 @property (nonatomic, assign) User*         user;
 @property (nonatomic, copy)   NSString*     text;
 @property (nonatomic, copy)   NSString*     createdAt;
+@property (nonatomic, copy)   NSString*     source;
+@property (nonatomic, assign) BOOL          favorited;
+@property (nonatomic, copy)   NSString*     timestamp;
 
 @property (nonatomic, assign) BOOL          unread;
 @property (nonatomic, assign) CGRect        textBounds;

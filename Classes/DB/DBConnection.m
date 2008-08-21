@@ -9,7 +9,7 @@ static sqlite3*             theDatabase = nil;
     if (theDatabase == nil) {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"db.sql"];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"db1.1.sql"];
         // Open the database. The database was prepared outside the application.
         if (sqlite3_open([path UTF8String], &theDatabase) != SQLITE_OK) {
             // Even though the open failed, call close to properly clean up resources.
