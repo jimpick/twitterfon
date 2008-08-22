@@ -21,6 +21,7 @@ static sqlite3_stmt* select_statement = nil;
 @synthesize timestamp;
 
 @synthesize unread;
+@synthesize type;
 @synthesize hasReply;
 @synthesize textBounds;
 @synthesize cellHeight;
@@ -66,12 +67,35 @@ static sqlite3_stmt* select_statement = nil;
 	return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    Message *dist = [[Message allocWithZone:zone] init];
+    
+	dist.messageId  = messageId;
+	dist.user       = [user copy];
+	dist.text       = text;
+    dist.createdAt  = createdAt;
+    dist.source     = source;
+    dist.favorited  = favorited;
+    dist.timestamp  = timestamp;
+    
+    dist.unread     = unread;
+    dist.hasReply   = hasReply;
+    dist.type       = type;
+    dist.textBounds = textBounds;
+    dist.cellHeight = cellHeight;
+    
+    dist.accessoryType = accessoryType;    
+    
+    return dist;
+}
+
 - (void)updateAttribute
 {
     // Set accessoryType and bounds width
     //
     NSRange r = [text rangeOfString:@"http://"];
-    int textWidth = CELL_WIDTH;
+    int textWidth = (type == MSG_TYPE_USER) ? USER_CELL_WIDTH : CELL_WIDTH;
     if (r.location != NSNotFound) {    
         //accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -98,11 +122,22 @@ static sqlite3_stmt* select_statement = nil;
     textLabel.numberOfLines = 10;
     
     textLabel.text = text;
-    bounds = CGRectMake(LEFT, TOP, textWidth, 200);
+    if (type == MSG_TYPE_USER) {
+        bounds = CGRectMake(USER_CELL_PADDING, 2, textWidth, 200);
+    }
+    else {
+        bounds = CGRectMake(LEFT, TOP, textWidth, 200);
+    }
     result = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
-    textBounds = CGRectMake(LEFT, TOP, textWidth, result.size.height);
-    result.size.height += 18;
-    if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
+    textBounds = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, result.size.height);
+    
+    if (type == MSG_TYPE_USER) {
+        result.size.height += 22;
+    }
+    else {
+        result.size.height += 18;
+        if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
+    }
     cellHeight = result.size.height;
     [textLabel release];
 
@@ -118,23 +153,23 @@ static sqlite3_stmt* select_statement = nil;
     if (distance < 0) distance = 0;
 
     if (distance < 60) {
-        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "sec" : "secs"];
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "second ago" : "seconds ago"];
     }
     else if (distance < 60 * 60) {  
         distance = distance / 60;
-        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "min" : "mins"];
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "minute ago" : "minutes ago"];
     }  
     else if (distance < 60 * 60 * 24) {
         distance = distance / 60 / 60;
-        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "hour" : "hours"];
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "hour ago" : "hours ago"];
     }
     else if (distance < 60 * 60 * 24 * 7) {
         distance = distance / 60 / 60 / 24;
-        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "day" : "days"];
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "day ago" : "days ago"];
     }
     else if (distance < 60 * 60 * 24 * 7 * 4) {
         distance = distance / 60 / 60 / 24 / 7;
-        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "week" : "weeks"];
+        self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "week ago" : "weeks ago"];
     }
     else {
         NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];

@@ -44,6 +44,21 @@
 	return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    User *dist = [[User allocWithZone:zone] init];
+	dist.userId             = userId;
+    dist.name               = name;
+	dist.screenName         = screenName;
+	dist.location           = location;
+	dist.description        = description;
+	dist.url                = url;
+	dist.followersCount     = followersCount;
+	dist.profileImageUrl    = profileImageUrl;
+    
+    return dist;
+}
+
 - (void)dealloc
 {
     [screenName release];

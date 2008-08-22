@@ -55,7 +55,7 @@ static UIImage* sHighlightedLinkButton = nil;
     timestamp.textColor = [UIColor grayColor];  	  	 
     timestamp.highlightedTextColor = [UIColor whiteColor];  	  	 
     timestamp.font = [UIFont systemFontOfSize:12];  	  	 
-    timestamp.textAlignment = UITextAlignmentRight;  	  	 
+    timestamp.textAlignment = UITextAlignmentLeft;//Right;  	  	 
     timestamp.frame = CGRectMake(TIMESTAMP_LEFT, 0, TIMESTAMP_WIDTH, TOP);  	  	 
     [self.contentView addSubview:timestamp];     
     
@@ -98,6 +98,7 @@ static UIImage* sHighlightedLinkButton = nil;
         timestamp.text = message.timestamp;
         timestamp.hidden = false;
         nameLabel.hidden = true;
+        timestamp.frame = CGRectMake(USER_CELL_PADDING, message.textBounds.size.height + 4, 280, 12);
     }
     else {
         timestamp.hidden = true;

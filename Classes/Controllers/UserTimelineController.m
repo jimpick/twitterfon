@@ -9,6 +9,7 @@
 #import "UserTimelineController.h"
 #import "MessageCell.h"
 #import "UserMessageCell.h"
+#import "TwitterFonAppDelegate.h"
 
 @implementation UserTimelineController
 
@@ -36,6 +37,8 @@
     }
     
     userCell.message = message;
+    userCell.message.type = MSG_TYPE_USER;
+    [userCell.message updateAttribute];
     userCell.profileImage.image = image;
     self.title = message.user.screenName;
 	[self.tableView reloadData];
@@ -55,18 +58,18 @@
     if (indexPath.row == 0) {
         return [userCell calcCellHeight];
     }
-    else if (indexPath.row == 1) {
-        return userCell.message.cellHeight;
-    }
-    else if (indexPath.row >= 2) {
-        if (timeline) {
-
+    else if (timeline == nil) {
+        if (indexPath.row == 1) {
+            return userCell.message.cellHeight;
         }
-        else {
+        else if (indexPath.row >= 2) {
             return 48;
         }
     }
-    return 48;
+    else {
+        return [timeline messageAtIndex:indexPath.row - 1].cellHeight;
+    }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -117,6 +120,17 @@
     }
 }
 
+// UserCell delegate
+//
+- (void)didTouchURL:(id)sender
+{
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    WebViewController *webView = appDelegate.webView;
+    
+    webView.hidesBottomBarWhenPushed = YES;
+    [webView setUrl:userCell.message.user.url];
+    [[self navigationController] pushViewController:webView animated:YES];
+}
 
 - (void)viewDidLoad {
 	[super viewDidLoad];

@@ -14,12 +14,15 @@ typedef enum {
 #define INDICATOR_WIDTH     20
 #define DETAIL_BUTTON_WIDTH 19
 #define IMAGE_WIDTH         48
+#define USER_CELL_PADDING   15
 
 #define TOP                 16
 #define LEFT                (IMAGE_PADDING * 2 + IMAGE_WIDTH)
 #define CELL_WIDTH          (320 - INDICATOR_WIDTH - LEFT)
 #define TIMESTAMP_WIDTH     60
 #define TIMESTAMP_LEFT      (LEFT + CELL_WIDTH) - TIMESTAMP_WIDTH
+
+#define USER_CELL_WIDTH     (320 - USER_CELL_PADDING * 2)
 
 @interface Message : NSObject
 {
@@ -49,6 +52,7 @@ typedef enum {
 @property (nonatomic, copy)   NSString*     timestamp;
 
 @property (nonatomic, assign) BOOL          unread;
+@property (nonatomic, assign) MessageType   type;
 @property (nonatomic, assign) BOOL          hasReply;
 @property (nonatomic, assign) CGRect        textBounds;
 @property (nonatomic, assign) CGFloat       cellHeight;
@@ -59,5 +63,7 @@ typedef enum {
 + (BOOL)isExist:(sqlite_int64)aMessageId type:(MessageType)aType;
 
 - (Message*)initWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type;
+- (void)updateAttribute;
 
+- (id)copyWithZone:(NSZone *)zone;
 @end

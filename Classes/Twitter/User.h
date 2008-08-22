@@ -23,5 +23,6 @@
 @property (nonatomic, copy)   NSString* profileImageUrl;
 
 - (User*)initWithJsonDictionary:(NSDictionary*)dic;
+- (id)copyWithZone:(NSZone *)zone;
 
 @end
