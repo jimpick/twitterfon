@@ -57,9 +57,19 @@
     [UIColor initTwitterFonColorScheme];
 }
 
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    [postView saveTweet];
+}
+
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [postView checkProgressWindowState];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+    [postView saveTweet];
 }
 
 - (void)dealloc

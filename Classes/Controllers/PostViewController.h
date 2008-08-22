@@ -31,6 +31,7 @@
 - (void)checkProgressWindowState;
 
 - (void) setCharCount;
+- (void) saveTweet;
 
 - (IBAction) cancel: (id) sender;
 - (IBAction) send: (id) sender;

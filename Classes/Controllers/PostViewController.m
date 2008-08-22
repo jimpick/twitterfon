@@ -34,6 +34,7 @@
     self.view.hidden = true;
     textRange.location = 0;
     textRange.length = 0;
+ 	text.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"tweet"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -204,6 +205,12 @@
         charCount.textColor = [UIColor whiteColor];
     }
     charCount.text = [NSString stringWithFormat:@"%d", length];
+}
+
+- (void)saveTweet
+{
+    [[NSUserDefaults standardUserDefaults] setObject:text.text forKey:@"tweet"];
+    [[NSUserDefaults standardUserDefaults] synchronize];    
 }
 
 - (void)checkProgressWindowState
