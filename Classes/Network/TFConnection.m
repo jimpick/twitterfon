@@ -78,7 +78,9 @@
     response = (NSHTTPURLResponse*)aResponse;
     if (response) {
         statusCode = response.statusCode;
+#ifdef DEBUG
         NSLog(@"Response: %d", statusCode);
+#endif
     }
 	[buf setLength:0];
 }

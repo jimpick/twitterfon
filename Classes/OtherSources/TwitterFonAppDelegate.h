@@ -22,6 +22,7 @@ typedef enum {
 	IBOutlet UITabBarController*    tabBarController;
     IBOutlet PostViewController*    postView;
     IBOutlet WebViewController*     webView;
+    int                             selectedTab;
 }
 
 @property (nonatomic, retain) UIWindow*             window;

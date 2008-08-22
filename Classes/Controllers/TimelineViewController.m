@@ -72,14 +72,6 @@
 
 - (void)viewDidDisappear:(BOOL)animated 
 {
-    if (!animated) {
-        [self navigationController].tabBarItem.badgeValue = nil;
-        for (int i = 0; i < [timeline countMessages]; ++i) {
-            Message* m = [timeline messageAtIndex:i];
-            m.unread = false;
-        }
-        unread = 0;
-    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -229,10 +221,16 @@
 }
 
 //
-// UITabBarControllerDelegate
+// TwitterFonApPDelegate delegate
 //
-- (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
+- (void)didChangeSeletViewController:(UINavigationController*)navigationController
 {
+    navigationController.tabBarItem.badgeValue = nil;
+    for (int i = 0; i < [timeline countMessages]; ++i) {
+        Message* m = [timeline messageAtIndex:i];
+        m.unread = false;
+    }
+    unread = 0;
 }
 
 //

@@ -58,7 +58,7 @@ static UIImage* sHighlightedLinkButton = nil;
     timestamp.textAlignment = UITextAlignmentLeft;//Right;  	  	 
     timestamp.frame = CGRectMake(TIMESTAMP_LEFT, 0, TIMESTAMP_WIDTH, TOP);  	  	 
     [self.contentView addSubview:timestamp];     
-    
+
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 	return self;
 }
@@ -98,7 +98,7 @@ static UIImage* sHighlightedLinkButton = nil;
         timestamp.text = message.timestamp;
         timestamp.hidden = false;
         nameLabel.hidden = true;
-        timestamp.frame = CGRectMake(USER_CELL_PADDING, message.textBounds.size.height + 4, 280, 12);
+        timestamp.frame = CGRectMake(USER_CELL_PADDING, message.textBounds.size.height + 4, 280, 16);
     }
     else {
         timestamp.hidden = true;

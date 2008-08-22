@@ -243,8 +243,6 @@ static sqlite3_stmt* select_statement = nil;
     if ([Message isExist:messageId type:type]) {
         return;
     }
-    
-    NSLog(@"Insert %lld:%d:%@:%@", messageId, user.userId, user.screenName, text);
     sqlite3* database = [DBConnection getSharedDatabase];
 
     if (insert_statement == nil) {

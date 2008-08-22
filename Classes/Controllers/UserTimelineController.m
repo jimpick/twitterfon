@@ -196,7 +196,8 @@
 {
   
     if (!self.view.hidden) {
-        NSMutableArray *indexPath = [[[NSMutableArray alloc] init] autorelease];
+        NSMutableArray *insertIndexPath = [[[NSMutableArray alloc] init] autorelease];
+        NSMutableArray *deleteIndexPath = [[[NSMutableArray alloc] init] autorelease];
         
         // Replace message if the current message is not latest one.
         //
@@ -204,17 +205,18 @@
         int i;
        
         for (i = (needReplaceMessage) ? 1 : 2 ; i <= 2; ++i) {
-            [indexPath removeObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            [deleteIndexPath addObject:[NSIndexPath indexPathForRow:i inSection:0]];
         }
         //
         // Avoid to create too many table cell.
         //
         if (count > 8) count = 8;
         for (int i = (needReplaceMessage) ? 1 : 2; i <= count; ++i) {
-            [indexPath addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            [insertIndexPath addObject:[NSIndexPath indexPathForRow:i inSection:0]];
         }        
         [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView insertRowsAtIndexPaths:insertIndexPath withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView deleteRowsAtIndexPaths:deleteIndexPath withRowAnimation:UITableViewRowAnimationBottom];
         [self.tableView endUpdates];    
     }
     

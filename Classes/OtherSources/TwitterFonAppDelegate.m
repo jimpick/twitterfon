@@ -15,6 +15,7 @@
 
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)postTweetDidSucceed:(NSDictionary*)dic;
+- (void)didChangeSeletViewController:(UINavigationController*)navigationController;
 @end
 
 @implementation TwitterFonAppDelegate
@@ -49,6 +50,8 @@
     else {
         tabBarController.selectedIndex = TAB_FRIENDS;
     }
+    
+    selectedTab = 0;
    
 	[window addSubview:tabBarController.view];
     [UIColor initTwitterFonColorScheme];
@@ -66,12 +69,28 @@
 	[super dealloc];
 }
 
+//
+// UITabBarControllerDelegate
+//
+- (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
+{
+    if (selectedTab != TAB_SETTINGS) {
+        UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
+        UIViewController *c = [nav.viewControllers objectAtIndex:0];
+        if ([c respondsToSelector:@selector(didChangeSeletViewController:)]) {
+            [c didChangeSeletViewController:nav];
+        }
+    }
+    selectedTab = tabBar.selectedIndex;
+}
+
+
 // Bypass posted message to friends timeline view...
 //
 - (void)postTweetDidSucceedDelegate:(NSDictionary*)dic
 {
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
-    UIViewController *c = nav.topViewController;
+    UIViewController *c = [nav.viewControllers objectAtIndex:0];;
     [c postTweetDidSucceed:dic];
     
 }
