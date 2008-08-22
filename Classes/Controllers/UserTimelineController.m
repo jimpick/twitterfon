@@ -134,6 +134,30 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+#if 0
+    UIImage *image = [UIImage imageNamed:@"postbutton.png"];
+    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithImage:image 
+                                                                   style:UIBarButtonItemStylePlain 
+                                                                  target:self
+                                                                  action:@selector(postTweet:)];
+#endif    
+    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
+    self.navigationItem.rightBarButtonItem = postButton;
+
+}
+
+- (void)postTweet:(id)sender
+{
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    PostViewController* postView = appDelegate.postView;
+    
+    if (postView.view.hidden == false) return;
+    
+    NSString *msg = [NSString stringWithFormat:@"@%@ ", userCell.message.user.screenName];
+    
+    [[self navigationController].view addSubview:postView.view];
+    UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
+    [postView startEditWithString:msg setDelegate:c];
 }
 
 
