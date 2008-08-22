@@ -102,8 +102,7 @@
 	}
     
 	cell.message = m;
-//    cell.image = [imageStore getImage:m.user delegate:self];
-    [cell.profileImage setImage:[imageStore getImage:m.user delegate:self] forState:UIControlStateNormal];
+    [cell.profileImage setImage:[imageStore getImage:m.user.profileImageUrl delegate:self] forState:UIControlStateNormal];
 
     if (tag == TAB_FRIENDS) {
         NSString *str = [NSString stringWithFormat:@"@%@", username];
@@ -176,7 +175,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Message *m = [timeline messageAtIndex:indexPath.row];
-    [userTimeline setMessage:m image:[imageStore getImage:m.user delegate:self]];
+    NSString *url = [m.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"];
+    [userTimeline setMessage:m image:[imageStore getImage:url delegate:userTimeline]];
     [[self navigationController] pushViewController:userTimeline animated:true];
 }
 
@@ -255,7 +255,7 @@
 //
 - (void)timelineDidReceiveNewMessage:(Message*)msg
 {
-	[imageStore getImage:msg.user delegate:self];
+	[imageStore getImage:msg.user.profileImageUrl delegate:self];
 }
 
 - (void)timelineDidUpdate:(int)count

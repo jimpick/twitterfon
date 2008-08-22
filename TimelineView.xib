@@ -79,7 +79,7 @@
 							<object class="IBUIImageView" id="654703924">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">293</int>
-								<string key="NSFrame">{{10, 8}, {48, 48}}</string>
+								<string key="NSFrame">{{10, 10}, {73, 73}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -89,7 +89,7 @@
 							<object class="IBUILabel" id="296039460">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{68, 12}, {242, 21}}</string>
+								<string key="NSFrame">{{91, 10}, {219, 22}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -106,7 +106,7 @@
 							<object class="IBUILabel" id="549106002">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{68, 34}, {242, 21}}</string>
+								<string key="NSFrame">{{91, 49}, {219, 18}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -115,13 +115,13 @@
 								<string key="IBUIText">Palo Alto, CA</string>
 								<reference key="IBUITextColor" ref="840285355"/>
 								<nil key="IBUIHighlightedColor"/>
-								<int key="IBUIBaselineAdjustment">1</int>
+								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumFontSize">1.000000e+01</float>
 							</object>
 							<object class="IBUIButton" id="481177776">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{10, 60}, {300, 18}}</string>
+								<string key="NSFrame">{{91, 67}, {219, 18}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -148,7 +148,7 @@
 							<object class="IBUILabel" id="1016130283">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{10, 78}, {300, 30}}</string>
+								<string key="NSFrame">{{10, 93}, {300, 39}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -165,7 +165,7 @@ aXR0ZXJGb24gZm9yIGlQaG9uZQ</string>
 							<object class="IBUILabel" id="459912027">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{198, 12}, {112, 22}}</string>
+								<string key="NSFrame">{{91, 32}, {219, 15}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -177,10 +177,9 @@ aXR0ZXJGb24gZm9yIGlQaG9uZQ</string>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 								<float key="IBUIMinimumFontSize">1.000000e+01</float>
 								<int key="IBUINumberOfLines">2</int>
-								<int key="IBUITextAlignment">2</int>
 							</object>
 						</object>
-						<string key="NSFrameSize">{320, 112}</string>
+						<string key="NSFrameSize">{320, 128}</string>
 						<reference key="NSSuperview" ref="855286606"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -192,7 +191,7 @@ aXR0ZXJGb24gZm9yIGlQaG9uZQ</string>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 112}</string>
+				<string key="NSFrameSize">{320, 128}</string>
 				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -400,10 +399,10 @@ aXR0ZXJGb24gZm9yIGlQaG9uZQ</string>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="654703924"/>
+							<reference ref="1016130283"/>
 							<reference ref="296039460"/>
 							<reference ref="549106002"/>
 							<reference ref="481177776"/>
-							<reference ref="1016130283"/>
 							<reference ref="459912027"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
@@ -477,7 +476,7 @@ aXR0ZXJGb24gZm9yIGlQaG9uZQ</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>UserCell</string>
-					<string>{{548, 1229}, {320, 112}}</string>
+					<string>{{408, 1190}, {320, 128}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

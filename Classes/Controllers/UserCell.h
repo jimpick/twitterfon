@@ -23,4 +23,6 @@
 @property(nonatomic, assign) Message* message;
 @property(nonatomic, assign) UIImageView* profileImage;
 
+-(CGFloat)calcCellHeight;
+
 @end

@@ -5,15 +5,13 @@
 @interface ProfileImage : NSObject
 {
   	NSObject*           delegate;
-    User*               user;
 	UIImage*            image;
-    BOOL                needUpdate;
     sqlite3*            database;
+    NSString*           url;
 }
 
 @property (nonatomic, readonly) UIImage* image;
-@property (nonatomic, assign) User* user;
 
-- (ProfileImage*)initWithUser:(User*)user delegate:(id)aDelegate;
+- (ProfileImage*)initWithURL:(NSString*)url delegate:(id)aDelegate;
 
 @end

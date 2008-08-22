@@ -7,6 +7,6 @@
 	NSMutableDictionary* images;
 }
 
-- (UIImage*)getImage:(User*)user delegate:(id)aDelegate;
+- (UIImage*)getImage:(NSString*)url delegate:(id)aDelegate;
 
 @end

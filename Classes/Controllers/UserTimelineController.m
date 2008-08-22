@@ -38,11 +38,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //Message *m = [timeline messageAtIndex:indexPath.row];
     if (indexPath.row == 0) {
-        return 112;
+        return [userCell calcCellHeight];
     }
-    else if (indexPath.row == 1 || indexPath.row == 2) {
+    else if (indexPath.row == 1) {
+        return userCell.message.cellHeight;
+    }
+    else if (indexPath.row == 2) {
         return 48;
     }
     return 48;
@@ -74,30 +76,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 */
-/*
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	if (editingStyle == UITableViewCellEditingStyleDelete) {
-	}
-	if (editingStyle == UITableViewCellEditingStyleInsert) {
-	}
-}
-*/
-/*
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-/*
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-/*
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
 
 - (void)dealloc {
 	[super dealloc];
@@ -127,6 +105,11 @@
 	[super didReceiveMemoryWarning];
 }
 
+- (void)imageStoreDidGetNewImage:(UIImage*)image
+{
+    userCell.profileImage.image = image;    
+	[self.tableView reloadData];
+}
 
 @end
 

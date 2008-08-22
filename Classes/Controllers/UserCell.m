@@ -17,34 +17,44 @@
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
 	if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-
-        name.font = [UIFont boldSystemFontOfSize:18];
-        location.font = [UIFont systemFontOfSize:14];
-        url.font = [UIFont boldSystemFontOfSize:14];
-        numFollowers.font = [UIFont systemFontOfSize:12];
-        numFollowers.textColor = [UIColor darkGrayColor];
-        description.numberOfLines = 2;
-        description.font = [UIFont systemFontOfSize:12];
 	}
     return self;
 }
 
-- (void)layoutSubviews {
+-(CGFloat)calcCellHeight
+{
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    name.font = [UIFont boldSystemFontOfSize:18];
-    location.font = [UIFont systemFontOfSize:14];
-    url.font = [UIFont boldSystemFontOfSize:14];
-    numFollowers.font = [UIFont systemFontOfSize:12];
-    numFollowers.textColor = [UIColor darkGrayColor];
-    description.numberOfLines = 2;
-	description.font = [UIFont systemFontOfSize:12];
-
-    name.text        = message.user.name;
-    location.text    = message.user.location;
+    name.font               = [UIFont boldSystemFontOfSize:18];
+    location.font           = [UIFont systemFontOfSize:14];
+    url.font                = [UIFont boldSystemFontOfSize:14];
+    url.lineBreakMode       = UILineBreakModeTailTruncation;
+    numFollowers.font       = [UIFont systemFontOfSize:13];
+    numFollowers.textColor  = [UIColor darkGrayColor];
+	description.font        = [UIFont systemFontOfSize:13];
+    
+    name.text               = message.user.name;
+    location.text           = message.user.location;
     [url setTitle:message.user.url forState:UIControlStateNormal];
     [url setTitle:message.user.url forState:UIControlStateHighlighted];
-    description.text = message.user.description;
+    
+    description.text        = message.user.description;
+    description.numberOfLines = 5;
+    if (message.user.followersCount <= 1) {
+        numFollowers.text   = [NSString stringWithFormat:@"%d follower", message.user.followersCount];
+    }
+    else {
+        numFollowers.text   = [NSString stringWithFormat:@"%d followers", message.user.followersCount];
+    }
+    
+    CGRect bounds = CGRectMake(10, 93 - 4, 300, 193 - 4);
+    description.frame = [description textRectForBounds:bounds limitedToNumberOfLines:5];
+    return description.frame.size.height + 93 + 2;
+    
+}
+
+- (void)layoutSubviews {
+
 }
 
 - (void)dealloc {

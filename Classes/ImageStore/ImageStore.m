@@ -31,12 +31,12 @@ static NSMutableDictionary* theImageStore = nil;
 	[super dealloc];
 }
 
-- (UIImage*)getImage:(User*)user delegate:(id)aDelegate
+- (UIImage*)getImage:(NSString*)url delegate:(id)aDelegate
 {
-	ProfileImage* image = [images objectForKey:user.profileImageUrl];
+	ProfileImage* image = [images objectForKey:url];
 	if (!image) {  
-        image = [[[ProfileImage alloc] initWithUser:user delegate:aDelegate] autorelease];
-        [images setObject:image forKey:user.profileImageUrl];
+        image = [[[ProfileImage alloc] initWithURL:url delegate:aDelegate] autorelease];
+        [images setObject:image forKey:url];
     }
     return image.image;
 }

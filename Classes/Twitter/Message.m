@@ -90,7 +90,7 @@ static sqlite3_stmt* select_statement = nil;
     textLabel.text = text;
     bounds = CGRectMake(0, 0, textWidth, 200);
     result = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
-    result.size.height += 18 + 16;
+    result.size.height += 18;
     if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
     cellHeight = result.size.height;
     [textLabel release];

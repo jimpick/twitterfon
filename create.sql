@@ -5,7 +5,7 @@ CREATE TABLE messages (
        'text'                   TEXT,
        'created_at'             DATETIME,
        'source'                 TEXT,
-       'favorited'              INTEGER,
+       'favorited'              ser,
 
        'user_id'                INTEGER,
        'name'                   TEXT,
@@ -19,9 +19,7 @@ PRIMARY KEY(id, type)
 );
 
 CREATE TABLE images (
-       'user_id'                INTEGER PRIMARY KEY,
-       'url'                    TEXT,
+       'url'                    TEXT PRIMARY KEY,
        'image'                  BLOB,
-       'large_image'            BLOB,
        'updated_at'             DATETIME
 );
