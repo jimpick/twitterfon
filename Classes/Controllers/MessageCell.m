@@ -96,13 +96,15 @@ static UIImage* sHighlightedLinkButton = nil;
     if (type == MSG_TYPE_USER) {
         self.contentView.backgroundColor = [UIColor whiteColor];
         timestamp.text = message.timestamp;
-        timestamp.hidden = false;
-        nameLabel.hidden = true;
-        timestamp.frame = CGRectMake(USER_CELL_PADDING, message.textBounds.size.height + 4, 280, 16);
+        timestamp.hidden    = false;
+        nameLabel.hidden    = true;
+        profileImage.hidden = true;
+        timestamp.frame     = CGRectMake(USER_CELL_PADDING, message.textBounds.size.height + 4, 280, 16);
     }
     else {
-        timestamp.hidden = true;
-        nameLabel.hidden = false;
+        timestamp.hidden    = true;
+        nameLabel.hidden    = false;
+        profileImage.hidden = false;
     }
     //
     // Added custom hyperlink button here.
