@@ -24,22 +24,12 @@
 	url             = [[dic objectForKey:@"url"] copy];
     followersCount  = [[dic objectForKey:@"followers_count"] longValue];
     profileImageUrl = [[dic objectForKey:@"profile_image_url"] copy];
-    
-    if ([name isKindOfClass:[NSNull class]]) {
-        name = @"";
-    }
-    if ([screenName isKindOfClass:[NSNull class]]) {
-        screenName = @"";
-    }
-    if ([location isKindOfClass:[NSNull class]]) {
-        location = @"";
-    }
-    if ([description isKindOfClass:[NSNull class]]) {
-        description = @"";
-    }
-    if ([url isKindOfClass:[NSNull class]]) {
-        url = @"";
-    }
+
+    if ((id)name == [NSNull null]) name = @"";
+    if ((id)screenName == [NSNull null]) screenName = @"";
+    if ((id)location == [NSNull null]) location = @"";
+    if ((id)description == [NSNull null]) description = @"";
+    if ((id)url == [NSNull null]) url = @"";
 	
 	return self;
 }

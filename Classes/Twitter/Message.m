@@ -46,8 +46,12 @@ static sqlite3_stmt* select_statement = nil;
 	messageId = [[dic objectForKey:@"id"] longLongValue];
 	text      = [[dic objectForKey:@"text"] copy];
     createdAt = [[dic objectForKey:@"created_at"] copy];
-    source    = [[dic objectForKey:@"source"] copy];
+//    source    = [[dic objectForKey:@"source"] copy];
     favorited = [[dic objectForKey:@"favorited"] isKindOfClass:[NSNull class]] ? 0 : 1;
+    
+    if ((id)text == [NSNull null]) text = @"";
+//    if ((id)source == [NSNull null]) source = @"";
+    source = @"";
 	
 	NSDictionary* userDic = [dic objectForKey:@"user"];
 	if (userDic) {
@@ -194,7 +198,7 @@ static sqlite3_stmt* select_statement = nil;
     m.messageId             = (sqlite_int64)sqlite3_column_int64(statement, 0);
     m.text                  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 2)];
     m.createdAt             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
-    m.source                = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 4)];
+    m.source                = @"";//[NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 4)];
     m.favorited             = (BOOL)sqlite3_column_int(statement, 5);
     
     m.user.userId           = (uint32_t)sqlite3_column_int(statement, 6);
@@ -256,7 +260,7 @@ static sqlite3_stmt* select_statement = nil;
 
     sqlite3_bind_text(insert_statement,  3, [text UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(insert_statement,  4, [createdAt UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement,  5, [source UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement,  5, "", -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(insert_statement,   6, favorited);
     
     sqlite3_bind_int(insert_statement,   7, user.userId);
