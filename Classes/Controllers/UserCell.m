@@ -38,15 +38,17 @@
     location.text           = message.user.location;
     [url setTitle:message.user.url forState:UIControlStateNormal];
     [url setTitle:message.user.url forState:UIControlStateHighlighted];
-/*    
-    description.text        = message.user.description;
-    description.numberOfLines = 5;
+
     if (message.user.followersCount <= 1) {
         numFollowers.text   = [NSString stringWithFormat:@"%d follower", message.user.followersCount];
     }
     else {
         numFollowers.text   = [NSString stringWithFormat:@"%d followers", message.user.followersCount];
     }
+    
+/*    
+    description.text        = message.user.description;
+    description.numberOfLines = 5;
     description.hidden = true;
     CGRect bounds = CGRectMake(93, 93 - 4, 300, 193 - 4);
     description.frame = [description textRectForBounds:bounds limitedToNumberOfLines:5];

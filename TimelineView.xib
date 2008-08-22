@@ -148,12 +148,12 @@
 							<object class="IBUILabel" id="459912027">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{96, 42}, {209, 15}}</string>
+								<string key="NSFrame">{{96, 39}, {209, 21}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="IBUIText">509 followers</string>
+								<string key="IBUIText">1 follower</string>
 								<reference key="IBUITextColor" ref="840285355"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
