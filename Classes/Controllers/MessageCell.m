@@ -86,12 +86,23 @@ static UIImage* sHighlightedLinkButton = nil;
     }
 }
 
-- (void)update:(id)aDelegate
+- (void)update:(MessageType)aType delegate:(id)aDelegate
 {
     delegate = aDelegate;
+    type     = aType;
 	nameLabel.text = message.user.screenName;
 	textLabel.text = [message.text unescapeHTML];
-    timestamp.text = message.timestamp;
+    
+    if (type == MSG_TYPE_USER) {
+        self.contentView.backgroundColor = [UIColor whiteColor];
+        timestamp.text = message.timestamp;
+        timestamp.hidden = false;
+        nameLabel.hidden = true;
+    }
+    else {
+        timestamp.hidden = true;
+        nameLabel.hidden = false;
+    }
     //
     // Added custom hyperlink button here.
     //
@@ -112,7 +123,7 @@ static UIImage* sHighlightedLinkButton = nil;
 {
 	[super layoutSubviews];
     self.backgroundColor = self.contentView.backgroundColor;	
-    textLabel.frame = [textLabel textRectForBounds:message.textBounds limitedToNumberOfLines:10];
+    textLabel.frame = message.textBounds;
     profileImage.frame = CGRectMake(IMAGE_PADDING, 0, IMAGE_WIDTH, message.cellHeight);
 }
 

@@ -17,10 +17,6 @@
 	
 	userId          = [[dic objectForKey:@"id"] longValue];
     
-    NSArray* array = [dic allKeys];
-    for (int i=0; i < [array count]; ++i) {
-        NSLog(@"%@", [array objectAtIndex:i]);
-    }
     name            = [[dic objectForKey:@"name"] copy];
 	screenName      = [[dic objectForKey:@"screen_name"] copy];
 	location        = [[dic objectForKey:@"location"] copy];

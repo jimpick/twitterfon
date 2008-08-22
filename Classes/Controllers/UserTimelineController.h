@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "UserCell.h"
 #import "Message.h"
+#import "Timeline.h"
 
 @interface UserTimelineController : UITableViewController {
-    IBOutlet UserCell       *userCell;
+    IBOutlet UserCell*  userCell;
+    IBOutlet NSObject*  delegate;
+    Timeline*           timeline;    
 }
 
 - (void)setMessage:(Message *)message image:(UIImage*)image;

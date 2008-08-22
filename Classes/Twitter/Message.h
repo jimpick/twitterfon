@@ -6,6 +6,7 @@ typedef enum {
     MSG_TYPE_FRIENDS = 0,
     MSG_TYPE_REPLIES,
     MSG_TYPE_MESSAGES,
+    MSG_TYPE_USER,
 } MessageType;
 
 #define IMAGE_PADDING       10
@@ -31,6 +32,7 @@ typedef enum {
     NSString*       timestamp;
 
     BOOL            unread;
+    BOOL            hasReply;
     MessageType     type;
     CGRect          textBounds;
     CGFloat         cellHeight;
@@ -47,6 +49,7 @@ typedef enum {
 @property (nonatomic, copy)   NSString*     timestamp;
 
 @property (nonatomic, assign) BOOL          unread;
+@property (nonatomic, assign) BOOL          hasReply;
 @property (nonatomic, assign) CGRect        textBounds;
 @property (nonatomic, assign) CGFloat       cellHeight;
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;

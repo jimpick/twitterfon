@@ -13,7 +13,7 @@ static sqlite3_stmt *select_statement = nil;
 @implementation Timeline
 
 @synthesize messages;
-
+@synthesize delegate;
 
 - (id)init
 {
@@ -44,6 +44,15 @@ static sqlite3_stmt *select_statement = nil;
     [messages addObject:m];
 }
 
+- (void)update:(MessageType)aType userId:(int)user_id {
+	if (twitterClient) return;
+    
+    type = aType;
+
+	twitterClient = [[TwitterClient alloc] initWithDelegate:self];
+	[twitterClient get:type since:nil userId:user_id];
+}
+
 - (void)update:(MessageType)aType
 {
 	if (twitterClient) return;
@@ -61,7 +70,7 @@ static sqlite3_stmt *select_statement = nil;
             break;
         }
     }
-	[twitterClient get:type since:lastMessageDate];
+	[twitterClient get:type since:lastMessageDate userId:0];
 }
 
 - (void)restore:(MessageType)aType

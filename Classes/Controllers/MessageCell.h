@@ -12,13 +12,14 @@
 
     NSObject*       delegate;
     UIButton*       profileImage;
+    
+    MessageType     type;
 }
 
 @property (nonatomic, assign) Message*  message;
 @property (nonatomic, assign) UIButton* profileImage;
 
-
-- (void)update:(id)delegate;
+- (void)update:(MessageType)type delegate:(id)delegate;
 
 + (UIImage*) linkButton;
 + (UIImage*) hilightedLinkButton;

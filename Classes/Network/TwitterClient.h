@@ -6,7 +6,7 @@
 {
 }
 
-- (void)get:(MessageType)type since:(NSString*)since;
+- (void)get:(MessageType)type since:(NSString*)since userId:(int)user_id;
 - (void)post:(NSString*)tweet;
 
 @end

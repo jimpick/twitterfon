@@ -21,6 +21,7 @@ static sqlite3_stmt* select_statement = nil;
 @synthesize timestamp;
 
 @synthesize unread;
+@synthesize hasReply;
 @synthesize textBounds;
 @synthesize cellHeight;
 @synthesize accessoryType;
@@ -54,8 +55,11 @@ static sqlite3_stmt* select_statement = nil;
         userDic = [dic objectForKey:@"sender"];
         user = [[User alloc] initWithJsonDictionary:userDic];
     }
+
     
-    [self insertDB];
+    if (type != MSG_TYPE_USER) {
+        [self insertDB];
+    }
     [self updateAttribute];
     unread = true;
     
@@ -77,7 +81,13 @@ static sqlite3_stmt* select_statement = nil;
         accessoryType = UITableViewCellAccessoryNone;
     }
     
-    
+    // If tweet has @yourname, set flag for change cell color later
+    //
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];    
+    NSString *str = [NSString stringWithFormat:@"@%@", username];
+    r = [text rangeOfString:str];
+    hasReply = (r.location != NSNotFound) ? true : false;
+
     // Calculate cell height here
     //
     CGRect bounds;
@@ -88,14 +98,14 @@ static sqlite3_stmt* select_statement = nil;
     textLabel.numberOfLines = 10;
     
     textLabel.text = text;
-    bounds = CGRectMake(0, 0, textWidth, 200);
+    bounds = CGRectMake(LEFT, TOP, textWidth, 200);
     result = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
+    textBounds = CGRectMake(LEFT, TOP, textWidth, result.size.height);
     result.size.height += 18;
     if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
     cellHeight = result.size.height;
     [textLabel release];
 
-    textBounds = CGRectMake(LEFT, TOP, textWidth, cellHeight - TOP);
     
     // Calculate distance time and create timestamp
     //
@@ -173,6 +183,9 @@ static sqlite3_stmt* select_statement = nil;
 
 + (BOOL)isExist:(sqlite_int64)aMessageId type:(MessageType)aType
 {
+    // return always false if the message is for user timeline
+    if (aType == MSG_TYPE_USER) return false;
+
     sqlite3* database = [DBConnection getSharedDatabase];
     
     if (select_statement== nil) {

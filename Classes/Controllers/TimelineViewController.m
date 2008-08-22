@@ -40,7 +40,6 @@
 	[super viewDidLoad];
     unread   = 0;
     tag      = [self navigationController].tabBarItem.tag;
-	username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 
     switch (tag) {
         case TAB_FRIENDS:
@@ -96,32 +95,26 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
-	Message* m = [timeline messageAtIndex:indexPath.row];
+	Message* message = [timeline messageAtIndex:indexPath.row];
 	if (!cell) {
 		cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
 	}
     
-	cell.message = m;
-    [cell.profileImage setImage:[imageStore getImage:m.user.profileImageUrl delegate:self] forState:UIControlStateNormal];
+	cell.message = message;
+    [cell.profileImage setImage:[imageStore getImage:message.user.profileImageUrl delegate:self] forState:UIControlStateNormal];
 
     if (tag == TAB_FRIENDS) {
-        NSString *str = [NSString stringWithFormat:@"@%@", username];
-        NSRange r = [m.text rangeOfString:str];
-        if (r.location != NSNotFound) {
-            cell.contentView.backgroundColor = [UIColor repliesColor:m.unread];
-        }
-        else {
-            cell.contentView.backgroundColor = [UIColor friendColor:m.unread];
-        }
+        cell.contentView.backgroundColor = message.hasReply ?
+            [UIColor repliesColor:message.unread] : [UIColor friendColor:message.unread];
     }
     else if (tag == TAB_REPLIES) {
-        cell.contentView.backgroundColor = [UIColor repliesColor:m.unread];
+        cell.contentView.backgroundColor = [UIColor repliesColor:message.unread];
     }
     else if (tag == TAB_MESSAGES) {
-        cell.contentView.backgroundColor = [UIColor messageColor:m.unread];
+        cell.contentView.backgroundColor = [UIColor messageColor:message.unread];
     }
-   
-	[cell update:self];
+
+    [cell update:tag delegate:self];
 
 	return cell;
 }

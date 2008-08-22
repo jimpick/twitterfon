@@ -12,10 +12,11 @@
 #import "Message.h"
 
 static 
-NSString* sMethods[3] = {
+NSString* sMethods[4] = {
     @"statuses/friends_timeline",
     @"statuses/replies",
     @"direct_messages",
+    @"statuses/user_timeline",
 };
 
 //#define DEBUG_WITH_PUBLIC_TIMELINE
@@ -27,7 +28,7 @@ NSString* sMethods[3] = {
 
 @implementation TwitterClient
 
-- (void)get:(MessageType)type since:(NSString*)since
+- (void)get:(MessageType)type since:(NSString*)since userId:(int)user_id
 {
 #ifdef DEBUG_WITH_PUBLIC_TIMELINE
 	NSString* url = @"http://twitter.com/statuses/public_timeline.json";
@@ -50,6 +51,10 @@ NSString* sMethods[3] = {
         strptime([since UTF8String], "%a %b %d %H:%M:%S %z %Y", &time);
         strftime(timestr, 128, "%a, %d %b %Y %H:%M:%S GMT", &time);
         url = [NSString stringWithFormat:@"%@?since=%s", url, timestr];
+    }
+    
+    if (type == MSG_TYPE_USER && user_id) {
+        url = [NSString stringWithFormat:@"%@?id=%d", url, user_id];
     }
 
 #endif
