@@ -31,6 +31,7 @@ static sqlite3_stmt* select_statement = nil;
 {
     [text release];
     [user release];
+    [source release];
     [createdAt release];
     [timestamp release];
   	[super dealloc];

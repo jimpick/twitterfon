@@ -61,6 +61,10 @@
 
 - (void)dealloc
 {
+    [url release];
+    [location release];
+    [description release];
+    [name release];
     [screenName release];
     [profileImageUrl release];
    	[super dealloc];
