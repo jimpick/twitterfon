@@ -59,7 +59,7 @@ static sqlite3_stmt* select_statement = nil;
         if (start.location != NSNotFound && end.location != NSNotFound) {
             r.location = start.location + start.length;
             r.length = end.location - r.location;
-            source = [[source substringWithRange:r] copy];
+            self.source = [source substringWithRange:r];
         }
     }
 	
