@@ -99,7 +99,7 @@ static UIImage* sHighlightedLinkButton = nil;
         timestamp.hidden    = false;
         nameLabel.hidden    = true;
         profileImage.hidden = true;
-        timestamp.frame     = CGRectMake(USER_CELL_PADDING, message.textBounds.size.height + 4, 280, 16);
+        timestamp.frame     = CGRectMake(USER_CELL_PADDING, message.textBounds.size.height + 3, 280, 16);
     }
     else {
         timestamp.hidden    = true;

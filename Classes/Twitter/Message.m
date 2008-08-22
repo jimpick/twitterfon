@@ -139,7 +139,7 @@ static sqlite3_stmt* select_statement = nil;
     
     textLabel.text = text;
     if (type == MSG_TYPE_USER) {
-        bounds = CGRectMake(USER_CELL_PADDING, 2, textWidth, 200);
+        bounds = CGRectMake(USER_CELL_PADDING, 3, textWidth, 200);
     }
     else {
         bounds = CGRectMake(LEFT, TOP, textWidth, 200);
