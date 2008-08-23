@@ -17,6 +17,7 @@
   	IBOutlet UIButton*      url;
     IBOutlet UILabel*       numFollowers;
     IBOutlet UIImageView*   profileImage;
+    IBOutlet UIImageView*   protected;
     
     NSObject*               delegate;
 }

@@ -10,6 +10,7 @@
 @synthesize url;
 @synthesize followersCount;
 @synthesize profileImageUrl;
+@synthesize protected;
 
 - (User*)initWithJsonDictionary:(NSDictionary*)dic
 {
@@ -24,6 +25,7 @@
 	url             = [[dic objectForKey:@"url"] copy];
     followersCount  = [[dic objectForKey:@"followers_count"] longValue];
     profileImageUrl = [[dic objectForKey:@"profile_image_url"] copy];
+    protected       = [[dic objectForKey:@"protected"] boolValue];
 
     if ((id)name == [NSNull null]) name = @"";
     if ((id)screenName == [NSNull null]) screenName = @"";
@@ -45,6 +47,7 @@
 	dist.url                = url;
 	dist.followersCount     = followersCount;
 	dist.profileImageUrl    = profileImageUrl;
+    dist.protected          = protected;
     
     return dist;
 }

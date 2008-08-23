@@ -204,7 +204,7 @@ static sqlite3_stmt* select_statement = nil;
 + (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type
 {
     // sqlite3 statement should be:
-    //  SELECT id, type, user_id, screen_name, profile_image_url, text, created_at FROM messsages
+    //  SELECT * FROM messsages
     //
     Message *m              = [[[Message alloc] init] autorelease];
     m.user                  = [[User alloc] init];
@@ -223,6 +223,7 @@ static sqlite3_stmt* select_statement = nil;
     m.user.url              = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 11)];
     m.user.followersCount   = (uint32_t)sqlite3_column_int(statement, 12);
     m.user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 13)];
+    m.user.protected        = (uint32_t)sqlite3_column_int(statement, 14) ? true : false;
     m.unread = false;
     [m updateAttribute];
     
@@ -264,7 +265,7 @@ static sqlite3_stmt* select_statement = nil;
     sqlite3* database = [DBConnection getSharedDatabase];
 
     if (insert_statement == nil) {
-        static char *sql = "INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        static char *sql = "INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
@@ -285,6 +286,7 @@ static sqlite3_stmt* select_statement = nil;
     sqlite3_bind_text(insert_statement, 12, [user.url UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(insert_statement,  13, user.followersCount);
     sqlite3_bind_text(insert_statement, 14, [user.profileImageUrl UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(insert_statement,  15, user.protected);
     
     int success = sqlite3_step(insert_statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.

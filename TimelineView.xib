@@ -8,6 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="481"/>
 			<integer value="476"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -66,7 +67,7 @@
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 			</object>
 			<object class="IBUITableViewCell" id="855286606">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -88,7 +89,7 @@
 							<object class="IBUILabel" id="296039460">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{96, 20}, {209, 22}}</string>
+								<string key="NSFrame">{{96, 20}, {189, 22}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -160,8 +161,22 @@
 								<float key="IBUIMinimumFontSize">1.000000e+01</float>
 								<int key="IBUINumberOfLines">2</int>
 							</object>
+							<object class="IBUIImageView" id="695820313">
+								<reference key="NSNextResponder" ref="33875566"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{293, 23}, {12, 15}}</string>
+								<reference key="NSSuperview" ref="33875566"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+								<int key="IBUIContentMode">4</int>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">lock.png</string>
+								</object>
+							</object>
 						</object>
-						<string key="NSFrameSize">{320, 113}</string>
+						<string key="NSFrameSize">{320, 112}</string>
 						<reference key="NSSuperview" ref="855286606"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -174,6 +189,7 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{320, 113}</string>
+				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">6</int>
 					<string key="NSCatalogName">System</string>
@@ -336,6 +352,14 @@
 					</object>
 					<int key="connectionID">502</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">protected</string>
+						<reference key="source" ref="855286606"/>
+						<reference key="destination" ref="695820313"/>
+					</object>
+					<int key="connectionID">509</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -398,6 +422,7 @@
 							<reference ref="481177776"/>
 							<reference ref="459912027"/>
 							<reference ref="654703924"/>
+							<reference ref="695820313"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 					</object>
@@ -426,6 +451,11 @@
 						<reference key="object" ref="459912027"/>
 						<reference key="parent" ref="855286606"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">508</int>
+						<reference key="object" ref="695820313"/>
+						<reference key="parent" ref="855286606"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -448,6 +478,7 @@
 					<string>484.IBPluginDependency</string>
 					<string>487.IBPluginDependency</string>
 					<string>496.IBPluginDependency</string>
+					<string>508.IBPluginDependency</string>
 					<string>53.CustomClassName</string>
 					<string>53.IBPluginDependency</string>
 					<string>75.CustomClassName</string>
@@ -465,6 +496,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>UserCell</string>
 					<string>{{392, 1090}, {320, 113}}</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -497,7 +529,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">507</int>
+			<int key="maxID">509</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -512,18 +544,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/ImageStore/ImageStore.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">LoadCell</string>
-					<string key="superclassName">UITableViewCell</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">label</string>
-						<string key="NS.object.0">UILabel</string>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/Controllers/LoadCell.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -604,6 +624,7 @@
 							<string>name</string>
 							<string>numFollowers</string>
 							<string>profileImage</string>
+							<string>protected</string>
 							<string>url</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -611,6 +632,7 @@
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
+							<string>UIImageView</string>
 							<string>UIImageView</string>
 							<string>UIButton</string>
 						</object>
@@ -628,13 +650,11 @@
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>delegate</string>
-							<string>loadCell</string>
 							<string>userCell</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSObject</string>
-							<string>LoadCell</string>
 							<string>UserCell</string>
 						</object>
 					</object>

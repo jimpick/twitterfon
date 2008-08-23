@@ -45,6 +45,8 @@
         numFollowers.text   = [NSString stringWithFormat:@"%d followers", message.user.followersCount];
     }
     
+    protected.hidden = (message.user.protected) ? false : true;
+    
 /*    
 	description.font        = [UIFont systemFontOfSize:13];
     description.text        = message.user.description;
