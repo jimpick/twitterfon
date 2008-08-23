@@ -9,10 +9,47 @@
 #import "SettingsTableViewController.h"
 #import "TwitterFonAppDelegate.h"
 
+enum {
+    SECTION_ACCOUNT,
+    SECTION_OPTION,
+    SECTION_HELP,
+    NUM_SECTIONS,
+};
+
+enum {
+    ROW_USERNAME,
+    ROW_PASSWORD,
+    NUM_ROWS_ACCOUNT,
+};
+
+enum {
+    ROW_SSL,
+    NUM_ROWS_OPTION,
+};
+
+enum {
+    ROW_FOLLOW,
+    ROW_HELP,
+    NUM_ROWS_HELP,
+};
+
+static int sNumRows[NUM_SECTIONS] = {
+    NUM_ROWS_ACCOUNT,
+    NUM_ROWS_OPTION,
+    NUM_ROWS_HELP,
+};
+
+static NSString* sSectionHeader[NUM_SECTIONS] = {
+    @"Account",
+    @"Options",
+    @"Need a Help?",
+};
+
 @implementation SettingsTableViewController
 
-#define LABEL_TAG     1
-#define TEXTFIELD_TAG 2
+#define LABEL_TAG       1
+#define TEXTFIELD_TAG   2
+#define SWITCH_TAG      3
 
 - (void)viewDidLoad
 {
@@ -27,6 +64,13 @@
     else {
         usernameField.text = user;
         passwordField.text = pass;
+    }
+    
+    // Set options
+    BOOL useSSL = [[NSUserDefaults standardUserDefaults] integerForKey:@"useSSL"];
+    if (useSSL) {
+        UISwitch *sw = (UISwitch*)[ssl viewWithTag:SWITCH_TAG];
+        sw.on = true;
     }
 }
 
@@ -47,30 +91,56 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return 1;
+	return NUM_SECTIONS;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return sNumRows[section];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return sSectionHeader[section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     UITableViewCell *cell;
 
-    if (indexPath.row == 0) {
-        cell = username;
-    }
-    else {
-        cell = password;
+    switch (indexPath.section) {
+        case SECTION_ACCOUNT:
+            if (indexPath.row == ROW_USERNAME) {
+                cell = username;
+            }
+            else {
+                cell = password;
+            }
+            UITextField *text = (UITextField*)[cell viewWithTag:TEXTFIELD_TAG];
+            text.font = [UIFont systemFontOfSize:16];
+            break;
+            
+        case SECTION_OPTION:
+            cell = ssl;
+            break;
+            
+        case SECTION_HELP:
+            if (indexPath.row == ROW_FOLLOW) {
+                cell = follow;
+            }
+            else if (indexPath.row == ROW_HELP) {
+                cell = help;
+            }
+            break;
+            
+        default:
+            break;
     }
     
     UILabel *label = (UILabel*)[cell viewWithTag:LABEL_TAG];
     label.font = [UIFont boldSystemFontOfSize:16];
-    UITextField *text = (UITextField*)[cell viewWithTag:TEXTFIELD_TAG];
-    text.font = [UIFont systemFontOfSize:16];
+    
     return cell;
 }
 
@@ -78,15 +148,36 @@
 {
     UITableViewCell *cell;
 
-    if (indexPath.row == 0) {
-        cell = username;
+    switch (indexPath.section) {
+        case SECTION_ACCOUNT:
+            if (indexPath.row == 0) {
+                cell = username;
+            }
+            else {
+                cell = password;
+            }
+            UITextField *text = (UITextField*)[cell viewWithTag:TEXTFIELD_TAG];
+            [text becomeFirstResponder];
+            break;
+            
+        case SECTION_HELP:
+            if (indexPath.row == 0) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://twitter.com/TwitterFon"]];
+            }
+            else if (indexPath.row == 1) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://naan.net/trac/wiki/TwitterFon"]];            
+            }
+            break;
+            
+        default:
+            break;
     }
-    else {
-        cell = password;
-    }
-    UITextField *text = (UITextField*)[cell viewWithTag:TEXTFIELD_TAG];
-    [text becomeFirstResponder];
+}
 
+- (void)switchSSL:(id)sender forEvent:(UIEvent *)event
+{
+    UISwitch *sw = (UISwitch*)sender;
+    [[NSUserDefaults standardUserDefaults] setInteger:sw.on forKey:@"useSSL"];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

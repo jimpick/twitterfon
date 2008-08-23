@@ -35,14 +35,18 @@ NSString* sMethods[4] = {
 #else
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-
+    BOOL useSSL        = [[NSUserDefaults standardUserDefaults] integerForKey:@"useSSL"];
+        
+    
+    NSString *scheme = (useSSL) ? @"https" : @"http";
     NSString *url;
     if (type == MSG_TYPE_USER) {
         // No need authentication because already has a cookie
-        url = @"http://twitter.com/statuses/user_timeline.json";
+        url = [NSString stringWithFormat:@"%@://twitter.com/statuses/user_timeline.json", scheme];
     }
     else {
-        url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/%@.json",
+        url = [NSString stringWithFormat:@"%@://%@:%@@twitter.com/%@.json",
+               scheme,
                username,
                password,
                sMethods[type]];
@@ -73,9 +77,11 @@ NSString* sMethods[4] = {
     
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    BOOL useSSL        = [[NSUserDefaults standardUserDefaults] integerForKey:@"useSSL"];
     
-	NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/statuses/update.json",
-                     username, password];
+    NSString *scheme = (useSSL) ? @"https" : @"http";    
+	NSString* url = [NSString stringWithFormat:@"%@://%@:%@@twitter.com/statuses/update.json",
+                     scheme, username, password];
     
     NSLog(@"%@", url);
     
