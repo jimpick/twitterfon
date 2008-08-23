@@ -66,7 +66,6 @@ static UIImage* sHighlightedLinkButton = nil;
 - (void)dealloc
 {
     // No need to release child contents
-    NSLog(@"dealloc message cell");
     [super dealloc];
 }    
 
