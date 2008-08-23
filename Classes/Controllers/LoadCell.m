@@ -29,7 +29,6 @@
 }
 
 - (void)layoutSubviews {
-    
 	[super layoutSubviews];
 
 }

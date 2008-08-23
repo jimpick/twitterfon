@@ -113,10 +113,10 @@ static sqlite3_stmt* select_statement = nil;
     int textWidth = (type == MSG_TYPE_USER) ? USER_CELL_WIDTH : CELL_WIDTH;
     if (r.location != NSNotFound) {    
         accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        textWidth -= DETAIL_BUTTON_WIDTH;
+        textWidth -= (type == MSG_TYPE_USER) ? DETAIL_BUTTON_USER : DETAIL_BUTTON_OTHER;
     }
     else {
-        accessoryType = UITableViewCellAccessoryNone;
+        accessoryType = (type == MSG_TYPE_USER) ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator;
     }
     
     // If tweet has @yourname, set flag for change cell color later
