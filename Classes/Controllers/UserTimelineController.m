@@ -18,6 +18,7 @@
 	if (self = [super initWithStyle:style]) {
 	}
     timeline = nil;
+    isTimelineLoaded = false;
 	return self;
 }
 
@@ -33,15 +34,16 @@
     //
     if (userCell.message && userCell.message.user.userId != message.user.userId) {
         [timeline release];
+        isTimelineLoaded = false;
         timeline = nil;
     }
-    
+
     userCell.message = message;
     userCell.message.type = MSG_TYPE_USER;
     [userCell.message updateAttribute];
     userCell.profileImage.image = image;
     self.title = message.user.screenName;
-	[self.tableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -50,7 +52,12 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return (timeline) ? [timeline countMessages] + 1 : 3;
+    if (isTimelineLoaded) {
+        return [timeline countMessages] + 1;
+    }
+    else {
+        return 3;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -58,7 +65,7 @@
     if (indexPath.row == 0) {
         return [userCell calcCellHeight];
     }
-    else if (timeline == nil) {
+    else if (!isTimelineLoaded) {
         if (indexPath.row == 1) {
             return userCell.message.cellHeight;
         }
@@ -77,7 +84,7 @@
     if (indexPath.row == 0) {
         return userCell;
     }
-    else if (timeline == nil) {
+    else if (!isTimelineLoaded) {
         if (indexPath.row == 1) {
         
             MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
@@ -113,7 +120,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Load user timeline
     //
-    if (indexPath.row == 2 && timeline == nil) {
+    if (indexPath.row == 2 && !isTimelineLoaded) {
         timeline = [[Timeline alloc] init];
         timeline.delegate = self;
         [timeline update:MSG_TYPE_USER userId:userCell.message.user.userId];
@@ -173,6 +180,9 @@
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
+    if (timeline) {
+        [timeline cancel];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -194,7 +204,7 @@
 
 - (void)timelineDidUpdate:(int)count
 {
-  
+    isTimelineLoaded = true;
     if (!self.view.hidden) {
         NSMutableArray *insertIndexPath = [[[NSMutableArray alloc] init] autorelease];
         NSMutableArray *deleteIndexPath = [[[NSMutableArray alloc] init] autorelease];
@@ -219,7 +229,6 @@
         [self.tableView deleteRowsAtIndexPaths:deleteIndexPath withRowAnimation:UITableViewRowAnimationBottom];
         [self.tableView endUpdates];    
     }
-    
 }
 @end
 

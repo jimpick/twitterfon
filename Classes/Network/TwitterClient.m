@@ -36,11 +36,17 @@ NSString* sMethods[4] = {
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
-	NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/%@.json",
-                     username,
-                     password,
-                     sMethods[type]];
-
+    NSString *url;
+    if (type == MSG_TYPE_USER) {
+        // No need authentication because already has a cookie
+        url = @"http://twitter.com/statuses/user_timeline.json";
+    }
+    else {
+        url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/%@.json",
+               username,
+               password,
+               sMethods[type]];
+    }
     //
     // Convert MySQL date format to HTTP date
     //

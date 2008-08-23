@@ -16,6 +16,7 @@
 - (void)update:(MessageType)type;
 - (void)update:(MessageType)type userId:(int)user_id;
 - (void)restore:(MessageType)type;
+- (void)cancel;
 
 - (int)countMessages;
 - (Message*)messageAtIndex:(int)i;

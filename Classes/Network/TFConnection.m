@@ -24,7 +24,7 @@
 
 - (void)dealloc
 {
-	[conn release];
+	[connection release];
 	[buf release];
 	[super dealloc];
 }
@@ -32,7 +32,7 @@
 
 - (void)get:(NSString*)aURL
 {
-    [conn release];
+    [connection release];
 	[buf release];
 
     NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
@@ -41,15 +41,15 @@
 	NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:URL]
                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                      timeoutInterval:NETWORK_TIMEOUT];
-	buf  = [[NSMutableData data] retain];
-	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
+	buf = [[NSMutableData data] retain];
+	connection = [[NSURLConnection alloc] initWithRequest:req delegate:self];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 -(void)post:(NSString*)aURL body:(NSString*)body
 {
-    [conn release];
+    [connection release];
 	[buf release];
 
     NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
@@ -68,9 +68,19 @@
     [req setHTTPBody:[NSData dataWithBytes:[body UTF8String] length:contentLength]];
     
 	buf = [[NSMutableData data] retain];
-	conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
+	connection = [[NSURLConnection alloc] initWithRequest:req delegate:self];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+}
+
+- (void)cancel
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;    
+    if (connection) {
+        [connection cancel];
+        [connection autorelease];
+        connection = nil;
+    }
 }
 
 - (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)aResponse
@@ -94,8 +104,8 @@
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
-	[conn autorelease];
-	conn = nil;
+	[connection autorelease];
+	connection = nil;
 	[buf autorelease];
 	buf = nil;
     
@@ -124,8 +134,8 @@
     
     [self TFConnectionDidFinishLoading:s];
 
-    [conn autorelease];
-    conn = nil;
+    [connection autorelease];
+    connection = nil;
     [buf autorelease];
     buf = nil;
 }

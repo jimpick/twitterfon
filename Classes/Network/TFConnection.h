@@ -9,7 +9,7 @@
 @interface TFConnection : NSObject
 {
 	NSObject*           delegate;
-	NSURLConnection*    conn;
+	NSURLConnection*    connection;
     NSHTTPURLResponse*  response;
 	NSMutableData*      buf;
     int                 statusCode;
@@ -19,7 +19,8 @@
 
 - (id)initWithDelegate:(NSObject*)delegate;
 - (void)get:(NSString*)URL;
--(void)post:(NSString*)aURL body:(NSString*)body;
+- (void)post:(NSString*)aURL body:(NSString*)body;
+- (void)cancel;
 
 - (void)alertError:(NSString*)title withMessage:(NSString*)msg;
 - (void)TFConnectionDidFailWithError:(NSError*)error;

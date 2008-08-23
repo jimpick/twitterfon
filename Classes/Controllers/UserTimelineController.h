@@ -14,7 +14,8 @@
 @interface UserTimelineController : UITableViewController {
     IBOutlet UserCell*  userCell;
     IBOutlet NSObject*  delegate;
-    Timeline*           timeline;    
+    Timeline*           timeline;
+    BOOL                isTimelineLoaded;
 }
 
 - (void)setMessage:(Message *)message image:(UIImage*)image;
