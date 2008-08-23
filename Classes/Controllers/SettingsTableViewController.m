@@ -56,6 +56,12 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
         usernameField.text = user;
         passwordField.text = pass;
     }
+    follow = [[UITableViewCell alloc] initWithFrame:CGRectZero];
+    help   = [[UITableViewCell alloc] initWithFrame:CGRectZero];
+    follow.textAlignment = UITextAlignmentCenter;
+    help.textAlignment = UITextAlignmentCenter;
+    follow.text = @"Follow @TwitterFon on Twitter";
+    help.text   = @"Open Help Page with Safari";
 }
 
 - (void) saveSettings
@@ -103,6 +109,9 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
             }
             UITextField *text = (UITextField*)[cell viewWithTag:TEXTFIELD_TAG];
             text.font = [UIFont systemFontOfSize:16];
+            
+            UILabel *label = (UILabel*)[cell viewWithTag:LABEL_TAG];
+            label.font = [UIFont boldSystemFontOfSize:16];
             break;
             
         case SECTION_HELP:
@@ -117,9 +126,7 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
         default:
             break;
     }
-    
-    UILabel *label = (UILabel*)[cell viewWithTag:LABEL_TAG];
-    label.font = [UIFont boldSystemFontOfSize:16];
+
     
     return cell;
 }

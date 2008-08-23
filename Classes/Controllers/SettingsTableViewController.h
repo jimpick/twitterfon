@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @interface SettingsTableViewController : UITableViewController {
-    IBOutlet UITableViewCell* username;
-    IBOutlet UITableViewCell* password;
+    IBOutlet UITableViewCell*   username;
+    IBOutlet UITableViewCell*   password;
 
-    IBOutlet UITableViewCell* follow;
-    IBOutlet UITableViewCell* help;
-    IBOutlet UIBarButtonItem* button;
-    IBOutlet UITextField*     usernameField;
-    IBOutlet UITextField*     passwordField;
+    UITableViewCell*            follow;
+    UITableViewCell*            help;
+    IBOutlet UIBarButtonItem*   button;
+    IBOutlet UITextField*       usernameField;
+    IBOutlet UITextField*       passwordField;
 }
 
 @end
