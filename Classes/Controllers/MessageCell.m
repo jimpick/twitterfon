@@ -65,10 +65,8 @@ static UIImage* sHighlightedLinkButton = nil;
 
 - (void)dealloc
 {
-    [nameLabel release];
-    [textLabel release];
-    [timestamp release];
-    [profileImage release];
+    // No need to release child contents
+    NSLog(@"dealloc message cell");
     [super dealloc];
 }    
 
@@ -119,6 +117,7 @@ static UIImage* sHighlightedLinkButton = nil;
     }
     else {
         self.accessoryView = nil;
+        self.accessoryType = message.accessoryType;
     }
 }
 
