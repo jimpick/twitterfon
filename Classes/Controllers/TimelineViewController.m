@@ -9,7 +9,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "TimelineViewController.h"
 #import "TwitterFonAppDelegate.h"
-#import "WebViewController.h"
 #import "PostViewController.h"
 #import "MessageCell.h"
 #import "ColorUtils.h"
@@ -120,11 +119,7 @@
     if ([m.text matches:pat withSubstring:array]) {
         
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        WebViewController *webView = appDelegate.webView;
-        
-        webView.hidesBottomBarWhenPushed = YES;
-        [webView setUrl:[array objectAtIndex:0]];
-        [[self navigationController] pushViewController:webView animated:YES];
+        [appDelegate openWebView:[array objectAtIndex:0] on:[self navigationController]];
     }
 }
 
@@ -139,7 +134,7 @@
     PostViewController* postView = appDelegate.postView;
 
     [[self navigationController].view addSubview:postView.view];
-    [postView startEditWithDelegate:self];
+    [postView startEdit];
 }
 
 - (IBAction) reload: (id) sender
@@ -183,13 +178,12 @@
     }
     
     [[self navigationController].view addSubview:postView.view];
-    [postView startEditWithString:msg setDelegate:self];
+    [postView startEditWithString:msg];
 }
 
-- (void)postViewAnimationDidFinish:(BOOL)didPost
+- (void)postViewAnimationDidFinish
 {
-    if (didPost && tag == TAB_FRIENDS &&
-        self.navigationController.topViewController == self) {
+    if (tag == TAB_FRIENDS && self.navigationController.topViewController == self) {
         //
         // Do animation if the controller displays friends timeline.
         //
@@ -208,15 +202,7 @@
     }
     else {
         //
-        //  If the controller doesn't handle friends timeline, pass the message to app delegate then
-        // app delegate passes the message to friends timeline view controller.
-        //
-        // If the view controller is direct messages, do nothing.
-        //
-        NSObject *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        if (appDelegate && [appDelegate respondsToSelector:@selector(postTweetDidSucceedDelegate:)]) {
-            [appDelegate postTweetDidSucceedDelegate:dic];
-        }
+        //  Do not come here anymore
     }
 }
 

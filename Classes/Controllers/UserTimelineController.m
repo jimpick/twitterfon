@@ -133,11 +133,7 @@
 - (void)didTouchURL:(id)sender
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    WebViewController *webView = appDelegate.webView;
-    
-    webView.hidesBottomBarWhenPushed = YES;
-    [webView setUrl:userCell.message.user.url];
-    [[self navigationController] pushViewController:webView animated:YES];
+    [appDelegate openWebView:userCell.message.user.url on:[self navigationController]];
 }
 
 - (void)viewDidLoad {
@@ -164,8 +160,7 @@
     NSString *msg = [NSString stringWithFormat:@"@%@ ", userCell.message.user.screenName];
     
     [[self navigationController].view addSubview:postView.view];
-    UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
-    [postView startEditWithString:msg setDelegate:c];
+    [postView startEditWithString:msg];
 }
 
 

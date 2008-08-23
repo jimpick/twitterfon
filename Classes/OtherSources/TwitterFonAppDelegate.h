@@ -25,9 +25,10 @@ typedef enum {
     int                             selectedTab;
 }
 
+- (void) openWebView:(NSString*)url on:(UINavigationController*)viewController;
+
 @property (nonatomic, retain) UIWindow*             window;
 @property (nonatomic, retain) UITabBarController*   tabBarController;
 @property (nonatomic, retain) PostViewController*   postView;
-@property (nonatomic, retain) WebViewController*    webView;
 
 @end

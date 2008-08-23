@@ -53,7 +53,7 @@
 {
 }
 
-- (void)startEditWithString:(NSString*)message setDelegate:(id)aDelegate
+- (void)startEditWithString:(NSString*)message
 {
     NSMutableString *str = [NSMutableString stringWithString:text.text];
     [str insertString:message atIndex:textRange.location];
@@ -64,10 +64,10 @@
     text.text = str;
     [text becomeFirstResponder];
     text.selectedRange = textRange;
-    [self startEditWithDelegate:aDelegate];
+    [self startEdit];
 }
 
-- (void)startEditWithURL:(NSString*)URL setDelegate:(id)aDelegate
+- (void)startEditWithURL:(NSString*)URL
 {
     if ([TinyURL needToDecode:URL]) {
         TinyURL *encoder = [[TinyURL alloc] initWithDelegate:self];
@@ -82,12 +82,11 @@
     text.text = str;
     [text becomeFirstResponder];
     text.selectedRange = textRange;
-    [self startEditWithDelegate:aDelegate];
+    [self startEdit];
 }
 
-- (void)startEditWithDelegate:(id)aDelegate
+- (void)startEdit
 {
-    delegate = aDelegate;
     [self setCharCount];
     self.view.hidden = false;
     didPost = false;
@@ -162,10 +161,8 @@
     
     [progressWindow hide];
     
-    if ([delegate respondsToSelector:@selector(postTweetDidSucceed:)]) {
-        if (dic && !isDirectMessage) {
-            [delegate postTweetDidSucceed:dic];
-        }
+    if (dic && !isDirectMessage) {
+        [appDelegate postTweetDidSucceed:dic];
     }       
     
     text.text = @"";
@@ -263,9 +260,7 @@
     [self.view removeFromSuperview];
 	
     if (finished) {
-        if ([delegate respondsToSelector:@selector(postViewAnimationDidFinish:)]) {
-            [delegate postViewAnimationDidFinish:didPost];
-        }
+        [appDelegate postViewAnimationDidFinish:didPost];
     }
 
 }

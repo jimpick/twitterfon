@@ -139,11 +139,7 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
 - (void)openURL:(NSString*)url
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    WebViewController *webView = appDelegate.webView;
-    
-    webView.hidesBottomBarWhenPushed = YES;
-    [webView setUrl:url];
-    [[self navigationController] pushViewController:webView animated:YES];
+    [appDelegate openWebView:url on:[self navigationController]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -167,11 +163,8 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
                 TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
                 PostViewController* postView = appDelegate.postView;
                 
-                if (postView.view.hidden == false) return;
-             
                 [[self navigationController].view addSubview:postView.view];
-                UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
-                [postView startEditWithString:@"@TwitterFon " setDelegate:c];
+                [postView startEditWithString:@"@TwitterFon "];
                 [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];
 
             }            

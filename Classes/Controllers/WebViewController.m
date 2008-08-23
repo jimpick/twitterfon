@@ -189,8 +189,7 @@
     NSString *decoded = [tinyURLStore valueForKey:aURL];
     
     [[self navigationController].view addSubview:postView.view];
-    UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
-    [postView startEditWithURL:(decoded) ? decoded : aURL setDelegate:c];
+    [postView startEditWithURL:(decoded) ? decoded : aURL];
     
 }
 

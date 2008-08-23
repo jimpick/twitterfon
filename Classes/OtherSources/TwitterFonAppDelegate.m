@@ -15,6 +15,7 @@
 
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)postTweetDidSucceed:(NSDictionary*)dic;
+- (void)postViewAnimationDidFinish;
 - (void)didChangeSeletViewController:(UINavigationController*)navigationController;
 @end
 
@@ -23,7 +24,6 @@
 @synthesize window;
 @synthesize tabBarController;
 @synthesize postView;
-@synthesize webView;
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
@@ -79,6 +79,14 @@
 	[super dealloc];
 }
 
+- (void)openWebView:(NSString*)url on:(UINavigationController*)nav
+{
+    webView.hidesBottomBarWhenPushed = YES;
+    [webView setUrl:url];
+    [nav pushViewController:webView animated:YES];
+}
+
+
 //
 // UITabBarControllerDelegate
 //
@@ -92,17 +100,6 @@
         }
     }
     selectedTab = tabBar.selectedIndex;
-}
-
-
-// Bypass posted message to friends timeline view...
-//
-- (void)postTweetDidSucceedDelegate:(NSDictionary*)dic
-{
-    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
-    UIViewController *c = [nav.viewControllers objectAtIndex:0];;
-    [c postTweetDidSucceed:dic];
-    
 }
 
 // Creates a writable copy of the bundled default database in the application Documents directory.
@@ -122,6 +119,27 @@
     success = [fileManager copyItemAtPath:defaultDBPath toPath:writableDBPath error:&error];
     if (!success) {
         NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
+    }
+}
+
+//
+// Bypass posted message to friends timeline view...
+//
+- (void)postTweetDidSucceed:(NSDictionary*)dic
+{
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
+    UIViewController *c = [nav.viewControllers objectAtIndex:0];;
+    [c postTweetDidSucceed:dic];
+}
+
+- (void)postViewAnimationDidFinish:(BOOL)didPost
+{
+    if (didPost && selectedTab == TAB_FRIENDS) {
+        UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];    
+        UIViewController *c = [nav.viewControllers objectAtIndex:0];
+        if ([c respondsToSelector:@selector(postViewAnimationDidFinish)]) {
+            [c postViewAnimationDidFinish];
+        }
     }
 }
 

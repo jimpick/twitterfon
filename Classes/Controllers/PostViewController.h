@@ -15,7 +15,6 @@
     IBOutlet UITextView* text;
     IBOutlet UILabel*    charCount;
     IBOutlet UIBarItem*  sendButton;
-    IBOutlet NSObject*   delegate;
     IBOutlet NSObject*   appDelegate;
     TwitterClient*       post;
     BOOL                 didPost;
@@ -25,9 +24,9 @@
    	IBOutlet ProgressWindow* progressWindow;
 }
 
-- (void)startEditWithString:(NSString*)message setDelegate:(id)delegate;
-- (void)startEditWithURL:(NSString*)URL setDelegate:(id)delegate;
-- (void)startEditWithDelegate:(id)delegate;
+- (void)startEditWithString:(NSString*)message;
+- (void)startEditWithURL:(NSString*)URL;
+- (void)startEdit;
 - (void)checkProgressWindowState;
 
 - (void) setCharCount;
