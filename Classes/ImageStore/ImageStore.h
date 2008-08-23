@@ -8,5 +8,6 @@
 }
 
 - (UIImage*)getImage:(NSString*)url delegate:(id)aDelegate;
+- (void)releaseImage:(NSString*)url;
 
 @end

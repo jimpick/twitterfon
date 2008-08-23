@@ -41,4 +41,12 @@ static NSMutableDictionary* theImageStore = nil;
     return image.image;
 }
 
+- (void)releaseImage:(NSString*)url
+{
+	ProfileImage* image = [images objectForKey:url];    
+    if (image) {
+        [images removeObjectForKey:url];
+    }
+}
+
 @end

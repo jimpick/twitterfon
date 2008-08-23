@@ -27,20 +27,25 @@
 	[super dealloc];
 }
 
-- (void)setMessage:(Message *)message image:(UIImage*)image
+- (void)setMessage:(Message *)message
 {
+    NSString *url;
+
     // Reset timeline if needed
     //
     if (userCell.message && userCell.message.user.userId != message.user.userId) {
+        url = [userCell.message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"];
+        [imageStore releaseImage:url];
         [timeline release];
         isTimelineLoaded = false;
         timeline = nil;
     }
 
+    url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"];
     userCell.message = message;
     userCell.message.type = MSG_TYPE_USER;
     [userCell.message updateAttribute];
-    userCell.image = image;
+    userCell.image = [imageStore getImage:url delegate:self];
     self.title = message.user.screenName;
     [self.tableView reloadData];
 }

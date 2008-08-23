@@ -11,16 +11,17 @@
 #import "LoadCell.h"
 #import "Message.h"
 #import "Timeline.h"
+#import "ImageStore.h"
 
 @interface UserTimelineController : UITableViewController {
-    IBOutlet NSObject*  delegate;
-
-    IBOutlet UserCell*  userCell;
-    LoadCell*           loadCell;
-    Timeline*           timeline;
-    BOOL                isTimelineLoaded;
+    IBOutlet NSObject*      delegate;
+    IBOutlet ImageStore*    imageStore;
+    IBOutlet UserCell*      userCell;
+    LoadCell*               loadCell;
+    Timeline*               timeline;
+    BOOL                    isTimelineLoaded;
 }
 
-- (void)setMessage:(Message *)message image:(UIImage*)image;
+- (void)setMessage:(Message *)message;
 
 @end

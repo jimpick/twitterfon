@@ -155,8 +155,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Message *m = [timeline messageAtIndex:indexPath.row];
-    NSString *url = [m.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"];
-    [userTimeline setMessage:m image:[imageStore getImage:url delegate:userTimeline]];
+    [userTimeline setMessage:m];
     [[self navigationController] pushViewController:userTimeline animated:true];
 }
 
