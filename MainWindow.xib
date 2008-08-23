@@ -8,6 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="306"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -190,7 +191,7 @@
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 			</object>
 			<object class="IBUIView" id="308163607">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">290</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -199,7 +200,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{10, 10}, {300, 180}}</string>
 						<reference key="NSSuperview" ref="308163607"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -225,7 +225,6 @@
 						<int key="NSvFlags">288</int>
 						<string key="NSFrame">{{12, 12}, {296, 176}}</string>
 						<reference key="NSSuperview" ref="308163607"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -243,7 +242,6 @@
 						<int key="NSvFlags">290</int>
 						<string key="NSFrame">{{0, 200}, {320, 44}}</string>
 						<reference key="NSSuperview" ref="308163607"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<object class="NSMutableArray" key="IBUIItems">
@@ -280,7 +278,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{216, 211}, {36, 21}}</string>
 						<reference key="NSSuperview" ref="308163607"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -310,8 +307,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{320, 240}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MC42ODIzNTI5NiAwLjkxMzcyNTUgMC45MjU0OTAyAA</bytes>
@@ -395,7 +390,7 @@
 			</object>
 			<object class="IBUIViewController" id="404605046">
 				<object class="IBUIView" key="IBUIView" id="965255302">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">292</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -417,7 +412,7 @@
 								<object class="IBUIButton" id="817437185">
 									<reference key="NSNextResponder" ref="32471571"/>
 									<int key="NSvFlags">292</int>
-									<string key="NSFrame">{{72, 10}, {240, 24}}</string>
+									<string key="NSFrame">{{102, 10}, {210, 24}}</string>
 									<reference key="NSSuperview" ref="32471571"/>
 									<bool key="IBUIOpaque">NO</bool>
 									<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -458,6 +453,13 @@
 									</object>
 									<reference key="IBUIToolbar" ref="32471571"/>
 								</object>
+								<object class="IBUIBarButtonItem" id="489646502">
+									<object class="NSCustomResource" key="IBUIImage">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">open_safari.png</string>
+									</object>
+									<reference key="IBUIToolbar" ref="32471571"/>
+								</object>
 								<object class="IBUIBarButtonItem" id="295581734">
 									<reference key="IBUICustomView" ref="817437185"/>
 									<reference key="IBUIToolbar" ref="32471571"/>
@@ -466,6 +468,7 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{320, 460}</string>
+					<reference key="NSSuperview"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -736,6 +739,14 @@
 						<reference key="destination" ref="664661524"/>
 					</object>
 					<int key="connectionID">334</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">openSafari:</string>
+						<reference key="source" ref="489646502"/>
+						<reference key="destination" ref="404605046"/>
+					</object>
+					<int key="connectionID">336</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1099,6 +1110,7 @@
 							<reference ref="756990733"/>
 							<reference ref="295581734"/>
 							<reference ref="269064729"/>
+							<reference ref="489646502"/>
 						</object>
 						<reference key="parent" ref="965255302"/>
 					</object>
@@ -1129,6 +1141,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">318</int>
 						<reference key="object" ref="269064729"/>
+						<reference key="parent" ref="32471571"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">335</int>
+						<reference key="object" ref="489646502"/>
 						<reference key="parent" ref="32471571"/>
 					</object>
 				</object>
@@ -1187,6 +1204,7 @@
 					<string>310.IBPluginDependency</string>
 					<string>312.IBPluginDependency</string>
 					<string>318.IBPluginDependency</string>
+					<string>335.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1239,9 +1257,10 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>WebViewController</string>
-					<string>{{417, 718}, {320, 480}}</string>
+					<string>{{187, 299}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{508, 864}, {320, 460}}</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1270,7 +1289,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">334</int>
+			<int key="maxID">336</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1501,10 +1520,12 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>goBack:</string>
 							<string>goForward:</string>
+							<string>openSafari:</string>
 							<string>reload:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

@@ -28,5 +28,6 @@
 - (IBAction)reload:(id)sender;
 - (IBAction)goBack: (id)sender;
 - (IBAction)goForward: (id)sender;
+- (IBAction)openSafari: (id)sender;
 
 @end

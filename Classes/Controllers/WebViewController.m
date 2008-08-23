@@ -83,6 +83,11 @@
     [webView goForward];
 }
 
+- (IBAction) openSafari: (id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
+
 - (void)setUrlBar:(NSString*)aUrl
 {
     [button setTitle:[NSString stringWithFormat:@"  %@", aUrl] forState:UIControlStateDisabled];
