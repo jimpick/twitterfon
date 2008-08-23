@@ -14,7 +14,6 @@
     
 	IBOutlet UILabel*       name;
 	IBOutlet UILabel*       location;
-/*    IBOutlet UILabel*       description;*/
   	IBOutlet UIButton*      url;
     IBOutlet UILabel*       numFollowers;
     IBOutlet UIImageView*   profileImage;

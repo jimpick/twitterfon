@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "UserCell.h"
+#import "LoadCell.h"
 #import "Message.h"
 #import "Timeline.h"
 
 @interface UserTimelineController : UITableViewController {
-    IBOutlet UserCell*  userCell;
     IBOutlet NSObject*  delegate;
+
+    IBOutlet UserCell*  userCell;
+    LoadCell*           loadCell;
     Timeline*           timeline;
     BOOL                isTimelineLoaded;
 }

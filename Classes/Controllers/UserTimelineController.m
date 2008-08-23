@@ -7,9 +7,8 @@
 //
 
 #import "UserTimelineController.h"
-#import "MessageCell.h"
-#import "UserMessageCell.h"
 #import "TwitterFonAppDelegate.h"
+#import "MessageCell.h"
 
 @implementation UserTimelineController
 
@@ -97,8 +96,10 @@
             return cell;
         }
         else if (indexPath.row == 2) {
-            UserMessageCell * cell = [[[UserMessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Indicator"] autorelease];
-            [cell setType:USER_CELL_LOAD_BUTTON];
+            LoadCell * cell =  (LoadCell*)[tableView dequeueReusableCellWithIdentifier:@"LoadCell"];
+            if (!cell) {
+                cell = [[[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"] autorelease];
+            }
             return cell;
         }
     }

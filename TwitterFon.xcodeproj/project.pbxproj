@@ -13,7 +13,7 @@
 		6E08FB770E5D252200106492 /* UserTimelineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08FB760E5D252200106492 /* UserTimelineController.m */; };
 		6E08FB9E0E5D266B00106492 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08FB9D0E5D266B00106492 /* UserCell.m */; };
 		6E092C3B0E3B41D40039FEE3 /* TFConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E092C3A0E3B41D40039FEE3 /* TFConnection.m */; };
-		6E1029110E5D362C00440C58 /* UserMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1029100E5D362C00440C58 /* UserMessageCell.m */; };
+		6E1029110E5D362C00440C58 /* LoadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1029100E5D362C00440C58 /* LoadCell.m */; };
 		6E1029E60E5D42BC00440C58 /* favorited.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1029E40E5D42BC00440C58 /* favorited.png */; };
 		6E1029E70E5D42BC00440C58 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1029E50E5D42BC00440C58 /* favorite.png */; };
 		6E102AE30E5DEC7A00440C58 /* db1.1.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6E102AE20E5DEC7A00440C58 /* db1.1.sql */; };
@@ -75,8 +75,8 @@
 		6E08FB9D0E5D266B00106492 /* UserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserCell.m; path = Controllers/UserCell.m; sourceTree = "<group>"; };
 		6E092C390E3B41D40039FEE3 /* TFConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TFConnection.h; path = Network/TFConnection.h; sourceTree = "<group>"; };
 		6E092C3A0E3B41D40039FEE3 /* TFConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TFConnection.m; path = Network/TFConnection.m; sourceTree = "<group>"; };
-		6E10290F0E5D362C00440C58 /* UserMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserMessageCell.h; path = Controllers/UserMessageCell.h; sourceTree = "<group>"; };
-		6E1029100E5D362C00440C58 /* UserMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserMessageCell.m; path = Controllers/UserMessageCell.m; sourceTree = "<group>"; };
+		6E10290F0E5D362C00440C58 /* LoadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadCell.h; path = Controllers/LoadCell.h; sourceTree = "<group>"; };
+		6E1029100E5D362C00440C58 /* LoadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadCell.m; path = Controllers/LoadCell.m; sourceTree = "<group>"; };
 		6E1029E40E5D42BC00440C58 /* favorited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorited.png; sourceTree = "<group>"; };
 		6E1029E50E5D42BC00440C58 /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite.png; sourceTree = "<group>"; };
 		6E102AE20E5DEC7A00440C58 /* db1.1.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = db1.1.sql; sourceTree = "<group>"; };
@@ -248,8 +248,8 @@
 			children = (
 				6E08FB9C0E5D266B00106492 /* UserCell.h */,
 				6E08FB9D0E5D266B00106492 /* UserCell.m */,
-				6E10290F0E5D362C00440C58 /* UserMessageCell.h */,
-				6E1029100E5D362C00440C58 /* UserMessageCell.m */,
+				6E10290F0E5D362C00440C58 /* LoadCell.h */,
+				6E1029100E5D362C00440C58 /* LoadCell.m */,
 				6E08FB750E5D252200106492 /* UserTimelineController.h */,
 				6E08FB760E5D252200106492 /* UserTimelineController.m */,
 			);
@@ -495,7 +495,7 @@
 				6EE9354D0E42FFF6008084DF /* ProgressWindow.m in Sources */,
 				6E08FB770E5D252200106492 /* UserTimelineController.m in Sources */,
 				6E08FB9E0E5D266B00106492 /* UserCell.m in Sources */,
-				6E1029110E5D362C00440C58 /* UserMessageCell.m in Sources */,
+				6E1029110E5D362C00440C58 /* LoadCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

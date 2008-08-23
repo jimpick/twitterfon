@@ -30,7 +30,6 @@
     url.lineBreakMode       = UILineBreakModeTailTruncation;
     numFollowers.font       = [UIFont systemFontOfSize:13];
     numFollowers.textColor  = [UIColor darkGrayColor];
-//	description.font        = [UIFont systemFontOfSize:13];
     
     [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];    
     
@@ -47,19 +46,20 @@
     }
     
 /*    
+	description.font        = [UIFont systemFontOfSize:13];
     description.text        = message.user.description;
     description.numberOfLines = 5;
     description.hidden = true;
     CGRect bounds = CGRectMake(93, 93 - 4, 300, 193 - 4);
     description.frame = [description textRectForBounds:bounds limitedToNumberOfLines:5];
-//    return description.frame.size.height + 93 + 2;
+    return description.frame.size.height + 93 + 2;
  */
     return 113;
     
 }
 
 - (void)layoutSubviews {
-//    self.backgroundColor = [UIColor colorWithRed:0.8 green:0.85 blue:0.85 alpha:1.0];
+    self.backgroundColor = [UIColor colorWithRed:0.939 green:0.939 blue:0.939 alpha:1.0];
 }
 
 - (void)dealloc {
