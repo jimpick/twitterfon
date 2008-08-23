@@ -216,21 +216,21 @@
 				<int key="IBUILineBreakMode">0</int>
 				<string key="IBUIReuseIdentifier">password</string>
 			</object>
-			<object class="IBUITableViewCell" id="791525330">
+			<object class="IBUITableViewCell" id="344809202">
 				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="IBUIView" id="846781367">
-						<reference key="NSNextResponder" ref="791525330"/>
+					<object class="IBUIView" id="685970593">
+						<reference key="NSNextResponder" ref="344809202"/>
 						<int key="NSvFlags">256</int>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUILabel" id="965979471">
-								<reference key="NSNextResponder" ref="846781367"/>
+							<object class="IBUILabel" id="983907535">
+								<reference key="NSNextResponder" ref="685970593"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{293, 43}</string>
-								<reference key="NSSuperview" ref="846781367"/>
+								<reference key="NSSuperview" ref="685970593"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUITag">1</int>
@@ -244,7 +244,7 @@
 							</object>
 						</object>
 						<string key="NSFrameSize">{320, 44}</string>
-						<reference key="NSSuperview" ref="791525330"/>
+						<reference key="NSSuperview" ref="344809202"/>
 						<reference key="IBUIBackgroundColor" ref="679261049"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -259,26 +259,26 @@
 				</object>
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-				<reference key="IBUIContentView" ref="846781367"/>
+				<reference key="IBUIContentView" ref="685970593"/>
 				<int key="IBUITextAlignment">1</int>
 				<int key="IBUILineBreakMode">0</int>
 				<string key="IBUIReuseIdentifier">follow</string>
 			</object>
-			<object class="IBUITableViewCell" id="306162606">
+			<object class="IBUITableViewCell" id="673943062">
 				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="IBUIView" id="1069241446">
-						<reference key="NSNextResponder" ref="306162606"/>
+					<object class="IBUIView" id="502366550">
+						<reference key="NSNextResponder" ref="673943062"/>
 						<int key="NSvFlags">256</int>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUILabel" id="1010017887">
-								<reference key="NSNextResponder" ref="1069241446"/>
+							<object class="IBUILabel" id="48085591">
+								<reference key="NSNextResponder" ref="502366550"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{297, 43}</string>
-								<reference key="NSSuperview" ref="1069241446"/>
+								<reference key="NSSuperview" ref="502366550"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUITag">1</int>
@@ -292,7 +292,7 @@
 							</object>
 						</object>
 						<string key="NSFrameSize">{320, 43}</string>
-						<reference key="NSSuperview" ref="306162606"/>
+						<reference key="NSSuperview" ref="673943062"/>
 						<reference key="IBUIBackgroundColor" ref="679261049"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -308,67 +308,10 @@
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 				<int key="IBUIContentMode">4</int>
-				<reference key="IBUIContentView" ref="1069241446"/>
+				<reference key="IBUIContentView" ref="502366550"/>
 				<int key="IBUITextAlignment">1</int>
 				<int key="IBUILineBreakMode">0</int>
 				<string key="IBUIReuseIdentifier">help</string>
-			</object>
-			<object class="IBUITableViewCell" id="752812340">
-				<nil key="NSNextResponder"/>
-				<int key="NSvFlags">292</int>
-				<object class="NSMutableArray" key="NSSubviews">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="IBUIView" id="824236573">
-						<reference key="NSNextResponder" ref="752812340"/>
-						<int key="NSvFlags">256</int>
-						<object class="NSMutableArray" key="NSSubviews">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUILabel" id="583252647">
-								<reference key="NSNextResponder" ref="824236573"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 8}, {90, 27}}</string>
-								<reference key="NSSuperview" ref="824236573"/>
-								<bool key="IBUIOpaque">NO</bool>
-								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUITag">1</int>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="IBUIText">Use SSL</string>
-								<reference key="IBUITextColor" ref="708971358"/>
-								<nil key="IBUIHighlightedColor"/>
-								<int key="IBUIBaselineAdjustment">1</int>
-								<float key="IBUIMinimumFontSize">1.000000e+01</float>
-							</object>
-							<object class="IBUISwitch" id="1006222572">
-								<reference key="NSNextResponder" ref="824236573"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{184, 8}, {94, 27}}</string>
-								<reference key="NSSuperview" ref="824236573"/>
-								<bool key="IBUIOpaque">NO</bool>
-								<bool key="IBUIClipsSubviews">YES</bool>
-								<bool key="IBUIMultipleTouchEnabled">YES</bool>
-								<int key="IBUITag">3</int>
-								<int key="IBUIContentHorizontalAlignment">2</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-							</object>
-						</object>
-						<string key="NSFrameSize">{320, 44}</string>
-						<reference key="NSSuperview" ref="752812340"/>
-						<reference key="IBUIBackgroundColor" ref="679261049"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
-						<bool key="IBUIMultipleTouchEnabled">YES</bool>
-					</object>
-				</object>
-				<string key="NSFrameSize">{320, 44}</string>
-				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">3</int>
-					<bytes key="NSWhite">MSAwAA</bytes>
-				</object>
-				<bool key="IBUIOpaque">NO</bool>
-				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-				<int key="IBUISelectionStyle">0</int>
-				<reference key="IBUIContentView" ref="824236573"/>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -466,7 +409,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">follow</string>
 						<reference key="source" ref="64822801"/>
-						<reference key="destination" ref="791525330"/>
+						<reference key="destination" ref="344809202"/>
 					</object>
 					<int key="connectionID">108</int>
 				</object>
@@ -474,26 +417,9 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">help</string>
 						<reference key="source" ref="64822801"/>
-						<reference key="destination" ref="306162606"/>
+						<reference key="destination" ref="673943062"/>
 					</object>
 					<int key="connectionID">110</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">ssl</string>
-						<reference key="source" ref="64822801"/>
-						<reference key="destination" ref="752812340"/>
-					</object>
-					<int key="connectionID">115</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">switchSSL:forEvent:</string>
-						<reference key="source" ref="1006222572"/>
-						<reference key="destination" ref="64822801"/>
-						<int key="IBEventType">13</int>
-					</object>
-					<int key="connectionID">116</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -602,54 +528,33 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">106</int>
-						<reference key="object" ref="791525330"/>
+						<reference key="object" ref="344809202"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="965979471"/>
+							<reference ref="983907535"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 						<string key="objectName">follow</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">107</int>
-						<reference key="object" ref="965979471"/>
-						<reference key="parent" ref="791525330"/>
+						<reference key="object" ref="983907535"/>
+						<reference key="parent" ref="344809202"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">109</int>
-						<reference key="object" ref="306162606"/>
+						<reference key="object" ref="673943062"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="1010017887"/>
+							<reference ref="48085591"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 						<string key="objectName">help</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">111</int>
-						<reference key="object" ref="1010017887"/>
-						<reference key="parent" ref="306162606"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">112</int>
-						<reference key="object" ref="752812340"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="583252647"/>
-							<reference ref="1006222572"/>
-						</object>
-						<reference key="parent" ref="360949347"/>
-						<string key="objectName">ssl</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">113</int>
-						<reference key="object" ref="583252647"/>
-						<reference key="parent" ref="752812340"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">114</int>
-						<reference key="object" ref="1006222572"/>
-						<reference key="parent" ref="752812340"/>
+						<reference key="object" ref="48085591"/>
+						<reference key="parent" ref="673943062"/>
 					</object>
 				</object>
 			</object>
@@ -669,10 +574,6 @@
 					<string>109.IBEditorWindowLastContentRect</string>
 					<string>109.IBPluginDependency</string>
 					<string>111.IBPluginDependency</string>
-					<string>112.IBEditorWindowLastContentRect</string>
-					<string>112.IBPluginDependency</string>
-					<string>113.IBPluginDependency</string>
-					<string>114.IBPluginDependency</string>
 					<string>20.IBPluginDependency</string>
 					<string>50.CustomClassName</string>
 					<string>50.IBPluginDependency</string>
@@ -697,10 +598,6 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{268, 956}, {320, 43}}</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{449, 1272}, {320, 44}}</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -764,7 +661,6 @@
 							<string>help</string>
 							<string>password</string>
 							<string>passwordField</string>
-							<string>ssl</string>
 							<string>username</string>
 							<string>usernameField</string>
 						</object>
@@ -775,7 +671,6 @@
 							<string>UITableViewCell</string>
 							<string>UITableViewCell</string>
 							<string>UITextField</string>
-							<string>UITableViewCell</string>
 							<string>UITableViewCell</string>
 							<string>UITextField</string>
 						</object>

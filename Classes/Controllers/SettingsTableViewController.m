@@ -11,7 +11,6 @@
 
 enum {
     SECTION_ACCOUNT,
-    SECTION_OPTION,
     SECTION_HELP,
     NUM_SECTIONS,
 };
@@ -23,11 +22,6 @@ enum {
 };
 
 enum {
-    ROW_SSL,
-    NUM_ROWS_OPTION,
-};
-
-enum {
     ROW_FOLLOW,
     ROW_HELP,
     NUM_ROWS_HELP,
@@ -35,13 +29,11 @@ enum {
 
 static int sNumRows[NUM_SECTIONS] = {
     NUM_ROWS_ACCOUNT,
-    NUM_ROWS_OPTION,
     NUM_ROWS_HELP,
 };
 
 static NSString* sSectionHeader[NUM_SECTIONS] = {
     @"Account",
-    @"Options",
     @"Need a Help?",
 };
 
@@ -49,7 +41,6 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
 
 #define LABEL_TAG       1
 #define TEXTFIELD_TAG   2
-#define SWITCH_TAG      3
 
 - (void)viewDidLoad
 {
@@ -64,13 +55,6 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
     else {
         usernameField.text = user;
         passwordField.text = pass;
-    }
-    
-    // Set options
-    BOOL useSSL = [[NSUserDefaults standardUserDefaults] integerForKey:@"useSSL"];
-    if (useSSL) {
-        UISwitch *sw = (UISwitch*)[ssl viewWithTag:SWITCH_TAG];
-        sw.on = true;
     }
 }
 
@@ -121,10 +105,6 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
             text.font = [UIFont systemFontOfSize:16];
             break;
             
-        case SECTION_OPTION:
-            cell = ssl;
-            break;
-            
         case SECTION_HELP:
             if (indexPath.row == ROW_FOLLOW) {
                 cell = follow;
@@ -150,7 +130,7 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
 
     switch (indexPath.section) {
         case SECTION_ACCOUNT:
-            if (indexPath.row == 0) {
+            if (indexPath.row == ROW_USERNAME) {
                 cell = username;
             }
             else {
@@ -161,10 +141,10 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
             break;
             
         case SECTION_HELP:
-            if (indexPath.row == 0) {
+            if (indexPath.row == ROW_FOLLOW) {
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://twitter.com/TwitterFon"]];
             }
-            else if (indexPath.row == 1) {
+            else if (indexPath.row == ROW_HELP) {
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://naan.net/trac/wiki/TwitterFon"]];            
             }
             break;
@@ -172,12 +152,6 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
         default:
             break;
     }
-}
-
-- (void)switchSSL:(id)sender forEvent:(UIEvent *)event
-{
-    UISwitch *sw = (UISwitch*)sender;
-    [[NSUserDefaults standardUserDefaults] setInteger:sw.on forKey:@"useSSL"];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
