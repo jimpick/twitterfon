@@ -16,14 +16,12 @@
 	IBOutlet UILabel*       location;
   	IBOutlet UIButton*      url;
     IBOutlet UILabel*       numFollowers;
-    IBOutlet UIImageView*   profileImage;
     IBOutlet UIImageView*   protected;
     
     NSObject*               delegate;
 }
 
 @property(nonatomic, copy) Message* message;
-@property(nonatomic, assign) UIImageView* profileImage;
 
 -(CGFloat)calcCellHeight;
 

@@ -112,7 +112,6 @@ static sqlite3_stmt* select_statement = nil;
     NSRange r = [text rangeOfString:@"http://"];
     int textWidth = (type == MSG_TYPE_USER) ? USER_CELL_WIDTH : CELL_WIDTH;
     if (r.location != NSNotFound) {    
-        //accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         textWidth -= DETAIL_BUTTON_WIDTH;
     }

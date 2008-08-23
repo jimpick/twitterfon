@@ -40,7 +40,7 @@
     userCell.message = message;
     userCell.message.type = MSG_TYPE_USER;
     [userCell.message updateAttribute];
-    userCell.profileImage.image = image;
+    userCell.image = image;
     self.title = message.user.screenName;
     [self.tableView reloadData];
 }
@@ -192,7 +192,7 @@
 
 - (void)imageStoreDidGetNewImage:(UIImage*)image
 {
-    userCell.profileImage.image = image;    
+    userCell.image = image;
 	[self.tableView reloadData];
 }
 

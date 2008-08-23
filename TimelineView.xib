@@ -8,8 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="481"/>
 			<integer value="476"/>
+			<integer value="481"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -76,20 +76,10 @@
 						<int key="NSvFlags">256</int>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUIImageView" id="654703924">
-								<reference key="NSNextResponder" ref="33875566"/>
-								<int key="NSvFlags">293</int>
-								<string key="NSFrame">{{15, 20}, {73, 73}}</string>
-								<reference key="NSSuperview" ref="33875566"/>
-								<bool key="IBUIOpaque">NO</bool>
-								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-								<int key="IBUIContentMode">4</int>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
-							</object>
 							<object class="IBUILabel" id="296039460">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{96, 20}, {189, 22}}</string>
+								<string key="NSFrame">{{93, 20}, {189, 22}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -106,7 +96,7 @@
 							<object class="IBUILabel" id="549106002">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{96, 59}, {209, 18}}</string>
+								<string key="NSFrame">{{93, 59}, {217, 18}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -121,7 +111,7 @@
 							<object class="IBUIButton" id="481177776">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{96, 77}, {209, 18}}</string>
+								<string key="NSFrame">{{93, 77}, {217, 18}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -148,7 +138,7 @@
 							<object class="IBUILabel" id="459912027">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{96, 39}, {209, 21}}</string>
+								<string key="NSFrame">{{93, 39}, {217, 21}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -164,7 +154,7 @@
 							<object class="IBUIImageView" id="695820313">
 								<reference key="NSNextResponder" ref="33875566"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{293, 23}, {12, 15}}</string>
+								<string key="NSFrame">{{298, 23}, {12, 19}}</string>
 								<reference key="NSSuperview" ref="33875566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -202,6 +192,7 @@
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 				<int key="IBUISeparatorStyle">1</int>
+				<int key="IBUISelectionStyle">0</int>
 				<reference key="IBUIContentView" ref="33875566"/>
 			</object>
 		</object>
@@ -303,14 +294,6 @@
 						<reference key="destination" ref="296039460"/>
 					</object>
 					<int key="connectionID">489</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">profileImage</string>
-						<reference key="source" ref="855286606"/>
-						<reference key="destination" ref="654703924"/>
-					</object>
-					<int key="connectionID">491</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -417,19 +400,13 @@
 						<reference key="object" ref="855286606"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="296039460"/>
 							<reference ref="549106002"/>
 							<reference ref="481177776"/>
+							<reference ref="296039460"/>
 							<reference ref="459912027"/>
-							<reference ref="654703924"/>
 							<reference ref="695820313"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">482</int>
-						<reference key="object" ref="654703924"/>
-						<reference key="parent" ref="855286606"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">483</int>
@@ -473,7 +450,6 @@
 					<string>481.CustomClassName</string>
 					<string>481.IBEditorWindowLastContentRect</string>
 					<string>481.IBPluginDependency</string>
-					<string>482.IBPluginDependency</string>
 					<string>483.IBPluginDependency</string>
 					<string>484.IBPluginDependency</string>
 					<string>487.IBPluginDependency</string>
@@ -495,8 +471,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>UserCell</string>
-					<string>{{392, 1090}, {320, 113}}</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>{{201, 927}, {320, 113}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -623,7 +598,6 @@
 							<string>location</string>
 							<string>name</string>
 							<string>numFollowers</string>
-							<string>profileImage</string>
 							<string>protected</string>
 							<string>url</string>
 						</object>
@@ -632,7 +606,6 @@
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
-							<string>UIImageView</string>
 							<string>UIImageView</string>
 							<string>UIButton</string>
 						</object>

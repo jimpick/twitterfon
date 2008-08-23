@@ -11,19 +11,15 @@
 @implementation UserCell
 
 @synthesize message;
-@synthesize profileImage;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
 	if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
     return self;
 }
 
 -(CGFloat)calcCellHeight
 {
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     name.font               = [UIFont boldSystemFontOfSize:18];
     location.font           = [UIFont systemFontOfSize:14];
     url.font                = [UIFont boldSystemFontOfSize:14];
@@ -61,6 +57,7 @@
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
     self.backgroundColor = [UIColor colorWithRed:0.939 green:0.939 blue:0.939 alpha:1.0];
 }
 

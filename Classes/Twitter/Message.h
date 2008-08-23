@@ -11,10 +11,10 @@ typedef enum {
 
 #define IMAGE_PADDING       10
 #define H_MARGIN            10
-#define INDICATOR_WIDTH     20
-#define DETAIL_BUTTON_WIDTH 19
+#define INDICATOR_WIDTH     10
+#define DETAIL_BUTTON_WIDTH 25
 #define IMAGE_WIDTH         48
-#define USER_CELL_PADDING   15
+#define USER_CELL_PADDING   10
 
 #define TOP                 16
 #define LEFT                (IMAGE_PADDING * 2 + IMAGE_WIDTH)
