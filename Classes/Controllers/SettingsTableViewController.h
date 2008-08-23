@@ -12,9 +12,10 @@
     IBOutlet UITableViewCell*   username;
     IBOutlet UITableViewCell*   password;
 
-    UITableViewCell*            follow;
-    UITableViewCell*            help;
-    IBOutlet UIBarButtonItem*   button;
+    UITableViewCell*            helps[3];
+    
+    IBOutlet UIView*            parentView;
+
     IBOutlet UITextField*       usernameField;
     IBOutlet UITextField*       passwordField;
 }

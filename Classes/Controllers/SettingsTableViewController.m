@@ -23,6 +23,7 @@ enum {
 
 enum {
     ROW_FOLLOW,
+    ROW_REPLY,
     ROW_HELP,
     NUM_ROWS_HELP,
 };
@@ -35,6 +36,12 @@ static int sNumRows[NUM_SECTIONS] = {
 static NSString* sSectionHeader[NUM_SECTIONS] = {
     @"Account",
     @"Need a Help?",
+};
+
+static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
+    @"Follow @TwitterFon on Twitter",
+    @"Send a tweet to @TwitterFon",
+    @"Open Help Page with Safari",
 };
 
 @implementation SettingsTableViewController
@@ -56,12 +63,12 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
         usernameField.text = user;
         passwordField.text = pass;
     }
-    follow = [[UITableViewCell alloc] initWithFrame:CGRectZero];
-    help   = [[UITableViewCell alloc] initWithFrame:CGRectZero];
-    follow.textAlignment = UITextAlignmentCenter;
-    help.textAlignment = UITextAlignmentCenter;
-    follow.text = @"Follow @TwitterFon on Twitter";
-    help.text   = @"Open Help Page with Safari";
+
+    for (int i = 0; i < 3; ++i) {
+        helps[i] = [[UITableViewCell alloc] initWithFrame:CGRectZero];
+        helps[i].textAlignment = UITextAlignmentCenter;
+        helps[i].text = sHelpPhrase[i];
+    }
 }
 
 - (void) saveSettings
@@ -115,12 +122,7 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
             break;
             
         case SECTION_HELP:
-            if (indexPath.row == ROW_FOLLOW) {
-                cell = follow;
-            }
-            else if (indexPath.row == ROW_HELP) {
-                cell = help;
-            }
+            cell = helps[indexPath.row];
             break;
             
         default:
@@ -151,6 +153,19 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
             if (indexPath.row == ROW_FOLLOW) {
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://twitter.com/TwitterFon"]];
             }
+            else if (indexPath.row == ROW_REPLY) {
+                TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+                PostViewController* postView = appDelegate.postView;
+                
+                if (postView.view.hidden == false) return;
+                
+                NSString *msg = @"@TwitterFon";
+                
+                [parentView addSubview:postView.view];
+                UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
+                [postView startEditWithString:msg setDelegate:c];
+                [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];
+            }
             else if (indexPath.row == ROW_HELP) {
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://naan.net/trac/wiki/TwitterFon"]];            
             }
@@ -179,6 +194,8 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
 }
 
 - (void)dealloc {
+    for (int i = 0; i < 3; ++i)
+        [helps[i] release];
 	[super dealloc];
 }
 

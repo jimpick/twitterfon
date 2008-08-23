@@ -34,7 +34,8 @@
 {
     [connection release];
 	[buf release];
-
+    statusCode = 0;
+    
     NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
     [URL autorelease];
     NSLog(@"%@", URL);
@@ -51,7 +52,8 @@
 {
     [connection release];
 	[buf release];
-
+    statusCode = 0;
+    
     NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
     [URL autorelease];
 	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
