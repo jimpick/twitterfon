@@ -38,8 +38,7 @@
 		6EEBF70E0E3B1FD40003EA63 /* REString.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7070E3B1FD40003EA63 /* REString.m */; };
 		6EEBF70F0E3B1FD40003EA63 /* StringUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7090E3B1FD40003EA63 /* StringUtil.m */; };
 		6EEBF7100E3B1FD40003EA63 /* TwitterFonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */; };
-		6EEBF7150E3B20610003EA63 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7120E3B20610003EA63 /* SettingsViewController.m */; };
-		6EEBF7160E3B20610003EA63 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7130E3B20610003EA63 /* SettingsTableViewController.m */; };
+		6EEBF7160E3B20610003EA63 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7130E3B20610003EA63 /* SettingsViewController.m */; };
 		6EEBF71D0E3B20830003EA63 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7180E3B20830003EA63 /* MessageCell.m */; };
 		6EEBF71F0E3B20830003EA63 /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF71C0E3B20830003EA63 /* TimelineViewController.m */; };
 		6EEBF7240E3B20910003EA63 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7210E3B20910003EA63 /* PostViewController.m */; };
@@ -110,10 +109,8 @@
 		6EEBF7090E3B1FD40003EA63 /* StringUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StringUtil.m; path = Classes/OtherSources/StringUtil.m; sourceTree = "<group>"; };
 		6EEBF70A0E3B1FD40003EA63 /* TwitterFonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitterFonAppDelegate.h; path = Classes/OtherSources/TwitterFonAppDelegate.h; sourceTree = "<group>"; };
 		6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitterFonAppDelegate.m; path = Classes/OtherSources/TwitterFonAppDelegate.m; sourceTree = "<group>"; };
-		6EEBF7110E3B20610003EA63 /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsTableViewController.h; path = Controllers/SettingsTableViewController.h; sourceTree = "<group>"; };
-		6EEBF7120E3B20610003EA63 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Controllers/SettingsViewController.m; sourceTree = "<group>"; };
-		6EEBF7130E3B20610003EA63 /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsTableViewController.m; path = Controllers/SettingsTableViewController.m; sourceTree = "<group>"; };
-		6EEBF7140E3B20610003EA63 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = Controllers/SettingsViewController.h; sourceTree = "<group>"; };
+		6EEBF7110E3B20610003EA63 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = Controllers/SettingsViewController.h; sourceTree = "<group>"; };
+		6EEBF7130E3B20610003EA63 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Controllers/SettingsViewController.m; sourceTree = "<group>"; };
 		6EEBF7170E3B20830003EA63 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageCell.h; path = Controllers/MessageCell.h; sourceTree = "<group>"; };
 		6EEBF7180E3B20830003EA63 /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageCell.m; path = Controllers/MessageCell.m; sourceTree = "<group>"; };
 		6EEBF71B0E3B20830003EA63 /* TimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineViewController.h; path = Controllers/TimelineViewController.h; sourceTree = "<group>"; };
@@ -290,10 +287,8 @@
 		6E8265CA0E37513B005D2370 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				6EEBF7110E3B20610003EA63 /* SettingsTableViewController.h */,
-				6EEBF7130E3B20610003EA63 /* SettingsTableViewController.m */,
-				6EEBF7140E3B20610003EA63 /* SettingsViewController.h */,
-				6EEBF7120E3B20610003EA63 /* SettingsViewController.m */,
+				6EEBF7110E3B20610003EA63 /* SettingsViewController.h */,
+				6EEBF7130E3B20610003EA63 /* SettingsViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -483,8 +478,7 @@
 				6EEBF70E0E3B1FD40003EA63 /* REString.m in Sources */,
 				6EEBF70F0E3B1FD40003EA63 /* StringUtil.m in Sources */,
 				6EEBF7100E3B1FD40003EA63 /* TwitterFonAppDelegate.m in Sources */,
-				6EEBF7150E3B20610003EA63 /* SettingsViewController.m in Sources */,
-				6EEBF7160E3B20610003EA63 /* SettingsTableViewController.m in Sources */,
+				6EEBF7160E3B20610003EA63 /* SettingsViewController.m in Sources */,
 				6EEBF71D0E3B20830003EA63 /* MessageCell.m in Sources */,
 				6EEBF71F0E3B20830003EA63 /* TimelineViewController.m in Sources */,
 				6EEBF7240E3B20910003EA63 /* PostViewController.m in Sources */,

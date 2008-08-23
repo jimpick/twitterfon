@@ -1,5 +1,5 @@
 //
-//  SettingsViewController.h
+//  SettingsTableViewController.h
 //  TwitterFon
 //
 //  Created by kaz on 7/14/08.
@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsViewController : UIViewController {
-    IBOutlet UITableViewController* tableView;
+@interface SettingsViewController : UITableViewController {
+    IBOutlet UITableViewCell*   username;
+    IBOutlet UITableViewCell*   password;
+
+    UITableViewCell*            helps[3];
+    
+    IBOutlet UITextField*       usernameField;
+    IBOutlet UITextField*       passwordField;
 }
 
 @end
