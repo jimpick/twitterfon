@@ -12,6 +12,8 @@
 
 @implementation UserTimelineController
 
+@synthesize message;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
@@ -26,28 +28,25 @@
 	[super dealloc];
 }
 
-- (void)setMessage:(Message *)message
+- (void)setMessage:(Message *)aMessage
 {
-    NSString *url;
-
     // Reset timeline if needed
     //
-    if (userCell.message && userCell.message.user.userId != message.user.userId) {
-        url = [userCell.message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"];
+    if (message && message.user.userId != aMessage.user.userId) {
+        NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"];
         [imageStore releaseImage:url];
         [timeline release];
         isTimelineLoaded = false;
         timeline = nil;
     }
 
-    url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"];
-    userCell.message = message;
-    userCell.message.type = MSG_TYPE_USER;
-    [userCell.message updateAttribute];
-    userCell.image = [imageStore getImage:url delegate:self];
-    [userCell calcCellHeight];
-    self.title = message.user.screenName;
+    // This operation copy a message object
+    [message release];
+    message = [aMessage copy];
+    message.type = MSG_TYPE_USER;
+    [message updateAttribute];
     [self.tableView reloadData];
+    self.title = message.user.screenName;    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -67,11 +66,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return [userCell calcCellHeight];
+        return 113;
     }
     else if (!isTimelineLoaded) {
         if (indexPath.row == 1) {
-            return userCell.message.cellHeight;
+            return message.cellHeight;
         }
         else if (indexPath.row >= 2) {
             return 48;
@@ -86,7 +85,17 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
     if (indexPath.row == 0) {
-        return userCell;
+        
+        UserCell* cell = (UserCell*)[tableView dequeueReusableCellWithIdentifier:@"UserCell"];
+        if (!cell) {
+            cell = [[[UserCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"UserCell"] autorelease];
+        }
+        
+        NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"];
+
+        cell.image = [imageStore getImage:url delegate:self];
+        [cell update:message delegate:self];
+        return cell;
     }
     else if (!isTimelineLoaded) {
         if (indexPath.row == 1) {
@@ -95,7 +104,7 @@
             if (!cell) {
                 cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
             }
-            cell.message = userCell.message;
+            cell.message = message;
             [cell update:MSG_TYPE_USER delegate:self];
 
             return cell;
@@ -129,7 +138,7 @@
     if (indexPath.row == 2 && !isTimelineLoaded) {
         timeline = [[Timeline alloc] init];
         timeline.delegate = self;
-        [timeline update:MSG_TYPE_USER userId:userCell.message.user.userId];
+        [timeline update:MSG_TYPE_USER userId:message.user.userId];
     }
 }
 
@@ -138,7 +147,7 @@
 - (void)didTouchURL:(id)sender
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    [appDelegate openWebView:userCell.message.user.url on:[self navigationController]];
+    [appDelegate openWebView:message.user.url on:[self navigationController]];
 }
 
 - (void)viewDidLoad {
@@ -168,7 +177,7 @@
     
     if (postView.view.hidden == false) return;
     
-    NSString *msg = [NSString stringWithFormat:@"@%@ ", userCell.message.user.screenName];
+    NSString *msg = [NSString stringWithFormat:@"@%@ ", message.user.screenName];
     
     [[self navigationController].view addSubview:postView.view];
     [postView startEditWithString:msg];
@@ -218,7 +227,7 @@
         
         // Replace message if the current message is not latest one.
         //
-        BOOL needReplaceMessage = ([timeline messageAtIndex:0].messageId != userCell.message.messageId);
+        BOOL needReplaceMessage = ([timeline messageAtIndex:0].messageId != message.messageId);
         int i;
        
         for (i = (needReplaceMessage) ? 1 : 2 ; i <= 2; ++i) {

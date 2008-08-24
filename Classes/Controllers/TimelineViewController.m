@@ -116,6 +116,7 @@
 
 - (void)didReceiveMemoryWarning 
 {
+    [imageStore didReceiveMemoryWarning];
 	[super didReceiveMemoryWarning];
 }
 
@@ -150,7 +151,7 @@
     }
     Message *m = [timeline messageAtIndex:indexPath.row];
     [[self navigationController] pushViewController:userTimeline animated:true];
-    [userTimeline setMessage:m];
+    userTimeline.message = m;
     [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];    
 }
 

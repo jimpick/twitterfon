@@ -10,19 +10,14 @@
 #import "Message.h"
 
 @interface UserCell : UITableViewCell {
-	Message*                message;
-    
-	IBOutlet UILabel*       name;
-	IBOutlet UILabel*       location;
-  	IBOutlet UIButton*      url;
-    IBOutlet UILabel*       numFollowers;
-    IBOutlet UIImageView*   protected;
-    
-    IBOutlet NSObject*      delegate;
+	UILabel*        name;
+	UILabel*        location;
+  	UIButton*       url;
+    UILabel*        numFollowers;
+    UIImageView*    protected;
+    NSString*       urlString;
 }
 
-@property(nonatomic, copy) Message* message;
-
--(CGFloat)calcCellHeight;
+-(void)update:(Message*)message delegate:(id)delegate;
 
 @end
