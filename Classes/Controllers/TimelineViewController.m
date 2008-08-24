@@ -53,12 +53,12 @@
             self.tableView.backgroundColor = [UIColor messageColor:false];
     }
     [timeline restore:tag];
-//    [timeline update:tag];
+    [timeline update:tag];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated {
-//    [self.tableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
