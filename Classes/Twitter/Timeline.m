@@ -118,7 +118,7 @@ static sqlite3_stmt *select_statement = nil;
     }
 
     int unread = 0;
-    for (int i = 0; i < [ary count]; ++i) {
+    for (int i = [ary count] - 1; i >= 0; --i) {
         sqlite_int64 messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
         if (![Message isExist:messageId type:type]) {
             Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type];
