@@ -41,6 +41,18 @@ static NSMutableDictionary* theImageStore = nil;
     return image.image;
 }
 
+- (void)didReceiveMemoryWarning
+{
+    NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
+    for (id key in images) {
+	ProfileImage* image = [images objectForKey:key];        
+        if (image.image.retainCount == 1) {
+            [array addObject:key];
+        }
+    }
+    [images removeObjectsForKeys:array];
+}
+
 - (void)releaseImage:(NSString*)url
 {
 	ProfileImage* image = [images objectForKey:url];    
