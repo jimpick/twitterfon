@@ -124,7 +124,7 @@ static sqlite3_stmt *select_statement = nil;
             Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type];
             m.unread = true;
                 
-            [messages addObject:m];
+            [messages insertObject:m atIndex:0];
             ++unread;
 				
             if ([delegate respondsToSelector:@selector(timelineDidReceiveNewMessage:)]) {
