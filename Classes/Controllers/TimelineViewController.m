@@ -13,7 +13,6 @@
 #import "MessageCell.h"
 #import "ColorUtils.h"
 #import "StringUtil.h"
-#import "REString.h"
 
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)postTweetDidSucceedDelegate:(NSDictionary*)dic;
@@ -26,7 +25,6 @@
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
 	}
-    
 	return self;
 }
 
@@ -55,12 +53,12 @@
             self.tableView.backgroundColor = [UIColor messageColor:false];
     }
     [timeline restore:tag];
-    [timeline update:tag];
+//    [timeline update:tag];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -110,17 +108,10 @@
 	return cell;
 }
 
-- (void)didTouchDetailButton:(MessageCell*)cell
+- (void)didTouchLinkButton:(NSString*)url
 {
-    Message *m = cell.message;
-    if (!m) return;
-    NSString *pat = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
-    NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
-    if ([m.text matches:pat withSubstring:array]) {
-        
-        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        [appDelegate openWebView:[array objectAtIndex:0] on:[self navigationController]];
-    }
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    [appDelegate openWebView:url on:[self navigationController]];
 }
 
 - (void)didReceiveMemoryWarning 
@@ -154,9 +145,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (userTimeline == nil) {
+        userTimeline = [[UserTimelineController alloc] initWithNibName:@"UserView" bundle:nil];
+    }
     Message *m = [timeline messageAtIndex:indexPath.row];
-    [userTimeline setMessage:m];
     [[self navigationController] pushViewController:userTimeline animated:true];
+    [userTimeline setMessage:m];
 }
 
 - (void)didTouchProfileImage:(MessageCell*)cell

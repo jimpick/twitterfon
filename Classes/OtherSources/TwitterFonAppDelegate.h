@@ -20,15 +20,13 @@ typedef enum {
 @interface TwitterFonAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
 	IBOutlet UIWindow*              window;
 	IBOutlet UITabBarController*    tabBarController;
-    IBOutlet PostViewController*    postView;
-    IBOutlet WebViewController*     webView;
+
+    PostViewController*             postView;
+    WebViewController*              webView;
     int                             selectedTab;
 }
 
 - (void) openWebView:(NSString*)url on:(UINavigationController*)viewController;
 
-@property (nonatomic, retain) UIWindow*             window;
-@property (nonatomic, retain) UITabBarController*   tabBarController;
-@property (nonatomic, retain) PostViewController*   postView;
-
+@property (nonatomic, assign) PostViewController*   postView;
 @end

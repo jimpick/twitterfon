@@ -21,10 +21,7 @@
 
 @implementation TwitterFonAppDelegate
 
-@synthesize window;
-@synthesize tabBarController;
 @synthesize postView;
-
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
@@ -65,17 +62,17 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    [postView saveTweet];
+    [self.postView saveTweet];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    [postView checkProgressWindowState];
+    [self.postView checkProgressWindowState];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [postView saveTweet];
+    [self.postView saveTweet];
 }
 
 - (void)dealloc
@@ -87,11 +84,26 @@
 
 - (void)openWebView:(NSString*)url on:(UINavigationController*)nav
 {
+    if (webView == nil) {
+        webView = [[WebViewController alloc] initWithNibName:@"WebView" bundle:nil];
+    }
     webView.hidesBottomBarWhenPushed = YES;
     [webView setUrl:url];
     [nav pushViewController:webView animated:YES];
 }
 
+- (PostViewController *)postView
+{
+    if (postView == nil) {
+        postView = [[PostViewController alloc] initWithNibName:@"PostView" bundle:nil];
+        postView.appDelegate = self;
+    }
+    return postView;
+}
+
+- (void)setName:(PostViewController *)newName
+{
+}
 
 //
 // UITabBarControllerDelegate

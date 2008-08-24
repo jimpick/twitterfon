@@ -1,9 +1,10 @@
 #import "MessageCell.h"
 #import "ColorUtils.h"
 #import "StringUtil.h"
+#import "REString.h"
 
 @interface NSObject (MessageCellDelegate)
-- (void)didTouchDetailButton:(MessageCell*)cell;
+- (void)didTouchLinkButton:(NSString*)url;
 - (void)didTouchProfileImage:(MessageCell*)cell;
 @end
 
@@ -69,10 +70,14 @@ static UIImage* sHighlightedLinkButton = nil;
     [super dealloc];
 }    
 
-- (void)didTouchAccessory:(id)sender
+- (void)didTouchLinkButton:(id)sender
 {
     if (delegate) {
-        [delegate didTouchDetailButton:self];
+        NSString *pat = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
+        NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
+        if ([message.text matches:pat withSubstring:array]) {
+            [delegate didTouchLinkButton:[array objectAtIndex:0]];
+        }
     }
 }
 
@@ -111,7 +116,7 @@ static UIImage* sHighlightedLinkButton = nil;
         button.frame = CGRectMake(288, 0, 32, 32);
         [button setImage:[MessageCell linkButton] forState:UIControlStateNormal];
         [button setImage:[MessageCell hilightedLinkButton] forState:UIControlStateHighlighted];
-        [button addTarget:self action:@selector(didTouchAccessory:) forControlEvents:UIControlEventTouchUpInside];
+        [button addTarget:self action:@selector(didTouchLinkButton:) forControlEvents:UIControlEventTouchUpInside];
         self.accessoryView = button;
     }
     else {

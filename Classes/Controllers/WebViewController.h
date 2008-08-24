@@ -19,7 +19,6 @@
     NSMutableDictionary*    tinyURLStore;
     NSString*               url;
     NSURL*                  openingURL;
-    BOOL                    needsReload;
     BOOL                    needsToDecodeTinyURL;
 }
 

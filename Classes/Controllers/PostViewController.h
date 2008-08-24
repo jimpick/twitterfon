@@ -15,7 +15,7 @@
     IBOutlet UITextView* text;
     IBOutlet UILabel*    charCount;
     IBOutlet UIBarItem*  sendButton;
-    IBOutlet NSObject*   appDelegate;
+    NSObject*            appDelegate;
     TwitterClient*       post;
     BOOL                 didPost;
     BOOL                 isDirectMessage;
@@ -23,6 +23,8 @@
     
    	IBOutlet ProgressWindow* progressWindow;
 }
+
+@property(nonatomic, assign) NSObject* appDelegate;
 
 - (void)startEditWithString:(NSString*)message;
 - (void)startEditWithURL:(NSString*)URL;

@@ -18,7 +18,7 @@
     return self;
 }
 
--(CGFloat)calcCellHeight
+- (void)awakeFromNib
 {
     name.font               = [UIFont boldSystemFontOfSize:18];
     location.font           = [UIFont systemFontOfSize:14];
@@ -27,8 +27,11 @@
     numFollowers.font       = [UIFont systemFontOfSize:13];
     numFollowers.textColor  = [UIColor darkGrayColor];
     
-    [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];    
-    
+    [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];   
+}
+
+-(CGFloat)calcCellHeight
+{
     name.text               = message.user.name;
     location.text           = message.user.location;
     [url setTitle:message.user.url forState:UIControlStateNormal];

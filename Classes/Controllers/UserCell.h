@@ -18,7 +18,7 @@
     IBOutlet UILabel*       numFollowers;
     IBOutlet UIImageView*   protected;
     
-    NSObject*               delegate;
+    IBOutlet NSObject*      delegate;
 }
 
 @property(nonatomic, copy) Message* message;

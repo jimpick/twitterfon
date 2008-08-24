@@ -12,15 +12,14 @@
 
 @implementation UserTimelineController
 
-
-- (id)initWithStyle:(UITableViewStyle)style {
-	if (self = [super initWithStyle:style]) {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+		// Initialization code
+        timeline = nil;
+        isTimelineLoaded = false;
 	}
-    timeline = nil;
-    isTimelineLoaded = false;
 	return self;
 }
-
 
 - (void)dealloc {
     [timeline release];
@@ -46,6 +45,7 @@
     userCell.message.type = MSG_TYPE_USER;
     [userCell.message updateAttribute];
     userCell.image = [imageStore getImage:url delegate:self];
+    [userCell calcCellHeight];
     self.title = message.user.screenName;
     [self.tableView reloadData];
 }
@@ -96,7 +96,7 @@
                 cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
             }
             cell.message = userCell.message;
-            [cell update:MSG_TYPE_USER delegate:delegate];
+            [cell update:MSG_TYPE_USER delegate:self];
 
             return cell;
         }
@@ -115,7 +115,7 @@
         }
 
         cell.message = [timeline messageAtIndex:indexPath.row - 1];
-        [cell update:MSG_TYPE_USER delegate:delegate];
+        [cell update:MSG_TYPE_USER delegate:self];
         return cell;
     }
 
@@ -153,6 +153,12 @@
     UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
     self.navigationItem.rightBarButtonItem = postButton;
 
+}
+
+- (void)didTouchLinkButton:(NSString*)url
+{
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    [appDelegate openWebView:url on:[self navigationController]];
 }
 
 - (void)postTweet:(id)sender

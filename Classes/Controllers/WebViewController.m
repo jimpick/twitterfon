@@ -35,12 +35,12 @@
                                                            target:self
                                                            action:@selector(postTweet:)];
     self.navigationItem.rightBarButtonItem = postButton;
-    needsReload = false;
+
     button.font = [UIFont systemFontOfSize:14];
     button.lineBreakMode = UILineBreakModeTailTruncation;
     
-    url = [[NSString alloc] init];
     tinyURLStore = [[NSMutableDictionary alloc] init];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -50,7 +50,7 @@
     backButton.enabled = (webView.canGoBack) ? true : false;
     forwardButton.enabled = (webView.canGoForward) ? true : false;
     
-    if (animated && needsReload) {
+    if (animated) {
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
         self.title = url;
         [self setUrlBar:url];
@@ -171,8 +171,6 @@
 
 - (void)setUrl:(NSString*)aUrl
 {
-//    needsReload = ([url compare:aUrl] == 0)  ? false : true;
-    needsReload = true;
     NSRange r = [aUrl rangeOfString:@"http://tinyurl.com"];
     needsToDecodeTinyURL = (r.location != NSNotFound) ? true : false;
     url = [aUrl copy];
