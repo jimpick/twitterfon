@@ -10,12 +10,11 @@
 #import "Message.h"
 
 @interface UserCell : UITableViewCell {
-	UILabel*        name;
-	UILabel*        location;
-  	UIButton*       url;
-    UILabel*        numFollowers;
-    UIImageView*    protected;
-    NSString*       urlString;
+	IBOutlet UILabel*        name;
+	IBOutlet UILabel*        location;
+  	IBOutlet UIButton*       url;
+    IBOutlet UILabel*        numFollowers;
+    IBOutlet UIImageView*    protected;
 }
 
 -(void)update:(Message*)message delegate:(id)delegate;

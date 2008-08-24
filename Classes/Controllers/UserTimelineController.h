@@ -15,9 +15,9 @@
 
 @interface UserTimelineController : UITableViewController {
     IBOutlet ImageStore*    imageStore;
+    IBOutlet UserCell*      userCell;
     Message*                message;
     NSString*               imageURL;
-    UserCell*               userCell;
     LoadCell*               loadCell;
     Timeline*               timeline;
     BOOL                    isTimelineLoaded;

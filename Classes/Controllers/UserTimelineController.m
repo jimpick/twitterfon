@@ -85,17 +85,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
     if (indexPath.row == 0) {
-        
-        UserCell* cell = (UserCell*)[tableView dequeueReusableCellWithIdentifier:@"UserCell"];
-        if (!cell) {
-            cell = [[[UserCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"UserCell"] autorelease];
-        }
-        
         NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"];
-
-        cell.image = [imageStore getImage:url delegate:self];
-        [cell update:message delegate:self];
-        return cell;
+        userCell.image = [imageStore getImage:url delegate:self];
+        [userCell update:message delegate:self];
+        return userCell;
     }
     else if (!isTimelineLoaded) {
         if (indexPath.row == 1) {

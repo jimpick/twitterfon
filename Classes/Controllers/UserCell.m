@@ -12,47 +12,19 @@
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
     [super initWithFrame:frame reuseIdentifier:reuseIdentifier];
-    
-    // name label
-    name = [[[UILabel alloc] initWithFrame:CGRectMake(93, 20, 189, 22)] autorelease];
-    name.textColor          = [UIColor blackColor];
-    name.backgroundColor    = [UIColor clearColor];
-    name.font               = [UIFont boldSystemFontOfSize:18];
-    [self.contentView addSubview:name];
-    
-    // numFollowers label
-    numFollowers = [[[UILabel alloc] initWithFrame:CGRectMake(93, 39, 217, 21)] autorelease];
-    numFollowers.font               = [UIFont systemFontOfSize:13];
-    numFollowers.textColor          = [UIColor darkGrayColor];
-    numFollowers.backgroundColor    = [UIColor clearColor];
-    [self.contentView addSubview:numFollowers];
-
-    
-    // location label
-    location = [[[UILabel alloc] initWithFrame:CGRectMake(93, 59, 217, 18)] autorelease];
-    location.textColor          = [UIColor blackColor];
-    location.backgroundColor    = [UIColor clearColor];
-    location.font               = [UIFont systemFontOfSize:14];
-    [self.contentView addSubview:location];    
-    
-    // url button
-    url = [UIButton buttonWithType:UIButtonTypeCustom];
-    url.font                = [UIFont boldSystemFontOfSize:14];
-    url.lineBreakMode       = UILineBreakModeTailTruncation;
-    url.frame               = CGRectMake(93, 77, 217, 18);
-    url.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [url setTitleColor:[UIColor colorWithRed:0.208 green:0.310 blue:0.518 alpha:1.0] forState:UIControlStateNormal];
-    [url setTitleColor:[UIColor colorWithRed:0.976 green:0.039 blue:0.071 alpha:1.0] forState:UIControlStateHighlighted];
-    [self.contentView addSubview:url];
-    
-    // protection image
-    protected = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"lock.png"]];
-    protected.frame = CGRectMake(298, 22, 12, 16);
-    [self.contentView addSubview:protected];
-
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
     return self;
 }
+
+- (void)awakeFromNib
+{  	  	 
+    name.font               = [UIFont boldSystemFontOfSize:18];  	  	 
+    location.font           = [UIFont systemFontOfSize:14];  	  	 
+    url.font                = [UIFont boldSystemFontOfSize:14];  	  	 
+    url.lineBreakMode       = UILineBreakModeTailTruncation;  	  	 
+    numFollowers.font       = [UIFont systemFontOfSize:13];  	  	 
+    numFollowers.textColor  = [UIColor darkGrayColor];  	  	 
+} 
+
 
 -(void)update:(Message*)message delegate:(id)delegate
 {
