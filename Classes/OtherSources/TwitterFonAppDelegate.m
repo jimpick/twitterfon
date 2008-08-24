@@ -57,6 +57,12 @@
     [UIColor initTwitterFonColorScheme];
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    // Always return yes so far
+    return YES;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     [postView saveTweet];
