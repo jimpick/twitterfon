@@ -151,6 +151,7 @@
     Message *m = [timeline messageAtIndex:indexPath.row];
     [[self navigationController] pushViewController:userTimeline animated:true];
     [userTimeline setMessage:m];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];    
 }
 
 - (void)didTouchProfileImage:(MessageCell*)cell

@@ -126,36 +126,10 @@ static sqlite3_stmt* select_statement = nil;
     r = [text rangeOfString:str];
     hasReply = (r.location != NSNotFound) ? true : false;
 
-    // Calculate cell height here
+    // Calculate text bounds and cell height here
     //
-    CGRect bounds;
-    CGRect result;
-    UILabel *textLabel = [[UILabel alloc] initWithFrame: CGRectZero];
-    
-    textLabel.font = [UIFont systemFontOfSize:13];
-    textLabel.numberOfLines = 10;
-    
-    textLabel.text = text;
-    if (type == MSG_TYPE_USER) {
-        bounds = CGRectMake(USER_CELL_PADDING, 3, textWidth, 200);
-    }
-    else {
-        bounds = CGRectMake(LEFT, TOP, textWidth, 200);
-    }
-    result = [textLabel textRectForBounds:bounds limitedToNumberOfLines:10];
-    textBounds = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, result.size.height);
-    
-    if (type == MSG_TYPE_USER) {
-        result.size.height += 22;
-    }
-    else {
-        result.size.height += 18;
-        if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
-    }
-    cellHeight = result.size.height;
-    [textLabel release];
+    [Message calcTextBounds:self textWidth:textWidth];
 
-    
     // Calculate distance time and create timestamp
     //
     struct tm created;
@@ -197,7 +171,38 @@ static sqlite3_stmt* select_statement = nil;
     if ([source length]) {
         self.timestamp = [self.timestamp stringByAppendingFormat:@" from %@", source];
     }
+
+}
+
++ (void)calcTextBounds:(Message*)message textWidth:(int)textWidth
+{
+    static UILabel *sLabel = nil;
+    static CGRect bounds, result;
     
+    if (sLabel == nil) {
+        sLabel = [[UILabel alloc] initWithFrame: CGRectZero];        
+        sLabel.font = [UIFont systemFontOfSize:13];
+        sLabel.numberOfLines = 10;
+    }
+
+    sLabel.text = message.text;
+    if (message.type == MSG_TYPE_USER) {
+        bounds = CGRectMake(USER_CELL_PADDING, 3, textWidth, 200);
+    }
+    else {
+        bounds = CGRectMake(LEFT, TOP, textWidth, 200);
+    }
+    result = [sLabel textRectForBounds:bounds limitedToNumberOfLines:10];
+    message.textBounds = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, result.size.height);
+    
+    if (message.type == MSG_TYPE_USER) {
+        result.size.height += 22;
+    }
+    else {
+        result.size.height += 18;
+        if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
+    }
+    message.cellHeight = result.size.height;
 }
 
 + (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type

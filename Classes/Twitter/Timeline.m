@@ -45,7 +45,7 @@ static sqlite3_stmt *select_statement = nil;
 
 - (Message*)messageAtIndex:(int)i
 {
-	return [messages objectAtIndex:[messages count] - i - 1];
+	return [messages objectAtIndex:i];
 }
 
 - (void)insertMessage:(Message*)m
@@ -87,7 +87,7 @@ static sqlite3_stmt *select_statement = nil;
     sqlite3* database = [DBConnection getSharedDatabase];
 
     if (select_statement== nil) {
-        static char *sql = "SELECT * FROM messages WHERE type = ? order BY id limit 40";
+        static char *sql = "SELECT * FROM messages WHERE type = ? order BY id desc limit 20";
         if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
@@ -118,7 +118,7 @@ static sqlite3_stmt *select_statement = nil;
     }
 
     int unread = 0;
-    for (int i = [ary count]-1; i >= 0; --i) {
+    for (int i = 0; i < [ary count]; ++i) {
         sqlite_int64 messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
         if (![Message isExist:messageId type:type]) {
             Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type];

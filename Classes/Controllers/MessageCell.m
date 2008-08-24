@@ -60,7 +60,6 @@ static UIImage* sHighlightedLinkButton = nil;
     timestamp.frame = CGRectMake(TIMESTAMP_LEFT, 0, TIMESTAMP_WIDTH, TOP);  	  	 
     [self.contentView addSubview:timestamp];     
 
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
 	return self;
 }
 
@@ -97,16 +96,18 @@ static UIImage* sHighlightedLinkButton = nil;
     
     if (type == MSG_TYPE_USER) {
         self.contentView.backgroundColor = [UIColor whiteColor];
-        timestamp.text = message.timestamp;
+        timestamp.text      = message.timestamp;
         timestamp.hidden    = false;
         nameLabel.hidden    = true;
         profileImage.hidden = true;
         timestamp.frame     = CGRectMake(USER_CELL_PADDING, message.textBounds.size.height + 3, 280, 16);
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else {
         timestamp.hidden    = true;
         nameLabel.hidden    = false;
         profileImage.hidden = false;
+        self.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
     //
     // Added custom hyperlink button here.
