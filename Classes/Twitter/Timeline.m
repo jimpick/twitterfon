@@ -50,7 +50,7 @@ static sqlite3_stmt *select_statement = nil;
 
 - (void)insertMessage:(Message*)m
 {
-    [messages addObject:m];
+    [messages insertObject:m atIndex:0];
 }
 
 - (void)update:(MessageType)aType userId:(int)user_id {
@@ -72,7 +72,7 @@ static sqlite3_stmt *select_statement = nil;
 
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString* lastMessageDate = nil;
-    for (int i = [messages count] -1; i >= 0; --i) {
+    for (int i = 0; i < [messages count]; ++i) {
         Message *m = [messages objectAtIndex:i];
         if ([m.user.screenName compare:username] != NSOrderedSame) {
             lastMessageDate = ((Message*)[messages objectAtIndex:i]).createdAt;
