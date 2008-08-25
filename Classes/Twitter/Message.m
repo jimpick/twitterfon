@@ -88,7 +88,7 @@ static sqlite3_stmt* select_statement = nil;
 {
     Message *m = [[[Message alloc] init] autorelease];
     m.type = aType;
-    m.cellHeight = 43;
+    m.cellHeight = 48;
     m.page = page;
     m.textBounds = CGRectMake(0, 0, 320, 48);
     m.accessoryType = UITableViewCellAccessoryNone;

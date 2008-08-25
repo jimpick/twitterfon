@@ -118,14 +118,15 @@ static sqlite3_stmt *select_statement = nil;
     sqlite3* database = [DBConnection getSharedDatabase];
 
     if (select_statement == nil) {
-        static char *sql = "SELECT * FROM messages WHERE type = ? order BY id DESC LIMIT 20 OFFSET ?";
+        static char *sql = "SELECT * FROM messages WHERE type = ? order BY id DESC LIMIT ? OFFSET ?";
         if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
     }    
 
     sqlite3_bind_int(select_statement, 1, aType);
-    sqlite3_bind_int(select_statement, 2, [messages count]);
+    sqlite3_bind_int(select_statement, 2, ([messages count] == 0) ? 20 : 200);
+    sqlite3_bind_int(select_statement, 3, [messages count]);
     int count = 0;
     while (sqlite3_step(select_statement) == SQLITE_ROW) {
         Message *m = [Message initWithDB:select_statement type:aType];

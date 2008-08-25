@@ -31,7 +31,12 @@
 - (void)setType:(MessageType)type
 {
     if (type <= MSG_TYPE_LOAD_FROM_WEB) {
-        label.text = @"Load more tweets...";
+        if (type == MSG_TYPE_LOAD_FROM_WEB) {
+            label.text = @"Load more tweets...";
+        }
+        else {
+            label.text = @"Load all stored tweets...";
+        }
         label.textColor = [UIColor darkGrayColor];
     }
     else {
