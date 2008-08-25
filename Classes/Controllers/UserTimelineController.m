@@ -33,7 +33,7 @@
     // Reset timeline if needed
     //
     if (message && message.user.userId != aMessage.user.userId) {
-        NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"];
+        NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
         [imageStore releaseImage:url];
         [timeline release];
         isTimelineLoaded = false;
@@ -85,7 +85,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
     if (indexPath.row == 0) {
-        NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"];
+        NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
         userCell.image = [imageStore getImage:url delegate:self];
         [userCell update:message delegate:self];
         return userCell;
@@ -214,7 +214,7 @@
 - (void)timelineDidUpdate:(int)count
 {
     isTimelineLoaded = true;
-    if (!self.view.hidden) {
+    if (!self.view.hidden && timeline && [timeline countMessages]) {
         NSMutableArray *insertIndexPath = [[[NSMutableArray alloc] init] autorelease];
         NSMutableArray *deleteIndexPath = [[[NSMutableArray alloc] init] autorelease];
         
