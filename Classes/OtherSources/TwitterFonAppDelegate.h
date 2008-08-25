@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PostViewController.h"
 #import "WebViewController.h"
+#import "ImageStore.h"
 
 typedef enum {
     TAB_FRIENDS,
@@ -23,10 +24,13 @@ typedef enum {
 
     PostViewController*             postView;
     WebViewController*              webView;
+    ImageStore*                     imageStore;
     int                             selectedTab;
 }
 
 - (void) openWebView:(NSString*)url on:(UINavigationController*)viewController;
 
 @property (nonatomic, assign) PostViewController*   postView;
+@property (nonatomic, assign) ImageStore*           imageStore;
+
 @end

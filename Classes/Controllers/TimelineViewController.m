@@ -52,6 +52,11 @@
             self.tableView.separatorColor =  [UIColor whiteColor];
             self.tableView.backgroundColor = [UIColor messageColor:false];
     }
+
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    imageStore = appDelegate.imageStore;
+    timeline = [[Timeline alloc] initWithDelegate:self];
+    
     [timeline restore:tag];
     [timeline update:tag];
 }
@@ -116,7 +121,6 @@
 
 - (void)didReceiveMemoryWarning 
 {
-    [imageStore didReceiveMemoryWarning];
 	[super didReceiveMemoryWarning];
 }
 

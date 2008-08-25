@@ -14,8 +14,8 @@
 #import "ImageStore.h"
 
 @interface UserTimelineController : UITableViewController {
-    IBOutlet ImageStore*    imageStore;
     IBOutlet UserCell*      userCell;
+    ImageStore*             imageStore;
     Message*                message;
     NSString*               imageURL;
     LoadCell*               loadCell;

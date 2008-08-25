@@ -19,6 +19,9 @@
 		// Initialization code
         timeline = nil;
         isTimelineLoaded = false;
+        
+        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+        imageStore = appDelegate.imageStore;
 	}
 	return self;
 }
@@ -129,8 +132,7 @@
     // Load user timeline
     //
     if (indexPath.row == 2 && !isTimelineLoaded) {
-        timeline = [[Timeline alloc] init];
-        timeline.delegate = self;
+        timeline = [[Timeline alloc] initWithDelegate:self];
         [timeline update:MSG_TYPE_USER userId:message.user.userId];
     }
 }

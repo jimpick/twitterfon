@@ -22,6 +22,7 @@
 @implementation TwitterFonAppDelegate
 
 @synthesize postView;
+@synthesize imageStore;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
@@ -37,7 +38,7 @@
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
-    //NSLog(@"%@ %@", username, password);
+    imageStore = [[ImageStore alloc] init];    
 
     if (username == nil || password == nil ||
         [username compare:@""] == 0 ||
@@ -79,6 +80,7 @@
 {
 	[tabBarController release];
 	[window release];
+    [imageStore release];
 	[super dealloc];
 }
 
@@ -90,6 +92,11 @@
     webView.hidesBottomBarWhenPushed = YES;
     [webView setUrl:url];
     [nav pushViewController:webView animated:YES];
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication*)application
+{
+    [imageStore didReceiveMemoryWarning];
 }
 
 - (PostViewController *)postView

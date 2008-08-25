@@ -13,12 +13,12 @@ static sqlite3_stmt *select_statement = nil;
 @implementation Timeline
 
 @synthesize messages;
-@synthesize delegate;
 
-- (id)init
+- (id)initWithDelegate:(id)aDelegate
 {
 	self = [super init];
 	messages = [[NSMutableArray array] retain];
+    delegate = aDelegate;
 	return self;
 }
 

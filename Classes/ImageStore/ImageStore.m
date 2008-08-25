@@ -2,32 +2,18 @@
 #import "ImageStore.h"
 #import "ImageDownloader.h"
 
-@interface ImageStore (Private)
-- (void)sendRequestForImage:(NSString*)url;
-+ (NSMutableDictionary*)getSharedImageStore;
-@end
-
 @implementation ImageStore
-
-static NSMutableDictionary* theImageStore = nil;
-
-+ (NSMutableDictionary*)getSharedImageStore
-{
-    if (theImageStore == nil) {
-        theImageStore = [[NSMutableDictionary dictionary] retain];
-    }
-    return theImageStore;
-}
 
 - (id)init
 {
 	self = [super init];
-	images   = [ImageStore getSharedImageStore];
+    images = [[NSMutableDictionary dictionary] retain];
 	return self;
 }
 
 - (void)dealloc
 {
+    [images release];
 	[super dealloc];
 }
 
