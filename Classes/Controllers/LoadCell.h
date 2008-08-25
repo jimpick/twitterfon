@@ -10,7 +10,9 @@
 #import "Message.h"
 
 @interface LoadCell : UITableViewCell {
-    UILabel*   label;
+    UILabel*    label;
 }
+
+- (void)setType:(MessageType)type;
 
 @end

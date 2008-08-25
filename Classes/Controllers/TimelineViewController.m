@@ -88,14 +88,26 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
 	Message* message = [timeline messageAtIndex:indexPath.row];
+    
+    if (message.type <= MSG_TYPE_LOAD_FROM_WEB) {
+        LoadCell * cell =  (LoadCell*)[tableView dequeueReusableCellWithIdentifier:@"LoadCell"];
+        if (!cell) {
+            cell = [[[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"] autorelease];
+        }
+        [cell setType:message.type];
+        return cell;
+    }
+
+	MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
 	if (!cell) {
 		cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
 	}
     
 	cell.message = message;
-    [cell.profileImage setImage:[imageStore getImage:message.user.profileImageUrl delegate:self] forState:UIControlStateNormal];
+    if (message.type > MSG_TYPE_LOAD_FROM_WEB) {
+        [cell.profileImage setImage:[imageStore getImage:message.user.profileImageUrl delegate:self] forState:UIControlStateNormal];
+    }
 
     if (tag == TAB_FRIENDS) {
         cell.contentView.backgroundColor = message.hasReply ?
@@ -138,7 +150,10 @@
     [timeline update:tag];
 }
 
-
+- (void) loadMoreTweet:(NSIndexPath *)indexPath
+{
+    
+}
 //
 // UITableViewDelegate
 //
@@ -150,13 +165,51 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (userTimeline == nil) {
-        userTimeline = [[UserTimelineController alloc] initWithNibName:@"UserView" bundle:nil];
-    }
     Message *m = [timeline messageAtIndex:indexPath.row];
-    [[self navigationController] pushViewController:userTimeline animated:true];
-    userTimeline.message = m;
-    [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];    
+    
+    // Load missing tweet
+    //
+    if (m.type <= MSG_TYPE_LOAD_FROM_WEB) {
+        int count = 0;
+        if (m.type == MSG_TYPE_LOAD_FROM_DB) {
+            [timeline restore:tag];
+            
+            NSMutableArray *newPath = [[[NSMutableArray alloc] init] autorelease];
+
+            // Avoid to create too many table cell.
+            if (count > 0) {
+                if (count > 2) count = 2;
+                for (int i = 0; i < count; ++i) {
+                    [newPath addObject:[NSIndexPath indexPathForRow:i + indexPath.row inSection:0]];
+                }        
+                [self.tableView beginUpdates];
+                [self.tableView insertRowsAtIndexPaths:newPath withRowAnimation:UITableViewRowAnimationTop];
+                [self.tableView endUpdates];   
+            }
+            else {
+                [newPath addObject:indexPath];
+                [self.tableView beginUpdates];
+                [self.tableView deleteRowsAtIndexPaths:newPath withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView endUpdates];   
+            }
+        }
+        else {
+            [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];    
+            [timeline update:tag page:m.page insertAt:indexPath.row];
+        }
+    }
+    //
+    // Display user timeline
+    //
+    else {
+        if (userTimeline == nil) {
+            userTimeline = [[UserTimelineController alloc] initWithNibName:@"UserView" bundle:nil];
+        }
+        [[self navigationController] pushViewController:userTimeline animated:true];
+        userTimeline.message = m;
+        [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];   
+    }
+ 
 }
 
 - (void)didTouchProfileImage:(MessageCell*)cell
@@ -234,22 +287,36 @@
 	[imageStore getImage:msg.user.profileImageUrl delegate:self];
 }
 
-- (void)timelineDidUpdate:(int)count
+- (void)timelineDidUpdate:(int)count insertAt:(int)position
 {
-    unread += count;
-    [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unread];
+    if (count) {
+        unread += count;
+        [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unread];
+    }
 
     if (!self.view.hidden) {
-        NSMutableArray *indexPath = [[[NSMutableArray alloc] init] autorelease];
-        //
-        // Avoid to create too many table cell.
-        //
-        if (count > 8) count = 8;
-        for (int i = 0; i < count; ++i) {
-            [indexPath addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-        }        
+        
+        NSMutableArray *deletion = [[[NSMutableArray alloc] init] autorelease];
+        NSMutableArray *insertion = [[[NSMutableArray alloc] init] autorelease];
+        
+        if (position && count != 20) {
+            [deletion addObject:[NSIndexPath indexPathForRow:position inSection:0]];
+        }
+        if (count != 0) {
+            // Avoid to create too many table cell.
+            if (count > 8) count = 8;
+            for (int i = 0; i < count; ++i) {
+                [insertion addObject:[NSIndexPath indexPathForRow:position + i inSection:0]];
+            }        
+        }
+        
         [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];
+        if (position && count != 20) {
+            [self.tableView deleteRowsAtIndexPaths:deletion withRowAnimation:UITableViewRowAnimationFade];
+        }
+        if (count != 0) {
+            [self.tableView insertRowsAtIndexPaths:insertion withRowAnimation:UITableViewRowAnimationTop];
+        }
         [self.tableView endUpdates];    
     }
 

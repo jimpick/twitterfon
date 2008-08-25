@@ -22,17 +22,27 @@
     label.numberOfLines = 1;
     label.textAlignment = UITextAlignmentCenter;    
     label.frame = CGRectMake(0, 0, 320, 48);
-    label.text = @"Load this user's timeline...";
+
     [self.contentView addSubview:label];
     
 	return self;
 }
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
-
+- (void)setType:(MessageType)type
+{
+    if (type <= MSG_TYPE_LOAD_FROM_WEB) {
+        label.text = @"Load more tweets...";
+        label.textColor = [UIColor darkGrayColor];
+    }
+    else {
+        label.text = @"Load this user's timeline...";
+        label.textColor = [UIColor colorWithRed:0.195 green:0.309 blue:0.520 alpha:1.0];
+    }
 }
 
+- (void)layoutSubviews {
+	[super layoutSubviews];
+}
 
 - (void)dealloc {
 	[super dealloc];

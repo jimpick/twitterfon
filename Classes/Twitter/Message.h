@@ -3,6 +3,8 @@
 #import "sqlite3.h"
 
 typedef enum {
+    MSG_TYPE_LOAD_FROM_DB  = -2,
+    MSG_TYPE_LOAD_FROM_WEB = -1,
     MSG_TYPE_FRIENDS = 0,
     MSG_TYPE_REPLIES,
     MSG_TYPE_MESSAGES,
@@ -44,6 +46,8 @@ typedef enum {
     CGRect          textBounds;
     CGFloat         cellHeight;
     
+    int             page;
+    
     UITableViewCellAccessoryType accessoryType;
 }
 
@@ -62,7 +66,10 @@ typedef enum {
 @property (nonatomic, assign) CGFloat       cellHeight;
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 
+@property (nonatomic, assign) int           page;
+
 + (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type;
++ (Message*)messageWithLoadMessage:(MessageType)type page:(int)page;
 + (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type;
 + (BOOL)isExist:(sqlite_int64)aMessageId type:(MessageType)aType;
 + (void)calcTextBounds:(Message*)message textWidth:(int)textWidth;

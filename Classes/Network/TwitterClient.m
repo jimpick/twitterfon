@@ -28,11 +28,39 @@ NSString* sMethods[4] = {
 
 @implementation TwitterClient
 
+- (void)get:(MessageType)type params:(NSDictionary*)params
+{
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+        
+    NSString *url;
+    if (type == MSG_TYPE_USER) {
+        // No need authentication because already has a cookie
+        url = @"http://twitter.com/statuses/user_timeline.json";
+    }
+    else {
+        url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/%@.json",
+               username,
+               password,
+               sMethods[type]];
+    }
+
+    int i = 0;
+    for (id key in params) {
+        NSString *value = [params objectForKey:key];
+        if (i == 0) {
+            url = [NSString stringWithFormat:@"%@?%@=%@", url, key, value];
+        }
+        else {
+            url = [NSString stringWithFormat:@"%@&%@=%@", url, key, value];
+        }
+        ++i;
+    }
+    [super get:url];
+}
+
 - (void)get:(MessageType)type since:(NSString*)since userId:(int)user_id
 {
-#ifdef DEBUG_WITH_PUBLIC_TIMELINE
-	NSString* url = @"http://twitter.com/statuses/public_timeline.json";
-#else
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
         
@@ -62,8 +90,6 @@ NSString* sMethods[4] = {
     if (type == MSG_TYPE_USER && user_id) {
         url = [NSString stringWithFormat:@"%@?id=%d", url, user_id];
     }
-
-#endif
     
     [super get:url];
 }

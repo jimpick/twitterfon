@@ -110,6 +110,7 @@
             if (!cell) {
                 cell = [[[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"] autorelease];
             }
+            [cell setType:MSG_TYPE_USER];
             return cell;
         }
     }
@@ -213,7 +214,7 @@
 {
 }
 
-- (void)timelineDidUpdate:(int)count
+- (void)timelineDidUpdate:(int)count insertAt:(int)position
 {
     isTimelineLoaded = true;
     if (!self.view.hidden && timeline && [timeline countMessages]) {

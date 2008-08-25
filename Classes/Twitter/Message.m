@@ -26,6 +26,7 @@ static sqlite3_stmt* select_statement = nil;
 @synthesize textBounds;
 @synthesize cellHeight;
 @synthesize accessoryType;
+@synthesize page;
 
 - (void)dealloc
 {
@@ -81,6 +82,24 @@ static sqlite3_stmt* select_statement = nil;
     
 	return self;
 }
+
+
++ (Message*)messageWithLoadMessage:(MessageType)aType page:(int)page
+{
+    Message *m = [[[Message alloc] init] autorelease];
+    m.type = aType;
+    m.cellHeight = 43;
+    m.page = page;
+    m.textBounds = CGRectMake(0, 0, 320, 48);
+    m.accessoryType = UITableViewCellAccessoryNone;
+    return m;
+}
+
++ (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type
+{
+	return [[[Message alloc] initWithJsonDictionary:dic type:type] autorelease];
+}
+
 
 - (id)copyWithZone:(NSZone *)zone
 {
@@ -232,12 +251,6 @@ static sqlite3_stmt* select_statement = nil;
     [m updateAttribute];
     
     return m;
-}
-
-
-+ (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type
-{
-	return [[[Message alloc] initWithJsonDictionary:dic type:type] autorelease];
 }
 
 + (BOOL)isExist:(sqlite_int64)aMessageId type:(MessageType)aType
