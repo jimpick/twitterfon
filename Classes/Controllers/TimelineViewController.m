@@ -297,31 +297,24 @@
 
     if (!self.view.hidden) {
         
-        NSMutableArray *deletion = [[[NSMutableArray alloc] init] autorelease];
-        NSMutableArray *insertion = [[[NSMutableArray alloc] init] autorelease];
-#if 0
-        if (position && count != 20) {
-            [deletion addObject:[NSIndexPath indexPathForRow:position inSection:0]];
-        }
-#endif
+        [self.tableView beginUpdates];
+        
         if (indexOfLoadCell) {
+            NSMutableArray *deletion = [[[NSMutableArray alloc] init] autorelease];
+            [deletion addObject:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
+            [self.tableView deleteRowsAtIndexPaths:deletion withRowAnimation:UITableViewRowAnimationLeft];
         }
         if (count != 0) {
+            NSMutableArray *insertion = [[[NSMutableArray alloc] init] autorelease];
+            
             // Avoid to create too many table cell.
             if (count > 8) count = 8;
             for (int i = 0; i < count; ++i) {
                 [insertion addObject:[NSIndexPath indexPathForRow:position + i inSection:0]];
             }        
-        }
-        
-        [self.tableView beginUpdates];
-        if (indexOfLoadCell) {
-            [deletion addObject:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
-            [self.tableView deleteRowsAtIndexPaths:deletion withRowAnimation:UITableViewRowAnimationLeft];
-        }
-        if (count != 0) {
             [self.tableView insertRowsAtIndexPaths:insertion withRowAnimation:UITableViewRowAnimationTop];
         }
+        
         [self.tableView endUpdates];    
     }
 

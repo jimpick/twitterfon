@@ -245,7 +245,7 @@
         // Replace message if the current message is not latest one.
         //
         BOOL needReplaceMessage = ([timeline messageAtIndex:0].messageId != message.messageId) ? true : false;
-        if (needReplaceMessage) {
+        if (position == 0 && needReplaceMessage) {
             [deleteIndexPath addObject:[NSIndexPath indexPathForRow:1 inSection:0]];
         }
         

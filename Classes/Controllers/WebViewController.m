@@ -38,6 +38,7 @@
 
     button.font = [UIFont systemFontOfSize:14];
     button.lineBreakMode = UILineBreakModeTailTruncation;
+    button.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 5);
     
     tinyURLStore = [[NSMutableDictionary alloc] init];
 
@@ -90,7 +91,8 @@
 
 - (void)setUrlBar:(NSString*)aUrl
 {
-    [button setTitle:[NSString stringWithFormat:@"  %@", aUrl] forState:UIControlStateDisabled];
+    [button setTitle:aUrl forState:UIControlStateNormal];
+    [button setTitle:aUrl forState:UIControlStateHighlighted];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
