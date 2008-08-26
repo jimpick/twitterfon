@@ -118,7 +118,16 @@
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="316214304"/>
+								<object class="NSColor" key="IBUIHighlightedTitleShadowColor" id="698177485">
+									<int key="NSColorSpace">6</int>
+									<string key="NSCatalogName">System</string>
+									<string key="NSColorName">controlHighlightColor</string>
+									<object class="NSColor" key="NSColor">
+										<int key="NSColorSpace">3</int>
+										<bytes key="NSWhite">MQA</bytes>
+									</object>
+								</object>
+								<reference key="IBUINormalTitleShadowColor" ref="698177485"/>
 							</object>
 							<object class="IBUILabel" id="824787958">
 								<reference key="NSNextResponder" ref="764390691"/>

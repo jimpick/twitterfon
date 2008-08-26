@@ -21,6 +21,7 @@
     location.font           = [UIFont systemFontOfSize:14];  	  	 
     url.font                = [UIFont boldSystemFontOfSize:14];  	  	 
     url.lineBreakMode       = UILineBreakModeTailTruncation;  	  	 
+    url.titleShadowOffset   = CGSizeMake(0, 1);
     numFollowers.font       = [UIFont systemFontOfSize:13];  	  	 
     numFollowers.textColor  = [UIColor darkGrayColor];
     
