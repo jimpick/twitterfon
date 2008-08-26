@@ -29,6 +29,8 @@
 }
 
 - (void)dealloc {
+    [userTimeline release];
+    [timeline release];
 	[super dealloc];
 }
 

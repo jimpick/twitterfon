@@ -17,7 +17,6 @@
     IBOutlet UserCell*      userCell;
     ImageStore*             imageStore;
     Message*                message;
-    NSString*               imageURL;
     LoadCell*               loadCell;
     Timeline*               timeline;
     BOOL                    isTimelineLoaded;
