@@ -64,6 +64,11 @@
 									<bytes key="NSRGB">MCAwIDAAA</bytes>
 								</object>
 								<nil key="IBUIHighlightedColor"/>
+								<object class="NSColor" key="IBUIShadowColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC45MzMzMzMzNCAwLjkzMzMzMzM0IDAuOTMzMzMzMzQAA</bytes>
+								</object>
+								<string key="IBUIShadowOffset">{0, 1}</string>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">1.000000e+01</float>
 							</object>
@@ -79,6 +84,11 @@
 								<string key="IBUIText">Palo Alto, CA</string>
 								<reference key="IBUITextColor" ref="316214304"/>
 								<nil key="IBUIHighlightedColor"/>
+								<object class="NSColor" key="IBUIShadowColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC45MzMzMzMzNCAwLjkzMzMzMzM0IDAuOTMzMzMzMzQAA</bytes>
+								</object>
+								<string key="IBUIShadowOffset">{0, 1}</string>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumFontSize">1.000000e+01</float>
 							</object>
@@ -108,6 +118,7 @@
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 								</object>
+								<reference key="IBUINormalTitleShadowColor" ref="316214304"/>
 							</object>
 							<object class="IBUILabel" id="824787958">
 								<reference key="NSNextResponder" ref="764390691"/>
@@ -120,6 +131,11 @@
 								<string key="IBUIText">1 follower</string>
 								<reference key="IBUITextColor" ref="316214304"/>
 								<nil key="IBUIHighlightedColor"/>
+								<object class="NSColor" key="IBUIShadowColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC45MzMzMzMzNCAwLjkzMzMzMzM0IDAuOTMzMzMzMzQAA</bytes>
+								</object>
+								<string key="IBUIShadowOffset">{0, 1}</string>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 								<float key="IBUIMinimumFontSize">1.000000e+01</float>
@@ -155,13 +171,8 @@
 				<string key="NSFrameSize">{320, 113}</string>
 				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">6</int>
-					<string key="NSCatalogName">System</string>
-					<string key="NSColorName">controlHighlightColor</string>
-					<object class="NSColor" key="NSColor">
-						<int key="NSColorSpace">3</int>
-						<bytes key="NSWhite">MQA</bytes>
-					</object>
+					<int key="NSColorSpace">1</int>
+					<bytes key="NSRGB">MSAxIDEgMC4xMQA</bytes>
 				</object>
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -337,7 +348,7 @@
 					<string>UserTimelineController</string>
 					<string>UIResponder</string>
 					<string>UserCell</string>
-					<string>{{201, 927}, {320, 113}}</string>
+					<string>{{339, 917}, {320, 113}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -368,7 +379,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">61</int>
+			<int key="maxID">85</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

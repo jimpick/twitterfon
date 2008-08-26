@@ -22,8 +22,28 @@
     url.font                = [UIFont boldSystemFontOfSize:14];  	  	 
     url.lineBreakMode       = UILineBreakModeTailTruncation;  	  	 
     numFollowers.font       = [UIFont systemFontOfSize:13];  	  	 
-    numFollowers.textColor  = [UIColor darkGrayColor];  	  	 
+    numFollowers.textColor  = [UIColor darkGrayColor];
+    
+    UIImage *img = [UIImage imageNamed:@"usercell_background.png"];
+    background = CGImageRetain(img.CGImage);
 } 
+
+- (void)drawRect:(CGRect)rect
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+  	CGContextDrawImage(context, rect, background);
+
+	// Drawing with a white stroke color
+	CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
+	// Draw them with a 2.0 stroke width so they are a bit more visible.
+	CGContextSetLineWidth(context, 2.0);
+	
+	// Add Rect to the current path, then stroke it
+	CGContextAddRect(context, CGRectMake(10.0, 20.0, 73.0, 73.0));
+	CGContextStrokePath(context);    
+
+    [super drawRect:rect];
+}
 
 
 -(void)update:(Message*)message delegate:(id)delegate
@@ -60,7 +80,8 @@
 }
 
 - (void)dealloc {
-	[super dealloc];
+    CGImageRelease(background);
+    [super dealloc];
 }
 
 

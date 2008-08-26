@@ -15,6 +15,8 @@
   	IBOutlet UIButton*       url;
     IBOutlet UILabel*        numFollowers;
     IBOutlet UIImageView*    protected;
+    
+    CGImageRef              background;
 }
 
 -(void)update:(Message*)message delegate:(id)delegate;
