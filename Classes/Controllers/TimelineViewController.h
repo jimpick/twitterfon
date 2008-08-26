@@ -10,6 +10,7 @@
     NSString*               username;
     int                     tag;
     int                     unread;
+    int                     indexOfLoadCell;
 }
 
 - (IBAction) post: (id) sender;

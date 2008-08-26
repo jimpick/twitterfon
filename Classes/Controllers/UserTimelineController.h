@@ -21,6 +21,7 @@
     LoadCell*               loadCell;
     Timeline*               timeline;
     BOOL                    isTimelineLoaded;
+    int                     indexOfLoadCell;
 }
 
 @property(nonatomic, copy) Message* message;

@@ -8,15 +8,14 @@
 	NSMutableArray* messages;
 	TwitterClient*  twitterClient;
     MessageType     type;
-    NSString*       lastMessageDate;
     int             insertPosition;
+    int             page;
 }
 
 @property (nonatomic, readonly) NSArray* messages;
 
-- (void)update:(MessageType)type;
-- (void)update:(MessageType)type page:(int)page insertAt:(int)row;
-- (void)update:(MessageType)type userId:(int)user_id;
+- (void)getTimeline:(MessageType)type page:(int)page insertAt:(int)row;
+- (void)getUserTimeline:(int)user_id page:(int)page insertAt:(int)row;
 - (int)restore:(MessageType)type;
 - (void)cancel;
 

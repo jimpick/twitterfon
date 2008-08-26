@@ -115,14 +115,25 @@
         }
     }
     else {
-        MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
-        if (!cell) {
-            cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
+        Message *m = [timeline messageAtIndex:indexPath.row - 1];
+        if (m.type == MSG_TYPE_USER) {
+            MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
+            if (!cell) {
+                cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
+            }
+            
+            cell.message = [timeline messageAtIndex:indexPath.row - 1];
+            [cell update:MSG_TYPE_USER delegate:self];
+            return cell;
         }
-
-        cell.message = [timeline messageAtIndex:indexPath.row - 1];
-        [cell update:MSG_TYPE_USER delegate:self];
-        return cell;
+        else {
+            LoadCell * cell =  (LoadCell*)[tableView dequeueReusableCellWithIdentifier:@"LoadCell"];
+            if (!cell) {
+                cell = [[[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"] autorelease];
+            }
+            [cell setType:MSG_TYPE_LOAD_FROM_WEB];
+            return cell;
+        }
     }
 
     // won't come here.
@@ -133,8 +144,18 @@
     // Load user timeline
     //
     if (indexPath.row == 2 && !isTimelineLoaded) {
+        indexOfLoadCell = indexPath.row;
         timeline = [[Timeline alloc] initWithDelegate:self];
-        [timeline update:MSG_TYPE_USER userId:message.user.userId];
+        [timeline getUserTimeline:message.user.userId page:1 insertAt:0];
+    }
+    else {
+        if (indexPath.row == 0) return;
+
+        Message *m = [timeline messageAtIndex:indexPath.row - 1];
+        if (m.type == MSG_TYPE_LOAD_FROM_WEB) {
+            indexOfLoadCell = indexPath.row;
+            [timeline getUserTimeline:message.user.userId page:m.page insertAt:indexPath.row - 1];
+        }
     }
 }
 
@@ -223,19 +244,27 @@
         
         // Replace message if the current message is not latest one.
         //
-        BOOL needReplaceMessage = ([timeline messageAtIndex:0].messageId != message.messageId);
-        int i;
-       
-        for (i = (needReplaceMessage) ? 1 : 2 ; i <= 2; ++i) {
-            [deleteIndexPath addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+        BOOL needReplaceMessage = ([timeline messageAtIndex:0].messageId != message.messageId) ? true : false;
+        if (needReplaceMessage) {
+            [deleteIndexPath addObject:[NSIndexPath indexPathForRow:1 inSection:0]];
         }
+        
+        [deleteIndexPath addObject:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
+        
         //
         // Avoid to create too many table cell.
         //
         if (count > 8) count = 8;
-        for (int i = (needReplaceMessage) ? 1 : 2; i <= count; ++i) {
-            [insertIndexPath addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-        }        
+        if (position == 0) {
+            for (int i = (needReplaceMessage) ? 1 : 2; i <= count; ++i) {
+                [insertIndexPath addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }        
+        }
+        else {
+            for (int i = 0; i < count; ++i) {
+                [insertIndexPath addObject:[NSIndexPath indexPathForRow:position + i + 1 inSection:0]];
+            }        
+        }
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:insertIndexPath withRowAnimation:UITableViewRowAnimationTop];
         [self.tableView deleteRowsAtIndexPaths:deleteIndexPath withRowAnimation:UITableViewRowAnimationBottom];

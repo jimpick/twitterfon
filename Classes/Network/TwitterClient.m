@@ -59,41 +59,6 @@ NSString* sMethods[4] = {
     [super get:url];
 }
 
-- (void)get:(MessageType)type since:(NSString*)since userId:(int)user_id
-{
-	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-        
-    NSString *url;
-    if (type == MSG_TYPE_USER) {
-        // No need authentication because already has a cookie
-        url = @"http://twitter.com/statuses/user_timeline.json";
-    }
-    else {
-        url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/%@.json",
-               username,
-               password,
-               sMethods[type]];
-    }
-    //
-    // Convert MySQL date format to HTTP date
-    //
-    if (since) {
-        struct tm time;
-        char timestr[128];
-        setenv("TZ", "GMT", 1);
-        strptime([since UTF8String], "%a %b %d %H:%M:%S %z %Y", &time);
-        strftime(timestr, 128, "%a, %d %b %Y %H:%M:%S GMT", &time);
-        url = [NSString stringWithFormat:@"%@?since=%s", url, timestr];
-    }
-    
-    if (type == MSG_TYPE_USER && user_id) {
-        url = [NSString stringWithFormat:@"%@?id=%d", url, user_id];
-    }
-    
-    [super get:url];
-}
-
 - (void)post:(NSString*)tweet
 {
     

@@ -27,7 +27,6 @@ static sqlite3_stmt *select_statement = nil;
 - (void)dealloc
 {
     [self cancel];
-    [lastMessageDate release];
 	[messages release];
 	[super dealloc];
 }
@@ -56,57 +55,56 @@ static sqlite3_stmt *select_statement = nil;
     [messages insertObject:m atIndex:0];
 }
 
-- (void)update:(MessageType)aType userId:(int)user_id {
-	if (twitterClient) return;
-    
-    type = aType;
-    insertPosition = 0;
-
-	twitterClient = [[TwitterClient alloc] initWithDelegate:self];
-	[twitterClient get:type since:nil userId:user_id];
-}
-
-- (void)update:(MessageType)aType
+- (void)getUserTimeline:(int)user_id page:(int)aPage insertAt:(int)pos
 {
 	if (twitterClient) return;
     
-    type = aType;
-    insertPosition = 0;
-    
-	twitterClient = [[TwitterClient alloc] initWithDelegate:self];
+    type = MSG_TYPE_USER;
+    if (aPage < 1) aPage = 1;
+    page = aPage;
+    insertPosition = pos;
 
-    lastMessageDate = nil;
-	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    for (int i = 0; i < [messages count]; ++i) {
-        Message *m = [messages objectAtIndex:i];
-        if ([m.user.screenName compare:username] != NSOrderedSame) {
-            lastMessageDate = [((Message*)[messages objectAtIndex:i]).createdAt copy];
-            break;
-        }
+	twitterClient = [[TwitterClient alloc] initWithDelegate:self];
+    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d", user_id] forKey:@"id"];
+    if (page >= 2) {
+        [param setObject:[NSString stringWithFormat:@"%d", aPage] forKey:@"page"];
     }
-	[twitterClient get:type since:lastMessageDate userId:0];
+	[twitterClient get:type params:param];
 }
 
-- (void)update:(MessageType)aType page:(int)aPage insertAt:(int)pos
+- (void)getTimeline:(MessageType)aType page:(int)aPage insertAt:(int)pos
 {
 	if (twitterClient) return;
 	twitterClient = [[TwitterClient alloc] initWithDelegate:self];
     
+    type = aType;
+    page = aPage;
     insertPosition = pos;
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    if (aPage) {
+    if (aPage == 1) {
+        NSString *lastMessageDate = nil;
+        NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+        for (int i = 0; i < [messages count]; ++i) {
+            Message *m = [messages objectAtIndex:i];
+            if ([m.user.screenName compare:username] != NSOrderedSame) {
+                lastMessageDate = [((Message*)[messages objectAtIndex:i]).createdAt copy];
+                break;
+            }
+        }
+        if (lastMessageDate) {
+            struct tm time;
+            char timestr[128];
+            setenv("TZ", "GMT", 1);
+            strptime([lastMessageDate UTF8String], "%a %b %d %H:%M:%S %z %Y", &time);
+            strftime(timestr, 128, "%a, %d %b %Y %H:%M:%S GMT", &time);
+            [param setObject:[NSString stringWithUTF8String:timestr] forKey:@"since"];
+        }
+    }
+    else {
         [param setObject:[NSString stringWithFormat:@"%d", aPage] forKey:@"page"];
     }
 
-    if (lastMessageDate) {
-        struct tm time;
-        char timestr[128];
-        setenv("TZ", "GMT", 1);
-        strptime([lastMessageDate UTF8String], "%a %b %d %H:%M:%S %z %Y", &time);
-        strftime(timestr, 128, "%a, %d %b %Y %H:%M:%S GMT", &time);
-        [param setObject:[NSString stringWithUTF8String:timestr] forKey:@"since"];
-    }
     [twitterClient get:type params:param];
 }
 
@@ -156,9 +154,14 @@ static sqlite3_stmt *select_statement = nil;
     else {
         return;
     }
+    
+    if (insertPosition) {
+        [messages removeObjectAtIndex:insertPosition];
+    }
 
     // Add messages to the timeline
     int unread = 0;
+    NSLog(@"Received %d messages", [ary count]);
     for (int i = [ary count] - 1; i >= 0; --i) {
         sqlite_int64 messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
         if (![Message isExist:messageId type:type]) {
@@ -175,22 +178,8 @@ static sqlite3_stmt *select_statement = nil;
     }
 
     if (unread == 20) {
-        if ([messages count] > insertPosition + unread) {
-            Message *m = [messages objectAtIndex:insertPosition + unread];
-            if (m.type <= MSG_TYPE_LOAD_FROM_WEB) {
-                m.page += 1;
-            }
-            else {
-                [messages insertObject:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_WEB page:2] atIndex:unread];
-            }
-        }
-        else {
-            [messages insertObject:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_WEB page:2] atIndex:unread];
-        }
-    }
-    else {
-        if (insertPosition) {
-            [messages removeObjectAtIndex:insertPosition + unread];
+        if (++page <= 10) {
+            [messages insertObject:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_WEB page:page] atIndex:insertPosition + unread];
         }
     }
 	

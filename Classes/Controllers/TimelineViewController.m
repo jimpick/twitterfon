@@ -58,7 +58,7 @@
     timeline = [[Timeline alloc] initWithDelegate:self];
     
     [timeline restore:tag];
-    [timeline update:tag];
+    [timeline getTimeline:tag page:1 insertAt:0];
 }
 
 
@@ -147,7 +147,7 @@
 
 - (IBAction) reload: (id) sender
 {
-    [timeline update:tag];
+    [timeline getTimeline:tag page:1 insertAt:0];
 }
 
 - (void) loadMoreTweet:(NSIndexPath *)indexPath
@@ -172,7 +172,7 @@
     if (m.type <= MSG_TYPE_LOAD_FROM_WEB) {
         int count = 0;
         if (m.type == MSG_TYPE_LOAD_FROM_DB) {
-            [timeline restore:tag];
+            count = [timeline restore:tag];
             
             NSMutableArray *newPath = [[[NSMutableArray alloc] init] autorelease];
 
@@ -189,13 +189,14 @@
             else {
                 [newPath addObject:indexPath];
                 [self.tableView beginUpdates];
-                [self.tableView deleteRowsAtIndexPaths:newPath withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView deleteRowsAtIndexPaths:newPath withRowAnimation:UITableViewRowAnimationLeft];
                 [self.tableView endUpdates];   
             }
         }
         else {
             [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];    
-            [timeline update:tag page:m.page insertAt:indexPath.row];
+            indexOfLoadCell = indexPath.row;
+            [timeline getTimeline:tag page:m.page insertAt:indexPath.row];
         }
     }
     //
@@ -298,9 +299,12 @@
         
         NSMutableArray *deletion = [[[NSMutableArray alloc] init] autorelease];
         NSMutableArray *insertion = [[[NSMutableArray alloc] init] autorelease];
-        
+#if 0
         if (position && count != 20) {
             [deletion addObject:[NSIndexPath indexPathForRow:position inSection:0]];
+        }
+#endif
+        if (indexOfLoadCell) {
         }
         if (count != 0) {
             // Avoid to create too many table cell.
@@ -311,8 +315,9 @@
         }
         
         [self.tableView beginUpdates];
-        if (position && count != 20) {
-            [self.tableView deleteRowsAtIndexPaths:deletion withRowAnimation:UITableViewRowAnimationFade];
+        if (indexOfLoadCell) {
+            [deletion addObject:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
+            [self.tableView deleteRowsAtIndexPaths:deletion withRowAnimation:UITableViewRowAnimationLeft];
         }
         if (count != 0) {
             [self.tableView insertRowsAtIndexPaths:insertion withRowAnimation:UITableViewRowAnimationTop];
