@@ -18,13 +18,13 @@
 	
 	userId          = [[dic objectForKey:@"id"] longValue];
     
-    name            = [[dic objectForKey:@"name"] copy];
-	screenName      = [[dic objectForKey:@"screen_name"] copy];
-	location        = [[dic objectForKey:@"location"] copy];
-	description     = [[dic objectForKey:@"description"] copy];
-	url             = [[dic objectForKey:@"url"] copy];
+    name            = [[dic objectForKey:@"name"] retain];
+	screenName      = [[dic objectForKey:@"screen_name"] retain];
+	location        = [[dic objectForKey:@"location"] retain];
+	description     = [[dic objectForKey:@"description"] retain];
+	url             = [[dic objectForKey:@"url"] retain];
     followersCount  = [[dic objectForKey:@"followers_count"] longValue];
-    profileImageUrl = [[dic objectForKey:@"profile_image_url"] copy];
+    profileImageUrl = [[dic objectForKey:@"profile_image_url"] retain];
     protected       = [[dic objectForKey:@"protected"] boolValue];
 
     if ((id)name == [NSNull null]) name = @"";

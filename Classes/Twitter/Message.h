@@ -53,11 +53,11 @@ typedef enum {
 
 @property (nonatomic, assign) sqlite_int64  messageId;
 @property (nonatomic, assign) User*         user;
-@property (nonatomic, copy)   NSString*     text;
-@property (nonatomic, copy)   NSString*     createdAt;
-@property (nonatomic, copy)   NSString*     source;
+@property (nonatomic, retain) NSString*     text;
+@property (nonatomic, retain) NSString*     createdAt;
+@property (nonatomic, retain) NSString*     source;
 @property (nonatomic, assign) BOOL          favorited;
-@property (nonatomic, copy)   NSString*     timestamp;
+@property (nonatomic, retain) NSString*     timestamp;
 
 @property (nonatomic, assign) BOOL          unread;
 @property (nonatomic, assign) MessageType   type;

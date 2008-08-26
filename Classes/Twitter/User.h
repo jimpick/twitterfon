@@ -15,13 +15,13 @@
 }
 
 @property (nonatomic, assign) uint32_t  userId;
-@property (nonatomic, copy)   NSString* name;
-@property (nonatomic, copy)   NSString* screenName;
-@property (nonatomic, copy)   NSString* location;
-@property (nonatomic, copy)   NSString* description;
-@property (nonatomic, copy)   NSString* url;
+@property (nonatomic, retain) NSString* name;
+@property (nonatomic, retain) NSString* screenName;
+@property (nonatomic, retain) NSString* location;
+@property (nonatomic, retain) NSString* description;
+@property (nonatomic, retain) NSString* url;
 @property (nonatomic, assign) uint32_t  followersCount;
-@property (nonatomic, copy)   NSString* profileImageUrl;
+@property (nonatomic, retain) NSString* profileImageUrl;
 @property (nonatomic, assign) BOOL      protected;
 
 - (User*)initWithJsonDictionary:(NSDictionary*)dic;

@@ -45,22 +45,33 @@ static sqlite3_stmt* select_statement = nil;
     type = aType;
     
 	messageId = [[dic objectForKey:@"id"] longLongValue];
-	text      = [[dic objectForKey:@"text"] copy];
-    createdAt = [[dic objectForKey:@"created_at"] copy];
-    source    = [[dic objectForKey:@"source"] copy];
+	text      = [[dic objectForKey:@"text"] retain];
+    createdAt = [[dic objectForKey:@"created_at"] retain];
     favorited = [[dic objectForKey:@"favorited"] isKindOfClass:[NSNull class]] ? 0 : 1;
 
-    if (source == nil) source = @"";
     if ((id)text == [NSNull null]) text = @"";
-    if ((id)source == [NSNull null]) source = @"";
-    NSRange r = [source rangeOfString:@"<a href"];
-    if (r.location != NSNotFound) {
-        NSRange start = [source rangeOfString:@"\">"];
-        NSRange end   = [source rangeOfString:@"</a>"];
-        if (start.location != NSNotFound && end.location != NSNotFound) {
-            r.location = start.location + start.length;
-            r.length = end.location - r.location;
-            self.source = [source substringWithRange:r];
+
+    // parse source parameter
+    NSString *src = [dic objectForKey:@"source"];
+    if (src == nil) {
+        source = @"";
+    }
+    else if ((id)src == [NSNull null]) {
+        source = @"";
+    }
+    else {
+        NSRange r = [src rangeOfString:@"<a href"];
+        if (r.location != NSNotFound) {
+            NSRange start = [src rangeOfString:@"\">"];
+            NSRange end   = [src rangeOfString:@"</a>"];
+            if (start.location != NSNotFound && end.location != NSNotFound) {
+                r.location = start.location + start.length;
+                r.length = end.location - r.location;
+                source = [[src substringWithRange:r] retain];
+            }
+        }
+        else {
+            source = [src retain];
         }
     }
 	
@@ -276,9 +287,11 @@ static sqlite3_stmt* select_statement = nil;
 
 - (void)insertDB
 {
+#if 0
     if ([Message isExist:messageId type:type]) {
         return;
     }
+#endif
     sqlite3* database = [DBConnection getSharedDatabase];
 
     if (insert_statement == nil) {
