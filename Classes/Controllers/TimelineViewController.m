@@ -172,6 +172,10 @@
     // Load missing tweet
     //
     if (m.type <= MSG_TYPE_LOAD_FROM_WEB) {
+        LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        if ([cell isKindOfClass:[LoadCell class]]) {
+            [cell.spinner startAnimating];
+        }
         int count = 0;
         if (m.type == MSG_TYPE_LOAD_FROM_DB) {
             count = [timeline restore:tag];

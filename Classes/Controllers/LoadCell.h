@@ -10,8 +10,11 @@
 #import "Message.h"
 
 @interface LoadCell : UITableViewCell {
-    UILabel*    label;
+    UILabel*                    label;
+    UIActivityIndicatorView*    spinner;
 }
+
+@property (nonatomic, readonly) UIActivityIndicatorView* spinner;
 
 - (void)setType:(MessageType)type;
 

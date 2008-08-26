@@ -7,8 +7,11 @@
 //
 
 #import "LoadCell.h"
+#import "ColorUtils.h"
 
 @implementation LoadCell
+
+@synthesize spinner;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier];
@@ -22,9 +25,11 @@
     label.numberOfLines = 1;
     label.textAlignment = UITextAlignmentCenter;    
     label.frame = CGRectMake(0, 0, 320, 48);
-
     [self.contentView addSubview:label];
     
+    spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
+    [self.contentView addSubview:spinner];
+   
 	return self;
 }
 
@@ -37,16 +42,22 @@
         else {
             label.text = @"Load all stored tweets...";
         }
-        label.textColor = [UIColor darkGrayColor];
+
+        label.textColor = [UIColor blackColor];
     }
     else {
         label.text = @"Load this user's timeline...";
         label.textColor = [UIColor colorWithRed:0.195 green:0.309 blue:0.520 alpha:1.0];
     }
+    
+    CGRect bounds = [label textRectForBounds:CGRectMake(0, 0, 320, 48) limitedToNumberOfLines:1];
+    spinner.frame = CGRectMake(bounds.origin.x + bounds.size.width + 4, 16, 16, 16);
 }
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    [spinner stopAnimating];
 }
 
 - (void)dealloc {

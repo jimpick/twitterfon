@@ -143,6 +143,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Load user timeline
     //
+    LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    if ([cell isKindOfClass:[LoadCell class]]) {
+        [cell.spinner startAnimating];
+    }
     if (indexPath.row == 2 && !isTimelineLoaded) {
         indexOfLoadCell = indexPath.row;
         timeline = [[Timeline alloc] initWithDelegate:self];
