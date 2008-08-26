@@ -149,6 +149,7 @@
 
 - (IBAction) reload: (id) sender
 {
+    indexOfLoadCell = 0;
     [timeline getTimeline:tag page:1 insertAt:0];
 }
 
@@ -200,7 +201,6 @@
             }
         }
         else {
-            [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];    
             indexOfLoadCell = indexPath.row;
             [timeline getTimeline:tag page:m.page insertAt:indexPath.row];
         }
@@ -306,6 +306,7 @@
         [self.tableView beginUpdates];
         
         if (indexOfLoadCell) {
+            [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:TRUE];    
             NSMutableArray *deletion = [[[NSMutableArray alloc] init] autorelease];
             [deletion addObject:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
             [self.tableView deleteRowsAtIndexPaths:deletion withRowAnimation:UITableViewRowAnimationLeft];

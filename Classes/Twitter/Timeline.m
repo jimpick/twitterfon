@@ -63,6 +63,7 @@ static sqlite3_stmt *select_statement = nil;
     if (aPage < 1) aPage = 1;
     page = aPage;
     insertPosition = pos;
+    since_id = 0;
 
 	twitterClient = [[TwitterClient alloc] initWithDelegate:self];
     NSMutableDictionary *param = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d", user_id] forKey:@"id"];
@@ -83,11 +84,13 @@ static sqlite3_stmt *select_statement = nil;
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (aPage == 1) {
+        since_id = 0;
         NSString *lastMessageDate = nil;
         NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
         for (int i = 0; i < [messages count]; ++i) {
             Message *m = [messages objectAtIndex:i];
             if ([m.user.screenName compare:username] != NSOrderedSame) {
+                since_id = ((Message*)[messages objectAtIndex:i]).messageId;
                 lastMessageDate = [((Message*)[messages objectAtIndex:i]).createdAt copy];
                 break;
             }
@@ -158,6 +161,8 @@ static sqlite3_stmt *select_statement = nil;
     if (insertPosition) {
         [messages removeObjectAtIndex:insertPosition];
     }
+    
+    BOOL noMoreNext = FALSE;
 
     // Add messages to the timeline
     int unread = 0;
@@ -175,12 +180,13 @@ static sqlite3_stmt *select_statement = nil;
                 [delegate timelineDidReceiveNewMessage:m];
             }
 		}
+        else if (messageId <= since_id) {
+            noMoreNext = TRUE;
+        }
     }
 
-    if (unread == 20) {
-        if (++page <= 10) {
-            [messages insertObject:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_WEB page:page] atIndex:insertPosition + unread];
-        }
+    if ([ary count] == 20 && !noMoreNext && ++page <= 10) {
+        [messages insertObject:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_WEB page:page] atIndex:insertPosition + unread];
     }
 	
     if (delegate && [delegate respondsToSelector:@selector(timelineDidUpdate:insertAt:)]) {

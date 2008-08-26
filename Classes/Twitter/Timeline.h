@@ -9,6 +9,7 @@
 	TwitterClient*  twitterClient;
     MessageType     type;
     int             insertPosition;
+    int             since_id;
     int             page;
 }
 
