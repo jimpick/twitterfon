@@ -31,7 +31,7 @@
     
     uint64_t diff = sec * 1000 * 1000 + (tv2.tv_usec - tv1.tv_usec);
     
-    NSLog(@"%@ (%lld.%lld)", message, diff / 1000000, diff % 1000000);
+    NSLog(@"%@ (%lld.%06lld)", message, diff / 1000000, diff % 1000000);
 }
 
 @end
