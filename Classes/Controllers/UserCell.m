@@ -36,13 +36,16 @@
 
 	// Drawing with a white stroke color
 	CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
+  	CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
 	// Draw them with a 2.0 stroke width so they are a bit more visible.
 	CGContextSetLineWidth(context, 2.0);
 	
 	// Add Rect to the current path, then stroke it
 	CGContextAddRect(context, CGRectMake(10.0, 20.0, 73.0, 73.0));
 	CGContextStrokePath(context);    
-
+	CGContextAddRect(context, CGRectMake(10.0, 20.0, 73.0, 73.0));
+  	CGContextFillPath(context);    
+    
     [super drawRect:rect];
 }
 
