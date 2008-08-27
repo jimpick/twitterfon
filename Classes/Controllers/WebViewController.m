@@ -148,8 +148,7 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     // Remove all a tag target
     self.title = [aWebView stringByEvaluatingJavaScriptFromString:
-                  @"document.title"];
-//                  @"var a = document.getElementsByTagName('a'); for (var i = 0; i < a.length; ++i) { a[i].setAttribute('target', '');}; document.title"];
+                  @"try {var a = document.getElementsByTagName('a'); for (var i = 0; i < a.length; ++i) { a[i].setAttribute('target', '');}}catch (e){}; document.title"];
     
     NSURL *aURL = aWebView.request.mainDocumentURL;
     [self setUrlBar:aURL.absoluteString];
