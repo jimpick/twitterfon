@@ -8,19 +8,16 @@ static sqlite3*             theDatabase = nil;
 + (sqlite3*)getSharedDatabase
 {
     if (theDatabase == nil) {
-        Stopwatch *s = [Stopwatch stopwatch];
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *path = [documentsDirectory stringByAppendingPathComponent:@"db1.1.sql"];
         // Open the database. The database was prepared outside the application.
-        [s lap:@"Open DB..."];
         if (sqlite3_open([path UTF8String], &theDatabase) != SQLITE_OK) {
             // Even though the open failed, call close to properly clean up resources.
             sqlite3_close(theDatabase);
             NSAssert1(0, @"Failed to open database with message '%s'.", sqlite3_errmsg(theDatabase));
             // Additional error handling, as appropriate...
         }
-        [s lap:@"Init DB"];
     }
     return theDatabase;
 }
@@ -46,14 +43,12 @@ const char * sqls[NUM_QUERIES] = {
     int success;
     char *errmsg;
     
-    Stopwatch *s = [Stopwatch stopwatch];
     for (i = 0; i < NUM_QUERIES; ++i) {
         success = sqlite3_exec(theDatabase, sqls[i], NULL, NULL, &errmsg);
         if (success != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to cleanup chache (%s)", errmsg);
         }
     }
-    [s lap:@"clear cache"];
 }
 
 @end
