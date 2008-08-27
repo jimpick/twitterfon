@@ -310,7 +310,7 @@
             [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:TRUE];    
             NSMutableArray *deletion = [[[NSMutableArray alloc] init] autorelease];
             [deletion addObject:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
-            [self.tableView deleteRowsAtIndexPaths:deletion withRowAnimation:UITableViewRowAnimationLeft];
+            [self.tableView deleteRowsAtIndexPaths:deletion withRowAnimation:UITableViewRowAnimationBottom];
         }
         if (count != 0) {
             NSMutableArray *insertion = [[[NSMutableArray alloc] init] autorelease];
