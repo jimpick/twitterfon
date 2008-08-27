@@ -16,7 +16,7 @@ CREATE TABLE messages (
        'followers_count'        INTEGER,
        'profile_image_url'      TEXT,
        'protected'              INTEGER,
-PRIMARY KEY(id, type)
+PRIMARY KEY(type, id)
 );
 
 CREATE TABLE images (
