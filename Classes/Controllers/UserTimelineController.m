@@ -148,9 +148,11 @@
         [cell.spinner startAnimating];
     }
     if (indexPath.row == 2 && !isTimelineLoaded) {
-        indexOfLoadCell = indexPath.row;
-        timeline = [[Timeline alloc] initWithDelegate:self];
-        [timeline getUserTimeline:message.user.userId page:1 insertAt:0];
+        if (!timeline) {
+            indexOfLoadCell = indexPath.row;
+            timeline = [[Timeline alloc] initWithDelegate:self];
+            [timeline getUserTimeline:message.user.userId page:1 insertAt:0];
+        }
     }
     else {
         if (indexPath.row == 0) return;
