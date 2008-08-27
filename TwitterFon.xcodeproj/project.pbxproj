@@ -211,8 +211,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */,
-				6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */,
 				6EEBF7030E3B1FD40003EA63 /* ColorUtils.h */,
 				6EEBF7040E3B1FD40003EA63 /* ColorUtils.m */,
 				6EEBF7050E3B1FD40003EA63 /* main.m */,
@@ -220,6 +218,8 @@
 				6EEBF7070E3B1FD40003EA63 /* REString.m */,
 				6EEBF7080E3B1FD40003EA63 /* StringUtil.h */,
 				6EEBF7090E3B1FD40003EA63 /* StringUtil.m */,
+				6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */,
+				6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */,
 				6EEBF70A0E3B1FD40003EA63 /* TwitterFonAppDelegate.h */,
 				6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */,
 				28A0AB4B0D9B1048005BE974 /* TwitterFon_Prefix.pch */,
