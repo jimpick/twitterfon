@@ -5,7 +5,7 @@ CREATE TABLE messages (
        'text'                   TEXT,
        'created_at'             DATETIME,
        'source'                 TEXT,
-       'favorited'              ser,
+       'favorited'              INTEGER,
 
        'user_id'                INTEGER,
        'name'                   TEXT,
