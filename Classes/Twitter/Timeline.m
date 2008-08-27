@@ -143,7 +143,7 @@ static sqlite3_stmt *select_statement = nil;
     sqlite3_reset(select_statement);
     
     // Add "Load more 20 messages" cell
-    if (!all) {
+    if (!all && [messages count]) {
         [messages addObject:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_DB page:0]];
     }
     return count;
