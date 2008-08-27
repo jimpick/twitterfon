@@ -97,6 +97,7 @@ static sqlite3_stmt *select_statement = nil;
                 break;
             }
         }
+
         if (since_id) {
 #if 0
             struct tm time;
@@ -169,7 +170,7 @@ static sqlite3_stmt *select_statement = nil;
         [messages removeObjectAtIndex:insertPosition];
     }
     
-    BOOL noMoreNext = FALSE;
+    BOOL noMoreRead = FALSE;
     int unread = 0;
     NSLog(@"Received %d messages", [ary count]);
     
@@ -194,7 +195,7 @@ static sqlite3_stmt *select_statement = nil;
                 }
             }
             else if (messageId <= since_id) {
-                noMoreNext = TRUE;
+                noMoreRead = TRUE;
             }
         }
         
@@ -202,7 +203,7 @@ static sqlite3_stmt *select_statement = nil;
         [s lap:@"Data inserted"];
     }
 
-    if ([ary count] == 20 && !noMoreNext && ++page <= 10) {
+    if ([ary count] == 20 && !noMoreRead && ++page <= 10) {
         [messages insertObject:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_WEB page:page] atIndex:insertPosition + unread];
     }
 	
