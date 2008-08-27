@@ -86,7 +86,7 @@
 
 - (IBAction) openSafari: (id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+    [[UIApplication sharedApplication] openURL:webView.request.mainDocumentURL];
 }
 
 - (void)setUrlBar:(NSString*)aUrl
@@ -107,6 +107,7 @@
     [openingURL release];
     openingURL = [request.URL copy];
     NSString *aURL = [request.URL absoluteString];
+
     self.title = aURL;
     [self setUrlBar:aURL];
     
@@ -145,7 +146,11 @@
 - (void)webViewDidFinishLoad:(UIWebView *)aWebView
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    self.title = [aWebView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    // Remove all a tag target
+    self.title = [aWebView stringByEvaluatingJavaScriptFromString:
+                  @"document.title"];
+//                  @"var a = document.getElementsByTagName('a'); for (var i = 0; i < a.length; ++i) { a[i].setAttribute('target', '');}; document.title"];
+    
     NSURL *aURL = aWebView.request.mainDocumentURL;
     [self setUrlBar:aURL.absoluteString];
     backButton.enabled = (webView.canGoBack) ? true : false;
