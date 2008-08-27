@@ -118,7 +118,8 @@ static sqlite3_stmt *select_statement = nil;
 
 - (int)restore:(MessageType)aType all:(BOOL)all
 {
-    if ([messages count]) {
+    // Remove last message which contains load cell
+    if (all) {
         [messages removeLastObject];
     }
     sqlite3* database = [DBConnection getSharedDatabase];
