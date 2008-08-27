@@ -131,11 +131,11 @@ static sqlite3_stmt *select_statement = nil;
         if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
-    }    
+    }
 
     sqlite3_bind_int(select_statement, 1, aType);
     sqlite3_bind_int(select_statement, 2, all ? 200 : 20);
-    sqlite3_bind_int(select_statement, 3, [messages count]);
+    sqlite3_bind_int(select_statement, 3, (insertPosition) ? [messages count] - 1 : [messages count]);
     int count = 0;
     while (sqlite3_step(select_statement) == SQLITE_ROW) {
         Message *m = [Message initWithDB:select_statement type:aType];
