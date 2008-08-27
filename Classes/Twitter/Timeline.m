@@ -9,6 +9,7 @@ static sqlite3_stmt *select_statement = nil;
 @interface NSObject (TimelineDelegate)
 - (void)timelineDidReceiveNewMessage:(Message*)msg;
 - (void)timelineDidUpdate:(int)count insertAt:(int)position;
+- (void)timelineDidFailToUpdate;
 @end
 
 @implementation Timeline
@@ -219,6 +220,10 @@ static sqlite3_stmt *select_statement = nil;
                                           otherButtonTitles: nil];
     [alert show];	
     [alert release];
+    
+    if (delegate && [delegate respondsToSelector:@selector(timelineDidFailToUpdate)]) {
+        [delegate timelineDidFailToUpdate];
+	}
     
 	[twitterClient autorelease];
 	twitterClient = nil;

@@ -161,6 +161,7 @@
             [timeline getUserTimeline:message.user.userId page:m.page insertAt:indexPath.row - 1];
         }
     }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];
 }
 
 // UserCell delegate
@@ -275,5 +276,14 @@
         [self.tableView endUpdates];    
     }
 }
+
+- (void)timelineDidFailToUpdate
+{
+    LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
+    if ([cell isKindOfClass:[LoadCell class]]) {
+        [cell.spinner stopAnimating];
+    }
+}
+
 @end
 

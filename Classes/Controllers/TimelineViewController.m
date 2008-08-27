@@ -199,7 +199,6 @@
                 [self.tableView deleteRowsAtIndexPaths:newPath withRowAnimation:UITableViewRowAnimationLeft];
                 [self.tableView endUpdates];   
             }
-            [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];   
         }
         else {
             indexOfLoadCell = indexPath.row;
@@ -215,9 +214,8 @@
         }
         [[self navigationController] pushViewController:userTimeline animated:true];
         userTimeline.message = m;
-        [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];   
     }
- 
+    [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];   
 }
 
 - (void)didTouchProfileImage:(MessageCell*)cell
@@ -307,7 +305,6 @@
         [self.tableView beginUpdates];
         
         if (indexOfLoadCell) {
-            [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:TRUE];    
             NSMutableArray *deletion = [[[NSMutableArray alloc] init] autorelease];
             [deletion addObject:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
             [self.tableView deleteRowsAtIndexPaths:deletion withRowAnimation:UITableViewRowAnimationBottom];
@@ -325,6 +322,13 @@
         
         [self.tableView endUpdates];    
     }
+}
 
+- (void)timelineDidFailToUpdate
+{
+    LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
+    if ([cell isKindOfClass:[LoadCell class]]) {
+        [cell.spinner stopAnimating];
+    }
 }
 @end
