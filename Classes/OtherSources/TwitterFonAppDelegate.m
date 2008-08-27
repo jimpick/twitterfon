@@ -7,6 +7,7 @@
 //
 
 #import "TwitterFonAppDelegate.h"
+#import "DBConnection.h"
 #import "ColorUtils.h"
 
 @interface TwitterFonAppDelegate (Private)
@@ -74,6 +75,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     [self.postView saveTweet];
+    [DBConnection deleteOldCache];
 }
 
 - (void)dealloc

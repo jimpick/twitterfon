@@ -21,8 +21,6 @@ static sqlite3*             theDatabase = nil;
             // Additional error handling, as appropriate...
         }
         [s lap:@"Init DB"];
-        [DBConnection deleteOldCache:theDatabase];
-        [s lap:@"clear cache"];
     }
     return theDatabase;
 }
@@ -42,18 +40,20 @@ const char * sqls[NUM_QUERIES] = {
 #endif
 };
 
-+ (void)deleteOldCache:(sqlite3*)db
++ (void)deleteOldCache
 {
     int i;
     int success;
     char *errmsg;
     
+    Stopwatch *s = [Stopwatch stopwatch];
     for (i = 0; i < NUM_QUERIES; ++i) {
-        success = sqlite3_exec(db, sqls[i], NULL, NULL, &errmsg);
+        success = sqlite3_exec(theDatabase, sqls[i], NULL, NULL, &errmsg);
         if (success != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to cleanup chache (%s)", errmsg);
         }
     }
+    [s lap:@"clear cache"];
 }
 
 @end
