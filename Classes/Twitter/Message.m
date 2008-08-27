@@ -204,6 +204,19 @@ static sqlite3_stmt* select_statement = nil;
 
 }
 
+#if 0
+//
+// Skip calculation of cell height
+//
++ (void)calcTextBounds:(Message*)message textWidth:(int)textWidth
+{
+    message.textBounds = CGRectMake(LEFT, TOP, textWidth, 48);
+    message.cellHeight = 48 + 16;
+    return;
+}
+
+#else
+
 + (void)calcTextBounds:(Message*)message textWidth:(int)textWidth
 {
     static UILabel *sLabel = nil;
@@ -234,6 +247,8 @@ static sqlite3_stmt* select_statement = nil;
     }
     message.cellHeight = result.size.height;
 }
+
+#endif
 
 + (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type
 {
