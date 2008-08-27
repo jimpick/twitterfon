@@ -17,7 +17,7 @@
 
 - (void)getTimeline:(MessageType)type page:(int)page insertAt:(int)row;
 - (void)getUserTimeline:(int)user_id page:(int)page insertAt:(int)row;
-- (int)restore:(MessageType)type;
+- (int)restore:(MessageType)type all:(BOOL)flag;
 - (void)cancel;
 
 - (int)countMessages;

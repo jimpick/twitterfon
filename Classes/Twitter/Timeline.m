@@ -1,6 +1,7 @@
 #import "Timeline.h"
 #import "JSON.h"
 #import "Message.h"
+#import "TimeUtils.h"
 #import "DBConnection.h"
 
 static sqlite3_stmt *select_statement = nil;
@@ -85,23 +86,27 @@ static sqlite3_stmt *select_statement = nil;
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (aPage == 1) {
         since_id = 0;
-        NSString *lastMessageDate = nil;
+//        NSString *lastMessageDate = nil;
         NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
         for (int i = 0; i < [messages count]; ++i) {
             Message *m = [messages objectAtIndex:i];
             if ([m.user.screenName compare:username] != NSOrderedSame) {
                 since_id = ((Message*)[messages objectAtIndex:i]).messageId;
-                lastMessageDate = [((Message*)[messages objectAtIndex:i]).createdAt copy];
+//                lastMessageDate = [((Message*)[messages objectAtIndex:i]).createdAt copy];
                 break;
             }
         }
-        if (lastMessageDate) {
+        if (since_id) {
+#if 0
             struct tm time;
             char timestr[128];
             setenv("TZ", "GMT", 1);
             strptime([lastMessageDate UTF8String], "%a %b %d %H:%M:%S %z %Y", &time);
             strftime(timestr, 128, "%a, %d %b %Y %H:%M:%S GMT", &time);
             [param setObject:[NSString stringWithUTF8String:timestr] forKey:@"since"];
+#else
+            [param setObject:[NSString stringWithFormat:@"%d", since_id] forKey:@"since_id"];
+#endif
         }
     }
     else {
@@ -111,7 +116,7 @@ static sqlite3_stmt *select_statement = nil;
     [twitterClient get:type params:param];
 }
 
-- (int)restore:(MessageType)aType
+- (int)restore:(MessageType)aType all:(BOOL)all
 {
     if ([messages count]) {
         [messages removeLastObject];
@@ -126,7 +131,7 @@ static sqlite3_stmt *select_statement = nil;
     }    
 
     sqlite3_bind_int(select_statement, 1, aType);
-    sqlite3_bind_int(select_statement, 2, ([messages count] == 0) ? 20 : 200);
+    sqlite3_bind_int(select_statement, 2, all ? 200 : 20);
     sqlite3_bind_int(select_statement, 3, [messages count]);
     int count = 0;
     while (sqlite3_step(select_statement) == SQLITE_ROW) {
@@ -137,7 +142,7 @@ static sqlite3_stmt *select_statement = nil;
     sqlite3_reset(select_statement);
     
     // Add "Load more 20 messages" cell
-    if (count == 20) {
+    if (!all) {
         [messages addObject:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_DB page:0]];
     }
     return count;
@@ -163,26 +168,36 @@ static sqlite3_stmt *select_statement = nil;
     }
     
     BOOL noMoreNext = FALSE;
-
-    // Add messages to the timeline
     int unread = 0;
     NSLog(@"Received %d messages", [ary count]);
-    for (int i = [ary count] - 1; i >= 0; --i) {
-        sqlite_int64 messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
-        if (![Message isExist:messageId type:type]) {
-            Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type];
-            m.unread = true;
-            
-            [messages insertObject:m atIndex:insertPosition];
-            ++unread;
+    
+    if ([ary count]) {
+        Stopwatch *s = [Stopwatch stopwatch];
+        sqlite3* database = [DBConnection getSharedDatabase];
+        char *errmsg; 
+        sqlite3_exec(database, "BEGIN", NULL, NULL, &errmsg); 
+        
+        // Add messages to the timeline
+        for (int i = [ary count] - 1; i >= 0; --i) {
+            sqlite_int64 messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
+            if (![Message isExist:messageId type:type]) {
+                Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:type];
+                m.unread = true;
+                
+                [messages insertObject:m atIndex:insertPosition];
+                ++unread;
 				
-            if ([delegate respondsToSelector:@selector(timelineDidReceiveNewMessage:)]) {
-                [delegate timelineDidReceiveNewMessage:m];
+                if ([delegate respondsToSelector:@selector(timelineDidReceiveNewMessage:)]) {
+                    [delegate timelineDidReceiveNewMessage:m];
+                }
             }
-		}
-        else if (messageId <= since_id) {
-            noMoreNext = TRUE;
+            else if (messageId <= since_id) {
+                noMoreNext = TRUE;
+            }
         }
+        
+        sqlite3_exec(database, "COMMIT", NULL, NULL, &errmsg); 
+        [s lap:@"Data inserted"];
     }
 
     if ([ary count] == 20 && !noMoreNext && ++page <= 10) {

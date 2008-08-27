@@ -59,7 +59,7 @@
     imageStore = appDelegate.imageStore;
     timeline = [[Timeline alloc] initWithDelegate:self];
     
-    [timeline restore:tag];
+    [timeline restore:tag all:false];
     [timeline getTimeline:tag page:1 insertAt:0];
 }
 
@@ -179,7 +179,7 @@
         }
         int count = 0;
         if (m.type == MSG_TYPE_LOAD_FROM_DB) {
-            count = [timeline restore:tag];
+            count = [timeline restore:tag all:true];
             
             NSMutableArray *newPath = [[[NSMutableArray alloc] init] autorelease];
 
@@ -199,6 +199,7 @@
                 [self.tableView deleteRowsAtIndexPaths:newPath withRowAnimation:UITableViewRowAnimationLeft];
                 [self.tableView endUpdates];   
             }
+            [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];   
         }
         else {
             indexOfLoadCell = indexPath.row;
