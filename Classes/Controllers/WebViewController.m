@@ -86,7 +86,8 @@
 
 - (IBAction) openSafari: (id)sender
 {
-    [[UIApplication sharedApplication] openURL:webView.request.mainDocumentURL];
+   NSURL *anURL = [NSURL URLWithString:[button titleForState:UIControlStateNormal]];
+   [[UIApplication sharedApplication] openURL:anURL];
 }
 
 - (void)setUrlBar:(NSString*)aUrl
@@ -106,7 +107,7 @@
 {
     [openingURL release];
     openingURL = [request.URL copy];
-    NSString *aURL = [request.URL absoluteString];
+    NSString *aURL = [request.mainDocumentURL absoluteString];
 
     self.title = aURL;
     [self setUrlBar:aURL];
@@ -189,7 +190,7 @@
     
     if (postView.view.hidden == false) return;
 
-    NSString *aURL = webView.request.URL.absoluteString;
+    NSString *aURL = webView.request.mainDocumentURL.absoluteString;
     NSString *decoded = [tinyURLStore valueForKey:aURL];
     
     [[self navigationController].view addSubview:postView.view];
