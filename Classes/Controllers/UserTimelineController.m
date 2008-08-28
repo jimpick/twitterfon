@@ -31,6 +31,30 @@
 	[super dealloc];
 }
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
+    self.navigationItem.rightBarButtonItem = postButton;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+    [self.tableView flashScrollIndicators];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    if (timeline) {
+        [timeline cancel];
+    }
+}
+
 - (void)setMessage:(Message *)aMessage
 {
     // Reset timeline if needed
@@ -174,20 +198,6 @@
     [appDelegate openWebView:message.user.url on:[self navigationController]];
 }
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
-#if 0
-    UIImage *image = [UIImage imageNamed:@"postbutton.png"];
-    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithImage:image 
-                                                                   style:UIBarButtonItemStylePlain 
-                                                                  target:self
-                                                                  action:@selector(postTweet:)];
-#endif    
-    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
-    self.navigationItem.rightBarButtonItem = postButton;
-
-}
-
 - (void)didTouchLinkButton:(NSString*)url
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
@@ -205,24 +215,6 @@
     
     [[self navigationController].view addSubview:postView.view];
     [postView startEditWithString:msg];
-}
-
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    if (timeline) {
-        [timeline cancel];
-    }
 }
 
 - (void)didReceiveMemoryWarning {

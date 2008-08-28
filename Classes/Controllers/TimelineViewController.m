@@ -69,6 +69,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [self.tableView flashScrollIndicators];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
