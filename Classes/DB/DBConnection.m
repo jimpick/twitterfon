@@ -7,35 +7,43 @@ static sqlite3*             theDatabase = nil;
 #ifdef TEST_DELETE_TWEET
 const char *delete_tweets = 
 "BEGIN;"
-"DELETE FROM messages WHERE type = 0 and id > (SELECT id FROM messages WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 80);"
-"DELETE FROM messages WHERE type = 1 and id > (SELECT id FROM messages WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 100);"
-"DELETE FROM messages WHERE type = 2 and id > (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 35);"
+//"DELETE FROM messages;"
+//"DELETE FROM messages WHERE type = 0 and id > (SELECT id FROM messages WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 80);"
+//"DELETE FROM messages WHERE type = 1 and id > (SELECT id FROM messages WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 100);"
+//"DELETE FROM messages WHERE type = 2 and id > (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 35);"
 "COMMIT";
 #endif
 
 @implementation DBConnection
 
++ (sqlite3*)openDatabase:(NSString*)dbFilename
+{
+    sqlite3* instance;
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:dbFilename];
+    // Open the database. The database was prepared outside the application.
+    if (sqlite3_open([path UTF8String], &instance) != SQLITE_OK) {
+        // Even though the open failed, call close to properly clean up resources.
+        sqlite3_close(instance);
+        NSLog(@"Failed to open database. (%s)", sqlite3_errmsg(instance));
+        return nil;
+    }        
+    return instance;
+}
+
 + (sqlite3*)getSharedDatabase
 {
     if (theDatabase == nil) {
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"db1.1.sql"];
-        // Open the database. The database was prepared outside the application.
-        if (sqlite3_open([path UTF8String], &theDatabase) != SQLITE_OK) {
-            // Even though the open failed, call close to properly clean up resources.
-            sqlite3_close(theDatabase);
-            NSAssert1(0, @"Failed to open database with message '%s'.", sqlite3_errmsg(theDatabase));
-            // Additional error handling, as appropriate...
-        }
+        theDatabase = [self openDatabase:MAIN_DATABASE_NAME];
+        NSAssert1(theDatabase, @"Can't open cache database. Please re-install TwitterFon", nil);
 #ifdef TEST_DELETE_TWEET
         char *errmsg;
-        
         if (sqlite3_exec(theDatabase, delete_tweets, NULL, NULL, &errmsg) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to cleanup chache (%s)", errmsg);
         }
-#endif        
-        
+#endif
     }
     return theDatabase;
 }
