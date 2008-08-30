@@ -50,7 +50,7 @@ static sqlite3_stmt* select_statement = nil;
     favorited           = [[dic objectForKey:@"favorited"] isKindOfClass:[NSNull class]] ? 0 : 1;
 
     NSString *tweet = [dic objectForKey:@"text"];
-    tweet = @"This is test\n\r\n\rTest Test";
+
     if ((id)tweet == [NSNull null]) {
         text = @"";
     }
