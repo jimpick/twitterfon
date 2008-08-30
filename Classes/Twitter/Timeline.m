@@ -87,28 +87,18 @@ static sqlite3_stmt *select_statement = nil;
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (aPage == 1) {
         since_id = 0;
-//        NSString *lastMessageDate = nil;
         NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
         for (int i = 0; i < [messages count]; ++i) {
             Message *m = [messages objectAtIndex:i];
             if ([m.user.screenName compare:username] != NSOrderedSame) {
                 since_id = ((Message*)[messages objectAtIndex:i]).messageId;
-//                lastMessageDate = [((Message*)[messages objectAtIndex:i]).createdAt copy];
                 break;
             }
         }
 
         if (since_id) {
-#if 0
-            struct tm time;
-            char timestr[128];
-            setenv("TZ", "GMT", 1);
-            strptime([lastMessageDate UTF8String], "%a %b %d %H:%M:%S %z %Y", &time);
-            strftime(timestr, 128, "%a, %d %b %Y %H:%M:%S GMT", &time);
-            [param setObject:[NSString stringWithUTF8String:timestr] forKey:@"since"];
-#else
             [param setObject:[NSString stringWithFormat:@"%d", since_id] forKey:@"since_id"];
-#endif
+            [param setObject:@"200" forKey:@"count"];
         }
     }
     else {
@@ -172,10 +162,10 @@ static sqlite3_stmt *select_statement = nil;
     
     BOOL noMoreRead = FALSE;
     int unread = 0;
-    NSLog(@"Received %d messages", [ary count]);
+    LOG(@"Received %d messages", [ary count]);
     
     if ([ary count]) {
-        Stopwatch *s = [Stopwatch stopwatch];
+        INIT_STOPWATCH;
         sqlite3* database = [DBConnection getSharedDatabase];
         char *errmsg; 
         sqlite3_exec(database, "BEGIN", NULL, NULL, &errmsg); 
@@ -200,7 +190,7 @@ static sqlite3_stmt *select_statement = nil;
         }
         
         sqlite3_exec(database, "COMMIT", NULL, NULL, &errmsg); 
-        [s lap:@"Data inserted"];
+        LAP(@"Data inserted");
     }
 
     if ([ary count] == 20 && !noMoreRead && ++page <= 10) {
