@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DebugUtils.h"
 #import <sys/time.h>
 
 @interface Stopwatch : NSObject {
@@ -17,3 +18,11 @@
 - (void) lap:(NSString*)message;
 
 @end
+
+#ifndef DISTRIBUTION
+#  define INIT_STOPWATCH Stopwatch *__s = [Stopwatch stopwatch]
+#  define LAP(msg) [__s lap:msg]
+#else
+#  define INIT_STOPWATCH ;
+#  define LAP(msg) ;
+#endif
