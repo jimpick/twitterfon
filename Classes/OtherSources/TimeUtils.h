@@ -20,9 +20,9 @@
 @end
 
 #ifndef DISTRIBUTION
-#  define INIT_STOPWATCH Stopwatch *__s = [Stopwatch stopwatch]
-#  define LAP(msg) [__s lap:msg]
+#  define INIT_STOPWATCH(s) Stopwatch *s = [Stopwatch stopwatch]
+#  define LAP(s, msg) [s lap:msg]
 #else
-#  define INIT_STOPWATCH ;
-#  define LAP(msg) ;
+#  define INIT_STOPWATCH(s) ;
+#  define LAP(s, msg) ;
 #endif

@@ -116,6 +116,7 @@ static sqlite3_stmt *select_statement = nil;
     }
     sqlite3* database = [DBConnection getSharedDatabase];
 
+    INIT_STOPWATCH(s);
     if (select_statement == nil) {
         static char *sql = "SELECT * FROM messages WHERE type = ? order BY id DESC LIMIT ? OFFSET ?";
         if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
@@ -138,6 +139,7 @@ static sqlite3_stmt *select_statement = nil;
     if (!all && [messages count]) {
         [messages addObject:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_DB page:0]];
     }
+    LAP(s, @"Restore messages");
     return count;
 }
 
@@ -165,7 +167,7 @@ static sqlite3_stmt *select_statement = nil;
     LOG(@"Received %d messages", [ary count]);
     
     if ([ary count]) {
-        INIT_STOPWATCH;
+        INIT_STOPWATCH(s);
         sqlite3* database = [DBConnection getSharedDatabase];
         char *errmsg; 
         sqlite3_exec(database, "BEGIN", NULL, NULL, &errmsg); 
@@ -190,7 +192,7 @@ static sqlite3_stmt *select_statement = nil;
         }
         
         sqlite3_exec(database, "COMMIT", NULL, NULL, &errmsg); 
-        LAP(@"Data inserted");
+        LAP(s, @"Data inserted");
     }
 
     if ([ary count] == 20 && !noMoreRead && ++page <= 10) {
