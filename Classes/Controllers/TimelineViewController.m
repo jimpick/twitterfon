@@ -57,22 +57,25 @@
 
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     imageStore = appDelegate.imageStore;
-    timeline = [[Timeline alloc] initWithDelegate:self];
     
-    [timeline restore:tag all:false];
-    [timeline getTimeline:tag page:1 insertAt:0];
+    if (timeline == nil) {
+        timeline = [[Timeline alloc] initWithDelegate:self];
+        [timeline restore:tag all:false];
+        [timeline getTimeline:tag page:1 insertAt:0];
+    }
 }
 
-
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [self.tableView flashScrollIndicators];
+	[super viewDidAppear:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated
+{
 }
 
 - (void)viewDidDisappear:(BOOL)animated 
@@ -321,7 +324,7 @@
             [self.tableView insertRowsAtIndexPaths:insertion withRowAnimation:UITableViewRowAnimationTop];
         }
         
-        [self.tableView endUpdates];    
+        [self.tableView endUpdates];
     }
 }
 

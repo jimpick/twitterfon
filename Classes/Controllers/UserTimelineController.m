@@ -38,15 +38,16 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-    [self.tableView flashScrollIndicators];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated
+{
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -267,7 +268,7 @@
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:insertIndexPath withRowAnimation:UITableViewRowAnimationTop];
         [self.tableView deleteRowsAtIndexPaths:deleteIndexPath withRowAnimation:UITableViewRowAnimationBottom];
-        [self.tableView endUpdates];    
+        [self.tableView endUpdates];
     }
 }
 
