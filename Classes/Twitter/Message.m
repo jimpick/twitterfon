@@ -172,8 +172,10 @@ static sqlite3_stmt* select_statement = nil;
     time(&now);
     
     if (!createdAt) {
-        strptime([stringOfCreatedAt UTF8String], "%a %b %d %H:%M:%S %z %Y", &created);
-        createdAt = mktime(&created);
+        if (stringOfCreatedAt) {
+            strptime([stringOfCreatedAt UTF8String], "%a %b %d %H:%M:%S %z %Y", &created);
+            createdAt = mktime(&created);
+        }
     }
     int distance = (int)difftime(now, createdAt);
     if (distance < 0) distance = 0;

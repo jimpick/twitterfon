@@ -59,7 +59,6 @@ const char *cleanup_sql =
 + (void)deleteOldCache
 {
     char *errmsg;
-    
     if (sqlite3_exec(theDatabase, cleanup_sql, NULL, NULL, &errmsg) != SQLITE_OK) {
         NSAssert1(0, @"Error: failed to cleanup chache (%s)", errmsg);
     }
