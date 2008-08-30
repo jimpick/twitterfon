@@ -2,6 +2,7 @@
 #import "ImageStore.h"
 #import "Timeline.h"
 #import "UserTimelineController.h"
+#import "TimeUtils.h"
 
 @interface TimelineViewController : UITableViewController {
 	Timeline*               timeline;
@@ -11,6 +12,8 @@
     int                     tag;
     int                     unread;
     int                     indexOfLoadCell;
+    Stopwatch*              stopwatch;
+    BOOL                    isFirstTime;
 }
 
 - (IBAction) post: (id) sender;

@@ -13,6 +13,7 @@
 #import "MessageCell.h"
 #import "ColorUtils.h"
 #import "StringUtil.h"
+#import "TimeUtils.h"
 
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)postTweetDidSucceedDelegate:(NSDictionary*)dic;
@@ -31,11 +32,15 @@
 - (void)dealloc {
     [userTimeline release];
     [timeline release];
+    [stopwatch release];
 	[super dealloc];
 }
 
+extern Stopwatch *gStopwatch;
+
 - (void)viewDidLoad
 {
+    stopwatch = [[Stopwatch alloc] init];
 	[super viewDidLoad];
     unread   = 0;
     tag      = [self navigationController].tabBarItem.tag;
@@ -61,8 +66,8 @@
     if (timeline == nil) {
         timeline = [[Timeline alloc] initWithDelegate:self];
         [timeline restore:tag all:false];
-        [timeline getTimeline:tag page:1 insertAt:0];
     }
+    isFirstTime = true;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -72,6 +77,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
+    LAP(stopwatch, @"viewDidAppear");
+    if (isFirstTime) {
+        [timeline getTimeline:tag page:1 insertAt:0];
+        isFirstTime = false;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
