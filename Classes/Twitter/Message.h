@@ -35,7 +35,8 @@ typedef enum {
 	sqlite_int64    messageId;
 	User*           user;
 	NSString*       text;
-    NSString*       createdAt;
+    NSString*       stringOfCreatedAt;
+    time_t          createdAt;
     NSString*       source;
     BOOL            favorited;
     NSString*       timestamp;
@@ -45,7 +46,8 @@ typedef enum {
     MessageType     type;
     CGRect          textBounds;
     CGFloat         cellHeight;
-    
+    int             textHeight;
+   
     int             page;
     
     UITableViewCellAccessoryType accessoryType;
@@ -54,7 +56,7 @@ typedef enum {
 @property (nonatomic, assign) sqlite_int64  messageId;
 @property (nonatomic, assign) User*         user;
 @property (nonatomic, retain) NSString*     text;
-@property (nonatomic, retain) NSString*     createdAt;
+@property (nonatomic, assign) time_t        createdAt;
 @property (nonatomic, retain) NSString*     source;
 @property (nonatomic, assign) BOOL          favorited;
 @property (nonatomic, retain) NSString*     timestamp;
@@ -64,6 +66,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL          hasReply;
 @property (nonatomic, assign) CGRect        textBounds;
 @property (nonatomic, assign) CGFloat       cellHeight;
+@property (nonatomic, assign) int           textHeight;
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 
 @property (nonatomic, assign) int           page;

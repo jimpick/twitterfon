@@ -3,7 +3,7 @@ CREATE TABLE messages (
        'type'                   INTEGER,
 
        'text'                   TEXT,
-       'created_at'             DATETIME,
+       'created_at'             INTEGER,
        'source'                 TEXT,
        'favorited'              INTEGER,
 
@@ -16,6 +16,9 @@ CREATE TABLE messages (
        'followers_count'        INTEGER,
        'profile_image_url'      TEXT,
        'protected'              INTEGER,
+
+       'cell_height'            INTEGER,
+
 PRIMARY KEY(type, id)
 );
 

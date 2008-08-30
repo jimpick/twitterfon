@@ -24,6 +24,7 @@ static sqlite3_stmt* select_statement = nil;
 @synthesize type;
 @synthesize hasReply;
 @synthesize textBounds;
+@synthesize textHeight;
 @synthesize cellHeight;
 @synthesize accessoryType;
 @synthesize page;
@@ -33,7 +34,6 @@ static sqlite3_stmt* select_statement = nil;
     [text release];
     [user release];
     [source release];
-    [createdAt release];
     [timestamp release];
   	[super dealloc];
 }
@@ -44,10 +44,10 @@ static sqlite3_stmt* select_statement = nil;
     
     type = aType;
     
-	messageId = [[dic objectForKey:@"id"] longLongValue];
-	text      = [[dic objectForKey:@"text"] retain];
-    createdAt = [[dic objectForKey:@"created_at"] retain];
-    favorited = [[dic objectForKey:@"favorited"] isKindOfClass:[NSNull class]] ? 0 : 1;
+	messageId           = [[dic objectForKey:@"id"] longLongValue];
+	text                = [[dic objectForKey:@"text"] retain];
+    stringOfCreatedAt   = [dic objectForKey:@"created_at"];
+    favorited           = [[dic objectForKey:@"favorited"] isKindOfClass:[NSNull class]] ? 0 : 1;
 
     if ((id)text == [NSNull null]) text = @"";
 
@@ -84,13 +84,12 @@ static sqlite3_stmt* select_statement = nil;
         user = [[User alloc] initWithJsonDictionary:userDic];
     }
 
-    
+    [self updateAttribute];
     if (type != MSG_TYPE_USER) {
         [self insertDB];
     }
-    [self updateAttribute];
     unread = true;
-    
+
 	return self;
 }
 
@@ -111,7 +110,6 @@ static sqlite3_stmt* select_statement = nil;
 	return [[[Message alloc] initWithJsonDictionary:dic type:type] autorelease];
 }
 
-
 - (id)copyWithZone:(NSZone *)zone
 {
     Message *dist = [[Message allocWithZone:zone] init];
@@ -127,8 +125,12 @@ static sqlite3_stmt* select_statement = nil;
     dist.unread     = unread;
     dist.hasReply   = hasReply;
     dist.type       = type;
-    dist.textBounds = textBounds;
-    dist.cellHeight = cellHeight;
+    
+    // Do not copy following members because they need re-calculate
+    //
+    //dist.textBounds = textBounds;
+    //dist.cellHeight = cellHeight;
+    //dist.textHeight = textHeight;
     
     dist.accessoryType = accessoryType;    
     
@@ -148,12 +150,14 @@ static sqlite3_stmt* select_statement = nil;
     else {
         accessoryType = (type == MSG_TYPE_USER) ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator;
     }
-    
+
     // If tweet has @yourname, set flag for change cell color later
     //
-	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];    
-    NSString *str = [NSString stringWithFormat:@"@%@", username];
-    r = [text rangeOfString:str];
+    static NSString *username = nil;
+    if (username == nil) {
+        username = [[NSString stringWithFormat:@"@%@", [[NSUserDefaults standardUserDefaults] stringForKey:@"username"]] retain];
+    }
+    r = [text rangeOfString:username];
     hasReply = (r.location != NSNotFound) ? true : false;
 
     // Calculate text bounds and cell height here
@@ -164,10 +168,14 @@ static sqlite3_stmt* select_statement = nil;
     //
     struct tm created;
     setenv("TZ", "GMT", 1);
-    strptime([createdAt UTF8String], "%a %b %d %H:%M:%S %z %Y", &created);
     time_t now;
     time(&now);
-    int distance = (int)difftime(now, mktime(&created));
+    
+    if (!createdAt) {
+        strptime([stringOfCreatedAt UTF8String], "%a %b %d %H:%M:%S %z %Y", &created);
+        createdAt = mktime(&created);
+    }
+    int distance = (int)difftime(now, createdAt);
     if (distance < 0) distance = 0;
 
     if (distance < 60) {
@@ -197,46 +205,40 @@ static sqlite3_stmt* select_statement = nil;
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:mktime(&created)];        
         self.timestamp = [dateFormatter stringFromDate:date];
     }
-
     if ([source length]) {
         self.timestamp = [self.timestamp stringByAppendingFormat:@" from %@", source];
     }
 
 }
 
-#if 0
-//
-// Skip calculation of cell height
-//
-+ (void)calcTextBounds:(Message*)message textWidth:(int)textWidth
-{
-    message.textBounds = CGRectMake(LEFT, TOP, textWidth, 48);
-    message.cellHeight = 48 + 16;
-    return;
-}
-
-#else
-
 + (void)calcTextBounds:(Message*)message textWidth:(int)textWidth
 {
     static UILabel *sLabel = nil;
     static CGRect bounds, result;
-    
-    if (sLabel == nil) {
-        sLabel = [[UILabel alloc] initWithFrame: CGRectZero];        
-        sLabel.font = [UIFont systemFontOfSize:13];
-        sLabel.numberOfLines = 10;
-    }
 
-    sLabel.text = message.text;
     if (message.type == MSG_TYPE_USER) {
         bounds = CGRectMake(USER_CELL_PADDING, 3, textWidth, 200);
     }
     else {
         bounds = CGRectMake(LEFT, TOP, textWidth, 200);
     }
-    result = [sLabel textRectForBounds:bounds limitedToNumberOfLines:10];
+    
+    if (message.textHeight) {
+        result = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, message.textHeight);
+    }
+    else {
+        if (sLabel == nil) {
+            sLabel = [[UILabel alloc] initWithFrame: CGRectZero];        
+            sLabel.font = [UIFont systemFontOfSize:13];
+            sLabel.numberOfLines = 10;
+        }
+        
+        sLabel.text = message.text;
+        result = [sLabel textRectForBounds:bounds limitedToNumberOfLines:10];
+    }
+
     message.textBounds = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, result.size.height);
+    message.textHeight = result.size.height;
     
     if (message.type == MSG_TYPE_USER) {
         result.size.height += 22;
@@ -248,8 +250,6 @@ static sqlite3_stmt* select_statement = nil;
     message.cellHeight = result.size.height;
 }
 
-#endif
-
 + (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type
 {
     // sqlite3 statement should be:
@@ -260,7 +260,7 @@ static sqlite3_stmt* select_statement = nil;
     
     m.messageId             = (sqlite_int64)sqlite3_column_int64(statement, 0);
     m.text                  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 2)];
-    m.createdAt             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
+    m.createdAt             = (time_t)sqlite3_column_int(statement, 3);
     m.source                = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 4)];
     m.favorited             = (BOOL)sqlite3_column_int(statement, 5);
     
@@ -273,7 +273,8 @@ static sqlite3_stmt* select_statement = nil;
     m.user.followersCount   = (uint32_t)sqlite3_column_int(statement, 12);
     m.user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 13)];
     m.user.protected        = (uint32_t)sqlite3_column_int(statement, 14) ? true : false;
-    m.unread = false;
+    m.textHeight            = (uint32_t)sqlite3_column_int(statement, 15);
+    m.unread                = false;
     [m updateAttribute];
     
     return m;
@@ -310,7 +311,7 @@ static sqlite3_stmt* select_statement = nil;
     sqlite3* database = [DBConnection getSharedDatabase];
 
     if (insert_statement == nil) {
-        static char *sql = "INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        static char *sql = "INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
@@ -319,7 +320,7 @@ static sqlite3_stmt* select_statement = nil;
     sqlite3_bind_int(insert_statement,   2, type);
 
     sqlite3_bind_text(insert_statement,  3, [text UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement,  4, [createdAt UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(insert_statement,   4, createdAt);
     sqlite3_bind_text(insert_statement,  5, [source UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(insert_statement,   6, favorited);
     
@@ -332,6 +333,7 @@ static sqlite3_stmt* select_statement = nil;
     sqlite3_bind_int(insert_statement,  13, user.followersCount);
     sqlite3_bind_text(insert_statement, 14, [user.profileImageUrl UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(insert_statement,  15, user.protected);
+    sqlite3_bind_int(insert_statement,  16, (uint32_t)textHeight);
     
     int success = sqlite3_step(insert_statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
