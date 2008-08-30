@@ -9,6 +9,6 @@
 
 + (sqlite3*)openDatabase:(NSString*)dbFilename;
 + (sqlite3*)getSharedDatabase;
-+ (void)deleteOldCache;
++ (void)closeDatabase;
 
 @end

@@ -71,7 +71,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     [self.postView saveTweet];
-    [DBConnection deleteOldCache];
+    [DBConnection closeDatabase];
 }
 
 - (void)dealloc

@@ -56,11 +56,14 @@ const char *cleanup_sql =
 "DELETE FROM messages WHERE type = 2 and id <= (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 200);"
 "COMMIT";
 
-+ (void)deleteOldCache
++ (void)closeDatabase
 {
     char *errmsg;
-    if (sqlite3_exec(theDatabase, cleanup_sql, NULL, NULL, &errmsg) != SQLITE_OK) {
-        NSAssert1(0, @"Error: failed to cleanup chache (%s)", errmsg);
+    if (theDatabase) {
+        if (sqlite3_exec(theDatabase, cleanup_sql, NULL, NULL, &errmsg) != SQLITE_OK) {
+            NSAssert1(0, @"Error: failed to cleanup chache (%s)", errmsg);
+        }
+        sqlite3_close(theDatabase);
     }
 }
 
