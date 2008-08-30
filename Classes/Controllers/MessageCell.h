@@ -12,7 +12,7 @@
 
     NSObject*       delegate;
     UIButton*       profileImage;
-    
+    UIButton*       linkButton;
     MessageType     type;
 }
 
@@ -21,7 +21,7 @@
 
 - (void)update:(MessageType)type delegate:(id)delegate;
 
-+ (UIImage*) linkButton;
-+ (UIImage*) hilightedLinkButton;
++ (UIImage*) linkButtonImage;
++ (UIImage*) hilightedLinkButtonImage;
 
 @end

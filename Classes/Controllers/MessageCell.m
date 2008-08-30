@@ -2,6 +2,7 @@
 #import "ColorUtils.h"
 #import "StringUtil.h"
 #import "REString.h"
+#import "TimeUtils.h"
 
 @interface NSObject (MessageCellDelegate)
 - (void)didTouchLinkButton:(NSString*)url;
@@ -58,14 +59,22 @@ static UIImage* sHighlightedLinkButton = nil;
     timestamp.font = [UIFont systemFontOfSize:12];  	  	 
     timestamp.textAlignment = UITextAlignmentLeft;//Right;  	  	 
     timestamp.frame = CGRectMake(TIMESTAMP_LEFT, 0, TIMESTAMP_WIDTH, TOP);  	  	 
-    [self.contentView addSubview:timestamp];     
+    [self.contentView addSubview:timestamp];
+    
+    // linkButton
+    linkButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    linkButton.frame = CGRectMake(288, 0, 32, 32);
+    [linkButton setImage:[MessageCell linkButtonImage] forState:UIControlStateNormal];
+    [linkButton setImage:[MessageCell hilightedLinkButtonImage] forState:UIControlStateHighlighted];
+    [linkButton addTarget:self action:@selector(didTouchLinkButton:) forControlEvents:UIControlEventTouchUpInside];
 
 	return self;
 }
 
 - (void)dealloc
 {
-    // No need to release child contents
+    // No need to release child contents except link button
+    [linkButton release];
     [super dealloc];
 }    
 
@@ -91,9 +100,9 @@ static UIImage* sHighlightedLinkButton = nil;
 {
     delegate = aDelegate;
     type     = aType;
-	nameLabel.text = message.user.screenName;
-	textLabel.text = [message.text unescapeHTML];
-    
+    nameLabel.text = message.user.screenName;
+	textLabel.text = message.text;
+
     if (type == MSG_TYPE_USER) {
         self.contentView.backgroundColor = [UIColor whiteColor];
         timestamp.text      = message.timestamp;
@@ -113,12 +122,7 @@ static UIImage* sHighlightedLinkButton = nil;
     // Added custom hyperlink button here.
     //
     if (message.accessoryType == UITableViewCellAccessoryDetailDisclosureButton) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(288, 0, 32, 32);
-        [button setImage:[MessageCell linkButton] forState:UIControlStateNormal];
-        [button setImage:[MessageCell hilightedLinkButton] forState:UIControlStateHighlighted];
-        [button addTarget:self action:@selector(didTouchLinkButton:) forControlEvents:UIControlEventTouchUpInside];
-        self.accessoryView = button;
+        self.accessoryView = linkButton;
     }
     else {
         self.accessoryView = nil;
@@ -134,7 +138,7 @@ static UIImage* sHighlightedLinkButton = nil;
     profileImage.frame = CGRectMake(IMAGE_PADDING, 0, IMAGE_WIDTH, message.cellHeight);
 }
 
-+ (UIImage*) linkButton
++ (UIImage*) linkButtonImage
 {
     if (sLinkButton == nil) {
         sLinkButton = [[UIImage imageNamed:@"link.png"] retain];
@@ -142,7 +146,7 @@ static UIImage* sHighlightedLinkButton = nil;
     return sLinkButton;
 }
 
-+ (UIImage*) hilightedLinkButton
++ (UIImage*) hilightedLinkButtonImage
 {
     if (sHighlightedLinkButton == nil) {
         sHighlightedLinkButton = [[UIImage imageNamed:@"link_highlighted.png"] retain];

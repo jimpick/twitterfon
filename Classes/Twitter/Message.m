@@ -1,6 +1,7 @@
 #import "Message.h"
 #import "sqlite3.h"
 #import "DBConnection.h"
+#import "StringUtil.h"
 
 static sqlite3_stmt* insert_statement = nil;
 static sqlite3_stmt* select_statement = nil;
@@ -45,7 +46,7 @@ static sqlite3_stmt* select_statement = nil;
     type = aType;
     
 	messageId           = [[dic objectForKey:@"id"] longLongValue];
-	text                = [[dic objectForKey:@"text"] retain];
+	text                = [[[dic objectForKey:@"text"] unescapeHTML] retain];
     stringOfCreatedAt   = [dic objectForKey:@"created_at"];
     favorited           = [[dic objectForKey:@"favorited"] isKindOfClass:[NSNull class]] ? 0 : 1;
 
@@ -200,11 +201,14 @@ static sqlite3_stmt* select_statement = nil;
         self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "week ago" : "weeks ago"];
     }
     else {
-        NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
-        [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        static NSDateFormatter *dateFormatter = nil;
+        if (dateFormatter == nil) {
+            dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+            [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        }
         
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970:mktime(&created)];        
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:createdAt];        
         self.timestamp = [dateFormatter stringFromDate:date];
     }
     if ([source length]) {
