@@ -78,6 +78,7 @@
 		6E10290F0E5D362C00440C58 /* LoadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadCell.h; path = Controllers/LoadCell.h; sourceTree = "<group>"; };
 		6E1029100E5D362C00440C58 /* LoadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadCell.m; path = Controllers/LoadCell.m; sourceTree = "<group>"; };
 		6E102AE20E5DEC7A00440C58 /* db1.1.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = db1.1.sql; sourceTree = "<group>"; };
+		6E138FEE0E67F76A0037BE46 /* DebugUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugUtils.h; path = Classes/OtherSources/DebugUtils.h; sourceTree = "<group>"; };
 		6E29E9D00E61F07C00E731BE /* UserView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserView.xib; sourceTree = "<group>"; };
 		6E2BCF1A0E3591B8003A8F69 /* postbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = postbutton.png; sourceTree = "<group>"; };
 		6E2BCF250E3596D4003A8F69 /* friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends.png; sourceTree = "<group>"; };
@@ -203,6 +204,7 @@
 			children = (
 				6EEBF7030E3B1FD40003EA63 /* ColorUtils.h */,
 				6EEBF7040E3B1FD40003EA63 /* ColorUtils.m */,
+				6E138FEE0E67F76A0037BE46 /* DebugUtils.h */,
 				6EEBF7050E3B1FD40003EA63 /* main.m */,
 				6EEBF7060E3B1FD40003EA63 /* REString.h */,
 				6EEBF7070E3B1FD40003EA63 /* REString.m */,
@@ -532,6 +534,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_CFLAGS = "-DDISTRIBUTION";
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F74D6AA-1337-43EC-9E34-0AFB081302DE";
 				"PROVISIONING_PROFILE[sdk=iphoneos2.0]" = "0F74D6AA-1337-43EC-9E34-0AFB081302DE";
@@ -560,6 +563,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-DDEBUG";
 				PREBINDING = NO;
 				SDKROOT = iphoneos2.0;
 			};
