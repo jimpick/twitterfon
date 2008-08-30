@@ -46,11 +46,18 @@ static sqlite3_stmt* select_statement = nil;
     type = aType;
     
 	messageId           = [[dic objectForKey:@"id"] longLongValue];
-	text                = [[[dic objectForKey:@"text"] unescapeHTML] retain];
     stringOfCreatedAt   = [dic objectForKey:@"created_at"];
     favorited           = [[dic objectForKey:@"favorited"] isKindOfClass:[NSNull class]] ? 0 : 1;
 
-    if ((id)text == [NSNull null]) text = @"";
+    NSString *tweet = [dic objectForKey:@"text"];
+    tweet = @"This is test\n\r\n\rTest Test";
+    if ((id)tweet == [NSNull null]) {
+        text = @"";
+    }
+    else {
+        tweet = [[tweet  unescapeHTML] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+        text  = [[tweet stringByReplacingOccurrencesOfString:@"\r" withString:@" "] retain];
+    }
 
     // parse source parameter
     NSString *src = [dic objectForKey:@"source"];
