@@ -199,14 +199,6 @@
     [appDelegate openWebView:message.user.url on:[self navigationController]];
 }
 
-- (void)didTouchLocation:(id)sender
-{
-    NSString *location = [message.user.location stringByReplacingOccurrencesOfString:@"iPhone: " withString:@"http://maps.google.com/maps?ll="];
-    location = [location stringByAppendingString:@"&z=18"];
-    NSURL *url = [NSURL URLWithString:location];
-    [[UIApplication sharedApplication] openURL:url];
-}
-
 - (void)didTouchLinkButton:(NSString*)url
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
