@@ -11,7 +11,7 @@
 
 @interface UserCell : UITableViewCell {
 	IBOutlet UILabel*        name;
-	IBOutlet UILabel*        location;
+	IBOutlet UIButton*       location;
   	IBOutlet UIButton*       url;
     IBOutlet UILabel*        numFollowers;
     IBOutlet UIImageView*    protected;

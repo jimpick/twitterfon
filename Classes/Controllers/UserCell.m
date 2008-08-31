@@ -17,13 +17,15 @@
 
 - (void)awakeFromNib
 {  	  	 
-    name.font               = [UIFont boldSystemFontOfSize:18];  	  	 
-    location.font           = [UIFont systemFontOfSize:14];  	  	 
-    url.font                = [UIFont boldSystemFontOfSize:14];  	  	 
-    url.lineBreakMode       = UILineBreakModeTailTruncation;  	  	 
-    url.titleShadowOffset   = CGSizeMake(0, 1);
-    numFollowers.font       = [UIFont systemFontOfSize:13];  	  	 
-    numFollowers.textColor  = [UIColor darkGrayColor];
+    name.font                   = [UIFont boldSystemFontOfSize:18];  	  	 
+    location.font               = [UIFont systemFontOfSize:14];
+    location.lineBreakMode      = UILineBreakModeTailTruncation;  	  	 
+    location.titleShadowOffset  = CGSizeMake(0, 1);
+    url.font                    = [UIFont boldSystemFontOfSize:14];  	  	 
+    url.lineBreakMode           = UILineBreakModeTailTruncation;  	  	 
+    url.titleShadowOffset       = CGSizeMake(0, 1);
+    numFollowers.font           = [UIFont systemFontOfSize:13];  	  	 
+    numFollowers.textColor      = [UIColor darkGrayColor];
     
     UIImage *img = [UIImage imageNamed:@"usercell_background.png"];
     background = CGImageRetain(img.CGImage);
@@ -53,9 +55,20 @@
 -(void)update:(Message*)message delegate:(id)delegate
 {
     name.text               = message.user.name;
-    location.text           = message.user.location;
-    [url setTitle:message.user.url forState:UIControlStateNormal];
-    [url setTitle:message.user.url forState:UIControlStateHighlighted];
+
+    NSRange r = [message.user.location rangeOfString:@"iPhone: "];
+    if (r.location != NSNotFound) {
+        [location setTitle:message.user.location forState:UIControlStateNormal];
+        [location setTitle:message.user.location forState:UIControlStateHighlighted];
+        location.font = [UIFont boldSystemFontOfSize:14];
+        location.enabled = true;
+        [location addTarget:delegate action:@selector(didTouchLocation:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else {
+        [location setTitle:message.user.location forState:UIControlStateDisabled];
+        location.font = [UIFont systemFontOfSize:14];
+        location.enabled = false;
+    }
 
     if (message.user.followersCount <= 1) {
         numFollowers.text   = [NSString stringWithFormat:@"%d follower", message.user.followersCount];
@@ -63,9 +76,12 @@
     else {
         numFollowers.text   = [NSString stringWithFormat:@"%d followers", message.user.followersCount];
     }
-    [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];   
-    protected.hidden = (message.user.protected) ? false : true;
     
+    [url setTitle:message.user.url forState:UIControlStateNormal];
+    [url setTitle:message.user.url forState:UIControlStateHighlighted];
+    [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];   
+    
+    protected.hidden = (message.user.protected) ? false : true;
 /*    
 	description.font        = [UIFont systemFontOfSize:13];
     description.text        = message.user.description;
