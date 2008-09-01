@@ -64,7 +64,7 @@ NSString* sMethods[4] = {
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
 	NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/statuses/update.json",
-                     username, password];
+                     [username encodeAsURIComponent], [password encodeAsURIComponent]];
     
     NSLog(@"%@", url);
     
