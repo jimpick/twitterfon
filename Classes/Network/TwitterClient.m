@@ -19,7 +19,7 @@ NSString* sMethods[4] = {
     @"statuses/user_timeline",
 };
 
-//#define DEBUG_WITH_PUBLIC_TIMELINE
+//#define USE_AUTH_CHALLENGE
 
 @interface NSObject (TwitterClientDelegate)
 - (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)messages;
@@ -30,6 +30,7 @@ NSString* sMethods[4] = {
 
 - (void)get:(MessageType)type params:(NSDictionary*)params
 {
+#ifndef USE_AUTH_CHALLENGE
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
         
@@ -44,7 +45,10 @@ NSString* sMethods[4] = {
                password,
                sMethods[type]];
     }
-
+#else
+    NSString *url = [NSString stringWithFormat:@"http://twitter.com/%@.json", sMethods[type]];
+#endif    
+    
     int i = 0;
     for (id key in params) {
         NSString *value = [params objectForKey:key];
@@ -78,8 +82,32 @@ NSString* sMethods[4] = {
 
 - (void)TFConnectionDidFailWithError:(NSError*)error
 {
-    [delegate twitterClientDidFail:self error:@"Connection Failed" detail:[error localizedDescription]];
+
+        [delegate twitterClientDidFail:self error:@"Connection Failed" detail:[error localizedDescription]];
 }
+
+#ifdef USE_AUTH_CHALLENGE
+
+-(void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+	if ([challenge previousFailureCount] == 0) {
+        NSLog(@"Authentication Challenge");
+        NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+        NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+		NSURLCredential* cred = [NSURLCredential credentialWithUser:username password:password persistence:NSURLCredentialPersistenceNone];
+		[[challenge sender] useCredential:cred forAuthenticationChallenge:challenge];
+	} else {
+		NSLog(@"Failed auth");
+		[[challenge sender] cancelAuthenticationChallenge:challenge];
+	}
+}
+
+- (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+        [delegate twitterClientDidFail:self error:@"Authentication Failed" detail:@"Wrong username/Email and password combination."];
+}
+
+#endif
 
 - (void)TFConnectionDidFinishLoading:(NSString*)content
 {
