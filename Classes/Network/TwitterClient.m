@@ -19,8 +19,6 @@ NSString* sMethods[4] = {
     @"statuses/user_timeline",
 };
 
-//#define USE_AUTH_CHALLENGE
-
 @interface NSObject (TwitterClientDelegate)
 - (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)messages;
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail;
@@ -30,7 +28,6 @@ NSString* sMethods[4] = {
 
 - (void)get:(MessageType)type params:(NSDictionary*)params
 {
-#ifndef USE_AUTH_CHALLENGE
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
         
@@ -41,13 +38,10 @@ NSString* sMethods[4] = {
     }
     else {
         url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/%@.json",
-               username,
-               password,
+               [username encodeAsURIComponent],
+               [password encodeAsURIComponent],
                sMethods[type]];
     }
-#else
-    NSString *url = [NSString stringWithFormat:@"http://twitter.com/%@.json", sMethods[type]];
-#endif    
     
     int i = 0;
     for (id key in params) {
@@ -82,11 +76,13 @@ NSString* sMethods[4] = {
 
 - (void)TFConnectionDidFailWithError:(NSError*)error
 {
-
+    if (error.code ==  NSURLErrorUserCancelledAuthentication) {
+        [delegate twitterClientDidFail:self error:@"Authentication Failed" detail:@"Wrong username/Email and password combination."];
+    }
+    else {
         [delegate twitterClientDidFail:self error:@"Connection Failed" detail:[error localizedDescription]];
+    }
 }
-
-#ifdef USE_AUTH_CHALLENGE
 
 -(void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
@@ -97,17 +93,15 @@ NSString* sMethods[4] = {
 		NSURLCredential* cred = [NSURLCredential credentialWithUser:username password:password persistence:NSURLCredentialPersistenceNone];
 		[[challenge sender] useCredential:cred forAuthenticationChallenge:challenge];
 	} else {
-		NSLog(@"Failed auth");
+		NSLog(@"Failed auth (%d times)", [challenge previousFailureCount]);
 		[[challenge sender] cancelAuthenticationChallenge:challenge];
 	}
 }
 
 - (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-        [delegate twitterClientDidFail:self error:@"Authentication Failed" detail:@"Wrong username/Email and password combination."];
+    [delegate twitterClientDidFail:self error:@"Authentication Failed" detail:@"Wrong username/Email and password combination."];
 }
-
-#endif
 
 - (void)TFConnectionDidFinishLoading:(NSString*)content
 {
