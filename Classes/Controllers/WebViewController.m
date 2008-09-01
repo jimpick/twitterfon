@@ -115,7 +115,7 @@
     NSRange r = [aURL rangeOfString:@"http://maps.google.com/"];
     if (r.location != NSNotFound) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TwitterFon"
-                                                        message:@"You are opening Google Maps"
+                                                        message:@"You are opening Maps"
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:@"Open", nil];
@@ -128,6 +128,18 @@
     if (r.location != NSNotFound) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TwitterFon"
                                                         message:@"You are opening YouTube"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Open", nil];
+        [alert show];	
+        [alert release];
+        return false;
+    }
+    
+    r = [aURL rangeOfString:@"http://phobos.apple.com/"];
+    if (r.location != NSNotFound) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TwitterFon"
+                                                        message:@"You are opening iTunes"
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:@"Open", nil];
