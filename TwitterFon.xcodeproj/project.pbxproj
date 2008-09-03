@@ -15,7 +15,6 @@
 		6E08FB9E0E5D266B00106492 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08FB9D0E5D266B00106492 /* UserCell.m */; };
 		6E092C3B0E3B41D40039FEE3 /* TFConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E092C3A0E3B41D40039FEE3 /* TFConnection.m */; };
 		6E1029110E5D362C00440C58 /* LoadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1029100E5D362C00440C58 /* LoadCell.m */; };
-		6E102AE30E5DEC7A00440C58 /* db1.1.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6E102AE20E5DEC7A00440C58 /* db1.1.sql */; };
 		6E29E9D10E61F07C00E731BE /* UserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E29E9D00E61F07C00E731BE /* UserView.xib */; };
 		6E2BCF1B0E3591B8003A8F69 /* postbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF1A0E3591B8003A8F69 /* postbutton.png */; };
 		6E2BCF260E3596D4003A8F69 /* friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF250E3596D4003A8F69 /* friends.png */; };
@@ -78,7 +77,6 @@
 		6E092C3A0E3B41D40039FEE3 /* TFConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TFConnection.m; path = Network/TFConnection.m; sourceTree = "<group>"; };
 		6E10290F0E5D362C00440C58 /* LoadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadCell.h; path = Controllers/LoadCell.h; sourceTree = "<group>"; };
 		6E1029100E5D362C00440C58 /* LoadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadCell.m; path = Controllers/LoadCell.m; sourceTree = "<group>"; };
-		6E102AE20E5DEC7A00440C58 /* db1.1.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = db1.1.sql; sourceTree = "<group>"; };
 		6E138FEE0E67F76A0037BE46 /* DebugUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugUtils.h; path = Classes/OtherSources/DebugUtils.h; sourceTree = "<group>"; };
 		6E29E9D00E61F07C00E731BE /* UserView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserView.xib; sourceTree = "<group>"; };
 		6E2BCF1A0E3591B8003A8F69 /* postbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = postbutton.png; sourceTree = "<group>"; };
@@ -232,7 +230,6 @@
 				6E29E9D00E61F07C00E731BE /* UserView.xib */,
 				6E660AE00E61500600B6FA30 /* WebView.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
-				6E102AE20E5DEC7A00440C58 /* db1.1.sql */,
 				6EEF53AD0E692F41000EB198 /* db1.1.1.sql */,
 			);
 			name = Resources;
@@ -453,7 +450,6 @@
 				6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */,
 				6E3703E70E49137E00952688 /* link.png in Resources */,
 				6E3704060E491B4500952688 /* link_highlighted.png in Resources */,
-				6E102AE30E5DEC7A00440C58 /* db1.1.sql in Resources */,
 				6E021A730E60109000D0869A /* lock.png in Resources */,
 				6E660AE10E61500600B6FA30 /* WebView.xib in Resources */,
 				6E660BEE0E615B9800B6FA30 /* PostView.xib in Resources */,
