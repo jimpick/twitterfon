@@ -66,7 +66,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [webView loadHTMLString:@"<html><style>html { width:320px; height:480px; background-color:white; }</style><body></body></html>" baseURL:nil];
+//    [webView loadHTMLString:@"<html><style>html { width:320px; height:480px; background-color:white; }</style><body></body></html>" baseURL:nil];
 }
 
 - (IBAction)reload:(id)sender
@@ -103,51 +103,41 @@
     }
 }
 
+
+#define NUM_SCHEMES     5
+
+static NSString *schemes[NUM_SCHEMES][2] = {
+    {@"http://maps.google.com/", @"Maps"},
+    {@"http://www.youtube.com/", @"YouTube"},
+    {@"http://phobos.apple.com/", @"iTunes"},
+    {@"mailto:", @"Mail"},
+    {@"tel:", @"Phone"},
+};
+
 - (BOOL)webView:(UIWebView *)aWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     [openingURL release];
     openingURL = [request.URL copy];
     NSString *aURL = [request.mainDocumentURL absoluteString];
 
+
     self.title = aURL;
     [self setUrlBar:aURL];
     
-    NSRange r = [aURL rangeOfString:@"http://maps.google.com/"];
-    if (r.location != NSNotFound) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TwitterFon"
-                                                        message:@"You are opening Maps"
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"Open", nil];
-        [alert show];	
-        [alert release];
-        return false;
+    for (int i = 0; i < NUM_SCHEMES; ++i) {
+        NSRange r = [aURL rangeOfString:schemes[i][0]];
+        if (r.location != NSNotFound) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TwitterFon"
+                                                            message:[NSString stringWithFormat:@"You are opening %@", schemes[i][1]]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"Open", nil];
+            [alert show];	
+            [alert release];
+            return false;
+        }
     }
-    
-    r = [aURL rangeOfString:@"http://www.youtube.com/"];
-    if (r.location != NSNotFound) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TwitterFon"
-                                                        message:@"You are opening YouTube"
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"Open", nil];
-        [alert show];	
-        [alert release];
-        return false;
-    }
-    
-    r = [aURL rangeOfString:@"http://phobos.apple.com/"];
-    if (r.location != NSNotFound) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TwitterFon"
-                                                        message:@"You are opening iTunes"
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"Open", nil];
-        [alert show];	
-        [alert release];
-        return false;
-    }
-    
+   
     return true;
 }
 
