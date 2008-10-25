@@ -22,9 +22,7 @@ enum {
 };
 
 enum {
-//    ROW_FOLLOW,
     ROW_HELP,
-    ROW_REPLY,
     NUM_ROWS_HELP,
 };
 
@@ -39,9 +37,7 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
 };
 
 static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
-//    @"Open @TwitterFon",
     @"Open Help Page",
-    @"Send a tweet to @TwitterFon",
 };
 
 @implementation SettingsViewController
@@ -67,7 +63,7 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
     for (int i = 0; i < NUM_ROWS_HELP; ++i) {
         helps[i] = [[UITableViewCell alloc] initWithFrame:CGRectZero];
         helps[i].text = sHelpPhrase[i];
-        if (i != ROW_REPLY) {
+        if (i == ROW_HELP) {
             helps[i].accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         helps[i].textAlignment = UITextAlignmentCenter;
@@ -159,21 +155,7 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
             break;
             
         case SECTION_HELP:
-            if (indexPath.row == ROW_REPLY) {
-                TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-                PostViewController* postView = appDelegate.postView;
-                
-                [[self navigationController].view addSubview:postView.view];
-                [postView startEditWithString:@"@TwitterFon "];
-                [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];
-
-            }            
-#if 0
-            else if (indexPath.row == ROW_FOLLOW) {
-                [self openURL:@"http://m.twitter.com/TwitterFon"];
-            }
-#endif
-            else if (indexPath.row == ROW_HELP) {
+            if (indexPath.row == ROW_HELP) {
                 [self openURL:@"http://naan.net/trac/wiki/TwitterFon"];
             }
             break;
