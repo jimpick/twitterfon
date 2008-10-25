@@ -25,20 +25,20 @@ static UIImage* sHighlightedLinkButton = nil;
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
 	[super initWithFrame:frame reuseIdentifier:reuseIdentifier];
-    
+
     // name label
     nameLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-    nameLabel.backgroundColor = [UIColor clearColor];
+    nameLabel.backgroundColor = [UIColor whiteColor];
     nameLabel.textColor = [UIColor blackColor];
     nameLabel.highlightedTextColor = [UIColor whiteColor];
     nameLabel.font = [UIFont boldSystemFontOfSize:14];
     nameLabel.textAlignment = UITextAlignmentLeft;
     nameLabel.frame = CGRectMake(LEFT, 0, CELL_WIDTH - DETAIL_BUTTON_WIDTH, TOP);
     [self.contentView addSubview:nameLabel];
-		
+
     // text label
     textLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-    textLabel.backgroundColor = [UIColor clearColor];
+    textLabel.backgroundColor = [UIColor whiteColor];
     textLabel.textColor = [UIColor blackColor];
     textLabel.highlightedTextColor = [UIColor whiteColor];
     textLabel.font = [UIFont systemFontOfSize:13];
@@ -53,7 +53,7 @@ static UIImage* sHighlightedLinkButton = nil;
 
     // timestamp   	   	 
     timestamp = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];  	  	 
-    timestamp.backgroundColor = [UIColor clearColor];  	  	 
+    timestamp.backgroundColor = [UIColor whiteColor];  	  	 
     timestamp.textColor = [UIColor grayColor];  	  	 
     timestamp.highlightedTextColor = [UIColor whiteColor];  	  	 
     timestamp.font = [UIFont systemFontOfSize:12];  	  	 
@@ -101,7 +101,7 @@ static UIImage* sHighlightedLinkButton = nil;
     delegate = aDelegate;
     type     = aType;
     nameLabel.text = message.user.screenName;
-	textLabel.text = message.text;
+ 	textLabel.text = message.text;
 
     if (type == MSG_TYPE_USER) {
         self.contentView.backgroundColor = [UIColor whiteColor];
@@ -133,7 +133,6 @@ static UIImage* sHighlightedLinkButton = nil;
 - (void)layoutSubviews
 {
 	[super layoutSubviews];
-    self.backgroundColor = self.contentView.backgroundColor;	
     textLabel.frame = message.textBounds;
     profileImage.frame = CGRectMake(IMAGE_PADDING, 0, IMAGE_WIDTH, message.cellHeight);
 }
