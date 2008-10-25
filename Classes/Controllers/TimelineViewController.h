@@ -13,7 +13,6 @@
     int                     unread;
     int                     indexOfLoadCell;
     Stopwatch*              stopwatch;
-    BOOL                    isFirstTime;
 }
 
 - (IBAction) post: (id) sender;

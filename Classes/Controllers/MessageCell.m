@@ -133,6 +133,9 @@ static UIImage* sHighlightedLinkButton = nil;
 - (void)layoutSubviews
 {
 	[super layoutSubviews];
+    self.backgroundColor = self.contentView.backgroundColor;
+    textLabel.backgroundColor = self.contentView.backgroundColor;
+    nameLabel.backgroundColor = self.contentView.backgroundColor;
     textLabel.frame = message.textBounds;
     profileImage.frame = CGRectMake(IMAGE_PADDING, 0, IMAGE_WIDTH, message.cellHeight);
 }

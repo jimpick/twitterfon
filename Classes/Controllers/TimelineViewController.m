@@ -45,21 +45,6 @@ extern Stopwatch *gStopwatch;
     unread   = 0;
     tag      = [self navigationController].tabBarItem.tag;
 
-    switch (tag) {
-        case TAB_FRIENDS:
-            self.tableView.separatorColor = [UIColor whiteColor];
-            break;
-            
-        case TAB_REPLIES:
-            self.tableView.separatorColor =  [UIColor whiteColor];
-            self.tableView.backgroundColor = [UIColor repliesColor:false];
-            break;
-            
-        case TAB_MESSAGES:
-            self.tableView.separatorColor =  [UIColor whiteColor];
-            self.tableView.backgroundColor = [UIColor messageColor:false];
-    }
-
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     imageStore = appDelegate.imageStore;
     
@@ -67,21 +52,19 @@ extern Stopwatch *gStopwatch;
         timeline = [[Timeline alloc] initWithDelegate:self];
         [timeline restore:tag all:false];
     }
-    isFirstTime = true;
+    [timeline getTimeline:tag page:1 insertAt:0];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
+    self.navigationController.navigationBar.tintColor = gNavigationBarColors[tag];
+    self.tableView.separatorColor = [UIColor lightGrayColor]; 
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
     LAP(stopwatch, @"viewDidAppear");
-    if (isFirstTime) {
-        [timeline getTimeline:tag page:1 insertAt:0];
-        isFirstTime = false;
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -227,6 +210,7 @@ extern Stopwatch *gStopwatch;
             userTimeline = [[UserTimelineController alloc] initWithNibName:@"UserView" bundle:nil];
         }
         [[self navigationController] pushViewController:userTimeline animated:true];
+        self.navigationController.navigationBar.tintColor = nil;
         userTimeline.message = m;
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];   

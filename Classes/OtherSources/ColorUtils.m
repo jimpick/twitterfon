@@ -9,39 +9,41 @@
 #import "ColorUtils.h"
 
 
-static UIColor *sFriendColor         = nil;
 static UIColor *sFriendColorUnread   = nil;
-static UIColor *sRepliesColor        = nil;
 static UIColor *sRepliesColorUnread  = nil;
-static UIColor *sMessageColor        = nil;
 static UIColor *sMessageColorUnread  = nil;
+
+UIColor *gNavigationBarColors[3];
 
 @implementation UIColor (NSStringUtils)
 
 + (void) initTwitterFonColorScheme
 {
-    sFriendColor         = [[UIColor colorWithRed:0.682 green:0.914 blue:0.925 alpha:1.0] retain];    
-    sFriendColorUnread   = [[UIColor colorWithRed:0.451 green:0.898 blue:0.898 alpha:1.0] retain];
-    sRepliesColor        = [[UIColor colorWithRed:0.745 green:0.910 blue:0.608 alpha:1.0] retain];
-    sRepliesColorUnread  = [[UIColor colorWithRed:0.671 green:0.898 blue:0.443 alpha:1.0] retain];
-    sMessageColor        = [[UIColor colorWithRed:0.878 green:0.729 blue:0.545 alpha:1.0] retain];
-    sMessageColorUnread  = [[UIColor colorWithRed:0.898 green:0.671 blue:0.443 alpha:1.0] retain];
+    sFriendColorUnread   = [[UIColor colorWithRed:0.894 green:0.976 blue:0.988 alpha:1.0] retain];
+    sRepliesColorUnread  = [[UIColor colorWithRed:0.863 green:0.925 blue:0.886 alpha:1.0] retain];
+    sMessageColorUnread  = [[UIColor colorWithRed:0.969 green:0.863 blue:0.855 alpha:1.0] retain];
+
+    // Navigation Bar Color
+    gNavigationBarColors[0] = [[UIColor colorWithRed:0.420 green:0.690 blue:0.878 alpha:1.0] retain];
+    gNavigationBarColors[1] = [[UIColor colorWithRed:0.459 green:0.663 blue:0.557 alpha:1.0] retain];
+    gNavigationBarColors[2] = [[UIColor colorWithRed:0.701 green:0.447 blue:0.459 alpha:1.0] retain];
+    
 }
 
 + (UIColor*)friendColor:(BOOL)unread
 {
-    return unread ? sFriendColorUnread : sFriendColor;
+    return unread ? sFriendColorUnread : [UIColor whiteColor];
 }
 
 + (UIColor*)repliesColor:(BOOL)unread
 {
 
-    return unread ? sRepliesColorUnread : sRepliesColor;
+    return unread ? sRepliesColorUnread : [UIColor whiteColor];
 }
 
 + (UIColor*)messageColor:(BOOL)unread
 {
-    return unread ? sMessageColorUnread : sMessageColor;
+    return unread ? sMessageColorUnread : [UIColor whiteColor];
 }
 
 @end
