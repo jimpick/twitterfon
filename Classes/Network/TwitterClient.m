@@ -26,8 +26,12 @@ NSString* sMethods[4] = {
 
 @implementation TwitterClient
 
+@synthesize request;
+
 - (void)get:(MessageType)type params:(NSDictionary*)params
 {
+    request = TWITTER_REQUEST_TIMELINE;
+    
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
         
@@ -59,6 +63,7 @@ NSString* sMethods[4] = {
 
 - (void)post:(NSString*)tweet
 {
+    request = TWITTER_REQUEST_UPDATE;
     
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
@@ -72,6 +77,21 @@ NSString* sMethods[4] = {
     
     [self post:url body:postString];
     
+}
+
+- (void)destroy:(Message*)message
+{
+    request = TWITTER_REQUEST_DESTROY;
+    
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    
+	NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/statuses/destroy/%lld.json",
+                     [username encodeAsURIComponent], [password encodeAsURIComponent], [message messageId]];
+    
+    NSLog(@"%@", url);
+    
+    [self post:url body:@""];
 }
 
 - (void)TFConnectionDidFailWithError:(NSError*)error
