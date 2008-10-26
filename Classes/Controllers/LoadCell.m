@@ -35,16 +35,19 @@
 
 - (void)setType:(MessageType)type
 {
-    if (type <= MSG_TYPE_LOAD_FROM_WEB) {
-        if (type == MSG_TYPE_LOAD_FROM_WEB) {
+    switch (type) {
+        case MSG_TYPE_LOAD_FROM_WEB:
             label.text = @"Load more tweets...";
-        }
-        else {
+            break;
+            
+        case MSG_TYPE_LOAD_FROM_DB:
             label.text = @"Load all stored tweets...";
-        }
-    }
-    else {
-        label.text = @"Load this user's timeline...";
+            break;
+            
+        case MSG_TYPE_LOAD_USERTIMELINE:
+            label.text = @"Load this user's timeline...";
+        default:
+            break;
     }
     
     CGRect bounds = [label textRectForBounds:CGRectMake(0, 0, 320, 48) limitedToNumberOfLines:1];
