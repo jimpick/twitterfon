@@ -2,17 +2,19 @@
 
 static sqlite3*             theDatabase = nil;
 
+
 //#define TEST_DELETE_TWEET
 
 #ifdef TEST_DELETE_TWEET
 const char *delete_tweets = 
 "BEGIN;"
 //"DELETE FROM messages;"
-"DELETE FROM messages WHERE type = 0 and id > (SELECT id FROM messages WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 20);"
+//"DELETE FROM messages WHERE type = 0 and id > (SELECT id FROM messages WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 20);"
 //"DELETE FROM messages WHERE type = 1 and id > (SELECT id FROM messages WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 10);"
 //"DELETE FROM messages WHERE type = 2 and id > (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 1);"
 "COMMIT";
 #endif
+
 
 @implementation DBConnection
 
@@ -38,6 +40,7 @@ const char *delete_tweets =
     if (theDatabase == nil) {
         theDatabase = [self openDatabase:MAIN_DATABASE_NAME];
         NSAssert1(theDatabase, @"Can't open cache database. Please re-install TwitterFon", nil);
+        
 #ifdef TEST_DELETE_TWEET
         char *errmsg;
         if (sqlite3_exec(theDatabase, delete_tweets, NULL, NULL, &errmsg) != SQLITE_OK) {
@@ -56,6 +59,14 @@ const char *cleanup_sql =
 "DELETE FROM messages WHERE type = 2 and id <= (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 200);"
 "COMMIT";
 
+
+const char *optimize_sql = 
+"REINDEX messages;"
+"REINDEX images;"
+"ANALYZE messages;"
+"ANALYZE images;"
+"VACUUM;";
+
 + (void)closeDatabase
 {
     char *errmsg;
@@ -63,6 +74,19 @@ const char *cleanup_sql =
         if (sqlite3_exec(theDatabase, cleanup_sql, NULL, NULL, &errmsg) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to cleanup chache (%s)", errmsg);
         }
+        
+      	int launchCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"launchCount"];
+        NSLog(@"launchCount %d", launchCount);
+        if (launchCount > 50) {
+            NSLog(@"Optimize database...");
+            if (sqlite3_exec(theDatabase, optimize_sql, NULL, NULL, &errmsg) != SQLITE_OK) {
+                NSAssert1(0, @"Error: failed to cleanup chache (%s)", errmsg);
+            }
+            launchCount = 0;
+        }
+        ++launchCount;
+        [[NSUserDefaults standardUserDefaults] setInteger:launchCount forKey:@"launchCount"];
+        [[NSUserDefaults standardUserDefaults] synchronize];        
         sqlite3_close(theDatabase);
     }
 }
