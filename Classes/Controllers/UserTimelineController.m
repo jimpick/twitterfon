@@ -194,6 +194,26 @@
     [twitterClient favorite:cell.message];
 }
 
+- (void)toggleFavorite:(BOOL)favorited cell:(MessageCell*)cell
+{
+    cell.message.favorited = favorited;
+    [cell.message updateFavoriteState];
+    
+    if (favorited) {
+        [cell.profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
+    }
+    else {
+        [cell.profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
+    }    
+    CATransition *animation = [CATransition animation];
+    [animation setType:kCATransitionFade];
+    [animation setDuration:0.2];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    [cell.profileImage.layer addAnimation:animation forKey:@"favoriteButton"];
+    
+    [[self.navigationController.viewControllers objectAtIndex:0] updateFavorite:cell.message];
+}
+
 - (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj
 {
 
@@ -207,23 +227,9 @@
             return;
         }
         BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
-        cell.message.favorited = favorited;
-        [cell.message updateFavoriteState];
-
-        if (favorited) {
-            [cell.profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
-        }
-        else {
-            [cell.profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
-        }    
-        CATransition *animation = [CATransition animation];
-        [animation setType:kCATransitionFade];
-        [animation setDuration:0.2];
-        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-        [cell.profileImage.layer addAnimation:animation forKey:@"favoriteButton"];
         
-        [[self.navigationController.viewControllers objectAtIndex:0] updateFavorite:cell.message];
-      
+        [self toggleFavorite:favorited cell:cell];
+     
     }
     [sender autorelease];
 }
@@ -233,22 +239,7 @@
     if (sender.statusCode == 404) {
         BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
         MessageCell *cell = sender.context;
-        cell.message.favorited = favorited;
-        [cell.message updateFavoriteState];
-
-        if (favorited) {
-            [cell.profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
-        }
-        else {
-            [cell.profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
-        }    
-        CATransition *animation = [CATransition animation];
-        [animation setType:kCATransitionFade];
-        [animation setDuration:0.2];
-        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-        [cell.profileImage.layer addAnimation:animation forKey:@"favoriteButton"];
-        
-        [[self.navigationController.viewControllers objectAtIndex:0] updateFavorite:cell.message];
+        [self toggleFavorite:favorited cell:cell];
     }
     
     [sender autorelease];
