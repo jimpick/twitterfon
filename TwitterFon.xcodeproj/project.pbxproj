@@ -24,6 +24,7 @@
 		6E3703E70E49137E00952688 /* link.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E3703E60E49137E00952688 /* link.png */; };
 		6E3704060E491B4500952688 /* link_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E3704050E491B4500952688 /* link_highlighted.png */; };
 		6E382E940EB41E9000B0CE69 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6E382E930EB41E9000B0CE69 /* Settings.bundle */; };
+		6E3833270EB4368200B0CE69 /* BookmarkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E3833260EB4368200B0CE69 /* BookmarkView.xib */; };
 		6E660AE10E61500600B6FA30 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E660AE00E61500600B6FA30 /* WebView.xib */; };
 		6E660BEE0E615B9800B6FA30 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E660BED0E615B9800B6FA30 /* PostView.xib */; };
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
@@ -32,7 +33,6 @@
 		6EBEE5840EB2F65400C18F0A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE5830EB2F65400C18F0A /* SearchViewController.m */; };
 		6EBEE5F70EB2FBF700C18F0A /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE5F60EB2FBF700C18F0A /* SearchView.m */; };
 		6EBEE6610EB3044200C18F0A /* PostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE6600EB3044200C18F0A /* PostView.m */; };
-		6EBEE7960EB3904F00C18F0A /* BookmarkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EBEE7950EB3904F00C18F0A /* BookmarkView.xib */; };
 		6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA50E38D3A0006E8AB7 /* forward.png */; };
 		6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA60E38D3A0006E8AB7 /* back.png */; };
 		6EDC01240E33E6DA00FF142E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */; };
@@ -93,6 +93,7 @@
 		6E3703E60E49137E00952688 /* link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = link.png; sourceTree = "<group>"; };
 		6E3704050E491B4500952688 /* link_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = link_highlighted.png; sourceTree = "<group>"; };
 		6E382E930EB41E9000B0CE69 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		6E3833260EB4368200B0CE69 /* BookmarkView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookmarkView.xib; sourceTree = "<group>"; };
 		6E660AE00E61500600B6FA30 /* WebView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebView.xib; sourceTree = "<group>"; };
 		6E660BED0E615B9800B6FA30 /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostView.xib; sourceTree = "<group>"; };
 		6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeUtils.h; path = Classes/OtherSources/TimeUtils.h; sourceTree = "<group>"; };
@@ -105,7 +106,6 @@
 		6EBEE5F60EB2FBF700C18F0A /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchView.m; path = Controllers/SearchView.m; sourceTree = "<group>"; };
 		6EBEE65F0EB3044200C18F0A /* PostView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostView.h; path = Controllers/PostView.h; sourceTree = "<group>"; };
 		6EBEE6600EB3044200C18F0A /* PostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostView.m; path = Controllers/PostView.m; sourceTree = "<group>"; };
-		6EBEE7950EB3904F00C18F0A /* BookmarkView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BookmarkView.xib; path = Classes/Search/BookmarkView.xib; sourceTree = "<group>"; };
 		6ED17FA50E38D3A0006E8AB7 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
 		6ED17FA60E38D3A0006E8AB7 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -236,7 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				6EED14400E33E5BF00C71EA4 /* Images */,
-				6EBEE7950EB3904F00C18F0A /* BookmarkView.xib */,
+				6E3833260EB4368200B0CE69 /* BookmarkView.xib */,
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				6EBEE57E0EB2F60D00C18F0A /* SearchView.xib */,
 				6E660BED0E615B9800B6FA30 /* PostView.xib */,
@@ -485,8 +485,8 @@
 				6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */,
 				6EEF53AE0E692F41000EB198 /* db1.1.1.sql in Resources */,
 				6EBEE57F0EB2F60D00C18F0A /* SearchView.xib in Resources */,
-				6EBEE7960EB3904F00C18F0A /* BookmarkView.xib in Resources */,
 				6E382E940EB41E9000B0CE69 /* Settings.bundle in Resources */,
+				6E3833270EB4368200B0CE69 /* BookmarkView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
