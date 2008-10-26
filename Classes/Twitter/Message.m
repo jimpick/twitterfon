@@ -354,7 +354,24 @@ static sqlite3_stmt* select_statement = nil;
     if (success == SQLITE_ERROR) {
         NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
     }
+}
 
+- (void)deleteFromDB
+{
+    sqlite3* database = [DBConnection getSharedDatabase];
+
+    sqlite3_stmt* stmt;
+    if (sqlite3_prepare_v2(database, "DELETE FROM messages WHERE id = ?", -1, &stmt, NULL) != SQLITE_OK) {
+        NSAssert1(0, @"Error: failed to prepare delete statement with message '%s'.", sqlite3_errmsg(database));
+    }
+    sqlite3_bind_int64(stmt, 1, messageId);
+
+    int success = sqlite3_step(stmt);
+    // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
+    sqlite3_finalize(stmt);
+    if (success == SQLITE_ERROR) {
+        NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
+    }    
 }
 
 @end

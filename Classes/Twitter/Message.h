@@ -3,6 +3,7 @@
 #import "sqlite3.h"
 
 typedef enum {
+    MSG_TYPE_LOAD_USERTIMELINE = -3,
     MSG_TYPE_LOAD_FROM_DB  = -2,
     MSG_TYPE_LOAD_FROM_WEB = -1,
     MSG_TYPE_FRIENDS = 0,
@@ -79,6 +80,8 @@ typedef enum {
 
 - (Message*)initWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type;
 - (void)updateAttribute;
+
+- (void)deleteFromDB;
 
 - (id)copyWithZone:(NSZone *)zone;
 @end
