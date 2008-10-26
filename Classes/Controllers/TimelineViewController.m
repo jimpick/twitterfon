@@ -209,9 +209,9 @@ extern Stopwatch *gStopwatch;
         if (userTimeline == nil) {
             userTimeline = [[UserTimelineController alloc] initWithNibName:@"UserView" bundle:nil];
         }
-        [[self navigationController] pushViewController:userTimeline animated:true];
-        self.navigationController.navigationBar.tintColor = nil;
         userTimeline.message = m;
+        self.navigationController.navigationBar.tintColor = nil;
+        [[self navigationController] pushViewController:userTimeline animated:true];
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];   
 }
