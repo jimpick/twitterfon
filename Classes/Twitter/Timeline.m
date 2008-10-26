@@ -75,6 +75,17 @@ static sqlite3_stmt *select_statement = nil;
     }
 }
 
+- (void)updateFavorite:(Message*)message
+{
+    for (int i = 0; i < [messages count]; ++i) {
+        Message *m = [messages objectAtIndex:i];
+        if (m.messageId == message.messageId) {
+            m.favorited = message.favorited;
+            return;
+        }
+    }
+}
+
 - (void)appendMessage:(Message*)m
 {
     [messages addObject:m];

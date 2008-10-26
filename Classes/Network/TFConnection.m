@@ -13,6 +13,7 @@
 @implementation TFConnection
 
 @synthesize buf;
+@synthesize statusCode;
 
 - (id)initWithDelegate:(NSObject*)aDelegate
 {

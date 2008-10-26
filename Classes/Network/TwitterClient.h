@@ -12,11 +12,14 @@ typedef enum {
 @interface TwitterClient : TFConnection
 {
     RequestType request;
+    id          context;
 }
 
-@property (nonatomic, readonly) RequestType request;
+@property(nonatomic, readonly) RequestType request;
+@property(nonatomic, assign) id context;
 
 - (void)get:(MessageType)type params:(NSDictionary*)params;
 - (void)post:(NSString*)tweet;
 - (void)destroy:(Message*)message;
+- (void)favorite:(Message*)message;
 @end

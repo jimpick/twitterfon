@@ -14,14 +14,19 @@
     UIButton*       profileImage;
     UIButton*       linkButton;
     MessageType     type;
+    
+    BOOL            inEditing;
 }
 
 @property (nonatomic, assign) Message*  message;
 @property (nonatomic, assign) UIButton* profileImage;
+@property (nonatomic, assign) BOOL inEditing;
 
 - (void)update:(MessageType)type delegate:(id)delegate;
 
 + (UIImage*) linkButtonImage;
 + (UIImage*) hilightedLinkButtonImage;
++ (UIImage*) favoriteImage;
++ (UIImage*) favoritedImage;
 
 @end

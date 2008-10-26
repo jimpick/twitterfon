@@ -28,6 +28,7 @@ NSString* sMethods[4] = {
 @implementation TwitterClient
 
 @synthesize request;
+@synthesize context;
 
 - (void)get:(MessageType)type params:(NSDictionary*)params
 {
@@ -93,6 +94,24 @@ NSString* sMethods[4] = {
     NSLog(@"%@", url);
     
     [self post:url body:@""];
+}
+
+- (void)favorite:(Message*)message
+{
+    request = (message.favorited) ? TWITTER_REQUEST_DESTROY : TWITTER_REQUEST_FAVORITE;
+    
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+
+    NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/favorites/%@/%lld.json",
+                     [username encodeAsURIComponent],
+                     [password encodeAsURIComponent],
+                     (message.favorited) ? @"destroy" : @"create",
+                     [message messageId]];
+    
+    NSLog(@"%@", url);
+    
+    [self post:url body:@""];    
 }
 
 - (void)TFConnectionDidFailWithError:(NSError*)error

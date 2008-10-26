@@ -22,6 +22,7 @@ typedef enum {
 
 #define IMAGE_WIDTH         48
 #define USER_CELL_PADDING   10
+#define USER_CELL_LEFT      42
 
 #define TOP                 16
 #define LEFT                (IMAGE_PADDING * 2 + IMAGE_WIDTH)
@@ -29,7 +30,7 @@ typedef enum {
 #define TIMESTAMP_WIDTH     60
 #define TIMESTAMP_LEFT      (LEFT + CELL_WIDTH) - TIMESTAMP_WIDTH
 
-#define USER_CELL_WIDTH     (320 - USER_CELL_PADDING * 2)
+#define USER_CELL_WIDTH     (320 - (USER_CELL_LEFT + USER_CELL_PADDING * 2))
 
 @interface Message : NSObject
 {
@@ -82,6 +83,7 @@ typedef enum {
 - (void)updateAttribute;
 
 - (void)deleteFromDB;
+- (void)updateFavoriteState;
 
 - (id)copyWithZone:(NSZone *)zone;
 @end

@@ -162,6 +162,11 @@ extern Stopwatch *gStopwatch;
     [timeline deleteMessage:message];
 }
 
+- (void) updateFavorite:(Message*)message
+{
+    [timeline updateFavorite:message];
+}
+
 //
 // UITableViewDelegate
 //

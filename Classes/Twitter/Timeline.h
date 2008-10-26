@@ -24,8 +24,10 @@
 - (void)appendMessage:(Message*)message;
 
 - (Message*)messageAtIndex:(int)i;
+
 - (Message*)deleteMessageAtIndex:(int)i;
 - (void)deleteMessage:(Message*)message;
 - (void)insertMessage:(Message*)message;
+- (void)updateFavorite:(Message*)message;
 
 @end

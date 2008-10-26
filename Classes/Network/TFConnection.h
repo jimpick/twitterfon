@@ -16,6 +16,7 @@
 }
 
 @property (nonatomic, readonly) NSMutableData* buf;
+@property (nonatomic, assign) int statusCode;
 
 - (id)initWithDelegate:(NSObject*)delegate;
 - (void)get:(NSString*)URL;

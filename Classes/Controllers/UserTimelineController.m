@@ -12,6 +12,7 @@
 
 @interface UIViewController (UserTimelineControllerDelegate)
 - (void)removeMessage:(Message*)message;
+- (void)updateFavorite:(Message*)message;
 @end
 
 @implementation UserTimelineController
@@ -68,13 +69,17 @@
         timeline = [[Timeline alloc] initWithDelegate:self];
     }
 
-    
-    if (!message || message.messageId != aMessage.messageId) {
+    if (message == nil || message.messageId != aMessage.messageId) {
         [message release];
         message = [aMessage copy];
+        if ([timeline countMessages] == 1) {
+            [timeline release];
+            timeline = [[Timeline alloc] initWithDelegate:self];
+        }
     }
     message.type = MSG_TYPE_USER;
     [message updateAttribute];
+    
     if ([timeline countMessages] == 0) {
         [timeline appendMessage:message];
     }
@@ -83,7 +88,7 @@
     self.title = message.user.screenName;
 
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    if ([message.user.screenName compare:username] == NSOrderedSame) {
+    if (1) {//[message.user.screenName compare:username] == NSOrderedSame) {
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
     }
     else {
@@ -134,8 +139,15 @@
                 cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
             }
             cell.message = m;
-            [cell update:MSG_TYPE_USER delegate:self];
+            cell.inEditing = self.editing;
 
+            if (m.favorited) {
+                [cell.profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
+            }
+            else {
+                [cell.profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
+            }
+            [cell update:MSG_TYPE_USER delegate:self];
             return cell;
         }
         else {
@@ -173,6 +185,60 @@
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     [appDelegate openWebView:message.user.url on:[self navigationController]];
+}
+
+- (void)didTouchProfileImage:(MessageCell*)cell
+{
+    TwitterClient *twitterClient = [[TwitterClient alloc] initWithDelegate:self];
+    twitterClient.context = cell;
+    [twitterClient favorite:cell.message];
+}
+
+- (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj
+{
+
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        MessageCell *cell = sender.context;
+        
+        NSDictionary *dic = (NSDictionary*)obj;
+        sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];
+        if (cell.message.messageId != messageId) {
+            NSLog(@"Someting wrong with contet. Ignore error...");
+            return;
+        }
+        BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
+        cell.message.favorited = favorited;
+        [cell.message updateFavoriteState];
+        
+        if (favorited) {
+            [cell.profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
+        }
+        else {
+            [cell.profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
+        }    
+       [[self.navigationController.viewControllers objectAtIndex:0] updateFavorite:cell.message];
+      
+    }
+    [sender autorelease];
+}
+
+- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
+{
+    if (sender.statusCode == 404) {
+        BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
+        MessageCell *cell = sender.context;
+        cell.message.favorited = favorited;
+        [cell.message updateFavoriteState];
+        if (favorited) {
+            [cell.profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
+        }
+        else {
+            [cell.profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
+        }    
+        [[self.navigationController.viewControllers objectAtIndex:0] updateFavorite:cell.message];
+    }
+    
+    [sender autorelease];
 }
 
 - (void)didTouchLinkButton:(NSString*)url
