@@ -10,6 +10,7 @@ static sqlite3_stmt *select_statement = nil;
 - (void)timelineDidReceiveNewMessage:(Message*)msg;
 - (void)timelineDidUpdate:(int)count insertAt:(int)position;
 - (void)timelineDidFailToUpdate;
+- (void)messageDidDelete:(sqlite_int64)id;
 @end
 
 @implementation Timeline
@@ -49,7 +50,34 @@ static sqlite3_stmt *select_statement = nil;
 
 - (Message*)messageAtIndex:(int)i
 {
+    if (i >= [messages count]) return NULL;
     return [messages objectAtIndex:i];
+}
+
+-(Message*)deleteMessageAtIndex:(int)i
+{
+    Message *m = [messages objectAtIndex:i];
+    [[m retain] autorelease];
+    twitterClient = [[TwitterClient alloc] initWithDelegate:self];
+    [twitterClient destroy:m];
+    [messages removeObjectAtIndex:i];
+    return m;
+}
+
+- (void)deleteMessage:(Message*)message
+{
+    for (int i = 0; i < [messages count]; ++i) {
+        Message *m = [messages objectAtIndex:i];
+        if (m.messageId == message.messageId) {
+            [messages removeObjectAtIndex:i];
+            return;
+        }
+    }
+}
+
+- (void)appendMessage:(Message*)m
+{
+    [messages addObject:m];
 }
 
 - (void)insertMessage:(Message*)m
@@ -146,20 +174,27 @@ static sqlite3_stmt *select_statement = nil;
 - (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj
 {
 	[twitterClient autorelease];
-	twitterClient = nil;
 
-    if (obj == nil) return;
+    if (obj == nil) {
+        goto out;
+    }
     
     NSArray *ary = nil;
     if ([obj isKindOfClass:[NSArray class]]) {
         ary = (NSArray*)obj;
     }
-    else {
-        return;
+    else if ([obj isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dic = (NSDictionary*)obj;
+        sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];        
+        if (twitterClient.request == TWITTER_REQUEST_DESTROY) {
+            [delegate messageDidDelete:messageId];
+        }
+        goto out;
     }
-    
-    if (insertPosition) {
-        [messages removeObjectAtIndex:insertPosition];
+
+    if ([messages count] == 1) {
+        [messages removeObjectAtIndex:0];
+        --insertPosition;
     }
     
     BOOL noMoreRead = FALSE;
@@ -194,14 +229,18 @@ static sqlite3_stmt *select_statement = nil;
         sqlite3_exec(database, "COMMIT", NULL, NULL, &errmsg); 
         LAP(s, @"Data inserted");
     }
-
+#if 0    
     if ([ary count] == 20 && !noMoreRead && ++page <= 10) {
         [messages insertObject:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_WEB page:page] atIndex:insertPosition + unread];
     }
-	
+#endif
     if (delegate && [delegate respondsToSelector:@selector(timelineDidUpdate:insertAt:)]) {
         [delegate timelineDidUpdate:unread insertAt:insertPosition];
 	}
+    
+  out:
+  	twitterClient = nil;
+    return;
 }
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail

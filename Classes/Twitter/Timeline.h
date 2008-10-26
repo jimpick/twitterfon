@@ -21,7 +21,11 @@
 - (void)cancel;
 
 - (int)countMessages;
+- (void)appendMessage:(Message*)message;
+
 - (Message*)messageAtIndex:(int)i;
-- (void)insertMessage:(Message*)m;
+- (Message*)deleteMessageAtIndex:(int)i;
+- (void)deleteMessage:(Message*)message;
+- (void)insertMessage:(Message*)message;
 
 @end
