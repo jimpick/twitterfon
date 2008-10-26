@@ -88,7 +88,7 @@
     self.title = message.user.screenName;
 
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    if (1) {//[message.user.screenName compare:username] == NSOrderedSame) {
+    if ([message.user.screenName compare:username] == NSOrderedSame) {
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
     }
     else {
