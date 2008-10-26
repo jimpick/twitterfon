@@ -52,13 +52,9 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
     // If the settings are empty, focus to username text area.
 	NSString *user = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *pass = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-    if (user == nil) {
-        [usernameField becomeFirstResponder];
-    }
-    else {
-        usernameField.text = user;
-        passwordField.text = pass;
-    }
+
+    usernameField.text = user;
+    passwordField.text = pass;
 
     for (int i = 0; i < NUM_ROWS_HELP; ++i) {
         helps[i] = [[UITableViewCell alloc] initWithFrame:CGRectZero];
@@ -194,6 +190,11 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    if (animated) {
+        if (usernameField.text == nil || [usernameField.text compare:@""] == NSOrderedSame) {
+            [usernameField becomeFirstResponder];
+        }
+    }
 	[super viewDidAppear:animated];
 }
 
