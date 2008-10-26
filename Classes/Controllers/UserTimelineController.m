@@ -16,8 +16,6 @@
 
 @implementation UserTimelineController
 
-@synthesize message;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
@@ -68,20 +66,24 @@
         [imageStore releaseImage:url];
         [timeline release];
         timeline = [[Timeline alloc] initWithDelegate:self];
-
     }
+
     
-    // This operation copy a message object
-    [message release];
-    message = [aMessage copy];
+    if (!message || message.messageId != aMessage.messageId) {
+        [message release];
+        message = [aMessage copy];
+    }
     message.type = MSG_TYPE_USER;
     [message updateAttribute];
-    [timeline appendMessage:message];
+    if ([timeline countMessages] == 0) {
+        [timeline appendMessage:message];
+    }
+
     [self.tableView reloadData];
     self.title = message.user.screenName;
 
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    if (1) {//[message.user.screenName compare:username] == NSOrderedSame) {
+    if ([message.user.screenName compare:username] == NSOrderedSame) {
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
     }
     else {

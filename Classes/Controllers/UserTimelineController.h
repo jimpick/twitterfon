@@ -23,8 +23,6 @@
     NSMutableArray*         deletedMessage;
 }
 
-@property(nonatomic, assign) Message* message;
-
 - (void)setMessage:(Message *)message;
 
 @end
