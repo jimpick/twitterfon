@@ -7,6 +7,7 @@
 //
 
 #import "TwitterFonAppDelegate.h"
+#import "TimelineViewController.h"
 #import "DBConnection.h"
 #import "ColorUtils.h"
 
@@ -17,7 +18,7 @@
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)postTweetDidSucceed:(NSDictionary*)dic;
 - (void)postViewAnimationDidFinish;
-- (void)didChangeSeletViewController:(UINavigationController*)navigationController;
+- (void)didChangeTab:(UINavigationController*)navigationController;
 @end
 
 @implementation TwitterFonAppDelegate
@@ -37,19 +38,17 @@
 
     imageStore = [[ImageStore alloc] init];    
 
+    selectedTab = 0;
+    tabBarController.selectedIndex = TAB_FRIENDS;
+    
+	[window addSubview:tabBarController.view];
+    [UIColor initTwitterFonColorScheme];
+    
     if (username == nil || password == nil ||
         [username compare:@""] == 0 ||
         [password compare:@""] == 0) {
-        tabBarController.selectedIndex = TAB_SETTINGS;
+        [self openSettingsView];
     }
-    else {
-        tabBarController.selectedIndex = TAB_FRIENDS;
-    }
-    
-    selectedTab = 0;
-   
-	[window addSubview:tabBarController.view];
-    [UIColor initTwitterFonColorScheme];
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
@@ -97,6 +96,24 @@
     [imageStore didReceiveMemoryWarning];
 }
 
+- (void)openSettingsView
+{
+    if (settings == nil) {
+        settings = [[SettingsViewController alloc] initWithNibName:@"SettingsView" bundle:nil];
+    }
+    
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];
+    [nav presentModalViewController:settings animated:YES];
+}
+
+- (void)closeSettingsView
+{
+    [settings release];
+    settings = nil;
+    UINavigationController* view = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];    
+    [(TimelineViewController*)[view topViewController] reload:self];
+}
+
 - (PostViewController *)postView
 {
     if (postView == nil) {
@@ -115,11 +132,11 @@
 //
 - (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
 {
-    if (selectedTab != TAB_SETTINGS) {
+    if (selectedTab != TAB_SEARCH) {
         UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
         UIViewController *c = [nav.viewControllers objectAtIndex:0];
-        if ([c respondsToSelector:@selector(didChangeSeletViewController:)]) {
-            [c didChangeSeletViewController:nav];
+        if ([c respondsToSelector:@selector(didChangeTab:)]) {
+            [c didChangeTab:nav];
         }
     }
     selectedTab = tabBar.selectedIndex;

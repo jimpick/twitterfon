@@ -78,13 +78,6 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
     
 }
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-	if (self = [super initWithStyle:style]) {
-	}
-	return self;
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 	return NUM_SECTIONS;
@@ -96,7 +89,7 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
     return sNumRows[section];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection: (NSInteger)section
 {
     return sSectionHeader[section];
 }
@@ -175,6 +168,14 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
     }
     [self saveSettings];
     return YES;
+}
+
+- (IBAction)done:(id)sender
+{
+    [self saveSettings];
+    [self dismissModalViewControllerAnimated:true];
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    [appDelegate closeSettingsView];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField

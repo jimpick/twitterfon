@@ -6,6 +6,7 @@
 //  Copyright naan studio 2008. All rights reserved.
 //
 
+#import "TwitterFonAppDelegate.h"
 #import "TwitterClient.h"
 #import "StringUtil.h"
 #import "JSON.h"
@@ -98,6 +99,9 @@ NSString* sMethods[4] = {
 {
     if (error.code ==  NSURLErrorUserCancelledAuthentication) {
         [delegate twitterClientDidFail:self error:@"Authentication Failed" detail:@"Wrong username/Email and password combination."];
+
+        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+        [appDelegate openSettingsView];
     }
     else {
         [delegate twitterClientDidFail:self error:@"Connection Failed" detail:[error localizedDescription]];

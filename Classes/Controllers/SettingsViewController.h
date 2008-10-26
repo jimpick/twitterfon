@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsViewController : UITableViewController {
+@interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     IBOutlet UITableViewCell*   username;
     IBOutlet UITableViewCell*   password;
 
@@ -17,5 +17,7 @@
     IBOutlet UITextField*       usernameField;
     IBOutlet UITextField*       passwordField;
 }
+
+- (IBAction)done:(id)sender;
 
 @end

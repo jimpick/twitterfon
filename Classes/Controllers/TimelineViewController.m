@@ -52,7 +52,14 @@ extern Stopwatch *gStopwatch;
         timeline = [[Timeline alloc] initWithDelegate:self];
         [timeline restore:tag all:false];
     }
-    [timeline getTimeline:tag page:1 insertAt:0];
+    
+    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    if (!(username == nil || password == nil ||
+          [username compare:@""] == 0 ||
+          [password compare:@""] == 0)) {
+        [timeline getTimeline:tag page:1 insertAt:0];
+    }    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -266,7 +273,7 @@ extern Stopwatch *gStopwatch;
 //
 // TwitterFonApPDelegate delegate
 //
-- (void)didChangeSeletViewController:(UINavigationController*)navigationController
+- (void)didChangeTab:(UINavigationController*)navigationController
 {
     navigationController.tabBarItem.badgeValue = nil;
     for (int i = 0; i < [timeline countMessages]; ++i) {

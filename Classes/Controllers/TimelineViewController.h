@@ -8,7 +8,6 @@
 	Timeline*               timeline;
     UserTimelineController* userTimeline;
     ImageStore*             imageStore;
-    NSString*               username;
     int                     tag;
     int                     unread;
     int                     indexOfLoadCell;

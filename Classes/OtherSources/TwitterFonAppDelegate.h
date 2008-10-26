@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PostViewController.h"
+#import "SettingsViewController.h"
 #import "WebViewController.h"
 #import "ImageStore.h"
 
@@ -15,7 +16,7 @@ typedef enum {
     TAB_FRIENDS,
     TAB_REPLIES,
     TAB_MESSAGES,
-    TAB_SETTINGS,
+    TAB_SEARCH,
 } TAB_ITEM;
 
 @interface TwitterFonAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
@@ -23,10 +24,14 @@ typedef enum {
 	IBOutlet UITabBarController*    tabBarController;
 
     PostViewController*             postView;
+    SettingsViewController*         settings;
     WebViewController*              webView;
     ImageStore*                     imageStore;
     int                             selectedTab;
 }
+
+- (void) openSettingsView;
+- (void) closeSettingsView;
 
 - (void) openWebView:(NSString*)url on:(UINavigationController*)viewController;
 
