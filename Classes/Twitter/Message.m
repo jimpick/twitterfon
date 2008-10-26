@@ -161,12 +161,10 @@ static sqlite3_stmt* select_statement = nil;
 
     // If tweet has @yourname, set flag for change cell color later
     //
-    static NSString *username = nil;
-    if (username == nil) {
-        username = [[NSString stringWithFormat:@"@%@", [[NSUserDefaults standardUserDefaults] stringForKey:@"username"]] retain];
-    }
+    NSString *username = [[NSString alloc] initWithFormat:@"@%@", [[NSUserDefaults standardUserDefaults] stringForKey:@"username"]];
     r = [text rangeOfString:username];
     hasReply = (r.location != NSNotFound) ? true : false;
+    [username release];
 
     // Calculate text bounds and cell height here
     //
