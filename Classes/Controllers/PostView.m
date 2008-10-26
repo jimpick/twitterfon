@@ -11,14 +11,6 @@
 
 @implementation PostView
 
-
-- (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        // Initialization code
-    }
-    return self;
-}
-
 - (void)awakeFromNib
 {
     UIImage *img = [UIImage imageNamed:@"usercell_background.png"];
@@ -27,7 +19,7 @@
 
 
 - (void)drawRect:(CGRect)rect {
-    CGContextRef context = UIGraphicsGetCurrentContext();
+     CGContextRef context = UIGraphicsGetCurrentContext();
   	CGContextDrawImage(context, rect, background);
 }
 
