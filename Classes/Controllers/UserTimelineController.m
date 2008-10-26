@@ -5,7 +5,7 @@
 //  Created by kaz on 8/20/08.
 //  Copyright 2008 naan studio. All rights reserved.
 //
-
+#import <QuartzCore/QuartzCore.h>
 #import "UserTimelineController.h"
 #import "TwitterFonAppDelegate.h"
 #import "MessageCell.h"
@@ -209,14 +209,20 @@
         BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
         cell.message.favorited = favorited;
         [cell.message updateFavoriteState];
-        
+
         if (favorited) {
             [cell.profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
         }
         else {
             [cell.profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
         }    
-       [[self.navigationController.viewControllers objectAtIndex:0] updateFavorite:cell.message];
+        CATransition *animation = [CATransition animation];
+        [animation setType:kCATransitionFade];
+        [animation setDuration:0.2];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+        [cell.profileImage.layer addAnimation:animation forKey:@"favoriteButton"];
+        
+        [[self.navigationController.viewControllers objectAtIndex:0] updateFavorite:cell.message];
       
     }
     [sender autorelease];
@@ -229,12 +235,19 @@
         MessageCell *cell = sender.context;
         cell.message.favorited = favorited;
         [cell.message updateFavoriteState];
+
         if (favorited) {
             [cell.profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
         }
         else {
             [cell.profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
         }    
+        CATransition *animation = [CATransition animation];
+        [animation setType:kCATransitionFade];
+        [animation setDuration:0.2];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+        [cell.profileImage.layer addAnimation:animation forKey:@"favoriteButton"];
+        
         [[self.navigationController.viewControllers objectAtIndex:0] updateFavorite:cell.message];
     }
     
