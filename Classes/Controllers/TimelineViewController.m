@@ -150,10 +150,11 @@ extern Stopwatch *gStopwatch;
     [timeline getTimeline:tag page:1 insertAt:0];
 }
 
-- (void) loadMoreTweet:(NSIndexPath *)indexPath
+- (void) removeMessage:(Message*)message
 {
-    
+    [timeline deleteMessage:message];
 }
+
 //
 // UITableViewDelegate
 //

@@ -10,6 +10,10 @@
 #import "TwitterFonAppDelegate.h"
 #import "MessageCell.h"
 
+@interface UIViewController (UserTimelineControllerDelegate)
+- (void)removeMessage:(Message*)message;
+@end
+
 @implementation UserTimelineController
 
 @synthesize message;
@@ -17,9 +21,8 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
-        timeline = nil;
-        isTimelineLoaded = false;
-        
+        timeline = [[Timeline alloc] initWithDelegate:self];
+        deletedMessage = [[NSMutableArray alloc] init];
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         imageStore = appDelegate.imageStore;
 	}
@@ -27,14 +30,14 @@
 }
 
 - (void)dealloc {
+    [deletedMessage release];
+    [message release];
     [timeline release];
 	[super dealloc];
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
-    self.navigationItem.rightBarButtonItem = postButton;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -64,17 +67,28 @@
         NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
         [imageStore releaseImage:url];
         [timeline release];
-        isTimelineLoaded = false;
-        timeline = nil;
-    }
+        timeline = [[Timeline alloc] initWithDelegate:self];
 
+    }
+    
     // This operation copy a message object
     [message release];
     message = [aMessage copy];
     message.type = MSG_TYPE_USER;
     [message updateAttribute];
+    [timeline appendMessage:message];
     [self.tableView reloadData];
-    self.title = message.user.screenName;    
+    self.title = message.user.screenName;
+
+    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    if (1) {//[message.user.screenName compare:username] == NSOrderedSame) {
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    }
+    else {
+        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
+        self.navigationItem.rightBarButtonItem = button;
+    }
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -83,12 +97,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (isTimelineLoaded) {
-        return [timeline countMessages] + 1;
-    }
-    else {
-        return 3;
-    }
+    return [timeline countMessages] + 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -96,18 +105,15 @@
     if (indexPath.row == 0) {
         return 113;
     }
-    else if (!isTimelineLoaded) {
-        if (indexPath.row == 1) {
-            return message.cellHeight;
+    else {
+        Message *m = [timeline messageAtIndex:indexPath.row - 1];
+        if (m) {
+            return m.cellHeight;
         }
-        else if (indexPath.row >= 2) {
+        else {
             return 48;
         }
     }
-    else {
-        return [timeline messageAtIndex:indexPath.row - 1].cellHeight;
-    }
-    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -118,37 +124,16 @@
         [userCell update:message delegate:self];
         return userCell;
     }
-    else if (!isTimelineLoaded) {
-        if (indexPath.row == 1) {
-        
+    else {
+        Message *m = [timeline messageAtIndex:indexPath.row - 1];        
+        if (m) {
             MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
             if (!cell) {
                 cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
             }
-            cell.message = message;
+            cell.message = m;
             [cell update:MSG_TYPE_USER delegate:self];
 
-            return cell;
-        }
-        else if (indexPath.row == 2) {
-            LoadCell * cell =  (LoadCell*)[tableView dequeueReusableCellWithIdentifier:@"LoadCell"];
-            if (!cell) {
-                cell = [[[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"] autorelease];
-            }
-            [cell setType:MSG_TYPE_USER];
-            return cell;
-        }
-    }
-    else {
-        Message *m = [timeline messageAtIndex:indexPath.row - 1];
-        if (m.type == MSG_TYPE_USER) {
-            MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
-            if (!cell) {
-                cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
-            }
-            
-            cell.message = [timeline messageAtIndex:indexPath.row - 1];
-            [cell update:MSG_TYPE_USER delegate:self];
             return cell;
         }
         else {
@@ -156,7 +141,7 @@
             if (!cell) {
                 cell = [[[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"] autorelease];
             }
-            [cell setType:MSG_TYPE_LOAD_FROM_WEB];
+            [cell setType:([timeline countMessages] > 1) ? MSG_TYPE_LOAD_FROM_WEB : MSG_TYPE_LOAD_USERTIMELINE];
             return cell;
         }
     }
@@ -165,30 +150,19 @@
     return nil;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Load user timeline
-    //
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    if (indexPath.row == 0) return;
+    
+    Message* m = [timeline messageAtIndex:indexPath.row - 1];
+    if (m) return;
+    
     LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-    if ([cell isKindOfClass:[LoadCell class]]) {
-        [cell.spinner startAnimating];
-    }
-    if (indexPath.row == 2 && !isTimelineLoaded) {
-        if (!timeline) {
-            indexOfLoadCell = indexPath.row;
-            timeline = [[Timeline alloc] initWithDelegate:self];
-            [timeline getUserTimeline:message.user.userId page:1 insertAt:0];
-        }
-    }
-    else {
-        if (indexPath.row == 0) return;
+    [cell.spinner startAnimating];
 
-        Message *m = [timeline messageAtIndex:indexPath.row - 1];
-        if (m.type == MSG_TYPE_LOAD_FROM_WEB) {
-            indexOfLoadCell = indexPath.row;
-            [timeline getUserTimeline:message.user.userId page:m.page insertAt:indexPath.row - 1];
-        }
-    }
-    [self.tableView deselectRowAtIndexPath:indexPath animated:TRUE];
+    indexOfLoadCell = indexPath.row;
+    int page = ([timeline countMessages] / 20) + 1;
+    [timeline getUserTimeline:message.user.userId page:page insertAt:indexPath.row - 1];
 }
 
 // UserCell delegate
@@ -218,6 +192,43 @@
     [postView startEditWithString:msg];
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0) return false;
+    
+    Message* m = [timeline messageAtIndex:indexPath.row - 1];
+    return (m) ? true : false;
+}
+
+- (void)tableView:(UITableView *)aTableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+    forRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [deletedMessage addObject:[[timeline messageAtIndex:indexPath.row - 1] retain]];
+        [timeline deleteMessageAtIndex:indexPath.row - 1];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    }
+}
+
+- (void)messageDidDelete:(sqlite_int64)messageId;
+{
+    for (int i = 0; i < [deletedMessage count]; ++i) {
+        Message *m = [deletedMessage objectAtIndex:i];
+        if (m.messageId = messageId) {
+            [m deleteFromDB];
+            [[self.navigationController.viewControllers objectAtIndex:0] removeMessage:m];
+            [deletedMessage removeObjectAtIndex:i];
+            return;
+        }
+    }
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated 
+{
+    [self.navigationItem setHidesBackButton:editing animated:animated];
+    [super setEditing:editing animated:animated];
+}
+
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
 }
@@ -237,7 +248,6 @@
 
 - (void)timelineDidUpdate:(int)count insertAt:(int)position
 {
-    isTimelineLoaded = true;
     if (!self.view.hidden && timeline && [timeline countMessages]) {
         NSMutableArray *insertIndexPath = [[[NSMutableArray alloc] init] autorelease];
         NSMutableArray *deleteIndexPath = [[[NSMutableArray alloc] init] autorelease];

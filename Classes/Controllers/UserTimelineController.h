@@ -19,11 +19,11 @@
     Message*                message;
     LoadCell*               loadCell;
     Timeline*               timeline;
-    BOOL                    isTimelineLoaded;
     int                     indexOfLoadCell;
+    NSMutableArray*         deletedMessage;
 }
 
-@property(nonatomic, copy) Message* message;
+@property(nonatomic, assign) Message* message;
 
 - (void)setMessage:(Message *)message;
 
