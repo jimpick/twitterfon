@@ -134,6 +134,7 @@ extern Stopwatch *gStopwatch;
 - (void)didTouchLinkButton:(NSString*)url
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    self.navigationController.navigationBar.tintColor = nil;
     [appDelegate openWebView:url on:[self navigationController]];
 }
 
