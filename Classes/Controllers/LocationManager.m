@@ -36,6 +36,7 @@
         locationManager.delegate = self;
     }
     locationManager.startUpdatingLocation;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -47,14 +48,29 @@
     [delegate locationManagerDidReceiveLocation:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
     [locationManager autorelease];
     locationManager = nil;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }   
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     locationManager.stopUpdatingLocation;
+    
+    if (!([error code] == kCLErrorDenied && [[error domain] compare:kCLErrorDomain] == NSOrderedSame)) {
+    
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Service Error"
+                                                        message:[error localizedDescription]
+                                                       delegate:self
+                                              cancelButtonTitle:@"Close"
+                                              otherButtonTitles: nil];
+        [alert show];	
+        [alert release];
+    }
+
+    
     [delegate locationManagerDidFail];
     [locationManager autorelease];
     locationManager = nil;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 @end

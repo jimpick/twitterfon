@@ -53,14 +53,14 @@ static sqlite3_stmt *insert_statement = nil;
                                                                      style:UIBarButtonItemStylePlain 
                                                                     target:self 
                                                                     action:@selector(getTrends:)];
-    self.navigationController.navigationBar.topItem.rightBarButtonItem = trendButton;
+    self.navigationItem.rightBarButtonItem = trendButton;
     
     UIBarButtonItem *locationButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"location.png"]
                                                                         style:UIBarButtonItemStyleBordered
                                                                        target:self 
                                                                        action:@selector(getLocation:)];
-    self.navigationController.navigationBar.topItem.leftBarButtonItem = locationButton;
-
+    self.navigationItem.leftBarButtonItem = locationButton;
+   
     [super viewDidLoad];
     
     trends  = [[TrendsDataSource alloc] initWithDelegate:self];
@@ -143,6 +143,7 @@ static sqlite3_stmt *insert_statement = nil;
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;
     [self reloadTable];
+    self.navigationItem.leftBarButtonItem.enabled = true;    
 }
 
 
@@ -152,6 +153,7 @@ static sqlite3_stmt *insert_statement = nil;
 
 - (void)searchDidFailToLoad
 {
+    self.navigationItem.leftBarButtonItem.enabled = true;
 }
 
 - (void)imageStoreDidGetNewImage:(UIImage*)image
@@ -165,8 +167,8 @@ static sqlite3_stmt *insert_statement = nil;
     self.tableView.delegate   = search;
     [search removeAllResults];
     [self reloadTable];
-    
-    
+
+    self.navigationItem.leftBarButtonItem.enabled = false;
     
     [searchBar resignFirstResponder];
     [location getCurrentLocation];
@@ -184,6 +186,7 @@ static sqlite3_stmt *insert_statement = nil;
 
 - (void)locationManagerDidFail
 {
+    self.navigationItem.leftBarButtonItem.enabled = true;
 }
 
 - (void)getTrends:(id)sender
@@ -191,7 +194,7 @@ static sqlite3_stmt *insert_statement = nil;
     self.tableView.delegate   = trends;
     self.tableView.dataSource = trends;
     
-    self.navigationController.navigationBar.topItem.leftBarButtonItem.enabled = false;
+    self.navigationItem.rightBarButtonItem.enabled = false;
     [searchBar resignFirstResponder];
     [trends getTrends];
 }
@@ -201,13 +204,13 @@ static sqlite3_stmt *insert_statement = nil;
 //
 - (void)searchTrendsDidLoad
 {
-    self.navigationController.navigationBar.topItem.leftBarButtonItem.enabled = true;
+    self.navigationItem.rightBarButtonItem.enabled = true;
     [self reloadTable];
 }
 
 - (void)searchTrendsDidFailToLoad
 {
-    self.navigationController.navigationBar.topItem.leftBarButtonItem.enabled = true;
+    self.navigationItem.rightBarButtonItem.enabled = true;
     [self reloadTable];
 }
 

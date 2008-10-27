@@ -122,6 +122,14 @@
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
+                                                    message:detail
+                                                   delegate:self
+                                          cancelButtonTitle:@"Close"
+                                          otherButtonTitles: nil];
+    [alert show];	
+    [alert release];
+    
     [delegate searchDidFailToLoad];
 }
 
