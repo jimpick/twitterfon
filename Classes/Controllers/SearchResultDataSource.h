@@ -17,6 +17,7 @@
 }
 
 - (id)initWithDelegate:(id)delegate;
+- (void)removeAllResults;
 - (void)search:(NSString*)query;
 - (void)geocode:(float)latitude longitude:(float)longitude;
 

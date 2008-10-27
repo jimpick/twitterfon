@@ -72,10 +72,15 @@
     [tableView deselectRowAtIndexPath:indexPath animated:TRUE]; 
 }
 
+- (void)removeAllResults
+{
+    [timeline removeAllMessages];
+}
+
 - (void)search:(NSString*)query
 { 
     [timeline removeAllMessages];
-
+    
     TwitterClient *client = (TwitterClient*)[[TwitterClient alloc] initWithDelegate:self];
     [client initWithDelegate:self];
     [client search:query];

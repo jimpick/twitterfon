@@ -56,7 +56,7 @@ static sqlite3_stmt *insert_statement = nil;
     self.navigationController.navigationBar.topItem.rightBarButtonItem = trendButton;
     
     UIBarButtonItem *locationButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"location.png"]
-                                                                        style:UIBarButtonItemStylePlain 
+                                                                        style:UIBarButtonItemStyleBordered
                                                                        target:self 
                                                                        action:@selector(getLocation:)];
     self.navigationController.navigationBar.topItem.leftBarButtonItem = locationButton;
@@ -110,6 +110,13 @@ static sqlite3_stmt *insert_statement = nil;
     }
 }
 
+- (void)reloadTable
+{
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:false];
+    [self.tableView reloadData];
+    [self.tableView flashScrollIndicators];
+}
+
 //
 // UISearchBar delegates
 //
@@ -119,7 +126,7 @@ static sqlite3_stmt *insert_statement = nil;
     self.tableView.delegate   = history;
     
     [history updateQuery:searchText];
-    [self.tableView reloadData];
+    [self reloadTable];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)aSearchBar
@@ -135,7 +142,7 @@ static sqlite3_stmt *insert_statement = nil;
 {
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;
-    [self.tableView reloadData];
+    [self reloadTable];
 }
 
 
@@ -154,6 +161,13 @@ static sqlite3_stmt *insert_statement = nil;
 
 - (void)getLocation:(id)sender
 {
+    self.tableView.dataSource = search;
+    self.tableView.delegate   = search;
+    [search removeAllResults];
+    [self reloadTable];
+    
+    
+    
     [searchBar resignFirstResponder];
     [location getCurrentLocation];
 }
@@ -188,13 +202,13 @@ static sqlite3_stmt *insert_statement = nil;
 - (void)searchTrendsDidLoad
 {
     self.navigationController.navigationBar.topItem.leftBarButtonItem.enabled = true;
-    [self.tableView reloadData];
+    [self reloadTable];
 }
 
 - (void)searchTrendsDidFailToLoad
 {
     self.navigationController.navigationBar.topItem.leftBarButtonItem.enabled = true;
-    [self.tableView reloadData];
+    [self reloadTable];
 }
 
 - (void)didReceiveMemoryWarning {

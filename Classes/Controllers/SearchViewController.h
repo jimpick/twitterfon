@@ -21,5 +21,6 @@
 }
 
 - (void)search:(NSString*)query;
+- (void)reloadTable;
 
 @end
