@@ -171,7 +171,7 @@ static NSString *schemes[NUM_SCHEMES][2] = {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed to load the page"
                                                         message:[error localizedDescription]
                                                        delegate:nil
-                                              cancelButtonTitle:@"OK"
+                                              cancelButtonTitle:@"Close"
                                               otherButtonTitles:nil];
         [alert show];	
         [alert release];

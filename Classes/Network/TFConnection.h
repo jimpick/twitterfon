@@ -23,7 +23,6 @@
 - (void)post:(NSString*)aURL body:(NSString*)body;
 - (void)cancel;
 
-- (void)alertError:(NSString*)title withMessage:(NSString*)msg;
 - (void)TFConnectionDidFailWithError:(NSError*)error;
 - (void)TFConnectionDidFinishLoading:(NSString*)content;
 

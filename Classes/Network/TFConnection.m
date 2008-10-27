@@ -148,18 +148,4 @@
     // To be implemented in subclass
 }
 
-- (void)alertError:(NSString*)title withMessage:(NSString*)msg
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:msg
-                                                   delegate:self
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles: nil];
-    [alert show];	
-    [alert release];
-}
-
-
-
-
 @end

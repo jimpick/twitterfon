@@ -179,7 +179,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
                                                     message:detail
                                                    delegate:self
-                                          cancelButtonTitle:@"OK"
+                                          cancelButtonTitle:@"Close"
                                           otherButtonTitles: nil];
     [alert show];	
     [alert release];    
@@ -240,7 +240,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TinyURL error"
                                                     message:error
                                                    delegate:self
-                                          cancelButtonTitle:@"OK"
+                                          cancelButtonTitle:@"Close"
                                           otherButtonTitles: nil];
     [alert show];	
     [alert release];
