@@ -49,7 +49,7 @@ static sqlite3_stmt *insert_statement = nil;
     SearchView* searchView = (SearchView*)self.view;
     searchView.searchBar = searchBar;
 
-    UIBarButtonItem *trendButton  = [[UIBarButtonItem alloc] initWithTitle:@"Trend" 
+    UIBarButtonItem *trendButton  = [[UIBarButtonItem alloc] initWithTitle:@"Trends" 
                                                                      style:UIBarButtonItemStylePlain 
                                                                     target:self 
                                                                     action:@selector(getTrends:)];

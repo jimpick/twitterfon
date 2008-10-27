@@ -45,11 +45,16 @@
     NSLog(@"%f,%f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
     locationManager.stopUpdatingLocation;
     [delegate locationManagerDidReceiveLocation:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+    [locationManager autorelease];
+    locationManager = nil;
 }   
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
+    locationManager.stopUpdatingLocation;
     [delegate locationManagerDidFail];
+    [locationManager autorelease];
+    locationManager = nil;
 }
 
 @end
