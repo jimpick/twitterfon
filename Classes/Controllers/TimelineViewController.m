@@ -154,13 +154,14 @@ extern Stopwatch *gStopwatch;
 
 - (IBAction) reload: (id) sender
 {
+    self.navigationItem.leftBarButtonItem.enabled = false;
     indexOfLoadCell = 0;
     [timeline getTimeline:tag page:1 insertAt:0];
 }
 
 - (void) removeMessage:(Message*)message
 {
-    [timeline deleteMessage:message];
+    [timeline removeMessage:message];
 }
 
 - (void) updateFavorite:(Message*)message
@@ -307,6 +308,7 @@ extern Stopwatch *gStopwatch;
 
 - (void)timelineDidUpdate:(int)count insertAt:(int)position
 {
+    self.navigationItem.leftBarButtonItem.enabled = true;
     if (count) {
         unread += count;
         [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unread];
@@ -338,6 +340,7 @@ extern Stopwatch *gStopwatch;
 
 - (void)timelineDidFailToUpdate
 {
+    self.navigationItem.leftBarButtonItem.enabled = true;
     LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
     if ([cell isKindOfClass:[LoadCell class]]) {
         [cell.spinner stopAnimating];
