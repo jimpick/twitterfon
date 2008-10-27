@@ -25,6 +25,7 @@
 @property (nonatomic, assign) BOOL      protected;
 
 - (User*)initWithJsonDictionary:(NSDictionary*)dic;
+- (User*)initWithSearchResult:(NSDictionary*)dic;
 - (id)copyWithZone:(NSZone *)zone;
 
 @end

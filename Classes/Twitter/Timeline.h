@@ -15,6 +15,8 @@
 
 @property (nonatomic, readonly) NSArray* messages;
 
+- (id)initWithDelegate:(id)aDelegate;
+
 - (void)getTimeline:(MessageType)type page:(int)page insertAt:(int)row;
 - (void)getUserTimeline:(int)user_id page:(int)page insertAt:(int)row;
 - (int)restore:(MessageType)type all:(BOOL)flag;
@@ -25,8 +27,11 @@
 
 - (Message*)messageAtIndex:(int)i;
 
-- (Message*)deleteMessageAtIndex:(int)i;
-- (void)deleteMessage:(Message*)message;
+- (Message*)destroyMessageAtIndex:(int)i;
+
+- (void)removeMessage:(Message*)message;
+- (void)removeAllMessages;
+
 - (void)insertMessage:(Message*)message;
 - (void)updateFavorite:(Message*)message;
 

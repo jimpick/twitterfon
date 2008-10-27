@@ -7,6 +7,8 @@ typedef enum {
     TWITTER_REQUEST_FAVORITE,
     TWITTER_REQUEST_UPDATE,
     TWITTER_REQUEST_DESTROY,
+    TWITTER_REQUEST_SEARCH,
+    TWITTER_REQUEST_TRENDS,
 } RequestType;
 
 @interface TwitterClient : TFConnection
@@ -22,4 +24,8 @@ typedef enum {
 - (void)post:(NSString*)tweet;
 - (void)destroy:(Message*)message;
 - (void)favorite:(Message*)message;
+- (void)search:(NSString*)query;
+- (void)geocode:(float)latitude longitude:(float)longitude distance:(int)distance;
+- (void)trends;
+
 @end

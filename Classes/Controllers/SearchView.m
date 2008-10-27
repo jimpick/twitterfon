@@ -20,16 +20,41 @@
     return self;
 }
 
-
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if ([searchBar isFirstResponder]) {
-        [searchBar resignFirstResponder];
-    }
+	[super touchesBegan:touches withEvent:event];
+	
+	UITouch* t = [touches anyObject];
+	point = [t locationInView:self];
+	moved = NO;
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesMoved:touches withEvent:event];
+    
+	UITouch* t = [touches anyObject];
+	CGPoint pt = [t locationInView:self];
+	if (point.x != pt.x || point.y != pt.y) {
+		moved = YES;
+	}
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesEnded:touches withEvent:event];
+    
+	UITouch* t = [touches anyObject];
+	CGPoint pt = [t locationInView:self];
+	if (point.x != pt.x || point.y != pt.y) {
+		moved = YES;
+	}
+	
+	if (!moved) {
+        if ([searchBar isFirstResponder]) {
+            [searchBar resignFirstResponder];
+        }
+	}
 }
 
 - (void)dealloc {

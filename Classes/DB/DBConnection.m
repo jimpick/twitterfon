@@ -77,14 +77,13 @@ const char *optimize_sql =
         
       	int launchCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"launchCount"];
         NSLog(@"launchCount %d", launchCount);
-        if (launchCount > 50) {
+        if (launchCount-- <= 0) {
             NSLog(@"Optimize database...");
             if (sqlite3_exec(theDatabase, optimize_sql, NULL, NULL, &errmsg) != SQLITE_OK) {
                 NSAssert1(0, @"Error: failed to cleanup chache (%s)", errmsg);
             }
-            launchCount = 0;
+            launchCount = 50;
         }
-        ++launchCount;
         [[NSUserDefaults standardUserDefaults] setInteger:launchCount forKey:@"launchCount"];
         [[NSUserDefaults standardUserDefaults] synchronize];        
         sqlite3_close(theDatabase);

@@ -15,7 +15,7 @@
 @synthesize buf;
 @synthesize statusCode;
 
-- (id)initWithDelegate:(NSObject*)aDelegate
+- (id)initWithDelegate:(id)aDelegate
 {
 	self = [super init];
 	delegate = aDelegate;

@@ -7,9 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TrendsDataSource.h"
+#import "SearchResultDataSource.h"
+#import "SearchHistoryDataSource.h"
+#import "LocationManager.h"
 
 @interface SearchViewController : UITableViewController <UISearchBarDelegate> {
-    UISearchBar*    searchBar;
+    UISearchBar*                searchBar;
+    TrendsDataSource*           trends;
+    SearchResultDataSource*     search;
+    SearchHistoryDataSource*    history;
+    LocationManager*            location;
 }
+
+- (void)search:(NSString*)query;
 
 @end

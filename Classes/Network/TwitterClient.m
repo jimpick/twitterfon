@@ -114,6 +114,24 @@ NSString* sMethods[4] = {
     [self post:url body:@""];    
 }
 
+- (void)search:(NSString*)query
+{
+    NSString* url = [NSString stringWithFormat:@"http://search.twitter.com/search.json?q=%@",  [query encodeAsURIComponent]];
+    [self get:url];
+}
+
+- (void)geocode:(float)latitude longitude:(float)longitude distance:(int)distance
+{
+    NSString* url = [NSString stringWithFormat:@"http://search.twitter.com/search.json?geocode=%f,%f,%dmi",
+                     latitude, longitude, distance];
+    [self get:url];
+}
+
+- (void)trends
+{
+    [self get:@"http://search.twitter.com/trends.json"];
+}
+
 - (void)TFConnectionDidFailWithError:(NSError*)error
 {
     if (error.code ==  NSURLErrorUserCancelledAuthentication) {

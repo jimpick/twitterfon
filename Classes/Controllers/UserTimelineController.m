@@ -283,7 +283,7 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [deletedMessage addObject:[[timeline messageAtIndex:indexPath.row - 1] retain]];
-        [timeline deleteMessageAtIndex:indexPath.row - 1];
+        [timeline destroyMessageAtIndex:indexPath.row - 1];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     }
 }

@@ -37,6 +37,28 @@
 	return self;
 }
 
+- (User*)initWithSearchResult:(NSDictionary*)dic
+{
+	self = [super init];
+	
+	userId          = [[dic objectForKey:@"from_user_id"] longValue];
+    
+    name            = [[dic objectForKey:@"from_user"] retain];
+	screenName      = [[dic objectForKey:@"from_user"] retain];
+	location        = @"";
+	url             = @"";
+    followersCount  = 0;
+    profileImageUrl = [[dic objectForKey:@"profile_image_url"] retain];
+    protected       = false;
+    description     = @"";
+    
+    if ((id)name == [NSNull null]) name = @"";
+    if ((id)screenName == [NSNull null]) screenName = @"";
+    if ((id)url == [NSNull null]) url = @"";
+	
+	return self;
+}
+
 - (id)copyWithZone:(NSZone *)zone
 {
     User *dist = [[User allocWithZone:zone] init];

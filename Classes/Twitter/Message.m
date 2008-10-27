@@ -101,6 +101,36 @@ static sqlite3_stmt* select_statement = nil;
 	return self;
 }
 
+- (Message*)initWithSearchResult:(NSDictionary*)dic
+{
+	self = [super init];
+    
+    type = MSG_TYPE_SEARCH_RESULT;
+    
+    
+	messageId           = [[dic objectForKey:@"id"] longLongValue];
+    stringOfCreatedAt   = [dic objectForKey:@"created_at"];
+    
+    NSString *tweet = [dic objectForKey:@"text"];
+    
+    if ((id)tweet == [NSNull null]) {
+        text = @"";
+    }
+    else {
+        tweet = [[tweet  unescapeHTML] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+        text  = [[tweet stringByReplacingOccurrencesOfString:@"\r" withString:@" "] retain];
+    }
+    
+    // parse source parameter
+    source = @"";
+    
+    user = [[User alloc] initWithSearchResult:dic];
+    
+    [self updateAttribute];
+    
+	return self;
+}
+
 
 + (Message*)messageWithLoadMessage:(MessageType)aType page:(int)page
 {
@@ -116,6 +146,11 @@ static sqlite3_stmt* select_statement = nil;
 + (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type
 {
 	return [[[Message alloc] initWithJsonDictionary:dic type:type] autorelease];
+}
+
++ (Message*)messageWithSearchResult:(NSDictionary*)dic
+{
+	return [[[Message alloc] initWithSearchResult:dic] autorelease];
 }
 
 - (id)copyWithZone:(NSZone *)zone

@@ -10,7 +10,10 @@
 
 
 @interface SearchView : UITableView {
-    UISearchBar* searchBar;
+    UISearchBar*    searchBar;
+    
+    CGPoint         point;
+    BOOL            moved;
 }
 
 @property (nonatomic, assign) UISearchBar* searchBar;

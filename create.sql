@@ -27,3 +27,7 @@ CREATE TABLE images (
        'image'                  BLOB,
        'updated_at'             DATETIME
 );
+
+CREATE TABLE queries (
+       'query'                  TEXT PRIMARY KEY
+);

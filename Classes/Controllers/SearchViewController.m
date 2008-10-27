@@ -6,8 +6,17 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 #import <QuartzCore/QuartzCore.h>
+#import "TwitterFonAppDelegate.h"
 #import "SearchViewController.h"
+#import "DBConnection.h"
 #import "SearchView.h"
+#import "TwitterClient.h"
+
+static sqlite3_stmt *insert_statement = nil;
+
+@interface NSObject (SearchTableViewDelegate)
+- (void)textAtIndexPath:(NSIndexPath*)indexPath;
+@end
 
 @implementation SearchViewController
 
@@ -39,53 +48,158 @@
     searchBar.showsBookmarkButton = true;
     SearchView* searchView = (SearchView*)self.view;
     searchView.searchBar = searchBar;
-#if 1
-    UIBarButtonItem *trendButton  = [[UIBarButtonItem alloc] initWithTitle:@"Trend" style:UIBarButtonItemStylePlain target:self action:@selector(getTrend:)];
-    self.navigationController.navigationBar.topItem.leftBarButtonItem = trendButton;
-#endif    
+
+    UIBarButtonItem *trendButton  = [[UIBarButtonItem alloc] initWithTitle:@"Trend" 
+                                                                     style:UIBarButtonItemStylePlain 
+                                                                    target:self 
+                                                                    action:@selector(getTrends:)];
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = trendButton;
+    
+    UIBarButtonItem *locationButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"location.png"]
+                                                                        style:UIBarButtonItemStylePlain 
+                                                                       target:self 
+                                                                       action:@selector(getLocation:)];
+    self.navigationController.navigationBar.topItem.leftBarButtonItem = locationButton;
+
     [super viewDidLoad];
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = @"SearchCell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
-    return cell;
+    trends  = [[TrendsDataSource alloc] initWithDelegate:self];
+    search  = [[SearchResultDataSource alloc] initWithDelegate:self];
+    history = [[SearchHistoryDataSource alloc] initWithDelegate:self];
+
+    self.tableView.dataSource = search;
+    self.tableView.delegate   = search;
+
+    location = [[LocationManager alloc] initWithDelegate:self];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [searchBar resignFirstResponder];
+
+- (void)dealloc {
+    [location release];
+    [search release];
+    [trends release];
+    [history release];
+    [super dealloc];
 }
 
-- (void)getTrend:(id)sender
+- (void)search:(NSString*)query
 {
+    self.tableView.dataSource = search;
+    self.tableView.delegate   = search;
+
+    searchBar.text = query;    
+    [searchBar resignFirstResponder];
+    [search search:query];
+
+    // Insert query to database
+    //
+    sqlite3* database = [DBConnection getSharedDatabase];
+    if (insert_statement == nil) {
+        static char *sql = "INSERT INTO queries VALUES (?)";
+        if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
+            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+        }
+    }
+    sqlite3_bind_text(insert_statement, 1, [query UTF8String], -1, SQLITE_TRANSIENT);
+    
+    int success = sqlite3_step(insert_statement);
+    sqlite3_reset(insert_statement);
+    
+    if (success == SQLITE_ERROR) {
+        NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
+    }
+}
+
+//
+// UISearchBar delegates
+//
+- (void)searchBar:(UISearchBar *)aSearchBar textDidChange:(NSString *)searchText
+{
+    self.tableView.dataSource = history;
+    self.tableView.delegate   = history;
+    
+    [history updateQuery:searchText];
+    [self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)aSearchBar
+{
+    [self search:aSearchBar.text];
+}
+
+//
+// SearchDataSource delegates
+//
+
+- (void)searchDidLoad
+{
+    self.tableView.dataSource = search;
+    self.tableView.delegate   = search;
+    [self.tableView reloadData];
+}
+
+
+- (void)noSearchResult
+{
+}
+
+- (void)searchDidFailToLoad
+{
+}
+
+- (void)imageStoreDidGetNewImage:(UIImage*)image
+{
+	[self.tableView reloadData];
+}
+
+- (void)getLocation:(id)sender
+{
+    [searchBar resignFirstResponder];
+    [location getCurrentLocation];
+}
+
+- (void)locationManagerDidReceiveLocation:(float)latitude longitude:(float)longitude
+{
+    self.tableView.dataSource = search;
+    self.tableView.delegate   = search;
+    
+    searchBar.text = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
+    [search geocode:latitude longitude:longitude];
+    
+}
+
+- (void)locationManagerDidFail
+{
+}
+
+- (void)getTrends:(id)sender
+{
+    self.tableView.delegate   = trends;
+    self.tableView.dataSource = trends;
+    
     self.navigationController.navigationBar.topItem.leftBarButtonItem.enabled = false;
     [searchBar resignFirstResponder];
+    [trends getTrends];
+}
+
+//
+// TrendsDataSource delegates
+//
+- (void)searchTrendsDidLoad
+{
+    self.navigationController.navigationBar.topItem.leftBarButtonItem.enabled = true;
+    [self.tableView reloadData];
+}
+
+- (void)searchTrendsDidFailToLoad
+{
+    self.navigationController.navigationBar.topItem.leftBarButtonItem.enabled = true;
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
-- (void)dealloc {
-    [super dealloc];
-}
-
 
 @end
 

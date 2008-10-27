@@ -1,6 +1,6 @@
 #import <sqlite3.h>
 
-#define MAIN_DATABASE_NAME @"db1.1.1.sql"
+#define MAIN_DATABASE_NAME @"db1.2.sql"
 
 @interface DBConnection : NSObject
 {

@@ -10,6 +10,7 @@ typedef enum {
     MSG_TYPE_REPLIES,
     MSG_TYPE_MESSAGES,
     MSG_TYPE_USER,
+    MSG_TYPE_SEARCH_RESULT,
 } MessageType;
 
 #define IMAGE_PADDING       10
@@ -74,12 +75,14 @@ typedef enum {
 @property (nonatomic, assign) int           page;
 
 + (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type;
++ (Message*)messageWithSearchResult:(NSDictionary*)dic;
 + (Message*)messageWithLoadMessage:(MessageType)type page:(int)page;
 + (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type;
 + (BOOL)isExist:(sqlite_int64)aMessageId type:(MessageType)aType;
 + (void)calcTextBounds:(Message*)message textWidth:(int)textWidth;
 
 - (Message*)initWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type;
+- (Message*)initWithSearchResult:(NSDictionary*)dic;
 - (void)updateAttribute;
 
 - (void)deleteFromDB;

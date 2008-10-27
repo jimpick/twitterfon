@@ -11,6 +11,7 @@ static sqlite3_stmt *select_statement = nil;
 - (void)timelineDidUpdate:(int)count insertAt:(int)position;
 - (void)timelineDidFailToUpdate;
 - (void)messageDidDelete:(sqlite_int64)id;
+- (void)noSearchResult;
 @end
 
 @implementation Timeline
@@ -54,7 +55,7 @@ static sqlite3_stmt *select_statement = nil;
     return [messages objectAtIndex:i];
 }
 
--(Message*)deleteMessageAtIndex:(int)i
+-(Message*)destroyMessageAtIndex:(int)i
 {
     Message *m = [messages objectAtIndex:i];
     [[m retain] autorelease];
@@ -64,7 +65,7 @@ static sqlite3_stmt *select_statement = nil;
     return m;
 }
 
-- (void)deleteMessage:(Message*)message
+- (void)removeMessage:(Message*)message
 {
     for (int i = 0; i < [messages count]; ++i) {
         Message *m = [messages objectAtIndex:i];
@@ -73,6 +74,11 @@ static sqlite3_stmt *select_statement = nil;
             return;
         }
     }
+}
+
+- (void)removeAllMessages
+{
+    [messages removeAllObjects];
 }
 
 - (void)updateFavorite:(Message*)message
@@ -182,6 +188,29 @@ static sqlite3_stmt *select_statement = nil;
     return count;
 }
 
+- (void)handleSearch:(NSDictionary*)dic
+{
+    NSArray *array = [dic objectForKey:@"result"];
+
+    if ([array count] == 0) {
+        [delegate timelineDidUpdate:false insertAt:insertPosition];
+        return;
+    }
+    
+    // Add messages to the timeline
+    for (int i = [array count] - 1; i >= 0; --i) {
+        Message* m = [Message messageWithSearchResult:[array objectAtIndex:i]];
+        [messages insertObject:m atIndex:insertPosition];
+			
+        if ([delegate respondsToSelector:@selector(timelineDidReceiveNewMessage:)]) {
+            [delegate timelineDidReceiveNewMessage:m];
+        }
+    }
+    [messages insertObject:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_WEB page:page] atIndex:insertPosition];
+
+    [delegate timelineDidUpdate:false insertAt:insertPosition];
+}
+
 - (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj
 {
 	[twitterClient autorelease];
@@ -199,6 +228,9 @@ static sqlite3_stmt *select_statement = nil;
         sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];        
         if (twitterClient.request == TWITTER_REQUEST_DESTROY) {
             [delegate messageDidDelete:messageId];
+        }
+        else if (twitterClient.request == TWITTER_REQUEST_SEARCH) {
+            [self handleSearch:dic];
         }
         goto out;
     }

@@ -8,7 +8,7 @@
 
 @interface TFConnection : NSObject
 {
-	NSObject*           delegate;
+	id                  delegate;
 	NSURLConnection*    connection;
     NSHTTPURLResponse*  response;
 	NSMutableData*      buf;
@@ -18,7 +18,7 @@
 @property (nonatomic, readonly) NSMutableData* buf;
 @property (nonatomic, assign) int statusCode;
 
-- (id)initWithDelegate:(NSObject*)delegate;
+- (id)initWithDelegate:(id)delegate;
 - (void)get:(NSString*)URL;
 - (void)post:(NSString*)aURL body:(NSString*)body;
 - (void)cancel;
