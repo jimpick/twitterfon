@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="23"/>
+			<integer value="1"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -29,7 +29,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUITableView" id="588088631">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">290</int>
+						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{0, 43}, {320, 437}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -47,7 +47,7 @@
 						<float key="IBUISectionHeaderHeight">2.700000e+01</float>
 						<float key="IBUISectionFooterHeight">2.700000e+01</float>
 					</object>
-					<object class="IBUINavigationBar" id="560468974">
+					<object class="IBUINavigationBar" id="201543816">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">290</int>
 						<string key="NSFrameSize">{320, 44}</string>
@@ -56,8 +56,8 @@
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<object class="NSArray" key="IBUIItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUINavigationItem" id="599553044">
-								<reference key="IBUINavigationBar" ref="560468974"/>
+							<object class="IBUINavigationItem" id="399492181">
+								<reference key="IBUINavigationBar" ref="201543816"/>
 								<string key="IBUITitle">History</string>
 								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="209170246">
 									<string key="IBUITitle">Close</string>
@@ -125,7 +125,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">navigationItem</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="599553044"/>
+						<reference key="destination" ref="399492181"/>
 					</object>
 					<int key="connectionID">25</int>
 				</object>
@@ -147,7 +147,7 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="588088631"/>
-							<reference ref="560468974"/>
+							<reference ref="201543816"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 					</object>
@@ -169,26 +169,26 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">22</int>
-						<reference key="object" ref="560468974"/>
+						<reference key="object" ref="201543816"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="599553044"/>
+							<reference ref="399492181"/>
 						</object>
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">23</int>
-						<reference key="object" ref="599553044"/>
+						<reference key="object" ref="399492181"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="209170246"/>
 						</object>
-						<reference key="parent" ref="560468974"/>
+						<reference key="parent" ref="201543816"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">5</int>
 						<reference key="object" ref="209170246"/>
-						<reference key="parent" ref="599553044"/>
+						<reference key="parent" ref="399492181"/>
 					</object>
 				</object>
 			</object>
@@ -209,7 +209,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>SearchBookmarksViewController</string>
 					<string>UIResponder</string>
-					<string>{{310, 606}, {320, 480}}</string>
+					<string>{{410, 586}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
