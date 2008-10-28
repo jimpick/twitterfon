@@ -119,9 +119,11 @@
         NSString *query = [queries objectAtIndex:indexPath.row];
         sqlite3_bind_text(statement, 1, [query UTF8String], -1, SQLITE_TRANSIENT);    
 
-        if (sqlite3_step(statement) == SQLITE_ROW) {
-            [queries removeObject:query];
-        }
+        int success = sqlite3_step(statement);
+        if (success == SQLITE_ERROR) {
+            NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
+        }   
+        [queries removeObject:query];
         sqlite3_finalize(statement);
         
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
