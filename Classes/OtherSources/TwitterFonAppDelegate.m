@@ -101,10 +101,10 @@
 {
     if (settings == nil) {
         settings = [[SettingsViewController alloc] initWithNibName:@"SettingsView" bundle:nil];
-    }
     
-    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];
-    [nav presentModalViewController:settings animated:YES];
+        UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];
+        [nav presentModalViewController:settings animated:YES];
+    }
 }
 
 - (void)closeSettingsView

@@ -9,6 +9,7 @@
 #import "SettingsViewController.h"
 #import "TwitterFonAppDelegate.h"
 
+
 enum {
     SECTION_ACCOUNT,
     SECTION_HELP,
@@ -169,9 +170,28 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
 - (IBAction)done:(id)sender
 {
     [self saveSettings];
+    TwitterClient *client = [[TwitterClient alloc] initWithDelegate:self];
+    [client verify];
+}
+
+- (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)messages;
+{
     [self dismissModalViewControllerAnimated:true];
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     [appDelegate closeSettingsView];
+    [sender autorelease];
+}
+
+- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
+                                                    message:detail
+                                                   delegate:self
+                                          cancelButtonTitle:@"Close"
+                                          otherButtonTitles: nil];
+    [alert show];	
+    [alert release];  
+    [sender autorelease];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField

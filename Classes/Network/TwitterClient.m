@@ -124,12 +124,25 @@ NSString* sMethods[4] = {
 {
     NSString* url = [NSString stringWithFormat:@"http://search.twitter.com/search.json?geocode=%f,%f,%dmi",
                      latitude, longitude, distance];
-    [self get:url];
+    [super get:url];
 }
 
 - (void)trends
 {
-    [self get:@"http://search.twitter.com/trends.json"];
+    [super get:@"http://search.twitter.com/trends.json"];
+}
+
+- (void)verify
+{
+    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    
+	NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/account/verify_credentials.json",
+                     [username encodeAsURIComponent], [password encodeAsURIComponent]];
+    
+    NSLog(@"%@", url);
+    
+    [super get:url];
 }
 
 - (void)TFConnectionDidFailWithError:(NSError*)error
