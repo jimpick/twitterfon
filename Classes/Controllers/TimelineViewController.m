@@ -58,6 +58,7 @@ extern Stopwatch *gStopwatch;
     if (!(username == nil || password == nil ||
           [username compare:@""] == 0 ||
           [password compare:@""] == 0)) {
+        self.navigationItem.leftBarButtonItem.enabled = false;
         [timeline getTimeline:tag page:1 insertAt:0];
     }    
 }
