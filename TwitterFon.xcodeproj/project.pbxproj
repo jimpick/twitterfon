@@ -22,6 +22,7 @@
 		6E1C72E70EB5ABED00E34D9B /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C72E60EB5ABED00E34D9B /* LocationManager.m */; };
 		6E1C730B0EB5AEC800E34D9B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1C730A0EB5AEC800E34D9B /* CoreLocation.framework */; };
 		6E1C73C20EB5B77700E34D9B /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C73C10EB5B77700E34D9B /* location.png */; };
+		6E1C78890EB7063900E34D9B /* trends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C78880EB7063900E34D9B /* trends.png */; };
 		6E29E9D10E61F07C00E731BE /* UserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E29E9D00E61F07C00E731BE /* UserView.xib */; };
 		6E2BCF1B0E3591B8003A8F69 /* postbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF1A0E3591B8003A8F69 /* postbutton.png */; };
 		6E2BCF260E3596D4003A8F69 /* friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF250E3596D4003A8F69 /* friends.png */; };
@@ -103,6 +104,7 @@
 		6E1C72E60EB5ABED00E34D9B /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationManager.m; path = Controllers/LocationManager.m; sourceTree = "<group>"; };
 		6E1C730A0EB5AEC800E34D9B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6E1C73C10EB5B77700E34D9B /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
+		6E1C78880EB7063900E34D9B /* trends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trends.png; sourceTree = "<group>"; };
 		6E29E9D00E61F07C00E731BE /* UserView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserView.xib; sourceTree = "<group>"; };
 		6E2BCF1A0E3591B8003A8F69 /* postbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = postbutton.png; sourceTree = "<group>"; };
 		6E2BCF250E3596D4003A8F69 /* friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends.png; sourceTree = "<group>"; };
@@ -440,6 +442,7 @@
 		6EED14400E33E5BF00C71EA4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6E1C78880EB7063900E34D9B /* trends.png */,
 				6E1C73C10EB5B77700E34D9B /* location.png */,
 				6E38370E0EB4789F00B0CE69 /* favorite.png */,
 				6E38370F0EB4789F00B0CE69 /* favorited.png */,
@@ -527,6 +530,7 @@
 				6E3837110EB4789F00B0CE69 /* favorited.png in Resources */,
 				6E1C6FDD0EB5905E00E34D9B /* db1.2.sql in Resources */,
 				6E1C73C20EB5B77700E34D9B /* location.png in Resources */,
+				6E1C78890EB7063900E34D9B /* trends.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
