@@ -8,6 +8,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "TwitterFonAppDelegate.h"
 #import "SearchViewController.h"
+#import "SearchBookmarksViewController.h"
 #import "DBConnection.h"
 #import "SearchView.h"
 #import "TwitterClient.h"
@@ -28,7 +29,7 @@ static sqlite3_stmt *insert_statement = nil;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [searchBar becomeFirstResponder];
+//    [searchBar becomeFirstResponder];
 }
 
 /*
@@ -128,6 +129,14 @@ static sqlite3_stmt *insert_statement = nil;
     
     [history updateQuery:searchText];
     [self reloadTable];
+}
+
+- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar
+{
+    SearchBookmarksViewController *bookmarks = [[[SearchBookmarksViewController alloc] initWithNibName:@"BookmarkView" bundle:nil] autorelease];
+
+    bookmarks.searchView = self;
+    [self.navigationController presentModalViewController:bookmarks animated:true];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)aSearchBar
