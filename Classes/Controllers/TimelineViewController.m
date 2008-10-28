@@ -195,22 +195,20 @@ extern Stopwatch *gStopwatch;
             
             NSMutableArray *newPath = [[[NSMutableArray alloc] init] autorelease];
 
+            [self.tableView beginUpdates];
             // Avoid to create too many table cell.
             if (count > 0) {
                 if (count > 2) count = 2;
                 for (int i = 0; i < count; ++i) {
                     [newPath addObject:[NSIndexPath indexPathForRow:i + indexPath.row inSection:0]];
                 }        
-                [self.tableView beginUpdates];
                 [self.tableView insertRowsAtIndexPaths:newPath withRowAnimation:UITableViewRowAnimationTop];
-                [self.tableView endUpdates];   
             }
             else {
                 [newPath addObject:indexPath];
-                [self.tableView beginUpdates];
                 [self.tableView deleteRowsAtIndexPaths:newPath withRowAnimation:UITableViewRowAnimationLeft];
-                [self.tableView endUpdates];   
             }
+            [self.tableView endUpdates];   
         }
         else {
             indexOfLoadCell = indexPath.row;
@@ -280,7 +278,7 @@ extern Stopwatch *gStopwatch;
 //
 // TwitterFonApPDelegate delegate
 //
-- (void)didChangeTab:(UINavigationController*)navigationController
+- (void)didLeaveTab:(UINavigationController*)navigationController
 {
     navigationController.tabBarItem.badgeValue = nil;
     for (int i = 0; i < [timeline countMessages]; ++i) {

@@ -18,6 +18,8 @@
     SearchResultDataSource*     search;
     SearchHistoryDataSource*    history;
     LocationManager*            location;
+    
+    BOOL                        needToOpenKeyboard;
 }
 
 - (void)search:(NSString*)query;

@@ -21,26 +21,6 @@ static sqlite3_stmt *insert_statement = nil;
 
 @implementation SearchViewController
 
-/*
- - (void)viewWillAppear:(BOOL)animated {
- [super viewWillAppear:animated];
- }
- */
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-//    [searchBar becomeFirstResponder];
-}
-
-/*
- - (void)viewWillDisappear:(BOOL)animated {
- }
- */
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- }
- */
-
 - (void)viewDidLoad {
     UIView *view = self.navigationController.navigationBar;
     searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, view.bounds.size.width, view.bounds.size.height)];
@@ -73,6 +53,8 @@ static sqlite3_stmt *insert_statement = nil;
     self.tableView.delegate   = search;
 
     location = [[LocationManager alloc] initWithDelegate:self];
+    
+    needToOpenKeyboard = true;
 }
 
 
@@ -82,6 +64,34 @@ static sqlite3_stmt *insert_statement = nil;
     [trends release];
     [history release];
     [super dealloc];
+}
+
+/*
+ - (void)viewWillAppear:(BOOL)animated {
+     [super viewWillAppear:animated];
+ }
+*/
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (needToOpenKeyboard) {
+        [searchBar becomeFirstResponder];
+        needToOpenKeyboard = false;
+    }
+}
+
+/*
+ - (void)viewWillDisappear:(BOOL)animated {
+ }
+ */
+/*
+ - (void)viewDidDisappear:(BOOL)animated {
+ }
+ */
+
+- (void)didLeaveTab:(UINavigationController*)navigationController
+{
+    needToOpenKeyboard = true;
 }
 
 - (void)search:(NSString*)query

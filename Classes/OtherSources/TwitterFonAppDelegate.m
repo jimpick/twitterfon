@@ -18,7 +18,8 @@
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)postTweetDidSucceed:(NSDictionary*)dic;
 - (void)postViewAnimationDidFinish;
-- (void)didChangeTab:(UINavigationController*)navigationController;
+- (void)didLeaveTab:(UINavigationController*)navigationController;
+- (void)didSelectTab:(UINavigationController*)navigationController;
 @end
 
 @implementation TwitterFonAppDelegate
@@ -132,14 +133,18 @@
 //
 - (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
 {
-    if (selectedTab != TAB_SEARCH) {
-        UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
-        UIViewController *c = [nav.viewControllers objectAtIndex:0];
-        if ([c respondsToSelector:@selector(didChangeTab:)]) {
-            [c didChangeTab:nav];
-        }
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
+    UIViewController *c = [nav.viewControllers objectAtIndex:0];
+    if ([c respondsToSelector:@selector(didLeaveTab:)]) {
+        [c didLeaveTab:nav];
     }
     selectedTab = tabBar.selectedIndex;
+
+    nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
+    c = [nav.viewControllers objectAtIndex:0];
+    if ([c respondsToSelector:@selector(didSelectTab:)]) {
+        [c didSelectTab:nav];
+    }
 }
 
 // Creates a writable copy of the bundled default database in the application Documents directory.
