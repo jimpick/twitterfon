@@ -13,8 +13,6 @@
 #import "SearchView.h"
 #import "TwitterClient.h"
 
-static sqlite3_stmt *insert_statement = nil;
-
 @interface NSObject (SearchTableViewDelegate)
 - (void)textAtIndexPath:(NSIndexPath*)indexPath;
 @end
@@ -102,22 +100,35 @@ static sqlite3_stmt *insert_statement = nil;
     searchBar.text = query;    
     [searchBar resignFirstResponder];
     [search search:query];
+    
+    sqlite3* database = [DBConnection getSharedDatabase];
+    sqlite3_stmt *select, *insert;
+    //
+    // Check existing
+    //
+    if (sqlite3_prepare_v2(database, "SELECT query FROM queries WHERE UPPER(query) = UPPER(?)", -1, &select, NULL) != SQLITE_OK) {
+        NSAssert1(0, @"Error: failed to prepare delete statement with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    sqlite3_bind_text(select, 1, [[NSString stringWithFormat:@"%@", query] UTF8String], -1, SQLITE_TRANSIENT);    
+
+    int result = sqlite3_step(select);
+    sqlite3_finalize(select);
+    if (result == SQLITE_ROW) {
+        return;
+    }
 
     // Insert query to database
     //
-    sqlite3* database = [DBConnection getSharedDatabase];
-    if (insert_statement == nil) {
-        static char *sql = "INSERT INTO queries VALUES (?)";
-        if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
-            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-        }
+    if (sqlite3_prepare_v2(database, "INSERT INTO queries VALUES (?)", -1, &insert, NULL) != SQLITE_OK) {
+        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
     }
-    sqlite3_bind_text(insert_statement, 1, [query UTF8String], -1, SQLITE_TRANSIENT);
+
+    sqlite3_bind_text(insert, 1, [query UTF8String], -1, SQLITE_TRANSIENT);
+    result = sqlite3_step(insert);
+    sqlite3_finalize(insert);
     
-    int success = sqlite3_step(insert_statement);
-    sqlite3_reset(insert_statement);
-    
-    if (success == SQLITE_ERROR) {
+    if (result == SQLITE_ERROR) {
         NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
     }
 }

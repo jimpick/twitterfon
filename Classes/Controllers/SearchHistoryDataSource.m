@@ -49,7 +49,6 @@ static sqlite3_stmt *select_statement = nil;
     
     sqlite3_bind_text(select_statement, 1, [[NSString stringWithFormat:@"%%%@%%", query] UTF8String], -1, SQLITE_TRANSIENT);    
 
-
     while (sqlite3_step(select_statement) == SQLITE_ROW) {
         [queries addObject:[NSString stringWithUTF8String:(char*)sqlite3_column_text(select_statement, 0)]];
     }

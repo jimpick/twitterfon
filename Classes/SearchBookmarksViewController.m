@@ -81,7 +81,7 @@
 {
     if (self.editing) {
         UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
-                                                        delegate:nil
+                                                        delegate:self
                                                cancelButtonTitle:@"Cancel"
                                           destructiveButtonTitle:@"Clear All Histories"
                                                otherButtonTitles:nil];
@@ -91,6 +91,27 @@
     }
     else {
         [[self parentViewController] dismissModalViewControllerAnimated:true];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        sqlite3* database = [DBConnection getSharedDatabase];
+        
+        sqlite3_stmt* statement;
+        if (sqlite3_prepare_v2(database, "DELETE FROM queries", -1, &statement, NULL) != SQLITE_OK) {
+            NSAssert1(0, @"Error: failed to prepare delete statement with message '%s'.", sqlite3_errmsg(database));
+        }
+        
+        int success = sqlite3_step(statement);
+        if (success == SQLITE_ERROR) {
+            NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
+        }   
+        [queries removeAllObjects];
+        [bookmarkView reloadData];
+        sqlite3_finalize(statement);
+        self.editing = false;
     }
 }
 
