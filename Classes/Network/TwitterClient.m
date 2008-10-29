@@ -37,17 +37,10 @@ NSString* sMethods[4] = {
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
         
-    NSString *url;
-    if (type == MSG_TYPE_USER) {
-        // No need authentication because already has a cookie
-        url = @"http://twitter.com/statuses/user_timeline.json";
-    }
-    else {
-        url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/%@.json",
-               [username encodeAsURIComponent],
-               [password encodeAsURIComponent],
-               sMethods[type]];
-    }
+    NSString *url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/%@.json",
+                     [username encodeAsURIComponent],
+                     [password encodeAsURIComponent],
+                     sMethods[type]];
     
     int i = 0;
     for (id key in params) {
@@ -70,7 +63,7 @@ NSString* sMethods[4] = {
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
-	NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/statuses/update.json",
+	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/statuses/update.json",
                      [username encodeAsURIComponent], [password encodeAsURIComponent]];
     
     NSLog(@"%@", url);
@@ -88,7 +81,7 @@ NSString* sMethods[4] = {
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
     
-	NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/statuses/destroy/%lld.json",
+	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/statuses/destroy/%lld.json",
                      [username encodeAsURIComponent], [password encodeAsURIComponent], [message messageId]];
     
     NSLog(@"%@", url);
@@ -103,7 +96,7 @@ NSString* sMethods[4] = {
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
-    NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/favorites/%@/%lld.json",
+    NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/favorites/%@/%lld.json",
                      [username encodeAsURIComponent],
                      [password encodeAsURIComponent],
                      (message.favorited) ? @"destroy" : @"create",
@@ -137,7 +130,7 @@ NSString* sMethods[4] = {
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
     
-	NSString* url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/account/verify_credentials.json",
+	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/account/verify_credentials.json",
                      [username encodeAsURIComponent], [password encodeAsURIComponent]];
     
     NSLog(@"%@", url);
