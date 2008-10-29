@@ -34,6 +34,7 @@
     if (locationManager == nil) {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
+        locationManager.distanceFilter = 100.0;
     }
     locationManager.startUpdatingLocation;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -44,11 +45,19 @@
 		   fromLocation:(CLLocation *)oldLocation
 {
     NSLog(@"%f,%f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
-    locationManager.stopUpdatingLocation;
-    [delegate locationManagerDidReceiveLocation:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
-    [locationManager autorelease];
-    locationManager = nil;
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    NSDate* eventDate = newLocation.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+
+    if (abs(howRecent) < 5.0) {
+        [manager stopUpdatingLocation];
+        
+        locationManager.stopUpdatingLocation;
+        [delegate locationManagerDidReceiveLocation:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+        [locationManager autorelease];
+        locationManager = nil;
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }
 }   
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
