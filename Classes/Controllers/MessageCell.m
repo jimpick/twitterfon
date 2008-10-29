@@ -57,7 +57,7 @@ static UIImage* sFavorited = nil;
 
     // timestamp   	   	 
     timestamp = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];  	  	 
-    timestamp.backgroundColor = [UIColor whiteColor];  	  	 
+    timestamp.backgroundColor = [UIColor clearColor];  	  	 
     timestamp.textColor = [UIColor grayColor];  	  	 
     timestamp.highlightedTextColor = [UIColor whiteColor];  	  	 
     timestamp.font = [UIFont systemFontOfSize:12];  	  	 
@@ -108,21 +108,22 @@ static UIImage* sFavorited = nil;
     type     = aType;
     nameLabel.text = message.user.screenName;
  	textLabel.text = message.text;
-
+    timestamp.text = message.timestamp;
+    
     if (type == MSG_TYPE_USER) {
+        if ([message.source length]) {
+            timestamp.text = [message.timestamp stringByAppendingFormat:@" from %@", message.source];
+        }
+        
         self.contentView.backgroundColor = [UIColor whiteColor];
-        timestamp.text      = message.timestamp;
-        timestamp.hidden    = false;
         nameLabel.hidden    = true;
-//        profileImage.hidden = true;
 //        timestamp.frame     = CGRectMake(USER_CELL_PADDING, message.textBounds.size.height + 3, 280, 16);
-        timestamp.frame     = CGRectMake(USER_CELL_LEFT, message.textBounds.size.height + 3, 280, 16);
+        timestamp.frame     = CGRectMake(USER_CELL_LEFT, message.textBounds.size.height + 3, 250, 16);
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else {
-        timestamp.hidden    = true;
+        timestamp.frame     = CGRectMake(LEFT, TOP + message.textBounds.size.height - 1, 250, 16);
         nameLabel.hidden    = false;
-//        profileImage.hidden = false;
         self.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
     //
@@ -153,7 +154,8 @@ static UIImage* sFavorited = nil;
     self.backgroundColor = self.contentView.backgroundColor;
     textLabel.backgroundColor = self.contentView.backgroundColor;
     nameLabel.backgroundColor = self.contentView.backgroundColor;
-//    textLabel.frame = message.textBounds;
+//    timestamp.backgroundColor = self.contentView.backgroundColor;
+    //    textLabel.frame = message.textBounds;
     
     if (message.type == MSG_TYPE_USER) {
         profileImage.frame = CGRectMake(10, 0, 22, message.cellHeight);

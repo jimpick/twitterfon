@@ -214,7 +214,9 @@ static sqlite3_stmt* select_statement = nil;
     
     if (!createdAt) {
         if (stringOfCreatedAt) {
-            strptime([stringOfCreatedAt UTF8String], "%a %b %d %H:%M:%S %z %Y", &created);
+            if (strptime([stringOfCreatedAt UTF8String], "%a %b %d %H:%M:%S %z %Y", &created) == NULL) {
+                strptime([stringOfCreatedAt UTF8String], "%a, %d %b %Y %H:%M:%S %z", &created);
+            }
             createdAt = mktime(&created);
         }
     }
@@ -251,10 +253,6 @@ static sqlite3_stmt* select_statement = nil;
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:createdAt];        
         self.timestamp = [dateFormatter stringFromDate:date];
     }
-    if ([source length]) {
-        self.timestamp = [self.timestamp stringByAppendingFormat:@" from %@", source];
-    }
-
 }
 
 + (void)calcTextBounds:(Message*)message textWidth:(int)textWidth
@@ -290,7 +288,7 @@ static sqlite3_stmt* select_statement = nil;
         result.size.height += 22;
     }
     else {
-        result.size.height += 18;
+        result.size.height += 18 + 16;
         if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
     }
     message.cellHeight = result.size.height;
