@@ -34,9 +34,14 @@
 
 - (void)getTrends
 {
-    TwitterClient *client = [TwitterClient alloc];
-    [client initWithDelegate:self];
-    [client trends];
+    if ([trends count] == 0) {
+        TwitterClient *client = [TwitterClient alloc];
+        [client initWithDelegate:self];
+        [client trends];
+    }
+    else {
+        [delegate searchTrendsDidLoad];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
