@@ -44,12 +44,15 @@
 	didUpdateToLocation:(CLLocation *)newLocation
 		   fromLocation:(CLLocation *)oldLocation
 {
-    NSLog(@"%f,%f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+	[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+	[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
     
     NSDate* eventDate = newLocation.timestamp;
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    NSLog(@"%@ %@ (%f)", [newLocation description], [dateFormatter stringFromDate:newLocation.timestamp], howRecent);
 
-    if (abs(howRecent) < 5.0) {
+    if (abs(howRecent) < 60.0) {
         [manager stopUpdatingLocation];
         
         locationManager.stopUpdatingLocation;
