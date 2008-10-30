@@ -111,8 +111,8 @@
 {
     [settings release];
     settings = nil;
-    UINavigationController* view = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];    
-    [(TimelineViewController*)[view topViewController] reload:self];
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];    
+    [(TimelineViewController*)[nav topViewController] reload:self];
 }
 
 - (PostViewController *)postView
@@ -122,6 +122,18 @@
         postView.appDelegate = self;
     }
     return postView;
+}
+
+
+- (IBAction) post: (id) sender
+{
+    if (postView == nil) {
+        postView = [[PostViewController alloc] initWithNibName:@"PostView" bundle:nil];
+        postView.appDelegate = self;
+    }
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];    
+    [nav.view addSubview:postView.view];
+    [postView startEdit];
 }
 
 - (void)setName:(PostViewController *)newName

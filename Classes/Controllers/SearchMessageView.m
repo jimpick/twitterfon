@@ -6,12 +6,17 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
-#import "SearchView.h"
+#import "SearchMessageView.h"
 
-
-@implementation SearchView
+@implementation SearchMessageView
 
 @synthesize searchBar;
+
+- (void)setMessage:(NSString*)message indicator:(BOOL)indicator
+{
+    messageLabel.text = message;
+    messageIndicator.hidden = (indicator) ? false : true;
+}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {

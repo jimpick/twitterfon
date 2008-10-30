@@ -128,7 +128,7 @@
         return;
     }
     
-    post = [[TwitterClient alloc] initWithDelegate:self];
+    post = [[TwitterClient alloc] initWithTarget:self action:@selector(postDidSucceed:messages:)];
 
 	NSRange r = [text.text rangeOfString:@"d "];
 	isDirectMessage = (r.location == 0) ? true : false;
@@ -154,7 +154,7 @@
 	[super dealloc];
 }
 
-- (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj;
+- (void)postDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj;
 {
     NSDictionary *dic = nil;
     if (obj && [obj isKindOfClass:[NSDictionary class]]) {

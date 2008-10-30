@@ -10,7 +10,7 @@
 #import "SearchViewController.h"
 #import "SearchBookmarksViewController.h"
 #import "DBConnection.h"
-#import "SearchView.h"
+#import "SearchMessageView.h"
 #import "TwitterClient.h"
 
 @interface NSObject (SearchTableViewDelegate)
@@ -25,10 +25,10 @@
     self.navigationController.navigationBar.topItem.titleView = searchBar;
     searchBar.delegate = self;
     searchBar.showsBookmarkButton = true;
-    SearchView* searchView = (SearchView*)self.view;
-    searchView.searchBar = searchBar;
+    
+    searchView.searchBar  = searchBar;
+    messageView.searchBar = searchBar;
 
-//    UIBarButtonItem *trendButton  = [[UIBarButtonItem alloc] initWithTitle:@"Trends"
     UIBarButtonItem *trendButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"trends.png"]
                                                                      style:UIBarButtonItemStylePlain 
                                                                     target:self 
@@ -44,14 +44,15 @@
     [super viewDidLoad];
     
     trends  = [[TrendsDataSource alloc] initWithDelegate:self];
-    search  = [[SearchResultDataSource alloc] initWithDelegate:self];
     history = [[SearchHistoryDataSource alloc] initWithDelegate:self];
 
+    search  = [[TimelineViewDataSource alloc] initWithController:self tag:TAB_SEARCH];
+    
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;
-
-    location = [[LocationManager alloc] initWithDelegate:self];
+    self.view = messageView;
     
+    location = [[LocationManager alloc] initWithDelegate:self];
     needToOpenKeyboard = true;
 }
 
@@ -96,6 +97,8 @@
 {
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;
+    self.view = messageView;
+    [messageView setMessage:@"Loading..." indicator:true];
 
     searchBar.text = query;    
     [searchBar resignFirstResponder];
@@ -145,10 +148,16 @@
 //
 - (void)searchBar:(UISearchBar *)aSearchBar textDidChange:(NSString *)searchText
 {
+    if ([searchText length] == 0) {
+        self.view = messageView;
+        [messageView setMessage:@"" indicator:false];
+        return;
+    }
+
+    [history updateQuery:searchText];
+    self.view = searchView;
     self.tableView.dataSource = history;
     self.tableView.delegate   = history;
-    
-    [history updateQuery:searchText];
     [self reloadTable];
 }
 
@@ -169,21 +178,37 @@
 // SearchDataSource delegates
 //
 
-- (void)searchDidLoad
+- (void)searchDidLoad:(int)count insertAt:(int)position
 {
-    self.tableView.dataSource = search;
-    self.tableView.delegate   = search;
-    [self reloadTable];
+    self.view = searchView;
+    if (self.tableView.dataSource != search) {
+        self.tableView.dataSource = search;
+        self.tableView.delegate   = search;
+    }
+    if (!self.view.hidden && position && count) {
+        [self.tableView beginUpdates];
+        NSMutableArray *insertion = [[[NSMutableArray alloc] init] autorelease];
+        [insertion addObject:[NSIndexPath indexPathForRow:position inSection:0]];
+        [self.tableView insertRowsAtIndexPaths:insertion withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView endUpdates];
+    }
+    else {
+        [self.tableView reloadData];
+    }
     self.navigationItem.leftBarButtonItem.enabled = true;    
 }
 
 
 - (void)noSearchResult
 {
+    self.view = messageView;
+    [messageView setMessage:@"No search result." indicator:false];
 }
 
-- (void)searchDidFailToLoad
+- (void)timelineDidFailToLoad
 {
+    self.view = messageView;
+    [messageView setMessage:@"Search is not available." indicator:false];
     self.navigationItem.leftBarButtonItem.enabled = true;
 }
 
@@ -194,9 +219,10 @@
 
 - (void)getLocation:(id)sender
 {
-    self.tableView.dataSource = search;
-    self.tableView.delegate   = search;
-    [search removeAllResults];
+    self.view = messageView;
+    [messageView setMessage:@"Loading..." indicator:true];
+    
+    [search removeAllMessages];
     [self reloadTable];
 
     self.navigationItem.leftBarButtonItem.enabled = false;
@@ -207,9 +233,6 @@
 
 - (void)locationManagerDidReceiveLocation:(float)latitude longitude:(float)longitude
 {
-    self.tableView.dataSource = search;
-    self.tableView.delegate   = search;
-    
     searchBar.text = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
     [search geocode:latitude longitude:longitude];
     
@@ -217,14 +240,13 @@
 
 - (void)locationManagerDidFail
 {
+    self.view = messageView;
+    [messageView setMessage:@"Can't get current location." indicator:false];
     self.navigationItem.leftBarButtonItem.enabled = true;
 }
 
 - (void)getTrends:(id)sender
 {
-    self.tableView.delegate   = trends;
-    self.tableView.dataSource = trends;
-    
     self.navigationItem.rightBarButtonItem.enabled = false;
     [searchBar resignFirstResponder];
     [trends getTrends];
@@ -235,14 +257,18 @@
 //
 - (void)searchTrendsDidLoad
 {
+    self.view = searchView;
+    self.tableView.delegate   = trends;
+    self.tableView.dataSource = trends;
     self.navigationItem.rightBarButtonItem.enabled = true;
     [self reloadTable];
 }
 
 - (void)searchTrendsDidFailToLoad
 {
+    self.view = messageView;
+    [messageView setMessage:@"Failed to get trends." indicator:false];
     self.navigationItem.rightBarButtonItem.enabled = true;
-    [self reloadTable];
 }
 
 - (void)didReceiveMemoryWarning {

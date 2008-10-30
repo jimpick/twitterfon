@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-extern UIColor *gNavigationBarColors[3];
-
 @interface UIColor (UIColorUtils)
 + (void)initTwitterFonColorScheme;
-+ (UIColor*)friendColor:(BOOL)unread;
-+ (UIColor*)repliesColor:(BOOL)unread;
-+ (UIColor*)messageColor:(BOOL)unread;
+
++ (UIColor*)navigationColorForTab:(int)tab;
++ (UIColor*)cellColorForTab:(int)tab;
 @end

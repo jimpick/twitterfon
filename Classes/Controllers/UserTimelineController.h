@@ -13,6 +13,8 @@
 #import "Timeline.h"
 #import "ImageStore.h"
 
+@class TimelineViewDataSource;
+
 @interface UserTimelineController : UITableViewController {
     IBOutlet UserCell*      userCell;
     ImageStore*             imageStore;
@@ -21,7 +23,11 @@
     Timeline*               timeline;
     int                     indexOfLoadCell;
     NSMutableArray*         deletedMessage;
+    TwitterClient*          twitterClient;
+    TimelineViewDataSource* parent;
 }
+
+@property(nonatomic, assign) TimelineViewDataSource* parent;
 
 - (void)setMessage:(Message *)message;
 

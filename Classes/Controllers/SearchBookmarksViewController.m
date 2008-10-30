@@ -20,7 +20,8 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-    self.navigationItem.leftBarButtonItem = [self editButtonItem];
+    [toolbar setItems:[NSArray arrayWithObject:[self editButtonItem]] animated:false];
+//    self.navigationItem.leftBarButtonItem = [self editButtonItem];
     self.editing = NO;
     
     queries = [[NSMutableArray alloc] init];
@@ -72,26 +73,26 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:true];
     [[self parentViewController] dismissModalViewControllerAnimated:true];
     [searchView search:[queries objectAtIndex:indexPath.row]];
-    [tableView deselectRowAtIndexPath:indexPath animated:TRUE];   
 }
 
 - (IBAction)close:(id)sender
 {
-    if (self.editing) {
-        UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
-                                                        delegate:self
-                                               cancelButtonTitle:@"Cancel"
-                                          destructiveButtonTitle:@"Clear All Histories"
-                                               otherButtonTitles:nil];
-        [as showInView:self.view];
-        [as release];
-       
-    }
-    else {
-        [[self parentViewController] dismissModalViewControllerAnimated:true];
-    }
+    [[self parentViewController] dismissModalViewControllerAnimated:true];
+}
+
+- (void)clearAllCache:(id)sender
+{
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                      destructiveButtonTitle:@"Clear All Histories"
+                                           otherButtonTitles:nil];
+    [as showInView:self.view];
+    [as release];
+    
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -112,6 +113,8 @@
         [bookmarkView reloadData];
         sqlite3_finalize(statement);
         self.editing = false;
+        
+        [[self parentViewController] dismissModalViewControllerAnimated:true];
     }
 }
 
@@ -120,10 +123,17 @@
     [super setEditing:editing animated:animated];
     [bookmarkView setEditing:editing animated:animated];
     if (editing) {
-        self.navigationItem.rightBarButtonItem.title = @"Clear all";
+        NSArray *array = [NSArray arrayWithObjects:[self editButtonItem],
+                          [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease],
+                          [[[UIBarButtonItem alloc] initWithTitle:@"Clear all cache" style:UIBarButtonItemStyleBordered target:self action:@selector(clearAllCache:)] autorelease],
+                          nil];
+                           
+        [toolbar setItems:array animated:true];
+        [self.navigationItem setRightBarButtonItem:nil animated:true];
     }
     else {
-        self.navigationItem.rightBarButtonItem.title = @"Close";
+        [toolbar setItems:[NSArray arrayWithObject:[self editButtonItem]] animated:true];
+        [self.navigationItem setRightBarButtonItem:closeButton animated:true];
     }
 }
 

@@ -170,11 +170,11 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
 - (IBAction)done:(id)sender
 {
     [self saveSettings];
-    TwitterClient *client = [[TwitterClient alloc] initWithDelegate:self];
+    TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(accountDidVerify:messages:)];
     [client verify];
 }
 
-- (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)messages;
+- (void)accountDidVerify:(TwitterClient*)sender messages:(NSObject*)messages;
 {
     [self dismissModalViewControllerAnimated:true];
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;

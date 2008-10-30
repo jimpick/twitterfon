@@ -14,7 +14,7 @@
 }
 
 - (id)initWithDelegate:(id)delegate;
-- (void)updateQuery:(NSString*)query;
+- (int)updateQuery:(NSString*)query;
 - (void)removeAllQueries;
 
 @end

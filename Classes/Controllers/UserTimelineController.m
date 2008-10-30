@@ -10,12 +10,9 @@
 #import "TwitterFonAppDelegate.h"
 #import "MessageCell.h"
 
-@interface UIViewController (UserTimelineControllerDelegate)
-- (void)removeMessage:(Message*)message;
-- (void)updateFavorite:(Message*)message;
-@end
-
 @implementation UserTimelineController
+
+@synthesize parent;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
@@ -41,6 +38,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBar.tintColor = nil;
     [self.tableView reloadData];
 }
 
@@ -171,12 +169,81 @@
     Message* m = [timeline messageAtIndex:indexPath.row - 1];
     if (m) return;
     
+    if (twitterClient) return;
+    
     LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     [cell.spinner startAnimating];
 
     indexOfLoadCell = indexPath.row;
     int page = ([timeline countMessages] / 20) + 1;
-    [timeline getUserTimeline:message.user.userId page:page insertAt:indexPath.row - 1];
+    
+    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userTimelineDidReceive:messages:)];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    if (page >= 2) {
+        [param setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
+    }
+    
+    [twitterClient getUserTimeline:message.user.screenName params:param];
+}
+
+- (void)userTimelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
+{
+    if (obj == nil) {
+        goto out;
+    }
+    
+    NSArray *ary = nil;
+    if ([obj isKindOfClass:[NSArray class]]) {
+        ary = (NSArray*)obj;
+    }
+    else {
+        goto out;
+    }
+    
+    if ([ary count] == 0) goto out;
+    
+    NSMutableArray *insertIndexPath = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *deleteIndexPath = [[[NSMutableArray alloc] init] autorelease];
+
+    // Remove first message
+    BOOL needReplace = false;
+    Message *firstMessage = [timeline messageAtIndex:0];
+    if ([timeline countMessages] == 1) {
+        [timeline removeMessageAtIndex:0];
+        needReplace = true;
+    }
+    
+    // Add messages to the timeline
+    for (int i = 0; i < [ary count]; ++i) {
+        Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:MSG_TYPE_USER];
+        [timeline appendMessage:m];
+    }
+    
+    [message release];
+    message = [[timeline lastMessage] copy];
+    [userCell update:message delegate:self];
+    
+    if (needReplace) {
+        if (firstMessage.messageId != [timeline messageAtIndex:0].messageId) {
+            [deleteIndexPath addObject:[NSIndexPath indexPathForRow:1 inSection:0]];
+        }
+    }
+    [deleteIndexPath addObject:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
+    
+    int count = [ary count];
+    if (count > 8) count = 8;
+    for (int i = (needReplace) ? 0 : 1; i < count; ++i) {
+        [insertIndexPath addObject:[NSIndexPath indexPathForRow:indexOfLoadCell + i inSection:0]];
+    }
+    
+    [self.tableView beginUpdates];
+    [self.tableView insertRowsAtIndexPaths:insertIndexPath withRowAnimation:UITableViewRowAnimationTop];
+    [self.tableView deleteRowsAtIndexPaths:deleteIndexPath withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView endUpdates];
+    
+  out:
+	[twitterClient autorelease];
+    twitterClient = nil;
 }
 
 // UserCell delegate
@@ -189,7 +256,9 @@
 
 - (void)didTouchProfileImage:(MessageCell*)cell
 {
-    TwitterClient *twitterClient = [[TwitterClient alloc] initWithDelegate:self];
+    if (twitterClient) return;
+    
+    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(favoriteDidChange:messages:)];
     twitterClient.context = cell;
     [twitterClient favorite:cell.message];
 }
@@ -210,11 +279,11 @@
     [animation setDuration:0.2];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
     [cell.profileImage.layer addAnimation:animation forKey:@"favoriteButton"];
-    
-    [[self.navigationController.viewControllers objectAtIndex:0] updateFavorite:cell.message];
+
+    [parent updateFavorite:cell.message];
 }
 
-- (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj
+- (void)favoriteDidChange:(TwitterClient*)sender messages:(NSObject*)obj
 {
 
     if ([obj isKindOfClass:[NSDictionary class]]) {
@@ -231,18 +300,40 @@
         [self toggleFavorite:favorited cell:cell];
      
     }
-    [sender autorelease];
+    [twitterClient autorelease];
+    twitterClient = nil;
 }
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    if (sender.statusCode == 404) {
-        BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
-        MessageCell *cell = sender.context;
-        [self toggleFavorite:favorited cell:cell];
+    if (sender.request == TWITTER_REQUEST_FAVORITE ||
+        sender.request == TWITTER_REQUEST_DESTROY_FAVORITE) {
+        if (sender.statusCode == 404) {
+            BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
+            MessageCell *cell = sender.context;
+            [self toggleFavorite:favorited cell:cell];
+        }
+    }
+    else {
+        if (sender.request == TWITTER_REQUEST_TIMELINE) {
+            LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
+            if ([cell isKindOfClass:[LoadCell class]]) {
+                [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
+                [cell.spinner stopAnimating];
+            }
+        }
+    
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
+                                                        message:detail
+                                                       delegate:self
+                                              cancelButtonTitle:@"Close"
+                                              otherButtonTitles: nil];
+        [alert show];	
+        [alert release];
     }
     
     [sender autorelease];
+    twitterClient = nil;
 }
 
 - (void)didTouchLinkButton:(NSString*)url
@@ -282,21 +373,28 @@
     forRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [deletedMessage addObject:[[timeline messageAtIndex:indexPath.row - 1] retain]];
-        [timeline destroyMessageAtIndex:indexPath.row - 1];
+        Message *m = [timeline messageAtIndex:indexPath.row - 1];
+        TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(messageDidDelete:messages:)];
+        client.context = [m retain];
+        [timeline removeMessage:m];
+        
+        [client destroy:m];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     }
 }
 
-- (void)messageDidDelete:(sqlite_int64)messageId;
+- (void)messageDidDelete:(TwitterClient*)client messages:(NSObject*)obj
 {
-    for (int i = 0; i < [deletedMessage count]; ++i) {
-        Message *m = [deletedMessage objectAtIndex:i];
-        if (m.messageId = messageId) {
+    [client autorelease];
+    
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dic = (NSDictionary*)obj;
+        sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];        
+        Message *m = (Message*)client.context;
+        if (m.messageId == messageId) {
             [m deleteFromDB];
-            [[self.navigationController.viewControllers objectAtIndex:0] removeMessage:m];
-            [deletedMessage removeObjectAtIndex:i];
-            return;
+            [parent removeMessage:m];
+            [m release];
         }
     }
 }
@@ -315,57 +413,6 @@
 {
     userCell.image = image;
 	[self.tableView reloadData];
-}
-
-//
-// TimelineDelegate
-//
-- (void)timelineDidReceiveNewMessage:(Message*)msg
-{
-}
-
-- (void)timelineDidUpdate:(int)count insertAt:(int)position
-{
-    if (!self.view.hidden && timeline && [timeline countMessages]) {
-        NSMutableArray *insertIndexPath = [[[NSMutableArray alloc] init] autorelease];
-        NSMutableArray *deleteIndexPath = [[[NSMutableArray alloc] init] autorelease];
-        
-        // Replace message if the current message is not latest one.
-        //
-        BOOL needReplaceMessage = ([timeline messageAtIndex:0].messageId != message.messageId) ? true : false;
-        if (position == 0 && needReplaceMessage) {
-            [deleteIndexPath addObject:[NSIndexPath indexPathForRow:1 inSection:0]];
-        }
-        
-        [deleteIndexPath addObject:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
-        
-        //
-        // Avoid to create too many table cell.
-        //
-        if (count > 8) count = 8;
-        if (position == 0) {
-            for (int i = (needReplaceMessage) ? 1 : 2; i <= count; ++i) {
-                [insertIndexPath addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-            }        
-        }
-        else {
-            for (int i = 0; i < count; ++i) {
-                [insertIndexPath addObject:[NSIndexPath indexPathForRow:position + i + 1 inSection:0]];
-            }        
-        }
-        [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:insertIndexPath withRowAnimation:UITableViewRowAnimationTop];
-        [self.tableView deleteRowsAtIndexPaths:deleteIndexPath withRowAnimation:UITableViewRowAnimationBottom];
-        [self.tableView endUpdates];
-    }
-}
-
-- (void)timelineDidFailToUpdate
-{
-    LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
-    if ([cell isKindOfClass:[LoadCell class]]) {
-        [cell.spinner stopAnimating];
-    }
 }
 
 @end

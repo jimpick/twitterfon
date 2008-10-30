@@ -8,18 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "TrendsDataSource.h"
-#import "SearchResultDataSource.h"
 #import "SearchHistoryDataSource.h"
+#import "TimelineViewDataSource.h"
 #import "LocationManager.h"
+#import "SearchMessageView.h"
+#import "SearchView.h"
 
 @interface SearchViewController : UITableViewController <UISearchBarDelegate> {
     UISearchBar*                searchBar;
     TrendsDataSource*           trends;
-    SearchResultDataSource*     search;
+    TimelineViewDataSource*     search;
     SearchHistoryDataSource*    history;
     LocationManager*            location;
-    
     BOOL                        needToOpenKeyboard;
+    IBOutlet SearchMessageView* messageView;
+    IBOutlet SearchView*        searchView;
 }
 
 - (void)search:(NSString*)query;

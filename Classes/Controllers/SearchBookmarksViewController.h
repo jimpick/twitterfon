@@ -13,6 +13,8 @@
     NSMutableArray*             queries;
     id                          searchView;
     IBOutlet UITableView*       bookmarkView;
+    IBOutlet UIToolbar*         toolbar;
+    IBOutlet UIBarButtonItem*   closeButton;
 }
 
 @property(nonatomic, assign) id searchView;

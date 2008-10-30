@@ -17,22 +17,23 @@
 
 - (id)initWithDelegate:(id)aDelegate;
 
-- (void)getTimeline:(MessageType)type page:(int)page insertAt:(int)row;
-- (void)getUserTimeline:(int)user_id page:(int)page insertAt:(int)row;
 - (int)restore:(MessageType)type all:(BOOL)flag;
 - (void)cancel;
 
+
 - (int)countMessages;
 - (void)appendMessage:(Message*)message;
+- (void)insertMessage:(Message*)message atIndex:(int)index;
 
 - (Message*)messageAtIndex:(int)i;
-
-- (Message*)destroyMessageAtIndex:(int)i;
+- (Message*)messageById:(sqlite_int64)id;
+- (Message*)lastMessage;
 
 - (void)removeMessage:(Message*)message;
+- (void)removeMessageAtIndex:(int)index;
+- (void)removeLastMessage;
 - (void)removeAllMessages;
 
-- (void)insertMessage:(Message*)message;
 - (void)updateFavorite:(Message*)message;
 
 @end

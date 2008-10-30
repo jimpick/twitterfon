@@ -1,20 +1,23 @@
+//
+//  FriendsTimelineController.h
+//  TwitterFon
+//
+//  Created by kaz on 10/29/08.
+//  Copyright 2008 naan studio. All rights reserved.
+//
+
 #import <UIKit/UIKit.h>
-#import "ImageStore.h"
-#import "Timeline.h"
-#import "UserTimelineController.h"
 #import "TimeUtils.h"
+#import "TimelineViewDataSource.h"
 
 @interface TimelineViewController : UITableViewController {
-	Timeline*               timeline;
-    UserTimelineController* userTimeline;
-    ImageStore*             imageStore;
+    Stopwatch*              stopwatch;
     int                     tag;
     int                     unread;
-    int                     indexOfLoadCell;
-    Stopwatch*              stopwatch;
+    TimelineViewDataSource* timelineDataSource;
+
 }
 
-- (IBAction) post: (id) sender;
-- (IBAction) reload: (id) sender;
+- (IBAction)reload:(id)sender;
 
 @end

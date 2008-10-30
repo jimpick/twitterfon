@@ -32,11 +32,11 @@ static sqlite3_stmt *select_statement = nil;
     [super dealloc];
 }
 
-- (void)updateQuery:(NSString*)query
+- (int)updateQuery:(NSString*)query
 {
     [queries removeAllObjects];
     
-    if ([query compare:@""] == NSOrderedSame) return;
+    if ([query compare:@""] == NSOrderedSame) return 0;
     
     sqlite3* database = [DBConnection getSharedDatabase];
     
@@ -53,6 +53,7 @@ static sqlite3_stmt *select_statement = nil;
         [queries addObject:[NSString stringWithUTF8String:(char*)sqlite3_column_text(select_statement, 0)]];
     }
     sqlite3_reset(select_statement);
+    return [queries count];
 }
 
 - (void)removeAllQueries
@@ -83,7 +84,8 @@ static sqlite3_stmt *select_statement = nil;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     [delegate search:[queries objectAtIndex:indexPath.row]];
-    [tableView deselectRowAtIndexPath:indexPath animated:TRUE];   
+    [tableView deselectRowAtIndexPath:indexPath animated:true];
+
 }
 
 @end

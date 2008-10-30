@@ -43,6 +43,10 @@
     tinyURLStore = [[NSMutableDictionary alloc] init];
 
 }
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBar.tintColor = nil;
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {

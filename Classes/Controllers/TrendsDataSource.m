@@ -35,8 +35,7 @@
 - (void)getTrends
 {
     if ([trends count] == 0) {
-        TwitterClient *client = [TwitterClient alloc];
-        [client initWithDelegate:self];
+        TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(trendDidReceive:messages:)];
         [client trends];
     }
     else {
@@ -67,14 +66,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:true];
     [delegate search:[trends objectAtIndex:indexPath.row]];
-    [tableView deselectRowAtIndexPath:indexPath animated:TRUE];  
 }
 
 //
 // TwitterClient delegates
 //
-- (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj
+- (void)trendDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
 {
     if ([obj isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary*)obj;

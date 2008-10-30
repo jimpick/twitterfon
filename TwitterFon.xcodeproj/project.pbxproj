@@ -15,7 +15,6 @@
 		6E08FB9E0E5D266B00106492 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08FB9D0E5D266B00106492 /* UserCell.m */; };
 		6E092C3B0E3B41D40039FEE3 /* TFConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E092C3A0E3B41D40039FEE3 /* TFConnection.m */; };
 		6E1029110E5D362C00440C58 /* LoadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1029100E5D362C00440C58 /* LoadCell.m */; };
-		6E1C6E770EB53E4700E34D9B /* SearchResultDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C6E740EB53E4700E34D9B /* SearchResultDataSource.m */; };
 		6E1C6E780EB53E4700E34D9B /* TrendsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C6E760EB53E4700E34D9B /* TrendsDataSource.m */; };
 		6E1C6F3E0EB5897A00E34D9B /* SearchHistoryDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C6F3D0EB5897A00E34D9B /* SearchHistoryDataSource.m */; };
 		6E1C6FDD0EB5905E00E34D9B /* db1.2.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C6FDC0EB5905E00E34D9B /* db1.2.sql */; };
@@ -36,13 +35,16 @@
 		6E3833270EB4368200B0CE69 /* BookmarkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E3833260EB4368200B0CE69 /* BookmarkView.xib */; };
 		6E3837100EB4789F00B0CE69 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370E0EB4789F00B0CE69 /* favorite.png */; };
 		6E3837110EB4789F00B0CE69 /* favorited.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370F0EB4789F00B0CE69 /* favorited.png */; };
+		6E3ED88E0EB9439A0041687A /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3ED88D0EB9439A0041687A /* TimelineViewController.m */; };
+		6E3EDA870EB99F5E0041687A /* SearchMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDA860EB99F5E0041687A /* SearchMessageView.m */; };
+		6E3EDADE0EB9A2050041687A /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDADD0EB9A2050041687A /* SearchView.m */; };
 		6E660AE10E61500600B6FA30 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E660AE00E61500600B6FA30 /* WebView.xib */; };
 		6E660BEE0E615B9800B6FA30 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E660BED0E615B9800B6FA30 /* PostView.xib */; };
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
 		6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E943F1A0E6527C600E8ECF2 /* usercell_background.png */; };
+		6E9CA2C70EB8D4E800D7F004 /* TimelineViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9CA2C60EB8D4E800D7F004 /* TimelineViewDataSource.m */; };
 		6EBEE57F0EB2F60D00C18F0A /* SearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EBEE57E0EB2F60D00C18F0A /* SearchView.xib */; };
 		6EBEE5840EB2F65400C18F0A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE5830EB2F65400C18F0A /* SearchViewController.m */; };
-		6EBEE5F70EB2FBF700C18F0A /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE5F60EB2FBF700C18F0A /* SearchView.m */; };
 		6EBEE6610EB3044200C18F0A /* PostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE6600EB3044200C18F0A /* PostView.m */; };
 		6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA50E38D3A0006E8AB7 /* forward.png */; };
 		6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA60E38D3A0006E8AB7 /* back.png */; };
@@ -59,7 +61,6 @@
 		6EEBF7100E3B1FD40003EA63 /* TwitterFonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */; };
 		6EEBF7160E3B20610003EA63 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7130E3B20610003EA63 /* SettingsViewController.m */; };
 		6EEBF71D0E3B20830003EA63 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7180E3B20830003EA63 /* MessageCell.m */; };
-		6EEBF71F0E3B20830003EA63 /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF71C0E3B20830003EA63 /* TimelineViewController.m */; };
 		6EEBF7240E3B20910003EA63 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7210E3B20910003EA63 /* PostViewController.m */; };
 		6EEBF7280E3B209A0003EA63 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7270E3B209A0003EA63 /* WebViewController.m */; };
 		6EED142B0E33E59B00C71EA4 /* ImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14080E33E59B00C71EA4 /* ImageStore.m */; };
@@ -94,8 +95,6 @@
 		6E10290F0E5D362C00440C58 /* LoadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadCell.h; path = Controllers/LoadCell.h; sourceTree = "<group>"; };
 		6E1029100E5D362C00440C58 /* LoadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadCell.m; path = Controllers/LoadCell.m; sourceTree = "<group>"; };
 		6E138FEE0E67F76A0037BE46 /* DebugUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugUtils.h; path = Classes/OtherSources/DebugUtils.h; sourceTree = "<group>"; };
-		6E1C6E730EB53E4700E34D9B /* SearchResultDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchResultDataSource.h; path = Controllers/SearchResultDataSource.h; sourceTree = "<group>"; };
-		6E1C6E740EB53E4700E34D9B /* SearchResultDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchResultDataSource.m; path = Controllers/SearchResultDataSource.m; sourceTree = "<group>"; };
 		6E1C6E750EB53E4700E34D9B /* TrendsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrendsDataSource.h; path = Controllers/TrendsDataSource.h; sourceTree = "<group>"; };
 		6E1C6E760EB53E4700E34D9B /* TrendsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrendsDataSource.m; path = Controllers/TrendsDataSource.m; sourceTree = "<group>"; };
 		6E1C6F3C0EB5897A00E34D9B /* SearchHistoryDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchHistoryDataSource.h; path = Controllers/SearchHistoryDataSource.h; sourceTree = "<group>"; };
@@ -121,16 +120,22 @@
 		6E3833260EB4368200B0CE69 /* BookmarkView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookmarkView.xib; sourceTree = "<group>"; };
 		6E38370E0EB4789F00B0CE69 /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite.png; sourceTree = "<group>"; };
 		6E38370F0EB4789F00B0CE69 /* favorited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorited.png; sourceTree = "<group>"; };
+		6E3ED88D0EB9439A0041687A /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineViewController.m; path = Controllers/TimelineViewController.m; sourceTree = "<group>"; };
+		6E3ED88F0EB943B00041687A /* TimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineViewController.h; path = Controllers/TimelineViewController.h; sourceTree = "<group>"; };
+		6E3EDA850EB99F5E0041687A /* SearchMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchMessageView.h; path = Controllers/SearchMessageView.h; sourceTree = "<group>"; };
+		6E3EDA860EB99F5E0041687A /* SearchMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchMessageView.m; path = Controllers/SearchMessageView.m; sourceTree = "<group>"; };
+		6E3EDADC0EB9A2050041687A /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchView.h; path = Controllers/SearchView.h; sourceTree = "<group>"; };
+		6E3EDADD0EB9A2050041687A /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchView.m; path = Controllers/SearchView.m; sourceTree = "<group>"; };
 		6E660AE00E61500600B6FA30 /* WebView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebView.xib; sourceTree = "<group>"; };
 		6E660BED0E615B9800B6FA30 /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostView.xib; sourceTree = "<group>"; };
 		6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeUtils.h; path = Classes/OtherSources/TimeUtils.h; sourceTree = "<group>"; };
 		6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeUtils.m; path = Classes/OtherSources/TimeUtils.m; sourceTree = "<group>"; };
 		6E943F1A0E6527C600E8ECF2 /* usercell_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usercell_background.png; sourceTree = "<group>"; };
+		6E9CA2C50EB8D4E800D7F004 /* TimelineViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineViewDataSource.h; path = Controllers/TimelineViewDataSource.h; sourceTree = "<group>"; };
+		6E9CA2C60EB8D4E800D7F004 /* TimelineViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineViewDataSource.m; path = Controllers/TimelineViewDataSource.m; sourceTree = "<group>"; };
 		6EBEE57E0EB2F60D00C18F0A /* SearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchView.xib; sourceTree = "<group>"; };
 		6EBEE5820EB2F65400C18F0A /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = Controllers/SearchViewController.h; sourceTree = "<group>"; };
 		6EBEE5830EB2F65400C18F0A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = Controllers/SearchViewController.m; sourceTree = "<group>"; };
-		6EBEE5F50EB2FBF700C18F0A /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchView.h; path = Controllers/SearchView.h; sourceTree = "<group>"; };
-		6EBEE5F60EB2FBF700C18F0A /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchView.m; path = Controllers/SearchView.m; sourceTree = "<group>"; };
 		6EBEE65F0EB3044200C18F0A /* PostView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostView.h; path = Controllers/PostView.h; sourceTree = "<group>"; };
 		6EBEE6600EB3044200C18F0A /* PostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostView.m; path = Controllers/PostView.m; sourceTree = "<group>"; };
 		6ED17FA50E38D3A0006E8AB7 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
@@ -158,8 +163,6 @@
 		6EEBF7130E3B20610003EA63 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Controllers/SettingsViewController.m; sourceTree = "<group>"; };
 		6EEBF7170E3B20830003EA63 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageCell.h; path = Controllers/MessageCell.h; sourceTree = "<group>"; };
 		6EEBF7180E3B20830003EA63 /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageCell.m; path = Controllers/MessageCell.m; sourceTree = "<group>"; };
-		6EEBF71B0E3B20830003EA63 /* TimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineViewController.h; path = Controllers/TimelineViewController.h; sourceTree = "<group>"; };
-		6EEBF71C0E3B20830003EA63 /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineViewController.m; path = Controllers/TimelineViewController.m; sourceTree = "<group>"; };
 		6EEBF7200E3B20910003EA63 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostViewController.h; path = Controllers/PostViewController.h; sourceTree = "<group>"; };
 		6EEBF7210E3B20910003EA63 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostViewController.m; path = Controllers/PostViewController.m; sourceTree = "<group>"; };
 		6EEBF7260E3B209A0003EA63 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = Controllers/WebViewController.h; sourceTree = "<group>"; };
@@ -177,8 +180,8 @@
 		6EED14120E33E59B00C71EA4 /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
 		6EED141E0E33E59B00C71EA4 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		6EED141F0E33E59B00C71EA4 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
-		6EED14220E33E59B00C71EA4 /* Timeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timeline.h; sourceTree = "<group>"; };
-		6EED14230E33E59B00C71EA4 /* Timeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timeline.m; sourceTree = "<group>"; };
+		6EED14220E33E59B00C71EA4 /* Timeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Timeline.h; path = Twitter/Timeline.h; sourceTree = "<group>"; };
+		6EED14230E33E59B00C71EA4 /* Timeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Timeline.m; path = Twitter/Timeline.m; sourceTree = "<group>"; };
 		6EED14260E33E59B00C71EA4 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		6EED14270E33E59B00C71EA4 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		6EED143A0E33E5BA00C71EA4 /* SettingsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsView.xib; sourceTree = "<group>"; };
@@ -212,10 +215,10 @@
 			children = (
 				6EEBF6C90E3AE3780003EA63 /* Network */,
 				6EDC025B0E34537600FF142E /* Views */,
+				6EED141D0E33E59B00C71EA4 /* Twitter */,
 				6EDC01CE0E344B5600FF142E /* DB */,
 				6EED14040E33E59B00C71EA4 /* ImageStore */,
 				6EED140B0E33E59B00C71EA4 /* JSON */,
-				6EED141D0E33E59B00C71EA4 /* Twitter */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -328,15 +331,19 @@
 			name = Post;
 			sourceTree = "<group>";
 		};
-		6E8265C90E375122005D2370 /* FriendsTimeline */ = {
+		6E8265C90E375122005D2370 /* TimelineView */ = {
 			isa = PBXGroup;
 			children = (
+				6EED14220E33E59B00C71EA4 /* Timeline.h */,
+				6EED14230E33E59B00C71EA4 /* Timeline.m */,
+				6E9CA2C50EB8D4E800D7F004 /* TimelineViewDataSource.h */,
+				6E9CA2C60EB8D4E800D7F004 /* TimelineViewDataSource.m */,
+				6E3ED88F0EB943B00041687A /* TimelineViewController.h */,
+				6E3ED88D0EB9439A0041687A /* TimelineViewController.m */,
 				6EEBF7170E3B20830003EA63 /* MessageCell.h */,
 				6EEBF7180E3B20830003EA63 /* MessageCell.m */,
-				6EEBF71B0E3B20830003EA63 /* TimelineViewController.h */,
-				6EEBF71C0E3B20830003EA63 /* TimelineViewController.m */,
 			);
-			name = FriendsTimeline;
+			name = TimelineView;
 			sourceTree = "<group>";
 		};
 		6E8265CA0E37513B005D2370 /* Settings */ = {
@@ -351,16 +358,16 @@
 		6EBEE5790EB2F58E00C18F0A /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				6E3EDADC0EB9A2050041687A /* SearchView.h */,
+				6E3EDADD0EB9A2050041687A /* SearchView.m */,
+				6E3EDA850EB99F5E0041687A /* SearchMessageView.h */,
+				6E3EDA860EB99F5E0041687A /* SearchMessageView.m */,
 				6EBEE5820EB2F65400C18F0A /* SearchViewController.h */,
 				6EBEE5830EB2F65400C18F0A /* SearchViewController.m */,
-				6EBEE5F50EB2FBF700C18F0A /* SearchView.h */,
-				6EBEE5F60EB2FBF700C18F0A /* SearchView.m */,
 				6E1C6E750EB53E4700E34D9B /* TrendsDataSource.h */,
 				6E1C6E760EB53E4700E34D9B /* TrendsDataSource.m */,
 				6E1C6F3C0EB5897A00E34D9B /* SearchHistoryDataSource.h */,
 				6E1C6F3D0EB5897A00E34D9B /* SearchHistoryDataSource.m */,
-				6E1C6E730EB53E4700E34D9B /* SearchResultDataSource.h */,
-				6E1C6E740EB53E4700E34D9B /* SearchResultDataSource.m */,
 				6E1C72E50EB5ABED00E34D9B /* LocationManager.h */,
 				6E1C72E60EB5ABED00E34D9B /* LocationManager.m */,
 				6E1C7CBB0EB7E22B00E34D9B /* SearchBookmarksViewController.h */,
@@ -381,12 +388,12 @@
 		6EDC025B0E34537600FF142E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6E8265CA0E37513B005D2370 /* Settings */,
-				6E8265C90E375122005D2370 /* FriendsTimeline */,
-				6EBEE5790EB2F58E00C18F0A /* Search */,
+				6E8265C90E375122005D2370 /* TimelineView */,
 				6E102A360E5DD63D00440C58 /* UesrTimeline */,
+				6EBEE5790EB2F58E00C18F0A /* Search */,
 				6E8265C80E375119005D2370 /* Post */,
 				6E38EF7F0E38275300887690 /* Web View */,
+				6E8265CA0E37513B005D2370 /* Settings */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -438,8 +445,6 @@
 				6EED14270E33E59B00C71EA4 /* User.m */,
 				6EED141E0E33E59B00C71EA4 /* Message.h */,
 				6EED141F0E33E59B00C71EA4 /* Message.m */,
-				6EED14220E33E59B00C71EA4 /* Timeline.h */,
-				6EED14230E33E59B00C71EA4 /* Timeline.m */,
 			);
 			path = Twitter;
 			sourceTree = "<group>";
@@ -563,7 +568,6 @@
 				6EEBF7100E3B1FD40003EA63 /* TwitterFonAppDelegate.m in Sources */,
 				6EEBF7160E3B20610003EA63 /* SettingsViewController.m in Sources */,
 				6EEBF71D0E3B20830003EA63 /* MessageCell.m in Sources */,
-				6EEBF71F0E3B20830003EA63 /* TimelineViewController.m in Sources */,
 				6EEBF7240E3B20910003EA63 /* PostViewController.m in Sources */,
 				6EEBF7280E3B209A0003EA63 /* WebViewController.m in Sources */,
 				6E092C3B0E3B41D40039FEE3 /* TFConnection.m in Sources */,
@@ -575,13 +579,15 @@
 				6E1029110E5D362C00440C58 /* LoadCell.m in Sources */,
 				6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */,
 				6EBEE5840EB2F65400C18F0A /* SearchViewController.m in Sources */,
-				6EBEE5F70EB2FBF700C18F0A /* SearchView.m in Sources */,
 				6EBEE6610EB3044200C18F0A /* PostView.m in Sources */,
-				6E1C6E770EB53E4700E34D9B /* SearchResultDataSource.m in Sources */,
 				6E1C6E780EB53E4700E34D9B /* TrendsDataSource.m in Sources */,
 				6E1C6F3E0EB5897A00E34D9B /* SearchHistoryDataSource.m in Sources */,
 				6E1C72E70EB5ABED00E34D9B /* LocationManager.m in Sources */,
 				6E1C7CBD0EB7E22B00E34D9B /* SearchBookmarksViewController.m in Sources */,
+				6E9CA2C70EB8D4E800D7F004 /* TimelineViewDataSource.m in Sources */,
+				6E3ED88E0EB9439A0041687A /* TimelineViewController.m in Sources */,
+				6E3EDA870EB99F5E0041687A /* SearchMessageView.m in Sources */,
+				6E3EDADE0EB9A2050041687A /* SearchView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,8 +5,9 @@
 typedef enum {
     TWITTER_REQUEST_TIMELINE,
     TWITTER_REQUEST_FAVORITE,
+    TWITTER_REQUEST_DESTROY_FAVORITE,
     TWITTER_REQUEST_UPDATE,
-    TWITTER_REQUEST_DESTROY,
+    TWITTER_REQUEST_DESTROY_MESSAGE,
     TWITTER_REQUEST_SEARCH,
     TWITTER_REQUEST_TRENDS,
 } RequestType;
@@ -15,17 +16,21 @@ typedef enum {
 {
     RequestType request;
     id          context;
+    SEL         action;
 }
 
 @property(nonatomic, readonly) RequestType request;
 @property(nonatomic, assign) id context;
 
-- (void)get:(MessageType)type params:(NSDictionary*)params;
+- (id)initWithTarget:(id)delegate action:(SEL)action;
+
+- (void)getTimeline:(MessageType)type params:(NSDictionary*)params;
+- (void)getUserTimeline:(NSString*)screen_name params:(NSDictionary*)params;
+
 - (void)post:(NSString*)tweet;
 - (void)destroy:(Message*)message;
 - (void)favorite:(Message*)message;
-- (void)search:(NSString*)query;
-- (void)geocode:(float)latitude longitude:(float)longitude distance:(int)distance;
+- (void)search:(NSDictionary*)params;
 - (void)trends;
 - (void)verify;
 

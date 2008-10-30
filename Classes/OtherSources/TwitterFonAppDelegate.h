@@ -30,6 +30,8 @@ typedef enum {
     int                             selectedTab;
 }
 
+- (IBAction)post:(id)sender;
+
 - (void) openSettingsView;
 - (void) closeSettingsView;
 

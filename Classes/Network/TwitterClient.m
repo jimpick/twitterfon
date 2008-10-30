@@ -13,11 +13,10 @@
 #import "Message.h"
 
 static 
-NSString* sMethods[4] = {
+NSString* sMethods[5] = {
     @"statuses/friends_timeline",
     @"statuses/replies",
     @"direct_messages",
-    @"statuses/user_timeline",
 };
 
 @interface NSObject (TwitterClientDelegate)
@@ -30,7 +29,14 @@ NSString* sMethods[4] = {
 @synthesize request;
 @synthesize context;
 
-- (void)get:(MessageType)type params:(NSDictionary*)params
+- (id)initWithTarget:(id)aDelegate action:(SEL)anAction
+{
+    [super initWithDelegate:aDelegate];
+    action = anAction;
+    return self;
+}
+
+- (void)getTimeline:(MessageType)type params:(NSDictionary*)params
 {
     request = TWITTER_REQUEST_TIMELINE;
     
@@ -41,6 +47,32 @@ NSString* sMethods[4] = {
                      [username encodeAsURIComponent],
                      [password encodeAsURIComponent],
                      sMethods[type]];
+    
+    int i = 0;
+    for (id key in params) {
+        NSString *value = [params objectForKey:key];
+        if (i == 0) {
+            url = [NSString stringWithFormat:@"%@?%@=%@", url, key, value];
+        }
+        else {
+            url = [NSString stringWithFormat:@"%@&%@=%@", url, key, value];
+        }
+        ++i;
+    }
+    [super get:url];
+}
+
+- (void)getUserTimeline:(NSString*)screen_name params:(NSDictionary*)params
+{
+    request = TWITTER_REQUEST_TIMELINE;
+    
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    
+    NSString *url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/statuses/user_timeline/%@.json",
+                     [username encodeAsURIComponent],
+                     [password encodeAsURIComponent],
+                     [screen_name encodeAsURIComponent]];
     
     int i = 0;
     for (id key in params) {
@@ -76,7 +108,7 @@ NSString* sMethods[4] = {
 
 - (void)destroy:(Message*)message
 {
-    request = TWITTER_REQUEST_DESTROY;
+    request = TWITTER_REQUEST_DESTROY_MESSAGE;
     
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
@@ -91,7 +123,7 @@ NSString* sMethods[4] = {
 
 - (void)favorite:(Message*)message
 {
-    request = (message.favorited) ? TWITTER_REQUEST_DESTROY : TWITTER_REQUEST_FAVORITE;
+    request = (message.favorited) ? TWITTER_REQUEST_DESTROY_FAVORITE : TWITTER_REQUEST_FAVORITE;
     
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
@@ -107,17 +139,22 @@ NSString* sMethods[4] = {
     [self post:url body:@""];    
 }
 
-- (void)search:(NSString*)query
+- (void)search:(NSDictionary*)params
 {
-    NSString* url = [NSString stringWithFormat:@"http://search.twitter.com/search.json?q=%@",  [query encodeAsURIComponent]];
-    [self get:url];
-}
+    NSString* url = [NSString stringWithFormat:@"http://search.twitter.com/search.json"];
 
-- (void)geocode:(float)latitude longitude:(float)longitude distance:(int)distance
-{
-    NSString* url = [NSString stringWithFormat:@"http://search.twitter.com/search.json?geocode=%f,%f,%dmi",
-                     latitude, longitude, distance];
-    [super get:url];
+    int i = 0;
+    for (id key in params) {
+        NSString *value = [params objectForKey:key];
+        if (i == 0) {
+            url = [NSString stringWithFormat:@"%@?%@=%@", url, key, value];
+        }
+        else {
+            url = [NSString stringWithFormat:@"%@&%@=%@", url, key, value];
+        }
+        ++i;
+    }
+    [self get:url];
 }
 
 - (void)trends
@@ -178,7 +215,7 @@ NSString* sMethods[4] = {
             return;
             
         case 304: // Not Modified: there was no new data to return.
-            [delegate twitterClientDidSucceed:self messages:nil];
+            [delegate performSelector:action withObject:self withObject:nil];
             return;
 
         case 400: // Bad Request: your request is invalid, and we'll return an error message that tells you why. This is the status code returned if you've exceeded the rate limit
@@ -197,7 +234,7 @@ NSString* sMethods[4] = {
         }
     }
     
-    NSObject* obj = [content JSONValue];
+    NSObject *obj = [content JSONValue];
     
     if ([obj isKindOfClass:[NSDictionary class]]) {
         NSDictionary* dic = (NSDictionary*)obj;
@@ -207,15 +244,11 @@ NSString* sMethods[4] = {
             [delegate twitterClientDidFail:self error:@"Server error" detail:msg];
         }
         else {
-            [delegate twitterClientDidSucceed:self messages:obj];
+            [delegate performSelector:action withObject:self withObject:obj];
         }
     }
-    else if ([obj isKindOfClass:[NSArray class]]) {
-        [delegate twitterClientDidSucceed:self messages:obj];
-    }
     else {
-        NSLog(@"Null or wrong response: %@", content);
-        [delegate twitterClientDidSucceed:self messages:nil];
+        [delegate performSelector:action withObject:self withObject:obj];
     }
 }
 
