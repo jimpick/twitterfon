@@ -9,8 +9,8 @@ typedef enum {
     MSG_TYPE_FRIENDS = 0,
     MSG_TYPE_REPLIES,
     MSG_TYPE_MESSAGES,
-    MSG_TYPE_USER,
     MSG_TYPE_SEARCH_RESULT,
+    MSG_TYPE_USER,
 } MessageType;
 
 #define IMAGE_PADDING       10
