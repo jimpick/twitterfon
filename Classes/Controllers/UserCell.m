@@ -57,6 +57,8 @@
     [url setTitle:message.user.url forState:UIControlStateNormal];
     [url setTitle:message.user.url forState:UIControlStateHighlighted];
 
+    numFollowers.hidden = (message.user.followersCount == 0) ? true : false;
+
     if (message.user.followersCount <= 1) {
         numFollowers.text   = [NSString stringWithFormat:@"%d follower", message.user.followersCount];
     }
