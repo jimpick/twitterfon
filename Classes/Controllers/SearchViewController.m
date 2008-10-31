@@ -235,7 +235,6 @@
 {
     searchBar.text = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
     [search geocode:latitude longitude:longitude];
-    
 }
 
 - (void)locationManagerDidFail
@@ -252,9 +251,6 @@
     [trends getTrends];
 }
 
-//
-// TrendsDataSource delegates
-//
 - (void)searchTrendsDidLoad
 {
     self.view = searchView;
