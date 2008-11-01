@@ -6,8 +6,13 @@ CREATE TABLE messages (
        'created_at'             INTEGER,
        'source'                 TEXT,
        'favorited'              INTEGER,
-
+       'cell_height'            INTEGER,
        'user_id'                INTEGER,
+PRIMARY KEY(type, id)
+);
+
+CREATE TABLE users (
+       'user_id'                INTEGER PRIMARY KEY,
        'name'                   TEXT,
        'screen_name'            TEXT,
        'location'               TEXT,
@@ -15,12 +20,11 @@ CREATE TABLE messages (
        'url'                    TEXT,
        'followers_count'        INTEGER,
        'profile_image_url'      TEXT,
-       'protected'              INTEGER,
-
-       'cell_height'            INTEGER,
-
-PRIMARY KEY(type, id)
+       'protected'              INTEGER
 );
+
+CREATE INDEX users_name on users(name);
+CREATE INDEX users_screen_name on users(screen_name);
 
 CREATE TABLE images (
        'url'                    TEXT PRIMARY KEY,

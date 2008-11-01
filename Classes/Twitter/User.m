@@ -1,4 +1,8 @@
 #import "User.h"
+#import "DBConnection.h"
+
+static sqlite3_stmt* select_statement = nil;
+static sqlite3_stmt* insert_statement = nil;
 
 @implementation User
 
@@ -73,6 +77,55 @@
     dist.protected          = protected;
     
     return dist;
+}
+
+- (BOOL)isExists
+{
+    sqlite3* database = [DBConnection getSharedDatabase];
+    
+    if (select_statement== nil) {
+        static char *sql = "SELECT user_id FROM users WHERE user_id=?";
+        if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
+            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+        }
+    }
+    
+    sqlite3_bind_int64(select_statement, 1, userId);
+    BOOL result = (sqlite3_step(select_statement) == SQLITE_ROW) ? true : false;
+    sqlite3_reset(select_statement);
+    return result;
+}
+- (void)insertDB
+{
+    if ([self isExists]) {
+        return;
+    }
+    
+    sqlite3* database = [DBConnection getSharedDatabase];
+    
+    if (insert_statement == nil) {
+        static char *sql = "INSERT INTO users VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
+            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+        }
+    }
+    
+    sqlite3_bind_int(insert_statement,  1, userId);
+    sqlite3_bind_text(insert_statement, 2, [name UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement, 3, [screenName UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement, 4, [location UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement, 5, [description UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement, 6, [url UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(insert_statement,  7, followersCount);
+    sqlite3_bind_text(insert_statement, 8, [profileImageUrl UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(insert_statement,  9, protected);
+    
+    int success = sqlite3_step(insert_statement);
+    // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
+    sqlite3_reset(insert_statement);
+    if (success == SQLITE_ERROR) {
+        NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
+    }
 }
 
 - (void)dealloc

@@ -212,7 +212,7 @@
         // Add messages to the timeline
         for (int i = [ary count] - 1; i >= 0; --i) {
             sqlite_int64 messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
-            if (![Message isExist:messageId type:tag]) {
+            if (![Message isExists:messageId type:tag]) {
                 Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:tag];
                 m.unread = true;
                 

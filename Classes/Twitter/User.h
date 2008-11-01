@@ -28,4 +28,6 @@
 - (User*)initWithSearchResult:(NSDictionary*)dic;
 - (id)copyWithZone:(NSZone *)zone;
 
+- (void)insertDB;
+
 @end

@@ -307,24 +307,24 @@ static sqlite3_stmt* select_statement = nil;
     m.createdAt             = (time_t)sqlite3_column_int(statement, 3);
     m.source                = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 4)];
     m.favorited             = (BOOL)sqlite3_column_int(statement, 5);
+    m.textHeight            = (uint32_t)sqlite3_column_int(statement, 6);
     
-    m.user.userId           = (uint32_t)sqlite3_column_int(statement, 6);
-    m.user.name             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 7)];
-    m.user.screenName       = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 8)];
-    m.user.location         = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 9)];
-    m.user.description      = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 10)];
-    m.user.url              = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 11)];
-    m.user.followersCount   = (uint32_t)sqlite3_column_int(statement, 12);
-    m.user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 13)];
-    m.user.protected        = (uint32_t)sqlite3_column_int(statement, 14) ? true : false;
-    m.textHeight            = (uint32_t)sqlite3_column_int(statement, 15);
+    m.user.userId           = (uint32_t)sqlite3_column_int(statement, 8);
+    m.user.name             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 9)];
+    m.user.screenName       = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 10)];
+    m.user.location         = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 11)];
+    m.user.description      = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 12)];
+    m.user.url              = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 13)];
+    m.user.followersCount   = (uint32_t)sqlite3_column_int(statement, 14);
+    m.user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 15)];
+    m.user.protected        = (uint32_t)sqlite3_column_int(statement, 16) ? true : false;
     m.unread                = false;
     [m updateAttribute];
     
     return m;
 }
 
-+ (BOOL)isExist:(sqlite_int64)aMessageId type:(MessageType)aType
++ (BOOL)isExists:(sqlite_int64)aMessageId type:(MessageType)aType
 {
     // return always false if the message is for user timeline
     if (aType == MSG_TYPE_USER) return false;
@@ -355,7 +355,7 @@ static sqlite3_stmt* select_statement = nil;
     sqlite3* database = [DBConnection getSharedDatabase];
 
     if (insert_statement == nil) {
-        static char *sql = "INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        static char *sql = "INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
@@ -367,17 +367,8 @@ static sqlite3_stmt* select_statement = nil;
     sqlite3_bind_int(insert_statement,   4, createdAt);
     sqlite3_bind_text(insert_statement,  5, [source UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(insert_statement,   6, favorited);
-    
-    sqlite3_bind_int(insert_statement,   7, user.userId);
-    sqlite3_bind_text(insert_statement,  8, [user.name UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement,  9, [user.screenName UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement, 10, [user.location UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement, 11, [user.description UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement, 12, [user.url UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(insert_statement,  13, user.followersCount);
-    sqlite3_bind_text(insert_statement, 14, [user.profileImageUrl UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(insert_statement,  15, user.protected);
-    sqlite3_bind_int(insert_statement,  16, (uint32_t)textHeight);
+    sqlite3_bind_int(insert_statement,   7, (uint32_t)textHeight);
+    sqlite3_bind_int(insert_statement,   8, user.userId);
     
     int success = sqlite3_step(insert_statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
@@ -385,6 +376,8 @@ static sqlite3_stmt* select_statement = nil;
     if (success == SQLITE_ERROR) {
         NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
     }
+
+    [user insertDB];
 }
 
 - (void)deleteFromDB
