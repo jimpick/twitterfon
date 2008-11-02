@@ -2,6 +2,7 @@
 #import "Followee.h"
 #import "sqlite3.h"
 #import "DBConnection.h"
+#import "REString.h"
 #import "StringUtil.h"
 
 static sqlite3_stmt* insert_statement = nil;
@@ -49,7 +50,7 @@ static sqlite3_stmt* select_statement = nil;
 	messageId           = [[dic objectForKey:@"id"] longLongValue];
     stringOfCreatedAt   = [dic objectForKey:@"created_at"];
     favorited           = [[dic objectForKey:@"favorited"] boolValue];
-
+    
     NSString *tweet = [dic objectForKey:@"text"];
 
     if ((id)tweet == [NSNull null]) {
@@ -181,13 +182,20 @@ static sqlite3_stmt* select_statement = nil;
     return dist;
 }
 
+static NSString *userRegexp = @"@[0-9a-zA-Z_]";
+
 - (void)updateAttribute
 {
     // Set accessoryType and bounds width
     //
-    NSRange r = [text rangeOfString:@"http://"];
     int textWidth = (type == MSG_TYPE_USER) ? USER_CELL_WIDTH : CELL_WIDTH;
-    if (r.location != NSNotFound) {    
+    
+    NSRange r = [text rangeOfString:@"http://"];
+
+    NSMutableArray *array = [NSMutableArray array];
+    BOOL hasUsername = [text matches:userRegexp withSubstring:array];
+    
+    if (r.location != NSNotFound || hasUsername) {    
         accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         textWidth -= (type == MSG_TYPE_USER) ? DETAIL_BUTTON_USER : DETAIL_BUTTON_OTHER;
     }

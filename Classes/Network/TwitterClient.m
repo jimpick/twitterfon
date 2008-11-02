@@ -66,12 +66,10 @@ NSString* sMethods[5] = {
 {
     request = TWITTER_REQUEST_TIMELINE;
     
-	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+//	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+//	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
     
-    NSString *url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/statuses/user_timeline/%@.json",
-                     [username encodeAsURIComponent],
-                     [password encodeAsURIComponent],
+    NSString *url = [NSString stringWithFormat:@"http://twitter.com/statuses/user_timeline/%@.json",
                      [screen_name encodeAsURIComponent]];
     
     int i = 0;
@@ -178,10 +176,8 @@ NSString* sMethods[5] = {
 - (void)TFConnectionDidFailWithError:(NSError*)error
 {
     if (error.code ==  NSURLErrorUserCancelledAuthentication) {
+        statusCode = 401;
         [delegate twitterClientDidFail:self error:@"Authentication Failed" detail:@"Wrong username/Email and password combination."];
-
-        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        [appDelegate openSettingsView];
     }
     else {
         [delegate twitterClientDidFail:self error:@"Connection Failed" detail:[error localizedDescription]];

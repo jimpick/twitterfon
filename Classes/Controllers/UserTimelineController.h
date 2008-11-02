@@ -12,6 +12,7 @@
 #import "Message.h"
 #import "Timeline.h"
 #import "ImageStore.h"
+#import "TwitterClient.h"
 
 @class TimelineViewDataSource;
 
@@ -24,11 +25,9 @@
     int                     indexOfLoadCell;
     NSMutableArray*         deletedMessage;
     TwitterClient*          twitterClient;
-    TimelineViewDataSource* parent;
 }
 
-@property(nonatomic, assign) TimelineViewDataSource* parent;
-
 - (void)setMessage:(Message *)message;
+- (void)loadUserTimeline:(NSString*)screenName;
 
 @end

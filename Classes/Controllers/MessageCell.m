@@ -6,7 +6,7 @@
 #import "TimeUtils.h"
 
 @interface NSObject (MessageCellDelegate)
-- (void)didTouchLinkButton:(NSString*)url;
+- (void)didTouchLinkButton:(Message*)message links:(NSArray*)links;
 - (void)didTouchProfileImage:(MessageCell*)cell;
 @end
 
@@ -64,15 +64,18 @@ static UIImage* sFavorited = nil;
     timestamp.textAlignment = UITextAlignmentLeft;//Right;  	  	 
     timestamp.frame = CGRectMake(TIMESTAMP_LEFT, 0, TIMESTAMP_WIDTH, TOP);  	  	 
     [self.contentView addSubview:timestamp];
-    
+#if 0    
     // linkButton
     linkButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     linkButton.frame = CGRectMake(288, 0, 32, 32);
     [linkButton setImage:[MessageCell linkButtonImage] forState:UIControlStateNormal];
     [linkButton setImage:[MessageCell hilightedLinkButtonImage] forState:UIControlStateHighlighted];
     [linkButton addTarget:self action:@selector(didTouchLinkButton:) forControlEvents:UIControlEventTouchUpInside];
-
+#endif
     inEditing = false;
+
+    self.target = self;
+    self.accessoryAction = @selector(didTouchLinkButton:);
     
 	return self;
 }
@@ -80,18 +83,39 @@ static UIImage* sFavorited = nil;
 - (void)dealloc
 {
     // No need to release child contents except link button
-    [linkButton release];
+//    [linkButton release];
     [super dealloc];
 }    
 
+static NSString *urlRegexp  = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
+static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
+
 - (void)didTouchLinkButton:(id)sender
 {
+    NSMutableArray *links = [NSMutableArray array];
+
+    NSMutableArray *array = [NSMutableArray array];
+    NSString *tmp = message.text;
+    
+    while ([tmp matches:urlRegexp withSubstring:array]) {
+        NSString *url = [array objectAtIndex:0];
+        [links addObject:url];
+        NSRange r = [tmp rangeOfString:url];
+        tmp = [tmp substringFromIndex:r.location + r.length];
+        [array removeAllObjects];
+    }
+    
+    tmp = message.text;
+    while ([tmp matches:nameRegexp withSubstring:array]) {
+        NSString *username = [array objectAtIndex:0];
+        [links addObject:username];
+        NSRange r = [tmp rangeOfString:username];
+        tmp = [tmp substringFromIndex:r.location + r.length];
+        [array removeAllObjects];
+    }
+          
     if (delegate) {
-        NSString *pat = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
-        NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
-        if ([message.text matches:pat withSubstring:array]) {
-            [delegate didTouchLinkButton:[array objectAtIndex:0]];
-        }
+        [delegate didTouchLinkButton:message links:links];
     }
 }
 
@@ -129,13 +153,16 @@ static UIImage* sFavorited = nil;
     //
     // Added custom hyperlink button here.
     //
+#if 0
     if (message.accessoryType == UITableViewCellAccessoryDetailDisclosureButton) {
         self.accessoryView = linkButton;
     }
     else {
         self.accessoryView = nil;
-        self.accessoryType = message.accessoryType;
+
     }
+#endif
+    self.accessoryType = message.accessoryType;
     textLabel.frame = message.textBounds;
     
     if (type == MSG_TYPE_USER && inEditing) {

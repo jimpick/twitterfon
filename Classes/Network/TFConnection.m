@@ -25,6 +25,7 @@
 
 - (void)dealloc
 {
+    [self cancel];
 	[connection release];
 	[buf release];
 	[super dealloc];

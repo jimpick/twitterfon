@@ -122,7 +122,7 @@
     [(TimelineViewController*)[nav topViewController] reload:self];
 }
 
-- (PostViewController*) postView
+- (PostViewController*)postView
 {
     if (postView == nil) {
         postView = [[PostViewController alloc] initWithNibName:@"PostView" bundle:nil];

@@ -2,12 +2,10 @@
 #import "ImageStore.h"
 #import "Timeline.h"
 #import "TwitterClient.h"
-#import "UserTimelineController.h"
 
 @interface TimelineViewDataSource : NSObject <UITableViewDataSource, UITableViewDelegate> {
     UITableViewController*  controller;
 	Timeline*               timeline;
-    UserTimelineController* userTimeline;
     ImageStore*             imageStore;
     int                     tag;
     NSString*               query;
@@ -27,8 +25,8 @@
 - (void)search:(NSString*)query;
 - (void)geocode:(float)latitude longitude:(float)longitude;
 
-- (void)removeMessage:(Message*)message;
+//- (void)removeMessage:(Message*)message;
 - (void)removeAllMessages;
-- (void)updateFavorite:(Message*)message;
+//- (void)updateFavorite:(Message*)message;
 
 @end

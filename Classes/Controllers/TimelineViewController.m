@@ -11,6 +11,7 @@
 #import "TwitterFonAppDelegate.h"
 #import "ColorUtils.h"
 #import "MessageCell.h"
+#import "LoadCell.h"
 
 @implementation TimelineViewController
 
@@ -116,6 +117,16 @@
     unread = 0;
 }
 
+
+- (void) removeMessage:(Message*)message
+{
+    [timelineDataSource.timeline removeMessage:message];
+}
+
+- (void) updateFavorite:(Message*)message
+{
+    [timelineDataSource.timeline updateFavorite:message];
+}
 
 //
 // ImageStoreDelegate

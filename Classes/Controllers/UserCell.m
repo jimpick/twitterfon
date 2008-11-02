@@ -49,6 +49,16 @@
     [super drawRect:rect];
 }
 
+-(void)clear
+{
+    name.text = @"";
+    location.text = @"";
+    [url setTitle:@"" forState:UIControlStateNormal];
+    [url setTitle:@"" forState:UIControlStateHighlighted];
+    numFollowers.hidden = true;
+    self.image = nil;
+    protected.hidden = true;
+}
 
 -(void)update:(Message*)message delegate:(id)delegate
 {
@@ -67,7 +77,7 @@
     }
     [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];   
     protected.hidden = (message.user.protected) ? false : true;
-    
+
 /*    
 	description.font        = [UIFont systemFontOfSize:13];
     description.text        = message.user.description;

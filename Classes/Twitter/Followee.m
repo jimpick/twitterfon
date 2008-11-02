@@ -96,7 +96,6 @@ static sqlite3_stmt* update_statement = nil;
 
 + (void)insertDB:(User*)user
 {
-    NSLog(@"Insert %@", user.screenName);
     if ([Followee isExists:user]) {
         return;
     }

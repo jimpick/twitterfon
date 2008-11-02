@@ -46,6 +46,12 @@
             
         case MSG_TYPE_LOAD_USERTIMELINE:
             label.text = @"Load this user's timeline...";
+            break;
+            
+        case MSG_TYPE_LOADING:
+            label.text = @"Loading...";
+            break;
+            
         default:
             break;
     }

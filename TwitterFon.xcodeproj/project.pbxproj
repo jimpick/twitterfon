@@ -84,6 +84,7 @@
 		6EED14520E33E5BF00C71EA4 /* messages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14450E33E5BF00C71EA4 /* messages.png */; };
 		6EED14560E33E5BF00C71EA4 /* replies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14490E33E5BF00C71EA4 /* replies.png */; };
 		6EEF53AE0E692F41000EB198 /* db1.1.1.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF53AD0E692F41000EB198 /* db1.1.1.sql */; };
+		6EFC28700EBDD46D00FBBB3D /* LinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -208,6 +209,8 @@
 		6EED14450E33E5BF00C71EA4 /* messages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messages.png; sourceTree = "<group>"; };
 		6EED14490E33E5BF00C71EA4 /* replies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replies.png; sourceTree = "<group>"; };
 		6EEF53AD0E692F41000EB198 /* db1.1.1.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = db1.1.1.sql; sourceTree = "<group>"; };
+		6EFC286E0EBDD46D00FBBB3D /* LinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinkViewController.h; path = Controllers/LinkViewController.h; sourceTree = "<group>"; };
+		6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinkViewController.m; path = Controllers/LinkViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -367,6 +370,8 @@
 				6E3ED88D0EB9439A0041687A /* TimelineViewController.m */,
 				6EEBF7170E3B20830003EA63 /* MessageCell.h */,
 				6EEBF7180E3B20830003EA63 /* MessageCell.m */,
+				6EFC286E0EBDD46D00FBBB3D /* LinkViewController.h */,
+				6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */,
 			);
 			name = TimelineView;
 			sourceTree = "<group>";
@@ -624,6 +629,7 @@
 				6EADBE940EBDB1B000093782 /* Followee.m in Sources */,
 				6EADC0A20EBDC48D00093782 /* FolloweeCell.m in Sources */,
 				6EADC0A30EBDC48D00093782 /* FolloweesViewController.m in Sources */,
+				6EFC28700EBDD46D00FBBB3D /* LinkViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

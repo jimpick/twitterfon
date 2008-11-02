@@ -10,7 +10,10 @@
 #import "TimelineViewDataSource.h"
 #import "TimelineViewController.h"
 #import "TwitterFonAppDelegate.h"
-#import "PostView.h"
+#import "LinkViewController.h"
+#import "PostViewController.h"
+#import "UserTimelineController.h"
+
 #import "MessageCell.h"
 #import "ColorUtils.h"
 #import "StringUtil.h"
@@ -39,13 +42,11 @@
     tag        = aTag;
     timeline   = [[Timeline alloc] initWithDelegate:controller];
     [timeline restore:tag all:false];
-    
     return self;
 }
 
 - (void)dealloc {
     [query release];
-    [userTimeline release];
     [timeline release];
 	[super dealloc];
 }
@@ -141,12 +142,8 @@
     // Display user timeline
     //
     else {
-        if (userTimeline == nil) {
-            userTimeline = [[UserTimelineController alloc] initWithNibName:@"UserView" bundle:nil];
-            userTimeline.parent = self;
-        }
+        UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:@"UserView" bundle:nil] autorelease];
         [userTimeline setMessage:m];
-        
         [[controller navigationController] pushViewController:userTimeline animated:true];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:TRUE];   
@@ -253,6 +250,12 @@
     if ([controller respondsToSelector:@selector(timelineDidFailToLoad)]) {
         [controller timelineDidFailToLoad];
     }
+    
+    if (sender.statusCode == 401) {
+        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+        [appDelegate openSettingsView];
+    }
+    
 	[sender autorelease];
 }
 
@@ -331,16 +334,6 @@
     [timeline removeAllMessages];
 }
 
-- (void) removeMessage:(Message*)message
-{
-    [timeline removeMessage:message];
-}
-
-- (void) updateFavorite:(Message*)message
-{
-    [timeline updateFavorite:message];
-}
-
 - (void)didTouchProfileImage:(MessageCell*)cell
 {
     Message* m = cell.message;
@@ -358,11 +351,29 @@
     [postView startEditWithString:msg];
 }
 
-- (void)didTouchLinkButton:(NSString*)url
+- (void)didTouchLinkButton:(Message*)message links:(NSArray*)array
 {
-    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    
-    [appDelegate openWebView:url on:[controller navigationController]];
+    if ([array count] == 1) {
+        NSString* url = [array objectAtIndex:0];
+        NSRange r = [url rangeOfString:@"http://"];
+        if (r.location != NSNotFound) {
+            TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+            [appDelegate openWebView:url on:[controller navigationController]];
+        }
+        else {
+            UserTimelineController *userTimeline = [[[UserTimelineController alloc] initWithNibName:@"UserView" bundle:nil] autorelease];
+            [userTimeline loadUserTimeline:[array objectAtIndex:0]];
+            [[controller navigationController] pushViewController:userTimeline animated:true];
+        }
+    }
+    else {
+        [controller navigationController].navigationBar.tintColor = nil;
+
+        LinkViewController* linkView = [[[LinkViewController alloc] init] autorelease];
+        linkView.message = message;
+        linkView.links   = array;
+        [[controller navigationController] pushViewController:linkView animated:true];
+    }
 }
 
 @end

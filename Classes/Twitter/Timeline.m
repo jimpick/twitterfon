@@ -22,18 +22,8 @@ static sqlite3_stmt *select_statement = nil;
 
 - (void)dealloc
 {
-    [self cancel];
 	[messages release];
 	[super dealloc];
-}
-
-- (void)cancel
-{
-    if (twitterClient) {
-        [twitterClient cancel];
-        [twitterClient release];
-        twitterClient = nil;
-    }
 }
 
 - (int)countMessages

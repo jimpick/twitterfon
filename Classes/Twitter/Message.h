@@ -3,6 +3,7 @@
 #import "sqlite3.h"
 
 typedef enum {
+    MSG_TYPE_LOADING = -4,
     MSG_TYPE_LOAD_USERTIMELINE = -3,
     MSG_TYPE_LOAD_FROM_DB  = -2,
     MSG_TYPE_LOAD_FROM_WEB = -1,

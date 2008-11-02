@@ -19,6 +19,7 @@
     CGImageRef              background;
 }
 
+-(void)clear;
 -(void)update:(Message*)message delegate:(id)delegate;
 
 @end

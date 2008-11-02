@@ -60,8 +60,8 @@
 								<reference key="IBUINavigationBar" ref="201543816"/>
 								<string key="IBUITitle">History</string>
 								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="209170246">
-									<int key="IBUIStyle">2</int>
-									<int key="IBUISystemItemIdentifier">0</int>
+									<string key="IBUITitle">Close</string>
+									<int key="IBUIStyle">1</int>
 								</object>
 							</object>
 						</object>
