@@ -1,4 +1,5 @@
 #import "Message.h"
+#import "Followee.h"
 #import "sqlite3.h"
 #import "DBConnection.h"
 #import "StringUtil.h"
@@ -309,15 +310,15 @@ static sqlite3_stmt* select_statement = nil;
     m.favorited             = (BOOL)sqlite3_column_int(statement, 5);
     m.textHeight            = (uint32_t)sqlite3_column_int(statement, 6);
     
-    m.user.userId           = (uint32_t)sqlite3_column_int(statement, 8);
-    m.user.name             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 9)];
-    m.user.screenName       = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 10)];
-    m.user.location         = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 11)];
-    m.user.description      = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 12)];
-    m.user.url              = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 13)];
-    m.user.followersCount   = (uint32_t)sqlite3_column_int(statement, 14);
-    m.user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 15)];
-    m.user.protected        = (uint32_t)sqlite3_column_int(statement, 16) ? true : false;
+    m.user.userId           = (uint32_t)sqlite3_column_int(statement, 7);
+    m.user.name             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 8)];
+    m.user.screenName       = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 9)];
+    m.user.location         = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 10)];
+    m.user.description      = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 11)];
+    m.user.url              = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 12)];
+    m.user.followersCount   = (uint32_t)sqlite3_column_int(statement, 13);
+    m.user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 14)];
+    m.user.protected        = (uint32_t)sqlite3_column_int(statement, 15) ? true : false;
     m.unread                = false;
     [m updateAttribute];
     
@@ -355,7 +356,7 @@ static sqlite3_stmt* select_statement = nil;
     sqlite3* database = [DBConnection getSharedDatabase];
 
     if (insert_statement == nil) {
-        static char *sql = "INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        static char *sql = "INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
@@ -370,6 +371,15 @@ static sqlite3_stmt* select_statement = nil;
     sqlite3_bind_int(insert_statement,   7, (uint32_t)textHeight);
     sqlite3_bind_int(insert_statement,   8, user.userId);
     
+    sqlite3_bind_text(insert_statement,  9, [user.name UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement, 10, [user.screenName UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement, 11, [user.location UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement, 12, [user.description UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(insert_statement, 13, [user.url UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(insert_statement,  14, user.followersCount);
+    sqlite3_bind_text(insert_statement, 15, [user.profileImageUrl UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(insert_statement,  16, user.protected);
+    
     int success = sqlite3_step(insert_statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
     sqlite3_reset(insert_statement);
@@ -377,7 +387,9 @@ static sqlite3_stmt* select_statement = nil;
         NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
     }
 
-    [user insertDB];
+    if (type == MSG_TYPE_FRIENDS) {
+        [Followee insertDB:user];
+    }
 }
 
 - (void)deleteFromDB

@@ -120,7 +120,7 @@ static sqlite3_stmt *select_statement = nil;
 
     INIT_STOPWATCH(s);
     if (select_statement == nil) {
-        static char *sql = "SELECT * FROM messages,users WHERE messages.user_id = users.user_id AND messages.type = ? ORDER BY id DESC LIMIT ? OFFSET ?";
+        static char *sql = "SELECT * FROM messages WHERE messages.type = ? ORDER BY id DESC LIMIT ? OFFSET ?";
         if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }

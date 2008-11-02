@@ -6,13 +6,13 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
-#import "FriendsViewController.h"
+#import "FolloweesViewController.h"
 #import "PostViewController.h"
 #import "DBConnection.h"
-#import "FriendCell.h"
+#import "FolloweeCell.h"
 #import "User.h"
 
-@implementation FriendsViewController
+@implementation FolloweesViewController
 
 @synthesize postViewController;
 
@@ -26,7 +26,7 @@
     sqlite3* database = [DBConnection getSharedDatabase];
     
     sqlite3_stmt* statement;
-    if (sqlite3_prepare_v2(database, "SELECT * FROM users ORDER BY UPPER(screen_name)", -1, &statement, NULL) != SQLITE_OK) {
+    if (sqlite3_prepare_v2(database, "SELECT * FROM followees ORDER BY UPPER(screen_name)", -1, &statement, NULL) != SQLITE_OK) {
         NSAssert1(0, @"Error: failed to prepare delete statement with message '%s'.", sqlite3_errmsg(database));
     }
 
@@ -34,8 +34,8 @@
     NSMutableArray *array = nil;
     
     while (sqlite3_step(statement) == SQLITE_ROW) {
-        User *user = [[User initWithDB:statement] autorelease];
-        NSString *letter = [[user.screenName substringToIndex:1] uppercaseString];
+        Followee *followee = [Followee initWithDB:statement];
+        NSString *letter = [[followee.screenName substringToIndex:1] uppercaseString];
         if ([letter compare:prevLetter] != NSOrderedSame) {
             [letters addObject:letter];
             if (array) {
@@ -43,18 +43,15 @@
             }
             prevLetter = letter;
             ++numLetters;
-            array = [NSMutableArray arrayWithObject:user];
+            array = [NSMutableArray arrayWithObject:followee];
         }
         else {
-            [array addObject:user];
+            [array addObject:followee];
         }
-            
-//        [friends addObject:user];
     }
     if (array) {
         [index addObject:array];
     }
-    
     sqlite3_finalize(statement);
 }
 
@@ -89,8 +86,8 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    User *user = [[index objectAtIndex:section] objectAtIndex:0];
-    return [[user.screenName substringToIndex:1] uppercaseString];
+    Followee *followee = [[index objectAtIndex:section] objectAtIndex:0];
+    return [[followee.screenName substringToIndex:1] uppercaseString];
 }
 
 
@@ -106,14 +103,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = @"FriendCell";
+    static NSString *CellIdentifier = @"FolloweeCell";
     
-    FriendCell *cell = (FriendCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    FolloweeCell *cell = (FolloweeCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[FriendCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[FolloweeCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
     }
-    User *u = [[index objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    cell.user = u;
+    Followee *followee = [[index objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    cell.followee = followee;
     [cell updateAttribute];
     return cell;
 }
@@ -122,8 +119,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:true];
     [[self parentViewController] dismissModalViewControllerAnimated:true];
-    User *user = [[index objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    [postViewController friendsViewDidSelectFriend:user.screenName];
+    Followee *followee = [[index objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    [postViewController friendsViewDidSelectFriend:followee.screenName];
 }
 
 - (IBAction)close:(id)sender

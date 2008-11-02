@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class PostViewController;
 
-@interface FriendsViewController : UIViewController {
+@interface FolloweesViewController : UIViewController {
     IBOutlet UITableView*   friendsView;
     PostViewController*     postViewController;
     NSString*               screenName;

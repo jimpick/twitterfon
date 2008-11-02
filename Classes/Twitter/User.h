@@ -28,7 +28,4 @@
 - (User*)initWithSearchResult:(NSDictionary*)dic;
 - (id)copyWithZone:(NSZone *)zone;
 
-- (void)insertDB;
-+ (User*)initWithDB:(sqlite3_stmt*)statement;
-
 @end

@@ -38,7 +38,6 @@
 		6E3ED88E0EB9439A0041687A /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3ED88D0EB9439A0041687A /* TimelineViewController.m */; };
 		6E3EDA870EB99F5E0041687A /* SearchMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDA860EB99F5E0041687A /* SearchMessageView.m */; };
 		6E3EDADE0EB9A2050041687A /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDADD0EB9A2050041687A /* SearchView.m */; };
-		6E48DBDF0EBC08A3005E1837 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48DBDE0EBC08A3005E1837 /* FriendsViewController.m */; };
 		6E48DE3D0EBC2FEA005E1837 /* FriendsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E48DE3C0EBC2FEA005E1837 /* FriendsView.xib */; };
 		6E48E08B0EBD0C9A005E1837 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E48E08A0EBD0C9A005E1837 /* camera.png */; };
 		6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */; };
@@ -50,7 +49,9 @@
 		6EA0C19C0EBB1305000C0CD4 /* friends_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EA0C19B0EBB1305000C0CD4 /* friends_small.png */; };
 		6EADBBFB0EBD8F4C00093782 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EADBBFA0EBD8F4B00093782 /* PostView.xib */; };
 		6EADBC090EBD8F8E00093782 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADBC080EBD8F8E00093782 /* PostViewController.m */; };
-		6EADBCCD0EBD975600093782 /* FriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADBCCC0EBD975600093782 /* FriendCell.m */; };
+		6EADBE940EBDB1B000093782 /* Followee.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADBE930EBDB1B000093782 /* Followee.m */; };
+		6EADC0A20EBDC48D00093782 /* FolloweeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC09F0EBDC48D00093782 /* FolloweeCell.m */; };
+		6EADC0A30EBDC48D00093782 /* FolloweesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC0A10EBDC48D00093782 /* FolloweesViewController.m */; };
 		6EBEE57F0EB2F60D00C18F0A /* SearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EBEE57E0EB2F60D00C18F0A /* SearchView.xib */; };
 		6EBEE5840EB2F65400C18F0A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE5830EB2F65400C18F0A /* SearchViewController.m */; };
 		6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA50E38D3A0006E8AB7 /* forward.png */; };
@@ -132,8 +133,6 @@
 		6E3EDA860EB99F5E0041687A /* SearchMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchMessageView.m; path = Controllers/SearchMessageView.m; sourceTree = "<group>"; };
 		6E3EDADC0EB9A2050041687A /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchView.h; path = Controllers/SearchView.h; sourceTree = "<group>"; };
 		6E3EDADD0EB9A2050041687A /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchView.m; path = Controllers/SearchView.m; sourceTree = "<group>"; };
-		6E48DBDD0EBC08A3005E1837 /* FriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendsViewController.h; path = Controllers/FriendsViewController.h; sourceTree = "<group>"; };
-		6E48DBDE0EBC08A3005E1837 /* FriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendsViewController.m; path = Controllers/FriendsViewController.m; sourceTree = "<group>"; };
 		6E48DE3C0EBC2FEA005E1837 /* FriendsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsView.xib; sourceTree = "<group>"; };
 		6E48E08A0EBD0C9A005E1837 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		6E48E2B20EBD2A27005E1837 /* PostImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostImagePickerController.h; path = Controllers/PostImagePickerController.h; sourceTree = "<group>"; };
@@ -150,8 +149,12 @@
 		6EADBBFA0EBD8F4B00093782 /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostView.xib; sourceTree = "<group>"; };
 		6EADBC070EBD8F8E00093782 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostViewController.h; path = Controllers/PostViewController.h; sourceTree = "<group>"; };
 		6EADBC080EBD8F8E00093782 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostViewController.m; path = Controllers/PostViewController.m; sourceTree = "<group>"; };
-		6EADBCCB0EBD975600093782 /* FriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendCell.h; path = Controllers/FriendCell.h; sourceTree = "<group>"; };
-		6EADBCCC0EBD975600093782 /* FriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendCell.m; path = Controllers/FriendCell.m; sourceTree = "<group>"; };
+		6EADBE920EBDB1B000093782 /* Followee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Followee.h; sourceTree = "<group>"; };
+		6EADBE930EBDB1B000093782 /* Followee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Followee.m; sourceTree = "<group>"; };
+		6EADC09E0EBDC48D00093782 /* FolloweeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FolloweeCell.h; path = Controllers/FolloweeCell.h; sourceTree = "<group>"; };
+		6EADC09F0EBDC48D00093782 /* FolloweeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FolloweeCell.m; path = Controllers/FolloweeCell.m; sourceTree = "<group>"; };
+		6EADC0A00EBDC48D00093782 /* FolloweesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FolloweesViewController.h; path = Controllers/FolloweesViewController.h; sourceTree = "<group>"; };
+		6EADC0A10EBDC48D00093782 /* FolloweesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FolloweesViewController.m; path = Controllers/FolloweesViewController.m; sourceTree = "<group>"; };
 		6EBEE57E0EB2F60D00C18F0A /* SearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchView.xib; sourceTree = "<group>"; };
 		6EBEE5820EB2F65400C18F0A /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = Controllers/SearchViewController.h; sourceTree = "<group>"; };
 		6EBEE5830EB2F65400C18F0A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = Controllers/SearchViewController.m; sourceTree = "<group>"; };
@@ -343,12 +346,12 @@
 				6E48E93A0EBD7439005E1837 /* PostView.m */,
 				6E48E2B20EBD2A27005E1837 /* PostImagePickerController.h */,
 				6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */,
-				6E48DBDD0EBC08A3005E1837 /* FriendsViewController.h */,
-				6E48DBDE0EBC08A3005E1837 /* FriendsViewController.m */,
 				6EE9354B0E42FFF6008084DF /* ProgressWindow.h */,
 				6EE9354C0E42FFF6008084DF /* ProgressWindow.m */,
-				6EADBCCB0EBD975600093782 /* FriendCell.h */,
-				6EADBCCC0EBD975600093782 /* FriendCell.m */,
+				6EADC0A00EBDC48D00093782 /* FolloweesViewController.h */,
+				6EADC0A10EBDC48D00093782 /* FolloweesViewController.m */,
+				6EADC09E0EBDC48D00093782 /* FolloweeCell.h */,
+				6EADC09F0EBDC48D00093782 /* FolloweeCell.m */,
 			);
 			name = Post;
 			sourceTree = "<group>";
@@ -467,6 +470,8 @@
 				6EED14270E33E59B00C71EA4 /* User.m */,
 				6EED141E0E33E59B00C71EA4 /* Message.h */,
 				6EED141F0E33E59B00C71EA4 /* Message.m */,
+				6EADBE920EBDB1B000093782 /* Followee.h */,
+				6EADBE930EBDB1B000093782 /* Followee.m */,
 			);
 			path = Twitter;
 			sourceTree = "<group>";
@@ -613,11 +618,12 @@
 				6E3ED88E0EB9439A0041687A /* TimelineViewController.m in Sources */,
 				6E3EDA870EB99F5E0041687A /* SearchMessageView.m in Sources */,
 				6E3EDADE0EB9A2050041687A /* SearchView.m in Sources */,
-				6E48DBDF0EBC08A3005E1837 /* FriendsViewController.m in Sources */,
 				6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */,
 				6E48E93B0EBD7439005E1837 /* PostView.m in Sources */,
 				6EADBC090EBD8F8E00093782 /* PostViewController.m in Sources */,
-				6EADBCCD0EBD975600093782 /* FriendCell.m in Sources */,
+				6EADBE940EBDB1B000093782 /* Followee.m in Sources */,
+				6EADC0A20EBDC48D00093782 /* FolloweeCell.m in Sources */,
+				6EADC0A30EBDC48D00093782 /* FolloweesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
