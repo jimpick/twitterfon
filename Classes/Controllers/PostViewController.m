@@ -23,18 +23,21 @@
 
 @implementation PostViewController
 
-@synthesize appDelegate;
 @synthesize navigation;
 @synthesize selectedPhoto;
 
-- (void)viewDidLoad
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     charCount.font      = [UIFont boldSystemFontOfSize:16];
     text.font           = [UIFont systemFontOfSize:18];
     self.view.hidden    = true;
     textRange.location  = 0;
     textRange.length    = 0;
  	text.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"tweet"];
+    
+    return self;
 }
 
 - (void)dealloc 
@@ -269,6 +272,7 @@
     [progressWindow hide];
     
     if (dic && !isDirectMessage) {
+        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         [appDelegate postTweetDidSucceed:dic];
     }       
     
@@ -367,6 +371,7 @@
     [self.view removeFromSuperview];
 	
     if (finished) {
+         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         [appDelegate postViewAnimationDidFinish:didPost];
     }
 

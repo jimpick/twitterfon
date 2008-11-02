@@ -26,7 +26,6 @@
     UIImage*                    selectedPhoto;
     float                       latitude, longitude;
     
-    NSObject*                   appDelegate;
     TwitterClient*              post;
     BOOL                        didPost;
     BOOL                        isDirectMessage;
@@ -37,7 +36,6 @@
 }
 
 @property(nonatomic, assign) UINavigationController* navigation;
-@property(nonatomic, assign) NSObject* appDelegate;
 @property(nonatomic, retain) UIImage*  selectedPhoto;
 
 - (void)startEditWithString:(NSString*)message;
