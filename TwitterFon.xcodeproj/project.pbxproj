@@ -22,23 +22,18 @@
 		6E1C730B0EB5AEC800E34D9B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1C730A0EB5AEC800E34D9B /* CoreLocation.framework */; };
 		6E1C73C20EB5B77700E34D9B /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C73C10EB5B77700E34D9B /* location.png */; };
 		6E1C78890EB7063900E34D9B /* trends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C78880EB7063900E34D9B /* trends.png */; };
-		6E1C7CBD0EB7E22B00E34D9B /* SearchBookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C7CBC0EB7E22B00E34D9B /* SearchBookmarksViewController.m */; };
 		6E29E9D10E61F07C00E731BE /* UserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E29E9D00E61F07C00E731BE /* UserView.xib */; };
 		6E2BCF1B0E3591B8003A8F69 /* postbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF1A0E3591B8003A8F69 /* postbutton.png */; };
 		6E2BCF260E3596D4003A8F69 /* friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF250E3596D4003A8F69 /* friends.png */; };
 		6E2BD0C10E35AE04003A8F69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */; };
 		6E2BD11F0E35B3D2003A8F69 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BD11E0E35B3D2003A8F69 /* Default.png */; };
 		6E335EA40E3BBE0C008B15BB /* TwitterClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E335EA30E3BBE0C008B15BB /* TwitterClient.m */; };
-		6E3703E70E49137E00952688 /* link.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E3703E60E49137E00952688 /* link.png */; };
-		6E3704060E491B4500952688 /* link_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E3704050E491B4500952688 /* link_highlighted.png */; };
 		6E382E940EB41E9000B0CE69 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6E382E930EB41E9000B0CE69 /* Settings.bundle */; };
-		6E3833270EB4368200B0CE69 /* BookmarkView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E3833260EB4368200B0CE69 /* BookmarkView.xib */; };
 		6E3837100EB4789F00B0CE69 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370E0EB4789F00B0CE69 /* favorite.png */; };
 		6E3837110EB4789F00B0CE69 /* favorited.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370F0EB4789F00B0CE69 /* favorited.png */; };
 		6E3ED88E0EB9439A0041687A /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3ED88D0EB9439A0041687A /* TimelineViewController.m */; };
 		6E3EDA870EB99F5E0041687A /* SearchMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDA860EB99F5E0041687A /* SearchMessageView.m */; };
 		6E3EDADE0EB9A2050041687A /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDADD0EB9A2050041687A /* SearchView.m */; };
-		6E48DE3D0EBC2FEA005E1837 /* FriendsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E48DE3C0EBC2FEA005E1837 /* FriendsView.xib */; };
 		6E48E08B0EBD0C9A005E1837 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E48E08A0EBD0C9A005E1837 /* camera.png */; };
 		6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */; };
 		6E48E93B0EBD7439005E1837 /* PostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E93A0EBD7439005E1837 /* PostView.m */; };
@@ -54,6 +49,9 @@
 		6EADC0A30EBDC48D00093782 /* FolloweesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC0A10EBDC48D00093782 /* FolloweesViewController.m */; };
 		6EBEE57F0EB2F60D00C18F0A /* SearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EBEE57E0EB2F60D00C18F0A /* SearchView.xib */; };
 		6EBEE5840EB2F65400C18F0A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE5830EB2F65400C18F0A /* SearchViewController.m */; };
+		6ECCAD970EBE5B2E002B39F6 /* SearchHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */; };
+		6ECCAD9C0EBE5B49002B39F6 /* SearchHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ECCAD9B0EBE5B49002B39F6 /* SearchHistoryView.xib */; };
+		6ECCADC80EBE5C3C002B39F6 /* FolloweesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ECCADC70EBE5C3C002B39F6 /* FolloweesView.xib */; };
 		6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA50E38D3A0006E8AB7 /* forward.png */; };
 		6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA60E38D3A0006E8AB7 /* back.png */; };
 		6EDC01240E33E6DA00FF142E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */; };
@@ -83,7 +81,6 @@
 		6EED144E0E33E5BF00C71EA4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14410E33E5BF00C71EA4 /* Icon.png */; };
 		6EED14520E33E5BF00C71EA4 /* messages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14450E33E5BF00C71EA4 /* messages.png */; };
 		6EED14560E33E5BF00C71EA4 /* replies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14490E33E5BF00C71EA4 /* replies.png */; };
-		6EEF53AE0E692F41000EB198 /* db1.1.1.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF53AD0E692F41000EB198 /* db1.1.1.sql */; };
 		6EFC28700EBDD46D00FBBB3D /* LinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -113,8 +110,6 @@
 		6E1C730A0EB5AEC800E34D9B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6E1C73C10EB5B77700E34D9B /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		6E1C78880EB7063900E34D9B /* trends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trends.png; sourceTree = "<group>"; };
-		6E1C7CBB0EB7E22B00E34D9B /* SearchBookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchBookmarksViewController.h; path = Controllers/SearchBookmarksViewController.h; sourceTree = "<group>"; };
-		6E1C7CBC0EB7E22B00E34D9B /* SearchBookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchBookmarksViewController.m; path = Controllers/SearchBookmarksViewController.m; sourceTree = "<group>"; };
 		6E29E9D00E61F07C00E731BE /* UserView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserView.xib; sourceTree = "<group>"; };
 		6E2BCF1A0E3591B8003A8F69 /* postbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = postbutton.png; sourceTree = "<group>"; };
 		6E2BCF250E3596D4003A8F69 /* friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends.png; sourceTree = "<group>"; };
@@ -122,10 +117,7 @@
 		6E2BD11E0E35B3D2003A8F69 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		6E335EA20E3BBE0C008B15BB /* TwitterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitterClient.h; path = Network/TwitterClient.h; sourceTree = "<group>"; };
 		6E335EA30E3BBE0C008B15BB /* TwitterClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitterClient.m; path = Network/TwitterClient.m; sourceTree = "<group>"; };
-		6E3703E60E49137E00952688 /* link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = link.png; sourceTree = "<group>"; };
-		6E3704050E491B4500952688 /* link_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = link_highlighted.png; sourceTree = "<group>"; };
 		6E382E930EB41E9000B0CE69 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		6E3833260EB4368200B0CE69 /* BookmarkView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookmarkView.xib; sourceTree = "<group>"; };
 		6E38370E0EB4789F00B0CE69 /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite.png; sourceTree = "<group>"; };
 		6E38370F0EB4789F00B0CE69 /* favorited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorited.png; sourceTree = "<group>"; };
 		6E3ED88D0EB9439A0041687A /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineViewController.m; path = Controllers/TimelineViewController.m; sourceTree = "<group>"; };
@@ -134,7 +126,6 @@
 		6E3EDA860EB99F5E0041687A /* SearchMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchMessageView.m; path = Controllers/SearchMessageView.m; sourceTree = "<group>"; };
 		6E3EDADC0EB9A2050041687A /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchView.h; path = Controllers/SearchView.h; sourceTree = "<group>"; };
 		6E3EDADD0EB9A2050041687A /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchView.m; path = Controllers/SearchView.m; sourceTree = "<group>"; };
-		6E48DE3C0EBC2FEA005E1837 /* FriendsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsView.xib; sourceTree = "<group>"; };
 		6E48E08A0EBD0C9A005E1837 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		6E48E2B20EBD2A27005E1837 /* PostImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostImagePickerController.h; path = Controllers/PostImagePickerController.h; sourceTree = "<group>"; };
 		6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostImagePickerController.m; path = Controllers/PostImagePickerController.m; sourceTree = "<group>"; };
@@ -159,6 +150,10 @@
 		6EBEE57E0EB2F60D00C18F0A /* SearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchView.xib; sourceTree = "<group>"; };
 		6EBEE5820EB2F65400C18F0A /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = Controllers/SearchViewController.h; sourceTree = "<group>"; };
 		6EBEE5830EB2F65400C18F0A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = Controllers/SearchViewController.m; sourceTree = "<group>"; };
+		6ECCAD950EBE5B2E002B39F6 /* SearchHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchHistoryViewController.h; path = Controllers/SearchHistoryViewController.h; sourceTree = "<group>"; };
+		6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchHistoryViewController.m; path = Controllers/SearchHistoryViewController.m; sourceTree = "<group>"; };
+		6ECCAD9B0EBE5B49002B39F6 /* SearchHistoryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchHistoryView.xib; sourceTree = "<group>"; };
+		6ECCADC70EBE5C3C002B39F6 /* FolloweesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FolloweesView.xib; sourceTree = "<group>"; };
 		6ED17FA50E38D3A0006E8AB7 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
 		6ED17FA60E38D3A0006E8AB7 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -208,7 +203,6 @@
 		6EED14410E33E5BF00C71EA4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		6EED14450E33E5BF00C71EA4 /* messages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messages.png; sourceTree = "<group>"; };
 		6EED14490E33E5BF00C71EA4 /* replies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replies.png; sourceTree = "<group>"; };
-		6EEF53AD0E692F41000EB198 /* db1.1.1.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = db1.1.1.sql; sourceTree = "<group>"; };
 		6EFC286E0EBDD46D00FBBB3D /* LinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinkViewController.h; path = Controllers/LinkViewController.h; sourceTree = "<group>"; };
 		6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinkViewController.m; path = Controllers/LinkViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -287,19 +281,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6ECCAD9D0EBE5B53002B39F6 /* interfaces */,
 				6EED14400E33E5BF00C71EA4 /* Images */,
-				6E3833260EB4368200B0CE69 /* BookmarkView.xib */,
-				6EADBBFA0EBD8F4B00093782 /* PostView.xib */,
-				6E48DE3C0EBC2FEA005E1837 /* FriendsView.xib */,
-				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
-				6EBEE57E0EB2F60D00C18F0A /* SearchView.xib */,
-				6EED143A0E33E5BA00C71EA4 /* SettingsView.xib */,
-				6EED143B0E33E5BA00C71EA4 /* TimelineView.xib */,
-				6E29E9D00E61F07C00E731BE /* UserView.xib */,
-				6E660AE00E61500600B6FA30 /* WebView.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				6E1C6FDC0EB5905E00E34D9B /* db1.2.sql */,
-				6EEF53AD0E692F41000EB198 /* db1.1.1.sql */,
 				6E382E930EB41E9000B0CE69 /* Settings.bundle */,
 			);
 			name = Resources;
@@ -400,10 +385,26 @@
 				6E1C6F3D0EB5897A00E34D9B /* SearchHistoryDataSource.m */,
 				6E1C72E50EB5ABED00E34D9B /* LocationManager.h */,
 				6E1C72E60EB5ABED00E34D9B /* LocationManager.m */,
-				6E1C7CBB0EB7E22B00E34D9B /* SearchBookmarksViewController.h */,
-				6E1C7CBC0EB7E22B00E34D9B /* SearchBookmarksViewController.m */,
+				6ECCAD950EBE5B2E002B39F6 /* SearchHistoryViewController.h */,
+				6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */,
 			);
 			name = Search;
+			sourceTree = "<group>";
+		};
+		6ECCAD9D0EBE5B53002B39F6 /* interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				6ECCADC70EBE5C3C002B39F6 /* FolloweesView.xib */,
+				6EADBBFA0EBD8F4B00093782 /* PostView.xib */,
+				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
+				6EBEE57E0EB2F60D00C18F0A /* SearchView.xib */,
+				6EED143A0E33E5BA00C71EA4 /* SettingsView.xib */,
+				6EED143B0E33E5BA00C71EA4 /* TimelineView.xib */,
+				6E29E9D00E61F07C00E731BE /* UserView.xib */,
+				6E660AE00E61500600B6FA30 /* WebView.xib */,
+				6ECCAD9B0EBE5B49002B39F6 /* SearchHistoryView.xib */,
+			);
+			name = interfaces;
 			sourceTree = "<group>";
 		};
 		6EDC01CE0E344B5600FF142E /* DB */ = {
@@ -498,8 +499,6 @@
 				6E2BCF1A0E3591B8003A8F69 /* postbutton.png */,
 				6E2BCF250E3596D4003A8F69 /* friends.png */,
 				6EED14410E33E5BF00C71EA4 /* Icon.png */,
-				6E3703E60E49137E00952688 /* link.png */,
-				6E3704050E491B4500952688 /* link_highlighted.png */,
 				6EED14450E33E5BF00C71EA4 /* messages.png */,
 				6EED14490E33E5BF00C71EA4 /* replies.png */,
 			);
@@ -559,25 +558,22 @@
 				6E2BD11F0E35B3D2003A8F69 /* Default.png in Resources */,
 				6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */,
 				6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */,
-				6E3703E70E49137E00952688 /* link.png in Resources */,
-				6E3704060E491B4500952688 /* link_highlighted.png in Resources */,
 				6E021A730E60109000D0869A /* lock.png in Resources */,
 				6E660AE10E61500600B6FA30 /* WebView.xib in Resources */,
 				6E29E9D10E61F07C00E731BE /* UserView.xib in Resources */,
 				6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */,
-				6EEF53AE0E692F41000EB198 /* db1.1.1.sql in Resources */,
 				6EBEE57F0EB2F60D00C18F0A /* SearchView.xib in Resources */,
 				6E382E940EB41E9000B0CE69 /* Settings.bundle in Resources */,
-				6E3833270EB4368200B0CE69 /* BookmarkView.xib in Resources */,
 				6E3837100EB4789F00B0CE69 /* favorite.png in Resources */,
 				6E3837110EB4789F00B0CE69 /* favorited.png in Resources */,
 				6E1C6FDD0EB5905E00E34D9B /* db1.2.sql in Resources */,
 				6E1C73C20EB5B77700E34D9B /* location.png in Resources */,
 				6E1C78890EB7063900E34D9B /* trends.png in Resources */,
 				6EA0C19C0EBB1305000C0CD4 /* friends_small.png in Resources */,
-				6E48DE3D0EBC2FEA005E1837 /* FriendsView.xib in Resources */,
 				6E48E08B0EBD0C9A005E1837 /* camera.png in Resources */,
 				6EADBBFB0EBD8F4C00093782 /* PostView.xib in Resources */,
+				6ECCAD9C0EBE5B49002B39F6 /* SearchHistoryView.xib in Resources */,
+				6ECCADC80EBE5C3C002B39F6 /* FolloweesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -618,7 +614,6 @@
 				6E1C6E780EB53E4700E34D9B /* TrendsDataSource.m in Sources */,
 				6E1C6F3E0EB5897A00E34D9B /* SearchHistoryDataSource.m in Sources */,
 				6E1C72E70EB5ABED00E34D9B /* LocationManager.m in Sources */,
-				6E1C7CBD0EB7E22B00E34D9B /* SearchBookmarksViewController.m in Sources */,
 				6E9CA2C70EB8D4E800D7F004 /* TimelineViewDataSource.m in Sources */,
 				6E3ED88E0EB9439A0041687A /* TimelineViewController.m in Sources */,
 				6E3EDA870EB99F5E0041687A /* SearchMessageView.m in Sources */,
@@ -630,6 +625,7 @@
 				6EADC0A20EBDC48D00093782 /* FolloweeCell.m in Sources */,
 				6EADC0A30EBDC48D00093782 /* FolloweesViewController.m in Sources */,
 				6EFC28700EBDD46D00FBBB3D /* LinkViewController.m in Sources */,
+				6ECCAD970EBE5B2E002B39F6 /* SearchHistoryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

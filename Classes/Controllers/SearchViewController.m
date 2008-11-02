@@ -8,7 +8,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "TwitterFonAppDelegate.h"
 #import "SearchViewController.h"
-#import "SearchBookmarksViewController.h"
+#import "SearchHistoryViewController.h"
 #import "DBConnection.h"
 #import "SearchMessageView.h"
 #import "TwitterClient.h"
@@ -163,7 +163,7 @@
 
 - (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar
 {
-    SearchBookmarksViewController *bookmarks = [[[SearchBookmarksViewController alloc] initWithNibName:@"BookmarkView" bundle:nil] autorelease];
+    SearchHistoryViewController *bookmarks = [[[SearchHistoryViewController alloc] initWithNibName:@"SearchHistoryView" bundle:nil] autorelease];
 
     bookmarks.searchView = self;
     [self.navigationController presentModalViewController:bookmarks animated:true];

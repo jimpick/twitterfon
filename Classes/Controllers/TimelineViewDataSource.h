@@ -25,8 +25,6 @@
 - (void)search:(NSString*)query;
 - (void)geocode:(float)latitude longitude:(float)longitude;
 
-//- (void)removeMessage:(Message*)message;
 - (void)removeAllMessages;
-//- (void)updateFavorite:(Message*)message;
 
 @end

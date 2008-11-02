@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface SearchBookmarksViewController : UIViewController<UIActionSheetDelegate> {
+@interface SearchHistoryViewController : UIViewController<UIActionSheetDelegate> {
     NSMutableArray*             queries;
     id                          searchView;
     IBOutlet UITableView*       bookmarkView;

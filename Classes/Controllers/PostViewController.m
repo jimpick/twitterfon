@@ -140,7 +140,7 @@
 //
 - (IBAction) friends:(id)sender
 {
-    FolloweesViewController *friends = [[[FolloweesViewController alloc] initWithNibName:@"FriendsView" bundle:nil] autorelease];
+    FolloweesViewController *friends = [[[FolloweesViewController alloc] initWithNibName:@"FolloweesView" bundle:nil] autorelease];
     friends.postViewController = self;
     textRange = text.selectedRange;
     [navigation presentModalViewController:friends animated:true];

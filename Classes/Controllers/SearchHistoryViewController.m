@@ -6,14 +6,14 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
-#import "SearchBookmarksViewController.h"
+#import "SearchHistoryViewController.h"
 #import "DBConnection.h"
 
 @interface NSObject (TrendsDataSourceDelegate)
 - (void)search:(NSString*)query;
 @end
 
-@implementation SearchBookmarksViewController
+@implementation SearchHistoryViewController
 
 @synthesize searchView;
 
