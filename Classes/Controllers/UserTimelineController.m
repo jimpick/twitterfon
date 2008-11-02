@@ -347,8 +347,6 @@
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
     
-    if (postView.view.hidden == false) return;
-
     NSString *msg;
     if ([self tabBarController].selectedIndex == MSG_TYPE_MESSAGES) {
         msg = [NSString stringWithFormat:@"d %@ ", message.user.screenName];
@@ -357,7 +355,6 @@
         msg = [NSString stringWithFormat:@"@%@ ", message.user.screenName];
     }
     
-    [[self navigationController].view addSubview:postView.view];
     [postView startEditWithString:msg];
 }
 

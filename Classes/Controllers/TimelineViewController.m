@@ -44,6 +44,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
     [self.tableView reloadData];
     self.navigationController.navigationBar.tintColor = [UIColor navigationColorForTab:tag];
     self.tableView.separatorColor = [UIColor lightGrayColor]; 

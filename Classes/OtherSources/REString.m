@@ -57,7 +57,7 @@
                         strncpy(buf, &str[pmatch[i].rm_so], len);
                         [substring addObject:[NSString stringWithUTF8String:buf]];
 						#ifdef DEBUG
-						NSLog(@"%qd,%qd, %s",pmatch[i].rm_so, pmatch[i].rm_eo, buf);
+//						NSLog(@"%qd,%qd, %s",pmatch[i].rm_so, pmatch[i].rm_eo, buf);
 						#endif
 					}
 				}

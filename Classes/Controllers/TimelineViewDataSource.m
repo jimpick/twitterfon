@@ -10,7 +10,7 @@
 #import "TimelineViewDataSource.h"
 #import "TimelineViewController.h"
 #import "TwitterFonAppDelegate.h"
-#import "PostViewController.h"
+#import "PostView.h"
 #import "MessageCell.h"
 #import "ColorUtils.h"
 #import "StringUtil.h"
@@ -347,9 +347,6 @@
     
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
-    
-    if (postView.view.hidden == false) return;
-    
     NSString *msg;
     if (tag == MSG_TYPE_MESSAGES) {
         msg = [NSString stringWithFormat:@"d %@ ", m.user.screenName];
@@ -358,7 +355,6 @@
         msg = [NSString stringWithFormat:@"@%@ ", m.user.screenName];
     }
     
-    [controller.navigationController.view addSubview:postView.view];
     [postView startEditWithString:msg];
 }
 

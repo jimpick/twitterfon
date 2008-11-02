@@ -79,6 +79,22 @@ static sqlite3_stmt* insert_statement = nil;
     return dist;
 }
 
++ (User*)initWithDB:(sqlite3_stmt*)statement
+{
+    User *user = [[User alloc] init];
+    user.userId           = (uint32_t)sqlite3_column_int(statement, 0);
+    user.name             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 1)];
+    user.screenName       = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 2)];
+    user.location         = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
+    user.description      = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 4)];
+    user.url              = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 5)];
+    user.followersCount   = (uint32_t)sqlite3_column_int(statement, 6);
+    user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 7)];
+    user.protected        = (uint32_t)sqlite3_column_int(statement, 8) ? true : false;
+    
+    return user;
+}
+
 - (BOOL)isExists
 {
     sqlite3* database = [DBConnection getSharedDatabase];

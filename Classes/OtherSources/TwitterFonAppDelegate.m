@@ -38,6 +38,7 @@
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
     imageStore = [[ImageStore alloc] init];    
+    postView = nil;
 
     selectedTab = 0;
     tabBarController.selectedIndex = TAB_FRIENDS;
@@ -60,17 +61,23 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    [self.postView saveTweet];
+    if (postView != nil) {
+        [self.postView saveTweet];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    [self.postView checkProgressWindowState];
+    if (postView != nil) {
+        [self.postView checkProgressWindowState];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [self.postView saveTweet];
+    if (postView != nil) {
+        [self.postView saveTweet];
+    }
     [DBConnection closeDatabase];
 }
 
@@ -115,29 +122,18 @@
     [(TimelineViewController*)[nav topViewController] reload:self];
 }
 
-- (PostViewController *)postView
+- (PostViewController*) postView
 {
     if (postView == nil) {
         postView = [[PostViewController alloc] initWithNibName:@"PostView" bundle:nil];
-        postView.appDelegate = self;
     }
+    postView.navigation = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
     return postView;
 }
 
-
 - (IBAction) post: (id) sender
 {
-    if (postView == nil) {
-        postView = [[PostViewController alloc] initWithNibName:@"PostView" bundle:nil];
-        postView.appDelegate = self;
-    }
-    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];    
-    [nav.view addSubview:postView.view];
-    [postView startEdit];
-}
-
-- (void)setName:(PostViewController *)newName
-{
+    [self.postView startEdit];
 }
 
 //

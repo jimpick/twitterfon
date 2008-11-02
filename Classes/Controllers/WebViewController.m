@@ -9,7 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "WebViewController.h"
 #import "TwitterFonAppDelegate.h"
-#import "PostViewController.h"
+#import "PostView.h"
 
 #define kAnimationKey @"transitionViewAnimation"
 
@@ -194,12 +194,9 @@ static NSString *schemes[NUM_SCHEMES][2] = {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
     
-    if (postView.view.hidden == false) return;
-
-    NSString *aURL = webView.request.mainDocumentURL.absoluteString;
+    NSString *aURL = [button titleForState:UIControlStateNormal];
     NSString *decoded = [tinyURLStore valueForKey:aURL];
     
-    [[self navigationController].view addSubview:postView.view];
     [postView startEditWithURL:(decoded) ? decoded : aURL];
     
 }

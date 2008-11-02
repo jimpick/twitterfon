@@ -23,6 +23,8 @@
 
 + (BOOL)needToDecode:(NSString*)anURL
 {
+    if (anURL == nil) return false;
+    
     NSRange r = [anURL rangeOfString:@"tinyurl.com"];
     if (r.location != NSNotFound) {
         return false;
