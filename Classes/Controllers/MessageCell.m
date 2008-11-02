@@ -15,8 +15,6 @@
 - (void)didTouchProfileImage:(id)sender;
 @end
 
-static UIImage* sLinkButton = nil;
-static UIImage* sHighlightedLinkButton = nil;
 static UIImage* sFavorite = nil;
 static UIImage* sFavorited = nil;
 
@@ -64,14 +62,7 @@ static UIImage* sFavorited = nil;
     timestamp.textAlignment = UITextAlignmentLeft;//Right;  	  	 
     timestamp.frame = CGRectMake(TIMESTAMP_LEFT, 0, TIMESTAMP_WIDTH, TOP);  	  	 
     [self.contentView addSubview:timestamp];
-#if 0    
-    // linkButton
-    linkButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-    linkButton.frame = CGRectMake(288, 0, 32, 32);
-    [linkButton setImage:[MessageCell linkButtonImage] forState:UIControlStateNormal];
-    [linkButton setImage:[MessageCell hilightedLinkButtonImage] forState:UIControlStateHighlighted];
-    [linkButton addTarget:self action:@selector(didTouchLinkButton:) forControlEvents:UIControlEventTouchUpInside];
-#endif
+
     inEditing = false;
 
     self.target = self;
@@ -83,7 +74,6 @@ static UIImage* sFavorited = nil;
 - (void)dealloc
 {
     // No need to release child contents except link button
-//    [linkButton release];
     [super dealloc];
 }    
 
@@ -153,15 +143,6 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
     //
     // Added custom hyperlink button here.
     //
-#if 0
-    if (message.accessoryType == UITableViewCellAccessoryDetailDisclosureButton) {
-        self.accessoryView = linkButton;
-    }
-    else {
-        self.accessoryView = nil;
-
-    }
-#endif
     self.accessoryType = message.accessoryType;
     textLabel.frame = message.textBounds;
     
@@ -182,7 +163,7 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
     textLabel.backgroundColor = self.contentView.backgroundColor;
     nameLabel.backgroundColor = self.contentView.backgroundColor;
 //    timestamp.backgroundColor = self.contentView.backgroundColor;
-    //    textLabel.frame = message.textBounds;
+//    textLabel.frame = message.textBounds;
     
     if (message.type == MSG_TYPE_USER) {
         profileImage.frame = CGRectMake(10, 0, 22, message.cellHeight);
@@ -234,22 +215,6 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
         sFavorited = [[UIImage imageNamed:@"favorited.png"] retain];
     }
     return sFavorited;
-}
-
-+ (UIImage*) linkButtonImage
-{
-    if (sLinkButton == nil) {
-        sLinkButton = [[UIImage imageNamed:@"link.png"] retain];
-    }
-    return sLinkButton;
-}
-
-+ (UIImage*) hilightedLinkButtonImage
-{
-    if (sHighlightedLinkButton == nil) {
-        sHighlightedLinkButton = [[UIImage imageNamed:@"link_highlighted.png"] retain];
-    }
-    return sHighlightedLinkButton;
 }
 
 @end

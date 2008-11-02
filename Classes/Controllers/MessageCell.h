@@ -12,7 +12,6 @@
 
     NSObject*       delegate;
     UIButton*       profileImage;
-    UIButton*       linkButton;
     MessageType     type;
     
     BOOL            inEditing;
@@ -24,8 +23,6 @@
 
 - (void)update:(MessageType)type delegate:(id)delegate;
 
-+ (UIImage*) linkButtonImage;
-+ (UIImage*) hilightedLinkButtonImage;
 + (UIImage*) favoriteImage;
 + (UIImage*) favoritedImage;
 
