@@ -41,7 +41,7 @@
     button.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 5);
     
     tinyURLStore = [[NSMutableDictionary alloc] init];
-    titleLabel.font = [UIFont systemFontOfSize:16];
+    titleLabel.font = [UIFont boldSystemFontOfSize:18];
     
 }
 - (void)viewWillAppear:(BOOL)animated
@@ -70,7 +70,6 @@
 {
     [webView stopLoading];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    self.navigationController.navigationBar.topItem.titleView = nil;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
