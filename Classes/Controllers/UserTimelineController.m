@@ -190,6 +190,8 @@
     }
     
     [twitterClient getUserTimeline:message.user.screenName params:param];
+    [tableView deselectRowAtIndexPath:indexPath animated:true];
+    
 }
 
 - (void)userTimelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
