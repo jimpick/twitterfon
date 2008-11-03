@@ -13,6 +13,6 @@
     Message*    message;
 }
 
-@property(nonatomic, assign) Message* message;
+@property(nonatomic, retain) Message* message;
 
 @end

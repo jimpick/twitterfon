@@ -21,9 +21,12 @@
     return self;
 }
 
-- (void)setMessage:(Message*)aMessage
+- (void)setMessage:(Message*)value
 {
-    message = aMessage;
+    if (message != value) {
+		[message release];
+		message = [value retain];
+	}
     [super setNeedsDisplay];
 }
 
@@ -65,6 +68,7 @@
 
 
 - (void)dealloc {
+    [message release];
     [super dealloc];
 }
 

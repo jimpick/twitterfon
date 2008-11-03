@@ -45,7 +45,6 @@ static UIImage* sFavorited = nil;
 
 - (void)dealloc
 {
-    // No need to release child contents except link button
     [super dealloc];
 }    
 
@@ -93,11 +92,12 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
     delegate            = aDelegate;
     type                = aType;
     cellView.message    = message;
-    
+
     self.selectionStyle = (type == MSG_TYPE_USER) ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
     self.accessoryType = message.accessoryType;
 
     if (type == MSG_TYPE_USER) {
+        self.contentView.backgroundColor = [UIColor whiteColor];
         cellView.frame = CGRectMake(USER_CELL_LEFT, 0, USER_CELL_WIDTH, message.cellHeight - 1);
     }
     else {
@@ -115,12 +115,10 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
 
 - (void)layoutSubviews
 {
-    if (type == MSG_TYPE_USER) {
-        self.contentView.backgroundColor = [UIColor whiteColor];
-    }
+	[super layoutSubviews];
+
     self.backgroundColor = self.contentView.backgroundColor;
     cellView.backgroundColor = self.contentView.backgroundColor;
-	[super layoutSubviews];
     
     if (message.type == MSG_TYPE_USER) {
         profileImage.frame = CGRectMake(10, 0, 22, message.cellHeight);
