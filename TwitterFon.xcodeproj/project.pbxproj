@@ -53,6 +53,7 @@
 		6ECCAD9C0EBE5B49002B39F6 /* SearchHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ECCAD9B0EBE5B49002B39F6 /* SearchHistoryView.xib */; };
 		6ECCADC80EBE5C3C002B39F6 /* FolloweesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ECCADC70EBE5C3C002B39F6 /* FolloweesView.xib */; };
 		6ECCAF700EBED555002B39F6 /* MessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCAF6F0EBED555002B39F6 /* MessageCellView.m */; };
+		6ECD90400EBEF9F400C3CD4D /* TwitPicClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECD903F0EBEF9F400C3CD4D /* TwitPicClient.m */; };
 		6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA50E38D3A0006E8AB7 /* forward.png */; };
 		6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA60E38D3A0006E8AB7 /* back.png */; };
 		6EDC01240E33E6DA00FF142E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */; };
@@ -157,6 +158,8 @@
 		6ECCADC70EBE5C3C002B39F6 /* FolloweesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FolloweesView.xib; sourceTree = "<group>"; };
 		6ECCAF6E0EBED555002B39F6 /* MessageCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageCellView.h; path = Controllers/MessageCellView.h; sourceTree = "<group>"; };
 		6ECCAF6F0EBED555002B39F6 /* MessageCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageCellView.m; path = Controllers/MessageCellView.m; sourceTree = "<group>"; };
+		6ECD903E0EBEF9F400C3CD4D /* TwitPicClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitPicClient.h; path = Network/TwitPicClient.h; sourceTree = "<group>"; };
+		6ECD903F0EBEF9F400C3CD4D /* TwitPicClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitPicClient.m; path = Network/TwitPicClient.m; sourceTree = "<group>"; };
 		6ED17FA50E38D3A0006E8AB7 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
 		6ED17FA60E38D3A0006E8AB7 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -443,6 +446,8 @@
 				6E092C3A0E3B41D40039FEE3 /* TFConnection.m */,
 				6E335EA20E3BBE0C008B15BB /* TwitterClient.h */,
 				6E335EA30E3BBE0C008B15BB /* TwitterClient.m */,
+				6ECD903E0EBEF9F400C3CD4D /* TwitPicClient.h */,
+				6ECD903F0EBEF9F400C3CD4D /* TwitPicClient.m */,
 				6EDD27720E3B5429002E09A0 /* TinyURL.h */,
 				6EDD27730E3B5429002E09A0 /* TinyURL.m */,
 			);
@@ -632,6 +637,7 @@
 				6EFC28700EBDD46D00FBBB3D /* LinkViewController.m in Sources */,
 				6ECCAD970EBE5B2E002B39F6 /* SearchHistoryViewController.m in Sources */,
 				6ECCAF700EBED555002B39F6 /* MessageCellView.m in Sources */,
+				6ECD90400EBEF9F400C3CD4D /* TwitPicClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

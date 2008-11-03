@@ -12,6 +12,13 @@
 #import "ProgressWindow.h"
 #import "FolloweesViewController.h"
 
+typedef enum {
+    CONVERT_PHOTO,
+    SENDING_PHOTO,
+    SENDING_LOCATION,
+    SENDING_MESSAGE,
+} PostingState;
+
 @interface PostViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 {
     IBOutlet UITextView*        text;
@@ -29,6 +36,7 @@
     TwitterClient*              post;
     BOOL                        didPost;
     BOOL                        isDirectMessage;
+    PostingState                state;
     NSRange                     textRange;
     
     UINavigationController*     navigation;
@@ -49,8 +57,9 @@
 - (void) setCharCount;
 - (void) saveTweet;
 
-- (IBAction) cancel:  (id) sender;
+- (IBAction) close:   (id) sender;
 - (IBAction) send:    (id) sender;
+- (IBAction) cancel:  (id) sender;
 - (IBAction) clear:   (id) sender;
 - (IBAction) friends: (id) sender;
 - (IBAction) photos:  (id) sender;

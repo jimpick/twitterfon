@@ -15,8 +15,6 @@
 {
     self.windowLevel = UIWindowLevelAlert;
 
-    message.text = @"Sending...";
-    message.font = [UIFont boldSystemFontOfSize:18];
     [indicator startAnimating];
     self.hidden = false;
     [self makeKeyAndVisible];

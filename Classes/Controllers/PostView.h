@@ -10,7 +10,7 @@
 
 
 @interface PostView : UIView {
-    CGImageRef              background;
+    CGImageRef  background;
 }
 
 @end

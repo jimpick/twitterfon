@@ -12,6 +12,7 @@
 #import "FolloweesViewController.h"
 #import "PostImagePickerController.h"
 #import "TinyURL.h"
+#import "TwitPicClient.h"
 
 #define kShowAnimationkey @"showAnimation"
 #define kHideAnimationKey @"hideAnimation"
@@ -82,11 +83,13 @@
 {
     [navigation.view addSubview:self.view];
     [self setCharCount];
+    
     self.view.hidden = false;
     didPost = false;
     [text becomeFirstResponder];
 
     CATransition *animation = [CATransition animation];
+
     [animation setType:kCATransitionMoveIn];
     [animation setSubtype:kCATransitionFromBottom];
     [animation setDuration:0.3];
@@ -96,20 +99,67 @@
 
 }
 
-- (IBAction) cancel: (id) sender
+- (IBAction) close: (id) sender
 {
     textRange = text.selectedRange;
     [text resignFirstResponder];
     self.view.hidden = true;
     
 	CATransition *animation = [CATransition animation];
-  	[animation setDelegate:self];
+ 	[animation setDelegate:self];
     [animation setType:kCATransitionPush];
     [animation setSubtype:kCATransitionFromTop];
 	[animation setDuration:0.3];
 	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
 	
 	[[self.view layer] addAnimation:animation forKey:kHideAnimationKey];
+}
+
+- (void)cancel: (id)sender
+{
+}
+
+- (void)uploadPhoto:(id)sender
+{
+    float width  = selectedPhoto.size.width;
+    float height = selectedPhoto.size.height;
+    float scale;
+    
+    if (width > height) {
+        scale = 640 / width;
+        height *= scale;
+        width = 640;
+    }
+    else {
+        scale = 480 / height;
+        width *= scale;
+        height = 480;
+    }
+    
+    TwitPicClient *twitpic = [[TwitPicClient alloc] initWithTarget:self action:@selector(postDidSucceed:messages:)];
+
+    if (scale >= 1.0) {
+        [twitpic upload:selectedPhoto];
+    }
+    if (scale < 1.0) {
+        UIGraphicsBeginImageContext(CGSizeMake(width, height));
+        [selectedPhoto drawInRect:CGRectMake(0, 0, width, height)];
+        UIImage* converted = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        [twitpic upload:converted];
+    }
+    
+}
+
+- (void)updateStatus
+{
+    post = [[TwitterClient alloc] initWithTarget:self action:@selector(postDidSucceed:messages:)];
+    
+	NSRange r = [text.text rangeOfString:@"d "];
+	isDirectMessage = (r.location == 0) ? true : false;
+    
+	[post post:text.text];
+    [progressWindow show];
 }
 
 - (IBAction) send: (id) sender
@@ -119,20 +169,54 @@
         sendButton.enabled = false;
         return;
     }
-    
-    post = [[TwitterClient alloc] initWithTarget:self action:@selector(postDidSucceed:messages:)];
-
-	NSRange r = [text.text rangeOfString:@"d "];
-	isDirectMessage = (r.location == 0) ? true : false;
-
-	[post post:text.text];
     [progressWindow show];
+    return;
+    
+    if (selectedPhoto) {
+        [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(uploadPhoto:) userInfo:nil repeats:false];
+    }
+    else {
+        [self updateStatus];
+    }
 }
 
 - (IBAction) clear: (id) sender
 {
     text.text = @"";
     sendButton.enabled = false;
+}
+
+//
+// TwitPicClient delegate
+//
+- (void)twitPicClientDidPost:(TwitPicClient*)sender mediaId:(NSString*)mediaId
+{
+    self.selectedPhoto = nil;
+    photoButton.style = UIBarButtonItemStyleBordered;
+
+    text.text = [NSString stringWithFormat:@"%@ http://twitpic.com/%@", text.text, mediaId];
+    int length = [text.text length];
+    if (length > 140) {
+        sendButton.enabled = false;
+        [progressWindow hide];
+    }
+    else {
+        [self updateStatus];
+    }
+}
+
+- (void)twitPicClientDidFail:(TwitPicClient*)sender error:(NSString*)error detail:(NSString*)detail
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
+                                                    message:detail
+                                                   delegate:nil
+                                          cancelButtonTitle:@"Close"
+                                          otherButtonTitles: nil];
+    [alert show];	
+    [alert release];    
+    [post autorelease];
+    post = nil;
+    [progressWindow hide];
 }
 
 //
@@ -279,7 +363,7 @@
     text.text = @"";
     [post autorelease];
     post = nil;
-    [self cancel:self];
+    [self close:self];
     didPost = (dic) ? true : false;
 }
 
@@ -287,7 +371,7 @@
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
                                                     message:detail
-                                                   delegate:self
+                                                   delegate:nil
                                           cancelButtonTitle:@"Close"
                                           otherButtonTitles: nil];
     [alert show];	
@@ -369,11 +453,10 @@
 - (void)animationDidStop:(CAAnimation *)animation finished:(BOOL)finished 
 {
     [self.view removeFromSuperview];
-	
+    
     if (finished) {
-         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         [appDelegate postViewAnimationDidFinish:didPost];
     }
-
 }
 @end

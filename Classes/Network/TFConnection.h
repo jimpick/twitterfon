@@ -6,6 +6,8 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
+extern NSString *TWITTERFON_FORM_BOUNDARY;
+
 @interface TFConnection : NSObject
 {
 	id                  delegate;
@@ -21,6 +23,7 @@
 - (id)initWithDelegate:(id)delegate;
 - (void)get:(NSString*)URL;
 - (void)post:(NSString*)aURL body:(NSString*)body;
+- (void)post:(NSString*)aURL data:(NSData*)data;
 - (void)cancel;
 
 - (void)TFConnectionDidFailWithError:(NSError*)error;

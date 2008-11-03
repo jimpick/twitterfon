@@ -15,6 +15,8 @@
 @synthesize buf;
 @synthesize statusCode;
 
+NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
+
 - (id)initWithDelegate:(id)aDelegate
 {
 	self = [super init];
@@ -69,6 +71,31 @@
     
     [req setValue:[NSString stringWithFormat:@"%d", contentLength] forHTTPHeaderField:@"Content-Length"];
     [req setHTTPBody:[NSData dataWithBytes:[body UTF8String] length:contentLength]];
+    
+	buf = [[NSMutableData data] retain];
+	connection = [[NSURLConnection alloc] initWithRequest:req delegate:self];
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+}
+
+-(void)post:(NSString*)aURL data:(NSData*)data
+{
+    [connection release];
+	[buf release];
+    statusCode = 0;
+    
+    NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
+    [URL autorelease];
+	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+                                                       cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                   timeoutInterval:NETWORK_TIMEOUT];
+    
+
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", TWITTERFON_FORM_BOUNDARY];
+    [req setHTTPMethod:@"POST"];
+    [req setValue:contentType forHTTPHeaderField:@"Content-Type"];
+    [req setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:@"Content-Length"];
+    [req setHTTPBody:data];
     
 	buf = [[NSMutableData data] retain];
 	connection = [[NSURLConnection alloc] initWithRequest:req delegate:self];

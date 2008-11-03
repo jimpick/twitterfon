@@ -10,7 +10,6 @@
 
 
 @interface ProgressWindow : UIWindow {
-    IBOutlet UILabel*                   message;
     IBOutlet UIActivityIndicatorView*   indicator;
 }
 

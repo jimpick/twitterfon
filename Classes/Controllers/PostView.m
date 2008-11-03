@@ -18,10 +18,10 @@
 }
 
 - (void)drawRect:(CGRect)rect {
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    
-    rect.size.height = 200;
+    rect.size.height = 460;//: 200;
   	CGContextDrawImage(context, rect, background);
     
     CGContextSetRGBStrokeColor(context, 0.3, 0.3, 0.3, 1.0);
