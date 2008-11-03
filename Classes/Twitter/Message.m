@@ -182,7 +182,7 @@ static sqlite3_stmt* select_statement = nil;
     return dist;
 }
 
-static NSString *userRegexp = @"@[0-9a-zA-Z_]";
+static NSString *userRegexp = @"@[0-9a-zA-Z_]+";
 
 - (void)updateAttribute
 {
