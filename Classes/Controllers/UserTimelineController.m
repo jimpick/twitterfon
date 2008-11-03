@@ -55,7 +55,7 @@
 	[super didReceiveMemoryWarning];
 }
 
-- (void)setNavigationBar:(NSString*)screenName
+- (void)setNavigationBar
 {
     self.title = screenName;
     
@@ -74,21 +74,23 @@
     message = [aMessage copy];
     message.type = MSG_TYPE_USER;
     [message updateAttribute];
+    screenName = message.user.screenName;
     
     [timeline appendMessage:message];
     [self.tableView reloadData];
-    [self setNavigationBar:message.user.screenName];
+    [self setNavigationBar];
 }
 
-- (void)loadUserTimeline:(NSString*)screenName
+- (void)loadUserTimeline:(NSString*)aScreenName
 {
     message = nil;
     indexOfLoadCell = 1;
+    screenName = [aScreenName substringFromIndex:1];
     
-    [self setNavigationBar:[screenName substringFromIndex:1]];
+    [self setNavigationBar];
     
     twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userTimelineDidReceive:messages:)];
-    [twitterClient getUserTimeline:[screenName substringFromIndex:1] params:nil];
+    [twitterClient getUserTimeline:screenName params:nil];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -189,13 +191,20 @@
         [param setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
     }
     
-    [twitterClient getUserTimeline:message.user.screenName params:param];
+    [twitterClient getUserTimeline:screenName params:param];
     [tableView deselectRowAtIndexPath:indexPath animated:true];
     
 }
 
 - (void)userTimelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
 {
+
+    LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
+    if ([cell isKindOfClass:[LoadCell class]]) {
+        [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
+        [cell.spinner stopAnimating];
+    }
+    
     if (obj == nil) {
         goto out;
     }

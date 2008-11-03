@@ -20,6 +20,7 @@
     IBOutlet UserCell*      userCell;
     ImageStore*             imageStore;
     Message*                message;
+    NSString*               screenName;
     LoadCell*               loadCell;
     Timeline*               timeline;
     int                     indexOfLoadCell;
