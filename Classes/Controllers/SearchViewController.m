@@ -246,6 +246,9 @@
 
 - (void)getTrends:(id)sender
 {
+    self.view = messageView;
+    [messageView setMessage:@"Loading..." indicator:true];
+    
     self.navigationItem.rightBarButtonItem.enabled = false;
     [searchBar resignFirstResponder];
     [trends getTrends];
