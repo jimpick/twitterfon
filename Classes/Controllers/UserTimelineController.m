@@ -37,27 +37,11 @@
 	[super dealloc];
 }
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.tintColor = nil;
     [self.tableView reloadData];
 }
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-}
-
 
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
@@ -83,10 +67,7 @@
     message.type = MSG_TYPE_USER;
     [message updateAttribute];
     
-    if ([timeline countMessages] == 0) {
-        [timeline appendMessage:message];
-    }
-
+    [timeline appendMessage:message];
     [self.tableView reloadData];
     [self setNavigationBar:message.user.screenName];
 }
@@ -224,7 +205,7 @@
 
     // Remove first message
     BOOL needReplace = false;
-    Message *firstMessage = [timeline messageAtIndex:0];
+    Message* firstMessage = [[[timeline messageAtIndex:0] retain] autorelease];
     if ([timeline countMessages] == 1) {
         [timeline removeMessageAtIndex:0];
         needReplace = true;
@@ -240,6 +221,7 @@
         [message release];
     }
     message = [[timeline lastMessage] copy];
+    message.type = MSG_TYPE_USER;
     [message updateAttribute];
     [userCell update:message delegate:self];
     NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
