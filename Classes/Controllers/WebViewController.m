@@ -41,7 +41,8 @@
     button.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 5);
     
     tinyURLStore = [[NSMutableDictionary alloc] init];
-
+    titleLabel.font = [UIFont systemFontOfSize:16];
+    
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -57,15 +58,19 @@
     
     if (animated) {
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
-        self.title = url;
+        titleLabel.text = url;
         [self setUrlBar:url];
     }
+
+    self.navigationController.navigationBar.topItem.titleView = titleLabel;
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [webView stopLoading];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    self.navigationController.navigationBar.topItem.titleView = nil;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -125,7 +130,7 @@ static NSString *schemes[NUM_SCHEMES][2] = {
     NSString *aURL = [request.mainDocumentURL absoluteString];
 
 
-    self.title = aURL;
+    titleLabel.text = aURL;
     [self setUrlBar:aURL];
     
     for (int i = 0; i < NUM_SCHEMES; ++i) {
@@ -154,7 +159,7 @@ static NSString *schemes[NUM_SCHEMES][2] = {
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     // Remove all a tag target
-    self.title = [aWebView stringByEvaluatingJavaScriptFromString:
+    titleLabel.text = [aWebView stringByEvaluatingJavaScriptFromString:
                   @"try {var a = document.getElementsByTagName('a'); for (var i = 0; i < a.length; ++i) { a[i].setAttribute('target', '');}}catch (e){}; document.title"];
     
     NSURL *aURL = aWebView.request.mainDocumentURL;

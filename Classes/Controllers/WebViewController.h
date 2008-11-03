@@ -12,6 +12,7 @@
 @interface WebViewController : UIViewController {
     IBOutlet UIWebView* webView;
     IBOutlet UIButton*  button;
+    IBOutlet UILabel*   titleLabel;
 
     IBOutlet UIBarButtonItem *backButton;
     IBOutlet UIBarButtonItem *forwardButton;
