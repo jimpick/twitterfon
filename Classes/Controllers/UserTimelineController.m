@@ -43,6 +43,14 @@
     [self.tableView reloadData];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    if (twitterClient) {
+        [twitterClient cancel];
+        [twitterClient release];
+        twitterClient = nil;
+    }
+}
+
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
 }
