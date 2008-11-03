@@ -270,10 +270,10 @@ static NSString *userRegexp = @"@[0-9a-zA-Z_]";
     static CGRect bounds, result;
 
     if (message.type == MSG_TYPE_USER) {
-        bounds = CGRectMake(USER_CELL_LEFT, 3, textWidth, 200);
+        bounds = CGRectMake(0, 3, textWidth, 200);
     }
     else {
-        bounds = CGRectMake(LEFT, TOP, textWidth, 200);
+        bounds = CGRectMake(0, TOP, textWidth, 200);
     }
     
     if (message.textHeight) {

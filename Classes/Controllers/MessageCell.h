@@ -1,18 +1,17 @@
 #import <UIKit/UIKit.h>
 #import "Message.h"
+#import "MessageCellView.h"
 
 #define MESSAGE_REUSE_INDICATOR @"MessageCell"
 
 @interface MessageCell : UITableViewCell
 {
-	Message*        message;
-	UILabel*        nameLabel;
-	UILabel*        textLabel;
-    UILabel*        timestamp;
-
-    NSObject*       delegate;
-    UIButton*       profileImage;
-    MessageType     type;
+	Message*            message;
+    MessageCellView*    cellView;
+    UIButton*           profileImage;
+    
+    NSObject*           delegate;
+    MessageType         type;
     
     BOOL            inEditing;
 }

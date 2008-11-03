@@ -27,41 +27,13 @@ static UIImage* sFavorited = nil;
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
 	[super initWithFrame:frame reuseIdentifier:reuseIdentifier];
-    
-    // name label
-    nameLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-    nameLabel.backgroundColor = [UIColor whiteColor];
-    nameLabel.textColor = [UIColor blackColor];
-    nameLabel.highlightedTextColor = [UIColor whiteColor];
-    nameLabel.font = [UIFont boldSystemFontOfSize:14];
-    nameLabel.textAlignment = UITextAlignmentLeft;
-    nameLabel.frame = CGRectMake(LEFT, 0, CELL_WIDTH - DETAIL_BUTTON_WIDTH, TOP);
-    [self.contentView addSubview:nameLabel];
 
-    // text label
-    textLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-    textLabel.backgroundColor = [UIColor whiteColor];
-    textLabel.textColor = [UIColor blackColor];
-    textLabel.highlightedTextColor = [UIColor whiteColor];
-    textLabel.font = [UIFont systemFontOfSize:13];
-    textLabel.numberOfLines = 10;
-    textLabel.textAlignment = UITextAlignmentLeft;
-    textLabel.contentMode = UIViewContentModeTopLeft;
-    [self.contentView addSubview:textLabel];
-      
+    cellView = [[[MessageCellView alloc] initWithFrame:CGRectZero] autorelease];
+    [self.contentView addSubview:cellView];
+    
     profileImage = [UIButton buttonWithType:UIButtonTypeCustom];
     [profileImage addTarget:self action:@selector(didTouchProfileImage:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:profileImage];
-
-    // timestamp   	   	 
-    timestamp = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];  	  	 
-    timestamp.backgroundColor = [UIColor clearColor];  	  	 
-    timestamp.textColor = [UIColor grayColor];  	  	 
-    timestamp.highlightedTextColor = [UIColor whiteColor];  	  	 
-    timestamp.font = [UIFont systemFontOfSize:12];  	  	 
-    timestamp.textAlignment = UITextAlignmentLeft;//Right;  	  	 
-    timestamp.frame = CGRectMake(TIMESTAMP_LEFT, 0, TIMESTAMP_WIDTH, TOP);  	  	 
-    [self.contentView addSubview:timestamp];
 
     inEditing = false;
 
@@ -118,37 +90,22 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
 
 - (void)update:(MessageType)aType delegate:(id)aDelegate
 {
-    delegate = aDelegate;
-    type     = aType;
-    nameLabel.text = message.user.screenName;
- 	textLabel.text = message.text;
-    timestamp.text = message.timestamp;
+    delegate            = aDelegate;
+    type                = aType;
+    cellView.message    = message;
     
+    self.selectionStyle = (type == MSG_TYPE_USER) ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
+    self.accessoryType = message.accessoryType;
+
     if (type == MSG_TYPE_USER) {
-        if ([message.source length]) {
-            timestamp.text = [message.timestamp stringByAppendingFormat:@" from %@", message.source];
-        }
-        
-        self.contentView.backgroundColor = [UIColor whiteColor];
-        nameLabel.hidden    = true;
-//        timestamp.frame     = CGRectMake(USER_CELL_PADDING, message.textBounds.size.height + 3, 280, 16);
-        timestamp.frame     = CGRectMake(USER_CELL_LEFT, message.textBounds.size.height + 3, 250, 16);
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        cellView.frame = CGRectMake(USER_CELL_LEFT, 0, USER_CELL_WIDTH, message.cellHeight - 1);
     }
     else {
-        timestamp.frame     = CGRectMake(LEFT, TOP + message.textBounds.size.height - 1, 250, 16);
-        nameLabel.hidden    = false;
-        self.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cellView.frame = CGRectMake(LEFT, 0, CELL_WIDTH, message.cellHeight - 1);
     }
-    //
-    // Added custom hyperlink button here.
-    //
-    self.accessoryType = message.accessoryType;
-    textLabel.frame = message.textBounds;
     
     if (type == MSG_TYPE_USER && inEditing) {
-        textLabel.frame = CGRectOffset(textLabel.frame, -32, 0);
-        timestamp.frame = CGRectOffset(timestamp.frame, -32, 0);
+        cellView.frame = CGRectOffset(cellView.frame, -32, 0);
         profileImage.hidden = true;
     }
     else {
@@ -158,12 +115,12 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
 
 - (void)layoutSubviews
 {
-	[super layoutSubviews];
+    if (type == MSG_TYPE_USER) {
+        self.contentView.backgroundColor = [UIColor whiteColor];
+    }
     self.backgroundColor = self.contentView.backgroundColor;
-    textLabel.backgroundColor = self.contentView.backgroundColor;
-    nameLabel.backgroundColor = self.contentView.backgroundColor;
-//    timestamp.backgroundColor = self.contentView.backgroundColor;
-//    textLabel.frame = message.textBounds;
+    cellView.backgroundColor = self.contentView.backgroundColor;
+	[super layoutSubviews];
     
     if (message.type == MSG_TYPE_USER) {
         profileImage.frame = CGRectMake(10, 0, 22, message.cellHeight);
@@ -189,11 +146,8 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
         profileImage.hidden = editing;
         
         [UIView beginAnimations:nil context:nil];
-
         int x = (editing) ? 10 : 42;
-        textLabel.frame = CGRectMake(x, textLabel.frame.origin.y, textLabel.frame.size.width, textLabel.frame.size.height);
-        timestamp.frame = CGRectMake(x, timestamp.frame.origin.y, timestamp.frame.size.width, timestamp.frame.size.height);
-
+        cellView.frame = CGRectMake(x, cellView.frame.origin.y, cellView.frame.size.width, cellView.frame.size.height);
         [UIView commitAnimations];
         
         inEditing = editing;
