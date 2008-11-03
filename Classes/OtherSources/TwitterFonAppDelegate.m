@@ -20,6 +20,7 @@
 - (void)postViewAnimationDidFinish;
 - (void)didLeaveTab:(UINavigationController*)navigationController;
 - (void)didSelectTab:(UINavigationController*)navigationController;
+- (void)imageStoreDidGetNewImage:(UIImage*)image;
 @end
 
 @implementation TwitterFonAppDelegate
@@ -37,7 +38,7 @@
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
-    imageStore = [[ImageStore alloc] init];    
+    imageStore = [[ImageStore alloc] initWithDelegate:self];    
     postView = nil;
 
     selectedTab = 0;
@@ -134,6 +135,15 @@
 - (IBAction) post: (id) sender
 {
     [self.postView startEdit];
+}
+
+- (void)profileImageDidGetNewImage:(UIImage*)image delegate:(id)delegate
+{
+    for (UINavigationController *c in tabBarController.viewControllers) {
+        if (c.topViewController == delegate && [delegate respondsToSelector:@selector(imageStoreDidGetNewImage:)]) {
+        [delegate imageStoreDidGetNewImage:image];
+        }
+    }
 }
 
 //

@@ -3,7 +3,7 @@
 #import "DBConnection.h"
 
 @interface NSObject (ImageStoreDelegate)
-- (void)imageStoreDidGetNewImage:(UIImage*)image;
+- (void)profileImageDidGetNewImage:(UIImage*)image delegate:(id)delegate;
 @end
 
 //sqlite3 statements
@@ -19,11 +19,12 @@ static sqlite3_stmt *select_statement = nil;
 
 @synthesize image;
 
-- (ProfileImage*)initWithURL:(NSString*)aUrl delegate:(id)aDelegate
+- (ProfileImage*)initWithURL:(NSString*)aUrl appDelegate:(id)anAppDelegate delegate:(id)aDelegate
 {
 	self = [super init];
     url  = [aUrl copy];
     delegate = aDelegate;
+    appDelegate = anAppDelegate;
     database = [DBConnection getSharedDatabase];
 	
     if (select_statement == nil) {
@@ -83,9 +84,7 @@ static sqlite3_stmt *select_statement = nil;
     }
     [self insertImage:sender];
 
-	if (delegate && [delegate respondsToSelector:@selector(imageStoreDidGetNewImage:)]) {
-		[delegate imageStoreDidGetNewImage:image];
-	}
+    [appDelegate profileImageDidGetNewImage:image delegate:delegate];
 }
 
 - (void)imageDownloaderDidFail:(ImageDownloader*)sender error:(NSError*)error

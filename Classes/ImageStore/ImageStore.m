@@ -4,10 +4,11 @@
 
 @implementation ImageStore
 
-- (id)init
+- (id)initWithDelegate:(id)aDelegate
 {
 	self = [super init];
     images = [[NSMutableDictionary dictionary] retain];
+    delegate = aDelegate;
 	return self;
 }
 
@@ -21,7 +22,7 @@
 {
 	ProfileImage* image = [images objectForKey:url];
 	if (!image) {  
-        image = [[[ProfileImage alloc] initWithURL:url delegate:aDelegate] autorelease];
+        image = [[[ProfileImage alloc] initWithURL:url appDelegate:delegate delegate:aDelegate] autorelease];
         [images setObject:image forKey:url];
     }
     return image.image;
