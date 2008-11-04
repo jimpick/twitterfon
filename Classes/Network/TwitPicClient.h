@@ -4,13 +4,9 @@
 
 @interface TwitPicClient : TFConnection
 {
-    id          context;
-    SEL         action;
 }
 
-@property(nonatomic, assign) id context;
-
-- (id)initWithTarget:(id)delegate action:(SEL)action;
+- (id)initWithTarget:(id)delegate;
 
 - (void)upload:(UIImage*)image;
 

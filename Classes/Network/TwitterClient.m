@@ -137,6 +137,23 @@ NSString* sMethods[5] = {
     [self post:url body:@""];    
 }
 
+- (void)updateLocation:(float)latitude longitude:(float)longitude
+{
+    request = TWITTER_REQUEST_UPDATE_LOCATION;
+    
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    
+	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/account/update_location.json",
+                     [username encodeAsURIComponent], [password encodeAsURIComponent]];
+    
+    NSLog(@"%@", url);
+    
+    NSString *postString = [NSString stringWithFormat:@"location=iPhone: %f,%f", latitude, longitude];
+    
+    [self post:url body:postString];
+}
+
 - (void)search:(NSDictionary*)params
 {
     NSString* url = [NSString stringWithFormat:@"http://search.twitter.com/search.json"];

@@ -34,7 +34,6 @@
     if (locationManager == nil) {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
-        locationManager.distanceFilter = 100.0;
     }
     locationManager.startUpdatingLocation;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -52,7 +51,7 @@
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
     NSLog(@"%@ %@ (%f)", [newLocation description], [dateFormatter stringFromDate:newLocation.timestamp], howRecent);
 
-    if (abs(howRecent) < 60.0) {
+    if (abs(howRecent) < 60.0 && oldLocation) {
         [manager stopUpdatingLocation];
         
         locationManager.stopUpdatingLocation;

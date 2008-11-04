@@ -7,6 +7,7 @@ typedef enum {
     TWITTER_REQUEST_FAVORITE,
     TWITTER_REQUEST_DESTROY_FAVORITE,
     TWITTER_REQUEST_UPDATE,
+    TWITTER_REQUEST_UPDATE_LOCATION,
     TWITTER_REQUEST_DESTROY_MESSAGE,
     TWITTER_REQUEST_SEARCH,
     TWITTER_REQUEST_TRENDS,
@@ -31,6 +32,7 @@ typedef enum {
 - (void)destroy:(Message*)message;
 - (void)favorite:(Message*)message;
 - (void)search:(NSDictionary*)params;
+- (void)updateLocation:(float)latitude longitude:(float)longitude;
 - (void)trends;
 - (void)verify;
 

@@ -11,6 +11,7 @@
 #import "TwitPicClient.h"
 #import "ProgressWindow.h"
 #import "FolloweesViewController.h"
+#import "LocationManager.h"
 
 typedef enum {
     POSTING_STATE_SENDING_PHOTO,
@@ -28,12 +29,14 @@ typedef enum {
     IBOutlet UIBarButtonItem*   sendButton;
     IBOutlet UIBarButtonItem*   locationButton;
     IBOutlet UIBarButtonItem*   photoButton;
+    IBOutlet UIActivityIndicatorView*   indicator;
     
     UIImage*                    selectedPhoto;
     float                       latitude, longitude;
     NSString*                   undoBuffer;
     
     TFConnection*               connection;
+    LocationManager*            locationManager;
     BOOL                        didPost;
     BOOL                        isDirectMessage;
     PostingState                state;

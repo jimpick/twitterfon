@@ -37,7 +37,7 @@
     textRange.location  = 0;
     textRange.length    = 0;
  	text.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"tweet"];
-    
+   
     return self;
 }
 
@@ -141,7 +141,7 @@
         height = 480;
     }
     
-    TwitPicClient *twitpic = [[TwitPicClient alloc] initWithTarget:self action:@selector(postDidSucceed:messages:)];
+    TwitPicClient *twitpic = [[TwitPicClient alloc] initWithTarget:self];
 
     if (scale >= 1.0) {
         [twitpic upload:selectedPhoto];
@@ -168,6 +168,24 @@
     connection = client;
 }
 
+- (void)updateLocationDidSuccess:(TwitterClient*)sender messages:(NSObject*)messages
+{
+    latitude = longitude = 0;
+    locationButton.style = UIBarButtonItemStyleBordered;
+    [sender release];
+    connection = nil;
+    [self updateStatus];
+}
+
+- (IBAction) updateLocation
+{
+    TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(updateLocationDidSuccess:messages:)];
+    
+	[client updateLocation:latitude longitude:longitude];
+    [progressWindow show];
+    connection = client;
+}
+
 - (IBAction) send: (id) sender
 {
     int length = [text.text length];
@@ -180,6 +198,9 @@
     if (selectedPhoto) {
         [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(uploadPhoto:) userInfo:nil repeats:false];
     }
+    if (latitude != 0 && longitude != 0) {
+        [self updateLocation];
+    }
     else {
         [self updateStatus];
     }
@@ -189,7 +210,7 @@
 {
     [UIView beginAnimations:@"deletion" context:self]; 
     
-    [UIView setAnimationDuration:0.5];
+    [UIView setAnimationDuration:0.4];
     [UIView setAnimationDelegate:self];
     CGAffineTransform transform = CGAffineTransformMakeScale(0.01, 0.01);
     CGAffineTransform transform2 = CGAffineTransformMakeTranslation(-80.0, 140.0);
@@ -393,8 +414,35 @@
 //
 - (IBAction) location:(id)sender
 {
+    if (locationManager == nil) {
+        locationManager = [[LocationManager alloc] initWithDelegate:self];    
+    }
+    if (locationButton.style == UIBarButtonItemStyleDone) {
+        locationButton.style = UIBarButtonItemStyleBordered;
+        latitude = longitude = 0;
+    }
+    else {
+        [indicator startAnimating];
+        [locationManager getCurrentLocation];
+        locationButton.enabled = false;
+    }
 }
 
+- (void)locationManagerDidReceiveLocation:(float)aLatitude longitude:(float)aLongitude
+{
+    [indicator stopAnimating];
+    locationButton.style = UIBarButtonItemStyleDone;
+    locationButton.enabled = true;
+    latitude  = aLatitude;
+    longitude = aLongitude;
+}
+
+- (void)locationManagerDidFail
+{
+    [indicator stopAnimating];
+    locationButton.style = UIBarButtonItemStyleBordered;
+    locationButton.enabled = true;
+}
 
 - (void)postDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj;
 {

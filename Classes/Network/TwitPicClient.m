@@ -18,12 +18,9 @@
 
 @implementation TwitPicClient
 
-@synthesize context;
-
-- (id)initWithTarget:(id)aDelegate action:(SEL)anAction
+- (id)initWithTarget:(id)aDelegate
 {
     [super initWithDelegate:aDelegate];
-    action = anAction;
     return self;
 }
 
