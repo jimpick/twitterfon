@@ -202,6 +202,7 @@
     else {
         [self updateStatus];
     }
+    [sender release];
 }
 
 - (void)twitPicClientDidFail:(TwitPicClient*)sender error:(NSString*)error detail:(NSString*)detail
@@ -216,6 +217,7 @@
     [post autorelease];
     post = nil;
     [progressWindow hide];
+    [sender release];
 }
 
 //
