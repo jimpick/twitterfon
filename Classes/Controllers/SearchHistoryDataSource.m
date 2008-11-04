@@ -41,7 +41,7 @@ static sqlite3_stmt *select_statement = nil;
     sqlite3* database = [DBConnection getSharedDatabase];
     
     if (select_statement == nil) {
-        static char *sql = "SELECT query FROM queries WHERE query like ? ORDER BY UPPER(query)";
+        static char *sql = "SELECT query FROM queries WHERE query LIKE ? ORDER BY UPPER(query)";
         if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
