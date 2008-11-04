@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+{
+    IBOutlet UIBarButtonItem*   doneButton;
     IBOutlet UITableViewCell*   username;
     IBOutlet UITableViewCell*   password;
 

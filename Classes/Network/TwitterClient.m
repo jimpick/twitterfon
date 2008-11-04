@@ -185,8 +185,6 @@ NSString* sMethods[5] = {
 	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/account/verify_credentials.json",
                      [username encodeAsURIComponent], [password encodeAsURIComponent]];
     
-    NSLog(@"%@", url);
-    
     [super get:url];
 }
 

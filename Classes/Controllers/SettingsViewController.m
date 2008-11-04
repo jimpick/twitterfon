@@ -169,6 +169,9 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
 
 - (IBAction)done:(id)sender
 {
+    doneButton.enabled = false;    
+    [usernameField resignFirstResponder];
+    [passwordField resignFirstResponder];
     [self saveSettings];
     TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(accountDidVerify:messages:)];
     [client verify];
@@ -192,6 +195,7 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
     [alert show];	
     [alert release];  
     [sender autorelease];
+    doneButton.enabled = true;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
