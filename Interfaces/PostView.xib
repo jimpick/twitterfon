@@ -8,8 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="22"/>
 			<integer value="2"/>
+			<integer value="22"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -137,11 +137,8 @@
 								<reference key="IBUIToolbar" ref="942562872"/>
 							</object>
 							<object class="IBUIBarButtonItem" id="141725508">
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">camera.png</string>
-								</object>
 								<int key="IBUIStyle">1</int>
+								<int key="IBUISystemItemIdentifier">15</int>
 								<reference key="IBUIToolbar" ref="942562872"/>
 							</object>
 							<object class="IBUIBarButtonItem" id="694449357">
@@ -713,7 +710,7 @@
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.LastKnownRelativeProjectPath">TwitterFon.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">../TwitterFon.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 	</data>
 </archive>
