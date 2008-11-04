@@ -31,6 +31,7 @@ typedef enum {
     
     UIImage*                    selectedPhoto;
     float                       latitude, longitude;
+    NSString*                   undoBuffer;
     
     TFConnection*               connection;
     BOOL                        didPost;

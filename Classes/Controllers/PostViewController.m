@@ -187,9 +187,39 @@
 
 - (IBAction) clear: (id) sender
 {
-    text.text = @"";
-    sendButton.enabled = false;
+    [UIView beginAnimations:@"deletion" context:self]; 
+    
+    [UIView setAnimationDuration:0.5];
+    [UIView setAnimationDelegate:self];
+    CGAffineTransform transform = CGAffineTransformMakeScale(0.01, 0.01);
+    CGAffineTransform transform2 = CGAffineTransformMakeTranslation(-80.0, 140.0);
+    CGAffineTransform transform3 = CGAffineTransformMakeRotation (0.5);
+    
+    transform = CGAffineTransformConcat(transform,transform2);
+    transform = CGAffineTransformConcat(transform,transform3);
+    text.transform = transform;
+    [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
+    [UIView commitAnimations];
+    
 }
+
+
+- (void)animationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
+{
+    if ([animationID isEqualToString:@"deletion"]) {
+        CGAffineTransform transform = CGAffineTransformMakeScale(1.0, 1.0);
+        CGAffineTransform transform2 = CGAffineTransformMakeTranslation(0, 0);
+        CGAffineTransform transform3 = CGAffineTransformMakeRotation (0);
+    
+        transform = CGAffineTransformConcat(transform,transform2);
+        transform = CGAffineTransformConcat(transform,transform3);
+        text.transform = transform;
+        undoBuffer = text.text;
+        text.text = @"";
+        sendButton.enabled = false;
+    }
+}
+
 
 //
 // TwitPicClient delegate
