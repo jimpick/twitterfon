@@ -293,10 +293,10 @@
     }
     
     if (hasCamera) {
-        [as addButtonWithTitle:(selectedPhoto) ? @"Take Another Photo" : @"Take Photo"];
+        [as addButtonWithTitle:@"Take Photo"];
     }
     
-    [as addButtonWithTitle:(selectedPhoto) ? @"Choose Another Photo" : @"Choose Existing Photo"];
+    [as addButtonWithTitle:@"Choose Existing Photo"];
     [as addButtonWithTitle:@"Cancel"];
     as.cancelButtonIndex = [as numberOfButtons] - 1;
     
@@ -324,11 +324,23 @@
     }
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
     self.selectedPhoto = image;
     photoButton.style = UIBarButtonItemStyleDone;
     [navigation dismissModalViewControllerAnimated:true];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
+{
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    }
+    else {
+        self.selectedPhoto = image;
+        photoButton.style = UIBarButtonItemStyleDone;
+        [navigation dismissModalViewControllerAnimated:true];
+    }
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
