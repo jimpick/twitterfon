@@ -18,7 +18,7 @@
     int                     numLetters;
 
     NSMutableArray*         searchResult;
-    int                     numSearchResults;
+    BOOL                    inSearch;
 }
 
 @property(nonatomic, assign) PostViewController* postViewController;

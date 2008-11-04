@@ -24,7 +24,7 @@
     index = [[NSMutableArray alloc] init];
     searchResult = [[NSMutableArray alloc] init];
     numLetters = 0;
-    numSearchResults = 0;
+    inSearch = false;
     sqlite3* database = [DBConnection getSharedDatabase];
     
     sqlite3_stmt* statement;
@@ -76,7 +76,7 @@
  */
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return numSearchResults ? 1 : numLetters;
+    return inSearch ? 1 : numLetters;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -85,11 +85,11 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return numSearchResults ? numSearchResults : [[index objectAtIndex:section] count];
+    return inSearch ? [searchResult count] : [[index objectAtIndex:section] count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (numSearchResults) {
+    if (inSearch) {
         return @"";
     }
     else {
@@ -100,12 +100,12 @@
 
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    return numSearchResults ? nil : letters;
+    return inSearch ? nil : letters;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
 	// Return the index for the given section title
-    return numSearchResults ? 0 : [letters indexOfObject:title];
+    return inSearch ? 0 : [letters indexOfObject:title];
 }
 
 
@@ -118,7 +118,7 @@
         cell = [[[FolloweeCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
     }
     Followee *followee;
-    if (numSearchResults) {
+    if (inSearch) {
         followee = [searchResult objectAtIndex:indexPath.row];
     }
     else {
@@ -134,7 +134,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:true];
     [[self parentViewController] dismissModalViewControllerAnimated:true];
     Followee *followee;
-    if (numSearchResults) {
+    if (inSearch) {
          followee = [searchResult objectAtIndex:indexPath.row];
     }
     else {
@@ -152,25 +152,33 @@
 //
 // UISearchBar delegates
 //
+
+static sqlite3_stmt *search_statement = nil;
+
 - (void)searchBar:(UISearchBar *)aSearchBar textDidChange:(NSString *)query
 {
     [searchResult removeAllObjects];
-    if ([query compare:@""] != NSOrderedSame) {
+    if ([query compare:@""] == NSOrderedSame) {
+        inSearch = false;
+    }
+    else {
+        inSearch = true;
         sqlite3* database = [DBConnection getSharedDatabase];
-        sqlite3_stmt* statement;
-        if (sqlite3_prepare_v2(database, "SELECT * FROM followees WHERE name LIKE ? OR screen_name LIKE ? ORDER BY UPPER(screen_name)", -1, &statement, NULL) != SQLITE_OK) {
-            NSAssert1(0, @"Error: failed to prepare delete statement with message '%s'.", sqlite3_errmsg(database));
+        if (search_statement == nil) {
+            if (sqlite3_prepare_v2(database, "SELECT * FROM followees WHERE name LIKE ? OR screen_name LIKE ? ORDER BY UPPER(screen_name)", -1, &search_statement, NULL) != SQLITE_OK) {
+                NSAssert1(0, @"Error: failed to prepare delete statement with message '%s'.", sqlite3_errmsg(database));
+            }
         }
         
-        sqlite3_bind_text(statement, 1, [[NSString stringWithFormat:@"%%%@%%", query] UTF8String], -1, SQLITE_TRANSIENT);    
-        sqlite3_bind_text(statement, 2, [[NSString stringWithFormat:@"%%%@%%", query] UTF8String], -1, SQLITE_TRANSIENT);    
+        sqlite3_bind_text(search_statement, 1, [[NSString stringWithFormat:@"%%%@%%", query] UTF8String], -1, SQLITE_TRANSIENT);    
+        sqlite3_bind_text(search_statement, 2, [[NSString stringWithFormat:@"%%%@%%", query] UTF8String], -1, SQLITE_TRANSIENT);    
         
-        while (sqlite3_step(statement) == SQLITE_ROW) {
-            Followee *followee = [[Followee initWithDB:statement] autorelease];
+        while (sqlite3_step(search_statement) == SQLITE_ROW) {
+            Followee *followee = [[Followee initWithDB:search_statement] autorelease];
             [searchResult addObject:followee];
         }
+        sqlite3_reset(search_statement);
     }
-    numSearchResults = [searchResult count];
     [friendsView reloadData];
 }
 
