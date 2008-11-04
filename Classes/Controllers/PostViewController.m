@@ -170,7 +170,6 @@
         return;
     }
     [progressWindow show];
-    return;
     
     if (selectedPhoto) {
         [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(uploadPhoto:) userInfo:nil repeats:false];
