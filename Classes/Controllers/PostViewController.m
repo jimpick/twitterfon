@@ -43,7 +43,6 @@
 
 - (void)dealloc 
 {
-    [post release];
 	[super dealloc];
 }
 
@@ -117,6 +116,12 @@
 
 - (void)cancel: (id)sender
 {
+    if (connection) {
+        [connection cancel];
+        [connection autorelease];
+        connection = nil;
+    }
+    [progressWindow hide];
 }
 
 - (void)uploadPhoto:(id)sender
@@ -148,18 +153,19 @@
         UIGraphicsEndImageContext();
         [twitpic upload:converted];
     }
-    
+    connection = twitpic;
 }
 
 - (void)updateStatus
 {
-    post = [[TwitterClient alloc] initWithTarget:self action:@selector(postDidSucceed:messages:)];
+    TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(postDidSucceed:messages:)];
     
 	NSRange r = [text.text rangeOfString:@"d "];
 	isDirectMessage = (r.location == 0) ? true : false;
     
-	[post post:text.text];
+	[client post:text.text];
     [progressWindow show];
+    connection = client;
 }
 
 - (IBAction) send: (id) sender
@@ -201,8 +207,10 @@
     }
     else {
         [self updateStatus];
+        state = POSTING_STATE_SENDING_MESSAGE;
     }
     [sender release];
+    connection = nil;
 }
 
 - (void)twitPicClientDidFail:(TwitPicClient*)sender error:(NSString*)error detail:(NSString*)detail
@@ -214,10 +222,9 @@
                                           otherButtonTitles: nil];
     [alert show];	
     [alert release];    
-    [post autorelease];
-    post = nil;
-    [progressWindow hide];
     [sender release];
+    connection = nil;
+    [progressWindow hide];
 }
 
 //
@@ -362,8 +369,8 @@
     }       
     
     text.text = @"";
-    [post autorelease];
-    post = nil;
+    [sender autorelease];
+    connection = nil;
     [self close:self];
     didPost = (dic) ? true : false;
 }
@@ -377,8 +384,8 @@
                                           otherButtonTitles: nil];
     [alert show];	
     [alert release];    
-    [post autorelease];
-    post = nil;
+    [sender autorelease];
+    connection = nil;
     [progressWindow hide];
 }
 
@@ -408,7 +415,7 @@
 
 - (void)checkProgressWindowState
 {
-    if (post == nil) {
+    if (connection == nil) {
         [progressWindow hide];
     }
 }

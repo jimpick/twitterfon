@@ -8,15 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "TwitterClient.h"
-#import "Message.h"
+#import "TwitPicClient.h"
 #import "ProgressWindow.h"
 #import "FolloweesViewController.h"
 
 typedef enum {
-    CONVERT_PHOTO,
-    SENDING_PHOTO,
-    SENDING_LOCATION,
-    SENDING_MESSAGE,
+    POSTING_STATE_SENDING_PHOTO,
+    POSTING_STATE_SENDING_LOCATION,
+    POSTING_STATE_SENDING_MESSAGE,
 } PostingState;
 
 @interface PostViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
@@ -33,7 +32,7 @@ typedef enum {
     UIImage*                    selectedPhoto;
     float                       latitude, longitude;
     
-    TwitterClient*              post;
+    TFConnection*               connection;
     BOOL                        didPost;
     BOOL                        isDirectMessage;
     PostingState                state;
