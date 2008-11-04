@@ -13,12 +13,6 @@
 #import "FolloweesViewController.h"
 #import "LocationManager.h"
 
-typedef enum {
-    POSTING_STATE_SENDING_PHOTO,
-    POSTING_STATE_SENDING_LOCATION,
-    POSTING_STATE_SENDING_MESSAGE,
-} PostingState;
-
 @interface PostViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 {
     IBOutlet UITextView*        text;
@@ -39,7 +33,6 @@ typedef enum {
     LocationManager*            locationManager;
     BOOL                        didPost;
     BOOL                        isDirectMessage;
-    PostingState                state;
     NSRange                     textRange;
     
     UINavigationController*     navigation;

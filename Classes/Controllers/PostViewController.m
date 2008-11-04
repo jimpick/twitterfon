@@ -174,7 +174,7 @@
     locationButton.style = UIBarButtonItemStyleBordered;
     [sender release];
     connection = nil;
-    [self updateStatus];
+    [self send:self];
 }
 
 - (IBAction) updateLocation
@@ -195,11 +195,11 @@
     }
     [progressWindow show];
     
-    if (selectedPhoto) {
-        [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(uploadPhoto:) userInfo:nil repeats:false];
-    }
     if (latitude != 0 && longitude != 0) {
         [self updateLocation];
+    }
+    else if (selectedPhoto) {
+        [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(uploadPhoto:) userInfo:nil repeats:false];
     }
     else {
         [self updateStatus];
@@ -257,8 +257,7 @@
         [progressWindow hide];
     }
     else {
-        [self updateStatus];
-        state = POSTING_STATE_SENDING_MESSAGE;
+        [self send:self];
     }
     [sender release];
     connection = nil;
