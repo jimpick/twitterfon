@@ -8,8 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="6"/>
 			<integer value="22"/>
-			<integer value="2"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -157,7 +157,7 @@
 					<object class="IBUILabel" id="924592694">
 						<reference key="NSNextResponder" ref="139207825"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{134, 212}, {36, 21}}</string>
+						<string key="NSFrame">{{128, 212}, {36, 21}}</string>
 						<reference key="NSSuperview" ref="139207825"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -410,10 +410,10 @@
 						<reference key="object" ref="139207825"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="428562574"/>
 							<reference ref="942562872"/>
 							<reference ref="924592694"/>
 							<reference ref="789223017"/>
+							<reference ref="428562574"/>
 						</object>
 						<reference key="parent" ref="957960031"/>
 						<string key="objectName">PostView</string>
@@ -559,7 +559,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>PostView</string>
-					<string>{{338, 704}, {320, 460}}</string>
+					<string>{{296, 713}, {320, 460}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>ProgressWindow</string>
 					<string>{{177, 452}, {320, 480}}</string>
@@ -597,7 +597,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">104</int>
+			<int key="maxID">105</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
