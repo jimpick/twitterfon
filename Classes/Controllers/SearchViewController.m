@@ -53,7 +53,6 @@
     self.view = messageView;
     
     location = [[LocationManager alloc] initWithDelegate:self];
-    needToOpenKeyboard = true;
 }
 
 
@@ -71,13 +70,11 @@
  }
 */
 
+/*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (needToOpenKeyboard) {
-        [searchBar becomeFirstResponder];
-        needToOpenKeyboard = false;
-    }
 }
+*/
 
 /*
  - (void)viewWillDisappear:(BOOL)animated {
@@ -87,11 +84,6 @@
  - (void)viewDidDisappear:(BOOL)animated {
  }
  */
-
-- (void)didLeaveTab:(UINavigationController*)navigationController
-{
-    needToOpenKeyboard = true;
-}
 
 - (void)search:(NSString*)query
 {
@@ -193,7 +185,7 @@
         [self.tableView endUpdates];
     }
     else {
-        [self.tableView reloadData];
+        [self reloadTable];
     }
     self.navigationItem.leftBarButtonItem.enabled = true;    
 }

@@ -156,7 +156,7 @@
                 cell = [[[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"] autorelease];
             }
             if (message) {
-                [cell setType:([timeline countMessages] > 1) ? MSG_TYPE_LOAD_FROM_WEB : MSG_TYPE_LOAD_USERTIMELINE];
+                [cell setType:([timeline countMessages] > 1) ? MSG_TYPE_LOAD_FROM_WEB : MSG_TYPE_LOAD_USER_TIMELINE];
             }
             else {
                 [cell setType:MSG_TYPE_LOADING];
@@ -347,6 +347,7 @@
             if ([cell isKindOfClass:[LoadCell class]]) {
                 [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
                 [cell.spinner stopAnimating];
+                [cell setType:MSG_TYPE_LOAD_USER_TIMELINE];
             }
         }
 

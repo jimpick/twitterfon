@@ -20,7 +20,6 @@
     TimelineViewDataSource*     search;
     SearchHistoryDataSource*    history;
     LocationManager*            location;
-    BOOL                        needToOpenKeyboard;
     IBOutlet SearchMessageView* messageView;
     IBOutlet SearchView*        searchView;
 }

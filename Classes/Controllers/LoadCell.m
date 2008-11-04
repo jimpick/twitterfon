@@ -44,7 +44,7 @@
             label.text = @"Load all stored tweets...";
             break;
             
-        case MSG_TYPE_LOAD_USERTIMELINE:
+        case MSG_TYPE_LOAD_USER_TIMELINE:
             label.text = @"Load this user's timeline...";
             break;
             
