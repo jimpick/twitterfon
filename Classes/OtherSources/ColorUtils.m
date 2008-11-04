@@ -15,9 +15,9 @@ static UIColor *gUnreadCellColors[4];
 
 + (void) initTwitterFonColorScheme
 {
-    gUnreadCellColors[0] = [[UIColor colorWithRed:0.894 green:0.976 blue:0.988 alpha:1.0] retain];
-    gUnreadCellColors[1] = [[UIColor colorWithRed:0.863 green:0.925 blue:0.886 alpha:1.0] retain];
-    gUnreadCellColors[2] = [[UIColor colorWithRed:0.969 green:0.863 blue:0.855 alpha:1.0] retain];
+    gUnreadCellColors[0] = [[UIColor colorWithRed:0.941 green:1.000 blue:1.000 alpha:1.0] retain];
+    gUnreadCellColors[1] = [[UIColor colorWithRed:0.886 green:1.000 blue:0.937 alpha:1.0] retain];
+    gUnreadCellColors[2] = [[UIColor colorWithRed:0.996 green:0.933 blue:0.937 alpha:1.0] retain];
     gUnreadCellColors[3] = [UIColor whiteColor];
     
     // Navigation Bar Color
