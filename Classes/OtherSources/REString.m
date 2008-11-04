@@ -46,9 +46,6 @@
 					if (pmatch[i].rm_so == pmatch[i].rm_eo & pmatch[i].rm_so == -1) {
 						// there is no matching charaters for this partial expression
 						[substring addObject:@""];
-						#ifdef DEBUG
-						NSLog(@"-1,-1, ");
-						#endif
 					}
 					else {
 						// return the found expressions
@@ -56,9 +53,6 @@
                         buf[len] = 0;
                         strncpy(buf, &str[pmatch[i].rm_so], len);
                         [substring addObject:[NSString stringWithUTF8String:buf]];
-						#ifdef DEBUG
-//						NSLog(@"%qd,%qd, %s",pmatch[i].rm_so, pmatch[i].rm_eo, buf);
-						#endif
 					}
 				}
 			}
