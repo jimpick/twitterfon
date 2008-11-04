@@ -8,8 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="2"/>
 			<integer value="22"/>
+			<integer value="2"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -36,7 +36,7 @@
 							<object class="IBUIActivityIndicatorView" id="233353279">
 								<reference key="NSNextResponder" ref="725979218"/>
 								<int key="NSvFlags">288</int>
-								<string key="NSFrame">{{141, 65}, {37, 37}}</string>
+								<string key="NSFrame">{{141, 140}, {37, 37}}</string>
 								<reference key="NSSuperview" ref="725979218"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -46,7 +46,7 @@
 								<int key="IBUIStyle">0</int>
 							</object>
 						</object>
-						<string key="NSFrame">{{0, 63}, {320, 417}}</string>
+						<string key="NSFrame">{{0, 19}, {320, 461}}</string>
 						<reference key="NSSuperview" ref="302243307"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -58,7 +58,7 @@
 					<object class="IBUINavigationBar" id="331328508">
 						<reference key="NSNextResponder" ref="302243307"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{0, 19}, {320, 44}}</string>
+						<string key="NSFrame">{{0, 20}, {320, 44}}</string>
 						<reference key="NSSuperview" ref="302243307"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -402,8 +402,8 @@
 						<reference key="object" ref="302243307"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="725979218"/>
 							<reference ref="331328508"/>
+							<reference ref="725979218"/>
 						</object>
 						<reference key="parent" ref="957960031"/>
 						<string key="objectName">Progress Window</string>
@@ -587,7 +587,7 @@
 					<string>{{296, 713}, {320, 460}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>ProgressWindow</string>
-					<string>{{177, 452}, {320, 480}}</string>
+					<string>{{418, 722}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
