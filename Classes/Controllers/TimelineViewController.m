@@ -39,7 +39,6 @@
 
 - (void) dealloc
 {
-    [stopwatch release];
     [super dealloc];
 }
 
@@ -53,7 +52,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-    LAP(stopwatch, @"viewDidAppear");
+    if (stopwatch) {
+        LAP(stopwatch, @"viewDidAppear");
+        [stopwatch release];
+        stopwatch = nil;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
