@@ -43,6 +43,7 @@
 		6E6DC5A30EC077FD00F9EB74 /* UserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC59A0EC077FD00F9EB74 /* UserView.xib */; };
 		6E6DC5A40EC077FD00F9EB74 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC59B0EC077FD00F9EB74 /* WebView.xib */; };
 		6E6DC5A50EC077FD00F9EB74 /* FolloweesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */; };
+		6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC6230EC07F3D00F9EB74 /* camera.png */; };
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
 		6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E943F1A0E6527C600E8ECF2 /* usercell_background.png */; };
 		6E9CA2C70EB8D4E800D7F004 /* TimelineViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9CA2C60EB8D4E800D7F004 /* TimelineViewDataSource.m */; };
@@ -138,6 +139,7 @@
 		6E6DC59A0EC077FD00F9EB74 /* UserView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UserView.xib; path = Interfaces/UserView.xib; sourceTree = "<group>"; };
 		6E6DC59B0EC077FD00F9EB74 /* WebView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WebView.xib; path = Interfaces/WebView.xib; sourceTree = "<group>"; };
 		6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FolloweesView.xib; path = Interfaces/FolloweesView.xib; sourceTree = "<group>"; };
+		6E6DC6230EC07F3D00F9EB74 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeUtils.h; path = Classes/OtherSources/TimeUtils.h; sourceTree = "<group>"; };
 		6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeUtils.m; path = Classes/OtherSources/TimeUtils.m; sourceTree = "<group>"; };
 		6E943F1A0E6527C600E8ECF2 /* usercell_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usercell_background.png; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 		6EED14400E33E5BF00C71EA4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6E6DC6230EC07F3D00F9EB74 /* camera.png */,
 				6EA0C19B0EBB1305000C0CD4 /* friends_small.png */,
 				6E1C78880EB7063900E34D9B /* trends.png */,
 				6E1C73C10EB5B77700E34D9B /* location.png */,
@@ -580,6 +583,7 @@
 				6E6DC5A30EC077FD00F9EB74 /* UserView.xib in Resources */,
 				6E6DC5A40EC077FD00F9EB74 /* WebView.xib in Resources */,
 				6E6DC5A50EC077FD00F9EB74 /* FolloweesView.xib in Resources */,
+				6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
