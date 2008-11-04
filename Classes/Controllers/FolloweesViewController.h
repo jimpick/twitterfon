@@ -9,13 +9,16 @@
 #import <UIKit/UIKit.h>
 @class PostViewController;
 
-@interface FolloweesViewController : UIViewController {
+@interface FolloweesViewController : UIViewController <UISearchBarDelegate> {
     IBOutlet UITableView*   friendsView;
     PostViewController*     postViewController;
     NSString*               screenName;
     NSMutableArray*         letters;
     NSMutableArray*         index;
     int                     numLetters;
+
+    NSMutableArray*         searchResult;
+    int                     numSearchResults;
 }
 
 @property(nonatomic, assign) PostViewController* postViewController;
