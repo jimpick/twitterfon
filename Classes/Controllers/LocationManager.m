@@ -51,7 +51,7 @@
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
     NSLog(@"%@ %@ (%f)", [newLocation description], [dateFormatter stringFromDate:newLocation.timestamp], howRecent);
 
-    if (abs(howRecent) < 60.0 && [newLocation horizontalAccuracy] < 300.0 && oldLocation) {
+    if (abs(howRecent) < 60.0 && [newLocation horizontalAccuracy] < 300.0) {
         [manager stopUpdatingLocation];
         
         locationManager.stopUpdatingLocation;
