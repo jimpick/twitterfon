@@ -66,7 +66,7 @@ static sqlite3_stmt* update_statement = nil;
     }
     sqlite3_reset(select_statement);
     
-    if (result && [user.profileImageUrl compare:profileImageUrl] != NSOrderedSame) {
+    if (result && [user.profileImageUrl isEqualToString:profileImageUrl] == false) {
         [Followee updateDB:user];
     }
     
@@ -78,13 +78,14 @@ static sqlite3_stmt* update_statement = nil;
     sqlite3* database = [DBConnection getSharedDatabase];
     
     if (update_statement == nil) {
-        static char *sql = "UPDATE followees SET profile_image_url = ?";
+        static char *sql = "UPDATE followees SET profile_image_url = ? WHERE user_id = ?";
         if (sqlite3_prepare_v2(database, sql, -1, &update_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
     }
     
     sqlite3_bind_text(update_statement, 1, [user.profileImageUrl UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(update_statement, 2, user.userId);
     
     int success = sqlite3_step(update_statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
