@@ -14,8 +14,9 @@
 #import "TinyURL.h"
 #import "TwitPicClient.h"
 
-#define kShowAnimationkey @"showAnimation"
-#define kHideAnimationKey @"hideAnimation"
+#define kShowAnimationkey   @"showAnimation"
+#define kHideAnimationKey   @"hideAnimation"
+#define kDeleteAnimationKey @"deletion"
 
 @interface NSObject (PostTweetDelegate)
 - (void)postTweetDidSucceed:(NSDictionary*)message;
@@ -208,7 +209,7 @@
 
 - (IBAction) clear: (id) sender
 {
-    [UIView beginAnimations:@"deletion" context:self]; 
+    [UIView beginAnimations:kDeleteAnimationKey context:self]; 
     
     [UIView setAnimationDuration:0.4];
     [UIView setAnimationDelegate:self];
@@ -227,7 +228,7 @@
 
 - (void)animationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
 {
-    if ([animationID isEqualToString:@"deletion"]) {
+    if ([animationID isEqualToString:kDeleteAnimationKey]) {
         CGAffineTransform transform = CGAffineTransformMakeScale(1.0, 1.0);
         CGAffineTransform transform2 = CGAffineTransformMakeTranslation(0, 0);
         CGAffineTransform transform3 = CGAffineTransformMakeRotation (0);
