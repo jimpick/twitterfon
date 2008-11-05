@@ -367,7 +367,7 @@
     }
     
     NSString *title = [as buttonTitleAtIndex:buttonIndex];
-    if ([title compare:@"Take Photo"] == NSOrderedSame) {
+    if ([title isEqualToString:@"Take Photo"]) {
         [self showImagePicker:true];
     }
     else {

@@ -215,7 +215,7 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
 
 - (void)viewDidAppear:(BOOL)animated {
     if (animated) {
-        if (usernameField.text == nil || [usernameField.text compare:@""] == NSOrderedSame) {
+        if (usernameField.text == nil || [usernameField.text length] == 0) {
             [usernameField becomeFirstResponder];
         }
     }

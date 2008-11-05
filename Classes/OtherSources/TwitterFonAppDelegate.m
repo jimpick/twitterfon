@@ -48,8 +48,7 @@
     [UIColor initTwitterFonColorScheme];
     
     if (username == nil || password == nil ||
-        [username compare:@""] == 0 ||
-        [password compare:@""] == 0) {
+        [username length] == 0 || [password length] == 0) {
         [self openSettingsView];
     }
 }

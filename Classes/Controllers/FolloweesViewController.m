@@ -38,7 +38,7 @@
     while (sqlite3_step(statement) == SQLITE_ROW) {
         Followee *followee = [[Followee initWithDB:statement] autorelease];
         NSString *letter = [[followee.screenName substringToIndex:1] uppercaseString];
-        if ([letter compare:prevLetter] != NSOrderedSame) {
+        if ([letter isEqualToString:prevLetter] == false) {
             [letters addObject:letter];
             if (array) {
                 [index addObject:array];
@@ -158,7 +158,7 @@ static sqlite3_stmt *search_statement = nil;
 - (void)searchBar:(UISearchBar *)aSearchBar textDidChange:(NSString *)query
 {
     [searchResult removeAllObjects];
-    if ([query compare:@""] == NSOrderedSame) {
+    if ([query length] == 0) {
         inSearch = false;
     }
     else {

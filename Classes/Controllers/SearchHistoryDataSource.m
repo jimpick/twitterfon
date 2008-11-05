@@ -36,7 +36,7 @@ static sqlite3_stmt *select_statement = nil;
 {
     [queries removeAllObjects];
     
-    if ([query compare:@""] == NSOrderedSame) return 0;
+    if ([query length] == 0) return 0;
     
     sqlite3* database = [DBConnection getSharedDatabase];
     

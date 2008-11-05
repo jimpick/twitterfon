@@ -30,8 +30,7 @@
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
     if (!(username == nil || password == nil ||
-          [username compare:@""] == 0 ||
-          [password compare:@""] == 0)) {
+          [username length] == 0 || [password length] == 0)) {
         self.navigationItem.leftBarButtonItem.enabled = false;
         [timelineDataSource getTimeline:tag page:1 insertAt:0];
     }    

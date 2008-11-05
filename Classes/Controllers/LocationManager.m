@@ -66,7 +66,7 @@
 {
     locationManager.stopUpdatingLocation;
     
-    if (!([error code] == kCLErrorDenied && [[error domain] compare:kCLErrorDomain] == NSOrderedSame)) {
+    if (!([error code] == kCLErrorDenied && [[error domain] isEqualToString:kCLErrorDomain])) {
     
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Service Error"
                                                         message:[error localizedDescription]
