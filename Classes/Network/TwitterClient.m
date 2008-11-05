@@ -66,10 +66,12 @@ NSString* sMethods[5] = {
 {
     request = TWITTER_REQUEST_TIMELINE;
     
-//	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-//	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
     
-    NSString *url = [NSString stringWithFormat:@"http://twitter.com/statuses/user_timeline/%@.json",
+    NSString *url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/statuses/user_timeline/%@.json",
+                     [username encodeAsURIComponent],
+                     [password encodeAsURIComponent],
                      [screen_name encodeAsURIComponent]];
     
     int i = 0;
