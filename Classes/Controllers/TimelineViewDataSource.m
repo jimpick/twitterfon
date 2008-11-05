@@ -162,7 +162,7 @@
         NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
         for (int i = 0; i < [timeline countMessages]; ++i) {
             Message *m = [timeline messageAtIndex:i];
-            if ([m.user.screenName compare:username] != NSOrderedSame) {
+            if ([m.user.screenName caseInsensitiveCompare:username] != NSOrderedSame) {
                 since_id = m.messageId;
                 break;
             }

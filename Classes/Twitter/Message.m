@@ -199,7 +199,7 @@ static NSString *userRegexp = @"@([0-9a-zA-Z_]+)";
     
     while ([tmp matches:userRegexp withSubstring:array]) {
         NSString *match = [array objectAtIndex:0]; 
-        if ([username isEqualToString:match]) {
+        if ([username caseInsensitiveCompare:match] == NSOrderedSame) {
             hasReply = true;
             if (type != MSG_TYPE_REPLIES) {
                 ++hasUsername;

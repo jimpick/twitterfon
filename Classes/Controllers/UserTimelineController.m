@@ -60,7 +60,7 @@
     self.title = screenName;
     
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    if ([screenName compare:username] == NSOrderedSame) {
+    if ([screenName caseInsensitiveCompare:username] == NSOrderedSame) {
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
     }
     else {
