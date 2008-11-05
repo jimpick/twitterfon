@@ -182,33 +182,45 @@ static sqlite3_stmt* select_statement = nil;
     return dist;
 }
 
-static NSString *userRegexp = @"@[0-9a-zA-Z_]+";
+static NSString *userRegexp = @"@([0-9a-zA-Z_]+)";
 
 - (void)updateAttribute
 {
-    // Set accessoryType and bounds width
+    // Check link and @username to set accessoryType and set text width
     //
     int textWidth = (type == MSG_TYPE_USER) ? USER_CELL_WIDTH : CELL_WIDTH;
     
-    NSRange r = [text rangeOfString:@"http://"];
-
-    NSMutableArray *array = [NSMutableArray array];
-    BOOL hasUsername = [text matches:userRegexp withSubstring:array];
+    NSRange range;
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    int hasUsername = 0;
+    hasReply = false;
+    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    NSString *tmp = text;
     
-    if (r.location != NSNotFound || hasUsername) {    
+    while ([tmp matches:userRegexp withSubstring:array]) {
+        NSString *match = [array objectAtIndex:0]; 
+        if ([username isEqualToString:match]) {
+            hasReply = true;
+            if (type != MSG_TYPE_REPLIES) {
+                ++hasUsername;
+            }
+        }
+        else {
+            ++hasUsername;
+        }
+        range = [tmp rangeOfString:match];
+        tmp = [tmp substringFromIndex:range.location + range.length];
+        [array removeAllObjects];
+    }
+   
+    range = [text rangeOfString:@"http://"];
+    if (range.location != NSNotFound || hasUsername) {    
         accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         textWidth -= (type == MSG_TYPE_USER) ? DETAIL_BUTTON_USER : DETAIL_BUTTON_OTHER;
     }
     else {
         accessoryType = (type == MSG_TYPE_USER) ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator;
     }
-
-    // If tweet has @yourname, set flag for change cell color later
-    //
-    NSString *username = [[NSString alloc] initWithFormat:@"@%@", [[NSUserDefaults standardUserDefaults] stringForKey:@"username"]];
-    r = [text rangeOfString:username];
-    hasReply = (r.location != NSNotFound) ? true : false;
-    [username release];
 
     // Calculate text bounds and cell height here
     //
@@ -328,6 +340,7 @@ static NSString *userRegexp = @"@[0-9a-zA-Z_]+";
     m.user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 14)];
     m.user.protected        = (uint32_t)sqlite3_column_int(statement, 15) ? true : false;
     m.unread                = false;
+    m.type                  = type;
     [m updateAttribute];
     
     return m;
