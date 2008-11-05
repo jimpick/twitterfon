@@ -134,16 +134,17 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
     [super setEditing:editing animated:animated];
     
     if (type == MSG_TYPE_USER && animated && (editing || inEditing)) {
-        
+#if 0
         CATransition *animation = [CATransition animation];
         [animation setType:kCATransitionFade];
         [animation setDuration:0.3];
         [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
         [profileImage.layer addAnimation:animation forKey:@"favoriteButton"];
-        
+#endif
         profileImage.hidden = editing;
         
         [UIView beginAnimations:nil context:nil];
+
         int x = (editing) ? 10 : 42;
         cellView.frame = CGRectMake(x, cellView.frame.origin.y, cellView.frame.size.width, cellView.frame.size.height);
         [UIView commitAnimations];
