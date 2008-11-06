@@ -90,7 +90,7 @@
     
 	cell.message = message;
     if (message.type > MSG_TYPE_LOAD_FROM_WEB) {
-        [cell.profileImage setImage:[imageStore getImage:message.user.profileImageUrl delegate:self] forState:UIControlStateNormal];
+        [cell.profileImage setImage:[imageStore getImage:message.user.profileImageUrl delegate:controller] forState:UIControlStateNormal];
     }
     
     cell.contentView.backgroundColor = (message.unread) ? [UIColor cellColorForTab:tag] : [UIColor whiteColor];
