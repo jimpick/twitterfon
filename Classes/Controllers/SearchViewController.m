@@ -12,6 +12,7 @@
 #import "DBConnection.h"
 #import "SearchMessageView.h"
 #import "TwitterClient.h"
+#import "LoadCell.h"
 
 @interface NSObject (SearchTableViewDelegate)
 - (void)textAtIndexPath:(NSIndexPath*)indexPath;
@@ -197,10 +198,18 @@
     [messageView setMessage:@"No search result." indicator:false];
 }
 
-- (void)timelineDidFailToLoad
+- (void)timelineDidFailToUpdate:(int)position
 {
-    self.view = messageView;
-    [messageView setMessage:@"Search is not available." indicator:false];
+    if (position == 0) {
+        self.view = messageView;
+        [messageView setMessage:@"Search is not available." indicator:false];
+    }
+    else {
+        LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:position inSection:0]];
+        if ([cell isKindOfClass:[LoadCell class]]) {
+            [cell.spinner stopAnimating];
+        }
+    }
     self.navigationItem.leftBarButtonItem.enabled = true;
 }
 
