@@ -238,6 +238,7 @@
         text.transform = transform;
         undoBuffer = text.text;
         text.text = @"";
+        charCount.textColor = [UIColor whiteColor];
         sendButton.enabled = false;
     }
 }
