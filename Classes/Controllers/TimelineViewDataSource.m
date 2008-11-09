@@ -25,7 +25,7 @@
 - (void)timelineDidFailToUpdate:(int)position;
 - (void)searchDidLoad:(int)count insertAt:(int)insertAt;
 - (void)noSearchResult;
-- (void)timelineDidFailToLoad;
+- (void)timelineDidFailToUpdate:(int)position;
 @end
 
 @implementation TimelineViewDataSource
@@ -247,8 +247,8 @@
                                           otherButtonTitles: nil];
     [alert show];	
     [alert release];
-    if ([controller respondsToSelector:@selector(timelineDidFailToLoad)]) {
-        [controller timelineDidFailToLoad];
+    if ([controller respondsToSelector:@selector(timelineDidFailToUpdate:)]) {
+        [controller timelineDidFailToUpdate:insertPosition];
     }
     
     if (sender.statusCode == 401) {
