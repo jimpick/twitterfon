@@ -76,6 +76,10 @@
         [alert show];	
         [alert release];
     }
+    else if ([error code] == kCLErrorLocationUnknown) {
+        // Ignore this error and keep tracking
+        return;
+    }
 
     
     [delegate locationManagerDidFail];
