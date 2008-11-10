@@ -29,6 +29,7 @@
 		6E382E940EB41E9000B0CE69 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6E382E930EB41E9000B0CE69 /* Settings.bundle */; };
 		6E3837100EB4789F00B0CE69 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370E0EB4789F00B0CE69 /* favorite.png */; };
 		6E3837110EB4789F00B0CE69 /* favorited.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370F0EB4789F00B0CE69 /* favorited.png */; };
+		6E3EABA00EC8782400599954 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E3EAB9F0EC8782400599954 /* dist.plist */; };
 		6E3ED88E0EB9439A0041687A /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3ED88D0EB9439A0041687A /* TimelineViewController.m */; };
 		6E3EDA870EB99F5E0041687A /* SearchMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDA860EB99F5E0041687A /* SearchMessageView.m */; };
 		6E3EDADE0EB9A2050041687A /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDADD0EB9A2050041687A /* SearchView.m */; };
@@ -120,6 +121,7 @@
 		6E382E930EB41E9000B0CE69 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		6E38370E0EB4789F00B0CE69 /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite.png; sourceTree = "<group>"; };
 		6E38370F0EB4789F00B0CE69 /* favorited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorited.png; sourceTree = "<group>"; };
+		6E3EAB9F0EC8782400599954 /* dist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dist.plist; sourceTree = "<group>"; };
 		6E3ED88D0EB9439A0041687A /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineViewController.m; path = Controllers/TimelineViewController.m; sourceTree = "<group>"; };
 		6E3ED88F0EB943B00041687A /* TimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineViewController.h; path = Controllers/TimelineViewController.h; sourceTree = "<group>"; };
 		6E3EDA850EB99F5E0041687A /* SearchMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchMessageView.h; path = Controllers/SearchMessageView.h; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6E3EAB9F0EC8782400599954 /* dist.plist */,
 				6ECCAD9D0EBE5B53002B39F6 /* interfaces */,
 				6EED14400E33E5BF00C71EA4 /* Images */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -584,6 +587,7 @@
 				6E6DC5A40EC077FD00F9EB74 /* WebView.xib in Resources */,
 				6E6DC5A50EC077FD00F9EB74 /* FolloweesView.xib in Resources */,
 				6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */,
+				6E3EABA00EC8782400599954 /* dist.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,6 +682,41 @@
 			};
 			name = Release;
 		};
+		6E5D34A40EC86D42004BB471 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = dist.plist;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos2.0]" = "iPhone Distribution: Kazuho Okui";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_CFLAGS = "-DDISTRIBUTION";
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "0840A1C6-464C-4D5F-B95F-076010115C06";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0840A1C6-464C-4D5F-B95F-076010115C06";
+				"PROVISIONING_PROFILE[sdk=iphoneos2.0]" = "0840A1C6-464C-4D5F-B95F-076010115C06";
+				SDKROOT = iphoneos2.0;
+			};
+			name = Adhoc;
+		};
+		6E5D34A50EC86D42004BB471 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = TwitterFon_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = TwitterFon;
+			};
+			name = Adhoc;
+		};
 		6EF65A000E40236D0053F24D /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -734,7 +773,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4FAF03B0-7A9F-4A01-BA2F-1FE3E2132965";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = DefaultProfileUuid;
 				SDKROOT = iphoneos2.0;
 			};
 			name = Release;
@@ -748,6 +787,7 @@
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
 				6EF65A010E40236D0053F24D /* Distribution */,
+				6E5D34A50EC86D42004BB471 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -758,6 +798,7 @@
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
 				6EF65A000E40236D0053F24D /* Distribution */,
+				6E5D34A40EC86D42004BB471 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
