@@ -212,6 +212,8 @@ static NSString *userRegexp = @"@([0-9a-zA-Z_]+)";
         tmp = [tmp substringFromIndex:range.location + range.length];
         [array removeAllObjects];
     }
+    
+    [array release];
    
     range = [text rangeOfString:@"http://"];
     if (range.location != NSNotFound || hasUsername) {    
