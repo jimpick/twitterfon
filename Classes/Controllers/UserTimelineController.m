@@ -422,6 +422,8 @@
 {
     if (indexPath.row == 0) return false;
     
+    if (twitterClient) return false;
+    
     Message* m = [timeline messageAtIndex:indexPath.row - 1];
     return (m) ? true : false;
 }
@@ -430,13 +432,15 @@
     forRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        Message *m = [timeline messageAtIndex:indexPath.row - 1];
-        TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(messageDidDelete:messages:)];
-        client.context = [m retain];
-        [timeline removeMessage:m];
+        if (twitterClient == nil) {
+            Message *m = [timeline messageAtIndex:indexPath.row - 1];
+            twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(messageDidDelete:messages:)];
+            twitterClient.context = [m retain];
+            [timeline removeMessage:m];
         
-        [client destroy:m];
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+            [twitterClient destroy:m];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        }
     }
 }
 
