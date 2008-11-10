@@ -15,6 +15,9 @@ static sqlite3_stmt *select_statement = nil;
 + (sqlite3*)getSharedDatabase;
 @end
 
+@interface ProfileImage (ProfileImagePrivate)
+- (BOOL)resizeImage;
+@end
 @implementation ProfileImage
 
 @synthesize image;
@@ -43,6 +46,7 @@ static sqlite3_stmt *select_statement = nil;
         int length = sqlite3_column_bytes(select_statement, 0);
         NSData *data = [NSData dataWithBytes:sqlite3_column_blob(select_statement, 0) length:length];
         image = [[UIImage imageWithData:data] retain];
+        [self resizeImage];
     } else {
         [self requestImage];
     }
@@ -51,7 +55,7 @@ static sqlite3_stmt *select_statement = nil;
 	return self;
 }
 
-- (void)insertImage:(ImageDownloader*)sender
+- (void)insertImage:(NSData*)buf
 {
     if (insert_statement == nil) {
         static char *sql = "INSERT INTO images VALUES(?, ?, DATETIME('now'))";
@@ -60,13 +64,26 @@ static sqlite3_stmt *select_statement = nil;
         }
     }
     sqlite3_bind_text(insert_statement, 1, [url UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_blob(insert_statement, 2, sender.buf.bytes, sender.buf.length, SQLITE_TRANSIENT);
+    sqlite3_bind_blob(insert_statement, 2, buf.bytes, buf.length, SQLITE_TRANSIENT);
 
     int success = sqlite3_step(insert_statement);
     sqlite3_reset(insert_statement);
     
-    if (success == SQLITE_ERROR) {
-        NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
+    if (success != SQLITE_DONE) {
+        // Update image
+        if (success == SQLITE_CONSTRAINT) {
+            sqlite3_stmt *stmt;
+            if (sqlite3_prepare_v2(database, "UPDATE images SET image = ?, updated_at = DATETIME('now') where url = ?", -1, &stmt, NULL) != SQLITE_OK) {
+                NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+            }
+            sqlite3_bind_blob(stmt, 1, buf.bytes, buf.length, SQLITE_TRANSIENT);
+            sqlite3_bind_text(stmt, 2, [url UTF8String], -1, SQLITE_TRANSIENT);
+            success = sqlite3_step(stmt);
+            sqlite3_finalize(stmt);
+        }
+        else {
+            NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
+        }
     }
 }
 
@@ -76,14 +93,59 @@ static sqlite3_stmt *select_statement = nil;
     [dl get:url];
 }
 
+- (BOOL)resizeImage
+{
+    // Resize image if needed.
+    float width  = image.size.width;
+    float height = image.size.height;
+    // fail safe
+    if (width == 0 || height == 0) return false;
+    
+    float scale;
+    
+    NSRange r = [url rangeOfString:@"_bigger."];
+    float numPixels = (r.location != NSNotFound) ? 73.0 : 48.0;
+    
+    if (width > numPixels || height > numPixels) {
+        if (width > height) {
+            scale = numPixels / height;
+            width *= scale;
+            height = numPixels;
+        }
+        else {
+            scale = numPixels / width;
+            height *= scale;
+            width = numPixels;
+        }
+        
+        NSLog(@"Resize image %.0fx%.0f -> (%.0f,%.0f)x(%.0f,%.0f)", image.size.width, image.size.height, 
+              0 - (width - numPixels) / 2, 0 - (height - numPixels) / 2, width, height);
+        
+        UIGraphicsBeginImageContext(CGSizeMake(numPixels, numPixels));
+        [image drawInRect:CGRectMake(0 - (width - numPixels) / 2, 0 - (height - numPixels) / 2, width, height)];
+        [image release];
+        image = UIGraphicsGetImageFromCurrentImageContext();
+        [image retain];
+        UIGraphicsEndImageContext();
+        NSData *jpeg = UIImageJPEGRepresentation(image, 1.0);
+        [self insertImage:jpeg];
+        return true;
+    }
+    return false;
+}
+
 - (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
 {
 	image = [[UIImage imageWithData:sender.buf] retain];
     if (!image) {
         return;
     }
-    [self insertImage:sender];
-
+    
+    if ([self resizeImage] == false)  {
+        // Insert to DB
+        [self insertImage:sender.buf];
+    }
+    
     [appDelegate profileImageDidGetNewImage:image delegate:delegate];
 }
 
