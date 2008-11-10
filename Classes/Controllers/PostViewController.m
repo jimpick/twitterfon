@@ -56,8 +56,6 @@
     self.view.hidden = false;
     textRange.length = 0;
     text.text = str;
-    [text becomeFirstResponder];
-    text.selectedRange = textRange;
     [self startEdit];
 }
 
@@ -74,8 +72,6 @@
     self.view.hidden = false;
     textRange.length = 0;
     text.text = str;
-    [text becomeFirstResponder];
-    text.selectedRange = textRange;
     [self startEdit];
 }
 
@@ -87,7 +83,8 @@
     self.view.hidden = false;
     didPost = false;
     [text becomeFirstResponder];
-
+    text.selectedRange = textRange;
+    
     CATransition *animation = [CATransition animation];
 
     [animation setType:kCATransitionMoveIn];
