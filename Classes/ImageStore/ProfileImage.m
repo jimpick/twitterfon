@@ -127,7 +127,7 @@ static sqlite3_stmt *select_statement = nil;
         image = UIGraphicsGetImageFromCurrentImageContext();
         [image retain];
         UIGraphicsEndImageContext();
-        NSData *jpeg = UIImageJPEGRepresentation(image, 1.0);
+        NSData *jpeg = UIImageJPEGRepresentation(image, 0.8);
         [self insertImage:jpeg];
         return true;
     }
