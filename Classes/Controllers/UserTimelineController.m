@@ -424,8 +424,14 @@
     
     if (twitterClient) return false;
     
-    Message* m = [timeline messageAtIndex:indexPath.row - 1];
-    return (m) ? true : false;
+    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    if ([screenName caseInsensitiveCompare:username] == NSOrderedSame) {
+        Message* m = [timeline messageAtIndex:indexPath.row - 1];
+        return (m) ? true : false;
+    }
+    else {
+        return false;
+    }
 }
 
 - (void)tableView:(UITableView *)aTableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
