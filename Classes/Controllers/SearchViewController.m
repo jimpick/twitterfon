@@ -52,13 +52,10 @@
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;
     self.view = messageView;
-    
-    location = [[LocationManager alloc] initWithDelegate:self];
 }
 
 
 - (void)dealloc {
-    [location release];
     [search release];
     [trends release];
     [history release];
@@ -229,20 +226,23 @@
     self.navigationItem.leftBarButtonItem.enabled = false;
     
     [searchBar resignFirstResponder];
+    LocationManager *location = [[LocationManager alloc] initWithDelegate:self];
     [location getCurrentLocation];
 }
 
-- (void)locationManagerDidReceiveLocation:(float)latitude longitude:(float)longitude
+- (void)locationManagerDidReceiveLocation:(LocationManager*)manager location:(CLLocation*)location
 {
-    searchBar.text = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
-    [search geocode:latitude longitude:longitude];
+    searchBar.text = [NSString stringWithFormat:@"%f,%f", location.coordinate.latitude, location.coordinate.longitude];
+    [search geocode:location.coordinate.latitude longitude:location.coordinate.longitude];
+    [manager autorelease];
 }
 
-- (void)locationManagerDidFail
+- (void)locationManagerDidFail:(LocationManager*)manager
 {
     self.view = messageView;
     [messageView setMessage:@"Can't get current location." indicator:false];
     self.navigationItem.leftBarButtonItem.enabled = true;
+    [manager autorelease];
 }
 
 - (void)getTrends:(id)sender

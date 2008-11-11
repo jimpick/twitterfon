@@ -11,6 +11,8 @@
 
 @interface LocationManager : NSObject <CLLocationManagerDelegate> {
 	CLLocationManager*  locationManager;
+    CLLocation*         location;
+    NSTimer*            timer;
 	id                  delegate;
 }
 

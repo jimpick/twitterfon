@@ -25,12 +25,13 @@
     IBOutlet UIBarButtonItem*   photoButton;
     IBOutlet UIActivityIndicatorView*   indicator;
     
+    IBOutlet UILabel*           accuracy;
+    
     UIImage*                    selectedPhoto;
     float                       latitude, longitude;
     NSString*                   undoBuffer;
     
     TFConnection*               connection;
-    LocationManager*            locationManager;
     BOOL                        didPost;
     BOOL                        isDirectMessage;
     NSRange                     textRange;

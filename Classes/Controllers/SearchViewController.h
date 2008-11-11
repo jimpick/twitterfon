@@ -19,7 +19,6 @@
     TrendsDataSource*           trends;
     TimelineViewDataSource*     search;
     SearchHistoryDataSource*    history;
-    LocationManager*            location;
     IBOutlet SearchMessageView* messageView;
     IBOutlet SearchView*        searchView;
 }

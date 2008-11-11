@@ -166,6 +166,14 @@
     connection = client;
 }
 
+- (void)locationManagerDidUpdateLocation:(LocationManager*)manager location:(CLLocation*)location
+{
+    accuracy.font = [UIFont systemFontOfSize:11];
+    float anAccuracy = [location horizontalAccuracy];
+    if (anAccuracy > 10000) anAccuracy = 10000;
+    accuracy.text = [NSString stringWithFormat:@"+/-%.0lfm", anAccuracy];
+}
+
 - (void)updateLocationDidSuccess:(TwitterClient*)sender messages:(NSObject*)messages
 {
     latitude = longitude = 0;
@@ -409,34 +417,36 @@
 //
 - (IBAction) location:(id)sender
 {
-    if (locationManager == nil) {
-        locationManager = [[LocationManager alloc] initWithDelegate:self];    
-    }
     if (locationButton.style == UIBarButtonItemStyleDone) {
         locationButton.style = UIBarButtonItemStyleBordered;
         latitude = longitude = 0;
     }
     else {
         [indicator startAnimating];
-        [locationManager getCurrentLocation];
+        LocationManager* location = [[LocationManager alloc] initWithDelegate:self];    
+        [location getCurrentLocation];
         locationButton.enabled = false;
     }
 }
 
-- (void)locationManagerDidReceiveLocation:(float)aLatitude longitude:(float)aLongitude
+- (void)locationManagerDidReceiveLocation:(LocationManager*)manager location:(CLLocation*)location
 {
     [indicator stopAnimating];
     locationButton.style = UIBarButtonItemStyleDone;
     locationButton.enabled = true;
-    latitude  = aLatitude;
-    longitude = aLongitude;
+    latitude  = location.coordinate.latitude;
+    longitude = location.coordinate.longitude;
+    
+    [manager autorelease];
 }
 
-- (void)locationManagerDidFail
+- (void)locationManagerDidFail:(LocationManager*)manager
 {
     [indicator stopAnimating];
     locationButton.style = UIBarButtonItemStyleBordered;
     locationButton.enabled = true;
+
+    [manager autorelease];
 }
 
 - (void)postDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj;
