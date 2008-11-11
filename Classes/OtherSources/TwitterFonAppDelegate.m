@@ -77,6 +77,7 @@
 {
     if (postView != nil) {
         [self.postView saveTweet];
+        [postView release];
     }
     [DBConnection closeDatabase];
 }
