@@ -453,6 +453,7 @@
 - (void)messageDidDelete:(TwitterClient*)client messages:(NSObject*)obj
 {
     [client autorelease];
+    twitterClient = nil;
     
     if ([obj isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary*)obj;
