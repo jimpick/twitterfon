@@ -62,11 +62,11 @@
     [super dealloc];
 }
 
-/*
+
  - (void)viewWillAppear:(BOOL)animated {
      [super viewWillAppear:animated];
+     self.tableView.scrollsToTop = true; 
  }
-*/
 
 /*
 - (void)viewDidAppear:(BOOL)animated {
