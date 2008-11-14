@@ -8,11 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface WebViewController : UIViewController {
     IBOutlet UIWebView* webView;
-    IBOutlet UIButton*  button;
     IBOutlet UILabel*   titleLabel;
+    IBOutlet UIToolbar* toolbar;
 
     IBOutlet UIBarButtonItem *backButton;
     IBOutlet UIBarButtonItem *forwardButton;
@@ -20,14 +19,19 @@
     NSMutableDictionary*    tinyURLStore;
     NSString*               url;
     NSURL*                  openingURL;
+    NSURL*                  currentURL;
     BOOL                    needsToDecodeTinyURL;
 }
 
+@property(nonatomic, retain) NSURL* currentURL;
+
 - (void)setUrl:(NSString*)aUrl;
 
-- (IBAction)reload:(id)sender;
 - (IBAction)goBack: (id)sender;
 - (IBAction)goForward: (id)sender;
 - (IBAction)openSafari: (id)sender;
+
+- (IBAction)reload:(id)sender;
+- (IBAction)stop:(id)sender;
 
 @end

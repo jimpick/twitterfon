@@ -13,18 +13,25 @@
 
 #define kAnimationKey @"transitionViewAnimation"
 
-@interface WebViewController(Private)
-- (void)setUrlBar:(NSString*)aUrl;
-@end
+typedef enum {
+    BUTTON_RELOAD,
+    BUTTON_STOP,
+} ToolbarButton;
 
+@interface WebViewController (Private)
+- (void)updateToolbar:(ToolbarButton)state;
+@end;
 
 @implementation WebViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-		// Initialization code
-	}
-	return self;
+@synthesize currentURL;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
+{
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+            tinyURLStore = [[NSMutableDictionary alloc] init];
+  	}
+  	return self;
 }
 
 - (void)viewDidLoad
@@ -36,11 +43,6 @@
                                                            action:@selector(postTweet:)];
     self.navigationItem.rightBarButtonItem = postButton;
 
-    button.font = [UIFont systemFontOfSize:14];
-    button.lineBreakMode = UILineBreakModeTailTruncation;
-    button.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 5);
-    
-    tinyURLStore = [[NSMutableDictionary alloc] init];
     titleLabel.font = [UIFont boldSystemFontOfSize:18];
     
 }
@@ -53,15 +55,14 @@
 {
     [super viewDidAppear:animated];
 
-    backButton.enabled = (webView.canGoBack) ? true : false;
-    forwardButton.enabled = (webView.canGoForward) ? true : false;
     
     if (animated) {
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
         titleLabel.text = url;
-        [self setUrlBar:url];
+        self.currentURL = [NSURL URLWithString:url];
     }
-
+    [self updateToolbar:BUTTON_STOP];
+    
     self.navigationController.navigationBar.topItem.titleView = titleLabel;
     
 }
@@ -77,9 +78,45 @@
 //    [webView loadHTMLString:@"<html><style>html { width:320px; height:480px; background-color:white; }</style><body></body></html>" baseURL:nil];
 }
 
+- (void)updateToolbar:(ToolbarButton)button
+{
+    UIBarButtonItem *newItem;
+
+    if (button == BUTTON_STOP) {
+        newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(stop:)];
+    }
+    else {
+        newItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reload:)];
+    }
+    
+    NSMutableArray *items = [toolbar.items mutableCopy];
+    [items replaceObjectAtIndex:5 withObject:newItem];
+    [toolbar setItems:items animated:false];
+    
+    [items release];
+
+    // workaround to change toolbar state
+    backButton.enabled = true;
+    forwardButton.enabled = true;
+    backButton.enabled = false;
+    forwardButton.enabled = false;
+    
+    backButton.enabled = (webView.canGoBack) ? true : false;
+    forwardButton.enabled = (webView.canGoForward) ? true : false;
+    
+    
+}
+
 - (IBAction)reload:(id)sender
 {
     [webView reload];
+    [self updateToolbar:BUTTON_STOP];
+}
+
+- (IBAction)stop:(id)sender
+{
+    [webView stopLoading];
+    [self updateToolbar:BUTTON_RELOAD];
 }
 
 - (IBAction) goBack:(id)sender
@@ -94,14 +131,7 @@
 
 - (IBAction) openSafari: (id)sender
 {
-   NSURL *anURL = [NSURL URLWithString:[button titleForState:UIControlStateNormal]];
-   [[UIApplication sharedApplication] openURL:anURL];
-}
-
-- (void)setUrlBar:(NSString*)aUrl
-{
-    [button setTitle:aUrl forState:UIControlStateNormal];
-    [button setTitle:aUrl forState:UIControlStateHighlighted];
+    [[UIApplication sharedApplication] openURL:currentURL];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -126,11 +156,10 @@ static NSString *schemes[NUM_SCHEMES][2] = {
 {
     [openingURL release];
     openingURL = [request.URL copy];
-    NSString *aURL = [request.mainDocumentURL absoluteString];
-
-
+    self.currentURL = [request.mainDocumentURL absoluteURL];
+    
+    NSString *aURL = [currentURL absoluteString];
     titleLabel.text = aURL;
-    [self setUrlBar:aURL];
     
     for (int i = 0; i < NUM_SCHEMES; ++i) {
         NSRange r = [aURL rangeOfString:schemes[i][0]];
@@ -151,6 +180,7 @@ static NSString *schemes[NUM_SCHEMES][2] = {
 
 - (void)webViewDidStartLoad:(UIWebView *)aWebView
 {
+    [self updateToolbar:BUTTON_STOP];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
@@ -162,9 +192,8 @@ static NSString *schemes[NUM_SCHEMES][2] = {
                   @"try {var a = document.getElementsByTagName('a'); for (var i = 0; i < a.length; ++i) { a[i].setAttribute('target', '');}}catch (e){}; document.title"];
     
     NSURL *aURL = aWebView.request.mainDocumentURL;
-    [self setUrlBar:aURL.absoluteString];
-    backButton.enabled = (webView.canGoBack) ? true : false;
-    forwardButton.enabled = (webView.canGoForward) ? true : false;
+    self.currentURL = aURL;
+    [self updateToolbar:BUTTON_RELOAD];
     
     if (needsToDecodeTinyURL) {
         [tinyURLStore setValue:url forKey:aURL.absoluteString];
@@ -184,6 +213,7 @@ static NSString *schemes[NUM_SCHEMES][2] = {
         [alert show];	
         [alert release];
     }
+    [self updateToolbar:BUTTON_RELOAD];
 }
 
 - (void)setUrl:(NSString*)aUrl
@@ -198,7 +228,7 @@ static NSString *schemes[NUM_SCHEMES][2] = {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
     
-    NSString *aURL = [button titleForState:UIControlStateNormal];
+    NSString *aURL = [currentURL absoluteString];
     NSString *decoded = [tinyURLStore valueForKey:aURL];
     
     [postView startEditWithURL:(decoded) ? decoded : aURL];
@@ -214,6 +244,7 @@ static NSString *schemes[NUM_SCHEMES][2] = {
 
 - (void)dealloc {
     [openingURL release];
+    [currentURL release];
     [tinyURLStore release];
     [url release];
 	[super dealloc];
