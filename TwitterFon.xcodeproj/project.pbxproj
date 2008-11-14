@@ -33,6 +33,7 @@
 		6E3ED88E0EB9439A0041687A /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3ED88D0EB9439A0041687A /* TimelineViewController.m */; };
 		6E3EDA870EB99F5E0041687A /* SearchMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDA860EB99F5E0041687A /* SearchMessageView.m */; };
 		6E3EDADE0EB9A2050041687A /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDADD0EB9A2050041687A /* SearchView.m */; };
+		6E4011F10ECDF786009D452A /* open_safari.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E4011F00ECDF786009D452A /* open_safari.png */; };
 		6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */; };
 		6E48E93B0EBD7439005E1837 /* PostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E93A0EBD7439005E1837 /* PostView.m */; };
 		6E6DC59D0EC077FD00F9EB74 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5940EC077FD00F9EB74 /* MainWindow.xib */; };
@@ -128,6 +129,7 @@
 		6E3EDA860EB99F5E0041687A /* SearchMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchMessageView.m; path = Controllers/SearchMessageView.m; sourceTree = "<group>"; };
 		6E3EDADC0EB9A2050041687A /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchView.h; path = Controllers/SearchView.h; sourceTree = "<group>"; };
 		6E3EDADD0EB9A2050041687A /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchView.m; path = Controllers/SearchView.m; sourceTree = "<group>"; };
+		6E4011F00ECDF786009D452A /* open_safari.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = open_safari.png; sourceTree = "<group>"; };
 		6E48E2B20EBD2A27005E1837 /* PostImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostImagePickerController.h; path = Controllers/PostImagePickerController.h; sourceTree = "<group>"; };
 		6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostImagePickerController.m; path = Controllers/PostImagePickerController.m; sourceTree = "<group>"; };
 		6E48E9390EBD7439005E1837 /* PostView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostView.h; path = Controllers/PostView.h; sourceTree = "<group>"; };
@@ -498,6 +500,7 @@
 		6EED14400E33E5BF00C71EA4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6E4011F00ECDF786009D452A /* open_safari.png */,
 				6E6DC6230EC07F3D00F9EB74 /* camera.png */,
 				6EA0C19B0EBB1305000C0CD4 /* friends_small.png */,
 				6E1C78880EB7063900E34D9B /* trends.png */,
@@ -588,6 +591,7 @@
 				6E6DC5A50EC077FD00F9EB74 /* FolloweesView.xib in Resources */,
 				6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */,
 				6E3EABA00EC8782400599954 /* dist.plist in Resources */,
+				6E4011F10ECDF786009D452A /* open_safari.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
