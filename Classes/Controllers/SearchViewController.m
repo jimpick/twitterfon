@@ -271,8 +271,10 @@
     self.navigationItem.rightBarButtonItem.enabled = true;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (void)didReceiveMemoryWarning
+{
+    // Do not release this view controller
+    //[super didReceiveMemoryWarning];
 }
 
 @end
