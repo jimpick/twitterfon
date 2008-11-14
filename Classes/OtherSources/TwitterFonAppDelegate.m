@@ -27,6 +27,7 @@
 
 @synthesize postView;
 @synthesize imageStore;
+@synthesize selectedTab;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {

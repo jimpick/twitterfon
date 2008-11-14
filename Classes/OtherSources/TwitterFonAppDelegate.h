@@ -34,10 +34,10 @@ typedef enum {
 
 - (void) openSettingsView;
 - (void) closeSettingsView;
-
 - (void) openWebView:(NSString*)url on:(UINavigationController*)viewController;
 
 @property (nonatomic, assign) PostViewController*   postView;
 @property (nonatomic, assign) ImageStore*           imageStore;
+@property (nonatomic, assign) int                   selectedTab;
 
 @end
