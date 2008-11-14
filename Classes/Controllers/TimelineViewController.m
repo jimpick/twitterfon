@@ -15,6 +15,13 @@
 
 @implementation TimelineViewController
 
+static BOOL sFirstTimeToLoad[3] = {true, true, true};
+static CGPoint sSavedScrollPoint[3] = {
+    {0,0},
+    {0,0},
+    {0,0},
+};
+
 //
 // UIViewController methods
 //
@@ -27,13 +34,17 @@
     self.tableView.dataSource = timelineDataSource;
     self.tableView.delegate   = timelineDataSource;
     
-    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-    if (!(username == nil || password == nil ||
-          [username length] == 0 || [password length] == 0)) {
-        self.navigationItem.leftBarButtonItem.enabled = false;
-        [timelineDataSource getTimeline:tag page:1 insertAt:0];
-    }    
+    if (sFirstTimeToLoad[tag]) {
+        NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+        NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+        if (!(username == nil || password == nil ||
+              [username length] == 0 || [password length] == 0)) {
+            self.navigationItem.leftBarButtonItem.enabled = false;
+            [timelineDataSource getTimeline:tag page:1 insertAt:0];
+        }    
+        sFirstTimeToLoad[tag] = false;
+    }
+    [self navigationController].tabBarItem.badgeValue = nil;
 }
 
 - (void) dealloc
@@ -41,16 +52,19 @@
     [super dealloc];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated 
+{
     [super viewWillAppear:animated];
-
-    self.tableView.scrollsToTop = true;
+    
+    [self.tableView setContentOffset:sSavedScrollPoint[tag] animated:false];
     [self.tableView reloadData];
+    self.tableView.scrollsToTop = true;
     self.navigationController.navigationBar.tintColor = [UIColor navigationColorForTab:tag];
     self.tableView.separatorColor = [UIColor lightGrayColor]; 
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated
+{
 	[super viewDidAppear:animated];
     if (stopwatch) {
         LAP(stopwatch, @"viewDidAppear");
@@ -61,6 +75,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    sSavedScrollPoint[tag] = self.tableView.contentOffset;
 }
 
 - (void)viewDidDisappear:(BOOL)animated 
@@ -69,7 +84,10 @@
 
 - (void)didReceiveMemoryWarning 
 {
-	[super didReceiveMemoryWarning];
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    if (appDelegate.selectedTab != [self navigationController].tabBarItem.tag) {
+        [super didReceiveMemoryWarning];
+    }
 }
 
 //
