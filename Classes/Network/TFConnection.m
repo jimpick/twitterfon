@@ -23,6 +23,7 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
 	self = [super init];
 	delegate = aDelegate;
     statusCode = 0;
+    needAuth = false;
 	return self;
 }
 
@@ -35,7 +36,7 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
 
 - (void)addAuthHeader:(NSMutableURLRequest*)req
 {
-    if (noAuthHeader) return;
+    if (!needAuth) return;
     
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];

@@ -38,6 +38,7 @@ NSString* sMethods[5] = {
 
 - (void)getTimeline:(MessageType)type params:(NSDictionary*)params
 {
+    needAuth = true;
     request = TWITTER_REQUEST_TIMELINE;
     
     NSString *url = [NSString stringWithFormat:@"https://twitter.com/%@.json", sMethods[type]];
@@ -58,6 +59,7 @@ NSString* sMethods[5] = {
 
 - (void)getUserTimeline:(NSString*)screen_name params:(NSDictionary*)params
 {
+    needAuth = true;
     request = TWITTER_REQUEST_TIMELINE;
     
     NSString *url = [NSString stringWithFormat:@"https://twitter.com/statuses/user_timeline/%@.json", screen_name];
@@ -78,6 +80,7 @@ NSString* sMethods[5] = {
 
 - (void)post:(NSString*)tweet
 {
+    needAuth = true;
     request = TWITTER_REQUEST_UPDATE;
     
     NSString* url = @"https://twitter.com/statuses/update.json";
@@ -92,6 +95,7 @@ NSString* sMethods[5] = {
 
 - (void)destroy:(Message*)message
 {
+    needAuth = true;
     request = TWITTER_REQUEST_DESTROY_MESSAGE;
     
 	NSString* url = [NSString stringWithFormat:@"https://twitter.com/statuses/destroy/%lld.json", [message messageId]];
@@ -103,6 +107,7 @@ NSString* sMethods[5] = {
 
 - (void)favorite:(Message*)message
 {
+    needAuth = true;
     request = (message.favorited) ? TWITTER_REQUEST_DESTROY_FAVORITE : TWITTER_REQUEST_FAVORITE;
     
     NSString* url = [NSString stringWithFormat:@"https://twitter.com/favorites/%@/%lld.json",
@@ -116,6 +121,7 @@ NSString* sMethods[5] = {
 
 - (void)updateLocation:(float)latitude longitude:(float)longitude
 {
+    needAuth = true;
     request = TWITTER_REQUEST_UPDATE_LOCATION;
     
 	NSString* url = @"https://twitter.com/account/update_location.json";
@@ -129,7 +135,6 @@ NSString* sMethods[5] = {
 
 - (void)search:(NSDictionary*)params
 {
-    noAuthHeader = true;
     NSString* url = @"http://search.twitter.com/search.json";
 
     int i = 0;
@@ -148,7 +153,6 @@ NSString* sMethods[5] = {
 
 - (void)trends
 {
-    noAuthHeader = true;
     [super get:@"http://search.twitter.com/trends.json"];
 }
 
