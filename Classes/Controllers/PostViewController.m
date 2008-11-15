@@ -13,6 +13,7 @@
 #import "PostImagePickerController.h"
 #import "TinyURL.h"
 #import "TwitPicClient.h"
+#import "ImageUtils.h"
 
 #define kShowAnimationkey   @"showAnimation"
 #define kHideAnimationKey   @"hideAnimation"
@@ -134,14 +135,10 @@
     float scale;
     
     if (width > height) {
-        scale = 640 / width;
-        height *= scale;
-        width = 640;
+        scale = 640.0 / width;
     }
     else {
-        scale = 480 / height;
-        width *= scale;
-        height = 480;
+        scale = 480.0 / height;
     }
     
     TwitPicClient *twitpic = [[TwitPicClient alloc] initWithTarget:self];
@@ -149,12 +146,8 @@
     if (scale >= 1.0) {
         [twitpic upload:selectedPhoto];
     }
-    if (scale < 1.0) {
-        UIGraphicsBeginImageContext(CGSizeMake(width, height));
-        [selectedPhoto drawInRect:CGRectMake(0, 0, width, height)];
-        UIImage* converted = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        [twitpic upload:converted];
+    else if (scale < 1.0) {
+        [twitpic upload:[selectedPhoto scaleAndRotateImage:640]];
     }
     connection = twitpic;
 }

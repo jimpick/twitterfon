@@ -36,6 +36,7 @@
 		6E4011F10ECDF786009D452A /* open_safari.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E4011F00ECDF786009D452A /* open_safari.png */; };
 		6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */; };
 		6E48E93B0EBD7439005E1837 /* PostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E93A0EBD7439005E1837 /* PostView.m */; };
+		6E5CBCED0ECF7971008A18A2 /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5CBCEC0ECF7971008A18A2 /* ImageUtils.m */; };
 		6E6DC59D0EC077FD00F9EB74 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5940EC077FD00F9EB74 /* MainWindow.xib */; };
 		6E6DC59E0EC077FD00F9EB74 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5950EC077FD00F9EB74 /* PostView.xib */; };
 		6E6DC59F0EC077FD00F9EB74 /* SearchHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5960EC077FD00F9EB74 /* SearchHistoryView.xib */; };
@@ -134,6 +135,8 @@
 		6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostImagePickerController.m; path = Controllers/PostImagePickerController.m; sourceTree = "<group>"; };
 		6E48E9390EBD7439005E1837 /* PostView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostView.h; path = Controllers/PostView.h; sourceTree = "<group>"; };
 		6E48E93A0EBD7439005E1837 /* PostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostView.m; path = Controllers/PostView.m; sourceTree = "<group>"; };
+		6E5CBCEB0ECF7971008A18A2 /* ImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageUtils.h; path = Classes/OtherSources/ImageUtils.h; sourceTree = "<group>"; };
+		6E5CBCEC0ECF7971008A18A2 /* ImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageUtils.m; path = Classes/OtherSources/ImageUtils.m; sourceTree = "<group>"; };
 		6E6DC5940EC077FD00F9EB74 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = Interfaces/MainWindow.xib; sourceTree = "<group>"; };
 		6E6DC5950EC077FD00F9EB74 /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PostView.xib; path = Interfaces/PostView.xib; sourceTree = "<group>"; };
 		6E6DC5960EC077FD00F9EB74 /* SearchHistoryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SearchHistoryView.xib; path = Interfaces/SearchHistoryView.xib; sourceTree = "<group>"; };
@@ -279,6 +282,8 @@
 				6EEBF7070E3B1FD40003EA63 /* REString.m */,
 				6EEBF7080E3B1FD40003EA63 /* StringUtil.h */,
 				6EEBF7090E3B1FD40003EA63 /* StringUtil.m */,
+				6E5CBCEB0ECF7971008A18A2 /* ImageUtils.h */,
+				6E5CBCEC0ECF7971008A18A2 /* ImageUtils.m */,
 				6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */,
 				6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */,
 				6EEBF70A0E3B1FD40003EA63 /* TwitterFonAppDelegate.h */,
@@ -646,6 +651,7 @@
 				6ECCAD970EBE5B2E002B39F6 /* SearchHistoryViewController.m in Sources */,
 				6ECCAF700EBED555002B39F6 /* MessageCellView.m in Sources */,
 				6ECD90400EBEF9F400C3CD4D /* TwitPicClient.m in Sources */,
+				6E5CBCED0ECF7971008A18A2 /* ImageUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
