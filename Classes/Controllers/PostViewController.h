@@ -18,6 +18,7 @@
     IBOutlet UITextView*        text;
     IBOutlet UILabel*           charCount;
     IBOutlet UIWindow*          postWindow;
+    IBOutlet UIToolbar*         toolbar;
    	IBOutlet ProgressWindow*    progressWindow;
 
     IBOutlet UIBarButtonItem*   sendButton;

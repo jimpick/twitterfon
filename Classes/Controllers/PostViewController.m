@@ -16,7 +16,12 @@
 
 #define kShowAnimationkey   @"showAnimation"
 #define kHideAnimationKey   @"hideAnimation"
-#define kDeleteAnimationKey @"deletion"
+#define kDeleteAnimationKey @"deleteAnimation"
+#define kUndoAnimationKey   @"undoAnimation"
+
+#define DELETE_BUTTON_INDEX 0
+#define GPS_BUTTON_INDEX    2
+#define CAMERA_BUTTON_INDEX 3
 
 @interface NSObject (PostTweetDelegate)
 - (void)postTweetDidSucceed:(NSDictionary*)message;
@@ -212,39 +217,88 @@
     }
 }
 
+- (void)setTransform:(BOOL)isDelete
+{
+    if (isDelete) {
+        CGAffineTransform transform = CGAffineTransformMakeScale(0.01, 0.01);
+        CGAffineTransform transform2 = CGAffineTransformMakeTranslation(-80.0, 140.0);
+        CGAffineTransform transform3 = CGAffineTransformMakeRotation (0.5);
+        
+        transform = CGAffineTransformConcat(transform,transform2);
+        transform = CGAffineTransformConcat(transform,transform3);
+        text.transform = transform;
+    }
+    else {
+        CGAffineTransform transform = CGAffineTransformMakeScale(1.0, 1.0);
+        CGAffineTransform transform2 = CGAffineTransformMakeTranslation(0, 0);
+        CGAffineTransform transform3 = CGAffineTransformMakeRotation (0);
+        
+        transform = CGAffineTransformConcat(transform,transform2);
+        transform = CGAffineTransformConcat(transform,transform3);
+        text.transform = transform;
+    }
+}
+
 - (IBAction) clear: (id) sender
 {
     [UIView beginAnimations:kDeleteAnimationKey context:self]; 
+
+    UIBarButtonItem *item = (UIBarButtonItem*)[toolbar.items objectAtIndex:0];
+    item.enabled = false;
     
     [UIView setAnimationDuration:0.4];
     [UIView setAnimationDelegate:self];
-    CGAffineTransform transform = CGAffineTransformMakeScale(0.01, 0.01);
-    CGAffineTransform transform2 = CGAffineTransformMakeTranslation(-80.0, 140.0);
-    CGAffineTransform transform3 = CGAffineTransformMakeRotation (0.5);
-    
-    transform = CGAffineTransformConcat(transform,transform2);
-    transform = CGAffineTransformConcat(transform,transform3);
-    text.transform = transform;
+    [self setTransform:true];
     [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
     [UIView commitAnimations];
     
+}
+
+- (IBAction) undo:(id) sender
+{
+    text.text = undoBuffer;
+    [undoBuffer release];
+    undoBuffer = nil;
+    [self setTransform:true];
+    
+    UIBarButtonItem *item = (UIBarButtonItem*)[toolbar.items objectAtIndex:0];
+    item.enabled = false;
+    
+    [UIView beginAnimations:kUndoAnimationKey context:self]; 
+    [UIView setAnimationDuration:0.4];
+    [UIView setAnimationDelegate:self];
+    [self setTransform:false];
+    [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
+    [UIView commitAnimations];
+    
+}
+
+- (void)replaceButton:(UIBarButtonItem*)item index:(int)index
+{
+    NSMutableArray *items = [toolbar.items mutableCopy];
+    [items replaceObjectAtIndex:index withObject:item];
+    [toolbar setItems:items animated:false];
+    [items release];
 }
 
 
 - (void)animationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
 {
     if ([animationID isEqualToString:kDeleteAnimationKey]) {
-        CGAffineTransform transform = CGAffineTransformMakeScale(1.0, 1.0);
-        CGAffineTransform transform2 = CGAffineTransformMakeTranslation(0, 0);
-        CGAffineTransform transform3 = CGAffineTransformMakeRotation (0);
-    
-        transform = CGAffineTransformConcat(transform,transform2);
-        transform = CGAffineTransformConcat(transform,transform3);
-        text.transform = transform;
-        undoBuffer = text.text;
+        [self setTransform:false];
+
+        undoBuffer = [text.text retain];
         text.text = @"";
         charCount.textColor = [UIColor whiteColor];
         sendButton.enabled = false;
+        
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Undo" style:UIBarButtonItemStyleBordered target:self action:@selector(undo:)];
+        [self replaceButton:item index:DELETE_BUTTON_INDEX];
+    }
+    else if ([animationID isEqualToString:kUndoAnimationKey]) {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(clear:)];
+        item.style = UIBarButtonItemStyleBordered;
+        [self replaceButton:item index:DELETE_BUTTON_INDEX];
     }
 }
 
@@ -487,6 +541,15 @@
 - (void)setCharCount
 {
     int length = [text.text length];
+
+    if (undoBuffer && length > 0) {
+        [undoBuffer release];
+        undoBuffer = nil;
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(clear:)];
+        item.style = UIBarButtonItemStyleBordered;
+        [self replaceButton:item index:DELETE_BUTTON_INDEX];
+    }
+
     length = 140 - length;
     if (length == 140) {
         sendButton.enabled = false;
