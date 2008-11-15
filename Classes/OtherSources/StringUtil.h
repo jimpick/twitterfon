@@ -13,6 +13,7 @@
 - (NSString*)escapeHTML;
 - (NSString*)unescapeHTML;
 + (NSString*)localizedString:(NSString*)key;
++ (NSString*)base64encode:(NSString*)str;
 @end
 
 

@@ -9,6 +9,7 @@
 #import "TwitterFonAppDelegate.h"
 #import "TimelineViewController.h"
 #import "DBConnection.h"
+#import "TwitterClient.h"
 #import "ColorUtils.h"
 
 @interface TwitterFonAppDelegate (Private)
@@ -21,6 +22,9 @@
 - (void)didLeaveTab:(UINavigationController*)navigationController;
 - (void)didSelectTab:(UINavigationController*)navigationController;
 - (void)imageStoreDidGetNewImage:(UIImage*)image;
+- (void)updateFavorite:(Message*)message;
+- (void)toggleFavorite:(BOOL)favorited message:(Message*)message;
+- (void)removeMessage:(Message*)message;
 @end
 
 @implementation TwitterFonAppDelegate
@@ -205,6 +209,95 @@
             [c postViewAnimationDidFinish];
         }
     }
+}
+
+//
+// Bypass message deletion and toggle favorite completed
+//
+- (void)messageDidDelete:(TwitterClient*)client messages:(NSObject*)obj
+{
+    Message *m = (Message*)client.context;
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dic = (NSDictionary*)obj;
+        sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];        
+        if (m.messageId == messageId) {
+            [m deleteFromDB];
+            [m release];
+            UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
+            UIViewController *c = [nav.viewControllers objectAtIndex:0];
+        
+            if ([c respondsToSelector:@selector(removeMessage:)]) {
+                [c removeMessage:m];
+            }
+        }
+    }
+    [m release];
+    [client autorelease];
+}
+
+- (void)favoriteDidChange:(TwitterClient*)sender messages:(NSObject*)obj
+{
+    Message *m = sender.context;
+    
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        
+        NSDictionary *dic = (NSDictionary*)obj;
+        sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];
+        if (m.messageId != messageId) {
+            NSLog(@"Someting wrong with contet. Ignore error...");
+            return;
+        }
+        BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
+        m.favorited = favorited;
+        [m updateFavoriteState];
+        
+        UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
+        UIViewController *c = nav.topViewController;
+        if ([c respondsToSelector:@selector(toggleFavorite:message:)]) {
+            [c toggleFavorite:favorited message:m];
+        }
+        
+        c = [nav.viewControllers objectAtIndex:0];
+        if ([c respondsToSelector:@selector(updateFavorite:)]) {
+            [c updateFavorite:m];
+        }
+    }
+    [m release];
+    [sender autorelease];
+}
+
+- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
+{
+    Message *m = sender.context;
+    
+    if (sender.request == TWITTER_REQUEST_FAVORITE ||
+        sender.request == TWITTER_REQUEST_DESTROY_FAVORITE) {
+        if (sender.statusCode == 404 || sender.statusCode == 403) {
+            BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
+            m.favorited = favorited;
+            [m updateFavoriteState];
+            UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
+            UIViewController *c = nav.topViewController;
+            if ([c respondsToSelector:@selector(toggleFavorite:message:)]) {
+                [c toggleFavorite:favorited message:m];
+            }
+        }
+    }
+    else {
+        UIAlertView *alert;
+        
+        alert = [[UIAlertView alloc] initWithTitle:error
+                                           message:detail
+                                          delegate:self
+                                 cancelButtonTitle:@"Close"
+                                 otherButtonTitles: nil];
+        
+        [alert show];	
+        [alert release];
+    }
+
+    [m release];
+    [sender autorelease];
 }
 
 @end

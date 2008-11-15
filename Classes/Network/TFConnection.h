@@ -15,6 +15,7 @@ extern NSString *TWITTERFON_FORM_BOUNDARY;
     NSHTTPURLResponse*  response;
 	NSMutableData*      buf;
     int                 statusCode;
+    BOOL                noAuthHeader;
 }
 
 @property (nonatomic, readonly) NSMutableData* buf;

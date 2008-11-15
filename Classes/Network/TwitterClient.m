@@ -40,13 +40,7 @@ NSString* sMethods[5] = {
 {
     request = TWITTER_REQUEST_TIMELINE;
     
-	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-        
-    NSString *url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/%@.json",
-                     [username encodeAsURIComponent],
-                     [password encodeAsURIComponent],
-                     sMethods[type]];
+    NSString *url = [NSString stringWithFormat:@"https://twitter.com/%@.json", sMethods[type]];
     
     int i = 0;
     for (id key in params) {
@@ -66,13 +60,7 @@ NSString* sMethods[5] = {
 {
     request = TWITTER_REQUEST_TIMELINE;
     
-	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-    
-    NSString *url = [NSString stringWithFormat:@"http://%@:%@@twitter.com/statuses/user_timeline/%@.json",
-                     [username encodeAsURIComponent],
-                     [password encodeAsURIComponent],
-                     [screen_name encodeAsURIComponent]];
+    NSString *url = [NSString stringWithFormat:@"https://twitter.com/statuses/user_timeline/%@.json", screen_name];
     
     int i = 0;
     for (id key in params) {
@@ -92,11 +80,7 @@ NSString* sMethods[5] = {
 {
     request = TWITTER_REQUEST_UPDATE;
     
-	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-
-	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/statuses/update.json",
-                     [username encodeAsURIComponent], [password encodeAsURIComponent]];
+    NSString* url = @"https://twitter.com/statuses/update.json";
     
     NSLog(@"%@", url);
     
@@ -110,11 +94,7 @@ NSString* sMethods[5] = {
 {
     request = TWITTER_REQUEST_DESTROY_MESSAGE;
     
-	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-    
-	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/statuses/destroy/%lld.json",
-                     [username encodeAsURIComponent], [password encodeAsURIComponent], [message messageId]];
+	NSString* url = [NSString stringWithFormat:@"https://twitter.com/statuses/destroy/%lld.json", [message messageId]];
     
     NSLog(@"%@", url);
     
@@ -125,12 +105,7 @@ NSString* sMethods[5] = {
 {
     request = (message.favorited) ? TWITTER_REQUEST_DESTROY_FAVORITE : TWITTER_REQUEST_FAVORITE;
     
-	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-
-    NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/favorites/%@/%lld.json",
-                     [username encodeAsURIComponent],
-                     [password encodeAsURIComponent],
+    NSString* url = [NSString stringWithFormat:@"https://twitter.com/favorites/%@/%lld.json",
                      (message.favorited) ? @"destroy" : @"create",
                      [message messageId]];
     
@@ -143,11 +118,7 @@ NSString* sMethods[5] = {
 {
     request = TWITTER_REQUEST_UPDATE_LOCATION;
     
-	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-    
-	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/account/update_location.json",
-                     [username encodeAsURIComponent], [password encodeAsURIComponent]];
+	NSString* url = @"https://twitter.com/account/update_location.json";
     
     NSLog(@"%@", url);
     
@@ -158,7 +129,8 @@ NSString* sMethods[5] = {
 
 - (void)search:(NSDictionary*)params
 {
-    NSString* url = [NSString stringWithFormat:@"http://search.twitter.com/search.json"];
+    noAuthHeader = true;
+    NSString* url = @"http://search.twitter.com/search.json";
 
     int i = 0;
     for (id key in params) {
@@ -176,16 +148,13 @@ NSString* sMethods[5] = {
 
 - (void)trends
 {
+    noAuthHeader = true;
     [super get:@"http://search.twitter.com/trends.json"];
 }
 
 - (void)verify
 {
-    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-    
-	NSString* url = [NSString stringWithFormat:@"https://%@:%@@twitter.com/account/verify_credentials.json",
-                     [username encodeAsURIComponent], [password encodeAsURIComponent]];
+	NSString* url = @"https://twitter.com/account/verify_credentials.json";
     
     [super get:url];
 }

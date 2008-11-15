@@ -7,6 +7,7 @@
 //
 
 #import "TFConnection.h"
+#import "StringUtil.h"
 
 #define NETWORK_TIMEOUT 120.0
 
@@ -32,6 +33,17 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
 	[super dealloc];
 }
 
+- (void)addAuthHeader:(NSMutableURLRequest*)req
+{
+    if (noAuthHeader) return;
+    
+    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    
+    NSString* auth = [NSString stringWithFormat:@"%@:%@", username, password];
+    NSString* basicauth = [NSString stringWithFormat:@"Basic %@", [NSString base64encode:auth]];
+    [req setValue:basicauth forHTTPHeaderField:@"Authorization"];
+}
 
 - (void)get:(NSString*)aURL
 {
@@ -42,10 +54,13 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
     NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
     [URL autorelease];
     NSLog(@"%@", URL);
-	NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:URL]
+	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                      timeoutInterval:NETWORK_TIMEOUT];
-	buf = [[NSMutableData data] retain];
+
+    [self addAuthHeader:req];
+    
+  	buf = [[NSMutableData data] retain];
 	connection = [[NSURLConnection alloc] initWithRequest:req delegate:self];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -66,6 +81,8 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
     
     [req setHTTPMethod:@"POST"];
     [req setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    [self addAuthHeader:req];
     
     int contentLength = [body lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
     
@@ -96,6 +113,7 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
     [req setValue:contentType forHTTPHeaderField:@"Content-Type"];
     [req setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:@"Content-Length"];
     [req setHTTPBody:data];
+    [self addAuthHeader:req];
     
 	buf = [[NSMutableData data] retain];
 	connection = [[NSURLConnection alloc] initWithRequest:req delegate:self];
