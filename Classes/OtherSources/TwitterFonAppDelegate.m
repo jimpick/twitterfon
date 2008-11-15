@@ -277,16 +277,21 @@
         }
     }
     else {
-        UIAlertView *alert;
+        if (sender.statusCode == 404) {
+            [m deleteFromDB];
+        }
+        else {
+            UIAlertView *alert;
         
-        alert = [[UIAlertView alloc] initWithTitle:error
-                                           message:detail
-                                          delegate:self
-                                 cancelButtonTitle:@"Close"
-                                 otherButtonTitles: nil];
+            alert = [[UIAlertView alloc] initWithTitle:error
+                                               message:detail
+                                              delegate:self
+                                     cancelButtonTitle:@"Close"
+                                     otherButtonTitles: nil];
         
-        [alert show];	
-        [alert release];
+            [alert show];	
+            [alert release];
+        }
     }
 
     [m release];

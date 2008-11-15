@@ -428,9 +428,13 @@ static NSString *userRegexp = @"@([0-9a-zA-Z_]+)";
     int success = sqlite3_step(stmt);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
     sqlite3_finalize(stmt);
+    
+    // ignore error
+#if 0    
     if (success == SQLITE_ERROR) {
         NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
     }    
+#endif
 }
 
 - (void)updateFavoriteState
