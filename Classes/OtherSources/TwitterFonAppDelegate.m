@@ -222,13 +222,6 @@
         sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];        
         if (m.messageId == messageId) {
             [m deleteFromDB];
-            [m release];
-            UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
-            UIViewController *c = [nav.viewControllers objectAtIndex:0];
-        
-            if ([c respondsToSelector:@selector(removeMessage:)]) {
-                [c removeMessage:m];
-            }
         }
     }
     [m release];

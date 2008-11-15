@@ -11,8 +11,7 @@
 #import "LinkViewController.h"
 #import "MessageCell.h"
 
-@interface NSObject (ViewControllerDelegate)
-- (void)updateFavorite:(Message*)message;
+@interface NSObject (TimelineViewControllerDelegate)
 - (void)removeMessage:(Message*)message;
 @end
 
@@ -280,17 +279,18 @@
 
 - (void)didTouchProfileImage:(MessageCell*)cell
 {
-    if (twitterClient) return;
-    
-    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(favoriteDidChange:messages:)];
-    twitterClient.context = cell;
-    [twitterClient favorite:cell.message];
+
+    [cell toggleSpinner:true];
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;    
+    TwitterClient *client = [[TwitterClient alloc] initWithTarget:appDelegate action:@selector(favoriteDidChange:messages:)];
+    client.context = [cell.message retain];
+    [client favorite:cell.message];
 }
 
-- (void)toggleFavorite:(BOOL)favorited cell:(MessageCell*)cell
+- (void)toggleFavorite:(BOOL)favorited message:(Message*)m
 {
-    cell.message.favorited = favorited;
-    [cell.message updateFavoriteState];
+    int index = [timeline indexOfObject:m];
+    MessageCell* cell = (MessageCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index + 1 inSection:0]];
     
     if (favorited) {
         [cell.profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
@@ -298,80 +298,45 @@
     else {
         [cell.profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
     }    
+
+    [cell toggleSpinner:false];
+
     CATransition *animation = [CATransition animation];
     [animation setType:kCATransitionFade];
     [animation setDuration:0.2];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
     [cell.profileImage.layer addAnimation:animation forKey:@"favoriteButton"];
-
-    UIViewController *top = [self.navigationController.viewControllers objectAtIndex:0];
-    if ([top respondsToSelector:@selector(updateFavorite:)]) {
-        [top updateFavorite:cell.message];
-    }
-}
-
-- (void)favoriteDidChange:(TwitterClient*)sender messages:(NSObject*)obj
-{
-
-    if ([obj isKindOfClass:[NSDictionary class]]) {
-        MessageCell *cell = sender.context;
-        
-        NSDictionary *dic = (NSDictionary*)obj;
-        sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];
-        if (cell.message.messageId != messageId) {
-            NSLog(@"Someting wrong with contet. Ignore error...");
-            return;
-        }
-        BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
-        
-        [self toggleFavorite:favorited cell:cell];
-     
-    }
-    [twitterClient autorelease];
-    twitterClient = nil;
 }
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    if (sender.request == TWITTER_REQUEST_FAVORITE ||
-        sender.request == TWITTER_REQUEST_DESTROY_FAVORITE) {
-        if (sender.statusCode == 404) {
-            BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
-            MessageCell *cell = sender.context;
-            [self toggleFavorite:favorited cell:cell];
-        }
+    LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
+    if ([cell isKindOfClass:[LoadCell class]]) {
+        [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
+        [cell.spinner stopAnimating];
+        [cell setType:MSG_TYPE_LOAD_USER_TIMELINE];
+    }
+    
+    UIAlertView *alert;
+    if (sender.statusCode == 401) {
+        alert = [[UIAlertView alloc] initWithTitle:@"This user has protected their updates."
+                                           message:@"You need to send a request before you can start following this person."
+                                          delegate:self
+                                 cancelButtonTitle:@"Close"
+                                 otherButtonTitles: nil];
+        
     }
     else {
-        if (sender.request == TWITTER_REQUEST_TIMELINE) {
-            LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
-            if ([cell isKindOfClass:[LoadCell class]]) {
-                [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
-                [cell.spinner stopAnimating];
-                [cell setType:MSG_TYPE_LOAD_USER_TIMELINE];
-            }
-        }
-
-        UIAlertView *alert;
-        if (sender.statusCode == 401) {
-            alert = [[UIAlertView alloc] initWithTitle:@"This user has protected their updates."
-                                               message:@"You need to send a request before you can start following this person."
-                                              delegate:self
-                                     cancelButtonTitle:@"Close"
-                                     otherButtonTitles: nil];
-
-        }
-        else {
-            alert = [[UIAlertView alloc] initWithTitle:error
-                                               message:detail
-                                                delegate:self
-                                     cancelButtonTitle:@"Close"
-                                     otherButtonTitles: nil];
-        }
-    
-
-        [alert show];	
-        [alert release];
+        alert = [[UIAlertView alloc] initWithTitle:error
+                                           message:detail
+                                          delegate:self
+                                 cancelButtonTitle:@"Close"
+                                 otherButtonTitles: nil];
     }
+    
+    
+    [alert show];	
+    [alert release];
     
     [sender autorelease];
     twitterClient = nil;
@@ -438,35 +403,20 @@
     forRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if (twitterClient == nil) {
-            Message *m = [timeline messageAtIndex:indexPath.row - 1];
-            twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(messageDidDelete:messages:)];
-            twitterClient.context = [m retain];
-            [timeline removeMessage:m];
+        Message *m = [timeline messageAtIndex:indexPath.row - 1];
+        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+        TwitterClient* client = [[TwitterClient alloc] initWithTarget:appDelegate action:@selector(messageDidDelete:messages:)];
+        client.context = [m retain];
+        [timeline removeMessage:m];
         
-            [twitterClient destroy:m];
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
+        
+        if ([c respondsToSelector:@selector(removeMessage:)]) {
+            [c removeMessage:m];
         }
-    }
-}
-
-- (void)messageDidDelete:(TwitterClient*)client messages:(NSObject*)obj
-{
-    [client autorelease];
-    twitterClient = nil;
-    
-    if ([obj isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *dic = (NSDictionary*)obj;
-        sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];        
-        Message *m = (Message*)client.context;
-        if (m.messageId == messageId) {
-            [m deleteFromDB];
-            UIViewController *top = [self.navigationController.viewControllers objectAtIndex:0];
-            if ([top respondsToSelector:@selector(removeMessage:)]) {
-                [top removeMessage:m];
-            }
-            [m release];
-        }
+        
+        [client destroy:m];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     }
 }
 

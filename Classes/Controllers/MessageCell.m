@@ -121,7 +121,7 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
     cellView.backgroundColor = self.contentView.backgroundColor;
     
     if (message.type == MSG_TYPE_USER) {
-        profileImage.frame = CGRectMake(10, 0, 22, message.cellHeight);
+        profileImage.frame = CGRectMake(2, 0, 38, message.cellHeight);
     }
     else {
         profileImage.frame = CGRectMake(IMAGE_PADDING, 0, IMAGE_WIDTH, message.cellHeight);
@@ -152,6 +152,25 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
         inEditing = editing;
     }
 
+}
+
+- (void)toggleSpinner:(BOOL)animation
+{
+    if (spinner == nil) {
+        spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+        spinner.frame = CGRectMake(11, (message.cellHeight - 20)/2, 20, 20);
+        spinner.hidesWhenStopped = YES;
+        [self.contentView addSubview:spinner];
+    }
+
+    if (animation) {
+        [spinner startAnimating];
+        profileImage.hidden = true;
+    }
+    else {
+        [spinner stopAnimating];
+        profileImage.hidden = false;
+    }
 }
 
 + (UIImage*) favoriteImage

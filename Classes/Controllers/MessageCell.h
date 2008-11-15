@@ -9,6 +9,8 @@
 	Message*            message;
     MessageCellView*    cellView;
     UIButton*           profileImage;
+
+    UIActivityIndicatorView*    spinner;
     
     NSObject*           delegate;
     MessageType         type;
@@ -21,6 +23,8 @@
 @property (nonatomic, assign) BOOL inEditing;
 
 - (void)update:(MessageType)type delegate:(id)delegate;
+
+- (void)toggleSpinner:(BOOL)flag;
 
 + (UIImage*) favoriteImage;
 + (UIImage*) favoritedImage;

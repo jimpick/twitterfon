@@ -142,6 +142,7 @@ static CGPoint sSavedScrollPoint[3] = {
 - (void) removeMessage:(Message*)message
 {
     [timelineDataSource.timeline removeMessage:message];
+    [self.tableView reloadData];
 }
 
 - (void) updateFavorite:(Message*)message

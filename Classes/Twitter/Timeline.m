@@ -100,6 +100,17 @@ static sqlite3_stmt *select_statement = nil;
     [messages insertObject:m atIndex:index];
 }
 
+- (int)indexOfObject:(Message*)message
+{
+    for (int i = 0; i < [messages count]; ++i) {
+        Message *m = [messages objectAtIndex:i];
+        if (m.messageId == message.messageId) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 - (int)restore:(MessageType)aType all:(BOOL)all
 {
     // Remove last message which contains load cell

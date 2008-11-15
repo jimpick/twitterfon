@@ -30,6 +30,8 @@
 - (void)removeLastMessage;
 - (void)removeAllMessages;
 
+- (int)indexOfObject:(Message*)message;
+
 - (void)updateFavorite:(Message*)message;
 
 @end
