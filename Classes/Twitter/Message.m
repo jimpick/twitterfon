@@ -425,8 +425,7 @@ static NSString *userRegexp = @"@([0-9a-zA-Z_]+)";
     }
     sqlite3_bind_int64(stmt, 1, messageId);
 
-    int success = sqlite3_step(stmt);
-    // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
+    sqlite3_step(stmt);
     sqlite3_finalize(stmt);
     
     // ignore error
