@@ -17,18 +17,21 @@
 
 @implementation UserTimelineController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
         timeline = [[Timeline alloc] initWithDelegate:self];
         deletedMessage = [[NSMutableArray alloc] init];
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         imageStore = appDelegate.imageStore;
+        loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
 	}
 	return self;
 }
 
 - (void)dealloc {
+    [loadCell release];
     [twitterClient release];
     [deletedMessage release];
     [message release];
@@ -75,6 +78,8 @@
     [message updateAttribute];
     screenName = message.user.screenName;
     
+    [loadCell setType:MSG_TYPE_LOAD_USER_TIMELINE];
+    
     [timeline appendMessage:message];
     [self.tableView reloadData];
     [self setNavigationBar];
@@ -85,6 +90,9 @@
     message = nil;
     indexOfLoadCell = 1;
     screenName = [aScreenName substringFromIndex:1];
+    
+    [loadCell setType:MSG_TYPE_LOADING];
+    [loadCell.spinner startAnimating];
     
     [self setNavigationBar];
     
@@ -125,9 +133,6 @@
             userCell.image = [imageStore getImage:url delegate:self];
             [userCell update:message delegate:self];
         }
-        else {
-            [userCell clear];
-        }
         return userCell;
     }
     else {
@@ -150,18 +155,7 @@
             return cell;
         }
         else {
-            LoadCell * cell =  (LoadCell*)[tableView dequeueReusableCellWithIdentifier:@"LoadCell"];
-            if (!cell) {
-                cell = [[[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"] autorelease];
-            }
-            if (message) {
-                [cell setType:([timeline countMessages] > 1) ? MSG_TYPE_LOAD_FROM_WEB : MSG_TYPE_LOAD_USER_TIMELINE];
-            }
-            else {
-                [cell setType:MSG_TYPE_LOADING];
-                [cell.spinner startAnimating];
-            }
-            return cell;
+            return loadCell;
         }
     }
 
@@ -177,9 +171,8 @@
     if (m) return;
     
     if (twitterClient) return;
-    
-    LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-    [cell.spinner startAnimating];
+
+    [loadCell.spinner startAnimating];
 
     indexOfLoadCell = indexPath.row;
     int page = ([timeline countMessages] / 20) + 1;
@@ -198,11 +191,8 @@
 - (void)userTimelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
 {
 
-    LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
-    if ([cell isKindOfClass:[LoadCell class]]) {
-        [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
-        [cell.spinner stopAnimating];
-    }
+    [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
+    [loadCell setType:MSG_TYPE_LOAD_FROM_WEB];
     
     if (obj == nil) {
         goto out;
@@ -249,13 +239,13 @@
     if (needReplace) {
         if (firstMessage.messageId != [timeline messageAtIndex:0].messageId) {
             [deleteIndexPath addObject:[NSIndexPath indexPathForRow:1 inSection:0]];
+            --indexOfLoadCell;
         }
     }
-    [deleteIndexPath addObject:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
     
     int count = [ary count];
     if (count > 8) count = 8;
-    for (int i = (needReplace) ? 0 : 1; i < count; ++i) {
+    for (int i = 0; i < count; ++i) {
         [insertIndexPath addObject:[NSIndexPath indexPathForRow:indexOfLoadCell + i inSection:0]];
     }
     
@@ -308,38 +298,51 @@
     [cell.profileImage.layer addAnimation:animation forKey:@"favoriteButton"];
 }
 
+- (void)userDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
+{
+    NSDictionary *dic = nil;
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        dic = (NSDictionary*)obj;
+
+        User *user = [[[User alloc] initWithJsonDictionary:dic] autorelease];
+        NSString *url = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
+        userCell.image = [imageStore getImage:url delegate:self];    
+
+        [self.tableView reloadData];
+    }
+    [sender release];
+    twitterClient = nil;
+}
+
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0]];
-    if ([cell isKindOfClass:[LoadCell class]]) {
-        [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
-        [cell.spinner stopAnimating];
-        [cell setType:MSG_TYPE_LOAD_USER_TIMELINE];
-    }
+    [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
+    [loadCell setType:MSG_TYPE_LOAD_USER_TIMELINE];
+
+    [sender autorelease];
+    twitterClient = nil;
     
-    UIAlertView *alert;
     if (sender.statusCode == 401) {
-        alert = [[UIAlertView alloc] initWithTitle:@"This user has protected their updates."
-                                           message:@"You need to send a request before you can start following this person."
-                                          delegate:self
-                                 cancelButtonTitle:@"Close"
-                                 otherButtonTitles: nil];
         
+//        [loadCell setType:MSG_TYPE_REQUEST_FOLLOW];
+       
+        [userCell setErrorMessage:@"This user has protected their updates."
+                           detail:@"You need to send a request before you can start following this person."];
+        
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userDidReceive:messages:)];
+        [twitterClient getUser:screenName];
     }
     else {
+        UIAlertView *alert;
         alert = [[UIAlertView alloc] initWithTitle:error
                                            message:detail
                                           delegate:self
                                  cancelButtonTitle:@"Close"
                                  otherButtonTitles: nil];
+        
+        [alert show];	
+        [alert release];
     }
-    
-    
-    [alert show];	
-    [alert release];
-    
-    [sender autorelease];
-    twitterClient = nil;
 }
 
 - (void)didTouchLinkButton:(Message*)aMessage links:(NSArray*)array

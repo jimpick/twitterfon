@@ -52,6 +52,9 @@
             label.text = @"Loading...";
             break;
             
+        case MSG_TYPE_REQUEST_FOLLOW:
+            label.text = @"Send request";
+            
         default:
             break;
     }

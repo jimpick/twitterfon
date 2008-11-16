@@ -59,7 +59,7 @@
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="IBUIText">Kazuho Okui</string>
+								<string key="IBUIText"/>
 								<object class="NSColor" key="IBUITextColor" id="316214304">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -82,7 +82,7 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUITag">1</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="IBUIText">Palo Alto, CA</string>
+								<string key="IBUIText"/>
 								<reference key="IBUITextColor" ref="316214304"/>
 								<nil key="IBUIHighlightedColor"/>
 								<object class="NSColor" key="IBUIShadowColor">
@@ -107,10 +107,10 @@
 									<double key="NSSize">1.500000e+01</double>
 									<int key="NSfFlags">16</int>
 								</object>
-								<string key="IBUIHighlightedTitle">http://naan.net/trac/wiki/TwitterFox</string>
-								<string key="IBUIDisabledTitle">http://naan.net/trac/wiki/TwitterFox</string>
-								<string key="IBUISelectedTitle">http://naan.net/trac/wiki/TwitterFox</string>
-								<string key="IBUINormalTitle">http://naan.net/trac/wiki/TwitterFox</string>
+								<string key="IBUIHighlightedTitle"/>
+								<string key="IBUIDisabledTitle"/>
+								<string key="IBUISelectedTitle"/>
+								<string key="IBUINormalTitle"/>
 								<object class="NSColor" key="IBUIHighlightedTitleColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MSAwIDAAA</bytes>
@@ -138,7 +138,7 @@
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="IBUIText">1 follower</string>
+								<string key="IBUIText"/>
 								<reference key="IBUITextColor" ref="316214304"/>
 								<nil key="IBUIHighlightedColor"/>
 								<object class="NSColor" key="IBUIShadowColor">
@@ -389,7 +389,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">86</int>
+			<int key="maxID">89</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -443,7 +443,7 @@
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.LastKnownRelativeProjectPath">TwitterFon.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">../TwitterFon.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 	</data>
 </archive>

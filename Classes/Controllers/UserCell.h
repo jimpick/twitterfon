@@ -19,7 +19,7 @@
     CGImageRef              background;
 }
 
--(void)clear;
 -(void)update:(Message*)message delegate:(id)delegate;
+-(void)setErrorMessage:(NSString*)message detail:(NSString*)detail;
 
 @end

@@ -33,19 +33,20 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
   	CGContextDrawImage(context, rect, background);
-
-	// Drawing with a white stroke color
-	CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
-  	CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
-	// Draw them with a 2.0 stroke width so they are a bit more visible.
-	CGContextSetLineWidth(context, 2.0);
-	
-	// Add Rect to the current path, then stroke it
-	CGContextAddRect(context, CGRectMake(10.0, 20.0, 73.0, 73.0));
-	CGContextStrokePath(context);    
-	CGContextAddRect(context, CGRectMake(10.0, 20.0, 73.0, 73.0));
-  	CGContextFillPath(context);    
     
+    if (self.image) {
+        // Drawing with a white stroke color
+        CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
+        CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
+        // Draw them with a 2.0 stroke width so they are a bit more visible.
+        CGContextSetLineWidth(context, 2.0);
+        
+        // Add Rect to the current path, then stroke it
+        CGContextAddRect(context, CGRectMake(10.0, 20.0, 73.0, 73.0));
+        CGContextStrokePath(context);    
+        CGContextAddRect(context, CGRectMake(10.0, 20.0, 73.0, 73.0));
+        CGContextFillPath(context);  
+    }    
     [super drawRect:rect];
 }
 
@@ -60,8 +61,23 @@
     protected.hidden = true;
 }
 
+-(void)setErrorMessage:(NSString*)message detail:(NSString*)detail
+{
+    name.frame = CGRectMake(93, 16, 189, 44);
+    name.numberOfLines = 2;
+    name.font = [UIFont boldSystemFontOfSize:16];
+    name.text = message;
+    location.frame = CGRectMake(93, 59, 217, 36);
+    location.text = detail;
+    location.numberOfLines = 3;
+    [self.contentView setNeedsDisplay];
+}
+
 -(void)update:(Message*)message delegate:(id)delegate
 {
+    name.frame = CGRectMake(93, 20, 189, 22);
+    location.frame = CGRectMake(93, 59, 217, 18);
+    
     name.text               = message.user.name;
     location.text           = message.user.location;
     [url setTitle:message.user.url forState:UIControlStateNormal];

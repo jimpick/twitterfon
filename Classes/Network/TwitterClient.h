@@ -27,7 +27,7 @@ typedef enum {
 
 - (void)getTimeline:(MessageType)type params:(NSDictionary*)params;
 - (void)getUserTimeline:(NSString*)screen_name params:(NSDictionary*)params;
-
+- (void)getUser:(NSString*)screen_name;
 - (void)post:(NSString*)tweet;
 - (void)destroy:(Message*)message;
 - (void)favorite:(Message*)message;

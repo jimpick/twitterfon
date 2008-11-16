@@ -78,6 +78,13 @@ NSString* sMethods[5] = {
     [super get:url];
 }
 
+- (void)getUser:(NSString*)screen_name
+{
+    needAuth = true;
+    NSString *url = [NSString stringWithFormat:@"https://twitter.com/users/show/%@.json", screen_name];
+    [super get:url];
+}
+
 - (void)post:(NSString*)tweet
 {
     needAuth = true;
@@ -172,20 +179,6 @@ NSString* sMethods[5] = {
     else {
         [delegate twitterClientDidFail:self error:@"Connection Failed" detail:[error localizedDescription]];
     }
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-	if ([challenge previousFailureCount] == 0) {
-        NSLog(@"Authentication Challenge");
-        NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-        NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-		NSURLCredential* cred = [NSURLCredential credentialWithUser:username password:password persistence:NSURLCredentialPersistenceNone];
-		[[challenge sender] useCredential:cred forAuthenticationChallenge:challenge];
-	} else {
-		NSLog(@"Failed auth (%d times)", [challenge previousFailureCount]);
-		[[challenge sender] cancelAuthenticationChallenge:challenge];
-	}
 }
 
 - (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
