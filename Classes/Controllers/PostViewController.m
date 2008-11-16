@@ -156,7 +156,7 @@
 {
     TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(postDidSucceed:messages:)];
     
-	NSRange r = [text.text rangeOfString:@"d "];
+	NSRange r = [text.text rangeOfString:@"d " options:NSCaseInsensitiveSearch];
 	isDirectMessage = (r.location == 0) ? true : false;
     
 	[client post:text.text];
@@ -613,7 +613,7 @@
 {
     [self.view removeFromSuperview];
     
-    if (finished) {
+    if (finished && !isDirectMessage) {
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         [appDelegate postViewAnimationDidFinish:didPost];
     }
