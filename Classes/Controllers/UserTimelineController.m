@@ -355,7 +355,7 @@
             [appDelegate openWebView:url on:self.navigationController];
         }
         else {
-            UserTimelineController *userTimeline = [[UserTimelineController alloc] initWithNibName:@"UserView" bundle:nil];
+            UserTimelineController *userTimeline = [[UserTimelineController alloc] initWithNibName:@"UserTimelineView" bundle:nil];
             [userTimeline autorelease];
             [userTimeline loadUserTimeline:[array objectAtIndex:0]];
             

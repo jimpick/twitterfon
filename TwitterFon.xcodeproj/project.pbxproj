@@ -43,10 +43,10 @@
 		6E6DC5A00EC077FD00F9EB74 /* SearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5970EC077FD00F9EB74 /* SearchView.xib */; };
 		6E6DC5A10EC077FD00F9EB74 /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5980EC077FD00F9EB74 /* SettingsView.xib */; };
 		6E6DC5A20EC077FD00F9EB74 /* TimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5990EC077FD00F9EB74 /* TimelineView.xib */; };
-		6E6DC5A30EC077FD00F9EB74 /* UserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC59A0EC077FD00F9EB74 /* UserView.xib */; };
 		6E6DC5A40EC077FD00F9EB74 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC59B0EC077FD00F9EB74 /* WebView.xib */; };
 		6E6DC5A50EC077FD00F9EB74 /* FolloweesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */; };
 		6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC6230EC07F3D00F9EB74 /* camera.png */; };
+		6E8C56350ED09C3500EC9D39 /* UserTimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E8C56340ED09C3500EC9D39 /* UserTimelineView.xib */; };
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
 		6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E943F1A0E6527C600E8ECF2 /* usercell_background.png */; };
 		6E9CA2C70EB8D4E800D7F004 /* TimelineViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9CA2C60EB8D4E800D7F004 /* TimelineViewDataSource.m */; };
@@ -143,10 +143,10 @@
 		6E6DC5970EC077FD00F9EB74 /* SearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SearchView.xib; path = Interfaces/SearchView.xib; sourceTree = "<group>"; };
 		6E6DC5980EC077FD00F9EB74 /* SettingsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SettingsView.xib; path = Interfaces/SettingsView.xib; sourceTree = "<group>"; };
 		6E6DC5990EC077FD00F9EB74 /* TimelineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = TimelineView.xib; path = Interfaces/TimelineView.xib; sourceTree = "<group>"; };
-		6E6DC59A0EC077FD00F9EB74 /* UserView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UserView.xib; path = Interfaces/UserView.xib; sourceTree = "<group>"; };
 		6E6DC59B0EC077FD00F9EB74 /* WebView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WebView.xib; path = Interfaces/WebView.xib; sourceTree = "<group>"; };
 		6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FolloweesView.xib; path = Interfaces/FolloweesView.xib; sourceTree = "<group>"; };
 		6E6DC6230EC07F3D00F9EB74 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		6E8C56340ED09C3500EC9D39 /* UserTimelineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UserTimelineView.xib; path = Interfaces/UserTimelineView.xib; sourceTree = "<group>"; };
 		6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeUtils.h; path = Classes/OtherSources/TimeUtils.h; sourceTree = "<group>"; };
 		6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeUtils.m; path = Classes/OtherSources/TimeUtils.m; sourceTree = "<group>"; };
 		6E943F1A0E6527C600E8ECF2 /* usercell_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usercell_background.png; sourceTree = "<group>"; };
@@ -418,7 +418,7 @@
 				6E6DC5970EC077FD00F9EB74 /* SearchView.xib */,
 				6E6DC5980EC077FD00F9EB74 /* SettingsView.xib */,
 				6E6DC5990EC077FD00F9EB74 /* TimelineView.xib */,
-				6E6DC59A0EC077FD00F9EB74 /* UserView.xib */,
+				6E8C56340ED09C3500EC9D39 /* UserTimelineView.xib */,
 				6E6DC59B0EC077FD00F9EB74 /* WebView.xib */,
 				6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */,
 			);
@@ -591,12 +591,12 @@
 				6E6DC5A00EC077FD00F9EB74 /* SearchView.xib in Resources */,
 				6E6DC5A10EC077FD00F9EB74 /* SettingsView.xib in Resources */,
 				6E6DC5A20EC077FD00F9EB74 /* TimelineView.xib in Resources */,
-				6E6DC5A30EC077FD00F9EB74 /* UserView.xib in Resources */,
 				6E6DC5A40EC077FD00F9EB74 /* WebView.xib in Resources */,
 				6E6DC5A50EC077FD00F9EB74 /* FolloweesView.xib in Resources */,
 				6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */,
 				6E3EABA00EC8782400599954 /* dist.plist in Resources */,
 				6E4011F10ECDF786009D452A /* open_safari.png in Resources */,
+				6E8C56350ED09C3500EC9D39 /* UserTimelineView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
