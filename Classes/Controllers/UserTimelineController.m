@@ -9,11 +9,14 @@
 #import "UserTimelineController.h"
 #import "TwitterFonAppDelegate.h"
 #import "LinkViewController.h"
-#import "UserDetailViewController.h"
 #import "MessageCell.h"
 
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)removeMessage:(Message*)message;
+@end
+
+@interface UserTimelineController (Private)
+- (void)checkExistFriendship;
 @end
 
 @implementation UserTimelineController
@@ -33,6 +36,7 @@
 }
 
 - (void)dealloc {
+    [userCell release];
     [loadCell release];
     [twitterClient release];
     [deletedMessage release];
@@ -86,6 +90,8 @@
     [timeline appendMessage:message];
     [self.tableView reloadData];
     [self setNavigationBar];
+    
+    [self checkExistFriendship];
 }
 
 - (void)loadUserTimeline:(NSString*)aScreenName
@@ -115,7 +121,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return 113;
+        return 146;
     }
     else {
         Message *m = [timeline messageAtIndex:indexPath.row - 1];
@@ -173,17 +179,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if (indexPath.row == 0) {
-        if ([timeline countMessages] == 0) {
-            return;
-        }
-        UserDetailViewController* detail = [[[UserDetailViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
-
-        detail.user = message.user;
-        NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-        detail.userView.profileImage = [imageStore getImage:url delegate:self];
-        
-        [self.navigationController pushViewController:detail animated:true];
-        
         return;
     }
     
@@ -214,6 +209,22 @@
 
     [tableView deselectRowAtIndexPath:indexPath animated:true];
     
+}
+
+- (void)friendshipDidCheck:(TwitterClient*)sender messages:(NSObject*)obj
+{
+    NSNumber *flag = (NSNumber*)obj;
+    [userCell.userView setFriendship:[flag boolValue]];
+    [sender autorelease];
+    twitterClient = nil;
+}
+
+- (void)checkExistFriendship
+{
+    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendshipDidCheck:messages:)];
+    [twitterClient existFriendship:screenName];
+    
+    didCheckFriendship = true;
 }
 
 - (void)userTimelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
@@ -285,6 +296,10 @@
   out:
 	[twitterClient autorelease];
     twitterClient = nil;
+
+    if (!didCheckFriendship) {
+        [self checkExistFriendship];
+    }
 }
 
 - (void)followDidRequest:(TwitterClient*)sender messages:(NSObject*)obj

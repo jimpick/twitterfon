@@ -12,13 +12,20 @@
 #define kMessageUserProtected @"This user has protected their updates."
 #define kMessageDetail        @"You need to send a request before you can start following this person."
 
+#define kRemoveButtonAnim @"removeButtonAnimation"
+#define kFollowButtonAnim @"followButtonAnimation"
+#define kMessageFlashAnim @"messageFlashAnimation"
+
+@interface NSObject (UserViewDelegate)
+- (void)requestFriendship:(BOOL)createOrDestroy;
+@end
+
+
 @implementation UserView
 
 @synthesize profileImage;
 @synthesize user;
 @synthesize protected;
-@synthesize height;
-@synthesize hasDetail;
 
 - (id)initWithFrame:(CGRect)frame 
 {
@@ -39,6 +46,11 @@
     url.titleShadowOffset = CGSizeMake(0, 1);
     [self addSubview:url];
     
+    followButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    followButton.frame = CGRectMake(9, 104, 75, 32);
+    [followButton addTarget:self action:@selector(didTouchFollowButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:followButton];
+    
     protected = false;
     
     return self;
@@ -46,6 +58,13 @@
 
 -(void)dealloc
 {
+    if (twitterClient) {
+        [twitterClient cancel];
+        [twitterClient release];
+    }
+    if (timer) {
+        [timer invalidate];
+    }
     CGImageRelease(background);
     [profileImage release];
     [lockIcon release];
@@ -104,11 +123,6 @@
             [lockIcon drawAtPoint:CGPointMake(298, 22)];
         }
     }
-    
-    if (hasDetail) {
-        [[UIColor blackColor] set];
-        [user.description drawInRect:CGRectMake(20, 105, 280, 110) withFont:[UIFont systemFontOfSize:14] lineBreakMode:UILineBreakModeTailTruncation];
-    }
 }
 
 -(void)setUser:(User*)aUser delegate:(id)delegate
@@ -119,16 +133,93 @@
     [url setTitle:user.url forState:UIControlStateHighlighted];
 
     [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];   
-    
-    UILabel* label = [[UILabel alloc] initWithFrame:CGRectZero];
-    label.font = [UIFont systemFontOfSize:14];
-    label.text = user.description;
-    label.lineBreakMode = UILineBreakModeTailTruncation;
-    CGRect r = [label textRectForBounds:CGRectMake(20, 105, 280, 110) limitedToNumberOfLines:10];
-    [label release];
+
     [self setNeedsDisplay];
+}
+
+- (void)setAnimation:(UIView*)view forKey:(NSString*)key
+{
+    CATransition *animation = [CATransition animation];
     
-    height = r.size.height + 115;
+    [animation setType:kCATransitionFade];
+    [animation setDuration:0.3];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [[view layer] addAnimation:animation forKey:key];    
+}
+
+- (void)clearMessage:(NSTimer*)timer userInfo:(NSObject*)obj
+{
+    messageLabel.hidden = true;
+    [self setAnimation:messageLabel forKey:kMessageFlashAnim];
+}
+
+- (void)flashMessage
+{
+    NSString *fmt = (following) ? @"You are now following %@." : @"You are no longer following %@.";
+    NSString *msg = [NSString stringWithFormat:fmt, user.screenName];
+
+    if (!messageLabel) {
+        messageLabel = [[[UILabel alloc] initWithFrame:CGRectMake(93, 110, 217, 20)] autorelease];
+        messageLabel.backgroundColor = [UIColor clearColor];
+        messageLabel.font = [UIFont systemFontOfSize:13];
+        messageLabel.shadowColor = [UIColor whiteColor];
+        messageLabel.shadowOffset = CGSizeMake(0, 1);
+        [self addSubview:messageLabel];
+    }
+    messageLabel.hidden = false;
+    messageLabel.text = msg;
+    [self setAnimation:messageLabel forKey:kMessageFlashAnim];
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval:3.0
+                                             target:self 
+                                           selector:@selector(clearMessage:userInfo:)
+                                           userInfo:nil
+                                            repeats:false];
+}
+
+- (void)followDidRequest:(TwitterClient*)sender messages:(NSObject*)obj
+{
+    [self setFriendship:(sender.request == TWITTER_REQUEST_CREATE_FRIENDSHIP) ? true : false];
+    [sender autorelease];
+    twitterClient = nil;
+    [self flashMessage];
+}
+
+- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
+{
+    [self setFriendship:!following];
+    [sender autorelease];
+    twitterClient = nil;
+    [self flashMessage];
+}
+
+- (void)didTouchFollowButton:(id)sender
+{
+    if (buttonState == FOLLOW_BUTTON_FOLLOWING) {
+        
+        [followButton setImage:[UIImage imageNamed:@"remove.png"] forState:UIControlStateNormal];
+        [self setAnimation:followButton forKey:kRemoveButtonAnim];
+        buttonState = FOLLOW_BUTTON_REMOVE;
+    }
+    else {
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(followDidRequest:messages:)];
+        [twitterClient friendship:user.screenName create:!following];
+    }
+}
+
+- (void)setFriendship:(BOOL)exists
+{
+    following = exists;
+    buttonState = (exists) ? FOLLOW_BUTTON_FOLLOWING : FOLLOW_BUTTON_FOLLOW;
+
+    if (exists) {
+        [followButton setImage:[UIImage imageNamed:@"following.png"] forState:UIControlStateNormal];
+    }
+    else {
+        [followButton setImage:[UIImage imageNamed:@"follow.png"] forState:UIControlStateNormal];
+    }
+    [self setNeedsDisplay];
+    [self setAnimation:followButton forKey:kFollowButtonAnim];
 }
 
 @end

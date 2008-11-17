@@ -14,9 +14,9 @@
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
     [super initWithFrame:frame reuseIdentifier:reuseIdentifier];
-    userView = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 113)];
+    userView = [[[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 146)] autorelease];
     [self.contentView addSubview:userView];
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     return self;
 }
 

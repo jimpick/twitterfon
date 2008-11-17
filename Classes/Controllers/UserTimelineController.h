@@ -26,6 +26,7 @@
     int                     indexOfLoadCell;
     NSMutableArray*         deletedMessage;
     TwitterClient*          twitterClient;
+    BOOL                    didCheckFriendship;
 }
 
 - (void)setMessage:(Message *)message;
