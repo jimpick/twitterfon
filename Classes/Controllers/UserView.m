@@ -147,10 +147,11 @@
     [[view layer] addAnimation:animation forKey:key];    
 }
 
-- (void)clearMessage:(NSTimer*)timer userInfo:(NSObject*)obj
+- (void)clearMessage:(NSTimer*)aTimer userInfo:(NSObject*)obj
 {
     messageLabel.hidden = true;
     [self setAnimation:messageLabel forKey:kMessageFlashAnim];
+    timer = nil;
 }
 
 - (void)flashMessage
@@ -183,6 +184,7 @@
     [sender autorelease];
     twitterClient = nil;
     [self flashMessage];
+    followButton.enabled = true;
 }
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
@@ -191,6 +193,7 @@
     [sender autorelease];
     twitterClient = nil;
     [self flashMessage];
+    followButton.enabled = true;
 }
 
 - (void)didTouchFollowButton:(id)sender
@@ -202,8 +205,12 @@
         buttonState = FOLLOW_BUTTON_REMOVE;
     }
     else {
+        if (twitterClient) {
+            return;
+        }
         twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(followDidRequest:messages:)];
         [twitterClient friendship:user.screenName create:!following];
+        followButton.enabled = false;
     }
 }
 
