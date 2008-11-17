@@ -140,6 +140,7 @@
         twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(followDidRequest:messages:)];
         [twitterClient friendship:user.screenName create:!following];
     }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:true];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
