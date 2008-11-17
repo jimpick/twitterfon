@@ -114,6 +114,7 @@ NSString* sMethods[5] = {
 - (void)existFriendship:(NSString*)screen_name
 {
     needAuth = true;
+    request = TWITTER_REQUEST_FRIENDSHIP_EXISTS;
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     
     NSString *url = [NSString stringWithFormat:@"http://twitter.com/friendships/exists.json?user_a=%@&user_b=%@",
@@ -237,6 +238,9 @@ NSString* sMethods[5] = {
     }
 
     NSObject *obj = [content JSONValue];
+    if (request == TWITTER_REQUEST_FRIENDSHIP_EXISTS) {
+        obj = [NSNumber numberWithBool:[content isEqualToString:@"\"true\""]];
+    }
     
     if ([obj isKindOfClass:[NSDictionary class]]) {
         NSDictionary* dic = (NSDictionary*)obj;
