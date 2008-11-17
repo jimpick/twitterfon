@@ -17,7 +17,7 @@
 @class TimelineViewDataSource;
 
 @interface UserTimelineController : UITableViewController {
-    IBOutlet UserCell*      userCell;
+    UserCell*               userCell;
     ImageStore*             imageStore;
     Message*                message;
     NSString*               screenName;

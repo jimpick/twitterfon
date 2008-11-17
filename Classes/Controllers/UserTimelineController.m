@@ -9,6 +9,7 @@
 #import "UserTimelineController.h"
 #import "TwitterFonAppDelegate.h"
 #import "LinkViewController.h"
+#import "UserDetailViewController.h"
 #import "MessageCell.h"
 
 @interface NSObject (TimelineViewControllerDelegate)
@@ -25,6 +26,7 @@
         deletedMessage = [[NSMutableArray alloc] init];
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         imageStore = appDelegate.imageStore;
+        userCell = [[UserCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"UserCell"];
         loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
 	}
 	return self;
@@ -46,6 +48,7 @@
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
+    [loadCell.spinner stopAnimating];
     if (twitterClient) {
         [twitterClient cancel];
         [twitterClient release];
@@ -130,8 +133,8 @@
     if (indexPath.row == 0) {
         if (message) {
             NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-            userCell.image = [imageStore getImage:url delegate:self];
-            [userCell update:message delegate:self];
+            userCell.userView.profileImage = [imageStore getImage:url delegate:self];
+            [userCell.userView setUser:message.user delegate:self];
         }
         return userCell;
     }
@@ -144,7 +147,7 @@
             }
             cell.message = m;
             cell.inEditing = self.editing;
-
+            
             if (m.favorited) {
                 [cell.profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
             }
@@ -152,6 +155,10 @@
                 [cell.profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
             }
             [cell update:MSG_TYPE_USER delegate:self];
+            TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+            if ([timeline countMessages] == 1 && appDelegate.selectedTab == TAB_MESSAGES) {
+                cell.profileImage.hidden = true;
+            }
             return cell;
         }
         else {
@@ -165,25 +172,46 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    if (indexPath.row == 0) return;
+    if (indexPath.row == 0) {
+        if ([timeline countMessages] == 0) {
+            return;
+        }
+        UserDetailViewController* detail = [[[UserDetailViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
+
+        detail.user = message.user;
+        NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
+        detail.userView.profileImage = [imageStore getImage:url delegate:self];
+        
+        [self.navigationController pushViewController:detail animated:true];
+        
+        return;
+    }
     
     Message* m = [timeline messageAtIndex:indexPath.row - 1];
     if (m) return;
     
     if (twitterClient) return;
-
+    
     [loadCell.spinner startAnimating];
+    
+    if (loadCell.type == MSG_TYPE_REQUEST_FOLLOW) {
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(followDidRequest:messages:)];
+        [twitterClient friendship:screenName create:true];
 
-    indexOfLoadCell = indexPath.row;
-    int page = ([timeline countMessages] / 20) + 1;
-    
-    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userTimelineDidReceive:messages:)];
-    NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    if (page >= 2) {
-        [param setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
     }
-    
-    [twitterClient getUserTimeline:screenName params:param];
+    else {
+        indexOfLoadCell = indexPath.row;
+        int page = ([timeline countMessages] / 20) + 1;
+        
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userTimelineDidReceive:messages:)];
+        NSMutableDictionary *param = [NSMutableDictionary dictionary];
+        if (page >= 2) {
+            [param setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
+        }
+        
+        [twitterClient getUserTimeline:screenName params:param];
+    }
+
     [tableView deselectRowAtIndexPath:indexPath animated:true];
     
 }
@@ -231,10 +259,10 @@
     message = [[timeline lastMessage] copy];
     message.type = MSG_TYPE_USER;
     [message updateAttribute];
-    [userCell update:message delegate:self];
+    [userCell.userView setUser:message.user delegate:self];
     NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-    userCell.image = [imageStore getImage:url delegate:self];
-    [userCell update:message delegate:self];
+    userCell.userView.profileImage = [imageStore getImage:url delegate:self];
+    [userCell.userView setUser:message.user delegate:self];
     
     if (needReplace) {
         if (firstMessage.messageId != [timeline messageAtIndex:0].messageId) {
@@ -259,6 +287,16 @@
     twitterClient = nil;
 }
 
+- (void)followDidRequest:(TwitterClient*)sender messages:(NSObject*)obj
+{
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        [loadCell setType:MSG_TYPE_REQUEST_FOLLOW_SENT];
+        loadCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    [sender autorelease];
+    twitterClient = nil;
+}
+
 // UserCell delegate
 //
 - (void)didTouchURL:(id)sender
@@ -280,6 +318,7 @@
 - (void)toggleFavorite:(BOOL)favorited message:(Message*)m
 {
     int index = [timeline indexOfObject:m];
+    if (index < 0) return;
     MessageCell* cell = (MessageCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index + 1 inSection:0]];
     
     if (favorited) {
@@ -306,8 +345,9 @@
 
         User *user = [[[User alloc] initWithJsonDictionary:dic] autorelease];
         NSString *url = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-        userCell.image = [imageStore getImage:url delegate:self];    
-
+        userCell.userView.profileImage = [imageStore getImage:url delegate:self];    
+        [userCell.userView setNeedsDisplay];
+        
         [self.tableView reloadData];
     }
     [sender release];
@@ -322,12 +362,17 @@
     [sender autorelease];
     twitterClient = nil;
     
+    if (sender.request == TWITTER_REQUEST_CREATE_FRIENDSHIP) {
+        [loadCell setType:MSG_TYPE_REQUEST_FOLLOW];
+    }
+    
     if (sender.statusCode == 401) {
         
-//        [loadCell setType:MSG_TYPE_REQUEST_FOLLOW];
-       
-        [userCell setErrorMessage:@"This user has protected their updates."
-                           detail:@"You need to send a request before you can start following this person."];
+        [loadCell setType:MSG_TYPE_REQUEST_FOLLOW];
+
+        userCell.accessoryType = UITableViewCellAccessoryNone;
+        userCell.userView.protected = true;
+        [userCell.userView setNeedsDisplay];
         
         twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userDidReceive:messages:)];
         [twitterClient getUser:screenName];
@@ -431,8 +476,8 @@
 
 - (void)imageStoreDidGetNewImage:(UIImage*)image
 {
-    userCell.image = image;
-	[self.tableView reloadData];
+    userCell.userView.profileImage = image;
+    [userCell.userView setNeedsDisplay];
 }
 
 @end

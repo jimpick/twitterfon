@@ -7,19 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Message.h"
+#import "UserView.h"
 
-@interface UserCell : UITableViewCell {
-	IBOutlet UILabel*        name;
-	IBOutlet UILabel*        location;
-  	IBOutlet UIButton*       url;
-    IBOutlet UILabel*        numFollowers;
-    IBOutlet UIImageView*    protected;
-    
-    CGImageRef              background;
+@interface UserCell : UITableViewCell
+{
+    UserView*       userView;
 }
 
--(void)update:(Message*)message delegate:(id)delegate;
--(void)setErrorMessage:(NSString*)message detail:(NSString*)detail;
+@property(nonatomic, assign) UserView* userView;
 
 @end

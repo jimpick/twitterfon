@@ -11,6 +11,8 @@ typedef enum {
     TWITTER_REQUEST_DESTROY_MESSAGE,
     TWITTER_REQUEST_SEARCH,
     TWITTER_REQUEST_TRENDS,
+    TWITTER_REQUEST_CREATE_FRIENDSHIP,
+    TWITTER_REQUEST_DESTROY_FRIENDSHIP,
 } RequestType;
 
 @interface TwitterClient : TFConnection
@@ -31,6 +33,7 @@ typedef enum {
 - (void)post:(NSString*)tweet;
 - (void)destroy:(Message*)message;
 - (void)favorite:(Message*)message;
+- (void)friendship:(NSString*)screen_name create:(BOOL)create;
 - (void)search:(NSDictionary*)params;
 - (void)updateLocation:(float)latitude longitude:(float)longitude;
 - (void)trends;

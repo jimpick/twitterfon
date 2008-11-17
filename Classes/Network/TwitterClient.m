@@ -92,12 +92,23 @@ NSString* sMethods[5] = {
     
     NSString* url = @"https://twitter.com/statuses/update.json";
     
-    NSLog(@"%@", url);
-    
     NSString *postString = [NSString stringWithFormat:@"status=%@&source=twitterfon", [tweet encodeAsURIComponent]];
     
     [self post:url body:postString];
     
+}
+
+- (void)friendship:(NSString*)screen_name create:(BOOL)create
+{
+    needAuth = true;
+    request = (create) ? TWITTER_REQUEST_CREATE_FRIENDSHIP : TWITTER_REQUEST_DESTROY_FRIENDSHIP;
+    NSString *url = [NSString stringWithFormat:@"http://twitter.com/friendships/%@/%@.json",
+                     create ? @"create" : @"destroy",
+                     screen_name];
+
+    NSLog(@"%@", url);
+    
+    [self post:url body:@""];
 }
 
 - (void)destroy:(Message*)message
@@ -212,7 +223,7 @@ NSString* sMethods[5] = {
             return;
         }
     }
-    
+
     NSObject *obj = [content JSONValue];
     
     if ([obj isKindOfClass:[NSDictionary class]]) {

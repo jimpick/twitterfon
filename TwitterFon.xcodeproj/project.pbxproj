@@ -21,11 +21,13 @@
 		6E1C730B0EB5AEC800E34D9B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1C730A0EB5AEC800E34D9B /* CoreLocation.framework */; };
 		6E1C73C20EB5B77700E34D9B /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C73C10EB5B77700E34D9B /* location.png */; };
 		6E1C78890EB7063900E34D9B /* trends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C78880EB7063900E34D9B /* trends.png */; };
+		6E23090E0ED17820006589D5 /* FollowInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E23090D0ED17820006589D5 /* FollowInfoView.m */; };
 		6E2BCF1B0E3591B8003A8F69 /* postbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF1A0E3591B8003A8F69 /* postbutton.png */; };
 		6E2BCF260E3596D4003A8F69 /* friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF250E3596D4003A8F69 /* friends.png */; };
 		6E2BD0C10E35AE04003A8F69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */; };
 		6E2BD11F0E35B3D2003A8F69 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BD11E0E35B3D2003A8F69 /* Default.png */; };
 		6E335EA40E3BBE0C008B15BB /* TwitterClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E335EA30E3BBE0C008B15BB /* TwitterClient.m */; };
+		6E35BD630ED16B5300C332C2 /* QuartzUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 6E35BD620ED16B5300C332C2 /* QuartzUtils.c */; };
 		6E382E940EB41E9000B0CE69 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6E382E930EB41E9000B0CE69 /* Settings.bundle */; };
 		6E3837100EB4789F00B0CE69 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370E0EB4789F00B0CE69 /* favorite.png */; };
 		6E3837110EB4789F00B0CE69 /* favorited.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370F0EB4789F00B0CE69 /* favorited.png */; };
@@ -47,6 +49,8 @@
 		6E6DC5A50EC077FD00F9EB74 /* FolloweesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */; };
 		6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC6230EC07F3D00F9EB74 /* camera.png */; };
 		6E8C56350ED09C3500EC9D39 /* UserTimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E8C56340ED09C3500EC9D39 /* UserTimelineView.xib */; };
+		6E8C564F0ED0A0B600EC9D39 /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C564E0ED0A0B600EC9D39 /* UserDetailViewController.m */; };
+		6E8C57BA0ED0AEA300EC9D39 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C57B90ED0AEA300EC9D39 /* UserView.m */; };
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
 		6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E943F1A0E6527C600E8ECF2 /* usercell_background.png */; };
 		6E9CA2C70EB8D4E800D7F004 /* TimelineViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9CA2C60EB8D4E800D7F004 /* TimelineViewDataSource.m */; };
@@ -114,12 +118,16 @@
 		6E1C730A0EB5AEC800E34D9B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6E1C73C10EB5B77700E34D9B /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		6E1C78880EB7063900E34D9B /* trends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trends.png; sourceTree = "<group>"; };
+		6E23090C0ED17820006589D5 /* FollowInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FollowInfoView.h; path = Controllers/FollowInfoView.h; sourceTree = "<group>"; };
+		6E23090D0ED17820006589D5 /* FollowInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FollowInfoView.m; path = Controllers/FollowInfoView.m; sourceTree = "<group>"; };
 		6E2BCF1A0E3591B8003A8F69 /* postbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = postbutton.png; sourceTree = "<group>"; };
 		6E2BCF250E3596D4003A8F69 /* friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends.png; sourceTree = "<group>"; };
 		6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6E2BD11E0E35B3D2003A8F69 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		6E335EA20E3BBE0C008B15BB /* TwitterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitterClient.h; path = Network/TwitterClient.h; sourceTree = "<group>"; };
 		6E335EA30E3BBE0C008B15BB /* TwitterClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitterClient.m; path = Network/TwitterClient.m; sourceTree = "<group>"; };
+		6E35BD610ED16B5300C332C2 /* QuartzUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuartzUtils.h; path = Classes/OtherSources/QuartzUtils.h; sourceTree = "<group>"; };
+		6E35BD620ED16B5300C332C2 /* QuartzUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = QuartzUtils.c; path = Classes/OtherSources/QuartzUtils.c; sourceTree = "<group>"; };
 		6E382E930EB41E9000B0CE69 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		6E38370E0EB4789F00B0CE69 /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite.png; sourceTree = "<group>"; };
 		6E38370F0EB4789F00B0CE69 /* favorited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorited.png; sourceTree = "<group>"; };
@@ -147,6 +155,10 @@
 		6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FolloweesView.xib; path = Interfaces/FolloweesView.xib; sourceTree = "<group>"; };
 		6E6DC6230EC07F3D00F9EB74 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		6E8C56340ED09C3500EC9D39 /* UserTimelineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UserTimelineView.xib; path = Interfaces/UserTimelineView.xib; sourceTree = "<group>"; };
+		6E8C564D0ED0A0B600EC9D39 /* UserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDetailViewController.h; path = Controllers/UserDetailViewController.h; sourceTree = "<group>"; };
+		6E8C564E0ED0A0B600EC9D39 /* UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDetailViewController.m; path = Controllers/UserDetailViewController.m; sourceTree = "<group>"; };
+		6E8C57B80ED0AEA300EC9D39 /* UserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserView.h; path = Controllers/UserView.h; sourceTree = "<group>"; };
+		6E8C57B90ED0AEA300EC9D39 /* UserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserView.m; path = Controllers/UserView.m; sourceTree = "<group>"; };
 		6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeUtils.h; path = Classes/OtherSources/TimeUtils.h; sourceTree = "<group>"; };
 		6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeUtils.m; path = Classes/OtherSources/TimeUtils.m; sourceTree = "<group>"; };
 		6E943F1A0E6527C600E8ECF2 /* usercell_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usercell_background.png; sourceTree = "<group>"; };
@@ -289,6 +301,8 @@
 				6EEBF70A0E3B1FD40003EA63 /* TwitterFonAppDelegate.h */,
 				6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */,
 				28A0AB4B0D9B1048005BE974 /* TwitterFon_Prefix.pch */,
+				6E35BD610ED16B5300C332C2 /* QuartzUtils.h */,
+				6E35BD620ED16B5300C332C2 /* QuartzUtils.c */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -328,6 +342,12 @@
 				6E1029100E5D362C00440C58 /* LoadCell.m */,
 				6E08FB750E5D252200106492 /* UserTimelineController.h */,
 				6E08FB760E5D252200106492 /* UserTimelineController.m */,
+				6E8C564D0ED0A0B600EC9D39 /* UserDetailViewController.h */,
+				6E8C564E0ED0A0B600EC9D39 /* UserDetailViewController.m */,
+				6E8C57B80ED0AEA300EC9D39 /* UserView.h */,
+				6E8C57B90ED0AEA300EC9D39 /* UserView.m */,
+				6E23090C0ED17820006589D5 /* FollowInfoView.h */,
+				6E23090D0ED17820006589D5 /* FollowInfoView.m */,
 			);
 			name = UesrTimeline;
 			sourceTree = "<group>";
@@ -652,6 +672,10 @@
 				6ECCAF700EBED555002B39F6 /* MessageCellView.m in Sources */,
 				6ECD90400EBEF9F400C3CD4D /* TwitPicClient.m in Sources */,
 				6E5CBCED0ECF7971008A18A2 /* ImageUtils.m in Sources */,
+				6E8C564F0ED0A0B600EC9D39 /* UserDetailViewController.m in Sources */,
+				6E8C57BA0ED0AEA300EC9D39 /* UserView.m in Sources */,
+				6E35BD630ED16B5300C332C2 /* QuartzUtils.c in Sources */,
+				6E23090E0ED17820006589D5 /* FollowInfoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

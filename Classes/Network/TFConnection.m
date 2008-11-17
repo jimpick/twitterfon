@@ -56,7 +56,7 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
     [URL autorelease];
     NSLog(@"%@", URL);
 	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                         cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                                      timeoutInterval:NETWORK_TIMEOUT];
 
     [self addAuthHeader:req];

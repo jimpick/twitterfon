@@ -12,9 +12,11 @@
 @interface LoadCell : UITableViewCell {
     UILabel*                    label;
     UIActivityIndicatorView*    spinner;
+    MessageType                 type;
 }
 
-@property (nonatomic, readonly) UIActivityIndicatorView* spinner;
+@property(nonatomic, readonly) UIActivityIndicatorView* spinner;
+@property(nonatomic, assign) MessageType type;
 
 - (void)setType:(MessageType)type;
 

@@ -12,6 +12,7 @@
 @implementation LoadCell
 
 @synthesize spinner;
+@synthesize type;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier];
@@ -33,8 +34,9 @@
 	return self;
 }
 
-- (void)setType:(MessageType)type
+- (void)setType:(MessageType)aType
 {
+    type = aType;
     switch (type) {
         case MSG_TYPE_LOAD_FROM_WEB:
             label.text = @"Load more tweets...";
@@ -53,7 +55,12 @@
             break;
             
         case MSG_TYPE_REQUEST_FOLLOW:
-            label.text = @"Send request";
+            label.text = @"Send request...";
+            break;
+            
+        case MSG_TYPE_REQUEST_FOLLOW_SENT:
+            label.text = @"Follow request has been sent.";
+            break;
             
         default:
             break;
