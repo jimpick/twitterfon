@@ -244,7 +244,7 @@
         m.favorited = favorited;
         [m updateFavoriteState];
         
-        UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
+        UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
         UIViewController *c = nav.topViewController;
         if ([c respondsToSelector:@selector(toggleFavorite:message:)]) {
             [c toggleFavorite:favorited message:m];
@@ -269,7 +269,7 @@
             BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
             m.favorited = favorited;
             [m updateFavoriteState];
-            UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
+            UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
             UIViewController *c = nav.topViewController;
             if ([c respondsToSelector:@selector(toggleFavorite:message:)]) {
                 [c toggleFavorite:favorited message:m];
