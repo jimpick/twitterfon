@@ -35,6 +35,7 @@ typedef enum {
 - (void)favorite:(Message*)message;
 - (void)friendship:(NSString*)screen_name create:(BOOL)create;
 - (void)search:(NSDictionary*)params;
+- (void)existFriendship:(NSString*)screen_name;
 - (void)updateLocation:(float)latitude longitude:(float)longitude;
 - (void)trends;
 - (void)verify;

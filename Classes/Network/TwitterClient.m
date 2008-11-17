@@ -111,6 +111,18 @@ NSString* sMethods[5] = {
     [self post:url body:@""];
 }
 
+- (void)existFriendship:(NSString*)screen_name
+{
+    needAuth = true;
+    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    
+    NSString *url = [NSString stringWithFormat:@"http://twitter.com/friendships/exists.json?user_a=%@&user_b=%@",
+                     [username encodeAsURIComponent],
+                     [screen_name encodeAsURIComponent]];
+    
+    [self get:url];
+}
+
 - (void)destroy:(Message*)message
 {
     needAuth = true;
