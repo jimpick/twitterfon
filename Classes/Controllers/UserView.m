@@ -51,6 +51,8 @@
     [followButton addTarget:self action:@selector(didTouchFollowButton:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:followButton];
     
+    buttonState = FOLLOW_BUTTON_NOT_LOADED;
+    
     protected = false;
     
     return self;
@@ -133,8 +135,22 @@
     [url setTitle:user.url forState:UIControlStateHighlighted];
 
     [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];   
+    
+    if (buttonState == FOLLOW_BUTTON_NOT_LOADED) {
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendshipDidCheck:messages:)];
+        [twitterClient existFriendship:user.screenName];
+    }
 
     [self setNeedsDisplay];
+}
+
+
+- (void)friendshipDidCheck:(TwitterClient*)sender messages:(NSObject*)obj
+{
+    NSNumber *flag = (NSNumber*)obj;
+    [self setFriendship:[flag boolValue]];
+    [sender autorelease];
+    twitterClient = nil;
 }
 
 - (void)setAnimation:(UIView*)view forKey:(NSString*)key
@@ -189,11 +205,13 @@
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    [self setFriendship:!following];
+    if (sender.request != TWITTER_REQUEST_FRIENDSHIP_EXISTS) {
+        [self setFriendship:!following];
+        [self flashMessage];
+        followButton.enabled = true;
+    }
     [sender autorelease];
     twitterClient = nil;
-    [self flashMessage];
-    followButton.enabled = true;
 }
 
 - (void)didTouchFollowButton:(id)sender

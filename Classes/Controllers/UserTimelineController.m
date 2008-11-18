@@ -15,10 +15,6 @@
 - (void)removeMessage:(Message*)message;
 @end
 
-@interface UserTimelineController (Private)
-- (void)checkExistFriendship;
-@end
-
 @implementation UserTimelineController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -90,8 +86,6 @@
     [timeline appendMessage:message];
     [self.tableView reloadData];
     [self setNavigationBar];
-    
-    [self checkExistFriendship];
 }
 
 - (void)loadUserTimeline:(NSString*)aScreenName
@@ -211,22 +205,6 @@
     
 }
 
-- (void)friendshipDidCheck:(TwitterClient*)sender messages:(NSObject*)obj
-{
-    NSNumber *flag = (NSNumber*)obj;
-    [userCell.userView setFriendship:[flag boolValue]];
-    [sender autorelease];
-    twitterClient = nil;
-}
-
-- (void)checkExistFriendship
-{
-    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendshipDidCheck:messages:)];
-    [twitterClient existFriendship:screenName];
-    
-    didCheckFriendship = true;
-}
-
 - (void)userTimelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
 {
 
@@ -270,7 +248,7 @@
     message = [[timeline lastMessage] copy];
     message.type = MSG_TYPE_USER;
     [message updateAttribute];
-    [userCell.userView setUser:message.user delegate:self];
+
     NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
     userCell.userView.profileImage = [imageStore getImage:url delegate:self];
     [userCell.userView setUser:message.user delegate:self];
@@ -296,10 +274,6 @@
   out:
 	[twitterClient autorelease];
     twitterClient = nil;
-
-    if (!didCheckFriendship) {
-        [self checkExistFriendship];
-    }
 }
 
 - (void)followDidRequest:(TwitterClient*)sender messages:(NSObject*)obj

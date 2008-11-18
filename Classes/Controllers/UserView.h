@@ -11,6 +11,7 @@
 #import "TwitterClient.h"
 
 typedef enum {
+    FOLLOW_BUTTON_NOT_LOADED = -1,
     FOLLOW_BUTTON_FOLLOW    = 0,
     FOLLOW_BUTTON_FOLLOWING = 1,
     FOLLOW_BUTTON_REMOVE    = 2,
