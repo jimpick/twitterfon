@@ -103,7 +103,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return (detailLoaded) ? 1 : 0;
+    if (section == 0) {
+        return (detailLoaded) ? 1 : 0;
+    }
+    else {
+        return 1;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -118,13 +123,19 @@
         cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"detailCell"] autorelease];
     }
     if (indexPath.section == 0) {
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell.contentView addSubview:detailView];
+        if (indexPath.row == 0) {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.contentView addSubview:detailView];
+        }
+        else {
+            cell.text = [NSString stringWithFormat:@" Device Update %@", isDeviceUpdate ? @"On" : @"Off"];
+            if (isDeviceUpdate) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
+        }
     }
     else if (indexPath.section == 1) {
         cell.textAlignment = UITextAlignmentCenter;
-        cell.indentationWidth = -60.0;
-        cell.image = nil;
         cell.textColor = [UIColor colorWithRed:0.195 green:0.309 blue:0.520 alpha:1.0];
         if (following) {
             cell.text = @"Remove This User";
@@ -175,6 +186,8 @@
         detailView.followers = [[dic objectForKey:@"followers_count"] longValue];
         detailView.updates   = [[dic objectForKey:@"statuses_count"] longValue];
         
+        isDeviceUpdate = [[dic objectForKey:@"notifications"] boolValue];
+        
         detailLoaded = true;
 
         NSArray *indexPath = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -204,7 +217,6 @@
     else {
         fmt = @"    You are not following ";
     }
-    
     followStatus.text = [fmt stringByAppendingString:user.screenName];
     
     
@@ -221,6 +233,15 @@
 - (void)updateFriendship:(BOOL)created
 {
     following = created;
+    
+    NSString *fmt;
+    if (following) {
+        fmt = @"    You are following ";
+    }
+    else {
+        fmt = @"    You are not following ";
+    }
+    followStatus.text = [fmt stringByAppendingString:user.screenName];
     
     CATransition *animation = [CATransition animation];
     [animation setType:kCATransitionFade];
