@@ -8,7 +8,7 @@
 
 #import "SettingsViewController.h"
 #import "TwitterFonAppDelegate.h"
-
+#import "REString.h"
 
 enum {
     SECTION_ACCOUNT,
@@ -169,12 +169,23 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
 
 - (IBAction)done:(id)sender
 {
-    doneButton.enabled = false;    
-    [usernameField resignFirstResponder];
-    [passwordField resignFirstResponder];
-    [self saveSettings];
-    TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(accountDidVerify:messages:)];
-    [client verify];
+    if (![usernameField.text matches:@"^[0-9A-Za-z_]+$" withSubstring:nil]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid screen name"
+                                                        message:@"Username can only contain letters, numbers and '_'"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Close"
+                                              otherButtonTitles: nil];
+        [alert show];	
+        [alert release];  
+    }
+    else {
+        doneButton.enabled = false;    
+        [usernameField resignFirstResponder];
+        [passwordField resignFirstResponder];
+        [self saveSettings];
+        TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(accountDidVerify:messages:)];
+        [client verify];
+    }
 }
 
 - (void)accountDidVerify:(TwitterClient*)sender messages:(NSObject*)messages;
