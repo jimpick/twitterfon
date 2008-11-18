@@ -179,6 +179,7 @@
     Message* m = [timeline messageAtIndex:indexPath.row - 1];
     if (m) return;
     
+    [tableView deselectRowAtIndexPath:indexPath animated:true];
     if (twitterClient) return;
     
     [loadCell.spinner startAnimating];
@@ -200,8 +201,6 @@
         
         [twitterClient getUserTimeline:screenName params:param];
     }
-
-    [tableView deselectRowAtIndexPath:indexPath animated:true];
     
 }
 
@@ -359,7 +358,6 @@
         
         [loadCell setType:MSG_TYPE_REQUEST_FOLLOW];
 
-        userCell.accessoryType = UITableViewCellAccessoryNone;
         userCell.userView.protected = true;
         [userCell.userView setNeedsDisplay];
         
