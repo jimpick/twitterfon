@@ -137,8 +137,13 @@
 {
     user = aUser;
     
-    [url setTitle:user.url forState:UIControlStateNormal];
-    [url setTitle:user.url forState:UIControlStateHighlighted];
+    if ([user.url length]) {
+        [url setTitle:user.url forState:UIControlStateNormal];
+        [url setTitle:user.url forState:UIControlStateHighlighted];
+    }
+    else {
+        url.enabled = false;
+    }
 
     [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];   
 
