@@ -83,7 +83,12 @@
     
     // Drawing with a white stroke color
     CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
-    CGContextSetRGBFillColor(context, 0.7, 0.7, 0.7, 1.0);
+    if (profileImage) {
+        CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
+    }
+    else {
+        CGContextSetRGBFillColor(context, 0.7, 0.7, 0.7, 1.0);
+    }
     // Draw them with a 2.0 stroke width so they are a bit more visible.
     CGContextSetLineWidth(context, 2.0);
     
@@ -135,8 +140,10 @@
     [url setTitle:user.url forState:UIControlStateHighlighted];
 
     [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];   
-    
-    if (buttonState == FOLLOW_BUTTON_NOT_LOADED) {
+
+	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];    
+    if (buttonState == FOLLOW_BUTTON_NOT_LOADED &&
+        ![username isEqualToString:user.screenName]) {
         twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendshipDidCheck:messages:)];
         [twitterClient existFriendship:user.screenName];
     }
