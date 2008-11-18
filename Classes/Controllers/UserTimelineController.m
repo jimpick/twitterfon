@@ -8,6 +8,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UserTimelineController.h"
 #import "TwitterFonAppDelegate.h"
+#import "UserDetailViewController.h"
 #import "LinkViewController.h"
 #import "MessageCell.h"
 
@@ -115,7 +116,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return 146;
+        return 113;
     }
     else {
         Message *m = [timeline messageAtIndex:indexPath.row - 1];
@@ -173,6 +174,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if (indexPath.row == 0) {
+        if ([timeline countMessages] == 0) {
+            return;
+        }
+        UserDetailViewController *detailView = [[[UserDetailViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
+        detailView.user = message.user;
+        NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
+        detailView.userView.profileImage = [imageStore getImage:url delegate:self];
+        
+        [self.navigationController pushViewController:detailView animated:true];
         return;
     }
     
@@ -358,6 +368,7 @@
         
         [loadCell setType:MSG_TYPE_REQUEST_FOLLOW];
 
+        userCell.accessoryType = UITableViewCellAccessoryNone;
         userCell.userView.protected = true;
         [userCell.userView setNeedsDisplay];
         

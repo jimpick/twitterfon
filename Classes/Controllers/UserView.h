@@ -26,20 +26,17 @@ typedef enum {
     UIImage*            lockIcon;
     CGImageRef          background;
     
-    BOOL                following;
     BOOL                protected;
-    followButtonState   buttonState;
-    TwitterClient*      twitterClient;
-    NSTimer*            timer;
-    UILabel*            messageLabel;
+    BOOL                hasDetail;
+    float               height;
 }
 
 @property(nonatomic, assign) User*      user;
 @property(nonatomic, assign) BOOL       protected;
 @property(nonatomic, retain) UIImage*   profileImage;
+@property(nonatomic, assign) BOOL       hasDetail;
+@property(nonatomic, assign) float      height;
 
 -(void)setUser:(User*)user delegate:(id)delegate;
-
--(void)setFriendship:(BOOL)exists;
 
 @end

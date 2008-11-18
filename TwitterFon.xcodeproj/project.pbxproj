@@ -50,6 +50,8 @@
 		6E6DC5A40EC077FD00F9EB74 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC59B0EC077FD00F9EB74 /* WebView.xib */; };
 		6E6DC5A50EC077FD00F9EB74 /* FolloweesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */; };
 		6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC6230EC07F3D00F9EB74 /* camera.png */; };
+		6E716C1A0ED2BD880092245A /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E716C180ED2BD880092245A /* UserDetailViewController.m */; };
+		6E716C1D0ED2BDC20092245A /* UserDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E716C1C0ED2BDC20092245A /* UserDetailView.m */; };
 		6E8C56350ED09C3500EC9D39 /* UserTimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E8C56340ED09C3500EC9D39 /* UserTimelineView.xib */; };
 		6E8C57BA0ED0AEA300EC9D39 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C57B90ED0AEA300EC9D39 /* UserView.m */; };
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
@@ -156,6 +158,10 @@
 		6E6DC59B0EC077FD00F9EB74 /* WebView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WebView.xib; path = Interfaces/WebView.xib; sourceTree = "<group>"; };
 		6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FolloweesView.xib; path = Interfaces/FolloweesView.xib; sourceTree = "<group>"; };
 		6E6DC6230EC07F3D00F9EB74 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		6E716C170ED2BD880092245A /* UserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDetailViewController.h; path = Controllers/UserDetailViewController.h; sourceTree = "<group>"; };
+		6E716C180ED2BD880092245A /* UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDetailViewController.m; path = Controllers/UserDetailViewController.m; sourceTree = "<group>"; };
+		6E716C1B0ED2BDC20092245A /* UserDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDetailView.h; path = Controllers/UserDetailView.h; sourceTree = "<group>"; };
+		6E716C1C0ED2BDC20092245A /* UserDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDetailView.m; path = Controllers/UserDetailView.m; sourceTree = "<group>"; };
 		6E8C56340ED09C3500EC9D39 /* UserTimelineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UserTimelineView.xib; path = Interfaces/UserTimelineView.xib; sourceTree = "<group>"; };
 		6E8C57B80ED0AEA300EC9D39 /* UserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserView.h; path = Controllers/UserView.h; sourceTree = "<group>"; };
 		6E8C57B90ED0AEA300EC9D39 /* UserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserView.m; path = Controllers/UserView.m; sourceTree = "<group>"; };
@@ -344,6 +350,10 @@
 				6E08FB760E5D252200106492 /* UserTimelineController.m */,
 				6E8C57B80ED0AEA300EC9D39 /* UserView.h */,
 				6E8C57B90ED0AEA300EC9D39 /* UserView.m */,
+				6E716C170ED2BD880092245A /* UserDetailViewController.h */,
+				6E716C180ED2BD880092245A /* UserDetailViewController.m */,
+				6E716C1B0ED2BDC20092245A /* UserDetailView.h */,
+				6E716C1C0ED2BDC20092245A /* UserDetailView.m */,
 			);
 			name = UesrTimeline;
 			sourceTree = "<group>";
@@ -676,6 +686,8 @@
 				6E5CBCED0ECF7971008A18A2 /* ImageUtils.m in Sources */,
 				6E8C57BA0ED0AEA300EC9D39 /* UserView.m in Sources */,
 				6E35BD630ED16B5300C332C2 /* QuartzUtils.c in Sources */,
+				6E716C1A0ED2BD880092245A /* UserDetailViewController.m in Sources */,
+				6E716C1D0ED2BDC20092245A /* UserDetailView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
