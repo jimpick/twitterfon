@@ -21,9 +21,7 @@
     TwitterClient*  twitterClient;
     
     BOOL            detailLoaded;
-    int             following;
     BOOL            ownInfo;
-    BOOL            isDeviceUpdate;
 }
 
 @property(nonatomic, assign) User* user;

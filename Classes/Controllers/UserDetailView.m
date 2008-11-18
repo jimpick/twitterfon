@@ -8,12 +8,9 @@
 
 #import "UserDetailView.h"
 
-
 @implementation UserDetailView
 
-@synthesize following;
-@synthesize followers;
-@synthesize updates;
+@synthesize user;
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -28,16 +25,16 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    if (following || followers || updates) {
+    if (user.followersCount || user.friendsCount || user.statusesCount) {
         CGContextSetShadowWithColor(context, CGSizeMake(0, -1), 1, [[UIColor whiteColor] CGColor]);
         [[UIColor blackColor] set];
         
         NSString *str;
-        str = [NSString stringWithFormat:@"%d", following];
+        str = [NSString stringWithFormat:@"%d", user.friendsCount];
         [str drawInRect:CGRectMake( 20, 3, 70, 21) withFont:[UIFont boldSystemFontOfSize:18]];
-        str = [NSString stringWithFormat:@"%d", followers];
+        str = [NSString stringWithFormat:@"%d", user.followersCount];
         [str drawInRect:CGRectMake(120, 3, 70, 21) withFont:[UIFont boldSystemFontOfSize:18]];
-        str = [NSString stringWithFormat:@"%d", updates];
+        str = [NSString stringWithFormat:@"%d", user.statusesCount];
         [str drawInRect:CGRectMake(220, 3, 70, 21) withFont:[UIFont boldSystemFontOfSize:18]];
         
         CGContextSetRGBStrokeColor(context, 0.66, 0.66, 0.66, 1.0);

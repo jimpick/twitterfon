@@ -140,12 +140,11 @@
     if ([user.url length]) {
         [url setTitle:user.url forState:UIControlStateNormal];
         [url setTitle:user.url forState:UIControlStateHighlighted];
+        [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];   
     }
     else {
         url.enabled = false;
     }
-
-    [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];   
 
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.font = [UIFont systemFontOfSize:14];
@@ -153,10 +152,8 @@
     label.lineBreakMode = UILineBreakModeTailTruncation;
     CGRect r = [label textRectForBounds:CGRectMake(20, 105, 280, 110) limitedToNumberOfLines:10];
     [label release];
-    [self setNeedsDisplay];
-    
     height = r.size.height + 115;
-    
+
     [self setNeedsDisplay];
 }
 

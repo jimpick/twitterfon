@@ -7,17 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "User.h"
 
 @interface UserDetailView : UIView 
 {
-    int         following;
-    int         followers;
-    int         updates;
+    User*       user;
 }
 
-@property(nonatomic, assign) int following;
-@property(nonatomic, assign) int followers;
-@property(nonatomic, assign) int updates;
+@property(nonatomic, assign) User* user;
 
 @end

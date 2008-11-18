@@ -13,12 +13,14 @@
 @synthesize followersCount;
 @synthesize profileImageUrl;
 @synthesize protected;
+@synthesize friendsCount;
+@synthesize statusesCount;
+@synthesize following;
+@synthesize notifications;
 
-- (User*)initWithJsonDictionary:(NSDictionary*)dic
+- (void)updateWithJSonDictionary:(NSDictionary*)dic
 {
-	self = [super init];
-	
-	userId          = [[dic objectForKey:@"id"] longValue];
+    userId          = [[dic objectForKey:@"id"] longValue];
     
     name            = [[dic objectForKey:@"name"] retain];
 	screenName      = [[dic objectForKey:@"screen_name"] retain];
@@ -28,7 +30,12 @@
     followersCount  = [[dic objectForKey:@"followers_count"] longValue];
     profileImageUrl = [[dic objectForKey:@"profile_image_url"] retain];
     protected       = [[dic objectForKey:@"protected"] boolValue];
-
+    
+    friendsCount    = [[dic objectForKey:@"friends_count"] longValue];
+    statusesCount   = [[dic objectForKey:@"statuses_count"] longValue];
+    following       = [[dic objectForKey:@"following"] boolValue];
+    notifications   = [[dic objectForKey:@"notifications"] boolValue];
+    
     if ((id)name == [NSNull null]) name = @"";
     if ((id)screenName == [NSNull null]) screenName = @"";
     if ((id)location == [NSNull null]) location = @"";
@@ -37,6 +44,13 @@
     
     self.location    = [location unescapeHTML];
     self.description = [description unescapeHTML];
+}
+
+- (User*)initWithJsonDictionary:(NSDictionary*)dic
+{
+	self = [super init];
+    
+    [self updateWithJSonDictionary:dic];
 	
 	return self;
 }

@@ -44,9 +44,6 @@
     followStatus.font            = [UIFont boldSystemFontOfSize:16];
     followStatus.lineBreakMode   = UILineBreakModeTailTruncation;
     followStatus.shadowOffset    = CGSizeMake(0, 1);
-    
-    
-    following = -1;
 }
 
 - (void)viewDidLoad
@@ -128,8 +125,8 @@
             [cell.contentView addSubview:detailView];
         }
         else {
-            cell.text = [NSString stringWithFormat:@" Device Update %@", isDeviceUpdate ? @"On" : @"Off"];
-            if (isDeviceUpdate) {
+            cell.text = [NSString stringWithFormat:@" Device Update %@", user.notifications ? @"On" : @"Off"];
+            if (user.notifications) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
         }
@@ -137,7 +134,7 @@
     else if (indexPath.section == 1) {
         cell.textAlignment = UITextAlignmentCenter;
         cell.textColor = [UIColor colorWithRed:0.195 green:0.309 blue:0.520 alpha:1.0];
-        if (following) {
+        if (user.following) {
             cell.text = @"Remove This User";
         }
         else {
@@ -151,7 +148,7 @@
 {
     if (indexPath.row == 0 && indexPath.section == 1) {
         twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(followDidRequest:messages:)];
-        [twitterClient friendship:user.screenName create:!following];
+        [twitterClient friendship:user.screenName create:!user.following];
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:true];
 }
@@ -181,16 +178,13 @@
     NSDictionary *dic = nil;
     if ([obj isKindOfClass:[NSDictionary class]]) {
         dic = (NSDictionary*)obj;
-        
-        detailView.following = [[dic objectForKey:@"friends_count"] longValue];
-        detailView.followers = [[dic objectForKey:@"followers_count"] longValue];
-        detailView.updates   = [[dic objectForKey:@"statuses_count"] longValue];
-        
-        isDeviceUpdate       = [[dic objectForKey:@"notifications"] boolValue];
-        following            = [[dic objectForKey:@"following"] boolValue];
+
+        [user updateWithJSonDictionary:dic];
+        [userView setUser:user delegate:self];
+        detailView.user = user;
         
         NSString *fmt;
-        if (following) {
+        if (user.following) {
             fmt = @"    You are following ";
         }
         else {
@@ -216,10 +210,10 @@
 
 - (void)updateFriendship:(BOOL)created
 {
-    following = created;
+    user.following = created;
     
     NSString *fmt;
-    if (following) {
+    if (user.following) {
         fmt = @"    You are following ";
     }
     else {

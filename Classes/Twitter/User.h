@@ -11,7 +11,11 @@
 	NSString*   url;
 	uint32_t    followersCount;
 	NSString*   profileImageUrl;
+    uint32_t    friendsCount;
+    uint32_t    statusesCount;
+    BOOL        notifications;
     BOOL        protected;
+    BOOL        following;
 }
 
 @property (nonatomic, assign) uint32_t  userId;
@@ -23,9 +27,14 @@
 @property (nonatomic, assign) uint32_t  followersCount;
 @property (nonatomic, retain) NSString* profileImageUrl;
 @property (nonatomic, assign) BOOL      protected;
+@property (nonatomic, assign) uint32_t  friendsCount;
+@property (nonatomic, assign) uint32_t  statusesCount;
+@property (nonatomic, assign) BOOL      following;
+@property (nonatomic, assign) BOOL      notifications;
 
 - (User*)initWithJsonDictionary:(NSDictionary*)dic;
 - (User*)initWithSearchResult:(NSDictionary*)dic;
+- (void)updateWithJSonDictionary:(NSDictionary*)dic;
 - (id)copyWithZone:(NSZone *)zone;
 
 @end
