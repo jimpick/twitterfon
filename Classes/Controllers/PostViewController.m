@@ -613,6 +613,9 @@
 {
     [self.view removeFromSuperview];
     
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    [appDelegate.window makeKeyWindow];
+    
     if (finished && !isDirectMessage) {
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         [appDelegate postViewAnimationDidFinish:didPost];

@@ -29,6 +29,7 @@
 
 @implementation TwitterFonAppDelegate
 
+@synthesize window;
 @synthesize postView;
 @synthesize imageStore;
 @synthesize selectedTab;
