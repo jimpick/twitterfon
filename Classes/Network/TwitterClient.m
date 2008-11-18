@@ -189,6 +189,7 @@ NSString* sMethods[5] = {
 
 - (void)verify
 {
+    needAuth = true;
 	NSString* url = @"https://twitter.com/account/verify_credentials.json";
     
     [super get:url];
