@@ -23,7 +23,7 @@
     name            = [[dic objectForKey:@"name"] retain];
 	screenName      = [[dic objectForKey:@"screen_name"] retain];
 	location        = [[dic objectForKey:@"location"] retain];
-//	description     = [[dic objectForKey:@"description"] retain];
+	description     = [[dic objectForKey:@"description"] retain];
 	url             = [[dic objectForKey:@"url"] retain];
     followersCount  = [[dic objectForKey:@"followers_count"] longValue];
     profileImageUrl = [[dic objectForKey:@"profile_image_url"] retain];
@@ -32,12 +32,11 @@
     if ((id)name == [NSNull null]) name = @"";
     if ((id)screenName == [NSNull null]) screenName = @"";
     if ((id)location == [NSNull null]) location = @"";
-//    if ((id)description == [NSNull null]) description = @"";
+    if ((id)description == [NSNull null]) description = @"";
     if ((id)url == [NSNull null]) url = @"";
     
     self.location    = [location unescapeHTML];
-//    self.description = [description unescapeHTML];
-    description = @"";
+    self.description = [description unescapeHTML];
 	
 	return self;
 }
