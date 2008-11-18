@@ -123,7 +123,7 @@
                 numFollowers = [NSString stringWithFormat:@"%d followers", user.followersCount];
             }
             [[UIColor darkGrayColor] set];
-            [numFollowers drawInRect:CGRectMake(93, 39, 217, 21) withFont:[UIFont systemFontOfSize:13]];
+            [numFollowers drawInRect:CGRectMake(93, 42, 217, 21) withFont:[UIFont systemFontOfSize:13]];
         }
         
         if (user.protected) {
