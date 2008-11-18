@@ -21,9 +21,6 @@
 		6E1C730B0EB5AEC800E34D9B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1C730A0EB5AEC800E34D9B /* CoreLocation.framework */; };
 		6E1C73C20EB5B77700E34D9B /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C73C10EB5B77700E34D9B /* location.png */; };
 		6E1C78890EB7063900E34D9B /* trends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C78880EB7063900E34D9B /* trends.png */; };
-		6E230D100ED201E8006589D5 /* following.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E230D0D0ED201E8006589D5 /* following.png */; };
-		6E230D110ED201E8006589D5 /* remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E230D0E0ED201E8006589D5 /* remove.png */; };
-		6E230F600ED22028006589D5 /* follow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E230F5F0ED22028006589D5 /* follow.png */; };
 		6E2BCF1B0E3591B8003A8F69 /* postbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF1A0E3591B8003A8F69 /* postbutton.png */; };
 		6E2BCF260E3596D4003A8F69 /* friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF250E3596D4003A8F69 /* friends.png */; };
 		6E2BD0C10E35AE04003A8F69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */; };
@@ -121,9 +118,6 @@
 		6E1C730A0EB5AEC800E34D9B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6E1C73C10EB5B77700E34D9B /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		6E1C78880EB7063900E34D9B /* trends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trends.png; sourceTree = "<group>"; };
-		6E230D0D0ED201E8006589D5 /* following.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = following.png; sourceTree = "<group>"; };
-		6E230D0E0ED201E8006589D5 /* remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remove.png; sourceTree = "<group>"; };
-		6E230F5F0ED22028006589D5 /* follow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = follow.png; sourceTree = "<group>"; };
 		6E2BCF1A0E3591B8003A8F69 /* postbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = postbutton.png; sourceTree = "<group>"; };
 		6E2BCF250E3596D4003A8F69 /* friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends.png; sourceTree = "<group>"; };
 		6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -531,9 +525,6 @@
 		6EED14400E33E5BF00C71EA4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				6E230F5F0ED22028006589D5 /* follow.png */,
-				6E230D0D0ED201E8006589D5 /* following.png */,
-				6E230D0E0ED201E8006589D5 /* remove.png */,
 				6E4011F00ECDF786009D452A /* open_safari.png */,
 				6E6DC6230EC07F3D00F9EB74 /* camera.png */,
 				6EA0C19B0EBB1305000C0CD4 /* friends_small.png */,
@@ -626,9 +617,6 @@
 				6E3EABA00EC8782400599954 /* dist.plist in Resources */,
 				6E4011F10ECDF786009D452A /* open_safari.png in Resources */,
 				6E8C56350ED09C3500EC9D39 /* UserTimelineView.xib in Resources */,
-				6E230D100ED201E8006589D5 /* following.png in Resources */,
-				6E230D110ED201E8006589D5 /* remove.png in Resources */,
-				6E230F600ED22028006589D5 /* follow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
