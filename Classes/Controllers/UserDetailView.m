@@ -34,11 +34,11 @@
         
         NSString *str;
         str = [NSString stringWithFormat:@"%d", following];
-        [str drawInRect:CGRectMake( 20, 2, 70, 21) withFont:[UIFont boldSystemFontOfSize:16]];
+        [str drawInRect:CGRectMake( 20, 3, 70, 21) withFont:[UIFont boldSystemFontOfSize:18]];
         str = [NSString stringWithFormat:@"%d", followers];
-        [str drawInRect:CGRectMake(120, 2, 70, 21) withFont:[UIFont boldSystemFontOfSize:16]];
+        [str drawInRect:CGRectMake(120, 3, 70, 21) withFont:[UIFont boldSystemFontOfSize:18]];
         str = [NSString stringWithFormat:@"%d", updates];
-        [str drawInRect:CGRectMake(220, 2, 70, 21) withFont:[UIFont boldSystemFontOfSize:16]];
+        [str drawInRect:CGRectMake(220, 3, 70, 21) withFont:[UIFont boldSystemFontOfSize:18]];
         
         CGContextSetRGBStrokeColor(context, 0.66, 0.66, 0.66, 1.0);
         CGContextSetLineWidth(context, 1.0);
@@ -53,9 +53,9 @@
         CGContextSetAllowsAntialiasing(context, true);
         
         [[UIColor darkGrayColor] set];
-        [@"following" drawInRect:CGRectMake( 20, 24, 70, 22) withFont:[UIFont systemFontOfSize:14]];
-        [@"followers" drawInRect:CGRectMake(120, 24, 70, 22) withFont:[UIFont systemFontOfSize:14]];
-        [@"updates"   drawInRect:CGRectMake(220, 24, 70, 22) withFont:[UIFont systemFontOfSize:14]];
+        [@"following" drawInRect:CGRectMake( 20, 23, 70, 22) withFont:[UIFont systemFontOfSize:14]];
+        [@"followers" drawInRect:CGRectMake(120, 23, 70, 22) withFont:[UIFont systemFontOfSize:14]];
+        [@"updates"   drawInRect:CGRectMake(220, 23, 70, 22) withFont:[UIFont systemFontOfSize:14]];
     }
 }
 

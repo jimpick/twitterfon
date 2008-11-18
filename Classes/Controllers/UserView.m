@@ -38,7 +38,6 @@
     lockIcon = [[UIImage imageNamed:@"lock.png"] retain];
 
     url = [UIButton buttonWithType:UIButtonTypeCustom];
-    url.frame = CGRectMake(93, 77, 217, 18);
     url.font = [UIFont boldSystemFontOfSize:14];  	
     [url setTitleColor:[UIColor colorWithRed:0.208 green:0.310 blue:0.518 alpha:1.0] forState:UIControlStateNormal];
     [url setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
@@ -99,19 +98,29 @@
     else {
         CGContextSetShadowWithColor(context, CGSizeMake(0, -1), 1, [[UIColor whiteColor] CGColor]);
         
-        [user.name drawInRect:CGRectMake(93, 20, 189, 44) withFont:[UIFont boldSystemFontOfSize:18] lineBreakMode:UILineBreakModeTailTruncation];
-        [user.location drawInRect:CGRectMake(93, 59, 217, 18) withFont:[UIFont systemFontOfSize:14]];
-        
-        if (user.followersCount > 0) {
-            NSString *numFollowers;
-            if (user.followersCount == 1) {
-                numFollowers = @"1 follower";
+        if (hasDetail) {
+            [user.name drawInRect:CGRectMake(93, 20, 189, 24) withFont:[UIFont boldSystemFontOfSize:18] lineBreakMode:UILineBreakModeTailTruncation];
+            [user.location drawInRect:CGRectMake(93, 50, 217, 18) withFont:[UIFont systemFontOfSize:14]];
+            url.frame = CGRectMake(93, 75, 217, 18);
+        }
+        else {
+            [user.name drawInRect:CGRectMake(93, 20, 189, 44) withFont:[UIFont boldSystemFontOfSize:18] lineBreakMode:UILineBreakModeTailTruncation];
+            [user.location drawInRect:CGRectMake(93, 59, 217, 18) withFont:[UIFont systemFontOfSize:14]];
+            url.frame = CGRectMake(93, 77, 217, 18);
+        }
+
+        if (!hasDetail) {
+            if (user.followersCount > 0) {
+                NSString *numFollowers;
+                if (user.followersCount == 1) {
+                    numFollowers = @"1 follower";
+                }
+                else {
+                    numFollowers = [NSString stringWithFormat:@"%d followers", user.followersCount];
+                }
+                [[UIColor darkGrayColor] set];
+                [numFollowers drawInRect:CGRectMake(93, 42, 217, 21) withFont:[UIFont systemFontOfSize:13]];
             }
-            else {
-                numFollowers = [NSString stringWithFormat:@"%d followers", user.followersCount];
-            }
-            [[UIColor darkGrayColor] set];
-            [numFollowers drawInRect:CGRectMake(93, 42, 217, 21) withFont:[UIFont systemFontOfSize:13]];
         }
         
         if (user.protected) {
