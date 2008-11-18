@@ -92,12 +92,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    int ret = 1;
-    if (following >= 0) {
-        ret = 2;
+    if (detailLoaded) {
+        return (ownInfo) ? 1 : 2;
     }
-    
-    return ret;
+    else {
+        return 1;
+    }
 }
 
 
@@ -186,45 +186,29 @@
         detailView.followers = [[dic objectForKey:@"followers_count"] longValue];
         detailView.updates   = [[dic objectForKey:@"statuses_count"] longValue];
         
-        isDeviceUpdate = [[dic objectForKey:@"notifications"] boolValue];
+        isDeviceUpdate       = [[dic objectForKey:@"notifications"] boolValue];
+        following            = [[dic objectForKey:@"following"] boolValue];
         
+        NSString *fmt;
+        if (following) {
+            fmt = @"    You are following ";
+        }
+        else {
+            fmt = @"    You are not following ";
+        }
+        followStatus.text = [fmt stringByAppendingString:user.screenName];
+        [followStatus setNeedsDisplay];
+
         detailLoaded = true;
 
         NSArray *indexPath = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];
+        if (!ownInfo) {
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationTop];
+        }
         [self.tableView endUpdates];
     }
-    
-    [sender autorelease];
-    twitterClient = nil;
-
-    if (!ownInfo) {
-        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendshipDidCheck:messages:)];
-        [twitterClient existFriendship:user.screenName];
-    }
-}
-
-- (void)friendshipDidCheck:(TwitterClient*)sender messages:(NSObject*)obj
-{
-    NSNumber *flag = (NSNumber*)obj;
-    following = [flag boolValue] ? 1 : 0;
-    
-    NSString *fmt;
-    if (following) {
-        fmt = @"    You are following ";
-    }
-    else {
-        fmt = @"    You are not following ";
-    }
-    followStatus.text = [fmt stringByAppendingString:user.screenName];
-    
-    
-    [self.tableView beginUpdates];
-    [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationTop];
-    [self.tableView endUpdates];
-    
-    [followStatus setNeedsDisplay];
     
     [sender autorelease];
     twitterClient = nil;
