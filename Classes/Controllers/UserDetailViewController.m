@@ -30,6 +30,11 @@
     if ([username caseInsensitiveCompare:user.screenName] == NSOrderedSame) {
         ownInfo = true;
     }
+    else {
+        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
+        self.navigationItem.rightBarButtonItem = button;
+    }
+    
     
     userView = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 387)];
     userView.hasDetail = true;
@@ -262,6 +267,15 @@
    
     [sender autorelease];
     twitterClient = nil;
+}
+
+- (void)postTweet:(id)sender
+{
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    PostViewController* postView = appDelegate.postView;
+    
+    NSString *msg = [NSString stringWithFormat:@"@%@ ", user.screenName];
+    [postView startEditWithString:msg];
 }
 
 - (void)didTouchURL:(id)sender

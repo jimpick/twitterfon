@@ -420,10 +420,10 @@
     
     NSString *msg;
     if ([self tabBarController].selectedIndex == MSG_TYPE_MESSAGES) {
-        msg = [NSString stringWithFormat:@"d %@ ", message.user.screenName];
+        msg = [NSString stringWithFormat:@"d %@ ", screenName];
     }
     else {
-        msg = [NSString stringWithFormat:@"@%@ ", message.user.screenName];
+        msg = [NSString stringWithFormat:@"@%@ ", screenName];
     }
     
     [postView startEditWithString:msg];
