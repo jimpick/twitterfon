@@ -197,7 +197,7 @@
 
         NSArray *indexPath = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
         [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];
         [self.tableView endUpdates];
     }
     
