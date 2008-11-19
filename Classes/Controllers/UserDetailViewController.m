@@ -51,13 +51,6 @@
     followStatus.shadowOffset    = CGSizeMake(0, 1);
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userDidReceive:messages:)];
-    [twitterClient getUser:user.screenName];
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -68,6 +61,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if (!detailLoaded) {
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userDidReceive:messages:)];
+        [twitterClient getUser:user.screenName];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -94,12 +91,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (detailLoaded) {
-        return (ownInfo) ? 1 : 2;
-    }
-    else {
-        return 1;
-    }
+    return (followingLoaded) ? 2 : 1;
 }
 
 
@@ -178,6 +170,19 @@
     }
 }
 
+- (void)updateFriendshipView
+{
+    NSString *fmt;
+    if (user.following) {
+        fmt = @"    You are following ";
+    }
+    else {
+        fmt = @"    You are not following ";
+    }
+    followStatus.text = [fmt stringByAppendingString:user.screenName];
+    [followStatus setNeedsDisplay];
+}
+
 - (void)userDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
 {
     NSDictionary *dic = nil;
@@ -187,44 +192,45 @@
         [user updateWithJSonDictionary:dic];
         [userView setUser:user delegate:self];
         detailView.user = user;
-        
-        NSString *fmt;
-        if (user.following) {
-            fmt = @"    You are following ";
-        }
-        else {
-            fmt = @"    You are not following ";
-        }
-        followStatus.text = [fmt stringByAppendingString:user.screenName];
-        [followStatus setNeedsDisplay];
-
+        [self updateFriendshipView];
         detailLoaded = true;
 
         NSArray *indexPath = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
         [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];
-        if (!ownInfo) {
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationTop];
-        }
+        [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView endUpdates];
     }
     
     [sender autorelease];
     twitterClient = nil;
+    
+    if (!ownInfo) {   	 	 
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendshipDidCheck:messages:)];  	 	 
+        [twitterClient existFriendship:user.screenName];  	 	 
+    }
 }
+
+- (void)friendshipDidCheck:(TwitterClient*)sender messages:(NSObject*)obj   	 	 
+{  	 	 
+    followingLoaded = true;
+    NSNumber *flag = (NSNumber*)obj;  	 	 
+    user.following = [flag boolValue] ? 1 : 0;  	 	 
+
+    [self updateFriendshipView];	 	 
+
+    [self.tableView beginUpdates];  	 	 
+    [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationTop];  	 	 
+    [self.tableView endUpdates];  	 	 
+    
+    [sender release];
+    twitterClient = nil;
+}
+    
 
 - (void)updateFriendship:(BOOL)created
 {
     user.following = created;
-    
-    NSString *fmt;
-    if (user.following) {
-        fmt = @"    You are following ";
-    }
-    else {
-        fmt = @"    You are not following ";
-    }
-    followStatus.text = [fmt stringByAppendingString:user.screenName];
+    [self updateFriendshipView];
     
     CATransition *animation = [CATransition animation];
     [animation setType:kCATransitionFade];

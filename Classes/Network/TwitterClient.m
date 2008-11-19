@@ -122,7 +122,7 @@ NSString* sMethods[5] = {
                      [username encodeAsURIComponent],
                      [screen_name encodeAsURIComponent]];
     
-    [self get:url];
+    [self post:url body:@""];
 }
 
 - (void)destroy:(Message*)message

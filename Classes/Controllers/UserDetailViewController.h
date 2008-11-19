@@ -21,6 +21,7 @@
     TwitterClient*  twitterClient;
     
     BOOL            detailLoaded;
+    BOOL            followingLoaded;
     BOOL            ownInfo;
 }
 
