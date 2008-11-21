@@ -60,7 +60,7 @@ typedef enum {
 }
 
 @property (nonatomic, assign) sqlite_int64  messageId;
-@property (nonatomic, assign) User*         user;
+@property (nonatomic, retain) User*         user;
 @property (nonatomic, retain) NSString*     text;
 @property (nonatomic, assign) time_t        createdAt;
 @property (nonatomic, retain) NSString*     source;

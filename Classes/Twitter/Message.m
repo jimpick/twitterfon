@@ -160,7 +160,7 @@ static sqlite3_stmt* select_statement = nil;
     Message *dist = [[Message allocWithZone:zone] init];
     
 	dist.messageId  = messageId;
-	dist.user       = [user copy];
+	dist.user       = user;
 	dist.text       = text;
     dist.createdAt  = createdAt;
     dist.source     = source;
