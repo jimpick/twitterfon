@@ -196,10 +196,13 @@
         return;
     }
     
-    BOOL noMoreRead = FALSE;
+//    BOOL noMoreRead = FALSE;
     int unread = 0;
     LOG(@"Received %d messages", [ary count]);
     
+    int count = [timeline countMessages] - 2;
+    if (count < 0) count = 0;
+    Message *lastMessage = [timeline messageAtIndex:count];
     if ([ary count]) {
         INIT_STOPWATCH(s);
         sqlite3* database = [DBConnection getSharedDatabase];
@@ -211,6 +214,10 @@
             sqlite_int64 messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
             if (![Message isExists:messageId type:tag]) {
                 Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:tag];
+                if (m.createdAt < lastMessage.createdAt) {
+                    // Ignore stale message
+                    continue;
+                }
                 m.unread = true;
                 
                 [timeline insertMessage:m atIndex:insertPosition];
@@ -218,9 +225,11 @@
 				
                	[imageStore getImage:m.user.profileImageUrl delegate:controller];
             }
+#if 0
             else if (messageId <= since_id) {
                 noMoreRead = TRUE;
             }
+#endif
         }
         
         sqlite3_exec(database, "COMMIT", NULL, NULL, &errmsg); 

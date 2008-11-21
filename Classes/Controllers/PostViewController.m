@@ -50,6 +50,7 @@
 
 - (void)dealloc 
 {
+    [selectedPhoto release];
 	[super dealloc];
 }
 

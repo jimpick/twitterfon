@@ -32,8 +32,7 @@ static sqlite3_stmt *select_statement = nil;
 	
     if (select_statement == nil) {
         const char *sql = "SELECT image FROM images WHERE url=?";
-        int ret;
-        if ((ret = sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL)) != SQLITE_OK) {
+        if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
             NSLog(@"%s", sqlite3_errmsg(database));
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
@@ -78,7 +77,7 @@ static sqlite3_stmt *select_statement = nil;
             }
             sqlite3_bind_blob(stmt, 1, buf.bytes, buf.length, SQLITE_TRANSIENT);
             sqlite3_bind_text(stmt, 2, [url UTF8String], -1, SQLITE_TRANSIENT);
-            success = sqlite3_step(stmt);
+            sqlite3_step(stmt);
             sqlite3_finalize(stmt);
         }
         else {

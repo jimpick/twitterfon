@@ -26,7 +26,7 @@
 
 - (NSString*) nameValString: (NSDictionary*) dict {
 	NSArray* keys = [dict allKeys];
-	NSString* result = [[NSString alloc] initWithString: @""];
+	NSString* result = [[NSString alloc] string];
 	int i;
 	for (i = 0; i < [keys count]; i++) {
         result = [result stringByAppendingString:

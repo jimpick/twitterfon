@@ -16,7 +16,6 @@
 - (void)tinyURLDidFail:(TinyURL*)sender error:(NSString*)error;
 @end
 
-
 @implementation TinyURL
 
 @synthesize givenURL;
@@ -60,5 +59,12 @@
     }
     [self autorelease];
 }
+
+- (void)dealloc
+{
+    [givenURL release];
+    [super dealloc];
+}
+
 
 @end

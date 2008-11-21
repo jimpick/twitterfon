@@ -26,6 +26,6 @@
 }
 
 @property(nonatomic, assign) User* user;
-@property(nonatomic, assign) UserView* userView;
+@property(nonatomic, readonly) UserView* userView;
 
 @end

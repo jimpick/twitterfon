@@ -36,6 +36,11 @@ NSString* sMethods[5] = {
     return self;
 }
 
+- (void)dealloc
+{
+    [super dealloc];
+}
+
 - (void)getTimeline:(MessageType)type params:(NSDictionary*)params
 {
     needAuth = true;

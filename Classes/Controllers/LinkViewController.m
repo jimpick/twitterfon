@@ -63,7 +63,7 @@
         [appDelegate openWebView:cell.text on:self.navigationController];
     }
     else {
-        UserTimelineController* userTimeline = [[UserTimelineController alloc] initWithNibName:@"UserTimelineView" bundle:nil];
+        UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:@"UserTimelineView" bundle:nil] autorelease];
 //        userTimeline.parent = nil;
         
         [userTimeline loadUserTimeline:cell.text];

@@ -15,7 +15,7 @@
     int                     since_id;
 }
 
-@property(nonatomic, assign) Timeline* timeline;
+@property(nonatomic, readonly) Timeline* timeline;
 @property(nonatomic, copy) NSString* query;
 
 - (id)initWithController:(UITableViewController*)controller tag:(int)tag;
