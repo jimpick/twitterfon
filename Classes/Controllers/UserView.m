@@ -82,9 +82,8 @@
 
     // Fill rect with drop shadow
     CGContextAddPath(context, path);
-    CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 12, [[UIColor darkGrayColor] CGColor]);
+    CGContextSetShadowWithColor(context, CGSizeMake(0, -3), 12, [[UIColor darkGrayColor] CGColor]);
     // Drawing with a white stroke color
-    CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
     if (profileImage) {
         CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
     }
@@ -96,7 +95,7 @@
     // Draw path with 2px pen
     CGContextAddPath(context, path);
     CGContextSetLineWidth(context, 2.0);
-    CGContextSetRGBStrokeColor(context, 0.2, 0.2, 0.2, 1.0);
+    CGContextSetRGBStrokeColor(context, 0.5, 0.5, 0.5, 1.0);
     CGContextSetShadowWithColor(context, CGSizeZero, 0, [[UIColor whiteColor] CGColor]);
     CGContextDrawPath(context, kCGPathStroke);
     
