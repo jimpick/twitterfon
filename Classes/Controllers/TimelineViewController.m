@@ -15,7 +15,6 @@
 
 @implementation TimelineViewController
 
-static BOOL sFirstTimeToLoad[3] = {true, true, true};
 static CGPoint sSavedScrollPoint[3] = {
     {0,0},
     {0,0},
@@ -27,23 +26,11 @@ static CGPoint sSavedScrollPoint[3] = {
 //
 - (void)viewDidLoad
 {
-    stopwatch = [[Stopwatch alloc] init];
-    tag      = [self navigationController].tabBarItem.tag;
-    
-    timelineDataSource = [[TimelineViewDataSource alloc] initWithController:self tag:tag];
+    if (!isLoaded) {
+        [self loadTimeline];
+    }
     self.tableView.dataSource = timelineDataSource;
     self.tableView.delegate   = timelineDataSource;
-    
-    if (sFirstTimeToLoad[tag]) {
-        NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-        NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-        if (!(username == nil || password == nil ||
-              [username length] == 0 || [password length] == 0)) {
-            self.navigationItem.leftBarButtonItem.enabled = false;
-            [timelineDataSource getTimeline:tag page:1 insertAt:0];
-        }    
-        sFirstTimeToLoad[tag] = false;
-    }
     [self navigationController].tabBarItem.badgeValue = nil;
 }
 
@@ -93,6 +80,28 @@ static CGPoint sSavedScrollPoint[3] = {
 //
 // Public methods
 //
+- (void)loadTimeline
+{
+    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    if (!(username == nil || password == nil ||
+          [username length] == 0 || [password length] == 0)) {
+        self.navigationItem.leftBarButtonItem.enabled = false;
+        [timelineDataSource getTimeline:tag page:1 insertAt:0];
+    }
+    isLoaded = true;
+}
+
+- (void)restoreAndLoadTimeline:(BOOL)load
+{
+    stopwatch = [[Stopwatch alloc] init];
+    tag       = [self navigationController].tabBarItem.tag;
+    timelineDataSource = [[TimelineViewDataSource alloc] initWithController:self tag:tag];
+    
+    if (load) [self loadTimeline];
+
+}
+
 - (IBAction) reload: (id) sender
 {
     self.navigationItem.leftBarButtonItem.enabled = false;
@@ -168,8 +177,8 @@ static CGPoint sSavedScrollPoint[3] = {
         unread += count;
         [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unread];
     }
-    
-    if (!self.view.hidden) {
+ 
+    if (self.navigationController.tabBarController.selectedIndex == tag) {
         
         [self.tableView beginUpdates];
         

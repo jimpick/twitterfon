@@ -44,19 +44,31 @@
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
+    [UIColor initTwitterFonColorScheme];
     imageStore = [[ImageStore alloc] initWithDelegate:self];    
     postView = nil;
 
     selectedTab = 0;
     tabBarController.selectedIndex = TAB_FRIENDS;
     
+    // Load views
+    NSArray *views = tabBarController.viewControllers;
+    
+  	BOOL loadall = [[NSUserDefaults standardUserDefaults] boolForKey:@"loadAllTabAtStartup"];
+    
+    for (int tab = 0; tab < 3; ++tab) {
+        UINavigationController* nav = (UINavigationController*)[views objectAtIndex:tab];
+        BOOL flag = (loadall) ? true : ((tab == 0) ? true : false);
+        [(TimelineViewController*)[nav topViewController] restoreAndLoadTimeline:flag];
+    }
+    
 	[window addSubview:tabBarController.view];
-    [UIColor initTwitterFonColorScheme];
     
     if (username == nil || password == nil ||
         [username length] == 0 || [password length] == 0) {
         [self openSettingsView];
     }
+  
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url

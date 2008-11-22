@@ -14,10 +14,13 @@
     Stopwatch*              stopwatch;
     int                     tag;
     int                     unread;
+    BOOL                    isLoaded;
     TimelineViewDataSource* timelineDataSource;
 
 }
 
+- (void)loadTimeline;
+- (void)restoreAndLoadTimeline:(BOOL)load;
 - (IBAction)reload:(id)sender;
 
 @end
