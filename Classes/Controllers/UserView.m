@@ -74,15 +74,15 @@
     CGMutablePathRef path = CGPathCreateMutable();
    
     CGPathMoveToPoint  (path, nil, 10+w, 20+h/2);
-    CGPathAddArcToPoint(path, nil, 10+w, 20+h, 10+w/2, 20+h,    5);
-    CGPathAddArcToPoint(path, nil, 10,   20+h, 10,     20+ h/2, 5);
-    CGPathAddArcToPoint(path, nil, 10,   20,   10+w/2, 20,      5);
-    CGPathAddArcToPoint(path, nil, 10+w, 20,   10+w,   20+h/2,  5);
+    CGPathAddArcToPoint(path, nil, 10+w, 20+h, 10+w/2, 20+h,    8);
+    CGPathAddArcToPoint(path, nil, 10,   20+h, 10,     20+ h/2, 8);
+    CGPathAddArcToPoint(path, nil, 10,   20,   10+w/2, 20,      8);
+    CGPathAddArcToPoint(path, nil, 10+w, 20,   10+w,   20+h/2,  8);
     CGPathCloseSubpath(path);
 
     // Fill rect with drop shadow
     CGContextAddPath(context, path);
-    CGContextSetShadowWithColor(context, CGSizeMake(3, -3), 3, [[UIColor darkGrayColor] CGColor]);
+    CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 12, [[UIColor darkGrayColor] CGColor]);
     // Drawing with a white stroke color
     CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
     if (profileImage) {

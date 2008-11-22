@@ -139,7 +139,7 @@ static sqlite3_stmt *select_statement = nil;
 {
     NSRange r = [url rangeOfString:@"_bigger."];
     float numPixels = (r.location != NSNotFound) ? 73.0 : 48.0;
-    float radius = (r.location != NSNotFound) ? 5.0 : 3.0;
+    float radius = (r.location != NSNotFound) ? 8.0 : 4.0;
     
     UIGraphicsBeginImageContext(CGSizeMake(numPixels, numPixels));
     CGContextRef c = UIGraphicsGetCurrentContext();
