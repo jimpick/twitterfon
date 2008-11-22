@@ -41,10 +41,10 @@
     charCount.font      = [UIFont boldSystemFontOfSize:16];
     text.font           = [UIFont systemFontOfSize:18];
     self.view.hidden    = true;
-    textRange.location  = 0;
-    textRange.length    = 0;
  	text.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"tweet"];
-   
+    textRange.location  = [text.text length];
+    textRange.length    = 0;
+    
     return self;
 }
 
@@ -251,6 +251,8 @@
 - (IBAction) undo:(id) sender
 {
     text.text = undoBuffer;
+    textRange.length   = 0;
+    textRange.location = [text.text length];
     [undoBuffer release];
     undoBuffer = nil;
     [self setTransform:true];
@@ -283,6 +285,7 @@
 
         undoBuffer = [text.text retain];
         text.text = @"";
+        textRange = text.selectedRange;
         charCount.textColor = [UIColor whiteColor];
         sendButton.enabled = false;
         
