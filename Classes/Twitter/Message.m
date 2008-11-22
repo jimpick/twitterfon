@@ -312,7 +312,7 @@ static NSString *userRegexp = @"@([0-9a-zA-Z_]+)";
         result.size.height += 22;
     }
     else {
-        result.size.height += 18 + 15;
+        result.size.height += 18 + 15 + 2;
         if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
     }
     message.cellHeight = result.size.height;
