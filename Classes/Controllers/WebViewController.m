@@ -78,6 +78,11 @@ typedef enum {
 //    [webView loadHTMLString:@"<html><style>html { width:320px; height:480px; background-color:white; }</style><body></body></html>" baseURL:nil];
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrient
+{
+    [self.navigationController setNavigationBarHidden:UIInterfaceOrientationIsLandscape(self.interfaceOrientation) animated:true];
+}
+
 - (void)updateToolbar:(ToolbarButton)button
 {
     UIBarButtonItem *newItem;

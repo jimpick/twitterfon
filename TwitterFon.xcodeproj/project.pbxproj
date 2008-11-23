@@ -49,6 +49,7 @@
 		6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC6230EC07F3D00F9EB74 /* camera.png */; };
 		6E716C1A0ED2BD880092245A /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E716C180ED2BD880092245A /* UserDetailViewController.m */; };
 		6E716C1D0ED2BDC20092245A /* UserDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E716C1C0ED2BDC20092245A /* UserDetailView.m */; };
+		6E74DA890ED95AC5000E169F /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E74DA870ED95AC5000E169F /* TabBarController.m */; };
 		6E8C56350ED09C3500EC9D39 /* UserTimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E8C56340ED09C3500EC9D39 /* UserTimelineView.xib */; };
 		6E8C57BA0ED0AEA300EC9D39 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C57B90ED0AEA300EC9D39 /* UserView.m */; };
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
@@ -156,6 +157,8 @@
 		6E716C180ED2BD880092245A /* UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDetailViewController.m; path = Controllers/UserDetailViewController.m; sourceTree = "<group>"; };
 		6E716C1B0ED2BDC20092245A /* UserDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDetailView.h; path = Controllers/UserDetailView.h; sourceTree = "<group>"; };
 		6E716C1C0ED2BDC20092245A /* UserDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDetailView.m; path = Controllers/UserDetailView.m; sourceTree = "<group>"; };
+		6E74DA870ED95AC5000E169F /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarController.m; path = Controllers/TabBarController.m; sourceTree = "<group>"; };
+		6E74DA880ED95AC5000E169F /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarController.h; path = Controllers/TabBarController.h; sourceTree = "<group>"; };
 		6E8C56340ED09C3500EC9D39 /* UserTimelineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UserTimelineView.xib; path = Interfaces/UserTimelineView.xib; sourceTree = "<group>"; };
 		6E8C57B80ED0AEA300EC9D39 /* UserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserView.h; path = Controllers/UserView.h; sourceTree = "<group>"; };
 		6E8C57B90ED0AEA300EC9D39 /* UserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserView.m; path = Controllers/UserView.m; sourceTree = "<group>"; };
@@ -200,8 +203,8 @@
 		6EEBF7070E3B1FD40003EA63 /* REString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = REString.m; path = Classes/OtherSources/REString.m; sourceTree = "<group>"; };
 		6EEBF7080E3B1FD40003EA63 /* StringUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringUtil.h; path = Classes/OtherSources/StringUtil.h; sourceTree = "<group>"; };
 		6EEBF7090E3B1FD40003EA63 /* StringUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StringUtil.m; path = Classes/OtherSources/StringUtil.m; sourceTree = "<group>"; };
-		6EEBF70A0E3B1FD40003EA63 /* TwitterFonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitterFonAppDelegate.h; path = Classes/OtherSources/TwitterFonAppDelegate.h; sourceTree = "<group>"; };
-		6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitterFonAppDelegate.m; path = Classes/OtherSources/TwitterFonAppDelegate.m; sourceTree = "<group>"; };
+		6EEBF70A0E3B1FD40003EA63 /* TwitterFonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitterFonAppDelegate.h; path = OtherSources/TwitterFonAppDelegate.h; sourceTree = "<group>"; };
+		6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitterFonAppDelegate.m; path = OtherSources/TwitterFonAppDelegate.m; sourceTree = "<group>"; };
 		6EEBF7110E3B20610003EA63 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = Controllers/SettingsViewController.h; sourceTree = "<group>"; };
 		6EEBF7130E3B20610003EA63 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Controllers/SettingsViewController.m; sourceTree = "<group>"; };
 		6EEBF7170E3B20830003EA63 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageCell.h; path = Controllers/MessageCell.h; sourceTree = "<group>"; };
@@ -298,8 +301,6 @@
 				6E5CBCEC0ECF7971008A18A2 /* ImageUtils.m */,
 				6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */,
 				6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */,
-				6EEBF70A0E3B1FD40003EA63 /* TwitterFonAppDelegate.h */,
-				6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */,
 				28A0AB4B0D9B1048005BE974 /* TwitterFon_Prefix.pch */,
 				6E35BD610ED16B5300C332C2 /* QuartzUtils.h */,
 				6E35BD620ED16B5300C332C2 /* QuartzUtils.c */,
@@ -359,6 +360,17 @@
 				6EEBF7270E3B209A0003EA63 /* WebViewController.m */,
 			);
 			name = "Web View";
+			sourceTree = "<group>";
+		};
+		6E74DA700ED957EC000E169F /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				6EEBF70A0E3B1FD40003EA63 /* TwitterFonAppDelegate.h */,
+				6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */,
+				6E74DA880ED95AC5000E169F /* TabBarController.h */,
+				6E74DA870ED95AC5000E169F /* TabBarController.m */,
+			);
+			name = Application;
 			sourceTree = "<group>";
 		};
 		6E8265C80E375119005D2370 /* Post */ = {
@@ -457,6 +469,7 @@
 		6EDC025B0E34537600FF142E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6E74DA700ED957EC000E169F /* Application */,
 				6E8265C90E375122005D2370 /* TimelineView */,
 				6E102A360E5DD63D00440C58 /* UesrTimeline */,
 				6EBEE5790EB2F58E00C18F0A /* Search */,
@@ -676,6 +689,7 @@
 				6E35BD630ED16B5300C332C2 /* QuartzUtils.c in Sources */,
 				6E716C1A0ED2BD880092245A /* UserDetailViewController.m in Sources */,
 				6E716C1D0ED2BDC20092245A /* UserDetailView.m in Sources */,
+				6E74DA890ED95AC5000E169F /* TabBarController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -722,7 +736,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = dist.plist;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos2.0]" = "iPhone Distribution: Kazuho Okui";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos2.1]" = "iPhone Distribution: Kazuho Okui";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -730,7 +744,7 @@
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "22D9AA2E-FF06-4A10-A003-9610B2F8451F";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "22D9AA2E-FF06-4A10-A003-9610B2F8451F";
-				"PROVISIONING_PROFILE[sdk=iphoneos2.0]" = "22D9AA2E-FF06-4A10-A003-9610B2F8451F";
+				"PROVISIONING_PROFILE[sdk=iphoneos2.1]" = "22D9AA2E-FF06-4A10-A003-9610B2F8451F";
 				SDKROOT = iphoneos2.0;
 			};
 			name = Adhoc;
