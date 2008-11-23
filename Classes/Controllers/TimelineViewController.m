@@ -178,7 +178,8 @@ static CGPoint sSavedScrollPoint[3] = {
         [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unread];
     }
  
-    if (self.navigationController.tabBarController.selectedIndex == tag) {
+    if (self.navigationController.tabBarController.selectedIndex == tag &&
+        self.navigationController.topViewController == self) {
         
         [self.tableView beginUpdates];
         
