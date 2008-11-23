@@ -152,6 +152,15 @@
 //
 // UISearchBar delegates
 //
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    friendsView.frame = CGRectMake(0, 44, 320, 200);
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    friendsView.frame = CGRectMake(0, 44, 320, 436);
+}
 
 static sqlite3_stmt *search_statement = nil;
 
