@@ -34,7 +34,7 @@
 	return self;
 }
 
-- (void)setType:(MessageType)aType
+- (void)setType:(loadCellType)aType
 {
     type = aType;
     switch (type) {

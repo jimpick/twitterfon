@@ -9,15 +9,24 @@
 #import <UIKit/UIKit.h>
 #import "Message.h"
 
+typedef enum {
+    MSG_TYPE_REQUEST_FOLLOW_SENT,
+    MSG_TYPE_REQUEST_FOLLOW,
+    MSG_TYPE_LOADING,
+    MSG_TYPE_LOAD_USER_TIMELINE,
+    MSG_TYPE_LOAD_FROM_DB,
+    MSG_TYPE_LOAD_FROM_WEB,
+} loadCellType;
+
 @interface LoadCell : UITableViewCell {
     UILabel*                    label;
     UIActivityIndicatorView*    spinner;
-    MessageType                 type;
+    loadCellType                type;
 }
 
 @property(nonatomic, readonly) UIActivityIndicatorView* spinner;
-@property(nonatomic, assign) MessageType type;
+@property(nonatomic, assign) loadCellType type;
 
-- (void)setType:(MessageType)type;
+- (void)setType:(loadCellType)type;
 
 @end
