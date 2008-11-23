@@ -22,6 +22,7 @@
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
+        self.tableView = [[[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain] autorelease];
         timeline = [[Timeline alloc] initWithDelegate:self];
         deletedMessage = [[NSMutableArray alloc] init];
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
@@ -398,7 +399,7 @@
             [appDelegate openWebView:url on:self.navigationController];
         }
         else {
-            UserTimelineController *userTimeline = [[UserTimelineController alloc] initWithNibName:@"UserTimelineView" bundle:nil];
+            UserTimelineController *userTimeline = [[UserTimelineController alloc] initWithNibName:nil bundle:nil];
             [userTimeline autorelease];
             [userTimeline loadUserTimeline:[array objectAtIndex:0]];
             

@@ -50,7 +50,6 @@
 		6E716C1A0ED2BD880092245A /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E716C180ED2BD880092245A /* UserDetailViewController.m */; };
 		6E716C1D0ED2BDC20092245A /* UserDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E716C1C0ED2BDC20092245A /* UserDetailView.m */; };
 		6E74DA890ED95AC5000E169F /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E74DA870ED95AC5000E169F /* TabBarController.m */; };
-		6E8C56350ED09C3500EC9D39 /* UserTimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E8C56340ED09C3500EC9D39 /* UserTimelineView.xib */; };
 		6E8C57BA0ED0AEA300EC9D39 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C57B90ED0AEA300EC9D39 /* UserView.m */; };
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
 		6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E943F1A0E6527C600E8ECF2 /* usercell_background.png */; };
@@ -159,7 +158,6 @@
 		6E716C1C0ED2BDC20092245A /* UserDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDetailView.m; path = Controllers/UserDetailView.m; sourceTree = "<group>"; };
 		6E74DA870ED95AC5000E169F /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarController.m; path = Controllers/TabBarController.m; sourceTree = "<group>"; };
 		6E74DA880ED95AC5000E169F /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarController.h; path = Controllers/TabBarController.h; sourceTree = "<group>"; };
-		6E8C56340ED09C3500EC9D39 /* UserTimelineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UserTimelineView.xib; path = Interfaces/UserTimelineView.xib; sourceTree = "<group>"; };
 		6E8C57B80ED0AEA300EC9D39 /* UserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserView.h; path = Controllers/UserView.h; sourceTree = "<group>"; };
 		6E8C57B90ED0AEA300EC9D39 /* UserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserView.m; path = Controllers/UserView.m; sourceTree = "<group>"; };
 		6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeUtils.h; path = Classes/OtherSources/TimeUtils.h; sourceTree = "<group>"; };
@@ -450,7 +448,6 @@
 				6E6DC5970EC077FD00F9EB74 /* SearchView.xib */,
 				6E6DC5980EC077FD00F9EB74 /* SettingsView.xib */,
 				6E6DC5990EC077FD00F9EB74 /* TimelineView.xib */,
-				6E8C56340ED09C3500EC9D39 /* UserTimelineView.xib */,
 				6E6DC59B0EC077FD00F9EB74 /* WebView.xib */,
 				6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */,
 			);
@@ -629,7 +626,6 @@
 				6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */,
 				6E3EABA00EC8782400599954 /* dist.plist in Resources */,
 				6E4011F10ECDF786009D452A /* open_safari.png in Resources */,
-				6E8C56350ED09C3500EC9D39 /* UserTimelineView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

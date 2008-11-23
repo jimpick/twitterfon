@@ -111,7 +111,7 @@
     if (m) {
         // Display user timeline
         //
-        UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:@"UserTimelineView" bundle:nil] autorelease];
+        UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
         [userTimeline setMessage:m];
         [[controller navigationController] pushViewController:userTimeline animated:true];
     }
@@ -356,7 +356,7 @@
             [appDelegate openWebView:url on:[controller navigationController]];
         }
         else {
-            UserTimelineController *userTimeline = [[[UserTimelineController alloc] initWithNibName:@"UserTimelineView" bundle:nil] autorelease];
+            UserTimelineController *userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
             [userTimeline loadUserTimeline:[array objectAtIndex:0]];
             [[controller navigationController] pushViewController:userTimeline animated:true];
         }
