@@ -60,6 +60,7 @@
 						<object class="IBUIViewController" id="422638560">
 							<object class="IBUINavigationItem" key="IBUINavigationItem" id="726267129">
 								<reference key="IBUINavigationBar"/>
+								<string key="IBUITitle">Messages</string>
 								<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="554924916">
 									<int key="IBUIStyle">1</int>
 									<int key="IBUISystemItemIdentifier">13</int>
