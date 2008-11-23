@@ -2,17 +2,21 @@
 #import "ImageStore.h"
 #import "Timeline.h"
 #import "TwitterClient.h"
+#import "LoadCell.h"
 
 @interface TimelineViewDataSource : NSObject <UITableViewDataSource, UITableViewDelegate> {
     UITableViewController*  controller;
 	Timeline*               timeline;
     ImageStore*             imageStore;
+    LoadCell*               loadCell;
     int                     tag;
     NSString*               query;
     float                   latitude, longitude;
 
     int                     insertPosition;
     int                     since_id;
+    
+    BOOL                    isRestored;
 }
 
 @property(nonatomic, readonly) Timeline* timeline;

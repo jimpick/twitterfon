@@ -36,16 +36,21 @@
 - (id)initWithController:(UITableViewController*)aController tag:(int)aTag
 {
     [super init];
+    
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     imageStore = appDelegate.imageStore;
     controller = aController;
     tag        = aTag;
+    loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
+    [loadCell setType:(tag != TAB_SEARCH) ? MSG_TYPE_LOAD_FROM_DB : MSG_TYPE_LOAD_FROM_WEB];
     timeline   = [[Timeline alloc] initWithDelegate:controller];
     [timeline restore:tag all:false];
+    isRestored = false;
     return self;
 }
 
 - (void)dealloc {
+    [loadCell release];
     [query release];
     [timeline release];
 	[super dealloc];
@@ -58,7 +63,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [timeline countMessages];
+    int count = [timeline countMessages];
+	return (isRestored) ? count : count + 1;
 }
 
 //
@@ -67,40 +73,36 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Message *m = [timeline messageAtIndex:indexPath.row];
-    return m.cellHeight;
+    return m ? m.cellHeight : 48;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	Message* message = [timeline messageAtIndex:indexPath.row];
     
-    if (message.type <= MSG_TYPE_LOAD_FROM_WEB) {
-        LoadCell * cell =  (LoadCell*)[tableView dequeueReusableCellWithIdentifier:@"LoadCell"];
+    if (message) {
+        MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
         if (!cell) {
-            cell = [[[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"] autorelease];
+            cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
         }
-        [cell setType:message.type];
+        
+        cell.message = message;
+        if (message.type > MSG_TYPE_LOAD_FROM_WEB) {
+            [cell.profileImage setImage:[imageStore getImage:message.user.profileImageUrl delegate:controller] forState:UIControlStateNormal];
+        }
+        
+        cell.contentView.backgroundColor = (message.unread) ? [UIColor cellColorForTab:tag] : [UIColor whiteColor];
+        if (tag == TAB_FRIENDS && message.hasReply) {
+            cell.contentView.backgroundColor = [UIColor cellColorForTab:TAB_REPLIES];
+        }
+        
+        [cell update:tag delegate:self];
         return cell;
     }
-
-	MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
-	if (!cell) {
-		cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
-	}
-    
-	cell.message = message;
-    if (message.type > MSG_TYPE_LOAD_FROM_WEB) {
-        [cell.profileImage setImage:[imageStore getImage:message.user.profileImageUrl delegate:controller] forState:UIControlStateNormal];
+    else {
+        return loadCell;
     }
-    
-    cell.contentView.backgroundColor = (message.unread) ? [UIColor cellColorForTab:tag] : [UIColor whiteColor];
-    if (tag == TAB_FRIENDS && message.hasReply) {
-        cell.contentView.backgroundColor = [UIColor cellColorForTab:TAB_REPLIES];
-    }
-
-    [cell update:tag delegate:self];
-
-	return cell;
 }
 
 
@@ -108,44 +110,46 @@
 {
     Message *m = [timeline messageAtIndex:indexPath.row];
     
-    // Restore tweets from DB
-    //
-    if (m.type == MSG_TYPE_LOAD_FROM_DB) {
-        int count = [timeline restore:tag all:true];
-        
-        NSMutableArray *newPath = [[[NSMutableArray alloc] init] autorelease];
-        
-        [tableView beginUpdates];
-        // Avoid to create too many table cell.
-        if (count > 0) {
-            if (count > 2) count = 2;
-            for (int i = 0; i < count; ++i) {
-                [newPath addObject:[NSIndexPath indexPathForRow:i + indexPath.row inSection:0]];
-            }        
-            [tableView insertRowsAtIndexPaths:newPath withRowAnimation:UITableViewRowAnimationTop];
-        }
-        else {
-            [newPath addObject:indexPath];
-            [tableView deleteRowsAtIndexPaths:newPath withRowAnimation:UITableViewRowAnimationLeft];
-        }
-        [tableView endUpdates];   
-    }
-    //
-    // More search
-    //
-    else if (m.type == MSG_TYPE_LOAD_FROM_WEB) {
-        LoadCell *cell = (LoadCell*)[tableView cellForRowAtIndexPath:indexPath];
-        [cell.spinner startAnimating];
-        [self search];
-    }
-    //
-    // Display user timeline
-    //
-    else {
+    if (m) {
+        // Display user timeline
+        //
         UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:@"UserTimelineView" bundle:nil] autorelease];
         [userTimeline setMessage:m];
         [[controller navigationController] pushViewController:userTimeline animated:true];
     }
+    else {
+        // Restore tweets from DB
+        //
+        if (loadCell.type == MSG_TYPE_LOAD_FROM_DB) {
+            int count = [timeline restore:tag all:true];
+            isRestored = true;
+            
+            NSMutableArray *newPath = [[[NSMutableArray alloc] init] autorelease];
+            
+            [tableView beginUpdates];
+            // Avoid to create too many table cell.
+            if (count > 0) {
+                if (count > 2) count = 2;
+                for (int i = 0; i < count; ++i) {
+                    [newPath addObject:[NSIndexPath indexPathForRow:i + indexPath.row inSection:0]];
+                }        
+                [tableView insertRowsAtIndexPaths:newPath withRowAnimation:UITableViewRowAnimationTop];
+            }
+            else {
+                [newPath addObject:indexPath];
+                [tableView deleteRowsAtIndexPaths:newPath withRowAnimation:UITableViewRowAnimationLeft];
+            }
+            [tableView endUpdates];
+        }
+        //
+        // More search
+        //
+        else if (loadCell.type == MSG_TYPE_LOAD_FROM_WEB) {
+            [loadCell.spinner startAnimating];
+            [self search];
+        }
+    }
+
     [tableView deselectRowAtIndexPath:indexPath animated:TRUE];   
 }
 
@@ -196,15 +200,13 @@
         return;
     }
     
-//    BOOL noMoreRead = FALSE;
     int unread = 0;
     LOG(@"Received %d messages", [ary count]);
     
     int count = [timeline countMessages] - 2;
     if (count < 0) count = 0;
-    Message *lastMessage = [timeline messageAtIndex:count];
+    Message *lastMessage = [timeline lastMessage];
     if ([ary count]) {
-        INIT_STOPWATCH(s);
         sqlite3* database = [DBConnection getSharedDatabase];
         char *errmsg; 
         sqlite3_exec(database, "BEGIN", NULL, NULL, &errmsg); 
@@ -225,21 +227,11 @@
 				
                	[imageStore getImage:m.user.profileImageUrl delegate:controller];
             }
-#if 0
-            else if (messageId <= since_id) {
-                noMoreRead = TRUE;
-            }
-#endif
         }
         
         sqlite3_exec(database, "COMMIT", NULL, NULL, &errmsg); 
-        LAP(s, @"Data inserted");
     }
-#if 0
-    if ([ary count] == 20 && !noMoreRead && ++page <= 10) {
-        [timeline insertMessage:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_WEB page:page] atIndex:insertPosition + unread];
-    }
-#endif
+
     if ([controller respondsToSelector:@selector(timelineDidUpdate:insertAt:)]) {
         [controller timelineDidUpdate:unread insertAt:insertPosition];
 	}
@@ -271,8 +263,7 @@
 - (void)search
 {
     int page = ([timeline countMessages] / 15) + 1;
-    insertPosition = [timeline countMessages] - 1;
-    if (insertPosition < 0) insertPosition = 0;
+    insertPosition = [timeline countMessages];
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (latitude == 0 && longitude == 0) {
@@ -319,9 +310,7 @@
         return;
     }
     
-    if ([timeline lastMessage].type == MSG_TYPE_LOAD_FROM_WEB) {
-        [timeline removeLastMessage];
-    }
+    [loadCell.spinner stopAnimating];
     
     // Add messages to the timeline
     for (int i = 0; i < [array count]; ++i) {
@@ -330,7 +319,6 @@
         [imageStore getImage:m.user.profileImageUrl delegate:controller];
     }
     
-    [timeline appendMessage:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_WEB page:1]];
     if ([controller respondsToSelector:@selector(searchDidLoad:insertAt:)]) {
         [controller searchDidLoad:[array count] insertAt:insertPosition];
     }

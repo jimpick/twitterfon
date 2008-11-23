@@ -113,13 +113,8 @@ static sqlite3_stmt *select_statement = nil;
 
 - (int)restore:(MessageType)aType all:(BOOL)all
 {
-    // Remove last message which contains load cell
-    if (all) {
-        [messages removeLastObject];
-    }
     sqlite3* database = [DBConnection getSharedDatabase];
 
-    INIT_STOPWATCH(s);
     if (select_statement == nil) {
         static char *sql = "SELECT * FROM messages WHERE messages.type = ? ORDER BY id DESC LIMIT ? OFFSET ?";
         if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
@@ -129,7 +124,7 @@ static sqlite3_stmt *select_statement = nil;
 
     sqlite3_bind_int(select_statement, 1, aType);
     sqlite3_bind_int(select_statement, 2, all ? 200 : 20);
-    sqlite3_bind_int(select_statement, 3, (insertPosition) ? [messages count] - 1 : [messages count]);
+    sqlite3_bind_int(select_statement, 3, [messages count]);
     int count = 0;
     while (sqlite3_step(select_statement) == SQLITE_ROW) {
         Message *m = [Message initWithDB:select_statement type:aType];
@@ -137,12 +132,6 @@ static sqlite3_stmt *select_statement = nil;
         ++count;
     }
     sqlite3_reset(select_statement);
-    
-    // Add "Load more 20 messages" cell
-    if (!all && [messages count]) {
-        [messages addObject:[Message messageWithLoadMessage:MSG_TYPE_LOAD_FROM_DB page:0]];
-    }
-    LAP(s, @"Restore messages");
     return count;
 }
 
