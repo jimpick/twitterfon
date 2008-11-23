@@ -66,47 +66,46 @@
 
   	CGContextDrawImage(context, rect, background);
 
-    CGContextSetShadowWithColor(context, CGSizeZero, 0, [[UIColor whiteColor] CGColor]);
-    
-    float w = profileImage.size.width;
-    float h = profileImage.size.height;
-    
-    CGMutablePathRef path = CGPathCreateMutable();
-   
-    CGPathMoveToPoint  (path, nil, 10+w, 20+h/2);
-    CGPathAddArcToPoint(path, nil, 10+w, 20+h, 10+w/2, 20+h,    8);
-    CGPathAddArcToPoint(path, nil, 10,   20+h, 10,     20+ h/2, 8);
-    CGPathAddArcToPoint(path, nil, 10,   20,   10+w/2, 20,      8);
-    CGPathAddArcToPoint(path, nil, 10+w, 20,   10+w,   20+h/2,  8);
-    CGPathCloseSubpath(path);
-
-    // Fill rect with drop shadow
-    CGContextAddPath(context, path);
-    CGContextSetShadowWithColor(context, CGSizeMake(0, -3), 12, [[UIColor darkGrayColor] CGColor]);
-    // Drawing with a white stroke color
     if (profileImage) {
-        CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
-    }
-    else {
-        CGContextSetRGBFillColor(context, 0.7, 0.7, 0.7, 1.0);
-    }
-    CGContextFillPath(context);
-
-    // Draw path with 2px pen
-    CGContextAddPath(context, path);
-    CGContextSetLineWidth(context, 2.0);
-    CGContextSetRGBStrokeColor(context, 0.5, 0.5, 0.5, 1.0);
-    CGContextSetShadowWithColor(context, CGSizeZero, 0, [[UIColor whiteColor] CGColor]);
-    CGContextDrawPath(context, kCGPathStroke);
-    
-    if (profileImage) {
+        float w = profileImage.size.width;
+        float h = profileImage.size.height;
+        
+        CGMutablePathRef path = CGPathCreateMutable();
+        
+        CGPathMoveToPoint  (path, nil, 10+w, 20+h/2);
+        CGPathAddArcToPoint(path, nil, 10+w, 20+h, 10+w/2, 20+h,    8);
+        CGPathAddArcToPoint(path, nil, 10,   20+h, 10,     20+ h/2, 8);
+        CGPathAddArcToPoint(path, nil, 10,   20,   10+w/2, 20,      8);
+        CGPathAddArcToPoint(path, nil, 10+w, 20,   10+w,   20+h/2,  8);
+        CGPathCloseSubpath(path);
+        
+        // Fill rect with drop shadow
+        CGContextAddPath(context, path);
+        CGContextSetShadowWithColor(context, CGSizeMake(0, -3), 12, [[UIColor darkGrayColor] CGColor]);
+        // Drawing with a white stroke color
+        if (profileImage) {
+            CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
+        }
+        else {
+            CGContextSetRGBFillColor(context, 0.7, 0.7, 0.7, 1.0);
+        }
+        CGContextFillPath(context);
+        
+        // Draw path with 2px pen
+        CGContextAddPath(context, path);
+        CGContextSetLineWidth(context, 2.0);
+        CGContextSetRGBStrokeColor(context, 0.5, 0.5, 0.5, 1.0);
+        CGContextSetShadowWithColor(context, CGSizeZero, 0, [[UIColor whiteColor] CGColor]);
+        CGContextDrawPath(context, kCGPathStroke);
+        
         CGContextAddPath(context, path);
         CGContextSaveGState(context);
         CGContextClip(context);
         [profileImage drawAtPoint:CGPointMake(10.0, 20.0)];
         CGContextRestoreGState(context);
+
+        CGPathRelease(path);
     }
-    CGPathRelease(path);
     
     CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, 1.0);
     
