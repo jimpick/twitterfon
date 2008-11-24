@@ -47,7 +47,7 @@
     trends  = [[TrendsDataSource alloc] initWithDelegate:self];
     history = [[SearchHistoryDataSource alloc] initWithDelegate:self];
 
-    search  = [[TimelineViewDataSource alloc] initWithController:self tag:TAB_SEARCH];
+    search  = [[TimelineViewDataSource alloc] initWithController:self messageType:MSG_TYPE_SEARCH_RESULT];
     
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;

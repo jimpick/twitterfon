@@ -8,10 +8,11 @@ static sqlite3*             theDatabase = nil;
 #ifdef TEST_DELETE_TWEET
 const char *delete_tweets = 
 "BEGIN;"
-//"DELETE FROM messages;"
-"DELETE FROM messages WHERE type = 0 and id > (SELECT id FROM messages WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 1);"
-"DELETE FROM messages WHERE type = 1 and id > (SELECT id FROM messages WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 1);"
-"DELETE FROM messages WHERE type = 2 and id > (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 1);"
+"DELETE FROM messages;"
+//"DELETE FROM messages WHERE type = 0 and id > (SELECT id FROM messages WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 1);"
+//"DELETE FROM messages WHERE type = 1 and id > (SELECT id FROM messages WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 1);"
+//"DELETE FROM messages WHERE type = 2 and id > (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 1);"
+//"DELETE FROM messages WHERE type = 3 and id > (SELECT id FROM messages WHERE type = 3 ORDER BY id DESC LIMIT 1 OFFSET 1);"
 "COMMIT";
 #endif
 
@@ -54,9 +55,10 @@ const char *delete_tweets =
 const char *cleanup_sql =
 "BEGIN;"
 "DELETE FROM images WHERE updated_at <= (SELECT updated_at FROM images order by updated_at LIMIT 1 OFFSET 3000);"
-"DELETE FROM messages WHERE type = 0 and id <= (SELECT id FROM messages WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 200);"
-"DELETE FROM messages WHERE type = 1 and id <= (SELECT id FROM messages WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 200);"
-"DELETE FROM messages WHERE type = 2 and id <= (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 200);"
+"DELETE FROM messages WHERE type = 0 and id <= (SELECT id FROM messages WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 1000);"
+"DELETE FROM messages WHERE type = 1 and id <= (SELECT id FROM messages WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 1000);"
+"DELETE FROM messages WHERE type = 2 and id <= (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 1000);"
+"DELETE FROM messages WHERE type = 3 and id <= (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 1000);"
 "COMMIT";
 
 

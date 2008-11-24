@@ -90,7 +90,12 @@ static sqlite3_stmt* select_statement = nil;
         user = [[User alloc] initWithJsonDictionary:userDic];
     }
     else {
-        userDic = [dic objectForKey:@"sender"];
+        if (type == MSG_TYPE_MESSAGES) {
+            userDic = [dic objectForKey:@"sender"];
+        }
+        else {
+            userDic = [dic objectForKey:@"recipient"];
+        }
         user = [[User alloc] initWithJsonDictionary:userDic];
     }
 

@@ -12,15 +12,20 @@
 
 @interface TimelineViewController : UITableViewController {
     Stopwatch*              stopwatch;
-    int                     tag;
+    int                     tab;
     int                     unread;
     BOOL                    isLoaded;
+    TimelineViewDataSource* currentDataSource;
     TimelineViewDataSource* timelineDataSource;
+    TimelineViewDataSource* sentMessageDataSource;
     CGPoint                 contentOffset;
 }
 
 - (void)loadTimeline;
 - (void)restoreAndLoadTimeline:(BOOL)load;
+
 - (IBAction)reload:(id)sender;
+- (IBAction)segmentDidChange
+:(id)sender;
 
 @end

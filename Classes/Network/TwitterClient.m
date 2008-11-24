@@ -13,10 +13,11 @@
 #import "Message.h"
 
 static 
-NSString* sMethods[5] = {
+NSString* sMethods[4] = {
     @"statuses/friends_timeline",
     @"statuses/replies",
     @"direct_messages",
+    @"direct_messages/sent",
 };
 
 @interface NSObject (TwitterClientDelegate)

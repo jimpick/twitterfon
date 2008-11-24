@@ -33,18 +33,18 @@
 @synthesize timeline;
 @synthesize query;
 
-- (id)initWithController:(UITableViewController*)aController tag:(int)aTag
+- (id)initWithController:(UITableViewController*)aController messageType:(MessageType)type
 {
     [super init];
     
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    imageStore = appDelegate.imageStore;
-    controller = aController;
-    tag        = aTag;
+    imageStore  = appDelegate.imageStore;
+    controller  = aController;
+    messageType = type;
     loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
-    [loadCell setType:(tag != TAB_SEARCH) ? MSG_TYPE_LOAD_FROM_DB : MSG_TYPE_LOAD_FROM_WEB];
+    [loadCell setType:(messageType != MSG_TYPE_SEARCH_RESULT) ? MSG_TYPE_LOAD_FROM_DB : MSG_TYPE_LOAD_FROM_WEB];
     timeline   = [[Timeline alloc] initWithDelegate:controller];
-    [timeline restore:tag all:false];
+    [timeline restore:messageType all:false];
     isRestored = false;
     return self;
 }
@@ -89,13 +89,13 @@
         
         cell.message = message;
         [cell.profileImage setImage:[imageStore getImage:message.user.profileImageUrl delegate:controller] forState:UIControlStateNormal];
-        cell.contentView.backgroundColor = (message.unread) ? [UIColor cellColorForTab:tag] : [UIColor whiteColor];
+        cell.contentView.backgroundColor = (message.unread) ? [UIColor cellColorForTab:messageType] : [UIColor whiteColor];
         
-        if (tag == TAB_FRIENDS && message.hasReply) {
+        if (messageType == MSG_TYPE_FRIENDS && message.hasReply) {
             cell.contentView.backgroundColor = [UIColor cellColorForTab:TAB_REPLIES];
         }
         
-        [cell update:tag delegate:self];
+        [cell update:messageType delegate:self];
         return cell;
     }
     else {
@@ -119,7 +119,7 @@
         // Restore tweets from DB
         //
         if (loadCell.type == MSG_TYPE_LOAD_FROM_DB) {
-            int count = [timeline restore:tag all:true];
+            int count = [timeline restore:messageType all:true];
             isRestored = true;
             
             NSMutableArray *newPath = [[[NSMutableArray alloc] init] autorelease];
@@ -152,13 +152,14 @@
 }
 
 
-- (void)getTimeline:(MessageType)type page:(int)page insertAt:(int)pos
+- (void)getTimeline
 {
 	TwitterClient* client = [[TwitterClient alloc] initWithTarget:self action:@selector(timelineDidReceive:messages:)];
     
-    insertPosition = pos;
+    insertPosition = 0;
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    int page = 1;
     if (page == 1) {
         since_id = 0;
         NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
@@ -179,7 +180,7 @@
         [param setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
     }
     
-    [client getTimeline:type params:param];
+    [client getTimeline:messageType params:param];
 }
 
 - (void)timelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
@@ -210,8 +211,8 @@
         // Add messages to the timeline
         for (int i = [ary count] - 1; i >= 0; --i) {
             sqlite_int64 messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
-            if (![Message isExists:messageId type:tag]) {
-                Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:tag];
+            if (![Message isExists:messageId type:messageType]) {
+                Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:messageType];
                 if (m.createdAt < lastMessage.createdAt) {
                     // Ignore stale message
                     continue;
@@ -334,7 +335,7 @@
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
     NSString *msg;
-    if (tag == MSG_TYPE_MESSAGES) {
+    if (messageType == MSG_TYPE_MESSAGES) {
         msg = [NSString stringWithFormat:@"d %@ ", m.user.screenName];
     }
     else {

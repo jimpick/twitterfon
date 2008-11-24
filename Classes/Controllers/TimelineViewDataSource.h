@@ -9,7 +9,7 @@
 	Timeline*               timeline;
     ImageStore*             imageStore;
     LoadCell*               loadCell;
-    int                     tag;
+    MessageType             messageType;
     NSString*               query;
     float                   latitude, longitude;
 
@@ -22,9 +22,9 @@
 @property(nonatomic, readonly) Timeline* timeline;
 @property(nonatomic, copy) NSString* query;
 
-- (id)initWithController:(UITableViewController*)controller tag:(int)tag;
+- (id)initWithController:(UITableViewController*)controller messageType:(MessageType)type;
 
-- (void)getTimeline:(MessageType)type page:(int)page insertAt:(int)row;
+- (void)getTimeline;
 - (void)search;
 - (void)search:(NSString*)query;
 - (void)geocode:(float)latitude longitude:(float)longitude;

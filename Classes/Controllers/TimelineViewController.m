@@ -13,6 +13,11 @@
 #import "MessageCell.h"
 #import "LoadCell.h"
 
+@interface TimelineViewController (Private)
+- (void)didLeaveTab:(UINavigationController*)navigationController;
+@end
+
+
 @implementation TimelineViewController
 
 //
@@ -23,8 +28,8 @@
     if (!isLoaded) {
         [self loadTimeline];
     }
-    self.tableView.dataSource = timelineDataSource;
-    self.tableView.delegate   = timelineDataSource;
+    self.tableView.dataSource = currentDataSource;
+    self.tableView.delegate   = currentDataSource;
     [self navigationController].tabBarItem.badgeValue = nil;
 }
 
@@ -40,7 +45,7 @@
     [self.tableView setContentOffset:contentOffset animated:false];
     [self.tableView reloadData];
     self.tableView.scrollsToTop = true;
-    self.navigationController.navigationBar.tintColor = [UIColor navigationColorForTab:tag];
+    self.navigationController.navigationBar.tintColor = [UIColor navigationColorForTab:tab];
     self.tableView.separatorColor = [UIColor lightGrayColor]; 
 }
 
@@ -81,7 +86,7 @@
     if (!(username == nil || password == nil ||
           [username length] == 0 || [password length] == 0)) {
         self.navigationItem.leftBarButtonItem.enabled = false;
-        [timelineDataSource getTimeline:tag page:1 insertAt:0];
+        [currentDataSource getTimeline];
     }
     isLoaded = true;
 }
@@ -89,9 +94,9 @@
 - (void)restoreAndLoadTimeline:(BOOL)load
 {
     stopwatch = [[Stopwatch alloc] init];
-    tag       = [self navigationController].tabBarItem.tag;
-    timelineDataSource = [[TimelineViewDataSource alloc] initWithController:self tag:tag];
-    
+    tab       = [self navigationController].tabBarItem.tag;
+    timelineDataSource = [[TimelineViewDataSource alloc] initWithController:self messageType:tab];
+    currentDataSource = timelineDataSource;
     if (load) [self loadTimeline];
 
 }
@@ -99,12 +104,33 @@
 - (IBAction) reload: (id) sender
 {
     self.navigationItem.leftBarButtonItem.enabled = false;
-    [timelineDataSource getTimeline:tag page:1 insertAt:0];
+    [currentDataSource getTimeline];
+}
+
+- (IBAction) segmentDidChange:(id)sender
+{
+    UISegmentedControl* control = (UISegmentedControl*)sender;
+    if (control.selectedSegmentIndex == 0) {
+        currentDataSource         = timelineDataSource;
+        self.tableView.dataSource = timelineDataSource;
+        self.tableView.delegate   = timelineDataSource;
+    }
+    else {
+        if (sentMessageDataSource == nil) {
+            sentMessageDataSource = [[TimelineViewDataSource alloc] initWithController:self messageType:MSG_TYPE_SENT];
+            [sentMessageDataSource getTimeline];
+        }
+        currentDataSource         = sentMessageDataSource;
+        self.tableView.dataSource = sentMessageDataSource;
+        self.tableView.delegate   = sentMessageDataSource;
+    }
+    [self didLeaveTab:self.navigationController];
+    [self.tableView reloadData];
 }
 
 - (void)postViewAnimationDidFinish
 {
-    if (tag == TAB_FRIENDS && self.navigationController.topViewController == self) {
+    if (tab == TAB_FRIENDS && self.navigationController.topViewController == self) {
         //
         // Do animation if the controller displays friends timeline.
         //
@@ -117,9 +143,9 @@
 
 - (void)postTweetDidSucceed:(NSDictionary*)dic
 {
-    if (tag == TAB_FRIENDS) {
+    if (tab == TAB_FRIENDS) {
         Message *message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
-        [timelineDataSource.timeline insertMessage:message atIndex:0];
+        [currentDataSource.timeline insertMessage:message atIndex:0];
     }
     else {
         //
@@ -134,8 +160,8 @@
 - (void)didLeaveTab:(UINavigationController*)navigationController
 {
     navigationController.tabBarItem.badgeValue = nil;
-    for (int i = 0; i < [timelineDataSource.timeline countMessages]; ++i) {
-        Message* m = [timelineDataSource.timeline messageAtIndex:i];
+    for (int i = 0; i < [currentDataSource.timeline countMessages]; ++i) {
+        Message* m = [currentDataSource.timeline messageAtIndex:i];
         m.unread = false;
     }
     unread = 0;
@@ -144,13 +170,13 @@
 
 - (void) removeMessage:(Message*)message
 {
-    [timelineDataSource.timeline removeMessage:message];
+    [currentDataSource.timeline removeMessage:message];
     [self.tableView reloadData];
 }
 
 - (void) updateFavorite:(Message*)message
 {
-    [timelineDataSource.timeline updateFavorite:message];
+    [currentDataSource.timeline updateFavorite:message];
 }
 
 //
@@ -172,7 +198,7 @@
         [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unread];
     }
  
-    if (self.navigationController.tabBarController.selectedIndex == tag &&
+    if (self.navigationController.tabBarController.selectedIndex == tab &&
         self.navigationController.topViewController == self) {
         
         [self.tableView beginUpdates];
