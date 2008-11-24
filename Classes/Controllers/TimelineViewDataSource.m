@@ -201,8 +201,6 @@
     int unread = 0;
     LOG(@"Received %d messages", [ary count]);
     
-    int count = [timeline countMessages] - 2;
-    if (count < 0) count = 0;
     Message *lastMessage = [timeline lastMessage];
     if ([ary count]) {
         sqlite3* database = [DBConnection getSharedDatabase];
