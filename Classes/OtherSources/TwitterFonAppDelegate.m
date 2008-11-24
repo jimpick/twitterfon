@@ -238,7 +238,6 @@
         }
     }
     [m release];
-    [client autorelease];
 }
 
 - (void)favoriteDidChange:(TwitterClient*)sender messages:(NSObject*)obj
@@ -269,7 +268,6 @@
         }
     }
     [m release];
-    [sender autorelease];
 }
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
@@ -308,7 +306,6 @@
     }
 
     [m release];
-    [sender autorelease];
 }
 
 @end

@@ -177,7 +177,6 @@
 {
     latitude = longitude = 0;
     locationButton.style = UIBarButtonItemStyleBordered;
-    [sender release];
     connection = nil;
     [self send:self];
 }
@@ -515,7 +514,6 @@
     }       
     
     text.text = @"";
-    [sender autorelease];
     connection = nil;
     [self close:self];
     didPost = (dic) ? true : false;
@@ -530,7 +528,6 @@
                                           otherButtonTitles: nil];
     [alert show];	
     [alert release];    
-    [sender autorelease];
     connection = nil;
     [progressWindow hide];
 }

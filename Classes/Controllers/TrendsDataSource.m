@@ -87,7 +87,6 @@
         }            
     }
     [delegate searchTrendsDidLoad];
-    [sender autorelease];
 }
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail

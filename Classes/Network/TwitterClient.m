@@ -211,6 +211,7 @@ NSString* sMethods[4] = {
     else {
         [delegate twitterClientDidFail:self error:@"Connection Failed" detail:[error localizedDescription]];
     }
+    [self autorelease];
 }
 
 -(void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
@@ -230,6 +231,7 @@ NSString* sMethods[4] = {
 - (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
     [delegate twitterClientDidFail:self error:@"Authentication Failed" detail:@"Wrong username/Email and password combination."];
+    [self autorelease];
 }
 
 - (void)TFConnectionDidFinishLoading:(NSString*)content
@@ -237,12 +239,12 @@ NSString* sMethods[4] = {
     switch (statusCode) {
         case 401: // Not Authorized: either you need to provide authentication credentials, or the credentials provided aren't valid.
             [delegate twitterClientDidFail:self error:@"Authentication Failed" detail:@"Wrong username/Email and password combination."];
-            return;
+            goto out;
             
         case 304: // Not Modified: there was no new data to return.
             [delegate performSelector:action withObject:self withObject:nil];
-            return;
-
+            goto out;
+            
         case 400: // Bad Request: your request is invalid, and we'll return an error message that tells you why. This is the status code returned if you've exceeded the rate limit
         case 200: // OK: everything went awesome.
         case 403: // Forbidden: we understand your request, but are refusing to fulfill it.  An accompanying error message should explain why.
@@ -255,7 +257,7 @@ NSString* sMethods[4] = {
         default:
         {
             [delegate twitterClientDidFail:self error:@"Server responded with an error" detail:[NSHTTPURLResponse localizedStringForStatusCode:statusCode]];
-            return;
+            goto out;
         }
     }
 
@@ -278,6 +280,9 @@ NSString* sMethods[4] = {
     else {
         [delegate performSelector:action withObject:self withObject:obj];
     }
+    
+  out:
+    [self autorelease];
 }
 
 @end

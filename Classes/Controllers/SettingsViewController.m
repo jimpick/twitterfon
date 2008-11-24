@@ -193,7 +193,6 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
     [self dismissModalViewControllerAnimated:true];
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     [appDelegate closeSettingsView];
-    [sender autorelease];
 }
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
@@ -205,7 +204,6 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
                                           otherButtonTitles: nil];
     [alert show];	
     [alert release];  
-    [sender autorelease];
     doneButton.enabled = true;
 }
 

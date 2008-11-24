@@ -284,7 +284,6 @@
     [self.tableView endUpdates];
     
   out:
-	[twitterClient autorelease];
     twitterClient = nil;
 }
 
@@ -294,7 +293,6 @@
         [loadCell setType:MSG_TYPE_REQUEST_FOLLOW_SENT];
         loadCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    [sender autorelease];
     twitterClient = nil;
 }
 
@@ -351,7 +349,6 @@
         
         [self.tableView reloadData];
     }
-    [sender release];
     twitterClient = nil;
 }
 
@@ -360,7 +357,6 @@
     [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
     [loadCell setType:MSG_TYPE_LOAD_USER_TIMELINE];
 
-    [sender autorelease];
     twitterClient = nil;
     
     if (sender.request == TWITTER_REQUEST_CREATE_FRIENDSHIP) {

@@ -207,7 +207,6 @@
         [self.tableView endUpdates];
     }
     
-    [sender autorelease];
     twitterClient = nil;
     
     if (!ownInfo) {   	 	 
@@ -228,7 +227,6 @@
     [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationTop];  	 	 
     [self.tableView endUpdates];  	 	 
     
-    [sender release];
     twitterClient = nil;
 }
     
@@ -253,7 +251,6 @@
         BOOL created = (sender.request == TWITTER_REQUEST_CREATE_FRIENDSHIP) ? true : false;
         [self updateFriendship:created];
     }
-    [sender autorelease];
     twitterClient = nil;
 }
 
@@ -277,7 +274,6 @@
         [alert release];
     }
    
-    [sender autorelease];
     twitterClient = nil;
 }
 

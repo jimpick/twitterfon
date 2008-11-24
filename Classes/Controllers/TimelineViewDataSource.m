@@ -185,8 +185,6 @@
 
 - (void)timelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
 {
-	[sender autorelease];
-    
     if (obj == nil) {
         return;
     }
@@ -253,8 +251,6 @@
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         [appDelegate openSettingsView];
     }
-    
-	[sender autorelease];
 }
 
 - (void)search
@@ -319,8 +315,6 @@
     if ([controller respondsToSelector:@selector(searchDidLoad:insertAt:)]) {
         [controller searchDidLoad:[array count] insertAt:insertPosition];
     }
-
-    [sender autorelease];
 }
 
 - (void)removeAllMessages
