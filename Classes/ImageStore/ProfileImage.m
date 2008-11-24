@@ -30,9 +30,9 @@ static sqlite3_stmt *select_statement = nil;
     delegate = aDelegate;
     appDelegate = anAppDelegate;
     database = [DBConnection getSharedDatabase];
-	
+
     if (select_statement == nil) {
-        const char *sql = "SELECT image FROM images WHERE url=?";
+        static const char *sql = "SELECT image FROM images WHERE url=?";
         if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
             NSLog(@"%s", sqlite3_errmsg(database));
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -58,8 +58,9 @@ static sqlite3_stmt *select_statement = nil;
 
 - (void)insertImage:(NSData*)buf
 {
+    
     if (insert_statement == nil) {
-        static char *sql = "INSERT INTO images VALUES(?, ?, DATETIME('now'))";
+        static const char *sql = "REPLACE INTO images VALUES(?, ?, DATETIME('now'))";
         if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
@@ -71,20 +72,7 @@ static sqlite3_stmt *select_statement = nil;
     sqlite3_reset(insert_statement);
     
     if (success != SQLITE_DONE) {
-        // Update image
-        if (success == SQLITE_CONSTRAINT) {
-            sqlite3_stmt *stmt;
-            if (sqlite3_prepare_v2(database, "UPDATE images SET image = ?, updated_at = DATETIME('now') where url = ?", -1, &stmt, NULL) != SQLITE_OK) {
-                NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-            }
-            sqlite3_bind_blob(stmt, 1, buf.bytes, buf.length, SQLITE_TRANSIENT);
-            sqlite3_bind_text(stmt, 2, [url UTF8String], -1, SQLITE_TRANSIENT);
-            sqlite3_step(stmt);
-            sqlite3_finalize(stmt);
-        }
-        else {
-            NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
-        }
+        NSAssert2(0, @"Error: failed to execute SQL command in %@ with message '%s'.", NSStringFromSelector(_cmd), sqlite3_errmsg(database));
     }
 }
 

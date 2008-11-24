@@ -21,9 +21,9 @@
 @property(nonatomic, retain) NSString* screenName;
 @property(nonatomic, retain) NSString* profileImageUrl;
 
-+ (BOOL)isExists:(User*)user;
+//+ (BOOL)isExists:(User*)user;
 + (void)insertDB:(User*)user;
-+ (void)updateDB:(User*)user;
+//+ (void)updateDB:(User*)user;
 
 + (Followee*)initWithDB:(sqlite3_stmt*)statement;
 

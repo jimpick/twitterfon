@@ -37,4 +37,6 @@
 - (void)updateWithJSonDictionary:(NSDictionary*)dic;
 - (id)copyWithZone:(NSZone *)zone;
 
+- (void)updateDB;
+
 @end

@@ -29,7 +29,7 @@
     
     sqlite3_stmt* statement;
     if (sqlite3_prepare_v2(database, "SELECT query FROM queries ORDER BY UPPER(query)", -1, &statement, NULL) != SQLITE_OK) {
-        NSAssert1(0, @"Error: failed to prepare delete statement with message '%s'.", sqlite3_errmsg(database));
+        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
     }
     while (sqlite3_step(statement) == SQLITE_ROW) {
         [queries addObject:[NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 0)]];
@@ -102,12 +102,12 @@
         
         sqlite3_stmt* statement;
         if (sqlite3_prepare_v2(database, "DELETE FROM queries", -1, &statement, NULL) != SQLITE_OK) {
-            NSAssert1(0, @"Error: failed to prepare delete statement with message '%s'.", sqlite3_errmsg(database));
+            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
         
         int success = sqlite3_step(statement);
         if (success == SQLITE_ERROR) {
-            NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
+            NSAssert2(0, @"Error: failed to execute SQL command in %@ with message '%s'.", NSStringFromSelector(_cmd), sqlite3_errmsg(database));
         }   
         [queries removeAllObjects];
         [bookmarkView reloadData];
@@ -144,7 +144,7 @@
         
         sqlite3_stmt* statement;
         if (sqlite3_prepare_v2(database, "DELETE FROM queries WHERE query = ?", -1, &statement, NULL) != SQLITE_OK) {
-            NSAssert1(0, @"Error: failed to prepare delete statement with message '%s'.", sqlite3_errmsg(database));
+            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
 
         NSString *query = [queries objectAtIndex:indexPath.row];
@@ -152,7 +152,7 @@
 
         int success = sqlite3_step(statement);
         if (success == SQLITE_ERROR) {
-            NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
+            NSAssert2(0, @"Error: failed to execute SQL command in %@ with message '%s'.", NSStringFromSelector(_cmd), sqlite3_errmsg(database));
         }   
         [queries removeObject:query];
         sqlite3_finalize(statement);

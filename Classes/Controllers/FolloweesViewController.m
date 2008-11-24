@@ -29,7 +29,7 @@
     
     sqlite3_stmt* statement;
     if (sqlite3_prepare_v2(database, "SELECT * FROM followees ORDER BY UPPER(screen_name)", -1, &statement, NULL) != SQLITE_OK) {
-        NSAssert1(0, @"Error: failed to prepare delete statement with message '%s'.", sqlite3_errmsg(database));
+        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
     }
 
     NSString *prevLetter = nil;
@@ -175,7 +175,7 @@ static sqlite3_stmt *search_statement = nil;
         sqlite3* database = [DBConnection getSharedDatabase];
         if (search_statement == nil) {
             if (sqlite3_prepare_v2(database, "SELECT * FROM followees WHERE name LIKE ? OR screen_name LIKE ? ORDER BY UPPER(screen_name)", -1, &search_statement, NULL) != SQLITE_OK) {
-                NSAssert1(0, @"Error: failed to prepare delete statement with message '%s'.", sqlite3_errmsg(database));
+                NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
             }
         }
         

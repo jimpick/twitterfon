@@ -48,6 +48,10 @@ typedef enum {
     CGRect          textBounds;
     CGFloat         cellHeight;
     int             textHeight;
+    
+    sqlite_int64    inReplyToMessageId;
+    int             inReplyToUserId;
+    BOOL            truncated;
    
     int             page;
     
@@ -68,6 +72,10 @@ typedef enum {
 @property (nonatomic, assign) CGRect        textBounds;
 @property (nonatomic, assign) CGFloat       cellHeight;
 @property (nonatomic, assign) int           textHeight;
+@property (nonatomic, assign) sqlite_int64  inReplyToMessageId;
+@property (nonatomic, assign) int           inReplyToUserId;
+@property (nonatomic, assign) BOOL          truncated;
+
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 
 @property (nonatomic, assign) int           page;

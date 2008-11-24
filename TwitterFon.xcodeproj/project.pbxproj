@@ -16,11 +16,11 @@
 		6E1029110E5D362C00440C58 /* LoadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1029100E5D362C00440C58 /* LoadCell.m */; };
 		6E1C6E780EB53E4700E34D9B /* TrendsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C6E760EB53E4700E34D9B /* TrendsDataSource.m */; };
 		6E1C6F3E0EB5897A00E34D9B /* SearchHistoryDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C6F3D0EB5897A00E34D9B /* SearchHistoryDataSource.m */; };
-		6E1C6FDD0EB5905E00E34D9B /* db1.2.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C6FDC0EB5905E00E34D9B /* db1.2.sql */; };
 		6E1C72E70EB5ABED00E34D9B /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C72E60EB5ABED00E34D9B /* LocationManager.m */; };
 		6E1C730B0EB5AEC800E34D9B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1C730A0EB5AEC800E34D9B /* CoreLocation.framework */; };
 		6E1C73C20EB5B77700E34D9B /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C73C10EB5B77700E34D9B /* location.png */; };
 		6E1C78890EB7063900E34D9B /* trends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C78880EB7063900E34D9B /* trends.png */; };
+		6E1FAE8D0EDAC4D7009407F6 /* db1.3.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6E1FAE8C0EDAC4D7009407F6 /* db1.3.sql */; };
 		6E2BCF1B0E3591B8003A8F69 /* postbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF1A0E3591B8003A8F69 /* postbutton.png */; };
 		6E2BCF260E3596D4003A8F69 /* friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF250E3596D4003A8F69 /* friends.png */; };
 		6E2BD0C10E35AE04003A8F69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */; };
@@ -112,12 +112,12 @@
 		6E1C6E760EB53E4700E34D9B /* TrendsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrendsDataSource.m; path = Controllers/TrendsDataSource.m; sourceTree = "<group>"; };
 		6E1C6F3C0EB5897A00E34D9B /* SearchHistoryDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchHistoryDataSource.h; path = Controllers/SearchHistoryDataSource.h; sourceTree = "<group>"; };
 		6E1C6F3D0EB5897A00E34D9B /* SearchHistoryDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchHistoryDataSource.m; path = Controllers/SearchHistoryDataSource.m; sourceTree = "<group>"; };
-		6E1C6FDC0EB5905E00E34D9B /* db1.2.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = db1.2.sql; sourceTree = "<group>"; };
 		6E1C72E50EB5ABED00E34D9B /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationManager.h; path = Controllers/LocationManager.h; sourceTree = "<group>"; };
 		6E1C72E60EB5ABED00E34D9B /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationManager.m; path = Controllers/LocationManager.m; sourceTree = "<group>"; };
 		6E1C730A0EB5AEC800E34D9B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6E1C73C10EB5B77700E34D9B /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		6E1C78880EB7063900E34D9B /* trends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trends.png; sourceTree = "<group>"; };
+		6E1FAE8C0EDAC4D7009407F6 /* db1.3.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = db1.3.sql; sourceTree = "<group>"; };
 		6E2BCF1A0E3591B8003A8F69 /* postbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = postbutton.png; sourceTree = "<group>"; };
 		6E2BCF250E3596D4003A8F69 /* friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends.png; sourceTree = "<group>"; };
 		6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -313,7 +313,7 @@
 				6ECCAD9D0EBE5B53002B39F6 /* interfaces */,
 				6EED14400E33E5BF00C71EA4 /* Images */,
 				8D1107310486CEB800E47090 /* Info.plist */,
-				6E1C6FDC0EB5905E00E34D9B /* db1.2.sql */,
+				6E1FAE8C0EDAC4D7009407F6 /* db1.3.sql */,
 				6E382E930EB41E9000B0CE69 /* Settings.bundle */,
 			);
 			name = Resources;
@@ -619,7 +619,6 @@
 				6E382E940EB41E9000B0CE69 /* Settings.bundle in Resources */,
 				6E3837100EB4789F00B0CE69 /* favorite.png in Resources */,
 				6E3837110EB4789F00B0CE69 /* favorited.png in Resources */,
-				6E1C6FDD0EB5905E00E34D9B /* db1.2.sql in Resources */,
 				6E1C73C20EB5B77700E34D9B /* location.png in Resources */,
 				6E1C78890EB7063900E34D9B /* trends.png in Resources */,
 				6EA0C19C0EBB1305000C0CD4 /* friends_small.png in Resources */,
@@ -634,6 +633,7 @@
 				6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */,
 				6E3EABA00EC8782400599954 /* dist.plist in Resources */,
 				6E4011F10ECDF786009D452A /* open_safari.png in Resources */,
+				6E1FAE8D0EDAC4D7009407F6 /* db1.3.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
