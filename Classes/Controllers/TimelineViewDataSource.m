@@ -44,8 +44,7 @@
     loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
     [loadCell setType:(messageType != MSG_TYPE_SEARCH_RESULT) ? MSG_TYPE_LOAD_FROM_DB : MSG_TYPE_LOAD_FROM_WEB];
     timeline   = [[Timeline alloc] initWithDelegate:controller];
-    [timeline restore:messageType all:false];
-    isRestored = false;
+    isRestored = ([timeline restore:messageType all:false] < 20) ? true : false;
     return self;
 }
 
