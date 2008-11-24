@@ -16,7 +16,7 @@
     int                     unread;
     BOOL                    isLoaded;
     TimelineViewDataSource* timelineDataSource;
-
+    CGPoint                 contentOffset;
 }
 
 - (void)loadTimeline;

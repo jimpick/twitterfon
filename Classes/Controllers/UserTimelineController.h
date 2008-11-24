@@ -27,6 +27,8 @@
     NSMutableArray*         deletedMessage;
     TwitterClient*          twitterClient;
     BOOL                    didCheckFriendship;
+    
+    CGPoint                 contentOffset;
 }
 
 - (void)setMessage:(Message *)message;

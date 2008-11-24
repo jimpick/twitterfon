@@ -47,6 +47,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.tintColor = nil;
     [self.tableView reloadData];
+    [self.tableView setContentOffset:contentOffset animated:false];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -56,6 +57,7 @@
         [twitterClient release];
         twitterClient = nil;
     }
+    contentOffset = self.tableView.contentOffset;
 }
 
 - (void)didReceiveMemoryWarning {

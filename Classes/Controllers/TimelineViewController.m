@@ -15,12 +15,6 @@
 
 @implementation TimelineViewController
 
-static CGPoint sSavedScrollPoint[3] = {
-    {0,0},
-    {0,0},
-    {0,0},
-};
-
 //
 // UIViewController methods
 //
@@ -43,7 +37,7 @@ static CGPoint sSavedScrollPoint[3] = {
 {
     [super viewWillAppear:animated];
     
-    [self.tableView setContentOffset:sSavedScrollPoint[tag] animated:false];
+    [self.tableView setContentOffset:contentOffset animated:false];
     [self.tableView reloadData];
     self.tableView.scrollsToTop = true;
     self.navigationController.navigationBar.tintColor = [UIColor navigationColorForTab:tag];
@@ -62,7 +56,7 @@ static CGPoint sSavedScrollPoint[3] = {
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    sSavedScrollPoint[tag] = self.tableView.contentOffset;
+    contentOffset = self.tableView.contentOffset;
 }
 
 - (void)viewDidDisappear:(BOOL)animated 
