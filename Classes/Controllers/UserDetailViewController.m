@@ -98,7 +98,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return (detailLoaded) ? 1 : 0;
+        return (detailLoaded) ? 3 : 0;
     }
     else {
         return 1;
@@ -117,15 +117,17 @@
         cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"detailCell"] autorelease];
     }
     if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [cell.contentView addSubview:detailView];
-        }
-        else {
-            cell.text = [NSString stringWithFormat:@" Device Update %@", user.notifications ? @"On" : @"Off"];
-            if (user.notifications) {
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            }
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        switch (indexPath.row) {
+            case 0:
+                cell.text = [NSString stringWithFormat:@"%d following", user.friendsCount];
+                break;
+            case 1:
+                cell.text = [NSString stringWithFormat:@"%d follower%s", user.followersCount, (user.followersCount) ? "s" : ""];
+                break;
+            case 2:
+                cell.text = [NSString stringWithFormat:@"Favorites"];
+                break;
         }
     }
     else if (indexPath.section == 1) {
@@ -195,7 +197,11 @@
         [self updateFriendshipView];
         detailLoaded = true;
 
-        NSArray *indexPath = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
+        NSArray *indexPath = [NSArray arrayWithObjects:
+                              [NSIndexPath indexPathForRow:0 inSection:0],
+                              [NSIndexPath indexPathForRow:1 inSection:0],
+                              [NSIndexPath indexPathForRow:2 inSection:0],
+                              nil];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];
         [self.tableView endUpdates];

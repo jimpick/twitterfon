@@ -343,12 +343,19 @@
 				6E08FB760E5D252200106492 /* UserTimelineController.m */,
 				6E8C57B80ED0AEA300EC9D39 /* UserView.h */,
 				6E8C57B90ED0AEA300EC9D39 /* UserView.m */,
+			);
+			name = UesrTimeline;
+			sourceTree = "<group>";
+		};
+		6E1FAB400EDA6A39009407F6 /* UserDetailView */ = {
+			isa = PBXGroup;
+			children = (
 				6E716C170ED2BD880092245A /* UserDetailViewController.h */,
 				6E716C180ED2BD880092245A /* UserDetailViewController.m */,
 				6E716C1B0ED2BDC20092245A /* UserDetailView.h */,
 				6E716C1C0ED2BDC20092245A /* UserDetailView.m */,
 			);
-			name = UesrTimeline;
+			name = UserDetailView;
 			sourceTree = "<group>";
 		};
 		6E38EF7F0E38275300887690 /* Web View */ = {
@@ -469,6 +476,7 @@
 				6E74DA700ED957EC000E169F /* Application */,
 				6E8265C90E375122005D2370 /* TimelineView */,
 				6E102A360E5DD63D00440C58 /* UesrTimeline */,
+				6E1FAB400EDA6A39009407F6 /* UserDetailView */,
 				6EBEE5790EB2F58E00C18F0A /* Search */,
 				6E8265C80E375119005D2370 /* Post */,
 				6E38EF7F0E38275300887690 /* Web View */,

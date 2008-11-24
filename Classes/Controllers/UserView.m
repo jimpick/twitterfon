@@ -106,45 +106,38 @@
 
         CGPathRelease(path);
     }
-    
+
+    // Protected user's message
     CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, 1.0);
-    
+    CGContextSetShadowWithColor(context, CGSizeMake(0, -1), 1, [[UIColor whiteColor] CGColor]);
     if (protected) {
         [kMessageUserProtected drawInRect:CGRectMake(93, 16, 189, 44) withFont:[UIFont boldSystemFontOfSize:16]];
         [kMessageDetail drawInRect:CGRectMake(93, 59, 217, 36) withFont:[UIFont systemFontOfSize:14]];
+        [lockIcon drawAtPoint:CGPointMake(298, 22)];
+        return;
     }
-    else {
-        CGContextSetShadowWithColor(context, CGSizeMake(0, -1), 1, [[UIColor whiteColor] CGColor]);
-        
-        if (hasDetail) {
-            [user.name drawInRect:CGRectMake(93, 20, 189, 24) withFont:[UIFont boldSystemFontOfSize:18] lineBreakMode:UILineBreakModeTailTruncation];
-            [user.location drawInRect:CGRectMake(93, 50, 217, 18) withFont:[UIFont systemFontOfSize:14]];
-            url.frame = CGRectMake(93, 75, 217, 18);
-        }
-        else {
-            [user.name drawInRect:CGRectMake(93, 20, 189, 44) withFont:[UIFont boldSystemFontOfSize:18] lineBreakMode:UILineBreakModeTailTruncation];
-            [user.location drawInRect:CGRectMake(93, 59, 217, 18) withFont:[UIFont systemFontOfSize:14]];
-            url.frame = CGRectMake(93, 77, 217, 18);
-        }
 
-        if (!hasDetail) {
-            if (user.followersCount > 0) {
-                NSString *numFollowers;
-                if (user.followersCount == 1) {
-                    numFollowers = @"1 follower";
-                }
-                else {
-                    numFollowers = [NSString stringWithFormat:@"%d followers", user.followersCount];
-                }
-                [[UIColor darkGrayColor] set];
-                [numFollowers drawInRect:CGRectMake(93, 42, 217, 21) withFont:[UIFont systemFontOfSize:13]];
-            }
-        }
-        
-        if (user.protected) {
-            [lockIcon drawAtPoint:CGPointMake(298, 22)];
-        }
+    // Name, location and URL
+    [user.name drawInRect:CGRectMake(93, 20, 189, 44) withFont:[UIFont boldSystemFontOfSize:18] lineBreakMode:UILineBreakModeTailTruncation];
+    [user.location drawInRect:CGRectMake(93, 59, 217, 18) withFont:[UIFont systemFontOfSize:14]];
+    url.frame = CGRectMake(93, 77, 217, 18);
+
+    // Followers
+    NSString *numFollowers;
+    const char *msg = (hasDetail) ? "update" : "follower";
+    int count = (hasDetail) ? user.statusesCount : user.followersCount;
+    if (count > 0) {
+        numFollowers = [NSString stringWithFormat:@"%d %s%s", count, msg, (count == 1) ? "" : "s"];
+        [[UIColor darkGrayColor] set];
+        [numFollowers drawInRect:CGRectMake(93, 42, 217, 21) withFont:[UIFont systemFontOfSize:13]];
     }
+
+    // protect icon
+    if (user.protected) {
+        [lockIcon drawAtPoint:CGPointMake(298, 22)];
+    }
+    
+    // description
     if (hasDetail) {
         [[UIColor blackColor] set];
         [user.description drawInRect:CGRectMake(20, 105, 280, 110) withFont:[UIFont systemFontOfSize:14] lineBreakMode:UILineBreakModeTailTruncation];
