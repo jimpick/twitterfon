@@ -146,13 +146,12 @@
  	[animation setDelegate:self];
     [animation setType:kCATransitionFade];
 	[animation setDuration:0.3];
-	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
     
     search.contentOffset = self.tableView.contentOffset;
 	
 	[[self.view.superview layer] addAnimation:animation forKey:@"fadeout"];
     [self.view.superview addSubview:overlayView];
-    self.view.frame = CGRectMake(0, 0, 320, 200);
     return true;
 }
 
@@ -162,7 +161,7 @@
     [animation setDelegate:self];
     [animation setType:kCATransitionFade];
     [animation setDuration:0.3];
-    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
     [[self.view.superview layer] addAnimation:animation forKey:@"fadeout"];
 	
     [overlayView removeFromSuperview];
@@ -183,6 +182,7 @@
         return;
     }
     
+    self.view.frame = CGRectMake(0, 0, 320, 200);
     [history updateQuery:searchText];
     [overlayView removeFromSuperview];
     self.view = searchView;
