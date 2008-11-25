@@ -31,6 +31,7 @@
 
 @synthesize timeline;
 @synthesize query;
+@synthesize contentOffset;
 
 - (id)initWithController:(UITableViewController*)aController messageType:(MessageType)type
 {

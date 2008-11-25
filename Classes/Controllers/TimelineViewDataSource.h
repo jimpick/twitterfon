@@ -15,12 +15,13 @@
 
     int                     insertPosition;
     int                     since_id;
-    
+    CGPoint                 contentOffset;
     BOOL                    isRestored;
 }
 
 @property(nonatomic, readonly) Timeline* timeline;
 @property(nonatomic, copy) NSString* query;
+@property(nonatomic, assign) CGPoint contentOffset;
 
 - (id)initWithController:(UITableViewController*)controller messageType:(MessageType)type;
 

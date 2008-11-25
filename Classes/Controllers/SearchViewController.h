@@ -12,7 +12,7 @@
 #import "TimelineViewDataSource.h"
 #import "LocationManager.h"
 #import "SearchMessageView.h"
-#import "SearchView.h"
+#import "OverlayView.h"
 
 @interface SearchViewController : UITableViewController <UISearchBarDelegate> {
     UISearchBar*                searchBar;
@@ -20,7 +20,8 @@
     TimelineViewDataSource*     search;
     SearchHistoryDataSource*    history;
     IBOutlet SearchMessageView* messageView;
-    IBOutlet SearchView*        searchView;
+    IBOutlet UITableView*       searchView;
+    OverlayView*                overlayView;
 }
 
 - (void)search:(NSString*)query;

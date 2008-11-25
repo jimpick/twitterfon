@@ -6,12 +6,21 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
-#import "SearchView.h"
+#import "OverlayView.h"
 
 
-@implementation SearchView
+@implementation OverlayView
 
 @synthesize searchBar;
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    self.backgroundColor = [UIColor blackColor];
+    self.alpha = 0.8;
+    self.opaque = false;
+    return self;
+}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {

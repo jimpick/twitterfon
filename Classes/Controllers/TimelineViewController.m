@@ -110,6 +110,7 @@
 - (IBAction) segmentDidChange:(id)sender
 {
     UISegmentedControl* control = (UISegmentedControl*)sender;
+    currentDataSource.contentOffset = self.tableView.contentOffset;
     if (control.selectedSegmentIndex == 0) {
         currentDataSource         = timelineDataSource;
         self.tableView.dataSource = timelineDataSource;
@@ -124,8 +125,10 @@
         self.tableView.dataSource = sentMessageDataSource;
         self.tableView.delegate   = sentMessageDataSource;
     }
+    [self.tableView setContentOffset:currentDataSource.contentOffset animated:false];
     [self didLeaveTab:self.navigationController];
     [self.tableView reloadData];
+    [self.tableView flashScrollIndicators];
 }
 
 - (void)postViewAnimationDidFinish

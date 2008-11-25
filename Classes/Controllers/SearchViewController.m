@@ -26,8 +26,7 @@
     self.navigationController.navigationBar.topItem.titleView = searchBar;
     searchBar.delegate = self;
     searchBar.showsBookmarkButton = true;
-    
-    searchView.searchBar  = searchBar;
+
     messageView.searchBar = searchBar;
 
     UIBarButtonItem *trendButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"trends.png"]
@@ -52,10 +51,15 @@
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;
     self.view = messageView;
+    
+    overlayView = [[OverlayView alloc] initWithFrame:messageView.bounds];
+    overlayView.searchBar  = searchBar;
+    
 }
 
 
 - (void)dealloc {
+    [overlayView release];
     [search release];
     [trends release];
     [history release];
@@ -136,15 +140,51 @@
 //
 // UISearchBar delegates
 //
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    CATransition *animation = [CATransition animation];
+ 	[animation setDelegate:self];
+    [animation setType:kCATransitionFade];
+	[animation setDuration:0.3];
+	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    
+    search.contentOffset = self.tableView.contentOffset;
+	
+	[[self.view.superview layer] addAnimation:animation forKey:@"fadeout"];
+    [self.view.superview addSubview:overlayView];
+    self.view.frame = CGRectMake(0, 0, 320, 200);
+    return true;
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
+{
+    CATransition *animation = [CATransition animation];
+    [animation setDelegate:self];
+    [animation setType:kCATransitionFade];
+    [animation setDuration:0.3];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [[self.view.superview layer] addAnimation:animation forKey:@"fadeout"];
+	
+    [overlayView removeFromSuperview];
+    self.view.frame = CGRectMake(0, 0, 320, 367);
+    
+    return true;
+}
+
 - (void)searchBar:(UISearchBar *)aSearchBar textDidChange:(NSString *)searchText
 {
     if ([searchText length] == 0) {
-        self.view = messageView;
+        self.tableView.dataSource = search;
+        self.tableView.delegate   = search;
+        [self.tableView reloadData];
+        [self.tableView setContentOffset:search.contentOffset animated:false];
+        [self.view.superview addSubview:overlayView];
         [messageView setMessage:@"" indicator:false];
         return;
     }
-
+    
     [history updateQuery:searchText];
+    [overlayView removeFromSuperview];
     self.view = searchView;
     self.tableView.dataSource = history;
     self.tableView.delegate   = history;
@@ -171,6 +211,7 @@
 - (void)searchDidLoad:(int)count insertAt:(int)position
 {
     self.view = searchView;
+
     if (self.tableView.dataSource != search) {
         self.tableView.dataSource = search;
         self.tableView.delegate   = search;

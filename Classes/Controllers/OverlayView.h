@@ -9,13 +9,12 @@
 #import <UIKit/UIKit.h>
 
 
-@interface SearchView : UITableView {
+@interface OverlayView : UIView {
     UISearchBar*    searchBar;
-    
     CGPoint         point;
     BOOL            moved;
 }
 
-@property (nonatomic, assign) UISearchBar* searchBar;
+@property(nonatomic, assign) UISearchBar* searchBar;
 
 @end
