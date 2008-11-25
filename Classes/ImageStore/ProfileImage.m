@@ -17,7 +17,6 @@ static sqlite3_stmt *select_statement = nil;
 
 @interface ProfileImage (ProfileImagePrivate)
 - (BOOL)resizeImage;
-- (void)convertImage;
 @end
 @implementation ProfileImage
 
@@ -47,7 +46,6 @@ static sqlite3_stmt *select_statement = nil;
         NSData *data = [NSData dataWithBytes:sqlite3_column_blob(select_statement, 0) length:length];
         image = [[UIImage imageWithData:data] retain];
         [self resizeImage];
-        [self convertImage];
     } else {
         [self requestImage];
     }
@@ -123,32 +121,6 @@ static sqlite3_stmt *select_statement = nil;
     return false;
 }
 
-- (void)convertImage
-{
-    NSRange r = [url rangeOfString:@"_bigger."];
-    float numPixels = (r.location != NSNotFound) ? 73.0 : 48.0;
-    float radius = (r.location != NSNotFound) ? 8.0 : 4.0;
-    
-    UIGraphicsBeginImageContext(CGSizeMake(numPixels, numPixels));
-    CGContextRef c = UIGraphicsGetCurrentContext();
-    
-    CGContextBeginPath(c);
-    CGContextMoveToPoint  (c, numPixels, numPixels/2);
-    CGContextAddArcToPoint(c, numPixels, numPixels, numPixels/2, numPixels,   radius);
-    CGContextAddArcToPoint(c, 0,         numPixels, 0,           numPixels/2, radius);
-    CGContextAddArcToPoint(c, 0,         0,         numPixels/2, 0,           radius);
-    CGContextAddArcToPoint(c, numPixels, 0,         numPixels,   numPixels/2, radius);
-    CGContextClosePath(c);
-    
-    CGContextClip(c);
-    
-    [image drawAtPoint:CGPointZero];
-    [image release];
-    image = UIGraphicsGetImageFromCurrentImageContext();
-    [image retain];
-    UIGraphicsEndImageContext();
-}
-
 - (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
 {
 	image = [[UIImage imageWithData:sender.buf] retain];
@@ -161,7 +133,6 @@ static sqlite3_stmt *select_statement = nil;
         [self insertImage:sender.buf];
     }
 
-    [self convertImage];
     [appDelegate profileImageDidGetNewImage:image delegate:delegate];
 }
 

@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "Message.h"
 #import "MessageCellView.h"
+#import "ProfileImageButton.h"
 
 #define MESSAGE_REUSE_INDICATOR @"MessageCell"
 
@@ -8,7 +9,7 @@
 {
 	Message*            message;
     MessageCellView*    cellView;
-    UIButton*           profileImage;
+    ProfileImageButton* profileImage;
 
     UIActivityIndicatorView*    spinner;
     
@@ -19,7 +20,7 @@
 }
 
 @property (nonatomic, assign) Message*  message;
-@property (nonatomic, assign) UIButton* profileImage;
+@property (nonatomic, assign) ProfileImageButton* profileImage;
 @property (nonatomic, assign) BOOL inEditing;
 
 - (void)update:(MessageType)type delegate:(id)delegate;

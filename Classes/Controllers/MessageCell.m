@@ -31,7 +31,7 @@ static UIImage* sFavorited = nil;
     cellView = [[[MessageCellView alloc] initWithFrame:CGRectZero] autorelease];
     [self.contentView addSubview:cellView];
     
-    profileImage = [UIButton buttonWithType:UIButtonTypeCustom];
+    profileImage = [[[ProfileImageButton alloc] initWithFrame:CGRectZero] autorelease];
     [profileImage addTarget:self action:@selector(didTouchProfileImage:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:profileImage];
 
