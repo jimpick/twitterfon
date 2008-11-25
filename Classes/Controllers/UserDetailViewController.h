@@ -16,8 +16,6 @@
     User*           user;
     UserView*       userView;
     UserDetailView* detailView;
-    UILabel*        description;
-    UILabel*        followStatus;
     TwitterClient*  twitterClient;
     
     BOOL            detailLoaded;

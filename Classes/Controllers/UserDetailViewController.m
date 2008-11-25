@@ -41,14 +41,6 @@
     [userView setUser:user delegate:self];
     
     detailView = [[UserDetailView alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
-    
-    followStatus = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    followStatus.backgroundColor = [UIColor clearColor];
-    followStatus.textColor       = [UIColor darkGrayColor];
-    followStatus.shadowColor     = [UIColor whiteColor];
-    followStatus.font            = [UIFont boldSystemFontOfSize:16];
-    followStatus.lineBreakMode   = UILineBreakModeTailTruncation;
-    followStatus.shadowOffset    = CGSizeMake(0, 1);
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -85,7 +77,6 @@
     [twitterClient release];
     [detailView release];
     [userView release];
-    [followStatus release];
     [super dealloc];
 }
 
@@ -158,7 +149,7 @@
         return userView;
     }
     else {
-        return followStatus;
+        return nil;
     }
 }
 
@@ -172,17 +163,21 @@
     }
 }
 
-- (void)updateFriendshipView
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection: (NSInteger)section
 {
-    NSString *fmt;
-    if (user.following) {
-        fmt = @"    You are following ";
+    if (section == 1) {
+        NSString *fmt;
+        if (user.following) {
+            fmt = @"You are following ";
+        }
+        else {
+            fmt = @"You are not following ";
+        }
+        return [fmt stringByAppendingString:user.screenName];
     }
     else {
-        fmt = @"    You are not following ";
+        return nil;
     }
-    followStatus.text = [fmt stringByAppendingString:user.screenName];
-    [followStatus setNeedsDisplay];
 }
 
 - (void)userDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
@@ -194,7 +189,6 @@
         [user updateWithJSonDictionary:dic];
         [userView setUser:user delegate:self];
         detailView.user = user;
-        [self updateFriendshipView];
         detailLoaded = true;
 
         NSArray *indexPath = [NSArray arrayWithObjects:
@@ -221,8 +215,6 @@
     NSNumber *flag = (NSNumber*)obj;  	 	 
     user.following = [flag boolValue] ? 1 : 0;  	 	 
 
-    [self updateFriendshipView];	 	 
-
     [self.tableView beginUpdates];  	 	 
     [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationTop];  	 	 
     [self.tableView endUpdates];  	 	 
@@ -234,7 +226,6 @@
 - (void)updateFriendship:(BOOL)created
 {
     user.following = created;
-    [self updateFriendshipView];
     
     CATransition *animation = [CATransition animation];
     [animation setType:kCATransitionFade];
