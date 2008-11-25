@@ -21,11 +21,10 @@
 #import "DBConnection.h"
 
 @interface NSObject (TimelineViewControllerDelegate)
-- (void)timelineDidUpdate:(int)count insertAt:(int)position;
-- (void)timelineDidFailToUpdate:(int)position;
+- (void)timelineDidUpdate:(TimelineViewDataSource*)sender count:(int)count insertAt:(int)position;
+- (void)timelineDidFailToUpdate:(TimelineViewDataSource*)sender position:(int)position;
 - (void)searchDidLoad:(int)count insertAt:(int)insertAt;
 - (void)noSearchResult;
-- (void)timelineDidFailToUpdate:(int)position;
 @end
 
 @implementation TimelineViewDataSource
@@ -184,6 +183,8 @@
 
 - (void)timelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
 {
+    [loadCell.spinner stopAnimating];
+   
     if (obj == nil) {
         return;
     }
@@ -226,8 +227,8 @@
         sqlite3_exec(database, "COMMIT", NULL, NULL, &errmsg); 
     }
 
-    if ([controller respondsToSelector:@selector(timelineDidUpdate:insertAt:)]) {
-        [controller timelineDidUpdate:unread insertAt:insertPosition];
+    if ([controller respondsToSelector:@selector(timelineDidUpdate:count:insertAt:)]) {
+        [controller timelineDidUpdate:self count:unread insertAt:insertPosition];
 	}
 
     return;
@@ -242,8 +243,11 @@
                                           otherButtonTitles: nil];
     [alert show];	
     [alert release];
-    if ([controller respondsToSelector:@selector(timelineDidFailToUpdate:)]) {
-        [controller timelineDidFailToUpdate:insertPosition];
+    
+    [loadCell.spinner stopAnimating];
+    
+    if ([controller respondsToSelector:@selector(timelineDidFailToUpdate:position:)]) {
+        [controller timelineDidFailToUpdate:self position:insertPosition];
     }
     
     if (sender.statusCode == 401) {

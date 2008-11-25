@@ -195,7 +195,7 @@
     [messageView setMessage:@"No search result." indicator:false];
 }
 
-- (void)timelineDidFailToUpdate:(int)position
+- (void)timelineDidFailToUpdate:(TimelineViewDataSource*)sender position:(int)position
 {
     if (position == 0) {
         self.view = messageView;

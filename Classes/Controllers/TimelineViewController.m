@@ -190,7 +190,7 @@
 //
 // TimelineDelegate
 //
-- (void)timelineDidUpdate:(int)count insertAt:(int)position
+- (void)timelineDidUpdate:(TimelineViewDataSource*)sender count:(int)count insertAt:(int)position
 {
     self.navigationItem.leftBarButtonItem.enabled = true;
     if (count) {
@@ -199,7 +199,8 @@
     }
  
     if (self.navigationController.tabBarController.selectedIndex == tab &&
-        self.navigationController.topViewController == self) {
+        self.navigationController.topViewController == self &&
+        sender == currentDataSource) {
         
         [self.tableView beginUpdates];
         
@@ -223,13 +224,9 @@
     }
 }
 
-- (void)timelineDidFailToUpdate:(int)position
+- (void)timelineDidFailToUpdate:(TimelineViewDataSource*)sender position:(int)position
 {
     self.navigationItem.leftBarButtonItem.enabled = true;
-    LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:position inSection:0]];
-    if ([cell isKindOfClass:[LoadCell class]]) {
-        [cell.spinner stopAnimating];
-    }
 }
 @end
 
