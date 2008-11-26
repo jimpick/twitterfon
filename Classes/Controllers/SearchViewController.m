@@ -10,7 +10,6 @@
 #import "SearchViewController.h"
 #import "SearchHistoryViewController.h"
 #import "DBConnection.h"
-#import "SearchMessageView.h"
 #import "TwitterClient.h"
 #import "LoadCell.h"
 
@@ -26,8 +25,6 @@
     self.navigationController.navigationBar.topItem.titleView = searchBar;
     searchBar.delegate = self;
     searchBar.showsBookmarkButton = true;
-
-    messageView.searchBar = searchBar;
 
     UIBarButtonItem *trendButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"trends.png"]
                                                                      style:UIBarButtonItemStylePlain 
@@ -50,11 +47,12 @@
     
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;
-    self.view = messageView;
+    self.view = searchView;
     
-    overlayView = [[OverlayView alloc] initWithFrame:messageView.bounds];
+    overlayView = [[OverlayView alloc] initWithFrame:CGRectMake(0, 0, 320, 367)];
     overlayView.searchBar  = searchBar;
-    
+    overlayView.searchView = searchView;
+
 }
 
 
@@ -72,31 +70,31 @@
      self.tableView.scrollsToTop = true; 
  }
 
-/*
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self.view.superview addSubview:overlayView];
 }
-*/
 
-/*
- - (void)viewWillDisappear:(BOOL)animated {
+ - (void)viewWillDisappear:(BOOL)animated 
+{
+    [overlayView removeFromSuperview];
+}
+
+ - (void)viewDidDisappear:(BOOL)animated
+{
  }
- */
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- }
- */
 
 - (void)search:(NSString*)query
 {
+    
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;
-    self.view = messageView;
-    [messageView setMessage:@"Loading..." indicator:true];
 
     searchBar.text = query;    
     [searchBar resignFirstResponder];
     [search search:query];
+    [overlayView setMessage:@"Loading..." spinner:true];
     
     sqlite3* database = [DBConnection getSharedDatabase];
     sqlite3_stmt *select, *insert;
@@ -147,26 +145,22 @@
     [animation setType:kCATransitionFade];
 	[animation setDuration:0.3];
 	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-    
-    search.contentOffset = self.tableView.contentOffset;
-	
+	overlayView.mode = OVERLAY_MODE_DARKEN;
 	[[self.view.superview layer] addAnimation:animation forKey:@"fadeout"];
-    [self.view.superview addSubview:overlayView];
+    
+    if (self.tableView.dataSource == search) {
+        search.contentOffset = self.tableView.contentOffset;
+    }
+    self.view.frame = CGRectMake(0, 0, 320, 200);
+    
     return true;
 }
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
 {
-    CATransition *animation = [CATransition animation];
-    [animation setDelegate:self];
-    [animation setType:kCATransitionFade];
-    [animation setDuration:0.3];
-    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-    [[self.view.superview layer] addAnimation:animation forKey:@"fadeout"];
-	
-    [overlayView removeFromSuperview];
+	overlayView.mode = OVERLAY_MODE_HIDDEN;
     self.view.frame = CGRectMake(0, 0, 320, 367);
-    
+    [self.tableView reloadData];
     return true;
 }
 
@@ -177,15 +171,12 @@
         self.tableView.delegate   = search;
         [self.tableView reloadData];
         [self.tableView setContentOffset:search.contentOffset animated:false];
-        [self.view.superview addSubview:overlayView];
-        [messageView setMessage:@"" indicator:false];
+        overlayView.mode = OVERLAY_MODE_DARKEN;
         return;
     }
     
-    self.view.frame = CGRectMake(0, 0, 320, 200);
     [history updateQuery:searchText];
-    [overlayView removeFromSuperview];
-    self.view = searchView;
+    overlayView.mode = OVERLAY_MODE_SHADOW;
     self.tableView.dataSource = history;
     self.tableView.delegate   = history;
     [self reloadTable];
@@ -210,7 +201,7 @@
 
 - (void)searchDidLoad:(int)count insertAt:(int)position
 {
-    self.view = searchView;
+    overlayView.mode = OVERLAY_MODE_HIDDEN;
 
     if (self.tableView.dataSource != search) {
         self.tableView.dataSource = search;
@@ -232,15 +223,13 @@
 
 - (void)noSearchResult
 {
-    self.view = messageView;
-    [messageView setMessage:@"No search result." indicator:false];
+    [overlayView setMessage:@"No search result." spinner:false];
 }
 
 - (void)timelineDidFailToUpdate:(TimelineViewDataSource*)sender position:(int)position
 {
     if (position == 0) {
-        self.view = messageView;
-        [messageView setMessage:@"Search is not available." indicator:false];
+        [overlayView setMessage:@"Search is not available." spinner:false];
     }
     else {
         LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:position inSection:0]];
@@ -258,15 +247,14 @@
 
 - (void)getLocation:(id)sender
 {
-    self.view = messageView;
-    [messageView setMessage:@"Loading..." indicator:true];
-    
     [search removeAllMessages];
     [self reloadTable];
 
     self.navigationItem.leftBarButtonItem.enabled = false;
     
     [searchBar resignFirstResponder];
+    [overlayView setMessage:@"Loading..." spinner:true];
+    
     LocationManager *location = [[LocationManager alloc] initWithDelegate:self];
     [location getCurrentLocation];
 }
@@ -280,25 +268,22 @@
 
 - (void)locationManagerDidFail:(LocationManager*)manager
 {
-    self.view = messageView;
-    [messageView setMessage:@"Can't get current location." indicator:false];
+    [overlayView setMessage:@"Can't get current location." spinner:false];
     self.navigationItem.leftBarButtonItem.enabled = true;
     [manager autorelease];
 }
 
 - (void)getTrends:(id)sender
 {
-    self.view = messageView;
-    [messageView setMessage:@"Loading..." indicator:true];
-    
     self.navigationItem.rightBarButtonItem.enabled = false;
     [searchBar resignFirstResponder];
+    [overlayView setMessage:@"Loading..." spinner:true];
     [trends getTrends];
 }
 
 - (void)searchTrendsDidLoad
 {
-    self.view = searchView;
+    overlayView.mode = OVERLAY_MODE_HIDDEN;
     self.tableView.delegate   = trends;
     self.tableView.dataSource = trends;
     self.navigationItem.rightBarButtonItem.enabled = true;
@@ -307,8 +292,7 @@
 
 - (void)searchTrendsDidFailToLoad
 {
-    self.view = messageView;
-    [messageView setMessage:@"Failed to get trends." indicator:false];
+    [overlayView setMessage:@"Failed to get trends." spinner:false];
     self.navigationItem.rightBarButtonItem.enabled = true;
 }
 

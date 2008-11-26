@@ -32,7 +32,6 @@
 		6E3837110EB4789F00B0CE69 /* favorited.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370F0EB4789F00B0CE69 /* favorited.png */; };
 		6E3EABA00EC8782400599954 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E3EAB9F0EC8782400599954 /* dist.plist */; };
 		6E3ED88E0EB9439A0041687A /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3ED88D0EB9439A0041687A /* TimelineViewController.m */; };
-		6E3EDA870EB99F5E0041687A /* SearchMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDA860EB99F5E0041687A /* SearchMessageView.m */; };
 		6E3EDADE0EB9A2050041687A /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDADD0EB9A2050041687A /* OverlayView.m */; };
 		6E4011F10ECDF786009D452A /* open_safari.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E4011F00ECDF786009D452A /* open_safari.png */; };
 		6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */; };
@@ -51,6 +50,7 @@
 		6E716C1A0ED2BD880092245A /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E716C180ED2BD880092245A /* UserDetailViewController.m */; };
 		6E716C1D0ED2BDC20092245A /* UserDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E716C1C0ED2BDC20092245A /* UserDetailView.m */; };
 		6E74DA890ED95AC5000E169F /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E74DA870ED95AC5000E169F /* TabBarController.m */; };
+		6E89F34A0EDD230A00778242 /* search_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E89F3490EDD230A00778242 /* search_shadow.png */; };
 		6E8C57BA0ED0AEA300EC9D39 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C57B90ED0AEA300EC9D39 /* UserView.m */; };
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
 		6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E943F1A0E6527C600E8ECF2 /* usercell_background.png */; };
@@ -133,8 +133,6 @@
 		6E3EAB9F0EC8782400599954 /* dist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dist.plist; sourceTree = "<group>"; };
 		6E3ED88D0EB9439A0041687A /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineViewController.m; path = Controllers/TimelineViewController.m; sourceTree = "<group>"; };
 		6E3ED88F0EB943B00041687A /* TimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineViewController.h; path = Controllers/TimelineViewController.h; sourceTree = "<group>"; };
-		6E3EDA850EB99F5E0041687A /* SearchMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchMessageView.h; path = Controllers/SearchMessageView.h; sourceTree = "<group>"; };
-		6E3EDA860EB99F5E0041687A /* SearchMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchMessageView.m; path = Controllers/SearchMessageView.m; sourceTree = "<group>"; };
 		6E3EDADC0EB9A2050041687A /* OverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverlayView.h; path = Controllers/OverlayView.h; sourceTree = "<group>"; };
 		6E3EDADD0EB9A2050041687A /* OverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OverlayView.m; path = Controllers/OverlayView.m; sourceTree = "<group>"; };
 		6E4011F00ECDF786009D452A /* open_safari.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = open_safari.png; sourceTree = "<group>"; };
@@ -161,6 +159,7 @@
 		6E716C1C0ED2BDC20092245A /* UserDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDetailView.m; path = Controllers/UserDetailView.m; sourceTree = "<group>"; };
 		6E74DA870ED95AC5000E169F /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarController.m; path = Controllers/TabBarController.m; sourceTree = "<group>"; };
 		6E74DA880ED95AC5000E169F /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarController.h; path = Controllers/TabBarController.h; sourceTree = "<group>"; };
+		6E89F3490EDD230A00778242 /* search_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_shadow.png; sourceTree = "<group>"; };
 		6E8C57B80ED0AEA300EC9D39 /* UserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserView.h; path = Controllers/UserView.h; sourceTree = "<group>"; };
 		6E8C57B90ED0AEA300EC9D39 /* UserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserView.m; path = Controllers/UserView.m; sourceTree = "<group>"; };
 		6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeUtils.h; path = Classes/OtherSources/TimeUtils.h; sourceTree = "<group>"; };
@@ -437,8 +436,6 @@
 				6E3EDADD0EB9A2050041687A /* OverlayView.m */,
 				6EBEE5820EB2F65400C18F0A /* SearchViewController.h */,
 				6EBEE5830EB2F65400C18F0A /* SearchViewController.m */,
-				6E3EDA850EB99F5E0041687A /* SearchMessageView.h */,
-				6E3EDA860EB99F5E0041687A /* SearchMessageView.m */,
 				6E1C6E750EB53E4700E34D9B /* TrendsDataSource.h */,
 				6E1C6E760EB53E4700E34D9B /* TrendsDataSource.m */,
 				6E1C6F3C0EB5897A00E34D9B /* SearchHistoryDataSource.h */,
@@ -548,6 +545,7 @@
 		6EED14400E33E5BF00C71EA4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6E89F3490EDD230A00778242 /* search_shadow.png */,
 				6E4011F00ECDF786009D452A /* open_safari.png */,
 				6E6DC6230EC07F3D00F9EB74 /* camera.png */,
 				6EA0C19B0EBB1305000C0CD4 /* friends_small.png */,
@@ -639,6 +637,7 @@
 				6E3EABA00EC8782400599954 /* dist.plist in Resources */,
 				6E4011F10ECDF786009D452A /* open_safari.png in Resources */,
 				6E1FAE8D0EDAC4D7009407F6 /* db1.3.sql in Resources */,
+				6E89F34A0EDD230A00778242 /* search_shadow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -681,7 +680,6 @@
 				6E1C72E70EB5ABED00E34D9B /* LocationManager.m in Sources */,
 				6E9CA2C70EB8D4E800D7F004 /* TimelineViewDataSource.m in Sources */,
 				6E3ED88E0EB9439A0041687A /* TimelineViewController.m in Sources */,
-				6E3EDA870EB99F5E0041687A /* SearchMessageView.m in Sources */,
 				6E3EDADE0EB9A2050041687A /* OverlayView.m in Sources */,
 				6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */,
 				6E48E93B0EBD7439005E1837 /* PostView.m in Sources */,

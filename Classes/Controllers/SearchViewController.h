@@ -11,7 +11,6 @@
 #import "SearchHistoryDataSource.h"
 #import "TimelineViewDataSource.h"
 #import "LocationManager.h"
-#import "SearchMessageView.h"
 #import "OverlayView.h"
 
 @interface SearchViewController : UITableViewController <UISearchBarDelegate> {
@@ -19,7 +18,6 @@
     TrendsDataSource*           trends;
     TimelineViewDataSource*     search;
     SearchHistoryDataSource*    history;
-    IBOutlet SearchMessageView* messageView;
     IBOutlet UITableView*       searchView;
     OverlayView*                overlayView;
 }
