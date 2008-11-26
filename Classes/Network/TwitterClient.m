@@ -179,10 +179,10 @@ NSString* sMethods[4] = {
     for (id key in params) {
         NSString *value = [params objectForKey:key];
         if (i == 0) {
-            url = [NSString stringWithFormat:@"%@?%@=%@", url, key, value];
+            url = [NSString stringWithFormat:@"%@?%@=%@", url, key, [value encodeAsURIComponent]];
         }
         else {
-            url = [NSString stringWithFormat:@"%@&%@=%@", url, key, value];
+            url = [NSString stringWithFormat:@"%@&%@=%@", url, key, [value encodeAsURIComponent]];
         }
         ++i;
     }
