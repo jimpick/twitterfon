@@ -11,7 +11,6 @@
 #import "TwitterFonAppDelegate.h"
 #import "ColorUtils.h"
 #import "MessageCell.h"
-#import "LoadCell.h"
 
 @interface TimelineViewController (Private)
 - (void)didLeaveTab:(UINavigationController*)navigationController;
