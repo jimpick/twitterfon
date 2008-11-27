@@ -109,13 +109,9 @@
     if (mode == OVERLAY_MODE_SHADOW) {
         [searchView touchesBegan:touches withEvent:event];
     }
-    else {
-        [super touchesBegan:touches withEvent:event];
-
-        UITouch* t = [touches anyObject];
-        point = [t locationInView:self];
-        moved = NO;
-    }
+    UITouch* t = [touches anyObject];
+    point = [t locationInView:self];
+    moved = NO;
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -123,14 +119,10 @@
     if (mode == OVERLAY_MODE_SHADOW) {
         [searchView touchesMoved:touches withEvent:event];
     }
-    else {
-        [super touchesMoved:touches withEvent:event];
-    
-        UITouch* t = [touches anyObject];
-        CGPoint pt = [t locationInView:self];
-        if (point.x != pt.x || point.y != pt.y) {
-            moved = YES;
-        }
+    UITouch* t = [touches anyObject];
+    CGPoint pt = [t locationInView:self];
+    if (point.x != pt.x || point.y != pt.y) {
+        moved = YES;
     }
 }
 
@@ -139,28 +131,24 @@
     if (mode == OVERLAY_MODE_SHADOW) {
         [searchView touchesEnded:touches withEvent:event];
     }
-    else {
-        [super touchesEnded:touches withEvent:event];
-        
-        UITouch* t = [touches anyObject];
-        CGPoint pt = [t locationInView:self];
-        if (point.x != pt.x || point.y != pt.y) {
-            moved = YES;
-        }
-        
-        if (!moved) {
-            if (self.mode == OVERLAY_MODE_DARKEN) {
 
-                CATransition *animation = [CATransition animation];
-                [animation setType:kCATransitionFade];
-                [animation setDuration:0.3];
-                [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-                [[self layer] addAnimation:animation forKey:@"fadeout"];
-                
-                self.mode = OVERLAY_MODE_HIDDEN;
-                
-                [searchBar resignFirstResponder];
-            }
+    UITouch* t = [touches anyObject];
+    CGPoint pt = [t locationInView:self];
+    if (point.x != pt.x || point.y != pt.y) {
+        moved = YES;
+    }
+    
+    if (!moved) {
+        if (self.mode == OVERLAY_MODE_DARKEN || self.mode == OVERLAY_MODE_SHADOW) {
+            CATransition *animation = [CATransition animation];
+            [animation setType:kCATransitionFade];
+            [animation setDuration:0.3];
+            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+            [[self layer] addAnimation:animation forKey:@"fadeout"];
+            
+            self.mode = OVERLAY_MODE_HIDDEN;
+            
+            [searchBar resignFirstResponder];
         }
     }
 }

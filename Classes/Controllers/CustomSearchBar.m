@@ -52,17 +52,17 @@
 
 - (CGRect)textRectForBounds:(CGRect)bounds
 {
-    return CGRectMake(37, 14, 140, 17);
+    return CGRectMake(35, 14, 145, 17);
 }
 
 - (CGRect)editingRectForBounds:(CGRect)bounds
 {
-    return CGRectMake(37, 14, 140, 17);
+    return CGRectMake(35, 14, 145, 17);
 }
 
 - (CGRect)leftViewRectForBounds:(CGRect)bounds
 {
-    bounds.origin.x += 5;
+    bounds.origin.x += 2;
     bounds.size.width = 37;
     return bounds;
 }
