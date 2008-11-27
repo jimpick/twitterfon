@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomSearchBar.h"
 
 typedef enum {
     OVERLAY_MODE_HIDDEN,
@@ -16,7 +17,7 @@ typedef enum {
 } OverlayViewMode;
 
 @interface OverlayView : UIView {
-    UISearchBar*                searchBar;
+    CustomSearchBar*            searchBar;
     UITableView*                searchView;
     UIActivityIndicatorView*    spinner;
 
@@ -30,8 +31,8 @@ typedef enum {
 
 - (void)setMessage:(NSString*)aMessage spinner:(BOOL)flag;
 
-@property(nonatomic, assign) UISearchBar* searchBar;
-@property(nonatomic, assign) UITableView* searchView;
-@property(nonatomic, assign) OverlayViewMode mode;
+@property(nonatomic, assign) CustomSearchBar*   searchBar;
+@property(nonatomic, assign) UITableView*       searchView;
+@property(nonatomic, assign) OverlayViewMode    mode;
 
 @end

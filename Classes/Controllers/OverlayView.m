@@ -54,16 +54,6 @@
             break;
          
     }
-    
-    if (mode == OVERLAY_MODE_SHADOW) {
-        searchView.separatorColor = [UIColor colorWithRed:0.843 green:0.843 blue:0.843 alpha:1.0];
-        searchView.backgroundColor = [UIColor colorWithRed:0.906 green:0.906 blue:0.906 alpha:1.0];
-    }
-    else {
-        searchView.separatorColor = [UIColor colorWithRed:0.878 green:0.878 blue:0.878 alpha:1.0];
-        searchView.backgroundColor = [UIColor whiteColor];
-    }
-    
     [self setNeedsDisplay];
 }
 
@@ -99,10 +89,15 @@
         
         CGContextSetShadowWithColor(context, CGSizeMake(0, -1), 1, [[UIColor whiteColor] CGColor]);
         [[UIColor colorWithRed:0.2 green:0.2  blue:0.2  alpha:1.0] set];
-        [message drawInRect:CGRectMake(0, 173, 320, 20) 
-                   withFont:[UIFont boldSystemFontOfSize:16] 
-              lineBreakMode:UILineBreakModeTailTruncation
-                  alignment:UITextAlignmentCenter];
+        CGSize result = 
+            [message drawInRect:CGRectMake(0, 173, 320, 20) 
+                       withFont:[UIFont boldSystemFontOfSize:16] 
+                  lineBreakMode:UILineBreakModeTailTruncation
+                      alignment:UITextAlignmentCenter];
+        
+        CGRect r = spinner.frame;
+        r.origin.x = ((320 - result.width) / 2) - 25;
+        spinner.frame = r;
     }
     else {
         [super drawRect:rect];
@@ -154,13 +149,13 @@
         }
         
         if (!moved) {
-            if ([searchBar isFirstResponder]) {
-                
+            if (self.mode == OVERLAY_MODE_DARKEN) {
+
                 CATransition *animation = [CATransition animation];
                 [animation setType:kCATransitionFade];
                 [animation setDuration:0.3];
                 [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-                [[self.superview layer] addAnimation:animation forKey:@"fadeout"];
+                [[self layer] addAnimation:animation forKey:@"fadeout"];
                 
                 self.mode = OVERLAY_MODE_HIDDEN;
                 

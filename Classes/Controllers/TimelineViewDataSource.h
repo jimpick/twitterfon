@@ -14,7 +14,7 @@
     float                   latitude, longitude;
 
     int                     insertPosition;
-    int                     since_id;
+    uint64_t                since_id;
     CGPoint                 contentOffset;
     BOOL                    isRestored;
 }
@@ -26,7 +26,7 @@
 - (id)initWithController:(UITableViewController*)controller messageType:(MessageType)type;
 
 - (void)getTimeline;
-- (void)search;
+- (BOOL)searchSubstance:(BOOL)reload;
 - (void)search:(NSString*)query;
 - (void)geocode:(float)latitude longitude:(float)longitude;
 

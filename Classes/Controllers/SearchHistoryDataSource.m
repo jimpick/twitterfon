@@ -66,6 +66,10 @@ static sqlite3_stmt *select_statement = nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    tableView.separatorColor = [UIColor colorWithRed:0.843 green:0.843 blue:0.843 alpha:1.0];
+    tableView.backgroundColor = [UIColor colorWithRed:0.906 green:0.906 blue:0.906 alpha:1.0];
+
     return [queries count];
 }
 

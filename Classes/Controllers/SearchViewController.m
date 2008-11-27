@@ -11,7 +11,7 @@
 #import "SearchHistoryViewController.h"
 #import "DBConnection.h"
 #import "TwitterClient.h"
-#import "LoadCell.h"
+#import "DebugUtils.h"
 
 @interface NSObject (SearchTableViewDelegate)
 - (void)textAtIndexPath:(NSIndexPath*)indexPath;
@@ -21,22 +21,20 @@
 
 - (void)viewDidLoad {
     UIView *view = self.navigationController.navigationBar;
-    searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, view.bounds.size.width, view.bounds.size.height)];
+    searchBar = [[CustomSearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, view.bounds.size.width, view.bounds.size.height) delegate:self];
     self.navigationController.navigationBar.topItem.titleView = searchBar;
-    searchBar.delegate = self;
-    searchBar.showsBookmarkButton = true;
-
+    searchBar.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"searchQuery"];
+    
     UIBarButtonItem *trendButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"trends.png"]
                                                                      style:UIBarButtonItemStylePlain 
                                                                     target:self 
                                                                     action:@selector(getTrends:)];
     self.navigationItem.rightBarButtonItem = trendButton;
     
-    UIBarButtonItem *locationButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"location.png"]
-                                                                        style:UIBarButtonItemStyleBordered
-                                                                       target:self 
-                                                                       action:@selector(getLocation:)];
-    self.navigationItem.leftBarButtonItem = locationButton;
+    UIBarButtonItem *reloadButton  = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                                                   target:self 
+                                                                                   action:@selector(reload:)];
+    self.navigationItem.leftBarButtonItem = reloadButton;
    
     [super viewDidLoad];
     
@@ -52,7 +50,7 @@
     overlayView = [[OverlayView alloc] initWithFrame:CGRectMake(0, 0, 320, 367)];
     overlayView.searchBar  = searchBar;
     overlayView.searchView = searchView;
-
+    [overlayView setMessage:@"" spinner:false];
 }
 
 
@@ -67,7 +65,7 @@
 
  - (void)viewWillAppear:(BOOL)animated {
      [super viewWillAppear:animated];
-     self.tableView.scrollsToTop = true; 
+     [self.tableView reloadData];
  }
 
 
@@ -83,18 +81,35 @@
 
  - (void)viewDidDisappear:(BOOL)animated
 {
- }
+}
+
+- (void)makeRead
+{
+    [self navigationController].tabBarItem.badgeValue = nil;
+    for (int i = 0; i < [search.timeline countMessages]; ++i) {
+        Message* m = [search.timeline messageAtIndex:i];
+        m.unread = false;
+    }
+    unread = 0;
+}
 
 - (void)search:(NSString*)query
 {
-    
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;
 
     searchBar.text = query;    
     [searchBar resignFirstResponder];
+    
+    if ([query length] == 0) return;
+
+    [self makeRead];
+
+    self.navigationItem.leftBarButtonItem.enabled  = false;    
+    [[NSUserDefaults standardUserDefaults] setObject:query forKey:@"searchQuery"];
+    
     [search search:query];
-    [overlayView setMessage:@"Loading..." spinner:true];
+    [overlayView setMessage:@"Searching..." spinner:true];
     
     sqlite3* database = [DBConnection getSharedDatabase];
     sqlite3_stmt *select, *insert;
@@ -128,6 +143,31 @@
     }
 }
 
+- (void)reload:(id)sender
+{
+    int count = [self.tableView.dataSource tableView:self.tableView numberOfRowsInSection:0];
+    
+    if (self.tableView.dataSource == trends) {
+        [trends getTrends:(count == 0) ? true : false];
+    }
+    else if (self.tableView.dataSource == search) {
+        if (count == 0) {
+            if ([searchBar.text length]) {
+                [self search:searchBar.text];
+            }
+            else {
+                return;
+            }
+        }
+        else {
+            isReload = true;
+            [search searchSubstance:true];
+        }
+    }
+
+    self.navigationItem.leftBarButtonItem.enabled = false;
+}
+
 - (void)reloadTable
 {
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:false];
@@ -136,17 +176,29 @@
 }
 
 //
-// UISearchBar delegates
+// TwitterFonApPDelegate delegate
 //
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+- (void)didLeaveTab:(UINavigationController*)navigationController
 {
+    [self makeRead];
+}
+
+
+//
+// CustomSearchBar delegates
+//
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)searchBar
+{
+    self.navigationItem.leftBarButtonItem.enabled = false;
+    
     CATransition *animation = [CATransition animation];
  	[animation setDelegate:self];
     [animation setType:kCATransitionFade];
 	[animation setDuration:0.3];
 	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+	[[overlayView layer] addAnimation:animation forKey:@"fadeout"];
+
 	overlayView.mode = OVERLAY_MODE_DARKEN;
-	[[self.view.superview layer] addAnimation:animation forKey:@"fadeout"];
     
     if (self.tableView.dataSource == search) {
         search.contentOffset = self.tableView.contentOffset;
@@ -156,23 +208,26 @@
     return true;
 }
 
-- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
+- (BOOL)textFieldShouldEndEditing:(UITextField *)searchBar
 {
+    self.navigationItem.leftBarButtonItem.enabled = true;
 	overlayView.mode = OVERLAY_MODE_HIDDEN;
     self.view.frame = CGRectMake(0, 0, 320, 367);
     [self.tableView reloadData];
     return true;
 }
 
-- (void)searchBar:(UISearchBar *)aSearchBar textDidChange:(NSString *)searchText
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
+    NSString *searchText = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    
     if ([searchText length] == 0) {
         self.tableView.dataSource = search;
         self.tableView.delegate   = search;
         [self.tableView reloadData];
         [self.tableView setContentOffset:search.contentOffset animated:false];
         overlayView.mode = OVERLAY_MODE_DARKEN;
-        return;
+        return true;
     }
     
     [history updateQuery:searchText];
@@ -180,9 +235,10 @@
     self.tableView.dataSource = history;
     self.tableView.delegate   = history;
     [self reloadTable];
+    return true;
 }
 
-- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar
+- (void)customSearchBarBookmarkButtonClicked:(UIButton*)bookmarkButton
 {
     SearchHistoryViewController *bookmarks = [[[SearchHistoryViewController alloc] initWithNibName:@"SearchHistoryView" bundle:nil] autorelease];
 
@@ -190,9 +246,25 @@
     [self.navigationController presentModalViewController:bookmarks animated:true];
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)aSearchBar
+- (void)customSearchBarLocationButtonClicked:(UIButton*)LocationButton
 {
-    [self search:aSearchBar.text];
+    [self makeRead];
+    self.navigationItem.leftBarButtonItem.enabled = false;
+    
+    [search removeAllMessages];
+    [self reloadTable];
+    
+    [searchBar resignFirstResponder];
+    [overlayView setMessage:@"Get current location..." spinner:true];
+    
+    LocationManager *location = [[LocationManager alloc] initWithDelegate:self];
+    [location getCurrentLocation];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self search:textField.text];
+    return true;
 }
 
 //
@@ -201,41 +273,67 @@
 
 - (void)searchDidLoad:(int)count insertAt:(int)position
 {
+    [searchBar resignFirstResponder];
     overlayView.mode = OVERLAY_MODE_HIDDEN;
-
+    self.navigationItem.leftBarButtonItem.enabled = true;    
+    
     if (self.tableView.dataSource != search) {
         self.tableView.dataSource = search;
         self.tableView.delegate   = search;
     }
-    if (!self.view.hidden && position && count) {
-        [self.tableView beginUpdates];
-        NSMutableArray *insertion = [[[NSMutableArray alloc] init] autorelease];
-        [insertion addObject:[NSIndexPath indexPathForRow:position inSection:0]];
-        [self.tableView insertRowsAtIndexPaths:insertion withRowAnimation:UITableViewRowAnimationTop];
-        [self.tableView endUpdates];
+    
+    if (count == 0) return;
+    
+    if (isReload && count) {
+        unread += count;
+        [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unread];
+    }
+    
+
+    if (self.navigationController.tabBarController.selectedIndex == TAB_SEARCH &&
+        self.navigationController.topViewController == self) {
+
+        if (isReload) {
+            if (count > 8) count = 8;
+            NSMutableArray *array = [NSMutableArray array];
+            for (int i = 0; i < count; ++i) {
+                [array addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+            [self.tableView beginUpdates];
+            [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationTop];
+            [self.tableView endUpdates];
+        }
+        else if (count && position) {
+            NSArray *arr = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:position inSection:0]];
+            [self.tableView beginUpdates];
+            [self.tableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationTop];
+            [self.tableView endUpdates];
+        }
+        else {
+            [self reloadTable];
+        }
     }
     else {
         [self reloadTable];
     }
-    self.navigationItem.leftBarButtonItem.enabled = true;    
+    isReload = false;
 }
 
 
 - (void)noSearchResult
 {
-    [overlayView setMessage:@"No search result." spinner:false];
+    if (!isReload) {
+        [overlayView setMessage:@"No search result." spinner:false];
+    }
+    isReload = false;
+    self.navigationItem.leftBarButtonItem.enabled = true;
 }
 
 - (void)timelineDidFailToUpdate:(TimelineViewDataSource*)sender position:(int)position
 {
+    isReload = false;
     if (position == 0) {
         [overlayView setMessage:@"Search is not available." spinner:false];
-    }
-    else {
-        LoadCell *cell = (LoadCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:position inSection:0]];
-        if ([cell isKindOfClass:[LoadCell class]]) {
-            [cell.spinner stopAnimating];
-        }
     }
     self.navigationItem.leftBarButtonItem.enabled = true;
 }
@@ -245,23 +343,13 @@
 	[self.tableView reloadData];
 }
 
-- (void)getLocation:(id)sender
-{
-    [search removeAllMessages];
-    [self reloadTable];
-
-    self.navigationItem.leftBarButtonItem.enabled = false;
-    
-    [searchBar resignFirstResponder];
-    [overlayView setMessage:@"Loading..." spinner:true];
-    
-    LocationManager *location = [[LocationManager alloc] initWithDelegate:self];
-    [location getCurrentLocation];
-}
-
+//
+// LocationManager delegate
+//
 - (void)locationManagerDidReceiveLocation:(LocationManager*)manager location:(CLLocation*)location
 {
     searchBar.text = [NSString stringWithFormat:@"%f,%f", location.coordinate.latitude, location.coordinate.longitude];
+    [[NSUserDefaults standardUserDefaults] setObject:searchBar.text forKey:@"searchQuery"];
     [search geocode:location.coordinate.latitude longitude:location.coordinate.longitude];
     [manager autorelease];
 }
@@ -273,19 +361,27 @@
     [manager autorelease];
 }
 
+//
+// Trends
+//
 - (void)getTrends:(id)sender
 {
+    [self makeRead];
+    self.navigationItem.leftBarButtonItem.enabled  = false;
     self.navigationItem.rightBarButtonItem.enabled = false;
     [searchBar resignFirstResponder];
-    [overlayView setMessage:@"Loading..." spinner:true];
-    [trends getTrends];
+    [overlayView setMessage:@"Get trends..." spinner:true];
+    [trends getTrends:false];
 }
 
 - (void)searchTrendsDidLoad
 {
+    [searchBar resignFirstResponder];
     overlayView.mode = OVERLAY_MODE_HIDDEN;
+
     self.tableView.delegate   = trends;
     self.tableView.dataSource = trends;
+    self.navigationItem.leftBarButtonItem.enabled  = true;
     self.navigationItem.rightBarButtonItem.enabled = true;
     [self reloadTable];
 }
@@ -293,6 +389,7 @@
 - (void)searchTrendsDidFailToLoad
 {
     [overlayView setMessage:@"Failed to get trends." spinner:false];
+    self.navigationItem.leftBarButtonItem.enabled  = true;
     self.navigationItem.rightBarButtonItem.enabled = true;
 }
 

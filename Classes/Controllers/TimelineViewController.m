@@ -43,7 +43,6 @@
     
     [self.tableView setContentOffset:contentOffset animated:false];
     [self.tableView reloadData];
-    self.tableView.scrollsToTop = true;
     self.navigationController.navigationBar.tintColor = [UIColor navigationColorForTab:tab];
     self.tableView.separatorColor = [UIColor lightGrayColor]; 
 }

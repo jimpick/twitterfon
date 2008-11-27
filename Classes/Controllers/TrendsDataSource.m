@@ -32,9 +32,9 @@
 }
 
 
-- (void)getTrends
+- (void)getTrends:(BOOL)reload
 {
-    if ([trends count] == 0) {
+    if ([trends count] == 0 || reload) {
         TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(trendDidReceive:messages:)];
         [client trends];
     }
@@ -48,6 +48,10 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    tableView.separatorColor = [UIColor colorWithRed:0.878 green:0.878 blue:0.878 alpha:1.0];
+    tableView.backgroundColor = [UIColor whiteColor];
+
     return [trends count];
 }
 

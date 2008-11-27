@@ -51,6 +51,11 @@
 		6E716C1D0ED2BDC20092245A /* UserDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E716C1C0ED2BDC20092245A /* UserDetailView.m */; };
 		6E74DA890ED95AC5000E169F /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E74DA870ED95AC5000E169F /* TabBarController.m */; };
 		6E89F34A0EDD230A00778242 /* search_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E89F3490EDD230A00778242 /* search_shadow.png */; };
+		6E89F5EC0EDD58BF00778242 /* location_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E89F5EB0EDD58BF00778242 /* location_small.png */; };
+		6E89F7C60EDE267D00778242 /* CustomSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E89F7C40EDE267D00778242 /* CustomSearchBar.m */; };
+		6E89F85F0EDE2F1700778242 /* CustomSearchField.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E89F85E0EDE2F1700778242 /* CustomSearchField.png */; };
+		6E89F8A90EDE33B600778242 /* BookmarksPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E89F8A80EDE33B600778242 /* BookmarksPressed.png */; };
+		6E89F8B50EDE342700778242 /* Bookmarks.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E89F8B40EDE342700778242 /* Bookmarks.png */; };
 		6E8C57BA0ED0AEA300EC9D39 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C57B90ED0AEA300EC9D39 /* UserView.m */; };
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
 		6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E943F1A0E6527C600E8ECF2 /* usercell_background.png */; };
@@ -160,6 +165,12 @@
 		6E74DA870ED95AC5000E169F /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarController.m; path = Controllers/TabBarController.m; sourceTree = "<group>"; };
 		6E74DA880ED95AC5000E169F /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarController.h; path = Controllers/TabBarController.h; sourceTree = "<group>"; };
 		6E89F3490EDD230A00778242 /* search_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_shadow.png; sourceTree = "<group>"; };
+		6E89F5EB0EDD58BF00778242 /* location_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_small.png; sourceTree = "<group>"; };
+		6E89F7C40EDE267D00778242 /* CustomSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomSearchBar.m; path = Controllers/CustomSearchBar.m; sourceTree = "<group>"; };
+		6E89F7C50EDE267D00778242 /* CustomSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomSearchBar.h; path = Controllers/CustomSearchBar.h; sourceTree = "<group>"; };
+		6E89F85E0EDE2F1700778242 /* CustomSearchField.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CustomSearchField.png; sourceTree = "<group>"; };
+		6E89F8A80EDE33B600778242 /* BookmarksPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BookmarksPressed.png; sourceTree = "<group>"; };
+		6E89F8B40EDE342700778242 /* Bookmarks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bookmarks.png; sourceTree = "<group>"; };
 		6E8C57B80ED0AEA300EC9D39 /* UserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserView.h; path = Controllers/UserView.h; sourceTree = "<group>"; };
 		6E8C57B90ED0AEA300EC9D39 /* UserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserView.m; path = Controllers/UserView.m; sourceTree = "<group>"; };
 		6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeUtils.h; path = Classes/OtherSources/TimeUtils.h; sourceTree = "<group>"; };
@@ -444,6 +455,8 @@
 				6E1C72E60EB5ABED00E34D9B /* LocationManager.m */,
 				6ECCAD950EBE5B2E002B39F6 /* SearchHistoryViewController.h */,
 				6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */,
+				6E89F7C50EDE267D00778242 /* CustomSearchBar.h */,
+				6E89F7C40EDE267D00778242 /* CustomSearchBar.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -545,6 +558,10 @@
 		6EED14400E33E5BF00C71EA4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6E89F8B40EDE342700778242 /* Bookmarks.png */,
+				6E89F8A80EDE33B600778242 /* BookmarksPressed.png */,
+				6E89F85E0EDE2F1700778242 /* CustomSearchField.png */,
+				6E89F5EB0EDD58BF00778242 /* location_small.png */,
 				6E89F3490EDD230A00778242 /* search_shadow.png */,
 				6E4011F00ECDF786009D452A /* open_safari.png */,
 				6E6DC6230EC07F3D00F9EB74 /* camera.png */,
@@ -638,6 +655,10 @@
 				6E4011F10ECDF786009D452A /* open_safari.png in Resources */,
 				6E1FAE8D0EDAC4D7009407F6 /* db1.3.sql in Resources */,
 				6E89F34A0EDD230A00778242 /* search_shadow.png in Resources */,
+				6E89F5EC0EDD58BF00778242 /* location_small.png in Resources */,
+				6E89F85F0EDE2F1700778242 /* CustomSearchField.png in Resources */,
+				6E89F8A90EDE33B600778242 /* BookmarksPressed.png in Resources */,
+				6E89F8B50EDE342700778242 /* Bookmarks.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -698,6 +719,7 @@
 				6E716C1D0ED2BDC20092245A /* UserDetailView.m in Sources */,
 				6E74DA890ED95AC5000E169F /* TabBarController.m in Sources */,
 				6E6860770EDB884D000642E1 /* ProfileImageButton.m in Sources */,
+				6E89F7C60EDE267D00778242 /* CustomSearchBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

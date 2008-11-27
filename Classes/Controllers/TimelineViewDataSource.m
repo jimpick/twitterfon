@@ -44,7 +44,9 @@
     loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
     [loadCell setType:(messageType != MSG_TYPE_SEARCH_RESULT) ? MSG_TYPE_LOAD_FROM_DB : MSG_TYPE_LOAD_FROM_WEB];
     timeline   = [[Timeline alloc] initWithDelegate:controller];
-    isRestored = ([timeline restore:messageType all:false] < 20) ? true : false;
+    if (messageType != MSG_TYPE_SEARCH_RESULT) {
+        isRestored = ([timeline restore:messageType all:false] < 20) ? true : false;
+    }
     return self;
 }
 
@@ -62,8 +64,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    tableView.separatorColor = [UIColor lightGrayColor]; 
+    tableView.backgroundColor = [UIColor whiteColor];
+    
     int count = [timeline countMessages];
-	return (isRestored) ? count : count + 1;
+    if (messageType == MSG_TYPE_SEARCH_RESULT) {
+        return (count) ? count + 1 : 0;
+    }else {
+        return (isRestored) ? count : count + 1;
+    }
 }
 
 //
@@ -143,7 +152,7 @@
         //
         else if (loadCell.type == MSG_TYPE_LOAD_FROM_WEB) {
             [loadCell.spinner startAnimating];
-            [self search];
+            [self searchSubstance:false];
         }
     }
 
@@ -257,12 +266,25 @@
     }
 }
 
-- (void)search
+- (BOOL)searchSubstance:(BOOL)reload
 {
-    int page = ([timeline countMessages] / 15) + 1;
-    insertPosition = [timeline countMessages];
-    
+    int page;
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    
+    if (reload) {
+        page = 0;
+        insertPosition = 0;
+        Message *m = [timeline messageAtIndex:0];
+        if (!m) return false;
+        since_id = m.messageId;
+        [param setObject:[NSString stringWithFormat:@"%lld", since_id] forKey:@"since_id"];
+    }
+    else {
+        since_id = 0;
+        page = ([timeline countMessages] / 15) + 1;
+        insertPosition = [timeline countMessages];
+    }
+    
     if (latitude == 0 && longitude == 0) {
         [param setObject:self.query forKey:@"q"];
     }
@@ -275,6 +297,7 @@
 
     TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(searchResultDidReceive:messages:)];
     [client search:param];
+    return true;
 }
 
 - (void)search:(NSString*)aQuery
@@ -282,14 +305,14 @@
     [timeline removeAllMessages];
     self.query = aQuery;
     latitude = longitude = 0;
-    [self search];
+    [self searchSubstance:false];
 }
 
 - (void)geocode:(float)aLatitude longitude:(float)aLongitude
 {
     latitude  = aLatitude;
     longitude = aLongitude;
-    [self search];
+    [self searchSubstance:false];
 }
 
 - (void)searchResultDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
@@ -310,10 +333,16 @@
     [loadCell.spinner stopAnimating];
     
     // Add messages to the timeline
-    for (int i = 0; i < [array count]; ++i) {
+    for (int i = [array count] - 1; i >= 0; --i) {
         Message* m = [Message messageWithSearchResult:[array objectAtIndex:i]];
-        [timeline appendMessage:m];
-        [imageStore getImage:m.user.profileImageUrl delegate:controller];
+        if ([timeline indexOfObject:m] == -1) {
+            [timeline insertMessage:m atIndex:insertPosition];
+            [imageStore getImage:m.user.profileImageUrl delegate:controller];
+            if (since_id) {
+                m.unread = true;
+            }
+        }
+
     }
     
     if ([controller respondsToSelector:@selector(searchDidLoad:insertAt:)]) {

@@ -12,14 +12,17 @@
 #import "TimelineViewDataSource.h"
 #import "LocationManager.h"
 #import "OverlayView.h"
+#import "CustomSearchBar.h"
 
-@interface SearchViewController : UITableViewController <UISearchBarDelegate> {
-    UISearchBar*                searchBar;
+@interface SearchViewController : UITableViewController <UITextFieldDelegate, CustomSearchBarProtocol> {
+    CustomSearchBar*            searchBar;
     TrendsDataSource*           trends;
     TimelineViewDataSource*     search;
     SearchHistoryDataSource*    history;
     IBOutlet UITableView*       searchView;
     OverlayView*                overlayView;
+    int                         unread;
+    BOOL                        isReload;
 }
 
 - (void)search:(NSString*)query;

@@ -14,6 +14,6 @@
 }
 
 - (id)initWithDelegate:(id)delegate;
-- (void)getTrends;
+- (void)getTrends:(BOOL)reload;
 
 @end
