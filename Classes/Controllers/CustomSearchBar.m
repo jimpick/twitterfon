@@ -68,12 +68,12 @@
 
 - (CGRect)rightViewRectForBounds:(CGRect)bounds
 {
-    return CGRectMake(bounds.size.width - 46, 1 + (bounds.size.height - 29)/2, 40, 29);
+    return CGRectMake(bounds.size.width - 46, 8, 40, 29);
 }
 
 - (CGRect)clearButtonRectForBounds:(CGRect)bounds
 {
-    return CGRectMake(bounds.size.width - 31, (bounds.size.height - 19)/2, 19, 19);
+    return CGRectMake(bounds.size.width - 31, 13, 19, 19);
 }
 
 - (void)dealloc {
