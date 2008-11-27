@@ -51,12 +51,12 @@
 
 - (CGRect)textRectForBounds:(CGRect)bounds
 {
-    return CGRectMake(35, 14, 140, 17);
+    return CGRectMake(37, 14, 140, 17);
 }
 
 - (CGRect)editingRectForBounds:(CGRect)bounds
 {
-    return CGRectMake(35, 14, 150, 17);
+    return CGRectMake(37, 14, 150, 17);
 }
 
 - (CGRect)leftViewRectForBounds:(CGRect)bounds
