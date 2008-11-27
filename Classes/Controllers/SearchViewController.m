@@ -218,16 +218,23 @@
     return true;
 }
 
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    self.tableView.dataSource = search;
+    self.tableView.delegate   = search;
+    [self.tableView reloadData];
+    [self.tableView setContentOffset:search.contentOffset animated:false];
+    overlayView.mode = OVERLAY_MODE_DARKEN;
+    
+    return true;
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     NSString *searchText = [textField.text stringByReplacingCharactersInRange:range withString:string];
     
     if ([searchText length] == 0) {
-        self.tableView.dataSource = search;
-        self.tableView.delegate   = search;
-        [self.tableView reloadData];
-        [self.tableView setContentOffset:search.contentOffset animated:false];
-        overlayView.mode = OVERLAY_MODE_DARKEN;
+        [self textFieldShouldClear:textField];
     }
     else {
         self.view.frame = CGRectMake(0, 0, 320, 200);

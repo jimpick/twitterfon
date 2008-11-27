@@ -19,7 +19,7 @@ static UIColor *gUnreadCellColors[5];
     gUnreadCellColors[1] = [[UIColor colorWithRed:0.827 green:1.000 blue:0.820 alpha:1.0] retain];
     gUnreadCellColors[2] = [[UIColor colorWithRed:0.988 green:0.812 blue:0.820 alpha:1.0] retain];
     gUnreadCellColors[3] = [[UIColor colorWithRed:0.988 green:0.812 blue:0.820 alpha:1.0] retain];
-    gUnreadCellColors[4] = [[UIColor colorWithRed:0.996 green:1.000 blue:0.820 alpha:1.0] retain];
+    gUnreadCellColors[4] = [[UIColor colorWithRed:0.996 green:0.929 blue:0.820 alpha:1.0] retain];
     
     // Navigation Bar Color
     gNavigationBarColors[0] = [[UIColor colorWithRed:0.341 green:0.643 blue:0.859 alpha:1.0] retain];
