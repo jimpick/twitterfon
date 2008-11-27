@@ -97,6 +97,8 @@
 {
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;
+    searchBar.locationButton.enabled = false;
+    
 
     searchBar.text = query;    
     [searchBar resignFirstResponder];
@@ -250,6 +252,7 @@
 {
     [self makeRead];
     self.navigationItem.leftBarButtonItem.enabled = false;
+    LocationButton.enabled = false;
     
     [search removeAllMessages];
     [self reloadTable];
@@ -276,6 +279,7 @@
     [searchBar resignFirstResponder];
     overlayView.mode = OVERLAY_MODE_HIDDEN;
     self.navigationItem.leftBarButtonItem.enabled = true;    
+    searchBar.locationButton.enabled = true;
     
     if (self.tableView.dataSource != search) {
         self.tableView.dataSource = search;
@@ -327,6 +331,7 @@
     }
     isReload = false;
     self.navigationItem.leftBarButtonItem.enabled = true;
+    searchBar.locationButton.enabled = true;
 }
 
 - (void)timelineDidFailToUpdate:(TimelineViewDataSource*)sender position:(int)position
@@ -336,6 +341,7 @@
         [overlayView setMessage:@"Search is not available." spinner:false];
     }
     self.navigationItem.leftBarButtonItem.enabled = true;
+    searchBar.locationButton.enabled = true;
 }
 
 - (void)imageStoreDidGetNewImage:(UIImage*)image
@@ -357,6 +363,7 @@
 {
     [overlayView setMessage:@"Can't get current location." spinner:false];
     self.navigationItem.leftBarButtonItem.enabled = true;
+    searchBar.locationButton.enabled = true;
     [manager autorelease];
 }
 

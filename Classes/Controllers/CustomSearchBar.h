@@ -11,7 +11,10 @@
 
 @interface CustomSearchBar : UITextField {
     UIImage*    inputField;
+    UIButton*   locationButton;
 }
+
+@property(nonatomic, assign) UIButton* locationButton;
 
 - (id)initWithFrame:(CGRect)frame delegate:(id)delegate;
 

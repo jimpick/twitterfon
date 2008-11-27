@@ -12,6 +12,7 @@
 
 @implementation CustomSearchBar
 
+@synthesize locationButton;
 
 - (id)initWithFrame:(CGRect)frame delegate:(id)delegate 
 {
@@ -26,10 +27,10 @@
         inputField = [[image stretchableImageWithLeftCapWidth:17 topCapHeight:0] retain];
 
         // location button
-        UIButton *location = [UIButton buttonWithType:UIButtonTypeCustom];
-        [location setImage:[UIImage imageNamed:@"location_small.png"] forState:UIControlStateNormal];
-        [location addTarget:delegate action:@selector(customSearchBarLocationButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        self.leftView = location;
+        locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [locationButton setImage:[UIImage imageNamed:@"location_small.png"] forState:UIControlStateNormal];
+        [locationButton addTarget:delegate action:@selector(customSearchBarLocationButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        self.leftView = locationButton;
         self.leftViewMode = UITextFieldViewModeAlways;
         
         UIButton *bookmark = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -56,7 +57,7 @@
 
 - (CGRect)editingRectForBounds:(CGRect)bounds
 {
-    return CGRectMake(37, 14, 150, 17);
+    return CGRectMake(37, 14, 140, 17);
 }
 
 - (CGRect)leftViewRectForBounds:(CGRect)bounds
