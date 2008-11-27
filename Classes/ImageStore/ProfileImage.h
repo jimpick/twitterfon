@@ -4,7 +4,7 @@
 
 @interface ProfileImage : NSObject
 {
-  	id                 delegate;
+  	id                  delegate;
 	UIImage*            image;
     sqlite3*            database;
     NSString*           url;

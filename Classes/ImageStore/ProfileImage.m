@@ -6,13 +6,16 @@
 - (void)profileImageDidGetNewImage:(UIImage*)image delegate:(id)delegate;
 @end
 
+UIImage *sProfileImage = nil;
+UIImage *sProfileImageSmall = nil;
+
 //sqlite3 statements
 static sqlite3_stmt *insert_statement = nil;
 static sqlite3_stmt *select_statement = nil;
 
 @interface ProfileImage (Private)
 - (void)requestImage;
-+ (sqlite3*)getSharedDatabase;
++ (UIImage*)defaultProfileImage:(BOOL)bigger;
 @end
 
 @interface ProfileImage (ProfileImagePrivate)
@@ -47,6 +50,9 @@ static sqlite3_stmt *select_statement = nil;
         image = [[UIImage imageWithData:data] retain];
         [self resizeImage];
     } else {
+        
+        NSRange r = [url rangeOfString:@"_bigger."];
+        image = [ProfileImage defaultProfileImage:(r.location != NSNotFound) ? true : false];
         [self requestImage];
     }
     sqlite3_reset(select_statement);
@@ -145,5 +151,22 @@ static sqlite3_stmt *select_statement = nil;
     [url release];
     [image release];
 	[super dealloc];
+}
+
+
++(UIImage*)defaultProfileImage:(BOOL)bigger
+{
+    if (bigger) {
+        if (sProfileImage == nil) {
+            sProfileImage = [[UIImage imageNamed:@"profileImage.png"] retain];
+        }
+        return sProfileImage;
+    }
+    else {
+        if (sProfileImageSmall == nil) {
+            sProfileImageSmall = [[UIImage imageNamed:@"profileImageSmall.png"] retain];
+        }
+        return sProfileImageSmall;
+    }
 }
 @end
