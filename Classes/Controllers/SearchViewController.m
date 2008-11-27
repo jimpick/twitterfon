@@ -203,7 +203,6 @@
     if (self.tableView.dataSource == search) {
         search.contentOffset = self.tableView.contentOffset;
     }
-    self.view.frame = CGRectMake(0, 0, 320, 200);
     
     return true;
 }
@@ -227,14 +226,15 @@
         [self.tableView reloadData];
         [self.tableView setContentOffset:search.contentOffset animated:false];
         overlayView.mode = OVERLAY_MODE_DARKEN;
-        return true;
     }
-    
-    [history updateQuery:searchText];
-    overlayView.mode = OVERLAY_MODE_SHADOW;
-    self.tableView.dataSource = history;
-    self.tableView.delegate   = history;
-    [self reloadTable];
+    else {
+        self.view.frame = CGRectMake(0, 0, 320, 200);
+        [history updateQuery:searchText];
+        overlayView.mode = OVERLAY_MODE_SHADOW;
+        self.tableView.dataSource = history;
+        self.tableView.delegate   = history;
+        [self reloadTable];
+    }
     return true;
 }
 
@@ -349,7 +349,6 @@
 - (void)locationManagerDidReceiveLocation:(LocationManager*)manager location:(CLLocation*)location
 {
     searchBar.text = [NSString stringWithFormat:@"%f,%f", location.coordinate.latitude, location.coordinate.longitude];
-    [[NSUserDefaults standardUserDefaults] setObject:searchBar.text forKey:@"searchQuery"];
     [search geocode:location.coordinate.latitude longitude:location.coordinate.longitude];
     [manager autorelease];
 }
