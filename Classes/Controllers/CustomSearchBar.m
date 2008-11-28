@@ -66,13 +66,13 @@ static NSString* sSearchBarPressedImages[3] = {
         [locationButton addTarget:self action:@selector(buttonDown:) forControlEvents:UIControlEventTouchDown];
         [locationButton addTarget:self action:@selector(buttonUp:) forControlEvents:UIControlEventTouchDragExit];
         [locationButton addTarget:self action:@selector(locationButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        locationButton.adjustsImageWhenHighlighted = false;
         [self addSubview:locationButton];
 
         distanceButton = [UIButton buttonWithType:UIButtonTypeCustom];
         distanceButton.font = [UIFont boldSystemFontOfSize:14];
         [distanceButton setTitle:@"" forState:UIControlStateNormal];
         [distanceButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [distanceButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
         [distanceButton setTitleShadowOffset:CGSizeMake(0, -1)];
         [distanceButton setTitleShadowColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [distanceButton addTarget:self action:@selector(buttonDown:) forControlEvents:UIControlEventTouchDown];
