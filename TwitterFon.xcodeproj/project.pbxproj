@@ -19,6 +19,9 @@
 		6E08A88D0EE00DB9000D25FE /* LocationDistanceWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08A88C0EE00DB9000D25FE /* LocationDistanceWindow.m */; };
 		6E08AB900EE08CA0000D25FE /* distancePickerButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E08AB8E0EE08CA0000D25FE /* distancePickerButton.png */; };
 		6E08AB910EE08CA0000D25FE /* distancePickerButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E08AB8F0EE08CA0000D25FE /* distancePickerButtonPressed.png */; };
+		6E08ABE20EE0999C000D25FE /* SearchBarLeftButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E08ABDF0EE0999C000D25FE /* SearchBarLeftButtonPressed.png */; };
+		6E08ABE30EE0999C000D25FE /* SearchBarLeftEdgePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E08ABE00EE0999C000D25FE /* SearchBarLeftEdgePressed.png */; };
+		6E08ABE40EE0999C000D25FE /* SearchBarLeftPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E08ABE10EE0999C000D25FE /* SearchBarLeftPressed.png */; };
 		6E08FB770E5D252200106492 /* UserTimelineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08FB760E5D252200106492 /* UserTimelineController.m */; };
 		6E08FB9E0E5D266B00106492 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08FB9D0E5D266B00106492 /* UserCell.m */; };
 		6E092C3B0E3B41D40039FEE3 /* TFConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E092C3A0E3B41D40039FEE3 /* TFConnection.m */; };
@@ -126,6 +129,9 @@
 		6E08A88C0EE00DB9000D25FE /* LocationDistanceWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationDistanceWindow.m; path = Controllers/LocationDistanceWindow.m; sourceTree = "<group>"; };
 		6E08AB8E0EE08CA0000D25FE /* distancePickerButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = distancePickerButton.png; sourceTree = "<group>"; };
 		6E08AB8F0EE08CA0000D25FE /* distancePickerButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = distancePickerButtonPressed.png; sourceTree = "<group>"; };
+		6E08ABDF0EE0999C000D25FE /* SearchBarLeftButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBarLeftButtonPressed.png; sourceTree = "<group>"; };
+		6E08ABE00EE0999C000D25FE /* SearchBarLeftEdgePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBarLeftEdgePressed.png; sourceTree = "<group>"; };
+		6E08ABE10EE0999C000D25FE /* SearchBarLeftPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBarLeftPressed.png; sourceTree = "<group>"; };
 		6E08FB750E5D252200106492 /* UserTimelineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserTimelineController.h; path = Controllers/UserTimelineController.h; sourceTree = "<group>"; };
 		6E08FB760E5D252200106492 /* UserTimelineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserTimelineController.m; path = Controllers/UserTimelineController.m; sourceTree = "<group>"; };
 		6E08FB9C0E5D266B00106492 /* UserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserCell.h; path = Controllers/UserCell.h; sourceTree = "<group>"; };
@@ -370,6 +376,9 @@
 		6E08A3530EDFC147000D25FE /* CustomSearchBar */ = {
 			isa = PBXGroup;
 			children = (
+				6E08ABDF0EE0999C000D25FE /* SearchBarLeftButtonPressed.png */,
+				6E08ABE00EE0999C000D25FE /* SearchBarLeftEdgePressed.png */,
+				6E08ABE10EE0999C000D25FE /* SearchBarLeftPressed.png */,
 				6E89F8B40EDE342700778242 /* Bookmarks.png */,
 				6E89F8A80EDE33B600778242 /* BookmarksPressed.png */,
 				6E89F5EB0EDD58BF00778242 /* location_small.png */,
@@ -757,6 +766,9 @@
 				6E089FAB0EDF84FF000D25FE /* SearchBarRight.png in Resources */,
 				6E08AB900EE08CA0000D25FE /* distancePickerButton.png in Resources */,
 				6E08AB910EE08CA0000D25FE /* distancePickerButtonPressed.png in Resources */,
+				6E08ABE20EE0999C000D25FE /* SearchBarLeftButtonPressed.png in Resources */,
+				6E08ABE30EE0999C000D25FE /* SearchBarLeftEdgePressed.png in Resources */,
+				6E08ABE40EE0999C000D25FE /* SearchBarLeftPressed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

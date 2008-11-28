@@ -16,7 +16,7 @@
     
     UIButton*                   locationButton;
     UIButton*                   distanceButton;
-    CALayer*                    layers[5];
+    CALayer*                    layers[8];
     BOOL                        leftButtonExpanded;
     id<CustomSearchBarDelegate> delegate;
     NSString*                   text;

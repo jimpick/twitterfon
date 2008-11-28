@@ -11,11 +11,17 @@
 #import "DebugUtils.h"
 
 static NSString* sSearchBarImages[5] = {
-    @"SearchBarLeftEdge.png",
+@"SearchBarLeftEdge.png",
     @"SearchBarLeftButton.png",
     @"SearchBarLeft.png",
     @"SearchBarBody.png",
     @"SearchBarRight.png",
+};
+
+static NSString* sSearchBarPressedImages[3] = {
+    @"SearchBarLeftEdgePressed.png",
+    @"SearchBarLeftButtonPressed.png",
+    @"SearchBarLeftPressed.png",
 };
 
 @implementation CustomSearchBar
@@ -41,11 +47,26 @@ static NSString* sSearchBarImages[5] = {
             left += image.size.width;
             [[self layer] addSublayer:layers[i]];
         }
+
+        left = 0;
+        for (int i = 0; i < 3; ++i) {
+            layers[i+5] = [CALayer layer];
+            UIImage *image = [[UIImage imageNamed:sSearchBarPressedImages[i]] retain];
+            CGImageRef imageRef = CGImageRetain([image CGImage]);
+            layers[i+5].contents = (id)imageRef;
+            layers[i+5].frame = CGRectMake(left, 6, image.size.width, image.size.height);
+            left += image.size.width;
+            layers[i+5].zPosition = -1;
+            [[self layer] addSublayer:layers[i+5]];
+        }
         
         // location button
         locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [locationButton setImage:[UIImage imageNamed:@"location_small.png"] forState:UIControlStateNormal];
+        [locationButton addTarget:self action:@selector(buttonDown:) forControlEvents:UIControlEventTouchDown];
+        [locationButton addTarget:self action:@selector(buttonUp:) forControlEvents:UIControlEventTouchDragExit];
         [locationButton addTarget:self action:@selector(locationButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        locationButton.adjustsImageWhenHighlighted = false;
         [self addSubview:locationButton];
 
         distanceButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -54,6 +75,8 @@ static NSString* sSearchBarImages[5] = {
         [distanceButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [distanceButton setTitleShadowOffset:CGSizeMake(0, -1)];
         [distanceButton setTitleShadowColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+        [distanceButton addTarget:self action:@selector(buttonDown:) forControlEvents:UIControlEventTouchDown];
+        [distanceButton addTarget:self action:@selector(buttonUp:) forControlEvents:UIControlEventTouchUpOutside];
         [distanceButton addTarget:self action:@selector(distanceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         distanceButton.hidden = true;
         [self addSubview:distanceButton];
@@ -63,7 +86,7 @@ static NSString* sSearchBarImages[5] = {
         [bookmark setImage:[UIImage imageNamed:@"BookmarksPressed.png"] forState:UIControlStateHighlighted];
         [bookmark addTarget:delegate action:@selector(customSearchBarBookmarkButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         
-        textField = [[CustomSearchTextField alloc] initWithFrame:frame];
+        textField = [[[CustomSearchTextField alloc] initWithFrame:frame] autorelease];
         textField.delegate = self;
         textField.returnKeyType = UIReturnKeySearch;
         textField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -77,15 +100,18 @@ static NSString* sSearchBarImages[5] = {
 }
 
 - (void)layoutLayer
-{    
+{  
     float leftButtonWidth = (leftButtonExpanded) ? 128 : 18;
+
     CGRect r = layers[1].frame;
     r.size.width = leftButtonWidth;
     layers[1].frame = r;
+    layers[6].frame = r;
     
     r = layers[2].frame;
     r.origin.x = 17 + leftButtonWidth;
     layers[2].frame = r;
+    layers[7].frame = r;
     
     r = layers[3].frame;
     r.origin.x = 17 + 16 + leftButtonWidth;
@@ -107,7 +133,7 @@ static NSString* sSearchBarImages[5] = {
     
     textField.frame = CGRectMake(textLeftOffset, 14, bounds.size.width - textLeftOffset, 17);
 
-    locationButton.frame = CGRectMake(10, 12, 19, 19);
+    locationButton.frame = CGRectMake(4, 6, 31, 31);
     distanceButton.frame = CGRectMake(10 + 18, 14, 120, 17);
 }
 
@@ -137,15 +163,36 @@ static NSString* sSearchBarImages[5] = {
     leftButtonExpanded = expand;
 }
 
+- (void)toggleButton:(BOOL)pressed
+{
+    for (int i = 0; i < 3; ++i) {
+        layers[i].hidden   = pressed;
+        layers[i+5].hidden = !pressed;
+        [layers[i] removeAllAnimations];
+        [layers[i+5] removeAllAnimations];
+    }
+}
+
+- (void)buttonDown:(id)sender
+{
+    [self toggleButton:true];
+}
+
+- (void)buttonUp:(id)sender
+{
+    [self toggleButton:false];
+}
+
 - (void)locationButtonClicked:(id)sender
 {
-
+    [self toggleButton:false];
+    
     if ([delegate respondsToSelector:@selector(customSearchBarLocationButtonClicked:)]) {
         [delegate customSearchBarLocationButtonClicked:self];
     }
     
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.2];
+    [UIView setAnimationDuration:0.25];
     [self expandLeftButton:true];
     textField.frame = CGRectMake(110 + 48, 14, 90, 17);
     [text release];
@@ -158,6 +205,8 @@ static NSString* sSearchBarImages[5] = {
 
 - (void)distanceButtonClicked:(id)sender
 {
+    [self toggleButton:false];
+    
     if (leftButtonExpanded) {
         if ([delegate respondsToSelector:@selector(customSearchBarDistanceButtonClicked:)]) {
             [delegate customSearchBarDistanceButtonClicked:self];
@@ -168,7 +217,7 @@ static NSString* sSearchBarImages[5] = {
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)aTextField
 {
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.2];
+    [UIView setAnimationDuration:0.25];
     [self expandLeftButton:false];
     textField.frame = CGRectMake(48, 14, 170, 17);
     [UIView commitAnimations];
@@ -248,6 +297,9 @@ static NSString* sSearchBarImages[5] = {
 }
 
 - (void)dealloc {
+    for (int i = 0; i < 8; ++i) {
+        [layers[i] release];
+    }
     [text release];
     [super dealloc];
 }

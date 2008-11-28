@@ -211,7 +211,7 @@
     CATransition *animation = [CATransition animation];
  	[animation setDelegate:self];
     [animation setType:kCATransitionFade];
-	[animation setDuration:0.3];
+	[animation setDuration:0.25];
 	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
 	[[overlayView layer] addAnimation:animation forKey:@"fadeout"];
 	overlayView.mode = OVERLAY_MODE_DARKEN;
@@ -224,7 +224,7 @@
     [self.navigationItem setRightBarButtonItem:nil animated:true];
     
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.2];
+    [UIView setAnimationDuration:0.25];
     searchBar.frame = CGRectMake(0, 0, 300, 44);
     [UIView commitAnimations];
     
@@ -239,7 +239,7 @@
     [self.tableView reloadData];
 
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.2];
+    [UIView setAnimationDuration:0.25];
     searchBar.frame = CGRectMake(47, 0, 220, 44);
     [UIView commitAnimations];
     
