@@ -13,13 +13,10 @@
     IBOutlet UIBarButtonItem*   doneButton;
     IBOutlet UITableViewCell*   username;
     IBOutlet UITableViewCell*   password;
-
-    UITableViewCell*            helps[3];
-    
     IBOutlet UITextField*       usernameField;
     IBOutlet UITextField*       passwordField;
 }
 
-- (IBAction)done:(id)sender;
+- (IBAction) done:(id)sender;
 
 @end

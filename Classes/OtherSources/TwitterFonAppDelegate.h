@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "PostViewController.h"
-#import "SettingsViewController.h"
 #import "WebViewController.h"
 #import "ImageStore.h"
 
@@ -24,7 +23,6 @@ typedef enum {
 	IBOutlet UITabBarController*    tabBarController;
 
     PostViewController*             postView;
-    SettingsViewController*         settings;
     WebViewController*              webView;
     ImageStore*                     imageStore;
     int                             selectedTab;

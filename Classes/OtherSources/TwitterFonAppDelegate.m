@@ -8,6 +8,7 @@
 
 #import "TwitterFonAppDelegate.h"
 #import "TimelineViewController.h"
+#import "SettingsViewController.h"
 #import "DBConnection.h"
 #import "TwitterClient.h"
 #import "ColorUtils.h"
@@ -64,7 +65,6 @@
         [username length] == 0 || [password length] == 0) {
         [self openSettingsView];
     }
-  
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
@@ -121,18 +121,15 @@
 
 - (void)openSettingsView
 {
-    if (settings == nil) {
-        settings = [[SettingsViewController alloc] initWithNibName:@"SettingsView" bundle:nil];
-    
-        UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];
-        [nav presentModalViewController:settings animated:YES];
-    }
+    SettingsViewController *settings = [[[SettingsViewController alloc] initWithNibName:@"SettingsView" bundle:nil] autorelease];
+    UINavigationController *parentNav = [[[UINavigationController alloc] initWithRootViewController:settings] autorelease];
+        
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];
+    [nav presentModalViewController:parentNav animated:YES];
 }
 
 - (void)closeSettingsView
 {
-    [settings release];
-    settings = nil;
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];    
     [(TimelineViewController*)[nav topViewController] reload:self];
 }

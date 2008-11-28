@@ -37,10 +37,6 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
     @"Need a Help?",
 };
 
-static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
-    @"Open Help Page",
-};
-
 @implementation SettingsViewController
 
 #define LABEL_TAG       1
@@ -56,15 +52,13 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
 
     usernameField.text = user;
     passwordField.text = pass;
-
-    for (int i = 0; i < NUM_ROWS_HELP; ++i) {
-        helps[i] = [[UITableViewCell alloc] initWithFrame:CGRectZero];
-        helps[i].text = sHelpPhrase[i];
-        if (i == ROW_HELP) {
-            helps[i].accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
-        helps[i].textAlignment = UITextAlignmentCenter;
-    }    
+    
+    UIBarButtonItem *done  = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                              style:UIBarButtonItemStyleDone 
+                                                             target:self 
+                                                             action:@selector(done:)];
+    self.navigationItem.rightBarButtonItem = done;
+    self.navigationItem.title = @"Setup";
 }
 
 - (void) saveSettings
@@ -91,10 +85,22 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
     return sSectionHeader[section];
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return @"You can customize TwitterFon preferences\nwith \"Settings\" application.";
+    }
+    else {
+        return nil;
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     UITableViewCell *cell;
 
+    UILabel *label;
+    UITextField *text;
     switch (indexPath.section) {
         case SECTION_ACCOUNT:
             if (indexPath.row == ROW_USERNAME) {
@@ -103,15 +109,21 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
             else {
                 cell = password;
             }
-            UITextField *text = (UITextField*)[cell viewWithTag:TEXTFIELD_TAG];
+            text = (UITextField*)[cell viewWithTag:TEXTFIELD_TAG];
             text.font = [UIFont systemFontOfSize:16];
             
-            UILabel *label = (UILabel*)[cell viewWithTag:LABEL_TAG];
+            label = (UILabel*)[cell viewWithTag:LABEL_TAG];
             label.font = [UIFont boldSystemFontOfSize:16];
             break;
             
         case SECTION_HELP:
-            cell = helps[indexPath.row];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"helpCell"];
+            if (!cell) {
+                cell = [[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"helpCell"];
+            }
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.text =  @"Open Help Page";
+            cell.textAlignment = UITextAlignmentCenter;
             break;
             
         default:
@@ -153,6 +165,7 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
         default:
             break;
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:true];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -213,8 +226,6 @@ static NSString* sHelpPhrase[NUM_ROWS_HELP] = {
 }
 
 - (void)dealloc {
-    for (int i = 0; i < 3; ++i)
-        [helps[i] release];
 	[super dealloc];
 }
 
