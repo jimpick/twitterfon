@@ -11,12 +11,20 @@
 
 @interface CustomSearchBar : UITextField {
     UIImage*    inputField;
+    UIImage*    locationBar;
     UIButton*   locationButton;
+    UIButton*   distanceButton;
+    CALayer*    layers[5];
+    
+    float       leftButtonWidth;
 }
 
+@property(nonatomic, assign) float leftButtonWidth;
 @property(nonatomic, assign) UIButton* locationButton;
 
 - (id)initWithFrame:(CGRect)frame delegate:(id)delegate;
+- (void)changeBarSize:(CGRect)rect;
+
 
 @end
 

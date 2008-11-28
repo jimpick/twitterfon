@@ -16,6 +16,8 @@
 
 @interface SearchViewController : UITableViewController <UITextFieldDelegate, CustomSearchBarProtocol> {
     CustomSearchBar*            searchBar;
+    UIBarButtonItem*            trendsButton;
+    UIBarButtonItem*            reloadButton;
     TrendsDataSource*           trends;
     TimelineViewDataSource*     search;
     SearchHistoryDataSource*    history;

@@ -21,19 +21,19 @@
 
 - (void)viewDidLoad {
     UIView *view = self.navigationController.navigationBar;
-    searchBar = [[CustomSearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, view.bounds.size.width, view.bounds.size.height) delegate:self];
+    searchBar = [[CustomSearchBar alloc] initWithFrame:view.bounds delegate:self];
     self.navigationController.navigationBar.topItem.titleView = searchBar;
     searchBar.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"searchQuery"];
     
-    UIBarButtonItem *trendButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"trends.png"]
-                                                                     style:UIBarButtonItemStylePlain 
-                                                                    target:self 
-                                                                    action:@selector(getTrends:)];
-    self.navigationItem.rightBarButtonItem = trendButton;
+    trendsButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"trends.png"]
+                                                                         style:UIBarButtonItemStylePlain 
+                                                                         target:self 
+                                                                         action:@selector(getTrends:)];
+    self.navigationItem.rightBarButtonItem = trendsButton;
     
-    UIBarButtonItem *reloadButton  = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-                                                                                   target:self 
-                                                                                   action:@selector(reload:)];
+    reloadButton  = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                                  target:self 
+                                                                  action:@selector(reload:)];
     self.navigationItem.leftBarButtonItem = reloadButton;
    
     [super viewDidLoad];
@@ -185,36 +185,45 @@
     [self makeRead];
 }
 
-
 //
 // CustomSearchBar delegates
 //
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)searchBar
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     self.navigationItem.leftBarButtonItem.enabled = false;
-    
+
     CATransition *animation = [CATransition animation];
  	[animation setDelegate:self];
     [animation setType:kCATransitionFade];
 	[animation setDuration:0.3];
 	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
 	[[overlayView layer] addAnimation:animation forKey:@"fadeout"];
-
 	overlayView.mode = OVERLAY_MODE_DARKEN;
     
     if (self.tableView.dataSource == search) {
         search.contentOffset = self.tableView.contentOffset;
     }
     
+    [self.navigationItem setLeftBarButtonItem:nil animated:true];
+    [self.navigationItem setRightBarButtonItem:nil animated:true];
+    searchBar.leftButtonWidth = 0;
+    [searchBar changeBarSize:CGRectMake(0, 0, 300, 44)];
+    
     return true;
 }
 
-- (BOOL)textFieldShouldEndEditing:(UITextField *)searchBar
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
     self.navigationItem.leftBarButtonItem.enabled = true;
 	overlayView.mode = OVERLAY_MODE_HIDDEN;
     self.view.frame = CGRectMake(0, 0, 320, 367);
     [self.tableView reloadData];
+
+    [searchBar changeBarSize:CGRectMake(47, 0, 220, 44)];
+
+    [self.navigationItem setLeftBarButtonItem:reloadButton animated:true];
+    [self.navigationItem setRightBarButtonItem:trendsButton animated:true];
+    
     return true;
 }
 
@@ -259,16 +268,18 @@
 {
     [self makeRead];
     self.navigationItem.leftBarButtonItem.enabled = false;
-    LocationButton.enabled = false;
-    
+//    LocationButton.enabled = false;
+
+    searchBar.leftButtonWidth = 130;
+    searchBar.text = @"within 25 miles";
     [search removeAllMessages];
     [self reloadTable];
     
     [searchBar resignFirstResponder];
     [overlayView setMessage:@"Get current location..." spinner:true];
     
-    LocationManager *location = [[LocationManager alloc] initWithDelegate:self];
-    [location getCurrentLocation];
+//    LocationManager *location = [[LocationManager alloc] initWithDelegate:self];
+//    [location getCurrentLocation];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
