@@ -296,10 +296,8 @@ static NSString* sSearchBarPressedImages[3] = {
    [super drawRect:rect];
 }
 
-- (void)dealloc {
-    for (int i = 0; i < 8; ++i) {
-        [layers[i] release];
-    }
+- (void)dealloc 
+{
     [text release];
     [super dealloc];
 }

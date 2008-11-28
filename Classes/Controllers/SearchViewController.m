@@ -22,12 +22,13 @@
 
 - (void)viewDidLoad {
     UIView *view = self.navigationController.navigationBar;
-    searchBar = [[CustomSearchBar alloc] initWithFrame:view.bounds delegate:self];
-    self.navigationController.navigationBar.topItem.titleView = searchBar;
+    searchBar = [[[CustomSearchBar alloc] initWithFrame:view.bounds delegate:self] autorelease];
     searchBar.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"searchQuery"];
-    
     NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:@"searchDistance"];
     [searchBar.distanceButton setTitle:[LocationDistanceWindow stringOfDistance:index] forState:UIControlStateNormal];
+    
+    self.navigationController.navigationBar.topItem.titleView = searchBar;
+    
     
     trendsButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"trends.png"]
                                                                          style:UIBarButtonItemStylePlain 
