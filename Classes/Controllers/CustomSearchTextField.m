@@ -44,7 +44,7 @@
 
 - (CGRect)rightViewRectForBounds:(CGRect)bounds
 {
-    return CGRectMake(bounds.size.width - 40, -6, 40, 29);
+    return CGRectMake(bounds.size.width - 41, -6, 40, 29);
 }
 
 
