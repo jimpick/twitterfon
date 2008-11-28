@@ -166,7 +166,7 @@
     int count = [self.tableView.dataSource tableView:self.tableView numberOfRowsInSection:0];
     
     if (self.tableView.dataSource == trends) {
-        [trends getTrends:(count == 0) ? true : false];
+        [trends getTrends:(count != 0) ? true : false];
     }
     else if (self.tableView.dataSource == search) {
         if (count == 0) {
@@ -181,6 +181,9 @@
             isReload = true;
             [search searchSubstance:true];
         }
+    }
+    else {
+        return;
     }
 
     self.navigationItem.leftBarButtonItem.enabled = false;

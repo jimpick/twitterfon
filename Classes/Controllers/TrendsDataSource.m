@@ -34,7 +34,7 @@
 
 - (void)getTrends:(BOOL)reload
 {
-    if ([trends count] == 0 || reload) {
+    if (reload || [trends count] == 0) {
         TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(trendDidReceive:messages:)];
         [client trends];
     }
