@@ -229,23 +229,9 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
 	[super dealloc];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    if (animated) {
-        if (usernameField.text == nil || [usernameField.text length] == 0) {
-            [usernameField becomeFirstResponder];
-        }
-    }
-	[super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated
+{
+    [usernameField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
