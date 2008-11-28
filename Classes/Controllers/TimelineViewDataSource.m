@@ -290,7 +290,8 @@
         [param setObject:self.query forKey:@"q"];
     }
     else {
-        [param setObject:[NSString stringWithFormat:@"%f,%f,%dmi", latitude, longitude, 5] forKey:@"geocode"];
+        BOOL useMetric = [[[NSLocale currentLocale] objectForKey:NSLocaleUsesMetricSystem] boolValue];
+        [param setObject:[NSString stringWithFormat:@"%f,%f,%d%@", latitude, longitude, distance, (useMetric) ? @"km" : @"mi"] forKey:@"geocode"];
     }
     if (page) {
         [param setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
@@ -309,10 +310,11 @@
     [self searchSubstance:false];
 }
 
-- (void)geocode:(float)aLatitude longitude:(float)aLongitude
+- (void)geocode:(float)aLatitude longitude:(float)aLongitude distance:(int)aDistance
 {
     latitude  = aLatitude;
     longitude = aLongitude;
+    distance  = aDistance;
     [self searchSubstance:false];
 }
 

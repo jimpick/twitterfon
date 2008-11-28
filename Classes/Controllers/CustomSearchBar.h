@@ -7,33 +7,44 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomSearchTextField.h"
 
+@protocol CustomSearchBarDelegate;
 
-@interface CustomSearchBar : UITextField {
-    UIImage*    inputField;
-    UIImage*    locationBar;
-    UIButton*   locationButton;
-    UIButton*   distanceButton;
-    CALayer*    layers[5];
+@interface CustomSearchBar : UIView <UITextFieldDelegate> {
+    CustomSearchTextField*      textField;
     
-    float       leftButtonWidth;
+    UIButton*                   locationButton;
+    UIButton*                   distanceButton;
+    CALayer*                    layers[5];
+    BOOL                        leftButtonExpanded;
+    id<CustomSearchBarDelegate> delegate;
+    NSString*                   text;
 }
 
-@property(nonatomic, assign) float leftButtonWidth;
 @property(nonatomic, assign) UIButton* locationButton;
+@property(nonatomic, assign) UIButton* distanceButton;
+@property(nonatomic, assign) NSString* text;
 
 - (id)initWithFrame:(CGRect)frame delegate:(id)delegate;
-- (void)changeBarSize:(CGRect)rect;
-
 
 @end
 
-@protocol CustomSearchBarProtocol <NSObject>
+@protocol CustomSearchBarDelegate <NSObject>
 
 @optional
 
-- (void)customSearchBarLocationButtonClicked:(UIButton*)LocationButton;
-- (void)customSearchBarBookmarkButtonClicked:(UIButton*)bookmarkButton;
+- (BOOL)customSearchBarShouldBeginEditing:(CustomSearchBar *)searchBar;
+- (void)customSearchBarTextDidBeginEditing:(CustomSearchBar *)searchBar;
+- (BOOL)customSearchBarShouldEndEditing:(CustomSearchBar *)searchBar;
+- (void)customSearchBarTextDidEndEditing:(CustomSearchBar *)searchBar;
+
+- (void)customSearchBar:(CustomSearchBar *)searchBar textDidChange:(NSString *)searchText;
+
+- (void)customSearchBarSearchButtonClicked:(CustomSearchBar*)searchBar;
+- (void)customSearchBarDistanceButtonClicked:(CustomSearchBar*)searchBar;
+- (void)customSearchBarLocationButtonClicked:(CustomSearchBar*)searchBar;
+- (void)customSearchBarBookmarkButtonClicked:(CustomSearchBar*)searchBar;
 
 @end
 

@@ -15,6 +15,10 @@
 		6E089FA90EDF84FF000D25FE /* SearchBarLeftButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E089FA40EDF84FF000D25FE /* SearchBarLeftButton.png */; };
 		6E089FAA0EDF84FF000D25FE /* SearchBarLeftEdge.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E089FA50EDF84FF000D25FE /* SearchBarLeftEdge.png */; };
 		6E089FAB0EDF84FF000D25FE /* SearchBarRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E089FA60EDF84FF000D25FE /* SearchBarRight.png */; };
+		6E08A4D90EDFD0B5000D25FE /* CustomSearchTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08A4D80EDFD0B5000D25FE /* CustomSearchTextField.m */; };
+		6E08A88D0EE00DB9000D25FE /* LocationDistanceWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08A88C0EE00DB9000D25FE /* LocationDistanceWindow.m */; };
+		6E08AB900EE08CA0000D25FE /* distancePickerButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E08AB8E0EE08CA0000D25FE /* distancePickerButton.png */; };
+		6E08AB910EE08CA0000D25FE /* distancePickerButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E08AB8F0EE08CA0000D25FE /* distancePickerButtonPressed.png */; };
 		6E08FB770E5D252200106492 /* UserTimelineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08FB760E5D252200106492 /* UserTimelineController.m */; };
 		6E08FB9E0E5D266B00106492 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08FB9D0E5D266B00106492 /* UserCell.m */; };
 		6E092C3B0E3B41D40039FEE3 /* TFConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E092C3A0E3B41D40039FEE3 /* TFConnection.m */; };
@@ -116,6 +120,12 @@
 		6E089FA40EDF84FF000D25FE /* SearchBarLeftButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBarLeftButton.png; sourceTree = "<group>"; };
 		6E089FA50EDF84FF000D25FE /* SearchBarLeftEdge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBarLeftEdge.png; sourceTree = "<group>"; };
 		6E089FA60EDF84FF000D25FE /* SearchBarRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBarRight.png; sourceTree = "<group>"; };
+		6E08A4D70EDFD0B5000D25FE /* CustomSearchTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomSearchTextField.h; path = Controllers/CustomSearchTextField.h; sourceTree = "<group>"; };
+		6E08A4D80EDFD0B5000D25FE /* CustomSearchTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomSearchTextField.m; path = Controllers/CustomSearchTextField.m; sourceTree = "<group>"; };
+		6E08A88B0EE00DB9000D25FE /* LocationDistanceWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationDistanceWindow.h; path = Controllers/LocationDistanceWindow.h; sourceTree = "<group>"; };
+		6E08A88C0EE00DB9000D25FE /* LocationDistanceWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationDistanceWindow.m; path = Controllers/LocationDistanceWindow.m; sourceTree = "<group>"; };
+		6E08AB8E0EE08CA0000D25FE /* distancePickerButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = distancePickerButton.png; sourceTree = "<group>"; };
+		6E08AB8F0EE08CA0000D25FE /* distancePickerButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = distancePickerButtonPressed.png; sourceTree = "<group>"; };
 		6E08FB750E5D252200106492 /* UserTimelineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserTimelineController.h; path = Controllers/UserTimelineController.h; sourceTree = "<group>"; };
 		6E08FB760E5D252200106492 /* UserTimelineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserTimelineController.m; path = Controllers/UserTimelineController.m; sourceTree = "<group>"; };
 		6E08FB9C0E5D266B00106492 /* UserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserCell.h; path = Controllers/UserCell.h; sourceTree = "<group>"; };
@@ -426,6 +436,8 @@
 		6E08A3660EDFC226000D25FE /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				6E08AB8E0EE08CA0000D25FE /* distancePickerButton.png */,
+				6E08AB8F0EE08CA0000D25FE /* distancePickerButtonPressed.png */,
 				6E89F3490EDD230A00778242 /* search_shadow.png */,
 				6E1C78880EB7063900E34D9B /* trends.png */,
 			);
@@ -544,6 +556,10 @@
 				6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */,
 				6E89F7C50EDE267D00778242 /* CustomSearchBar.h */,
 				6E89F7C40EDE267D00778242 /* CustomSearchBar.m */,
+				6E08A4D70EDFD0B5000D25FE /* CustomSearchTextField.h */,
+				6E08A4D80EDFD0B5000D25FE /* CustomSearchTextField.m */,
+				6E08A88B0EE00DB9000D25FE /* LocationDistanceWindow.h */,
+				6E08A88C0EE00DB9000D25FE /* LocationDistanceWindow.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -739,6 +755,8 @@
 				6E089FA90EDF84FF000D25FE /* SearchBarLeftButton.png in Resources */,
 				6E089FAA0EDF84FF000D25FE /* SearchBarLeftEdge.png in Resources */,
 				6E089FAB0EDF84FF000D25FE /* SearchBarRight.png in Resources */,
+				6E08AB900EE08CA0000D25FE /* distancePickerButton.png in Resources */,
+				6E08AB910EE08CA0000D25FE /* distancePickerButtonPressed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -800,6 +818,8 @@
 				6E74DA890ED95AC5000E169F /* TabBarController.m in Sources */,
 				6E6860770EDB884D000642E1 /* ProfileImageButton.m in Sources */,
 				6E89F7C60EDE267D00778242 /* CustomSearchBar.m in Sources */,
+				6E08A4D90EDFD0B5000D25FE /* CustomSearchTextField.m in Sources */,
+				6E08A88D0EE00DB9000D25FE /* LocationDistanceWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

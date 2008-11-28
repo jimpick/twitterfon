@@ -14,7 +14,7 @@
 #import "OverlayView.h"
 #import "CustomSearchBar.h"
 
-@interface SearchViewController : UITableViewController <UITextFieldDelegate, CustomSearchBarProtocol> {
+@interface SearchViewController : UITableViewController <UITextFieldDelegate, CustomSearchBarDelegate, UIPickerViewDelegate> {
     CustomSearchBar*            searchBar;
     UIBarButtonItem*            trendsButton;
     UIBarButtonItem*            reloadButton;
@@ -25,6 +25,8 @@
     OverlayView*                overlayView;
     int                         unread;
     BOOL                        isReload;
+    
+    float                       latitude, longitude;
 }
 
 - (void)search:(NSString*)query;

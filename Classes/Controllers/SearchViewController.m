@@ -9,6 +9,7 @@
 #import "TwitterFonAppDelegate.h"
 #import "SearchViewController.h"
 #import "SearchHistoryViewController.h"
+#import "LocationDistanceWindow.h"
 #import "DBConnection.h"
 #import "TwitterClient.h"
 #import "DebugUtils.h"
@@ -24,6 +25,9 @@
     searchBar = [[CustomSearchBar alloc] initWithFrame:view.bounds delegate:self];
     self.navigationController.navigationBar.topItem.titleView = searchBar;
     searchBar.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"searchQuery"];
+    
+    NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:@"searchDistance"];
+    [searchBar.distanceButton setTitle:[LocationDistanceWindow stringOfDistance:index] forState:UIControlStateNormal];
     
     trendsButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"trends.png"]
                                                                          style:UIBarButtonItemStylePlain 
@@ -51,6 +55,8 @@
     overlayView.searchBar  = searchBar;
     overlayView.searchView = searchView;
     [overlayView setMessage:@"" spinner:false];
+    
+    latitude = longitude = 0;
 }
 
 
@@ -109,6 +115,7 @@
 
     self.navigationItem.leftBarButtonItem.enabled  = false;    
     [[NSUserDefaults standardUserDefaults] setObject:query forKey:@"searchQuery"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     [search search:query];
     [overlayView setMessage:@"Searching..." spinner:true];
@@ -143,6 +150,15 @@
     if (result == SQLITE_ERROR) {
         NSAssert2(0, @"Error: failed to execute SQL command in %@ with message '%s'.", NSStringFromSelector(_cmd), sqlite3_errmsg(database));
     }
+}
+
+- (void)geoSearch
+{
+    [overlayView setMessage:@"Searching..." spinner:true];
+
+    int distance = [LocationDistanceWindow distanceOf:[[NSUserDefaults standardUserDefaults] integerForKey:@"searchDistance"]];
+    [search geocode:latitude longitude:longitude distance:distance];
+    
 }
 
 - (void)reload:(id)sender
@@ -188,7 +204,7 @@
 //
 // CustomSearchBar delegates
 //
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+- (BOOL)customSearchBarShouldBeginEditing:(CustomSearchBar *)textField
 {
     self.navigationItem.leftBarButtonItem.enabled = false;
 
@@ -206,28 +222,34 @@
     
     [self.navigationItem setLeftBarButtonItem:nil animated:true];
     [self.navigationItem setRightBarButtonItem:nil animated:true];
-    searchBar.leftButtonWidth = 0;
-    [searchBar changeBarSize:CGRectMake(0, 0, 300, 44)];
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.2];
+    searchBar.frame = CGRectMake(0, 0, 300, 44);
+    [UIView commitAnimations];
     
     return true;
 }
 
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+- (BOOL)customSearchBarShouldEndEditing:(CustomSearchBar *)textField
 {
     self.navigationItem.leftBarButtonItem.enabled = true;
 	overlayView.mode = OVERLAY_MODE_HIDDEN;
     self.view.frame = CGRectMake(0, 0, 320, 367);
     [self.tableView reloadData];
 
-    [searchBar changeBarSize:CGRectMake(47, 0, 220, 44)];
-
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.2];
+    searchBar.frame = CGRectMake(47, 0, 220, 44);
+    [UIView commitAnimations];
+    
     [self.navigationItem setLeftBarButtonItem:reloadButton animated:true];
     [self.navigationItem setRightBarButtonItem:trendsButton animated:true];
     
     return true;
 }
 
-- (BOOL)textFieldShouldClear:(UITextField *)textField
+- (BOOL)customSearchBarShouldClear:(CustomSearchBar *)textField
 {
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;
@@ -238,12 +260,10 @@
     return true;
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+- (void)customSearchBar:(CustomSearchBar *)aSearchBar textDidChange:(NSString*)searchText
 {
-    NSString *searchText = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    
     if ([searchText length] == 0) {
-        [self textFieldShouldClear:textField];
+        [self customSearchBarShouldClear:aSearchBar];
     }
     else {
         self.view.frame = CGRectMake(0, 0, 320, 200);
@@ -253,10 +273,27 @@
         self.tableView.delegate   = history;
         [self reloadTable];
     }
-    return true;
 }
 
-- (void)customSearchBarBookmarkButtonClicked:(UIButton*)bookmarkButton
+- (void)customSearchBarDistanceButtonClicked:(CustomSearchBar*)aSearchBar
+{
+    NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:@"searchDistance"];
+    LocationDistanceWindow *window = [[LocationDistanceWindow alloc] initWithDelegate:self selectedRow:index];
+    [window show];
+}
+
+- (void)locationDistanceWindow:(LocationDistanceWindow*)window didChangeDistance:(int)index
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:index forKey:@"searchDistance"];
+    [[NSUserDefaults standardUserDefaults] synchronize];   
+    [searchBar.distanceButton setTitle:[LocationDistanceWindow stringOfDistance:index] forState:UIControlStateNormal];
+    
+    if (latitude && longitude) {
+        [self geoSearch];
+    }
+}
+
+- (void)customSearchBarBookmarkButtonClicked:(CustomSearchBar*)aSearchBar
 {
     SearchHistoryViewController *bookmarks = [[[SearchHistoryViewController alloc] initWithNibName:@"SearchHistoryView" bundle:nil] autorelease];
 
@@ -264,28 +301,25 @@
     [self.navigationController presentModalViewController:bookmarks animated:true];
 }
 
-- (void)customSearchBarLocationButtonClicked:(UIButton*)LocationButton
+- (void)customSearchBarLocationButtonClicked:(CustomSearchBar*)aSearchBar
 {
     [self makeRead];
     self.navigationItem.leftBarButtonItem.enabled = false;
-//    LocationButton.enabled = false;
+    aSearchBar.locationButton.enabled = false;
 
-    searchBar.leftButtonWidth = 130;
-    searchBar.text = @"within 25 miles";
     [search removeAllMessages];
     [self reloadTable];
     
     [searchBar resignFirstResponder];
     [overlayView setMessage:@"Get current location..." spinner:true];
     
-//    LocationManager *location = [[LocationManager alloc] initWithDelegate:self];
-//    [location getCurrentLocation];
+    LocationManager *location = [[LocationManager alloc] initWithDelegate:self];
+    [location getCurrentLocation];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
+- (void)customSearchBarSearchButtonClicked:(CustomSearchBar *)aSearchBar
 {
-    [self search:textField.text];
-    return true;
+    [self search:aSearchBar.text];
 }
 
 //
@@ -372,8 +406,9 @@
 //
 - (void)locationManagerDidReceiveLocation:(LocationManager*)manager location:(CLLocation*)location
 {
-    searchBar.text = [NSString stringWithFormat:@"%f,%f", location.coordinate.latitude, location.coordinate.longitude];
-    [search geocode:location.coordinate.latitude longitude:location.coordinate.longitude];
+    latitude  = location.coordinate.latitude;
+    longitude = location.coordinate.longitude;
+    [self geoSearch];
     [manager autorelease];
 }
 

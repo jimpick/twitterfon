@@ -12,6 +12,7 @@
     MessageType             messageType;
     NSString*               query;
     float                   latitude, longitude;
+    int                     distance;
 
     int                     insertPosition;
     uint64_t                since_id;
@@ -28,7 +29,7 @@
 - (void)getTimeline;
 - (BOOL)searchSubstance:(BOOL)reload;
 - (void)search:(NSString*)query;
-- (void)geocode:(float)latitude longitude:(float)longitude;
+- (void)geocode:(float)latitude longitude:(float)longitude distance:(int)distance;
 
 - (void)removeAllMessages;
 

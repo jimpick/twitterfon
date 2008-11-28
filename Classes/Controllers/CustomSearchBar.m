@@ -21,45 +21,15 @@ static NSString* sSearchBarImages[5] = {
 @implementation CustomSearchBar
 
 @synthesize locationButton;
-@synthesize leftButtonWidth;
+@synthesize distanceButton;
+@synthesize text;
 
-- (id)initWithFrame:(CGRect)frame delegate:(id)delegate 
+- (id)initWithFrame:(CGRect)frame delegate:(id)aDelegate;
 {
     if (self = [super initWithFrame:frame]) {
-        
-        self.delegate = delegate;
 
-        self.clearButtonMode = UITextFieldViewModeWhileEditing;
-        self.font = [UIFont systemFontOfSize:14];
-        
-        UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-        
-        // location button
-        locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [locationButton setImage:[UIImage imageNamed:@"location_small.png"] forState:UIControlStateNormal];
-        [locationButton addTarget:delegate action:@selector(customSearchBarLocationButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        locationButton.frame = CGRectMake(0, 8, 19, 19);
-//        [container addSubview:locationButton];
-
-        distanceButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [distanceButton setTitle:@"within 25 miles" forState:UIControlStateNormal];
-        [distanceButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [distanceButton setTitleShadowOffset:CGSizeMake(0, -1)];
-        [distanceButton setTitleShadowColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-        distanceButton.frame = CGRectMake(22, 8, 30, 17);
-        [container addSubview:distanceButton];
-        
-        self.leftView = container;
-        self.leftViewMode = UITextFieldViewModeAlways;
-        leftButtonWidth = [locationButton imageForState:UIControlStateNormal].size.width;
-        
-        UIButton *bookmark = [UIButton buttonWithType:UIButtonTypeCustom];
-        [bookmark setImage:[UIImage imageNamed:@"Bookmarks.png"] forState:UIControlStateNormal];
-        [bookmark setImage:[UIImage imageNamed:@"BookmarksPressed.png"] forState:UIControlStateHighlighted];
-        [bookmark addTarget:delegate action:@selector(customSearchBarBookmarkButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        
-        self.rightView = bookmark;
-        self.rightViewMode = UITextFieldViewModeUnlessEditing;
+        delegate = aDelegate;
+        self.backgroundColor = [UIColor clearColor];
         
         float left = 0;
         for (int i = 0; i < 5; ++i) {
@@ -71,12 +41,44 @@ static NSString* sSearchBarImages[5] = {
             left += image.size.width;
             [[self layer] addSublayer:layers[i]];
         }
+        
+        // location button
+        locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [locationButton setImage:[UIImage imageNamed:@"location_small.png"] forState:UIControlStateNormal];
+        [locationButton addTarget:self action:@selector(locationButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:locationButton];
+
+        distanceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        distanceButton.font = [UIFont boldSystemFontOfSize:14];
+        [distanceButton setTitle:@"" forState:UIControlStateNormal];
+        [distanceButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [distanceButton setTitleShadowOffset:CGSizeMake(0, -1)];
+        [distanceButton setTitleShadowColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+        [distanceButton addTarget:self action:@selector(distanceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        distanceButton.hidden = true;
+        [self addSubview:distanceButton];
+
+        UIButton *bookmark = [UIButton buttonWithType:UIButtonTypeCustom];
+        [bookmark setImage:[UIImage imageNamed:@"Bookmarks.png"] forState:UIControlStateNormal];
+        [bookmark setImage:[UIImage imageNamed:@"BookmarksPressed.png"] forState:UIControlStateHighlighted];
+        [bookmark addTarget:delegate action:@selector(customSearchBarBookmarkButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
+        textField = [[CustomSearchTextField alloc] initWithFrame:frame];
+        textField.delegate = self;
+        textField.returnKeyType = UIReturnKeySearch;
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textField.font = [UIFont systemFontOfSize:14];
+        textField.rightView = bookmark; 
+        textField.rightViewMode = UITextFieldViewModeUnlessEditing;
+        [self addSubview:textField];
+
     }
     return self;
 }
 
 - (void)layoutLayer
 {    
+    float leftButtonWidth = (leftButtonExpanded) ? 128 : 18;
     CGRect r = layers[1].frame;
     r.size.width = leftButtonWidth;
     layers[1].frame = r;
@@ -93,63 +95,160 @@ static NSString* sSearchBarImages[5] = {
     r = layers[4].frame;
     r.origin.x = self.frame.size.width - r.size.width;
     layers[4].frame = r;
+    
 }
 
-- (void)setLeftButtonWidth:(float)value
+- (void)layoutSubviews
 {
-    if (value == 0) {
-        leftButtonWidth = [locationButton imageForState:UIControlStateNormal].size.width;
+    [super layoutSubviews];
+    CGRect bounds = self.bounds;
+    float textLeftOffset = 48;
+    if (leftButtonExpanded) textLeftOffset += 110;
+    
+    textField.frame = CGRectMake(textLeftOffset, 14, bounds.size.width - textLeftOffset, 17);
+
+    locationButton.frame = CGRectMake(10, 12, 19, 19);
+    distanceButton.frame = CGRectMake(10 + 18, 14, 120, 17);
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    [self layoutLayer];
+}
+
+- (void)setText:(NSString*)aText
+{
+    [text release];
+    text = [aText retain];
+    textField.text = aText;
+}
+
+- (void)expandLeftButton:(BOOL)expand
+{
+    if (expand) {
+        distanceButton.hidden = false;
+        textField.rightViewMode = UITextFieldViewModeNever;
     }
     else {
-        leftButtonWidth = value;
+        distanceButton.hidden = true;
+        textField.rightViewMode = UITextFieldViewModeNever;
     }
-    [self layoutLayer];
+    leftButtonExpanded = expand;
 }
 
-- (void)changeBarSize:(CGRect)rect
+- (void)locationButtonClicked:(id)sender
 {
+
+    if ([delegate respondsToSelector:@selector(customSearchBarLocationButtonClicked:)]) {
+        [delegate customSearchBarLocationButtonClicked:self];
+    }
+    
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.3];
-    self.frame = rect;
+    [UIView setAnimationDuration:0.2];
+    [self expandLeftButton:true];
+    textField.frame = CGRectMake(110 + 48, 14, 90, 17);
+    [text release];
+    text = [textField.text retain];
+    textField.text = @"";
     [self layoutLayer];
     [UIView commitAnimations];
-   
+    [textField resignFirstResponder];
+}
+
+- (void)distanceButtonClicked:(id)sender
+{
+    if (leftButtonExpanded) {
+        if ([delegate respondsToSelector:@selector(customSearchBarDistanceButtonClicked:)]) {
+            [delegate customSearchBarDistanceButtonClicked:self];
+        }
+    }
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)aTextField
+{
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.2];
+    [self expandLeftButton:false];
+    textField.frame = CGRectMake(48, 14, 170, 17);
+    [UIView commitAnimations];
+    [self layoutLayer];
+    
+    textField.text = text;
+
+    if ([delegate respondsToSelector:@selector(customSearchBarShouldBeginEditing:)]) {
+        return [delegate customSearchBarShouldBeginEditing:self];
+    }
+    
+    return true;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)aTextField
+{
+    if ([delegate respondsToSelector:@selector(customSearchBarShouldEndEditing:)]) {
+        return [delegate customSearchBarShouldEndEditing:self];
+    }
+    return true;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)aTextField
+{
+    NSLog(@"%@", aTextField.text);
+    [text release];
+    text = [aTextField.text retain];
+    if ([delegate respondsToSelector:@selector(customSearchBarSearchButtonClicked:)]) {
+        [delegate customSearchBarSearchButtonClicked:self];
+    }
+    [textField resignFirstResponder];
+    return true;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)aTextField
+{
+    textField.rightViewMode = UITextFieldViewModeUnlessEditing;
+    if ([delegate respondsToSelector:@selector(customSearchBar:textDidChange:)]) {
+        [delegate customSearchBar:self textDidChange:@""];
+    }
+    return true;
+}
+
+- (BOOL)textField:(UITextField *)aTextField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    [text release];
+    text = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    [text retain];
+    if ([text length] == 0) {
+        textField.rightViewMode = UITextFieldViewModeUnlessEditing;
+    }
+    textField.rightViewMode = UITextFieldViewModeUnlessEditing;
+    if ([delegate respondsToSelector:@selector(customSearchBar:textDidChange:)]) {
+        [delegate customSearchBar:self textDidChange:text];
+    }
+
+    return true;
+}
+
+- (void) becomeFirstResponder
+{
+    [textField becomeFirstResponder];
+}
+
+- (void) resignFirstResponder
+{
+    if (!leftButtonExpanded) {
+        textField.rightViewMode = UITextFieldViewModeUnlessEditing;
+    }
+    [textField resignFirstResponder];
 }
 
 - (void)drawRect:(CGRect)rect
 {
     [self layoutLayer];
-}
-
-- (CGRect)textRectForBounds:(CGRect)bounds
-{
-    return CGRectMake(44, 14, 136, 17);
-}
-
-- (CGRect)editingRectForBounds:(CGRect)bounds
-{
-    return CGRectMake(44, 14, 136, 17);
-}
-
-- (CGRect)leftViewRectForBounds:(CGRect)bounds
-{
-    bounds.origin.x += 0;
-    bounds.size.width = [locationButton imageForState:UIControlStateNormal].size.width + 12 * 2;
-    return bounds;
-}
-
-- (CGRect)rightViewRectForBounds:(CGRect)bounds
-{
-    return CGRectMake(bounds.size.width - 46, 8, 40, 29);
-}
-
-- (CGRect)clearButtonRectForBounds:(CGRect)bounds
-{
-    return CGRectMake(bounds.size.width - 31, 13, 19, 19);
+   [super drawRect:rect];
 }
 
 - (void)dealloc {
-    [inputField autorelease];
+    [text release];
     [super dealloc];
 }
 
