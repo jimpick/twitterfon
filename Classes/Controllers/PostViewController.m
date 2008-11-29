@@ -151,6 +151,7 @@
 - (IBAction) close: (id) sender
 {
     textRange = text.selectedRange;
+    [recipient resignFirstResponder];
     [text resignFirstResponder];
     self.view.hidden = true;
     

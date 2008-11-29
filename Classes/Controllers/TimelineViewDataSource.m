@@ -381,7 +381,7 @@
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
     NSString *msg;
-    if (messageType == MSG_TYPE_MESSAGES) {
+    if (messageType == MSG_TYPE_MESSAGES || messageType == MSG_TYPE_SENT) {
         [postView editDirectMessage:m.user.screenName];
     }
     else {
