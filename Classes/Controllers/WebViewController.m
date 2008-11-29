@@ -236,7 +236,7 @@ static NSString *schemes[NUM_SCHEMES][2] = {
     NSString *aURL = [currentURL absoluteString];
     NSString *decoded = [tinyURLStore valueForKey:aURL];
     
-    [postView startEditWithURL:(decoded) ? decoded : aURL];
+    [postView editWithURL:(decoded) ? decoded : aURL];
     
 }
 

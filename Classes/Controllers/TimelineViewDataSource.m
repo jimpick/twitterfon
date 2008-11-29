@@ -382,13 +382,13 @@
     PostViewController* postView = appDelegate.postView;
     NSString *msg;
     if (messageType == MSG_TYPE_MESSAGES) {
-        msg = [NSString stringWithFormat:@"d %@ ", m.user.screenName];
+        [postView editDirectMessage:m.user.screenName];
     }
     else {
         msg = [NSString stringWithFormat:@"@%@ ", m.user.screenName];
+        [postView editWithString:msg];
     }
     
-    [postView startEditWithString:msg];
 }
 
 - (void)didTouchLinkButton:(Message*)message links:(NSArray*)array

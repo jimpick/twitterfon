@@ -105,6 +105,19 @@ NSString* sMethods[4] = {
     
 }
 
+- (void)send:(NSString*)text to:(NSString*)user
+{
+    needAuth = true;
+    request = TWITTER_REQUEST_SEND_DIRECT_MESSAGE;
+    
+    NSString* url = @"https://twitter.com/direct_messages/new.json";
+    
+    NSString *postString = [NSString stringWithFormat:@"text=%@&user=%@", [text encodeAsURIComponent], [user encodeAsURIComponent]];
+    
+    [self post:url body:postString];
+    
+}
+
 - (void)friendship:(NSString*)screen_name create:(BOOL)create
 {
     needAuth = true;

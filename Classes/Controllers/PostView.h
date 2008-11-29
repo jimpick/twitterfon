@@ -11,6 +11,9 @@
 
 @interface PostView : UIView {
     CGImageRef  background;
+    BOOL        showRecipient;
 }
+
+@property(nonatomic) BOOL showRecipient;
 
 @end

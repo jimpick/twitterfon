@@ -14,6 +14,8 @@
 #import "TinyURL.h"
 #import "TwitPicClient.h"
 #import "ImageUtils.h"
+#import "PostView.h"
+#import "REString.h"
 
 #define kShowAnimationkey   @"showAnimation"
 #define kHideAnimationKey   @"hideAnimation"
@@ -25,8 +27,7 @@
 #define CAMERA_BUTTON_INDEX 3
 
 @interface NSObject (PostTweetDelegate)
-- (void)postTweetDidSucceed:(NSDictionary*)message;
-- (void)postViewAnimationDidFinish:(BOOL)didPost;
+
 @end
 
 @implementation PostViewController
@@ -45,6 +46,8 @@
     textRange.location  = [text.text length];
     textRange.length    = 0;
     
+    recipient.font = [UIFont systemFontOfSize:16];
+    
     return self;
 }
 
@@ -54,8 +57,24 @@
 	[super dealloc];
 }
 
-- (void)startEditWithString:(NSString*)message
+- (void)editDirectMessage:(NSString*)aRecipient
 {
+    isDirectMessage = true;
+    recipient.text = aRecipient;
+    if (aRecipient) {
+        recipient.enabled = false;
+        recipient.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+    }
+    else {
+        recipient.enabled = true;
+        recipient.textColor = [UIColor blackColor];
+    }
+    [self edit];
+}
+
+- (void)editWithString:(NSString*)message
+{
+    isDirectMessage = false;
     NSMutableString *str = [NSMutableString stringWithString:text.text];
     [str insertString:message atIndex:textRange.location];
     textRange.location += [message length];
@@ -63,11 +82,12 @@
     self.view.hidden = false;
     textRange.length = 0;
     text.text = str;
-    [self startEdit];
+    [self edit];
 }
 
-- (void)startEditWithURL:(NSString*)URL
+- (void)editWithURL:(NSString*)URL
 {
+    isDirectMessage = false;
     if ([TinyURL needToDecode:URL]) {
         TinyURL *encoder = [[TinyURL alloc] initWithDelegate:self];
         [encoder encode:URL];
@@ -79,17 +99,42 @@
     self.view.hidden = false;
     textRange.length = 0;
     text.text = str;
-    [self startEdit];
+    [self edit];
 }
 
-- (void)startEdit
+- (void)edit
 {
     [navigation.view addSubview:self.view];
     [self setCharCount];
+    PostView* view = (PostView*)self.view;
+    
+    if (isDirectMessage) {
+        self.navigationItem.title = @"Direct message";
+        to.hidden = false;
+        recipient.hidden = false;
+        view.showRecipient = true;
+        [view setNeedsDisplay];
+        text.frame = CGRectMake(0, 80, 320, 117);
+    }
+    else {
+        self.navigationItem.title = @"Post";
+        to.hidden = true;
+        recipient.hidden = true;
+        view.showRecipient = false;
+        [view setNeedsDisplay];
+        text.frame = CGRectMake(0, 44, 320, 156);
+    }
+    
+    locationButton.enabled = (isDirectMessage) ? false : true;
     
     self.view.hidden = false;
     didPost = false;
-    [text becomeFirstResponder];
+    if (isDirectMessage && recipient.text == nil) {
+        [recipient becomeFirstResponder];
+    }
+    else {
+        [text becomeFirstResponder];
+    }
     text.selectedRange = textRange;
     
     CATransition *animation = [CATransition animation];
@@ -156,11 +201,13 @@
 - (void)updateStatus
 {
     TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(postDidSucceed:messages:)];
-    
-	NSRange r = [text.text rangeOfString:@"d " options:NSCaseInsensitiveSearch];
-	isDirectMessage = (r.location == 0) ? true : false;
-    
-	[client post:text.text];
+   
+    if (isDirectMessage) {
+        [client send:text.text to:recipient.text];
+    }
+    else {
+        [client post:text.text];
+    }
     [progressWindow show];
     connection = client;
 }
@@ -197,6 +244,19 @@
         sendButton.enabled = false;
         return;
     }
+    
+    static NSString *nameRegexp = @"^[0-9a-zA-Z_]+$";
+    if (isDirectMessage && ![recipient.text matches:nameRegexp withSubstring:nil]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't send this message"
+                                                        message:@"Recipient's name contains wrong character. Username can only contain letters, numbers and '_'."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Close"
+                                              otherButtonTitles: nil];
+        [alert show];	
+        [alert release];    
+        return;
+    }
+    
     [progressWindow show];
     
     if (latitude != 0 && longitude != 0) {
@@ -238,13 +298,13 @@
 
     UIBarButtonItem *item = (UIBarButtonItem*)[toolbar.items objectAtIndex:0];
     item.enabled = false;
-    
+
     [UIView setAnimationDuration:0.4];
     [UIView setAnimationDelegate:self];
     [self setTransform:true];
     [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
     [UIView commitAnimations];
-    
+
 }
 
 - (IBAction) undo:(id) sender
@@ -353,14 +413,21 @@
 - (void)friendsViewDidSelectFriend:(NSString*)screenName
 {
     if (screenName) {
-        NSMutableString *str = [NSMutableString stringWithString:text.text];
-        [str insertString:[NSString stringWithFormat:@"@%@ ", screenName] atIndex:textRange.location];
-        textRange.location += [screenName length] + 2;
-        textRange.length = 0;
-        text.text = str;
+        if (textRange.location == NSIntegerMax) {
+            recipient.text = screenName;
+            textRange.location = [text.text length];
+            textRange.length = 0;
+        }
+        else {
+            NSMutableString *str = [NSMutableString stringWithString:text.text];
+            [str insertString:[NSString stringWithFormat:@"@%@ ", screenName] atIndex:textRange.location];
+            textRange.location += [screenName length] + 2;
+            textRange.length = 0;
+            text.text = str;
+        }
+        [text becomeFirstResponder];    
+        text.selectedRange = textRange;
     }
-    [text becomeFirstResponder];    
-    text.selectedRange = textRange;
 }
 
 //
@@ -508,9 +575,9 @@
     
     [progressWindow hide];
     
-    if (dic && !isDirectMessage) {
+    if (dic) {
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        [appDelegate postTweetDidSucceed:dic];
+        [appDelegate postTweetDidSucceed:dic isDirectMessage:isDirectMessage];
     }       
     
     text.text = @"";
@@ -617,9 +684,9 @@
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     [appDelegate.window makeKeyWindow];
     
-    if (finished && !isDirectMessage) {
+    if (finished && didPost) {
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        [appDelegate postViewAnimationDidFinish:didPost];
+        [appDelegate postViewAnimationDidFinish:isDirectMessage];
     }
 }
 @end

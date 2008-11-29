@@ -7,6 +7,7 @@ typedef enum {
     TWITTER_REQUEST_FAVORITE,
     TWITTER_REQUEST_DESTROY_FAVORITE,
     TWITTER_REQUEST_UPDATE,
+    TWITTER_REQUEST_SEND_DIRECT_MESSAGE,
     TWITTER_REQUEST_UPDATE_LOCATION,
     TWITTER_REQUEST_DESTROY_MESSAGE,
     TWITTER_REQUEST_SEARCH,
@@ -33,6 +34,7 @@ typedef enum {
 - (void)getUserTimeline:(NSString*)screen_name params:(NSDictionary*)params;
 - (void)getUser:(NSString*)screen_name;
 - (void)post:(NSString*)tweet;
+- (void)send:(NSString*)text to:(NSString*)screen_name;
 - (void)destroy:(Message*)message;
 - (void)favorite:(Message*)message;
 - (void)friendship:(NSString*)screen_name create:(BOOL)create;

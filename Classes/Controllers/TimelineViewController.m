@@ -131,15 +131,19 @@
 
 - (void)postViewAnimationDidFinish
 {
-    if (tab == TAB_FRIENDS && self.navigationController.topViewController == self) {
+    if (self.navigationController.topViewController != self) return;
+    
+    
+    if (tab == TAB_FRIENDS || (tab == TAB_MESSAGES && sentMessageDataSource == currentDataSource)) {
         //
-        // Do animation if the controller displays friends timeline.
+        // Do animation if the controller displays friends timeline or sent direct messages.
         //
         NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
         [self.tableView endUpdates];
     }
+        
 }
 
 - (void)postTweetDidSucceed:(NSDictionary*)dic
@@ -148,9 +152,9 @@
         Message *message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
         [currentDataSource.timeline insertMessage:message atIndex:0];
     }
-    else {
-        //
-        //  Do not come here anymore
+    else if (tab == TAB_MESSAGES && sentMessageDataSource) {
+        Message *message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_SENT];
+        [sentMessageDataSource.timeline insertMessage:message atIndex:0];
     }
 }
 

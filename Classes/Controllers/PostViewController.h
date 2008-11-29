@@ -20,6 +20,9 @@
     IBOutlet UIWindow*          postWindow;
     IBOutlet UIToolbar*         toolbar;
    	IBOutlet ProgressWindow*    progressWindow;
+    
+    IBOutlet UILabel*           to;
+    IBOutlet UITextField*       recipient;
 
     IBOutlet UIBarButtonItem*   sendButton;
     IBOutlet UIBarButtonItem*   locationButton;
@@ -44,9 +47,10 @@
 @property(nonatomic, assign) UINavigationController* navigation;
 @property(nonatomic, retain) UIImage*  selectedPhoto;
 
-- (void)startEditWithString:(NSString*)message;
-- (void)startEditWithURL:(NSString*)URL;
-- (void)startEdit;
+- (void)editWithString:(NSString*)message;
+- (void)editWithURL:(NSString*)URL;
+- (void)editDirectMessage:(NSString*)aRecipient;
+- (void)edit;
 - (void)checkProgressWindowState;
 - (void)friendsViewDidSelectFriend:(NSString*)screenName;
 - (void)friendsViewDidDisappear;

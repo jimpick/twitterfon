@@ -145,7 +145,12 @@
 
 - (IBAction) post: (id) sender
 {
-    [self.postView startEdit];
+    if (tabBarController.selectedIndex == MSG_TYPE_MESSAGES) {
+        [self.postView editDirectMessage:nil];
+    }
+    else {
+        [self.postView edit];
+    }
 }
 
 - (void)profileImageDidGetNewImage:(UIImage*)image delegate:(id)delegate
@@ -179,21 +184,31 @@
 //
 // Bypass posted message to friends timeline view...
 //
-- (void)postTweetDidSucceed:(NSDictionary*)dic
+- (void)postTweetDidSucceed:(NSDictionary*)dic isDirectMessage:(BOOL)isDirectMessage
 {
-    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
+    UINavigationController* nav;
+    if (isDirectMessage) {
+        nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_MESSAGES];
+    }
+    else {
+        nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
+    }
     UIViewController *c = [nav.viewControllers objectAtIndex:0];;
     [c postTweetDidSucceed:dic];
 }
 
-- (void)postViewAnimationDidFinish:(BOOL)didPost
+- (void)postViewAnimationDidFinish:(BOOL)isDirectMessage
 {
-    if (didPost && selectedTab == TAB_FRIENDS) {
-        UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];    
-        UIViewController *c = [nav.viewControllers objectAtIndex:0];
-        if ([c respondsToSelector:@selector(postViewAnimationDidFinish)]) {
-            [c postViewAnimationDidFinish];
-        }
+    UINavigationController *nav = nil;
+    if (isDirectMessage == false && selectedTab == TAB_FRIENDS) {
+        nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];    
+    }        
+    else if (isDirectMessage && selectedTab == TAB_MESSAGES) {
+        nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_MESSAGES];    
+    }
+    UIViewController *c = [nav.viewControllers objectAtIndex:0];
+    if ([c respondsToSelector:@selector(postViewAnimationDidFinish)]) {
+        [c postViewAnimationDidFinish];
     }
 }
 

@@ -417,15 +417,14 @@
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
     
-    NSString *msg;
     if ([self tabBarController].selectedIndex == MSG_TYPE_MESSAGES) {
-        msg = [NSString stringWithFormat:@"d %@ ", screenName];
+        [postView editDirectMessage:screenName];
     }
     else {
-        msg = [NSString stringWithFormat:@"@%@ ", screenName];
+        NSString *msg = [NSString stringWithFormat:@"@%@ ", screenName];
+        [postView editWithString:msg];
     }
     
-    [postView startEditWithString:msg];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
