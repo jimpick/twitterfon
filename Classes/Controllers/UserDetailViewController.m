@@ -229,7 +229,7 @@
     
     CATransition *animation = [CATransition animation];
     [animation setType:kCATransitionFade];
-    [animation setDuration:0.3];
+    [animation setDuration:0.25];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     [self.tableView.layer addAnimation:animation forKey:@"friendshipButton"];
 

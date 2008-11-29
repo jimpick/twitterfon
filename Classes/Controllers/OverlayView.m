@@ -142,7 +142,7 @@
         if (self.mode == OVERLAY_MODE_DARKEN || self.mode == OVERLAY_MODE_SHADOW) {
             CATransition *animation = [CATransition animation];
             [animation setType:kCATransitionFade];
-            [animation setDuration:0.3];
+            [animation setDuration:0.25];
             [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
             [[self layer] addAnimation:animation forKey:@"fadeout"];
             
