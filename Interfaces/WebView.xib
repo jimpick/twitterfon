@@ -128,13 +128,8 @@
 				</object>
 				<nil key="IBUIHighlightedColor"/>
 				<object class="NSColor" key="IBUIShadowColor">
-					<int key="NSColorSpace">6</int>
-					<string key="NSCatalogName">System</string>
-					<string key="NSColorName">alternateSelectedControlColor</string>
-					<object class="NSColor" key="NSColor">
-						<int key="NSColorSpace">1</int>
-						<bytes key="NSRGB">MCAwIDEAA</bytes>
-					</object>
+					<int key="NSColorSpace">1</int>
+					<bytes key="NSRGB">MC40MDAwMDAwMSAwLjQwMDAwMDAxIDAuNDAwMDAwMDEAA</bytes>
 				</object>
 				<int key="IBUIBaselineAdjustment">1</int>
 				<float key="IBUIMinimumFontSize">1.100000e+01</float>
