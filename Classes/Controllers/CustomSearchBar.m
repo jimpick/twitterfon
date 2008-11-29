@@ -101,7 +101,7 @@ static NSString* sSearchBarPressedImages[3] = {
 
 - (void)layoutLayer
 {  
-    float leftButtonWidth = (leftButtonExpanded) ? 128 : 18;
+    float leftButtonWidth = (leftButtonExpanded) ? 108 : 18;
 
     CGRect r = layers[1].frame;
     r.size.width = leftButtonWidth;
@@ -129,12 +129,12 @@ static NSString* sSearchBarPressedImages[3] = {
     [super layoutSubviews];
     CGRect bounds = self.bounds;
     float textLeftOffset = 48;
-    if (leftButtonExpanded) textLeftOffset += 110;
+    if (leftButtonExpanded) textLeftOffset += 90;
     
     textField.frame = CGRectMake(textLeftOffset, 14, bounds.size.width - textLeftOffset, 17);
 
     locationButton.frame = CGRectMake(4, 6, 31, 31);
-    distanceButton.frame = CGRectMake(10 + 18, 14, 120, 17);
+    distanceButton.frame = CGRectMake(0, 14, 125, 17);
 }
 
 - (void)setFrame:(CGRect)frame
@@ -153,10 +153,12 @@ static NSString* sSearchBarPressedImages[3] = {
 - (void)expandLeftButton:(BOOL)expand
 {
     if (expand) {
+        locationButton.hidden = true;
         distanceButton.hidden = false;
         textField.rightViewMode = UITextFieldViewModeNever;
     }
     else {
+        locationButton.hidden = false;
         distanceButton.hidden = true;
         textField.rightViewMode = UITextFieldViewModeNever;
     }
@@ -216,18 +218,20 @@ static NSString* sSearchBarPressedImages[3] = {
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)aTextField
 {
+    textField.text = text;
+
+    if ([delegate respondsToSelector:@selector(customSearchBarShouldBeginEditing:)]) {
+        if (![delegate customSearchBarShouldBeginEditing:self]) {
+            return false;
+        }
+    }
+    
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.25];
     [self expandLeftButton:false];
     textField.frame = CGRectMake(48, 14, 170, 17);
     [UIView commitAnimations];
     [self layoutLayer];
-    
-    textField.text = text;
-
-    if ([delegate respondsToSelector:@selector(customSearchBarShouldBeginEditing:)]) {
-        return [delegate customSearchBarShouldBeginEditing:self];
-    }
     
     return true;
 }

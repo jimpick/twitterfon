@@ -563,12 +563,9 @@
 				6E1C72E60EB5ABED00E34D9B /* LocationManager.m */,
 				6ECCAD950EBE5B2E002B39F6 /* SearchHistoryViewController.h */,
 				6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */,
-				6E89F7C50EDE267D00778242 /* CustomSearchBar.h */,
-				6E89F7C40EDE267D00778242 /* CustomSearchBar.m */,
-				6E08A4D70EDFD0B5000D25FE /* CustomSearchTextField.h */,
-				6E08A4D80EDFD0B5000D25FE /* CustomSearchTextField.m */,
 				6E08A88B0EE00DB9000D25FE /* LocationDistanceWindow.h */,
 				6E08A88C0EE00DB9000D25FE /* LocationDistanceWindow.m */,
+				6ED501750EE11EE300087B83 /* CustomSearchBar */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -586,6 +583,17 @@
 				6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */,
 			);
 			name = interfaces;
+			sourceTree = "<group>";
+		};
+		6ED501750EE11EE300087B83 /* CustomSearchBar */ = {
+			isa = PBXGroup;
+			children = (
+				6E89F7C50EDE267D00778242 /* CustomSearchBar.h */,
+				6E89F7C40EDE267D00778242 /* CustomSearchBar.m */,
+				6E08A4D70EDFD0B5000D25FE /* CustomSearchTextField.h */,
+				6E08A4D80EDFD0B5000D25FE /* CustomSearchTextField.m */,
+			);
+			name = CustomSearchBar;
 			sourceTree = "<group>";
 		};
 		6EDC01CE0E344B5600FF142E /* DB */ = {
