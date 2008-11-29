@@ -293,6 +293,8 @@
     [searchBar.distanceButton setTitle:[LocationDistanceWindow stringOfDistance:index] forState:UIControlStateNormal];
     
     if (latitude && longitude) {
+        [search cancel];
+        [search removeAllMessages];
         [self geoSearch];
     }
 }

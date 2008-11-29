@@ -51,6 +51,8 @@
 }
 
 - (void)dealloc {
+    [twitterClient cancel];
+    [twitterClient release];
     [loadCell release];
     [query release];
     [timeline release];
@@ -162,7 +164,8 @@
 
 - (void)getTimeline
 {
-	TwitterClient* client = [[TwitterClient alloc] initWithTarget:self action:@selector(timelineDidReceive:messages:)];
+    if (twitterClient) return;
+	twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(timelineDidReceive:messages:)];
     
     insertPosition = 0;
     
@@ -188,11 +191,12 @@
         [param setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
     }
     
-    [client getTimeline:messageType params:param];
+    [twitterClient getTimeline:messageType params:param];
 }
 
 - (void)timelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
 {
+    twitterClient = nil;
     [loadCell.spinner stopAnimating];
    
     if (obj == nil) {
@@ -246,6 +250,7 @@
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
+    twitterClient = nil;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
                                                     message:detail
                                                    delegate:self
@@ -268,6 +273,8 @@
 
 - (BOOL)searchSubstance:(BOOL)reload
 {
+    if (twitterClient) return false;
+    
     int page;
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     
@@ -297,8 +304,8 @@
         [param setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
     }
 
-    TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(searchResultDidReceive:messages:)];
-    [client search:param];
+    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(searchResultDidReceive:messages:)];
+    [twitterClient search:param];
     return true;
 }
 
@@ -318,8 +325,17 @@
     [self searchSubstance:false];
 }
 
+- (void)cancel
+{
+    if (twitterClient) {
+        [twitterClient cancel];
+        twitterClient = nil;
+    }
+}
+
 - (void)searchResultDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
 {
+    twitterClient = nil;
     if (![obj isKindOfClass:[NSDictionary class]]) {
         [controller noSearchResult];
     }

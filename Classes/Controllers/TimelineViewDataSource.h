@@ -7,6 +7,7 @@
 @interface TimelineViewDataSource : NSObject <UITableViewDataSource, UITableViewDelegate> {
     UITableViewController*  controller;
 	Timeline*               timeline;
+    TwitterClient*          twitterClient;
     ImageStore*             imageStore;
     LoadCell*               loadCell;
     MessageType             messageType;
@@ -30,6 +31,8 @@
 - (BOOL)searchSubstance:(BOOL)reload;
 - (void)search:(NSString*)query;
 - (void)geocode:(float)latitude longitude:(float)longitude distance:(int)distance;
+
+- (void)cancel;
 
 - (void)removeAllMessages;
 
