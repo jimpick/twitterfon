@@ -56,7 +56,7 @@ static NSString* sSearchBarPressedImages[3] = {
             layers[i+5].contents = (id)imageRef;
             layers[i+5].frame = CGRectMake(left, 6, image.size.width, image.size.height);
             left += image.size.width;
-            layers[i+5].zPosition = -1;
+            layers[i+5].hidden = true;
             [[self layer] addSublayer:layers[i+5]];
         }
         
@@ -78,8 +78,8 @@ static NSString* sSearchBarPressedImages[3] = {
         [distanceButton addTarget:self action:@selector(buttonDown:) forControlEvents:UIControlEventTouchDown];
         [distanceButton addTarget:self action:@selector(buttonUp:) forControlEvents:UIControlEventTouchUpOutside];
         [distanceButton addTarget:self action:@selector(distanceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        distanceButton.hidden = true;
         [self addSubview:distanceButton];
+        distanceButton.hidden = true;
 
         UIButton *bookmark = [UIButton buttonWithType:UIButtonTypeCustom];
         [bookmark setImage:[UIImage imageNamed:@"Bookmarks.png"] forState:UIControlStateNormal];

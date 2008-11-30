@@ -20,43 +20,45 @@
 
 @implementation SearchViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
+    // SearchBar
+    //
     UIView *view = self.navigationController.navigationBar;
     searchBar = [[[CustomSearchBar alloc] initWithFrame:view.bounds delegate:self] autorelease];
     searchBar.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"searchQuery"];
     NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:@"searchDistance"];
     [searchBar.distanceButton setTitle:[LocationDistanceWindow stringOfDistance:index] forState:UIControlStateNormal];
-    
     self.navigationController.navigationBar.topItem.titleView = searchBar;
-    
-    
+
+    // Trends
     trendsButton  = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"trends.png"]
                                                                          style:UIBarButtonItemStylePlain 
                                                                          target:self 
                                                                          action:@selector(getTrends:)];
     self.navigationItem.rightBarButtonItem = trendsButton;
     
+    // Reload
     reloadButton  = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                   target:self 
                                                                   action:@selector(reload:)];
     self.navigationItem.leftBarButtonItem = reloadButton;
-   
-    [super viewDidLoad];
-    
+
+    // Data sources and delegates
+    //
     trends  = [[TrendsDataSource alloc] initWithDelegate:self];
     history = [[SearchHistoryDataSource alloc] initWithDelegate:self];
-
     search  = [[TimelineViewDataSource alloc] initWithController:self messageType:MSG_TYPE_SEARCH_RESULT];
-    
     self.tableView.dataSource = search;
     self.tableView.delegate   = search;
-    self.view = searchView;
-    
+
+    // Overlay view
     overlayView = [[OverlayView alloc] initWithFrame:CGRectMake(0, 0, 320, 367)];
     overlayView.searchBar  = searchBar;
     overlayView.searchView = searchView;
     [overlayView setMessage:@"" spinner:false];
-    
+
+    // etc
     latitude = longitude = 0;
 }
 
@@ -210,8 +212,6 @@
 //
 - (BOOL)customSearchBarShouldBeginEditing:(CustomSearchBar *)textField
 {
-    self.navigationItem.leftBarButtonItem.enabled = false;
-
     CATransition *animation = [CATransition animation];
  	[animation setDelegate:self];
     [animation setType:kCATransitionFade];
@@ -237,7 +237,6 @@
 
 - (BOOL)customSearchBarShouldEndEditing:(CustomSearchBar *)textField
 {
-    self.navigationItem.leftBarButtonItem.enabled = true;
 	overlayView.mode = OVERLAY_MODE_HIDDEN;
     self.view.frame = CGRectMake(0, 0, 320, 367);
     [self.tableView reloadData];
