@@ -114,7 +114,7 @@
         text.frame = CGRectMake(5, 88, 310, 112);
     }
     else {
-        self.navigationItem.title = @"Post";
+        self.navigationItem.title = @"New tweet";
         to.hidden = true;
         recipient.hidden = true;
         view.showRecipient = false;
