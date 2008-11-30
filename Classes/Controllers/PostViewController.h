@@ -38,6 +38,7 @@
     TFConnection*               connection;
     BOOL                        didPost;
     BOOL                        isDirectMessage;
+    BOOL                        recipientIsFirstResponder;
     NSRange                     textRange;
     
     UINavigationController*     navigation;
@@ -50,7 +51,6 @@
 - (void)editWithString:(NSString*)message;
 - (void)editWithURL:(NSString*)URL;
 - (void)editDirectMessage:(NSString*)aRecipient;
-- (void)edit;
 - (void)checkProgressWindowState;
 - (void)friendsViewDidSelectFriend:(NSString*)screenName;
 - (void)friendsViewDidDisappear;

@@ -26,8 +26,8 @@
 #define GPS_BUTTON_INDEX    2
 #define CAMERA_BUTTON_INDEX 3
 
-@interface NSObject (PostTweetDelegate)
-
+@interface PostViewController (Private)
+- (void)edit;
 @end
 
 @implementation PostViewController
@@ -75,13 +75,13 @@
 - (void)editWithString:(NSString*)message
 {
     isDirectMessage = false;
-    NSMutableString *str = [NSMutableString stringWithString:text.text];
-    [str insertString:message atIndex:textRange.location];
-    textRange.location += [message length];
-
-    self.view.hidden = false;
-    textRange.length = 0;
-    text.text = str;
+    if (message) {
+        NSMutableString *str = [NSMutableString stringWithString:text.text];
+        [str insertString:message atIndex:textRange.location];
+        textRange.location += [message length];
+        textRange.length = 0;
+        text.text = str;
+    }
     [self edit];
 }
 
@@ -95,8 +95,6 @@
 
     // Always append the URL to tail
     NSString *str = [NSString stringWithFormat:@"%@ %@", text.text, URL];
-    
-    self.view.hidden = false;
     textRange.length = 0;
     text.text = str;
     [self edit];
@@ -414,7 +412,7 @@
 - (void)friendsViewDidSelectFriend:(NSString*)screenName
 {
     if (screenName) {
-        if (textRange.location == NSIntegerMax) {
+        if (recipientIsFirstResponder) {
             recipient.text = screenName;
             textRange.location = [text.text length];
             textRange.length = 0;
@@ -426,8 +424,17 @@
             textRange.length = 0;
             text.text = str;
         }
+        [self setCharCount];
         [text becomeFirstResponder];    
         text.selectedRange = textRange;
+    }
+    else {
+        if (recipientIsFirstResponder) {
+            [recipient becomeFirstResponder];
+        }
+        else {
+            [text becomeFirstResponder];
+        }
     }
 }
 
@@ -624,6 +631,11 @@
         sendButton.enabled = true;
         charCount.textColor = [UIColor whiteColor];
     }
+    
+    if (isDirectMessage && [recipient.text length] == 0) {
+        sendButton.enabled = false;
+    }
+    
     charCount.text = [NSString stringWithFormat:@"%d", length];
 }
 
@@ -673,6 +685,40 @@
 - (void)textViewDidChange:(UITextView *)textView
 {
     [self setCharCount];
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    recipientIsFirstResponder = false;
+}
+
+//
+// UITextFieldDelegate
+//
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    recipientIsFirstResponder = true;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSString* str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    if ([str length] == 0) {
+        sendButton.enabled = false;
+    }
+    else {
+        int length = 140 - [text.text length];
+        if (length == 140) {
+            sendButton.enabled = false;
+        }
+        else if (length < 0) {
+            sendButton.enabled = false;
+        }
+        else {
+            sendButton.enabled = true;
+        }
+    }
+    return true;
 }
 
 //

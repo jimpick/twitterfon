@@ -145,11 +145,11 @@
 
 - (IBAction) post: (id) sender
 {
-    if (tabBarController.selectedIndex == MSG_TYPE_MESSAGES) {
+    if (tabBarController.selectedIndex == TAB_MESSAGES) {
         [self.postView editDirectMessage:nil];
     }
     else {
-        [self.postView edit];
+        [self.postView editWithString:nil];
     }
 }
 
