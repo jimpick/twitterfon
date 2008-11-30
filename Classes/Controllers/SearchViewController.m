@@ -312,9 +312,6 @@
     self.navigationItem.leftBarButtonItem.enabled = false;
     aSearchBar.locationButton.enabled = false;
 
-    [search removeAllMessages];
-    [self reloadTable];
-    
     [searchBar resignFirstResponder];
     [overlayView setMessage:@"Get current location..." spinner:true];
     
@@ -411,6 +408,9 @@
 //
 - (void)locationManagerDidReceiveLocation:(LocationManager*)manager location:(CLLocation*)location
 {
+    [search removeAllMessages];
+    [self reloadTable];
+    
     latitude  = location.coordinate.latitude;
     longitude = location.coordinate.longitude;
     [self geoSearch];
