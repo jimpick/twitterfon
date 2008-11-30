@@ -240,10 +240,9 @@ static NSString *schemes[NUM_SCHEMES][2] = {
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [webView stopLoading];    
-	[super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-	// Release anything that's not essential, such as cached data
+- (void)didReceiveMemoryWarning
+{
+	[super didReceiveMemoryWarning];
 }
 
 
