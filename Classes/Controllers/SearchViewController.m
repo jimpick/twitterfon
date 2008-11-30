@@ -18,6 +18,11 @@
 - (void)textAtIndexPath:(NSIndexPath*)indexPath;
 @end
 
+@interface SearchViewController (Private)
+- (void)setDataSource:(NSObject<UITableViewDelegate, UITableViewDataSource>*)source;
+@end
+
+
 @implementation SearchViewController
 
 - (void)viewDidLoad 
@@ -49,9 +54,8 @@
     trends  = [[TrendsDataSource alloc] initWithDelegate:self];
     history = [[SearchHistoryDataSource alloc] initWithDelegate:self];
     search  = [[TimelineViewDataSource alloc] initWithController:self messageType:MSG_TYPE_SEARCH_RESULT];
-    self.tableView.dataSource = search;
-    self.tableView.delegate   = search;
-
+    [self setDataSource:search];
+    
     // Overlay view
     overlayView = [[OverlayView alloc] initWithFrame:CGRectMake(0, 0, 320, 367)];
     overlayView.searchBar  = searchBar;
@@ -92,6 +96,25 @@
 {
 }
 
+- (void)setDataSource:(NSObject<UITableViewDelegate, UITableViewDataSource>*)source
+{
+    if (source == search) {
+        self.tableView.separatorColor   = [UIColor lightGrayColor]; 
+        self.tableView.backgroundColor  = [UIColor whiteColor];
+    }
+    else if (source == trends) {
+        self.tableView.separatorColor   = [UIColor colorWithRed:0.878 green:0.878 blue:0.878 alpha:1.0];
+        self.tableView.backgroundColor  = [UIColor whiteColor];
+    }
+    else if (source == history) {
+        self.tableView.separatorColor  = [UIColor colorWithRed:0.843 green:0.843 blue:0.843 alpha:1.0];
+        self.tableView.backgroundColor = [UIColor colorWithRed:0.906 green:0.906 blue:0.906 alpha:1.0];
+    }
+    self.tableView.dataSource = source;
+    self.tableView.delegate   = source;
+    [self.tableView setNeedsDisplay];
+}
+
 - (void)makeRead
 {
     [self navigationController].tabBarItem.badgeValue = nil;
@@ -104,8 +127,7 @@
 
 - (void)search:(NSString*)query
 {
-    self.tableView.dataSource = search;
-    self.tableView.delegate   = search;
+    [self setDataSource:search];
     searchBar.locationButton.enabled = false;
     
 
@@ -254,8 +276,7 @@
 
 - (BOOL)customSearchBarShouldClear:(CustomSearchBar *)textField
 {
-    self.tableView.dataSource = search;
-    self.tableView.delegate   = search;
+    [self setDataSource:search];
     [self.tableView reloadData];
     [self.tableView setContentOffset:search.contentOffset animated:false];
     overlayView.mode = OVERLAY_MODE_DARKEN;
@@ -272,8 +293,7 @@
         self.view.frame = CGRectMake(0, 0, 320, 200);
         [history updateQuery:searchText];
         overlayView.mode = OVERLAY_MODE_SHADOW;
-        self.tableView.dataSource = history;
-        self.tableView.delegate   = history;
+        [self setDataSource:history];
         [self reloadTable];
     }
 }
@@ -336,8 +356,7 @@
     searchBar.locationButton.enabled = true;
     
     if (self.tableView.dataSource != search) {
-        self.tableView.dataSource = search;
-        self.tableView.delegate   = search;
+        [self setDataSource:search];
     }
     
     if (count == 0) return;
@@ -443,11 +462,10 @@
     [searchBar resignFirstResponder];
     overlayView.mode = OVERLAY_MODE_HIDDEN;
 
-    self.tableView.delegate   = trends;
-    self.tableView.dataSource = trends;
+    [self setDataSource:trends];
+    [self reloadTable];
     self.navigationItem.leftBarButtonItem.enabled  = true;
     self.navigationItem.rightBarButtonItem.enabled = true;
-    [self reloadTable];
 }
 
 - (void)searchTrendsDidFailToLoad

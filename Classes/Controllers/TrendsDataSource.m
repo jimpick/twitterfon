@@ -43,15 +43,13 @@
     }
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    tableView.separatorColor = [UIColor colorWithRed:0.878 green:0.878 blue:0.878 alpha:1.0];
-    tableView.backgroundColor = [UIColor whiteColor];
-
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return [trends count];
 }
 

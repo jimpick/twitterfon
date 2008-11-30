@@ -66,9 +66,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    tableView.separatorColor = [UIColor lightGrayColor]; 
-    tableView.backgroundColor = [UIColor whiteColor];
-    
     int count = [timeline countMessages];
     if (messageType == MSG_TYPE_SEARCH_RESULT) {
         return (count) ? count + 1 : 0;

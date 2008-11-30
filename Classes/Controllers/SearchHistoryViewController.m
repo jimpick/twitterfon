@@ -67,6 +67,7 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
     }
+    cell.backgroundColor = [UIColor whiteColor];
     cell.text = [queries objectAtIndex:indexPath.row];
     return cell;
 }
