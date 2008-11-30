@@ -35,7 +35,7 @@
         CGContextSetAllowsAntialiasing(context, false);
         CGContextSetRGBStrokeColor(context, 0.666, 0.666, 0.666, 1.0);
         CGPoint points[2] = {
-            {0, 80}, {320, 80}
+            {0, 88}, {320, 88}
         };
         CGContextStrokeLineSegments(context, points, 2);
     }

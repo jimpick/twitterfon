@@ -95,7 +95,6 @@
 
     // Always append the URL to tail
     NSString *str = [NSString stringWithFormat:@"%@ %@", text.text, URL];
-    textRange.length = 0;
     text.text = str;
     [self edit];
 }
@@ -112,7 +111,7 @@
         recipient.hidden = false;
         view.showRecipient = true;
         [view setNeedsDisplay];
-        text.frame = CGRectMake(0, 80, 320, 117);
+        text.frame = CGRectMake(5, 88, 310, 112);
     }
     else {
         self.navigationItem.title = @"Post";
@@ -120,7 +119,7 @@
         recipient.hidden = true;
         view.showRecipient = false;
         [view setNeedsDisplay];
-        text.frame = CGRectMake(0, 44, 320, 156);
+        text.frame = CGRectMake(5, 49, 310, 156);
     }
     
     locationButton.enabled = (isDirectMessage) ? false : true;
@@ -148,7 +147,6 @@
 
 - (IBAction) close: (id) sender
 {
-    textRange = text.selectedRange;
     [recipient resignFirstResponder];
     [text resignFirstResponder];
     self.view.hidden = true;
@@ -309,8 +307,6 @@
 - (IBAction) undo:(id) sender
 {
     text.text = undoBuffer;
-    textRange.length   = 0;
-    textRange.location = [text.text length];
     [undoBuffer release];
     undoBuffer = nil;
     [self setTransform:true];
@@ -343,7 +339,6 @@
 
         undoBuffer = [text.text retain];
         text.text = @"";
-        textRange = text.selectedRange;
         charCount.textColor = [UIColor whiteColor];
         sendButton.enabled = false;
         
@@ -400,7 +395,6 @@
 {
     FolloweesViewController *friends = [[[FolloweesViewController alloc] initWithNibName:@"FolloweesView" bundle:nil] autorelease];
     friends.postViewController = self;
-    textRange = text.selectedRange;
     [navigation presentModalViewController:friends animated:true];
 }
 
@@ -414,8 +408,6 @@
     if (screenName) {
         if (recipientIsFirstResponder) {
             recipient.text = screenName;
-            textRange.location = [text.text length];
-            textRange.length = 0;
         }
         else {
             NSMutableString *str = [NSMutableString stringWithString:text.text];
@@ -434,6 +426,7 @@
         }
         else {
             [text becomeFirstResponder];
+            text.selectedRange = textRange;
         }
     }
 }
@@ -443,7 +436,6 @@
 //
 - (void)showImagePicker:(BOOL)hasCamera
 {
-    textRange = text.selectedRange;
     PostImagePickerController *picker = [[[PostImagePickerController alloc] init] autorelease];
     picker.postViewController = self;
     picker.delegate = self;
@@ -530,6 +522,7 @@
 - (void)showKeyboard:(NSTimer*)timer
 {
     [text becomeFirstResponder];
+    text.selectedRange = textRange;
 }
 
 - (void)imagePickerControllerDidDisappear
@@ -682,8 +675,14 @@
 //
 // UITextViewDelegate
 //
+- (void)textViewDidChangeSelection:(UITextView *)textView
+{
+    textRange = text.selectedRange;
+}
+
 - (void)textViewDidChange:(UITextView *)textView
 {
+    textRange = text.selectedRange;
     [self setCharCount];
 }
 
