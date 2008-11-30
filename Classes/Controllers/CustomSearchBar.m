@@ -131,10 +131,9 @@ static NSString* sSearchBarPressedImages[3] = {
     float textLeftOffset = 48;
     if (leftButtonExpanded) textLeftOffset += 90;
     
-    textField.frame = CGRectMake(textLeftOffset, 14, bounds.size.width - textLeftOffset, 17);
-
+    textField.frame = CGRectMake(textLeftOffset, 6, bounds.size.width - textLeftOffset, 31);
     locationButton.frame = CGRectMake(4, 6, 31, 31);
-    distanceButton.frame = CGRectMake(0, 14, 125, 17);
+    distanceButton.frame = CGRectMake(4, 6, 125, 31);
 }
 
 - (void)setFrame:(CGRect)frame

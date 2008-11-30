@@ -19,17 +19,18 @@
     return self;
 }
 
-#if 0
+
 - (CGRect)textRectForBounds:(CGRect)bounds
 {
-        return CGRectMake(44, 14, 136, 17);
+    return CGRectOffset(bounds, 0, 7);
 }
 
 - (CGRect)editingRectForBounds:(CGRect)bounds
 {
-    return CGRectMake(44, 14, bounds.size.width - 84, 17);
+    return CGRectOffset(bounds, 0, 7);
 }
 
+#if 0
 - (CGRect)leftViewRectForBounds:(CGRect)bounds
 {
 //    bounds.size.width = (leftButtonExpanded) ? 120 : 18;
@@ -44,7 +45,7 @@
 
 - (CGRect)rightViewRectForBounds:(CGRect)bounds
 {
-    return CGRectMake(bounds.size.width - 41, -6, 40, 29);
+    return CGRectMake(bounds.size.width - 41, 2, 40, 29);
 }
 
 
