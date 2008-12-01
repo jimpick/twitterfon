@@ -190,6 +190,8 @@
 {
     int count = [self.tableView.dataSource tableView:self.tableView numberOfRowsInSection:0];
     
+    [searchBar resignFirstResponder];
+    
     if (self.tableView.dataSource == trends) {
         [trends getTrends:(count != 0) ? true : false];
     }
@@ -235,42 +237,23 @@
 - (BOOL)customSearchBarShouldBeginEditing:(CustomSearchBar *)textField
 {
     CATransition *animation = [CATransition animation];
- 	[animation setDelegate:self];
+ 	[animation setDelegate:nil];
     [animation setType:kCATransitionFade];
-	[animation setDuration:0.25];
-	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+	[animation setDuration:0.4];
+	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
 	[[overlayView layer] addAnimation:animation forKey:@"fadeout"];
 	overlayView.mode = OVERLAY_MODE_DARKEN;
     
     if (self.tableView.dataSource == search) {
         search.contentOffset = self.tableView.contentOffset;
     }
-    
-    [self.navigationItem setLeftBarButtonItem:nil animated:true];
-    [self.navigationItem setRightBarButtonItem:nil animated:true];
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.25];
-    searchBar.frame = CGRectMake(0, 0, 300, 44);
-    [UIView commitAnimations];
-    
+
     return true;
 }
 
 - (BOOL)customSearchBarShouldEndEditing:(CustomSearchBar *)textField
 {
-	overlayView.mode = OVERLAY_MODE_HIDDEN;
     self.view.frame = CGRectMake(0, 0, 320, 367);
-    [self.tableView reloadData];
-
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.25];
-    searchBar.frame = CGRectMake(47, 0, 220, 44);
-    [UIView commitAnimations];
-    
-    [self.navigationItem setLeftBarButtonItem:reloadButton animated:true];
-    [self.navigationItem setRightBarButtonItem:trendsButton animated:true];
-    
     return true;
 }
 

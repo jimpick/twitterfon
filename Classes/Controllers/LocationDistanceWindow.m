@@ -65,7 +65,7 @@
     [self makeKeyAndVisible];
     
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.25];
+    [UIView setAnimationDuration:0.3];
     overlay.hidden = NO;
     overlay.alpha = 0.6;
     [UIView commitAnimations];
@@ -74,7 +74,7 @@
     
     [animation setType:kCATransitionMoveIn];
     [animation setSubtype:kCATransitionFromTop];
-    [animation setDuration:0.25];
+    [animation setDuration:0.3];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     [[container layer] addAnimation:animation forKey:@"show"];
     container.hidden = NO;
@@ -83,7 +83,7 @@
 - (void)hide:(id)sender
 {
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.25];
+    [UIView setAnimationDuration:0.3];
     overlay.alpha = 0;
     [UIView commitAnimations];
     
@@ -92,7 +92,7 @@
     [animation setType:kCATransitionPush];
     [animation setSubtype:kCATransitionFromBottom];
   	[animation setDelegate:self];
-    [animation setDuration:0.25];
+    [animation setDuration:0.3];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     [[container layer] addAnimation:animation forKey:@"hide"];
     container.hidden = YES;

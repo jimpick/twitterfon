@@ -138,7 +138,7 @@
 
     [animation setType:kCATransitionMoveIn];
     [animation setSubtype:kCATransitionFromBottom];
-    [animation setDuration:0.25];
+    [animation setDuration:0.3];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     [[self.view layer] addAnimation:animation forKey:kShowAnimationkey];
     sendButton.enabled = false;
@@ -155,7 +155,7 @@
  	[animation setDelegate:self];
     [animation setType:kCATransitionPush];
     [animation setSubtype:kCATransitionFromTop];
-	[animation setDuration:0.25];
+	[animation setDuration:0.3];
 	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
 	
 	[[self.view layer] addAnimation:animation forKey:kHideAnimationKey];

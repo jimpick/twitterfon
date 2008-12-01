@@ -225,12 +225,14 @@ static NSString* sSearchBarPressedImages[3] = {
         }
     }
     
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.25];
-    [self expandLeftButton:false];
-    textField.frame = CGRectMake(48, 14, 170, 17);
-    [UIView commitAnimations];
-    [self layoutLayer];
+    if (leftButtonExpanded) {
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.25];
+        [self expandLeftButton:false];
+        textField.frame = CGRectMake(48, 14, 170, 17);
+        [UIView commitAnimations];
+        [self layoutLayer];
+    }
     
     return true;
 }

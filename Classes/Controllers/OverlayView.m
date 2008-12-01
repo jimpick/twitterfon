@@ -142,12 +142,10 @@
         if (self.mode == OVERLAY_MODE_DARKEN || self.mode == OVERLAY_MODE_SHADOW) {
             CATransition *animation = [CATransition animation];
             [animation setType:kCATransitionFade];
-            [animation setDuration:0.25];
-            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+            [animation setDuration:0.4];
+            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
             [[self layer] addAnimation:animation forKey:@"fadeout"];
-            
             self.mode = OVERLAY_MODE_HIDDEN;
-            
             [searchBar resignFirstResponder];
         }
     }
