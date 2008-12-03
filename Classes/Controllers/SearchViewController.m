@@ -247,13 +247,17 @@
     if (self.tableView.dataSource == search) {
         search.contentOffset = self.tableView.contentOffset;
     }
-
+    searchBar.locationButton.enabled = false;
+    self.navigationItem.leftBarButtonItem.enabled = false;
+    
     return true;
 }
 
 - (BOOL)customSearchBarShouldEndEditing:(CustomSearchBar *)textField
 {
     self.view.frame = CGRectMake(0, 0, 320, 367);
+    searchBar.locationButton.enabled = true;
+    self.navigationItem.leftBarButtonItem.enabled = true;
     return true;
 }
 
