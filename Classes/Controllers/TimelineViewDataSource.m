@@ -20,6 +20,8 @@
 #import "TimeUtils.h"
 #import "DBConnection.h"
 
+static UIAlertView* sAlert = nil;
+
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)timelineDidUpdate:(TimelineViewDataSource*)sender count:(int)count insertAt:(int)position;
 - (void)timelineDidFailToUpdate:(TimelineViewDataSource*)sender position:(int)position;
@@ -248,14 +250,6 @@
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
     twitterClient = nil;
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
-                                                    message:detail
-                                                   delegate:self
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles: nil];
-    [alert show];	
-    [alert release];
-    
     [loadCell.spinner stopAnimating];
     
     if ([controller respondsToSelector:@selector(timelineDidFailToUpdate:position:)]) {
@@ -266,6 +260,24 @@
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         [appDelegate openSettingsView];
     }
+
+    //
+    // Save alert view to static pointer to avoid displaying alert view many times at the same time.
+    //
+    if (sAlert) return;
+    
+    sAlert = [[UIAlertView alloc] initWithTitle:error
+                                        message:detail
+                                       delegate:self
+                              cancelButtonTitle:@"Close"
+                              otherButtonTitles: nil];
+    [sAlert show];	
+    [sAlert release];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonInde
+{
+    sAlert = nil;
 }
 
 - (BOOL)searchSubstance:(BOOL)reload
