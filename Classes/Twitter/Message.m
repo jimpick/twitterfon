@@ -53,7 +53,8 @@ static sqlite3_stmt* select_statement = nil;
     
 	messageId           = [[dic objectForKey:@"id"] longLongValue];
     stringOfCreatedAt   = [dic objectForKey:@"created_at"];
-    favorited           = [[dic objectForKey:@"favorited"] boolValue];
+
+    favorited = [dic objectForKey:@"favorited"] == [NSNull null] ? 0 : [[dic objectForKey:@"favorited"] boolValue];
     
     NSString *tweet = [dic objectForKey:@"text"];
 
