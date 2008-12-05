@@ -29,20 +29,22 @@ sqlite3_stmt *insert_statement = nil;
 	location        = [[dic objectForKey:@"location"] retain];
 	description     = [[dic objectForKey:@"description"] retain];
 	url             = [[dic objectForKey:@"url"] retain];
-    followersCount  = [[dic objectForKey:@"followers_count"] longValue];
     profileImageUrl = [[dic objectForKey:@"profile_image_url"] retain];
-    protected       = [[dic objectForKey:@"protected"] boolValue];
+
+    followersCount  = ([dic objectForKey:@"followers_count"] == [NSNull null]) ? 0 : [[dic objectForKey:@"followers_count"] longValue];
+    protected       = ([dic objectForKey:@"protected"]       == [NSNull null]) ? 0 : [[dic objectForKey:@"protected"] boolValue];
     
-    friendsCount    = [[dic objectForKey:@"friends_count"] longValue];
-    statusesCount   = [[dic objectForKey:@"statuses_count"] longValue];
-    following       = [[dic objectForKey:@"following"] boolValue];
-    notifications   = [[dic objectForKey:@"notifications"] boolValue];
+    friendsCount    = ([dic objectForKey:@"friends_count"]   == [NSNull null]) ? 0 : [[dic objectForKey:@"friends_count"] longValue];
+    statusesCount   = ([dic objectForKey:@"statuses_count"]  == [NSNull null]) ? 0 : [[dic objectForKey:@"statuses_count"] longValue];
+    following       = ([dic objectForKey:@"following"]       == [NSNull null]) ? 0 : [[dic objectForKey:@"following"] boolValue];
+    notifications   = ([dic objectForKey:@"notifications"]   == [NSNull null]) ? 0 : [[dic objectForKey:@"notifications"] boolValue];
     
     if ((id)name == [NSNull null]) name = @"";
     if ((id)screenName == [NSNull null]) screenName = @"";
     if ((id)location == [NSNull null]) location = @"";
     if ((id)description == [NSNull null]) description = @"";
     if ((id)url == [NSNull null]) url = @"";
+    if ((id)profileImageUrl == [NSNull null]) profileImageUrl = @"";
     
     self.location    = [location unescapeHTML];
     self.description = [description unescapeHTML];

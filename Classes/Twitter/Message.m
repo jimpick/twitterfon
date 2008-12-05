@@ -91,8 +91,8 @@ static sqlite3_stmt* select_statement = nil;
     }
     
     inReplyToMessageId = [dic objectForKey:@"in_reply_to_status_id"] == [NSNull null] ? 0 : [[dic objectForKey:@"in_reply_to_status_id"] longLongValue];
-    inReplyToUserId    = [dic objectForKey:@"in_reply_to_user_id"]  == [NSNull null] ? 0 : [[dic objectForKey:@"in_reply_to_user_id"] longValue];
-    truncated          = [[dic objectForKey:@"truncated"] boolValue];
+    inReplyToUserId    = [dic objectForKey:@"in_reply_to_user_id"]   == [NSNull null] ? 0 : [[dic objectForKey:@"in_reply_to_user_id"] longValue];
+    truncated          = [dic objectForKey:@"truncated"] == [NSNull null] ? 0 : [[dic objectForKey:@"truncated"] boolValue];
 	
 	NSDictionary* userDic = [dic objectForKey:@"user"];
 	if (userDic) {
