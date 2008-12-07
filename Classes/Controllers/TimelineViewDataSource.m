@@ -13,6 +13,7 @@
 #import "LinkViewController.h"
 #import "PostViewController.h"
 #import "UserTimelineController.h"
+#import "UserViewController.h"
 
 #import "MessageCell.h"
 #import "ColorUtils.h"
@@ -123,7 +124,7 @@ static UIAlertView* sAlert = nil;
         UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
         [userTimeline setMessage:m];
         [[controller navigationController] pushViewController:userTimeline animated:true];
-    }
+    }      
     else {
         // Restore tweets from DB
         //
@@ -221,7 +222,11 @@ static UIAlertView* sAlert = nil;
         
         // Add messages to the timeline
         for (int i = [ary count] - 1; i >= 0; --i) {
-            sqlite_int64 messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
+            NSDictionary *dic = (NSDictionary*)[ary objectAtIndex:i];
+            if (![dic isKindOfClass:[NSDictionary class]]) {
+                continue;
+            }
+            sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];
             if (![Message isExists:messageId type:messageType]) {
                 Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:messageType];
                 if (m.createdAt < lastMessage.createdAt) {
