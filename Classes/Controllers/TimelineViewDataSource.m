@@ -299,7 +299,7 @@ static UIAlertView* sAlert = nil;
         if (!m) return false;
         since_id = m.messageId;
         [param setObject:[NSString stringWithFormat:@"%lld", since_id] forKey:@"since_id"];
-        [param setObject:@"200" forKey:@"rpp"];
+        [param setObject:@"100" forKey:@"rpp"];
     }
     else {
         since_id = 0;
