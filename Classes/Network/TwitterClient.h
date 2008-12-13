@@ -35,7 +35,7 @@ typedef enum {
 - (void)getUser:(NSString*)screen_name;
 - (void)post:(NSString*)tweet;
 - (void)send:(NSString*)text to:(NSString*)screen_name;
-- (void)destroy:(Message*)message;
+- (void)destroy:(Message*)message isDirectMessage:(BOOL)isDirectMessage;
 - (void)favorite:(Message*)message;
 - (void)friendship:(NSString*)screen_name create:(BOOL)create;
 - (void)search:(NSDictionary*)params;

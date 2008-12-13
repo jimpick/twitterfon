@@ -13,14 +13,15 @@
 #import "TwitterClient.h"
 #import "DeleteButtonCell.h"
 
-@interface UserViewController : UITableViewController {
+@interface UserViewController : UITableViewController <UIActionSheetDelegate> {
     UserView*               userView;
     UserViewActionCell*     actionCell;
     MessageCell*            messageCell;
     DeleteButtonCell*       deleteCell;
     Message*                message;
     TwitterClient*          twitterClient;
-    BOOL                    isOwnMessage;
+    BOOL                    hasDeleteButton;
+    BOOL                    isDirectMessage;
 }
 
 - (id)initWithMessage:(Message*)message;

@@ -144,12 +144,18 @@ NSString* sMethods[4] = {
     [self post:url body:@""];
 }
 
-- (void)destroy:(Message*)message
+- (void)destroy:(Message*)message isDirectMessage:(BOOL)isDirectMessage
 {
     needAuth = true;
     request = TWITTER_REQUEST_DESTROY_MESSAGE;
-    
-	NSString* url = [NSString stringWithFormat:@"https://twitter.com/statuses/destroy/%lld.json", [message messageId]];
+
+    NSString *url;
+    if (isDirectMessage) {
+        url = [NSString stringWithFormat:@"https://twitter.com/direct_messages/destroy/%lld.json", [message messageId]];
+    }
+    else {
+        url = [NSString stringWithFormat:@"https://twitter.com/statuses/destroy/%lld.json", [message messageId]];
+    }
     
     NSLog(@"%@", url);
     

@@ -24,6 +24,15 @@ NSString* sCellDetailText[2] = {
     @"Profile",
 };
 
+NSString* sDeleteMessage[2] = {
+    @"Delete this tweet",
+    @"Delete this message",
+};
+
+@interface NSObject (UserViewControllerDelegate)
+- (void)removeMessage:(Message*)message;
+@end
+
 @implementation UserViewController
 
 - (id)initWithMessage:(Message*)m
@@ -50,7 +59,7 @@ NSString* sCellDetailText[2] = {
         
         NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
         if ([message.user.screenName caseInsensitiveCompare:username] == NSOrderedSame) {
-            isOwnMessage = true;
+            hasDeleteButton = true;
         }
 	}
 	return self;
@@ -61,6 +70,11 @@ NSString* sCellDetailText[2] = {
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.tintColor = nil;
+    
+    if ([self tabBarController].selectedIndex == MSG_TYPE_MESSAGES) {
+        isDirectMessage = true;
+        hasDeleteButton = true;
+    }
 }
 
 - (void)dealloc {
@@ -72,7 +86,7 @@ NSString* sCellDetailText[2] = {
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return (isOwnMessage) ? 4 : 3;
+    return (hasDeleteButton) ? 4 : 3;
 }
 
 
@@ -129,7 +143,8 @@ NSString* sCellDetailText[2] = {
             cell.text = sCellDetailText[indexPath.row];
         }
         else if (indexPath.section == 3) {
-            [deleteCell setTitle:@"Delete this message"];
+            int index = (isDirectMessage) ? 1 : 0;
+            [deleteCell setTitle:sDeleteMessage[index]];
             return deleteCell;
         }
     }
@@ -157,7 +172,17 @@ NSString* sCellDetailText[2] = {
             break;
             
         case 3:
-            break;
+        {
+            int index = (isDirectMessage) ? 1 : 0;
+            UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
+                                                            delegate:self
+                                                   cancelButtonTitle:@"Cancel"
+                                              destructiveButtonTitle:sDeleteMessage[index]
+                                                   otherButtonTitles:nil];
+            [as showInView:self.navigationController.parentViewController.view];
+            [as release];
+        }
+        break;
             
         default:
             break;
@@ -183,6 +208,29 @@ NSString* sCellDetailText[2] = {
     else {
         return 0;
     }
+}
+
+- (void)actionSheet:(UIActionSheet *)as clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (as.cancelButtonIndex == buttonIndex) {
+        return;
+    }
+
+    // Delete message
+    //
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    TwitterClient* client = [[TwitterClient alloc] initWithTarget:appDelegate action:@selector(messageDidDelete:messages:)];
+    client.context = [message retain];
+    
+    UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
+    
+    if ([c respondsToSelector:@selector(removeMessage:)]) {
+        [c removeMessage:message];
+    }
+
+    [client destroy:message isDirectMessage:isDirectMessage];
+
+    [self.navigationController popViewControllerAnimated:true];
 }
 
 - (void)toggleFavorite:(BOOL)favorited message:(Message*)m

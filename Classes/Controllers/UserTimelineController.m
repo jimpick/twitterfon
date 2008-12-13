@@ -376,7 +376,7 @@
             [c removeMessage:m];
         }
         
-        [client destroy:m];
+        [client destroy:m isDirectMessage:false];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     }
 }
