@@ -225,10 +225,10 @@
 //
 // Handling links
 //
-static NSString *urlRegexp  = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
+static NSString *urlRegexp  = @"(((http(s?))\\:\\/\\/)([-0-9a-zA-Z]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/[-0-9a-zA-Z_#!:.?+=&%@~*\\';,/$]*)?)";
 static NSString *endRegexp  = @"[.,;:]$";
 static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
-static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
+static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 
 - (void)didTouchLinkButton:(Message*)message
 {
