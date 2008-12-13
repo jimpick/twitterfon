@@ -52,6 +52,42 @@ const char *delete_tweets =
     return theDatabase;
 }
 
+//
+// delete caches
+//
+const char *delete_message_cache_sql = 
+"BEGIN;"
+"DELETE FROM messages;"
+"DELETE FROM users;"
+"DELETE FROM followees;"
+"COMMIT;"
+"VACUUM;";
+
++ (void)deleteMessageCache
+{
+    char *errmsg;
+    [self getSharedDatabase];
+    
+    if (sqlite3_exec(theDatabase, delete_message_cache_sql, NULL, NULL, &errmsg) != SQLITE_OK) {
+        // ignore error
+        NSLog(@"Error: failed to cleanup chache (%s)", errmsg);
+    }
+}
+
++ (void)deleteImageCache
+{
+    char *errmsg;
+    [self getSharedDatabase];
+    
+    if (sqlite3_exec(theDatabase, "DELETE FROM images; VACUUM;", NULL, NULL, &errmsg) != SQLITE_OK) {
+        // ignore error
+        NSLog(@"Error: failed to cleanup chache (%s)", errmsg);
+    }
+}
+
+//
+// cleanup and optimize
+//
 const char *cleanup_sql =
 "BEGIN;"
 "DELETE FROM images WHERE updated_at <= (SELECT updated_at FROM images order by updated_at LIMIT 1 OFFSET 3000);"
@@ -95,7 +131,9 @@ const char *optimize_sql =
     }
 }
 
-
+//
+// migration
+//
 const char *update_v12_to_v13 = 
 // Create database
 "BEGIN;"

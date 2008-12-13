@@ -11,4 +11,7 @@
 + (sqlite3*)getSharedDatabase;
 + (void)closeDatabase;
 
++ (void)deleteMessageCache;
++ (void)deleteImageCache;
+
 @end
