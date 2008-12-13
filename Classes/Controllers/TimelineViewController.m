@@ -29,7 +29,6 @@
     }
     self.tableView.dataSource = currentDataSource;
     self.tableView.delegate   = currentDataSource;
-    [self navigationController].tabBarItem.badgeValue = nil;
 }
 
 - (void) dealloc
