@@ -9,6 +9,7 @@
 #import "UserTimelineController.h"
 #import "TwitterFonAppDelegate.h"
 #import "UserDetailViewController.h"
+#import "UserViewController.h"
 #import "MessageCell.h"
 
 @interface NSObject (TimelineViewControllerDelegate)
@@ -177,7 +178,13 @@
     }
     
     Message* m = [timeline messageAtIndex:indexPath.row - 1];
-    if (m) return;
+    if (m) {
+        // Display user timeline
+        //
+        UserViewController* userView = [[[UserViewController alloc] initWithMessage:m] autorelease];
+        [self.navigationController pushViewController:userView animated:TRUE];
+        return;
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:true];
     if (twitterClient) return;
