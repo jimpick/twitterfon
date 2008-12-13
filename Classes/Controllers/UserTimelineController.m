@@ -9,7 +9,6 @@
 #import "UserTimelineController.h"
 #import "TwitterFonAppDelegate.h"
 #import "UserDetailViewController.h"
-#import "LinkViewController.h"
 #import "MessageCell.h"
 
 @interface NSObject (TimelineViewControllerDelegate)

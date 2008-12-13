@@ -10,7 +10,6 @@
 #import "TimelineViewDataSource.h"
 #import "TimelineViewController.h"
 #import "TwitterFonAppDelegate.h"
-#import "LinkViewController.h"
 #import "PostViewController.h"
 #import "UserTimelineController.h"
 #import "UserViewController.h"
