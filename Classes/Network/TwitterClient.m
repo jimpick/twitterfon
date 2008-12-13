@@ -6,7 +6,6 @@
 //  Copyright naan studio 2008. All rights reserved.
 //
 
-#import "TwitterFonAppDelegate.h"
 #import "TwitterClient.h"
 #import "StringUtil.h"
 #import "JSON.h"
