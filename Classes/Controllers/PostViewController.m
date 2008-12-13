@@ -72,7 +72,7 @@
     [self edit];
 }
 
-- (void)editWithString:(NSString*)message
+- (void)reply:(NSString*)message
 {
     isDirectMessage = false;
     if (message) {
@@ -82,6 +82,15 @@
         textRange.length = 0;
         text.text = str;
     }
+    [self edit];
+}
+
+- (void)retweet:(NSString*)message
+{
+    isDirectMessage = false;
+    textRange.location = [message length];
+    textRange.length = 0;
+    text.text = message;
     [self edit];
 }
 
