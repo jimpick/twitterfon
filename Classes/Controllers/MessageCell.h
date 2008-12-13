@@ -24,6 +24,7 @@
 
 - (void)update:(MessageType)type delegate:(id)delegate;
 
+- (void)toggleFavorite:(BOOL)favorited;
 - (void)toggleSpinner:(BOOL)flag;
 
 + (UIImage*) favoriteImage;

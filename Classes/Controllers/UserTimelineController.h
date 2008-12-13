@@ -19,7 +19,7 @@
 @interface UserTimelineController : UITableViewController {
     UserCell*               userCell;
     ImageStore*             imageStore;
-    Message*                message;
+    User*                   user;
     NSString*               screenName;
     LoadCell*               loadCell;
     Timeline*               timeline;
@@ -31,7 +31,7 @@
     CGPoint                 contentOffset;
 }
 
-- (void)setMessage:(Message *)message;
+- (void)setUser:(User *)user;
 - (void)loadUserTimeline:(NSString*)screenName;
 
 @end

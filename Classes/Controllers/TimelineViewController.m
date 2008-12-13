@@ -10,7 +10,6 @@
 #import "TimelineViewDataSource.h"
 #import "TwitterFonAppDelegate.h"
 #import "ColorUtils.h"
-#import "MessageCell.h"
 
 @interface TimelineViewController (Private)
 - (void)didLeaveTab:(UINavigationController*)navigationController;

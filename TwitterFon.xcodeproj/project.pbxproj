@@ -10,6 +10,9 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		6E021A730E60109000D0869A /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E021A720E60109000D0869A /* lock.png */; };
+		6E0378320EF352A20045CD12 /* deleteButton_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E0378300EF352A20045CD12 /* deleteButton_pressed.png */; };
+		6E0378330EF352A20045CD12 /* deleteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E0378310EF352A20045CD12 /* deleteButton.png */; };
+		6E03783F0EF354030045CD12 /* DeleteButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03783E0EF354030045CD12 /* DeleteButtonCell.m */; };
 		6E089FA70EDF84FF000D25FE /* SearchBarBody.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E089FA20EDF84FF000D25FE /* SearchBarBody.png */; };
 		6E089FA80EDF84FF000D25FE /* SearchBarLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E089FA30EDF84FF000D25FE /* SearchBarLeft.png */; };
 		6E089FA90EDF84FF000D25FE /* SearchBarLeftButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E089FA40EDF84FF000D25FE /* SearchBarLeftButton.png */; };
@@ -49,6 +52,7 @@
 		6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */; };
 		6E48E93B0EBD7439005E1837 /* PostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E93A0EBD7439005E1837 /* PostView.m */; };
 		6E5CBCED0ECF7971008A18A2 /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5CBCEC0ECF7971008A18A2 /* ImageUtils.m */; };
+		6E6846B10EE2D85E009847F3 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6846B00EE2D85E009847F3 /* UserViewController.m */; };
 		6E6DC59D0EC077FD00F9EB74 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5940EC077FD00F9EB74 /* MainWindow.xib */; };
 		6E6DC59E0EC077FD00F9EB74 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5950EC077FD00F9EB74 /* PostView.xib */; };
 		6E6DC59F0EC077FD00F9EB74 /* SearchHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5960EC077FD00F9EB74 /* SearchHistoryView.xib */; };
@@ -83,6 +87,7 @@
 		6ECD90400EBEF9F400C3CD4D /* TwitPicClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECD903F0EBEF9F400C3CD4D /* TwitPicClient.m */; };
 		6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA50E38D3A0006E8AB7 /* forward.png */; };
 		6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA60E38D3A0006E8AB7 /* back.png */; };
+		6EDB36D10EE72CC900440173 /* UserViewActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDB36D00EE72CC900440173 /* UserViewActionCell.m */; };
 		6EDC01240E33E6DA00FF142E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */; };
 		6EDC012F0E33E6F000FF142E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */; };
 		6EDC01D10E344B5600FF142E /* DBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC01D00E344B5600FF142E /* DBConnection.m */; };
@@ -117,6 +122,10 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* TwitterFon_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterFon_Prefix.pch; sourceTree = "<group>"; };
 		6E021A720E60109000D0869A /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
+		6E0378300EF352A20045CD12 /* deleteButton_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deleteButton_pressed.png; sourceTree = "<group>"; };
+		6E0378310EF352A20045CD12 /* deleteButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deleteButton.png; sourceTree = "<group>"; };
+		6E03783D0EF354030045CD12 /* DeleteButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteButtonCell.h; path = Controllers/DeleteButtonCell.h; sourceTree = "<group>"; };
+		6E03783E0EF354030045CD12 /* DeleteButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteButtonCell.m; path = Controllers/DeleteButtonCell.m; sourceTree = "<group>"; };
 		6E089FA20EDF84FF000D25FE /* SearchBarBody.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBarBody.png; sourceTree = "<group>"; };
 		6E089FA30EDF84FF000D25FE /* SearchBarLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBarLeft.png; sourceTree = "<group>"; };
 		6E089FA40EDF84FF000D25FE /* SearchBarLeftButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchBarLeftButton.png; sourceTree = "<group>"; };
@@ -173,6 +182,8 @@
 		6E48E93A0EBD7439005E1837 /* PostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostView.m; path = Controllers/PostView.m; sourceTree = "<group>"; };
 		6E5CBCEB0ECF7971008A18A2 /* ImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageUtils.h; path = Classes/OtherSources/ImageUtils.h; sourceTree = "<group>"; };
 		6E5CBCEC0ECF7971008A18A2 /* ImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageUtils.m; path = Classes/OtherSources/ImageUtils.m; sourceTree = "<group>"; };
+		6E6846AF0EE2D85E009847F3 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserViewController.h; path = Controllers/UserViewController.h; sourceTree = "<group>"; };
+		6E6846B00EE2D85E009847F3 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserViewController.m; path = Controllers/UserViewController.m; sourceTree = "<group>"; };
 		6E6DC5940EC077FD00F9EB74 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = Interfaces/MainWindow.xib; sourceTree = "<group>"; };
 		6E6DC5950EC077FD00F9EB74 /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PostView.xib; path = Interfaces/PostView.xib; sourceTree = "<group>"; };
 		6E6DC5960EC077FD00F9EB74 /* SearchHistoryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SearchHistoryView.xib; path = Interfaces/SearchHistoryView.xib; sourceTree = "<group>"; };
@@ -222,6 +233,8 @@
 		6ECD903F0EBEF9F400C3CD4D /* TwitPicClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitPicClient.m; path = Network/TwitPicClient.m; sourceTree = "<group>"; };
 		6ED17FA50E38D3A0006E8AB7 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
 		6ED17FA60E38D3A0006E8AB7 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		6EDB36CF0EE72CC900440173 /* UserViewActionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserViewActionCell.h; path = Controllers/UserViewActionCell.h; sourceTree = "<group>"; };
+		6EDB36D00EE72CC900440173 /* UserViewActionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserViewActionCell.m; path = Controllers/UserViewActionCell.m; sourceTree = "<group>"; };
 		6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6EDC01CF0E344B5600FF142E /* DBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBConnection.h; sourceTree = "<group>"; };
@@ -450,19 +463,21 @@
 			name = Search;
 			sourceTree = "<group>";
 		};
-		6E102A360E5DD63D00440C58 /* UesrTimeline */ = {
+		6E102A360E5DD63D00440C58 /* UserView */ = {
 			isa = PBXGroup;
 			children = (
-				6E08FB9C0E5D266B00106492 /* UserCell.h */,
-				6E08FB9D0E5D266B00106492 /* UserCell.m */,
-				6E10290F0E5D362C00440C58 /* LoadCell.h */,
-				6E1029100E5D362C00440C58 /* LoadCell.m */,
-				6E08FB750E5D252200106492 /* UserTimelineController.h */,
-				6E08FB760E5D252200106492 /* UserTimelineController.m */,
 				6E8C57B80ED0AEA300EC9D39 /* UserView.h */,
 				6E8C57B90ED0AEA300EC9D39 /* UserView.m */,
+				6E03783D0EF354030045CD12 /* DeleteButtonCell.h */,
+				6E03783E0EF354030045CD12 /* DeleteButtonCell.m */,
+				6EDB36CF0EE72CC900440173 /* UserViewActionCell.h */,
+				6EDB36D00EE72CC900440173 /* UserViewActionCell.m */,
+				6E6846AF0EE2D85E009847F3 /* UserViewController.h */,
+				6E6846B00EE2D85E009847F3 /* UserViewController.m */,
+				6E6846AC0EE2D7D6009847F3 /* UserTimelineView */,
+				6E1FAB400EDA6A39009407F6 /* UserDetailView */,
 			);
-			name = UesrTimeline;
+			name = UserView;
 			sourceTree = "<group>";
 		};
 		6E1FAB400EDA6A39009407F6 /* UserDetailView */ = {
@@ -483,6 +498,17 @@
 				6EEBF7270E3B209A0003EA63 /* WebViewController.m */,
 			);
 			name = "Web View";
+			sourceTree = "<group>";
+		};
+		6E6846AC0EE2D7D6009847F3 /* UserTimelineView */ = {
+			isa = PBXGroup;
+			children = (
+				6E08FB9C0E5D266B00106492 /* UserCell.h */,
+				6E08FB9D0E5D266B00106492 /* UserCell.m */,
+				6E08FB750E5D252200106492 /* UserTimelineController.h */,
+				6E08FB760E5D252200106492 /* UserTimelineController.m */,
+			);
+			name = UserTimelineView;
 			sourceTree = "<group>";
 		};
 		6E74DA700ED957EC000E169F /* Application */ = {
@@ -526,6 +552,8 @@
 				6E3ED88D0EB9439A0041687A /* TimelineViewController.m */,
 				6EFC286E0EBDD46D00FBBB3D /* LinkViewController.h */,
 				6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */,
+				6E10290F0E5D362C00440C58 /* LoadCell.h */,
+				6E1029100E5D362C00440C58 /* LoadCell.m */,
 				6EEBF7170E3B20830003EA63 /* MessageCell.h */,
 				6EEBF7180E3B20830003EA63 /* MessageCell.m */,
 				6ECCAF6E0EBED555002B39F6 /* MessageCellView.h */,
@@ -605,8 +633,7 @@
 			children = (
 				6E74DA700ED957EC000E169F /* Application */,
 				6E8265C90E375122005D2370 /* TimelineView */,
-				6E102A360E5DD63D00440C58 /* UesrTimeline */,
-				6E1FAB400EDA6A39009407F6 /* UserDetailView */,
+				6E102A360E5DD63D00440C58 /* UserView */,
 				6EBEE5790EB2F58E00C18F0A /* Search */,
 				6E8265C80E375119005D2370 /* Post */,
 				6E38EF7F0E38275300887690 /* Web View */,
@@ -673,6 +700,8 @@
 		6EED14400E33E5BF00C71EA4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6E0378300EF352A20045CD12 /* deleteButton_pressed.png */,
+				6E0378310EF352A20045CD12 /* deleteButton.png */,
 				6E08A3550EDFC185000D25FE /* TabBar */,
 				6E08A3650EDFC20D000D25FE /* Timeline */,
 				6E08A3640EDFC1D5000D25FE /* UserView */,
@@ -772,6 +801,8 @@
 				6E08ABE20EE0999C000D25FE /* SearchBarLeftButtonPressed.png in Resources */,
 				6E08ABE30EE0999C000D25FE /* SearchBarLeftEdgePressed.png in Resources */,
 				6E08ABE40EE0999C000D25FE /* SearchBarLeftPressed.png in Resources */,
+				6E0378320EF352A20045CD12 /* deleteButton_pressed.png in Resources */,
+				6E0378330EF352A20045CD12 /* deleteButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -834,6 +865,9 @@
 				6E89F7C60EDE267D00778242 /* CustomSearchBar.m in Sources */,
 				6E08A4D90EDFD0B5000D25FE /* CustomSearchTextField.m in Sources */,
 				6E08A88D0EE00DB9000D25FE /* LocationDistanceWindow.m in Sources */,
+				6E6846B10EE2D85E009847F3 /* UserViewController.m in Sources */,
+				6EDB36D10EE72CC900440173 /* UserViewActionCell.m in Sources */,
+				6E03783F0EF354030045CD12 /* DeleteButtonCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -884,11 +918,13 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.0.sdk/usr/include/libxml2;
 				OTHER_CFLAGS = "-DDISTRIBUTION";
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "22D9AA2E-FF06-4A10-A003-9610B2F8451F";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "22D9AA2E-FF06-4A10-A003-9610B2F8451F";
 				"PROVISIONING_PROFILE[sdk=iphoneos2.1]" = "22D9AA2E-FF06-4A10-A003-9610B2F8451F";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos2.0;
 			};
 			name = Adhoc;
@@ -917,11 +953,13 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.0.sdk/usr/include/libxml2;
 				OTHER_CFLAGS = "-DDISTRIBUTION";
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "0F74D6AA-1337-43EC-9E34-0AFB081302DE";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F74D6AA-1337-43EC-9E34-0AFB081302DE";
 				"PROVISIONING_PROFILE[sdk=iphoneos2.0]" = "0F74D6AA-1337-43EC-9E34-0AFB081302DE";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos2.0;
 			};
 			name = Distribution;
@@ -950,9 +988,11 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.0.sdk/usr/include/libxml2;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DDEBUG";
 				PREBINDING = NO;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos2.0;
 			};
 			name = Debug;
@@ -965,8 +1005,10 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.0.sdk/usr/include/libxml2;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = DefaultProfileUuid;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos2.0;
 			};
 			name = Release;

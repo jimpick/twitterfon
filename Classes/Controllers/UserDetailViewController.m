@@ -25,7 +25,7 @@
 
 - (void)setUser:(User*)aUser
 {
-    user = aUser;
+    user = [aUser copy];
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     if ([username caseInsensitiveCompare:user.screenName] == NSOrderedSame) {
         ownInfo = true;
@@ -38,7 +38,7 @@
     
     userView = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 387)];
     userView.hasDetail = true;
-    [userView setUser:user delegate:self];
+    [userView setUser:user];
     
     detailView = [[UserDetailView alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
 }
@@ -74,6 +74,7 @@
 
 - (void)dealloc 
 {
+    [user release];
     [twitterClient release];
     [detailView release];
     [userView release];
@@ -187,9 +188,11 @@
         dic = (NSDictionary*)obj;
 
         [user updateWithJSonDictionary:dic];
-        [userView setUser:user delegate:self];
+        [userView setUser:user];
         detailView.user = user;
         detailLoaded = true;
+
+//        followingLoaded = true;
 
         NSArray *indexPath = [NSArray arrayWithObjects:
                               [NSIndexPath indexPathForRow:0 inSection:0],
@@ -198,15 +201,17 @@
                               nil];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];
+//        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationTop];  	 	 
         [self.tableView endUpdates];
     }
     
     twitterClient = nil;
-    
+#if 1
     if (!ownInfo) {   	 	 
         twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendshipDidCheck:messages:)];  	 	 
         [twitterClient existFriendship:user.screenName];  	 	 
     }
+#endif
 }
 
 - (void)friendshipDidCheck:(TwitterClient*)sender messages:(NSObject*)obj   	 	 
@@ -278,14 +283,14 @@
     }
     else {
         NSString *msg = [NSString stringWithFormat:@"@%@ ", user.screenName];
-        [postView editWithString:msg];
+        [postView reply:msg];
     }
 }
 
-- (void)didTouchURL:(id)sender
+- (void)imageStoreDidGetNewImage:(UIImage*)image
 {
-    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    [appDelegate openWebView:user.url on:[self navigationController]];
+    userView.profileImage = image;
+    [userView setNeedsDisplay];
 }
 
 @end

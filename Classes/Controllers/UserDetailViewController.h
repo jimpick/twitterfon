@@ -23,7 +23,7 @@
     BOOL            ownInfo;
 }
 
-@property(nonatomic, assign) User* user;
+@property(nonatomic, copy) User* user;
 @property(nonatomic, readonly) UserView* userView;
 
 @end

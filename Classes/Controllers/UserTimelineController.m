@@ -29,6 +29,7 @@
         imageStore = appDelegate.imageStore;
         userCell = [[UserCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"UserCell"];
         loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
+        user = nil;
 	}
 	return self;
 }
@@ -36,9 +37,9 @@
 - (void)dealloc {
     [userCell release];
     [loadCell release];
+    [user release];
     [twitterClient release];
     [deletedMessage release];
-    [message release];
     [timeline release];
 	[super dealloc];
 }
@@ -78,25 +79,18 @@
     }
 }
 
-- (void)setMessage:(Message *)aMessage
+- (void)setUser:(User *)aUser
 {
-    message = [aMessage copy];
-    message.type = MSG_TYPE_USER;
-    [message updateAttribute];
-    screenName = message.user.screenName;
+    user = [aUser copy];
+    screenName = user.screenName;
     
-    [loadCell setType:MSG_TYPE_LOAD_USER_TIMELINE];
-    
-    [timeline appendMessage:message];
-    [self.tableView reloadData];
-    [self setNavigationBar];
+    [self loadUserTimeline:user.screenName];
 }
 
 - (void)loadUserTimeline:(NSString*)aScreenName
 {
-    message = nil;
     indexOfLoadCell = 1;
-    screenName = [aScreenName substringFromIndex:1];
+    screenName = aScreenName;
     
     [loadCell setType:MSG_TYPE_LOADING];
     [loadCell.spinner startAnimating];
@@ -127,7 +121,7 @@
             return m.cellHeight;
         }
         else {
-            return 48;
+            return ([timeline countMessages]) ? 78 : 48;
         }
     }
 }
@@ -135,10 +129,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
     if (indexPath.row == 0) {
-        if (message) {
-            NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
+        if (user) {
+            NSString *url = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
             userCell.userView.profileImage = [imageStore getImage:url delegate:self];
-            [userCell.userView setUser:message.user delegate:self];
+            [userCell.userView setUser:user];
         }
         return userCell;
     }
@@ -152,12 +146,6 @@
             cell.message = m;
             cell.inEditing = self.editing;
             
-            if (m.favorited) {
-                [cell.profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
-            }
-            else {
-                [cell.profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
-            }
             [cell update:MSG_TYPE_USER delegate:self];
             TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
             if ([timeline countMessages] == 1 && appDelegate.selectedTab == TAB_MESSAGES) {
@@ -181,8 +169,8 @@
             return;
         }
         UserDetailViewController *detailView = [[[UserDetailViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
-        detailView.user = message.user;
-        NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
+        detailView.user = user;
+        NSString *url = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
         detailView.userView.profileImage = [imageStore getImage:url delegate:self];
         
         [self.navigationController pushViewController:detailView animated:true];
@@ -240,37 +228,20 @@
     NSMutableArray *insertIndexPath = [[[NSMutableArray alloc] init] autorelease];
     NSMutableArray *deleteIndexPath = [[[NSMutableArray alloc] init] autorelease];
 
-    // Remove first message
-    BOOL needReplace = false;
-    Message* firstMessage = [[[timeline messageAtIndex:0] retain] autorelease];
-    if ([timeline countMessages] == 1) {
-        [timeline removeMessageAtIndex:0];
-        needReplace = true;
-    }
-    
     // Add messages to the timeline
     for (int i = 0; i < [ary count]; ++i) {
         Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:MSG_TYPE_USER];
         [timeline appendMessage:m];
     }
 
-    if (message) {
-        [message release];
+    if (user) {
+        [user release];
     }
-    message = [[timeline lastMessage] copy];
-    message.type = MSG_TYPE_USER;
-    [message updateAttribute];
+    user = [[timeline lastMessage].user copy];
 
-    NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
+    NSString *url = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
     userCell.userView.profileImage = [imageStore getImage:url delegate:self];
-    [userCell.userView setUser:message.user delegate:self];
-    
-    if (needReplace) {
-        if (firstMessage.messageId != [timeline messageAtIndex:0].messageId) {
-            [deleteIndexPath addObject:[NSIndexPath indexPathForRow:1 inSection:0]];
-            --indexOfLoadCell;
-        }
-    }
+    [userCell.userView setUser:user];
     
     int count = [ary count];
     if (count > 8) count = 8;
@@ -298,42 +269,12 @@
 
 // UserCell delegate
 //
-- (void)didTouchURL:(id)sender
-{
-    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    [appDelegate openWebView:message.user.url on:[self navigationController]];
-}
-
-- (void)didTouchProfileImage:(MessageCell*)cell
-{
-
-    [cell toggleSpinner:true];
-    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;    
-    TwitterClient *client = [[TwitterClient alloc] initWithTarget:appDelegate action:@selector(favoriteDidChange:messages:)];
-    client.context = [cell.message retain];
-    [client favorite:cell.message];
-}
-
 - (void)toggleFavorite:(BOOL)favorited message:(Message*)m
 {
     int index = [timeline indexOfObject:m];
     if (index < 0) return;
     MessageCell* cell = (MessageCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index + 1 inSection:0]];
-    
-    if (favorited) {
-        [cell.profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
-    }
-    else {
-        [cell.profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
-    }    
-
-    [cell toggleSpinner:false];
-
-    CATransition *animation = [CATransition animation];
-    [animation setType:kCATransitionFade];
-    [animation setDuration:0.2];
-    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-    [cell.profileImage.layer addAnimation:animation forKey:@"favoriteButton"];
+    [cell toggleFavorite:favorited];
 }
 
 - (void)userDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
@@ -342,7 +283,10 @@
     if ([obj isKindOfClass:[NSDictionary class]]) {
         dic = (NSDictionary*)obj;
 
-        User *user = [[[User alloc] initWithJsonDictionary:dic] autorelease];
+        if (user) {
+            [user release];
+        }
+        user = [[User alloc] initWithJsonDictionary:dic];
         NSString *url = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
         userCell.userView.profileImage = [imageStore getImage:url delegate:self];    
         [userCell.userView setNeedsDisplay];
@@ -387,31 +331,6 @@
     }
 }
 
-- (void)didTouchLinkButton:(Message*)aMessage links:(NSArray*)array
-{
-    if ([array count] == 1) {
-        NSString* url = [array objectAtIndex:0];
-        NSRange r = [url rangeOfString:@"http://"];
-        if (r.location != NSNotFound) {
-            TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-            [appDelegate openWebView:url on:self.navigationController];
-        }
-        else {
-            UserTimelineController *userTimeline = [[UserTimelineController alloc] initWithNibName:nil bundle:nil];
-            [userTimeline autorelease];
-            [userTimeline loadUserTimeline:[array objectAtIndex:0]];
-            
-            [self.navigationController pushViewController:userTimeline animated:true];
-        }
-    }
-    else {
-        LinkViewController* linkView = [[[LinkViewController alloc] init] autorelease];
-        linkView.message = message;
-        linkView.links   = array;
-        [self.navigationController pushViewController:linkView animated:true];
-    }
-}
-
 - (void)postTweet:(id)sender
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
@@ -422,9 +341,8 @@
     }
     else {
         NSString *msg = [NSString stringWithFormat:@"@%@ ", screenName];
-        [postView editWithString:msg];
+        [postView reply:msg];
     }
-    
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath

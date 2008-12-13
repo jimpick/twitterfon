@@ -1,4 +1,5 @@
 #import <QuartzCore/QuartzCore.h>
+#import "TwitterFonAppDelegate.h"
 #import "MessageCell.h"
 #import "ColorUtils.h"
 #import "StringUtil.h"
@@ -48,41 +49,20 @@ static UIImage* sFavorited = nil;
     [super dealloc];
 }    
 
-static NSString *urlRegexp  = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
-static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
-
 - (void)didTouchLinkButton:(id)sender
 {
-    NSMutableArray *links = [NSMutableArray array];
-
-    NSMutableArray *array = [NSMutableArray array];
-    NSString *tmp = message.text;
-    
-    while ([tmp matches:urlRegexp withSubstring:array]) {
-        NSString *url = [array objectAtIndex:0];
-        [links addObject:url];
-        NSRange r = [tmp rangeOfString:url];
-        tmp = [tmp substringFromIndex:r.location + r.length];
-        [array removeAllObjects];
-    }
-    
-    tmp = message.text;
-    while ([tmp matches:nameRegexp withSubstring:array]) {
-        NSString *username = [array objectAtIndex:0];
-        [links addObject:username];
-        NSRange r = [tmp rangeOfString:username];
-        tmp = [tmp substringFromIndex:r.location + r.length];
-        [array removeAllObjects];
-    }
-          
-    if (delegate) {
-        [delegate didTouchLinkButton:message links:links];
-    }
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    [appDelegate didTouchLinkButton:message];
 }
 
 - (void)didTouchProfileImage:(id)sender
 {
-    if (delegate) {
+    if (type == MSG_TYPE_USER) {
+        [self toggleSpinner:true];
+        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+        [appDelegate toggleFavorite:message];
+    }
+    else if (delegate) {
         [delegate didTouchProfileImage:self];
     }
 }
@@ -99,6 +79,13 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
     if (type == MSG_TYPE_USER) {
         self.contentView.backgroundColor = [UIColor whiteColor];
         cellView.frame = CGRectMake(USER_CELL_LEFT, 0, USER_CELL_WIDTH, message.cellHeight - 1);
+        
+        if (message.favorited) {
+            [profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
+        }
+        else {
+            [profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
+        }
     }
     else {
         cellView.frame = CGRectMake(LEFT, 0, CELL_WIDTH, message.cellHeight - 1);
@@ -128,7 +115,6 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
     }
 }
 
-
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
     [super setEditing:editing animated:animated];
@@ -144,6 +130,24 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
         inEditing = editing;
     }
 
+}
+
+- (void)toggleFavorite:(BOOL)favorited
+{
+    if (favorited) {
+        [profileImage setImage:[MessageCell favoritedImage] forState:UIControlStateNormal];
+    }
+    else {
+        [profileImage setImage:[MessageCell favoriteImage] forState:UIControlStateNormal];
+    }    
+    
+    [self toggleSpinner:false];
+    
+    CATransition *animation = [CATransition animation];
+    [animation setType:kCATransitionFade];
+    [animation setDuration:0.2];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    [profileImage.layer addAnimation:animation forKey:@"favoriteButton"];
 }
 
 - (void)toggleSpinner:(BOOL)animation

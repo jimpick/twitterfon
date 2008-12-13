@@ -83,7 +83,7 @@ static UIAlertView* sAlert = nil;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Message *m = [timeline messageAtIndex:indexPath.row];
-    return m ? m.cellHeight : 48;
+    return m ? m.cellHeight : 78;
     
 }
 
@@ -121,9 +121,8 @@ static UIAlertView* sAlert = nil;
     if (m) {
         // Display user timeline
         //
-        UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
-        [userTimeline setMessage:m];
-        [[controller navigationController] pushViewController:userTimeline animated:true];
+        UserViewController* userView = [[[UserViewController alloc] initWithMessage:m] autorelease];
+        [[controller navigationController] pushViewController:userView animated:TRUE];
     }      
     else {
         // Restore tweets from DB
@@ -226,7 +225,7 @@ static UIAlertView* sAlert = nil;
             if (![dic isKindOfClass:[NSDictionary class]]) {
                 continue;
             }
-            sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];
+            sqlite_int64 messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
             if (![Message isExists:messageId type:messageType]) {
                 Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:messageType];
                 if (m.createdAt < lastMessage.createdAt) {
@@ -400,34 +399,9 @@ static UIAlertView* sAlert = nil;
     }
     else {
         msg = [NSString stringWithFormat:@"@%@ ", m.user.screenName];
-        [postView editWithString:msg];
+        [postView reply:msg];
     }
     
-}
-
-- (void)didTouchLinkButton:(Message*)message links:(NSArray*)array
-{
-    if ([array count] == 1) {
-        NSString* url = [array objectAtIndex:0];
-        NSRange r = [url rangeOfString:@"http://"];
-        if (r.location != NSNotFound) {
-            TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-            [appDelegate openWebView:url on:[controller navigationController]];
-        }
-        else {
-            UserTimelineController *userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
-            [userTimeline loadUserTimeline:[array objectAtIndex:0]];
-            [[controller navigationController] pushViewController:userTimeline animated:true];
-        }
-    }
-    else {
-        [controller navigationController].navigationBar.tintColor = nil;
-
-        LinkViewController* linkView = [[[LinkViewController alloc] init] autorelease];
-        linkView.message = message;
-        linkView.links   = array;
-        [[controller navigationController] pushViewController:linkView animated:true];
-    }
 }
 
 @end

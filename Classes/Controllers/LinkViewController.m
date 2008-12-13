@@ -60,12 +60,11 @@
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
     NSRange r = [cell.text rangeOfString:@"http://"];
     if (r.location != NSNotFound) {
-        [appDelegate openWebView:cell.text on:self.navigationController];
+        [appDelegate openWebView:cell.text];
     }
     else {
         UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
-
-        [userTimeline loadUserTimeline:cell.text];
+        [userTimeline loadUserTimeline:[cell.text substringFromIndex:1]];
         [self.navigationController pushViewController:userTimeline animated:true];
     }
 }
