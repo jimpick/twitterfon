@@ -38,6 +38,7 @@ typedef enum {
 - (void) closeSettingsView;
 - (void) openWebView:(NSString*)url on:(UINavigationController*)viewController;
 - (void) openWebView:(NSString*)url;
+- (void) search:(NSString*)query;
 
 - (void)didTouchLinkButton:(Message*)message;
 - (void)toggleFavorite:(Message*)message;

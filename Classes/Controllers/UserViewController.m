@@ -10,7 +10,6 @@
 #import "TwitterFonAppDelegate.h"
 #import "UserViewController.h"
 #import "MessageCell.h"
-#import "BallonBackgroundView.h"
 #import "UserTimelineController.h"
 #import "UserDetailViewController.h"
 

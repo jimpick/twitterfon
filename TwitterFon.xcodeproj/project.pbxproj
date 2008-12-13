@@ -550,8 +550,6 @@
 				6E9CA2C60EB8D4E800D7F004 /* TimelineViewDataSource.m */,
 				6E3ED88F0EB943B00041687A /* TimelineViewController.h */,
 				6E3ED88D0EB9439A0041687A /* TimelineViewController.m */,
-				6EFC286E0EBDD46D00FBBB3D /* LinkViewController.h */,
-				6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */,
 				6E10290F0E5D362C00440C58 /* LoadCell.h */,
 				6E1029100E5D362C00440C58 /* LoadCell.m */,
 				6EEBF7170E3B20830003EA63 /* MessageCell.h */,
@@ -569,6 +567,15 @@
 				6EEBF7130E3B20610003EA63 /* SettingsViewController.m */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		6EAE759B0EF3870700BF6CD4 /* LinkView */ = {
+			isa = PBXGroup;
+			children = (
+				6EFC286E0EBDD46D00FBBB3D /* LinkViewController.h */,
+				6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */,
+			);
+			name = LinkView;
 			sourceTree = "<group>";
 		};
 		6EBEE5790EB2F58E00C18F0A /* Search */ = {
@@ -631,6 +638,7 @@
 		6EDC025B0E34537600FF142E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6EAE759B0EF3870700BF6CD4 /* LinkView */,
 				6E74DA700ED957EC000E169F /* Application */,
 				6E8265C90E375122005D2370 /* TimelineView */,
 				6E102A360E5DD63D00440C58 /* UserView */,

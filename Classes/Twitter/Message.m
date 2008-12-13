@@ -203,6 +203,7 @@ static sqlite3_stmt* message_by_id_statement = nil;
 }
 
 static NSString *userRegexp = @"@([0-9a-zA-Z_]+)";
+static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
 
 - (void)updateAttribute
 {
@@ -231,6 +232,11 @@ static NSString *userRegexp = @"@([0-9a-zA-Z_]+)";
         range = [tmp rangeOfString:match];
         tmp = [tmp substringFromIndex:range.location + range.length];
         [array removeAllObjects];
+    }
+    
+    tmp = text;
+    if ([tmp matches:hashRegexp withSubstring:array]) {
+        hasUsername = true;
     }
     
     [array release];

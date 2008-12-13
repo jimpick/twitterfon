@@ -63,9 +63,15 @@
         [appDelegate openWebView:cell.text];
     }
     else {
-        UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
-        [userTimeline loadUserTimeline:[cell.text substringFromIndex:1]];
-        [self.navigationController pushViewController:userTimeline animated:true];
+        r = [cell.text rangeOfString:@"#"];
+        if (r.location == 0) {
+            [appDelegate search:cell.text];
+        }
+        else {
+            UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
+            [userTimeline loadUserTimeline:[cell.text substringFromIndex:1]];
+            [self.navigationController pushViewController:userTimeline animated:true];
+        }
     }
 }
 

@@ -10,6 +10,7 @@
 #import "TimelineViewController.h"
 #import "SettingsViewController.h"
 #import "UserTimelineController.h"
+#import "SearchViewController.h"
 #import "LinkViewController.h"
 #import "DBConnection.h"
 #import "TwitterClient.h"
@@ -183,6 +184,14 @@
     }
 }
 
+- (void)search:(NSString*)query
+{
+    tabBarController.selectedIndex = TAB_SEARCH;
+    UINavigationController *nav = [[tabBarController viewControllers] objectAtIndex:TAB_SEARCH];
+    SearchViewController *search = (SearchViewController*)[nav topViewController];
+    [search search:query];
+}
+
 - (void)profileImageDidGetNewImage:(UIImage*)image delegate:(id)delegate
 {
     for (UINavigationController *c in tabBarController.viewControllers) {
@@ -217,10 +226,13 @@
 static NSString *urlRegexp  = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
 static NSString *endRegexp  = @"[.,;:]$";
 static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
+static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
 
 - (void)didTouchLinkButton:(Message*)message
 {
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
+    
+    BOOL hasHash = false;
     
     NSMutableArray *links = [NSMutableArray array];
     
@@ -248,10 +260,24 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
         [array removeAllObjects];
     }
     
+    tmp = message.text;
+    while ([tmp matches:hashRegexp withSubstring:array]) {
+        NSString *hash = [array objectAtIndex:0];
+        [links addObject:hash];
+        NSRange r = [tmp rangeOfString:hash];
+        tmp = [tmp substringFromIndex:r.location + r.length];
+        [array removeAllObjects];
+        hasHash = true;
+    }
+    
     if (message.inReplyToMessageId) {
         Message *m = [Message messageWithId:message.inReplyToMessageId];
         if (m) {
-            [links addObject:[NSString stringWithFormat:@"%@:%@", m.user.screenName, m.text]];
+            [links removeObject:[NSString stringWithFormat:@"@%@", m.user.screenName]];
+            [links addObject:[NSString stringWithFormat:@"In-Reply-To @%@:%@", m.user.screenName, m.text]];
+        }
+        else {
+            [links addObject:[NSString stringWithFormat:@"In-Reply-To-Message: %lld", message.inReplyToUserId]];
         }
     }
     
@@ -262,10 +288,15 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
             [self openWebView:url on:nav];
         }
         else {
-            UserTimelineController *userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
-            NSString *screenName = [links objectAtIndex:0];
-            [userTimeline loadUserTimeline:[screenName substringFromIndex:1]];
-            [nav pushViewController:userTimeline animated:true];
+            if (hasHash) {
+                [self search:[links objectAtIndex:0]];
+            }
+            else {
+                UserTimelineController *userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
+                NSString *screenName = [links objectAtIndex:0];
+                [userTimeline loadUserTimeline:[screenName substringFromIndex:1]];
+                [nav pushViewController:userTimeline animated:true];
+            }
         }
     }
     else {
