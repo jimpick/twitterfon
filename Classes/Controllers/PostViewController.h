@@ -41,6 +41,8 @@
     BOOL                        recipientIsFirstResponder;
     NSRange                     textRange;
     
+    sqlite_int64                inReplyToMessageId;
+    
     UINavigationController*     navigation;
     FolloweesViewController*    FolloweesViewController;
 }
@@ -48,8 +50,9 @@
 @property(nonatomic, assign) UINavigationController* navigation;
 @property(nonatomic, retain) UIImage*  selectedPhoto;
 
+- (void)post;
 - (void)retweet:(NSString*)message;
-- (void)reply:(NSString*)message;
+- (void)reply:(NSString*)message inReplyTo:(sqlite_int64)inReplyToId;
 - (void)editWithURL:(NSString*)URL;
 - (void)editDirectMessage:(NSString*)aRecipient;
 - (void)checkProgressWindowState;

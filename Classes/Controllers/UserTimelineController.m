@@ -340,7 +340,7 @@
     }
     else {
         NSString *msg = [NSString stringWithFormat:@"@%@ ", screenName];
-        [postView reply:msg];
+        [postView reply:msg inReplyTo:0];
     }
 }
 

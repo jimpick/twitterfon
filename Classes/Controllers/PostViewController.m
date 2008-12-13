@@ -72,12 +72,21 @@
     [self edit];
 }
 
-- (void)reply:(NSString*)message
+- (void)reply:(NSString*)message inReplyTo:(sqlite_int64)messageId
 {
     isDirectMessage = false;
     if (message) {
         NSMutableString *str = [NSMutableString stringWithString:text.text];
-        [str insertString:message atIndex:textRange.location];
+        if ((textRange.location == 0 || [str length] == 0) &&
+            messageId != 0) {
+            inReplyToMessageId = messageId;
+        }
+        if (textRange.location != NSIntegerMax) {
+            [str insertString:message atIndex:textRange.location];
+        }
+        else {
+            [str insertString:message atIndex:0];
+        }
         textRange.location += [message length];
         textRange.length = 0;
         text.text = str;
@@ -91,6 +100,12 @@
     textRange.location = [message length];
     textRange.length = 0;
     text.text = message;
+    [self edit];
+}
+
+- (void)post
+{
+    isDirectMessage = false;
     [self edit];
 }
 
@@ -144,14 +159,12 @@
     text.selectedRange = textRange;
     
     CATransition *animation = [CATransition animation];
-
+ 	[animation setDelegate:self];
     [animation setType:kCATransitionMoveIn];
     [animation setSubtype:kCATransitionFromBottom];
     [animation setDuration:0.3];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     [[self.view layer] addAnimation:animation forKey:kShowAnimationkey];
-    sendButton.enabled = false;
-
 }
 
 - (IBAction) close: (id) sender
@@ -734,14 +747,20 @@
 //
 - (void)animationDidStop:(CAAnimation *)animation finished:(BOOL)finished 
 {
-    [self.view removeFromSuperview];
-    
-    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    [appDelegate.window makeKeyWindow];
-    
-    if (finished && didPost) {
+    CATransition *t = (CATransition*)animation;
+    if (t.type == kCATransitionMoveIn) {
+        sendButton.enabled = false;
+    }
+    else {
+        [self.view removeFromSuperview];
+        
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        [appDelegate postViewAnimationDidFinish:isDirectMessage];
+        [appDelegate.window makeKeyWindow];
+        
+        if (finished && didPost) {
+            TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+            [appDelegate postViewAnimationDidFinish:isDirectMessage];
+        }
     }
 }
 @end

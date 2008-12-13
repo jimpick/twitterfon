@@ -398,7 +398,7 @@ static UIAlertView* sAlert = nil;
     }
     else {
         msg = [NSString stringWithFormat:@"@%@ ", m.user.screenName];
-        [postView reply:msg];
+        [postView reply:msg inReplyTo:m.messageId];
     }
     
 }

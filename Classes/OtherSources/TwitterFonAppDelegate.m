@@ -180,7 +180,7 @@
         [self.postView editDirectMessage:nil];
     }
     else {
-        [self.postView reply:nil];
+        [self.postView post];
     }
 }
 

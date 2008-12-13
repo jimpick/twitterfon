@@ -43,7 +43,7 @@
 
     if (sender == reply) {
         NSString *msg = [NSString stringWithFormat:@"@%@ ", message.user.screenName];
-        [postView reply:msg];
+        [postView reply:msg inReplyTo:message.messageId];
     }
     else if (sender == dm) {
         [postView editDirectMessage:message.user.screenName];

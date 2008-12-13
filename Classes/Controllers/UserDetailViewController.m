@@ -283,7 +283,7 @@
     }
     else {
         NSString *msg = [NSString stringWithFormat:@"@%@ ", user.screenName];
-        [postView reply:msg];
+        [postView reply:msg inReplyTo:0];
     }
 }
 
