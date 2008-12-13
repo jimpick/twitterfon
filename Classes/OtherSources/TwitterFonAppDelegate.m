@@ -8,7 +8,6 @@
 
 #import "TwitterFonAppDelegate.h"
 #import "TimelineViewController.h"
-#import "SettingsViewController.h"
 #import "UserTimelineController.h"
 #import "SearchViewController.h"
 #import "LinkViewController.h"
@@ -152,8 +151,10 @@
 
 - (void)openSettingsView
 {
-    SettingsViewController *settings = [[[SettingsViewController alloc] initWithNibName:@"SettingsView" bundle:nil] autorelease];
-    UINavigationController *parentNav = [[[UINavigationController alloc] initWithRootViewController:settings] autorelease];
+    if (settingsView) return;
+    
+    settingsView = [[[SettingsViewController alloc] initWithNibName:@"SettingsView" bundle:nil] autorelease];
+    UINavigationController *parentNav = [[[UINavigationController alloc] initWithRootViewController:settingsView] autorelease];
         
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];
     [nav presentModalViewController:parentNav animated:YES];
@@ -161,6 +162,7 @@
 
 - (void)closeSettingsView
 {
+    settingsView = nil;
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];    
     [(TimelineViewController*)[nav topViewController] reload:self];
 }
