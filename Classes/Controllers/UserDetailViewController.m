@@ -10,6 +10,7 @@
 #import "UserDetailViewController.h"
 #import "TwitterFonAppDelegate.h"
 #import "WebViewController.h"
+#import "Followee.h"
 
 @implementation UserDetailViewController
 
@@ -218,7 +219,9 @@
 {  	 	 
     followingLoaded = true;
     NSNumber *flag = (NSNumber*)obj;  	 	 
-    user.following = [flag boolValue] ? 1 : 0;  	 	 
+    user.following = [flag boolValue] ? 1 : 0;
+    
+    [Followee updateDB:user];
 
     [self.tableView beginUpdates];  	 	 
     [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationTop];  	 	 
@@ -231,6 +234,7 @@
 - (void)updateFriendship:(BOOL)created
 {
     user.following = created;
+    [Followee updateDB:user];
     
     CATransition *animation = [CATransition animation];
     [animation setType:kCATransitionFade];

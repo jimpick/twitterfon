@@ -11,6 +11,7 @@
 #import "DBConnection.h"
 
 static sqlite3_stmt* replace_statement = nil;
+static sqlite3_stmt* delete_statement = nil;
 
 @interface NSObject (FolloweeDelegate)
 - (void)followeeDidGetFollowee:(Followee*)Followee;
@@ -42,6 +43,16 @@ static sqlite3_stmt* replace_statement = nil;
     return followee;
 }
 
++ (void)updateDB:(User*)user
+{
+    if (user.following) {
+        [Followee insertDB:user];
+    }
+    else {
+        [Followee deleteFromDB:user];
+    }
+}
+
 + (void)insertDB:(User*)user
 {
     sqlite3* database = [DBConnection getSharedDatabase];
@@ -62,6 +73,26 @@ static sqlite3_stmt* replace_statement = nil;
     sqlite3_reset(replace_statement);
     if (success == SQLITE_ERROR) {
         NSAssert2(0, @"Error: failed to execute SQL command in %@ with message '%s'.", NSStringFromSelector(_cmd), sqlite3_errmsg(database));
+    }
+}
+
++ (void)deleteFromDB:(User*)user
+{
+    sqlite3* database = [DBConnection getSharedDatabase];
+    
+    if (delete_statement == nil) {
+        static char *sql = "DELETE FROM followees WHERE user_id = ?";
+        if (sqlite3_prepare_v2(database, sql, -1, &delete_statement, NULL) != SQLITE_OK) {
+            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+        }
+    }
+    
+    sqlite3_bind_int(delete_statement,  1, user.userId);
+    
+    int success = sqlite3_step(delete_statement);
+    sqlite3_reset(delete_statement);
+    if (success == SQLITE_ERROR) {
+        NSLog(@"Error: failed to execute SQL command in %@ with message '%s'.", NSStringFromSelector(_cmd), sqlite3_errmsg(database));
     }
 }
 
