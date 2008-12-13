@@ -12,6 +12,7 @@
 #import "ColorUtils.h"
 
 @interface TimelineViewController (Private)
+- (void)scrollToFirstUnread:(NSTimer*)timer;
 - (void)didLeaveTab:(UINavigationController*)navigationController;
 @end
 
@@ -44,10 +45,12 @@
     [self.tableView reloadData];
     self.navigationController.navigationBar.tintColor = [UIColor navigationColorForTab:tab];
     self.tableView.separatorColor = [UIColor lightGrayColor]; 
+  
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [self scrollToFirstUnread:nil];
 	[super viewDidAppear:animated];
     if (stopwatch) {
         LAP(stopwatch, @"viewDidAppear");
@@ -191,23 +194,28 @@
 	[self.tableView reloadData];
 }
 
+- (void)scrollToFirstUnread:(NSTimer*)timer
+{
+    if (unread) {
+        if (unread < [currentDataSource.timeline countMessages]) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:unread inSection:0];
+            [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition: UITableViewScrollPositionBottom animated:true];
+        }
+    }
+}
+
 //
 // TimelineDelegate
 //
 - (void)timelineDidUpdate:(TimelineViewDataSource*)sender count:(int)count insertAt:(int)position
 {
     self.navigationItem.leftBarButtonItem.enabled = true;
-    if (count) {
-        unread += count;
-        [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unread];
-    }
- 
+
     if (self.navigationController.tabBarController.selectedIndex == tab &&
         self.navigationController.topViewController == self &&
         sender == currentDataSource) {
-        
+
         [self.tableView beginUpdates];
-        
         if (position) {
             NSMutableArray *deletion = [[[NSMutableArray alloc] init] autorelease];
             [deletion addObject:[NSIndexPath indexPathForRow:position inSection:0]];
@@ -216,16 +224,25 @@
         if (count != 0) {
             NSMutableArray *insertion = [[[NSMutableArray alloc] init] autorelease];
             
+            int numInsert = count;
             // Avoid to create too many table cell.
-            if (count > 8) count = 8;
-            for (int i = 0; i < count; ++i) {
+            if (numInsert > 8) numInsert = 8;
+            for (int i = 0; i < numInsert; ++i) {
                 [insertion addObject:[NSIndexPath indexPathForRow:position + i inSection:0]];
             }        
             [self.tableView insertRowsAtIndexPaths:insertion withRowAnimation:UITableViewRowAnimationTop];
         }
-        
         [self.tableView endUpdates];
+
+        if (position == 0 && unread == 0) {
+            [NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(scrollToFirstUnread:) userInfo:nil repeats:false];
+        }
     }
+    if (count) {
+        unread += count;
+        [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unread];
+    }
+
 }
 
 - (void)timelineDidFailToUpdate:(TimelineViewDataSource*)sender position:(int)position
