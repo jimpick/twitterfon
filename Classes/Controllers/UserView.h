@@ -37,6 +37,6 @@ typedef enum {
 @property(nonatomic, assign) BOOL       hasDetail;
 @property(nonatomic, assign) float      height;
 
--(void)setUser:(User*)user delegate:(id)delegate;
+-(void)setUser:(User*)user;
 
 @end

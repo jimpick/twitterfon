@@ -6,6 +6,7 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
+#import "TwitterFonAppDelegate.h"
 #import "UserView.h"
 #import "QuartzUtils.h"
 
@@ -81,7 +82,7 @@
         
         // Fill rect with drop shadow
         CGContextAddPath(context, path);
-        CGContextSetShadowWithColor(context, CGSizeMake(0, -3), 12, [[UIColor darkGrayColor] CGColor]);
+//        CGContextSetShadowWithColor(context, CGSizeMake(0, -3), 12, [[UIColor darkGrayColor] CGColor]);
         // Drawing with a white stroke color
         if (profileImage) {
             CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
@@ -144,28 +145,38 @@
     }
 }
 
--(void)setUser:(User*)aUser delegate:(id)delegate
+-(void)setUser:(User*)aUser
 {
     user = aUser;
     
     if ([user.url length]) {
         [url setTitle:user.url forState:UIControlStateNormal];
         [url setTitle:user.url forState:UIControlStateHighlighted];
-        [url addTarget:delegate action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];   
+        [url addTarget:self action:@selector(didTouchURL:) forControlEvents:UIControlEventTouchUpInside];   
     }
     else {
         url.enabled = false;
     }
 
-    UILabel* label = [[UILabel alloc] initWithFrame:CGRectZero];
-    label.font = [UIFont systemFontOfSize:14];
-    label.text = user.description;
-    label.lineBreakMode = UILineBreakModeTailTruncation;
-    CGRect r = [label textRectForBounds:CGRectMake(20, 105, 280, 110) limitedToNumberOfLines:10];
-    [label release];
-    height = r.size.height + 115;
+    height = 113;
+    if (hasDetail) {
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.font = [UIFont systemFontOfSize:14];
+        label.text = user.description;
+        label.lineBreakMode = UILineBreakModeTailTruncation;
+        CGRect r = [label textRectForBounds:CGRectMake(20, 105, 280, 110) limitedToNumberOfLines:10];
+        [label release];
+        height = r.size.height + 115;
+    }
 
     [self setNeedsDisplay];
 }
+
+- (void)didTouchURL:(id)sender
+{
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    [appDelegate openWebView:user.url];
+}
+
 
 @end
