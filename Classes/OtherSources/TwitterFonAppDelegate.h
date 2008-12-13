@@ -10,6 +10,7 @@
 #import "PostViewController.h"
 #import "WebViewController.h"
 #import "ImageStore.h"
+#import "Message.h"
 
 typedef enum {
     TAB_FRIENDS,
@@ -36,6 +37,10 @@ typedef enum {
 - (void) openSettingsView;
 - (void) closeSettingsView;
 - (void) openWebView:(NSString*)url on:(UINavigationController*)viewController;
+- (void) openWebView:(NSString*)url;
+
+- (void)didTouchLinkButton:(Message*)message;
+- (void)toggleFavorite:(Message*)message;
 
 @property (nonatomic, readonly) UIWindow*           window;
 @property (nonatomic, assign) PostViewController*   postView;

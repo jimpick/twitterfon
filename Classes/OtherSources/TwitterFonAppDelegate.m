@@ -9,9 +9,13 @@
 #import "TwitterFonAppDelegate.h"
 #import "TimelineViewController.h"
 #import "SettingsViewController.h"
+#import "UserTimelineController.h"
+#import "LinkViewController.h"
 #import "DBConnection.h"
 #import "TwitterClient.h"
 #import "ColorUtils.h"
+#import "REString.h"
+
 
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)postTweetDidSucceed:(NSDictionary*)dic;
@@ -39,8 +43,23 @@
     [DBConnection createEditableCopyOfDatabaseIfNeeded];
 
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+	NSString *prevUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"prevUsername"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-
+    
+  	BOOL needDeleteMessageCache = [[NSUserDefaults standardUserDefaults] boolForKey:@"deleteMessageCache"];
+    
+    if ([username caseInsensitiveCompare:prevUsername] != NSOrderedSame) {
+        needDeleteMessageCache = true;
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:username forKey:@"prevUsername"];
+    [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"deleteMessageCache"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (needDeleteMessageCache) {
+        [DBConnection deleteMessageCache];
+    }
+    
     [UIColor initTwitterFonColorScheme];
     imageStore = [[ImageStore alloc] initWithDelegate:self];    
     postView = nil;
@@ -114,6 +133,17 @@
     [nav pushViewController:webView animated:YES];
 }
 
+- (void)openWebView:(NSString*)url
+{
+    if (webView == nil) {
+        webView = [[WebViewController alloc] initWithNibName:@"WebView" bundle:nil];
+    }
+    webView.hidesBottomBarWhenPushed = YES;
+    [webView setUrl:url];
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
+    [nav pushViewController:webView animated:YES];
+}
+
 - (void)applicationDidReceiveMemoryWarning:(UIApplication*)application
 {
     [imageStore didReceiveMemoryWarning];
@@ -149,7 +179,7 @@
         [self.postView editDirectMessage:nil];
     }
     else {
-        [self.postView editWithString:nil];
+        [self.postView reply:nil];
     }
 }
 
@@ -178,6 +208,68 @@
     c = [nav.viewControllers objectAtIndex:0];
     if ([c respondsToSelector:@selector(didSelectTab:)]) {
         [c didSelectTab:nav];
+    }
+}
+
+//
+// Handling links
+//
+static NSString *urlRegexp  = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
+static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
+
+- (void)didTouchLinkButton:(Message*)message
+{
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
+    
+    NSMutableArray *links = [NSMutableArray array];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    NSString *tmp = message.text;
+    
+    while ([tmp matches:urlRegexp withSubstring:array]) {
+        NSString *url = [array objectAtIndex:0];
+        [links addObject:url];
+        NSRange r = [tmp rangeOfString:url];
+        tmp = [tmp substringFromIndex:r.location + r.length];
+        [array removeAllObjects];
+    }
+    
+    tmp = message.text;
+    while ([tmp matches:nameRegexp withSubstring:array]) {
+        NSString *username = [array objectAtIndex:0];
+        [links addObject:username];
+        NSRange r = [tmp rangeOfString:username];
+        tmp = [tmp substringFromIndex:r.location + r.length];
+        [array removeAllObjects];
+    }
+    
+    if (message.inReplyToMessageId) {
+        Message *m = [Message messageWithId:message.inReplyToMessageId];
+        if (m) {
+            [links addObject:[NSString stringWithFormat:@"%@:%@", m.user.screenName, m.text]];
+        }
+    }
+    
+    if ([links count] == 1) {
+        NSString* url = [links objectAtIndex:0];
+        NSRange r = [url rangeOfString:@"http://"];
+        if (r.location != NSNotFound) {
+            [self openWebView:url on:nav];
+        }
+        else {
+            UserTimelineController *userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
+            NSString *screenName = [links objectAtIndex:0];
+            [userTimeline loadUserTimeline:[screenName substringFromIndex:1]];
+            [nav pushViewController:userTimeline animated:true];
+        }
+    }
+    else {
+        nav.navigationBar.tintColor = nil;
+        
+        LinkViewController* linkView = [[[LinkViewController alloc] init] autorelease];
+        linkView.message = message;
+        linkView.links   = links;
+        [nav pushViewController:linkView animated:true];
     }
 }
 
@@ -226,6 +318,16 @@
         }
     }
     [m release];
+}
+
+//
+// Handle favorites
+//
+- (void)toggleFavorite:(Message*)message
+{
+    TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(favoriteDidChange:messages:)];
+    client.context = [message retain];
+    [client favorite:message];
 }
 
 - (void)favoriteDidChange:(TwitterClient*)sender messages:(NSObject*)obj
