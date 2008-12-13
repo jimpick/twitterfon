@@ -604,6 +604,8 @@
     }       
     
     text.text = @"";
+    textRange.location = 0;
+    textRange.length = 0;
     connection = nil;
     [self close:self];
     didPost = (dic) ? true : false;
