@@ -70,7 +70,7 @@
     // Load views
     NSArray *views = tabBarController.viewControllers;
     
-  	BOOL loadall = [[NSUserDefaults standardUserDefaults] boolForKey:@"loadAllTabAtStartup"];
+  	BOOL loadall = [[NSUserDefaults standardUserDefaults] boolForKey:@"loadAllTabOnLaunch"];
     
     for (int tab = 0; tab < 3; ++tab) {
         UINavigationController* nav = (UINavigationController*)[views objectAtIndex:tab];

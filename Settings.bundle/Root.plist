@@ -60,11 +60,11 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Load all tab at startup</string>
+			<string>Load all tab on launch</string>
 			<key>Key</key>
-			<string>loadAllTabAtStartup</string>
+			<string>loadAllTabOnLaunch</string>
 			<key>DefaultValue</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Type</key>
