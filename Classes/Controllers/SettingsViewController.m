@@ -53,7 +53,7 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
     usernameField.text = user;
     passwordField.text = pass;
     
-    UIBarButtonItem *done  = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+    UIBarButtonItem *done  = [[UIBarButtonItem alloc] initWithTitle:@"Sign In"
                                                               style:UIBarButtonItemStyleDone 
                                                              target:self 
                                                              action:@selector(done:)];
@@ -64,6 +64,7 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
 - (void) saveSettings
 {
     [[NSUserDefaults standardUserDefaults] setObject:usernameField.text forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setObject:usernameField.text forKey:@"prevUsername"];
     [[NSUserDefaults standardUserDefaults] setObject:passwordField.text forKey:@"password"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
