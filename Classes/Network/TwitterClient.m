@@ -92,15 +92,17 @@ NSString* sMethods[4] = {
     [super get:url];
 }
 
-- (void)post:(NSString*)tweet
+- (void)post:(NSString*)tweet inReplyTo:(sqlite_int64)messageId
 {
     needAuth = true;
     request = TWITTER_REQUEST_UPDATE;
     
     NSString* url = @"https://twitter.com/statuses/update.json";
-    
-    NSString *postString = [NSString stringWithFormat:@"status=%@&source=twitterfon", [tweet encodeAsURIComponent]];
-    
+    NSString *postString = [NSString stringWithFormat:@"status=%@&in_reply_to_status_id=%lld&source=twitterfon",
+                            [tweet encodeAsURIComponent],
+                            messageId];
+
+    NSLog(@"%@", postString);
     [self post:url body:postString];
     
 }

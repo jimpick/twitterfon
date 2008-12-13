@@ -223,8 +223,7 @@ NSString* sDeleteMessage[2] = {
         [postView editDirectMessage:message.user.screenName];
     }
     else {
-        NSString *msg = [NSString stringWithFormat:@"@%@ ", message.user.screenName];
-        [postView reply:msg inReplyTo:message.messageId];
+        [postView inReplyTo:message];
     }
 }
 

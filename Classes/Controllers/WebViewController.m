@@ -9,7 +9,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "WebViewController.h"
 #import "TwitterFonAppDelegate.h"
-#import "PostView.h"
 
 #define kAnimationKey @"transitionViewAnimation"
 

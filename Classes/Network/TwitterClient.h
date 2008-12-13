@@ -33,7 +33,7 @@ typedef enum {
 - (void)getTimeline:(MessageType)type params:(NSDictionary*)params;
 - (void)getUserTimeline:(NSString*)screen_name params:(NSDictionary*)params;
 - (void)getUser:(NSString*)screen_name;
-- (void)post:(NSString*)tweet;
+- (void)post:(NSString*)tweet inReplyTo:(sqlite_int64)messageId;
 - (void)send:(NSString*)text to:(NSString*)screen_name;
 - (void)destroy:(Message*)message isDirectMessage:(BOOL)isDirectMessage;
 - (void)favorite:(Message*)message;

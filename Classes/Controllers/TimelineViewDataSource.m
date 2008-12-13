@@ -392,13 +392,11 @@ static UIAlertView* sAlert = nil;
     
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
-    NSString *msg;
     if (messageType == MSG_TYPE_MESSAGES || messageType == MSG_TYPE_SENT) {
         [postView editDirectMessage:m.user.screenName];
     }
     else {
-        msg = [NSString stringWithFormat:@"@%@ ", m.user.screenName];
-        [postView reply:msg inReplyTo:m.messageId];
+        [postView inReplyTo:m];
     }
     
 }

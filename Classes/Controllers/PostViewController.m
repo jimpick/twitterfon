@@ -19,16 +19,9 @@
 
 #define kShowAnimationkey   @"showAnimation"
 #define kHideAnimationKey   @"hideAnimation"
-#define kDeleteAnimationKey @"deleteAnimation"
-#define kUndoAnimationKey   @"undoAnimation"
 
-#define DELETE_BUTTON_INDEX 0
 #define GPS_BUTTON_INDEX    2
 #define CAMERA_BUTTON_INDEX 3
-
-@interface PostViewController (Private)
-- (void)edit;
-@end
 
 @implementation PostViewController
 
@@ -39,14 +32,11 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
-    charCount.font      = [UIFont boldSystemFontOfSize:16];
     text.font           = [UIFont systemFontOfSize:18];
     self.view.hidden    = true;
- 	text.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"tweet"];
+
     textRange.location  = [text.text length];
     textRange.length    = 0;
-    
-    recipient.font = [UIFont systemFontOfSize:16];
     
     return self;
 }
@@ -57,55 +47,80 @@
 	[super dealloc];
 }
 
+- (void)edit
+{
+    if (isDirectMessage) {
+        self.navigationItem.title = @"Direct message";
+    }
+    else {
+        self.navigationItem.title = @"New tweet";
+    }
+    [navigation.view addSubview:self.view];
+    [postView setCharCount];
+    
+    [postView setNeedsLayout];
+    [postView setNeedsDisplay];
+    
+    locationButton.enabled = (isDirectMessage) ? false : true;
+    
+    self.view.hidden = false;
+    didPost = false;
+    if (isDirectMessage && [recipient.text length] == 0) {
+        [recipient becomeFirstResponder];
+    }
+    else {
+        [text becomeFirstResponder];
+    }
+    text.selectedRange = textRange;
+    
+    CATransition *animation = [CATransition animation];
+ 	[animation setDelegate:self];
+    [animation setType:kCATransitionMoveIn];
+    [animation setSubtype:kCATransitionFromBottom];
+    [animation setDuration:0.3];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [[self.view layer] addAnimation:animation forKey:kShowAnimationkey];
+}
+
 - (void)editDirectMessage:(NSString*)aRecipient
 {
     isDirectMessage = true;
-    recipient.text = aRecipient;
-    if (aRecipient) {
-        recipient.enabled = false;
-        recipient.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
-    }
-    else {
-        recipient.enabled = true;
-        recipient.textColor = [UIColor blackColor];
-    }
+    [postView editDirectMessage:aRecipient];
+
+
     [self edit];
 }
 
-- (void)reply:(NSString*)message inReplyTo:(sqlite_int64)messageId
+- (void)reply:(NSString*)screenName
 {
-    isDirectMessage = false;
-    if (message) {
-        NSMutableString *str = [NSMutableString stringWithString:text.text];
-        if ((textRange.location == 0 || [str length] == 0) &&
-            messageId != 0) {
-            inReplyToMessageId = messageId;
-        }
-        if (textRange.location != NSIntegerMax) {
-            [str insertString:message atIndex:textRange.location];
-        }
-        else {
-            [str insertString:message atIndex:0];
-        }
-        textRange.location += [message length];
-        textRange.length = 0;
-        text.text = str;
-    }
+    text.text = [NSString stringWithFormat:@"@%@ %@", screenName, text.text];
+    textRange.location = [text.text length];
+    textRange.length = 0;
+
     [self edit];
+}
+
+- (void)inReplyTo:(Message*)message
+{
+    [postView editReply:message];
+    [self reply:message.user.screenName];
 }
 
 - (void)retweet:(NSString*)message
 {
     isDirectMessage = false;
+    
     textRange.location = [message length];
     textRange.length = 0;
     text.text = message;
+    [postView editRetweet];
     [self edit];
 }
 
 - (void)post
 {
     isDirectMessage = false;
+    [postView editPost];
     [self edit];
 }
 
@@ -121,50 +136,6 @@
     NSString *str = [NSString stringWithFormat:@"%@ %@", text.text, URL];
     text.text = str;
     [self edit];
-}
-
-- (void)edit
-{
-    [navigation.view addSubview:self.view];
-    [self setCharCount];
-    PostView* view = (PostView*)self.view;
-    
-    if (isDirectMessage) {
-        self.navigationItem.title = @"Direct message";
-        to.hidden = false;
-        recipient.hidden = false;
-        view.showRecipient = true;
-        [view setNeedsDisplay];
-        text.frame = CGRectMake(5, 88, 310, 112);
-    }
-    else {
-        self.navigationItem.title = @"New tweet";
-        to.hidden = true;
-        recipient.hidden = true;
-        view.showRecipient = false;
-        [view setNeedsDisplay];
-        text.frame = CGRectMake(5, 49, 310, 156);
-    }
-    
-    locationButton.enabled = (isDirectMessage) ? false : true;
-    
-    self.view.hidden = false;
-    didPost = false;
-    if (isDirectMessage && recipient.text == nil) {
-        [recipient becomeFirstResponder];
-    }
-    else {
-        [text becomeFirstResponder];
-    }
-    text.selectedRange = textRange;
-    
-    CATransition *animation = [CATransition animation];
- 	[animation setDelegate:self];
-    [animation setType:kCATransitionMoveIn];
-    [animation setSubtype:kCATransitionFromBottom];
-    [animation setDuration:0.3];
-    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-    [[self.view layer] addAnimation:animation forKey:kShowAnimationkey];
 }
 
 - (IBAction) close: (id) sender
@@ -225,7 +196,7 @@
         [client send:text.text to:recipient.text];
     }
     else {
-        [client post:text.text];
+        [client post:text.text inReplyTo:postView.inReplyToMessageId];
     }
     [progressWindow show];
     connection = client;
@@ -288,92 +259,6 @@
         [self updateStatus];
     }
 }
-
-- (void)setTransform:(BOOL)isDelete
-{
-    if (isDelete) {
-        CGAffineTransform transform = CGAffineTransformMakeScale(0.01, 0.01);
-        CGAffineTransform transform2 = CGAffineTransformMakeTranslation(-80.0, 140.0);
-        CGAffineTransform transform3 = CGAffineTransformMakeRotation (0.5);
-        
-        transform = CGAffineTransformConcat(transform,transform2);
-        transform = CGAffineTransformConcat(transform,transform3);
-        text.transform = transform;
-    }
-    else {
-        CGAffineTransform transform = CGAffineTransformMakeScale(1.0, 1.0);
-        CGAffineTransform transform2 = CGAffineTransformMakeTranslation(0, 0);
-        CGAffineTransform transform3 = CGAffineTransformMakeRotation (0);
-        
-        transform = CGAffineTransformConcat(transform,transform2);
-        transform = CGAffineTransformConcat(transform,transform3);
-        text.transform = transform;
-    }
-}
-
-- (IBAction) clear: (id) sender
-{
-    [UIView beginAnimations:kDeleteAnimationKey context:self]; 
-
-    UIBarButtonItem *item = (UIBarButtonItem*)[toolbar.items objectAtIndex:0];
-    item.enabled = false;
-
-    [UIView setAnimationDuration:0.4];
-    [UIView setAnimationDelegate:self];
-    [self setTransform:true];
-    [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
-    [UIView commitAnimations];
-
-}
-
-- (IBAction) undo:(id) sender
-{
-    text.text = undoBuffer;
-    [undoBuffer release];
-    undoBuffer = nil;
-    [self setTransform:true];
-    
-    UIBarButtonItem *item = (UIBarButtonItem*)[toolbar.items objectAtIndex:0];
-    item.enabled = false;
-    
-    [UIView beginAnimations:kUndoAnimationKey context:self]; 
-    [UIView setAnimationDuration:0.4];
-    [UIView setAnimationDelegate:self];
-    [self setTransform:false];
-    [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
-    [UIView commitAnimations];
-    
-}
-
-- (void)replaceButton:(UIBarButtonItem*)item index:(int)index
-{
-    NSMutableArray *items = [toolbar.items mutableCopy];
-    [items replaceObjectAtIndex:index withObject:item];
-    [toolbar setItems:items animated:false];
-    [items release];
-}
-
-
-- (void)animationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
-{
-    if ([animationID isEqualToString:kDeleteAnimationKey]) {
-        [self setTransform:false];
-
-        undoBuffer = [text.text retain];
-        text.text = @"";
-        charCount.textColor = [UIColor whiteColor];
-        sendButton.enabled = false;
-        
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Undo" style:UIBarButtonItemStyleBordered target:self action:@selector(undo:)];
-        [self replaceButton:item index:DELETE_BUTTON_INDEX];
-    }
-    else if ([animationID isEqualToString:kUndoAnimationKey]) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(clear:)];
-        item.style = UIBarButtonItemStyleBordered;
-        [self replaceButton:item index:DELETE_BUTTON_INDEX];
-    }
-}
-
 
 //
 // TwitPicClient delegate
@@ -438,7 +323,7 @@
             textRange.length = 0;
             text.text = str;
         }
-        [self setCharCount];
+        [postView setCharCount];
         [text becomeFirstResponder];    
         text.selectedRange = textRange;
     }
@@ -604,6 +489,7 @@
     }       
     
     text.text = @"";
+    postView.inReplyToMessageId = 0;
     textRange.location = 0;
     textRange.length = 0;
     connection = nil;
@@ -624,42 +510,9 @@
     [progressWindow hide];
 }
 
-- (void)setCharCount
-{
-    int length = [text.text length];
-
-    if (undoBuffer && length > 0) {
-        [undoBuffer release];
-        undoBuffer = nil;
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(clear:)];
-        item.style = UIBarButtonItemStyleBordered;
-        [self replaceButton:item index:DELETE_BUTTON_INDEX];
-    }
-
-    length = 140 - length;
-    if (length == 140) {
-        sendButton.enabled = false;
-    }
-    else if (length < 0) {
-        sendButton.enabled = false;
-        charCount.textColor = [UIColor redColor];
-    }
-    else {
-        sendButton.enabled = true;
-        charCount.textColor = [UIColor whiteColor];
-    }
-    
-    if (isDirectMessage && [recipient.text length] == 0) {
-        sendButton.enabled = false;
-    }
-    
-    charCount.text = [NSString stringWithFormat:@"%d", length];
-}
-
 - (void)saveTweet
 {
-    [[NSUserDefaults standardUserDefaults] setObject:text.text forKey:@"tweet"];
-    [[NSUserDefaults standardUserDefaults] synchronize];    
+    [postView saveTweet];
 }
 
 - (void)checkProgressWindowState
@@ -707,7 +560,7 @@
 - (void)textViewDidChange:(UITextView *)textView
 {
     textRange = text.selectedRange;
-    [self setCharCount];
+    [postView setCharCount];
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView

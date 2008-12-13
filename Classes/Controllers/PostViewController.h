@@ -12,37 +12,34 @@
 #import "ProgressWindow.h"
 #import "FolloweesViewController.h"
 #import "LocationManager.h"
+#import "Message.h"
+#import "PostView.h"
 
 @interface PostViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 {
-    IBOutlet UITextView*        text;
-    IBOutlet UILabel*           charCount;
-    IBOutlet UIWindow*          postWindow;
-    IBOutlet UIToolbar*         toolbar;
-   	IBOutlet ProgressWindow*    progressWindow;
+    IBOutlet UITextView*                text;
+    IBOutlet UIToolbar*                 toolbar;
+    IBOutlet PostView*                  postView;
+    IBOutlet UITextField*               recipient;
     
-    IBOutlet UILabel*           to;
-    IBOutlet UITextField*       recipient;
+   	IBOutlet ProgressWindow*            progressWindow;
 
-    IBOutlet UIBarButtonItem*   sendButton;
-    IBOutlet UIBarButtonItem*   locationButton;
-    IBOutlet UIBarButtonItem*   photoButton;
+    IBOutlet UIBarButtonItem*           sendButton;
+    IBOutlet UIBarButtonItem*           locationButton;
+    IBOutlet UIBarButtonItem*           photoButton;
     IBOutlet UIActivityIndicatorView*   indicator;
-    
-    IBOutlet UILabel*           accuracy;
-    
+    IBOutlet UILabel*                   accuracy;
+
+
     UIImage*                    selectedPhoto;
     float                       latitude, longitude;
-    NSString*                   undoBuffer;
     
     TFConnection*               connection;
     BOOL                        didPost;
     BOOL                        isDirectMessage;
     BOOL                        recipientIsFirstResponder;
     NSRange                     textRange;
-    
-    sqlite_int64                inReplyToMessageId;
-    
+
     UINavigationController*     navigation;
     FolloweesViewController*    FolloweesViewController;
 }
@@ -52,21 +49,21 @@
 
 - (void)post;
 - (void)retweet:(NSString*)message;
-- (void)reply:(NSString*)message inReplyTo:(sqlite_int64)inReplyToId;
+- (void)reply:(NSString*)user;
+- (void)inReplyTo:(Message*)message;
 - (void)editWithURL:(NSString*)URL;
 - (void)editDirectMessage:(NSString*)aRecipient;
+
 - (void)checkProgressWindowState;
 - (void)friendsViewDidSelectFriend:(NSString*)screenName;
 - (void)friendsViewDidDisappear;
 - (void)imagePickerControllerDidDisappear;
 
-- (void) setCharCount;
 - (void) saveTweet;
 
 - (IBAction) close:   (id) sender;
 - (IBAction) send:    (id) sender;
 - (IBAction) cancel:  (id) sender;
-- (IBAction) clear:   (id) sender;
 - (IBAction) friends: (id) sender;
 - (IBAction) photos:  (id) sender;
 - (IBAction) location:(id) sender;

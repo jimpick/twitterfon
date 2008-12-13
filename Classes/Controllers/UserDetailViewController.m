@@ -282,8 +282,7 @@
         [postView editDirectMessage:user.screenName];
     }
     else {
-        NSString *msg = [NSString stringWithFormat:@"@%@ ", user.screenName];
-        [postView reply:msg inReplyTo:0];
+        [postView reply:user.screenName];
     }
 }
 

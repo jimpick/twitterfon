@@ -42,8 +42,7 @@
     PostViewController* postView = appDelegate.postView;
 
     if (sender == reply) {
-        NSString *msg = [NSString stringWithFormat:@"@%@ ", message.user.screenName];
-        [postView reply:msg inReplyTo:message.messageId];
+        [postView inReplyTo:message];
     }
     else if (sender == dm) {
         [postView editDirectMessage:message.user.screenName];
