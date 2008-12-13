@@ -215,6 +215,7 @@
 // Handling links
 //
 static NSString *urlRegexp  = @"(((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/([0-9a-zA-Z_#!:.?+=&%@~*\';,\\-\\/\\$])*)?)";
+static NSString *endRegexp  = @"[.,;:]$";
 static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
 
 - (void)didTouchLinkButton:(Message*)message
@@ -228,6 +229,10 @@ static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
     
     while ([tmp matches:urlRegexp withSubstring:array]) {
         NSString *url = [array objectAtIndex:0];
+        [array removeAllObjects];
+        if ([url matches:endRegexp withSubstring:array]) {
+            url = [url substringToIndex:[url length] - 1];
+        }
         [links addObject:url];
         NSRange r = [tmp rangeOfString:url];
         tmp = [tmp substringFromIndex:r.location + r.length];
