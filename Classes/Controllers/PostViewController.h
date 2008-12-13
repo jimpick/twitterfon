@@ -48,7 +48,8 @@
 @property(nonatomic, assign) UINavigationController* navigation;
 @property(nonatomic, retain) UIImage*  selectedPhoto;
 
-- (void)editWithString:(NSString*)message;
+- (void)retweet:(NSString*)message;
+- (void)reply:(NSString*)message;
 - (void)editWithURL:(NSString*)URL;
 - (void)editDirectMessage:(NSString*)aRecipient;
 - (void)checkProgressWindowState;
