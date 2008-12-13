@@ -61,6 +61,10 @@ NSString* sDeleteMessage[2] = {
         if ([message.user.screenName caseInsensitiveCompare:username] == NSOrderedSame) {
             hasDeleteButton = true;
         }
+        else  {
+            UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
+            self.navigationItem.rightBarButtonItem = button;
+        }
 	}
 	return self;
 }
@@ -207,6 +211,20 @@ NSString* sDeleteMessage[2] = {
     }
     else {
         return 0;
+    }
+}
+
+- (void)postTweet:(id)sender
+{
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    PostViewController* postView = appDelegate.postView;
+    
+    if ([self tabBarController].selectedIndex == MSG_TYPE_MESSAGES) {
+        [postView editDirectMessage:message.user.screenName];
+    }
+    else {
+        NSString *msg = [NSString stringWithFormat:@"@%@ ", message.user.screenName];
+        [postView reply:msg];
     }
 }
 
