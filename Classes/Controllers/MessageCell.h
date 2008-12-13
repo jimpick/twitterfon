@@ -13,7 +13,7 @@
     UIActivityIndicatorView*    spinner;
     
     NSObject*           delegate;
-    MessageType         type;
+    MessageCellType     cellType;
     
     BOOL            inEditing;
 }
@@ -22,7 +22,7 @@
 @property (nonatomic, assign) UIButton* profileImage;
 @property (nonatomic, assign) BOOL      inEditing;
 
-- (void)update:(MessageType)type delegate:(id)delegate;
+- (void)update:(MessageCellType)type delegate:(id)delegate;
 
 - (void)toggleFavorite:(BOOL)favorited;
 - (void)toggleSpinner:(BOOL)flag;

@@ -46,12 +46,12 @@
 	}
 
 	[textColor set];
-    if (message.type != MSG_TYPE_USER) {
+    if (message.cellType != MSG_CELL_TYPE_USER) {
         [message.user.screenName drawInRect:CGRectMake(0, 0, CELL_WIDTH - DETAIL_BUTTON_WIDTH, TOP) withFont:[UIFont boldSystemFontOfSize:14]];
     }
 	[message.text drawInRect:message.textBounds withFont:[UIFont systemFontOfSize:13]];
 	[timestampColor set];
-    if (message.type == MSG_TYPE_USER) {
+    if (message.cellType == MSG_CELL_TYPE_USER) {
         NSString *timestamp;
         if ([message.source length]) {
             timestamp = [message.timestamp stringByAppendingFormat:@" from %@", message.source];

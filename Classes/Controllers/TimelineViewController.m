@@ -149,14 +149,16 @@
 
 - (void)postTweetDidSucceed:(NSDictionary*)dic
 {
+    Message *message;
     if (tab == TAB_FRIENDS) {
-        Message *message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
+        message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
         [currentDataSource.timeline insertMessage:message atIndex:0];
     }
     else if (tab == TAB_MESSAGES && sentMessageDataSource) {
-        Message *message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_SENT];
+        message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_SENT];
         [sentMessageDataSource.timeline insertMessage:message atIndex:0];
     }
+    [message insertDB];
 }
 
 

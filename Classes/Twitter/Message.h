@@ -8,8 +8,13 @@ typedef enum {
     MSG_TYPE_MESSAGES,
     MSG_TYPE_SENT,
     MSG_TYPE_SEARCH_RESULT,
-    MSG_TYPE_USER,
 } MessageType;
+
+typedef enum {
+    MSG_CELL_TYPE_NORMAL,
+    MSG_CELL_TYPE_USER,
+    MSG_CELL_TYPE_DETAIL,
+} MessageCellType;
 
 #define IMAGE_PADDING       10
 #define H_MARGIN            10
@@ -45,6 +50,7 @@ typedef enum {
     BOOL            unread;
     BOOL            hasReply;
     MessageType     type;
+    MessageCellType cellType;
     CGRect          textBounds;
     CGFloat         cellHeight;
     int             textHeight;
@@ -58,23 +64,24 @@ typedef enum {
     UITableViewCellAccessoryType accessoryType;
 }
 
-@property (nonatomic, assign) sqlite_int64  messageId;
-@property (nonatomic, retain) User*         user;
-@property (nonatomic, retain) NSString*     text;
-@property (nonatomic, assign) time_t        createdAt;
-@property (nonatomic, retain) NSString*     source;
-@property (nonatomic, assign) BOOL          favorited;
-@property (nonatomic, retain) NSString*     timestamp;
+@property (nonatomic, assign) sqlite_int64      messageId;
+@property (nonatomic, retain) User*             user;
+@property (nonatomic, retain) NSString*         text;
+@property (nonatomic, assign) time_t            createdAt;
+@property (nonatomic, retain) NSString*         source;
+@property (nonatomic, assign) BOOL              favorited;
+@property (nonatomic, retain) NSString*         timestamp;
 
-@property (nonatomic, assign) BOOL          unread;
-@property (nonatomic, assign) MessageType   type;
-@property (nonatomic, assign) BOOL          hasReply;
-@property (nonatomic, assign) CGRect        textBounds;
-@property (nonatomic, assign) CGFloat       cellHeight;
-@property (nonatomic, assign) int           textHeight;
-@property (nonatomic, assign) sqlite_int64  inReplyToMessageId;
-@property (nonatomic, assign) int           inReplyToUserId;
-@property (nonatomic, assign) BOOL          truncated;
+@property (nonatomic, assign) BOOL              unread;
+@property (nonatomic, assign) MessageType       type;
+@property (nonatomic, assign) MessageCellType   cellType;
+@property (nonatomic, assign) BOOL              hasReply;
+@property (nonatomic, assign) CGRect            textBounds;
+@property (nonatomic, assign) CGFloat           cellHeight;
+@property (nonatomic, assign) int               textHeight;
+@property (nonatomic, assign) sqlite_int64      inReplyToMessageId;
+@property (nonatomic, assign) int               inReplyToUserId;
+@property (nonatomic, assign) BOOL              truncated;
 
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 
@@ -92,6 +99,7 @@ typedef enum {
 - (Message*)initWithSearchResult:(NSDictionary*)dic;
 - (void)updateAttribute;
 
+- (void)insertDB;
 - (void)deleteFromDB;
 - (void)updateFavoriteState;
 

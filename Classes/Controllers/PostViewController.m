@@ -93,6 +93,7 @@
 
 - (void)reply:(NSString*)screenName
 {
+    isDirectMessage = false;
     text.text = [NSString stringWithFormat:@"@%@ %@", screenName, text.text];
     textRange.location = [text.text length];
     textRange.length = 0;
@@ -102,8 +103,13 @@
 
 - (void)inReplyTo:(Message*)message
 {
-    [postView editReply:message];
-    [self reply:message.user.screenName];
+    if (message.type == MSG_TYPE_MESSAGES) {
+        [self reply:message.user.screenName];
+    }
+    else {
+        [postView editReply:message];
+        [self reply:message.user.screenName];
+    }
 }
 
 - (void)retweet:(NSString*)message

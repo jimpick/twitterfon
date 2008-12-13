@@ -26,6 +26,7 @@ static sqlite3_stmt* message_by_id_statement = nil;
 
 @synthesize unread;
 @synthesize type;
+@synthesize cellType;
 @synthesize hasReply;
 @synthesize textBounds;
 @synthesize textHeight;
@@ -51,6 +52,7 @@ static sqlite3_stmt* message_by_id_statement = nil;
 	self = [super init];
     
     type = aType;
+    cellType = MSG_CELL_TYPE_NORMAL;
     
 	messageId           = [[dic objectForKey:@"id"] longLongValue];
     stringOfCreatedAt   = [dic objectForKey:@"created_at"];
@@ -110,9 +112,6 @@ static sqlite3_stmt* message_by_id_statement = nil;
     }
 
     [self updateAttribute];
-    if (type != MSG_TYPE_USER) {
-        [self insertDB];
-    }
     unread = true;
 
 	return self;
@@ -123,7 +122,7 @@ static sqlite3_stmt* message_by_id_statement = nil;
 	self = [super init];
     
     type = MSG_TYPE_SEARCH_RESULT;
-    
+    cellType = MSG_CELL_TYPE_NORMAL;
     
 	messageId           = [[dic objectForKey:@"id"] longLongValue];
     stringOfCreatedAt   = [dic objectForKey:@"created_at"];
@@ -190,6 +189,7 @@ static sqlite3_stmt* message_by_id_statement = nil;
     dist.unread     = unread;
     dist.hasReply   = hasReply;
     dist.type       = type;
+    dist.cellType   = cellType;
     
     // Do not copy following members because they need re-calculate
     //
@@ -209,7 +209,7 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
 {
     // Check link and @username to set accessoryType and set text width
     //
-    int textWidth = (type == MSG_TYPE_USER) ? USER_CELL_WIDTH : CELL_WIDTH;
+    int textWidth = (cellType == MSG_CELL_TYPE_USER) ? USER_CELL_WIDTH : CELL_WIDTH;
     
     NSRange range;
     NSMutableArray *array = [[NSMutableArray alloc] init];
@@ -244,10 +244,10 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
     range = [text rangeOfString:@"http://"];
     if (range.location != NSNotFound || hasUsername) {    
         accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        textWidth -= (type == MSG_TYPE_USER) ? DETAIL_BUTTON_USER : DETAIL_BUTTON_OTHER;
+        textWidth -= (cellType == MSG_CELL_TYPE_USER) ? DETAIL_BUTTON_USER : DETAIL_BUTTON_OTHER;
     }
     else {
-        accessoryType = (type == MSG_TYPE_USER) ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator;
+        accessoryType = (cellType == MSG_CELL_TYPE_USER) ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator;
     }
 
     // Calculate text bounds and cell height here
@@ -320,7 +320,7 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
     static UILabel *sLabel = nil;
     static CGRect bounds, result;
 
-    if (message.type == MSG_TYPE_USER) {
+    if (message.cellType == MSG_CELL_TYPE_USER) {
         bounds = CGRectMake(0, 3, textWidth, 200);
     }
     else {
@@ -344,7 +344,7 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
     message.textBounds = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, result.size.height);
     message.textHeight = result.size.height;
     
-    if (message.type == MSG_TYPE_USER) {
+    if (message.cellType == MSG_CELL_TYPE_USER) {
         result.size.height += 22;
     }
     else {
@@ -406,6 +406,8 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
     m.user.protected        = (uint32_t)sqlite3_column_int(statement, 19) ? true : false;
     m.unread                = false;
     m.type                  = type;
+
+    m.cellType = MSG_CELL_TYPE_NORMAL;
     [m updateAttribute];
     
     return m;
@@ -413,9 +415,6 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
 
 + (BOOL)isExists:(sqlite_int64)aMessageId type:(MessageType)aType
 {
-    // return always false if the message is for user timeline
-    if (aType == MSG_TYPE_USER) return false;
-
     sqlite3* database = [DBConnection getSharedDatabase];
     
     if (select_statement== nil) {

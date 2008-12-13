@@ -57,7 +57,7 @@ static UIImage* sFavorited = nil;
 
 - (void)didTouchProfileImage:(id)sender
 {
-    if (type == MSG_TYPE_USER) {
+    if (cellType == MSG_CELL_TYPE_USER) {
         [self toggleSpinner:true];
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         [appDelegate toggleFavorite:message];
@@ -67,16 +67,16 @@ static UIImage* sFavorited = nil;
     }
 }
 
-- (void)update:(MessageType)aType delegate:(id)aDelegate
+- (void)update:(MessageCellType)aType delegate:(id)aDelegate
 {
     delegate            = aDelegate;
-    type                = aType;
+    cellType            = aType;
     cellView.message    = message;
 
-    self.selectionStyle = (type == MSG_TYPE_USER) ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
+    self.selectionStyle = (cellType == MSG_CELL_TYPE_USER) ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
     self.accessoryType = message.accessoryType;
 
-    if (type == MSG_TYPE_USER) {
+    if (cellType == MSG_CELL_TYPE_USER) {
         self.contentView.backgroundColor = [UIColor whiteColor];
         cellView.frame = CGRectMake(USER_CELL_LEFT, 0, USER_CELL_WIDTH, message.cellHeight - 1);
         
@@ -91,7 +91,7 @@ static UIImage* sFavorited = nil;
         cellView.frame = CGRectMake(LEFT, 0, CELL_WIDTH, message.cellHeight - 1);
     }
     
-    if (type == MSG_TYPE_USER && inEditing) {
+    if (cellType == MSG_CELL_TYPE_USER && inEditing) {
         cellView.frame = CGRectOffset(cellView.frame, -32, 0);
         profileImage.hidden = true;
     }
@@ -107,7 +107,7 @@ static UIImage* sFavorited = nil;
     self.backgroundColor = self.contentView.backgroundColor;
     cellView.backgroundColor = self.contentView.backgroundColor;
     
-    if (message.type == MSG_TYPE_USER) {
+    if (message.cellType == MSG_CELL_TYPE_USER) {
         profileImage.frame = CGRectMake(2, 0, 38, message.cellHeight);
     }
     else {
@@ -119,7 +119,7 @@ static UIImage* sFavorited = nil;
 {
     [super setEditing:editing animated:animated];
     
-    if (type == MSG_TYPE_USER && animated && (editing || inEditing)) {
+    if (cellType == MSG_CELL_TYPE_USER && animated && (editing || inEditing)) {
 
         profileImage.hidden = editing;
         [UIView beginAnimations:nil context:nil];

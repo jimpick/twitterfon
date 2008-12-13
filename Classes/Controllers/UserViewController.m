@@ -39,7 +39,7 @@ NSString* sDeleteMessage[2] = {
 {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
         message = [m copy];
-        message.type = MSG_TYPE_USER;
+        message.cellType = MSG_CELL_TYPE_USER;
         [message updateAttribute];
         userView = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 387)];
         
@@ -126,7 +126,7 @@ NSString* sDeleteMessage[2] = {
     
     if (indexPath.section == 0) {
         messageCell.message = message;
-        [messageCell update:MSG_TYPE_USER delegate:self];
+        [messageCell update:MSG_CELL_TYPE_USER delegate:self];
         messageCell.contentView.backgroundColor = [UIColor clearColor];
         return messageCell;
     }

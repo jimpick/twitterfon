@@ -104,7 +104,7 @@ static UIAlertView* sAlert = nil;
             cell.contentView.backgroundColor = [UIColor cellColorForTab:TAB_REPLIES];
         }
         
-        [cell update:messageType delegate:self];
+        [cell update:MSG_CELL_TYPE_NORMAL delegate:self];
         return cell;
     }
     else {
@@ -231,6 +231,7 @@ static UIAlertView* sAlert = nil;
                     // Ignore stale message
                     continue;
                 }
+                [m insertDB];
                 m.unread = true;
                 
                 [timeline insertMessage:m atIndex:insertPosition];

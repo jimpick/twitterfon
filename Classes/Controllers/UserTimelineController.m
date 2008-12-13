@@ -145,7 +145,7 @@
             cell.message = m;
             cell.inEditing = self.editing;
             
-            [cell update:MSG_TYPE_USER delegate:self];
+            [cell update:MSG_CELL_TYPE_USER delegate:self];
             TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
             if ([timeline countMessages] == 1 && appDelegate.selectedTab == TAB_MESSAGES) {
                 cell.profileImage.hidden = true;
@@ -229,7 +229,9 @@
 
     // Add messages to the timeline
     for (int i = 0; i < [ary count]; ++i) {
-        Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:MSG_TYPE_USER];
+        Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:MSG_TYPE_FRIENDS];
+        m.cellType = MSG_CELL_TYPE_USER;
+        [m updateAttribute];
         [timeline appendMessage:m];
     }
 
