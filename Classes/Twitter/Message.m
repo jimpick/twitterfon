@@ -253,8 +253,8 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
     // Calculate text bounds and cell height here
     //
     [Message calcTextBounds:self textWidth:textWidth];
-
-    // Calculate distance time and create timestamp
+    
+    // Convert timestamp string to UNIX time
     //
     struct tm created;
     setenv("TZ", "GMT", 1);
@@ -269,9 +269,19 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
             createdAt = mktime(&created);
         }
     }
+}
+
+- (NSString*)timestamp
+{
+    // Calculate distance time string
+    //
+    setenv("TZ", "GMT", 1);
+    time_t now;
+    time(&now);
+    
     int distance = (int)difftime(now, createdAt);
     if (distance < 0) distance = 0;
-
+    
     if (distance < 60) {
         self.timestamp = [NSString stringWithFormat:@"%d %s", distance, (distance == 1) ? "second ago" : "seconds ago"];
     }
@@ -302,6 +312,7 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:createdAt];        
         self.timestamp = [dateFormatter stringFromDate:date];
     }
+    return timestamp;
 }
 
 + (void)calcTextBounds:(Message*)message textWidth:(int)textWidth
