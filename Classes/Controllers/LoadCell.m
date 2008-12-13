@@ -71,6 +71,12 @@
     [spinner stopAnimating];
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    label.frame = CGRectMake(0, 0, 320, self.frame.size.height - 1);
+}
+
 - (void)dealloc {
 	[super dealloc];
 }
