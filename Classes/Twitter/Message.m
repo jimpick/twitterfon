@@ -7,6 +7,7 @@
 
 static sqlite3_stmt* insert_statement = nil;
 static sqlite3_stmt* select_statement = nil;
+static sqlite3_stmt* message_by_id_statement = nil;
 
 @interface Message (Private)
 - (void)insertDB;
@@ -334,6 +335,28 @@ static NSString *userRegexp = @"@([0-9a-zA-Z_]+)";
         if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
     }
     message.cellHeight = result.size.height;
+}
+
++ (Message*)messageWithId:(sqlite_int64)aMessageId
+{
+    sqlite3* database = [DBConnection getSharedDatabase];
+    if (message_by_id_statement == nil) {
+        static char *sql = "SELECT * FROM messages,users WHERE messages.user_id = users.user_id AND id = ?";
+        if (sqlite3_prepare_v2(database, sql, -1, &message_by_id_statement, NULL) != SQLITE_OK) {
+            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+        }
+    }
+    
+    sqlite3_bind_int64(message_by_id_statement, 1, aMessageId);
+    int ret = sqlite3_step(message_by_id_statement);
+    if (ret != SQLITE_ROW) {
+        sqlite3_reset(message_by_id_statement);
+        return nil;
+    }
+    
+    Message *m = [Message initWithDB:message_by_id_statement type:MSG_TYPE_FRIENDS];
+    sqlite3_reset(message_by_id_statement);
+    return m;
 }
 
 + (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type

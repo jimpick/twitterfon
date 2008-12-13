@@ -80,6 +80,7 @@ typedef enum {
 
 @property (nonatomic, assign) int           page;
 
++ (Message*)messageWithId:(sqlite_int64)aMessageId;
 + (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type;
 + (Message*)messageWithSearchResult:(NSDictionary*)dic;
 + (Message*)messageWithLoadMessage:(MessageType)type page:(int)page;
