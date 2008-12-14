@@ -6,23 +6,20 @@
 
 @interface MessageCell : UITableViewCell
 {
-	Message*            message;
-    MessageCellView*    cellView;
-    UIButton*           profileImage;
-
+	Message*                    message;
+    MessageCellView*            cellView;
+    UIButton*                   profileImage;
     UIActivityIndicatorView*    spinner;
     
-    NSObject*           delegate;
-    MessageCellType     cellType;
-    
-    BOOL            inEditing;
+    MessageCellType             cellType;
+    BOOL                        inEditing;
 }
 
 @property (nonatomic, assign) Message*  message;
 @property (nonatomic, assign) UIButton* profileImage;
 @property (nonatomic, assign) BOOL      inEditing;
 
-- (void)update:(MessageCellType)type delegate:(id)delegate;
+- (void)update:(MessageCellType)type;
 
 - (void)toggleFavorite:(BOOL)favorited;
 - (void)toggleSpinner:(BOOL)flag;

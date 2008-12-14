@@ -42,7 +42,7 @@ typedef enum {
 - (void) openWebView:(NSString*)url;
 - (void) search:(NSString*)query;
 
-- (void)didTouchLinkButton:(Message*)message;
+- (void)openLinksViewController:(Message*)message;
 - (void)toggleFavorite:(Message*)message;
 
 @property (nonatomic, readonly) UIWindow*           window;

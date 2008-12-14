@@ -6,16 +6,6 @@
 #import "REString.h"
 #import "TimeUtils.h"
 
-@interface NSObject (MessageCellDelegate)
-- (void)didTouchLinkButton:(Message*)message links:(NSArray*)links;
-- (void)didTouchProfileImage:(MessageCell*)cell;
-@end
-
-@interface MessageCell (Private)
-- (void)didTouchAccessory:(id)sender;
-- (void)didTouchProfileImage:(id)sender;
-@end
-
 static UIImage* sFavorite = nil;
 static UIImage* sFavorited = nil;
 
@@ -52,24 +42,30 @@ static UIImage* sFavorited = nil;
 - (void)didTouchLinkButton:(id)sender
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    [appDelegate didTouchLinkButton:message];
+    [appDelegate openLinksViewController:message];
 }
 
 - (void)didTouchProfileImage:(id)sender
 {
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    
     if (cellType == MSG_CELL_TYPE_USER) {
         [self toggleSpinner:true];
-        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         [appDelegate toggleFavorite:message];
     }
-    else if (delegate) {
-        [delegate didTouchProfileImage:self];
+    else {
+        PostViewController* postView = appDelegate.postView;
+        if (message.type == MSG_TYPE_MESSAGES || message.type == MSG_TYPE_SENT) {
+            [postView editDirectMessage:message.user.screenName];
+        }
+        else {
+            [postView inReplyTo:message];
+        }
     }
 }
 
-- (void)update:(MessageCellType)aType delegate:(id)aDelegate
+- (void)update:(MessageCellType)aType
 {
-    delegate            = aDelegate;
     cellType            = aType;
     cellView.message    = message;
 

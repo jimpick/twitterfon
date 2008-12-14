@@ -230,7 +230,7 @@ static NSString *endRegexp  = @"[.,;:]$";
 static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
 static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 
-- (void)didTouchLinkButton:(Message*)message
+- (void)openLinksViewController:(Message*)message
 {
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
     

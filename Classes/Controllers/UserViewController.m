@@ -126,7 +126,7 @@ NSString* sDeleteMessage[2] = {
     
     if (indexPath.section == 0) {
         messageCell.message = message;
-        [messageCell update:MSG_CELL_TYPE_USER delegate:self];
+        [messageCell update:MSG_CELL_TYPE_USER];
         messageCell.contentView.backgroundColor = [UIColor clearColor];
         return messageCell;
     }

@@ -150,7 +150,7 @@
             cell.message = m;
             cell.inEditing = self.editing;
             
-            [cell update:MSG_CELL_TYPE_USER delegate:self];
+            [cell update:MSG_CELL_TYPE_USER];
             TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
             if ([timeline countMessages] == 1 && appDelegate.selectedTab == TAB_MESSAGES) {
                 cell.profileImage.hidden = true;

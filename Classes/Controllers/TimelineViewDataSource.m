@@ -104,7 +104,7 @@ static UIAlertView* sAlert = nil;
             cell.contentView.backgroundColor = [UIColor cellColorForTab:TAB_REPLIES];
         }
         
-        [cell update:MSG_CELL_TYPE_NORMAL delegate:self];
+        [cell update:MSG_CELL_TYPE_NORMAL];
         return cell;
     }
     else {
@@ -385,21 +385,6 @@ static UIAlertView* sAlert = nil;
 - (void)removeAllMessages
 {
     [timeline removeAllMessages];
-}
-
-- (void)didTouchProfileImage:(MessageCell*)cell
-{
-    Message* m = cell.message;
-    
-    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    PostViewController* postView = appDelegate.postView;
-    if (messageType == MSG_TYPE_MESSAGES || messageType == MSG_TYPE_SENT) {
-        [postView editDirectMessage:m.user.screenName];
-    }
-    else {
-        [postView inReplyTo:m];
-    }
-    
 }
 
 @end
