@@ -49,7 +49,10 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self scrollToFirstUnread:nil];
+    if (firstTimeToAppear) {
+        firstTimeToAppear = false;
+        [self scrollToFirstUnread:nil];
+    }
 	[super viewDidAppear:animated];
     if (stopwatch) {
         LAP(stopwatch, @"viewDidAppear");
@@ -92,6 +95,7 @@
 
 - (void)restoreAndLoadTimeline:(BOOL)load
 {
+    firstTimeToAppear = true;
     stopwatch = [[Stopwatch alloc] init];
     tab       = [self navigationController].tabBarItem.tag;
     timelineDataSource = [[TimelineViewDataSource alloc] initWithController:self messageType:tab];

@@ -15,6 +15,7 @@
     int                     tab;
     int                     unread;
     BOOL                    isLoaded;
+    BOOL                    firstTimeToAppear;
     TimelineViewDataSource* currentDataSource;
     TimelineViewDataSource* timelineDataSource;
     TimelineViewDataSource* sentMessageDataSource;
