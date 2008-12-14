@@ -124,10 +124,10 @@ enum {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         switch (indexPath.row) {
             case ROW_FRIENDS:
-                cell.text = [NSString stringWithFormat:@"%d following", user.friendsCount];
+                cell.text = [NSString stringWithFormat:@" %d following", user.friendsCount];
                 break;
             case ROW_FOLLOWERS:
-                cell.text = [NSString stringWithFormat:@"%d follower%s", user.followersCount, (user.followersCount) ? "s" : ""];
+                cell.text = [NSString stringWithFormat:@" %d follower%s", user.followersCount, (user.followersCount) ? "s" : ""];
                 break;
             case ROW_UPDATES:
                 cell.text = [NSString stringWithFormat:@" %d update%s", user.statusesCount, (user.statusesCount) ? "s" : ""];
@@ -156,13 +156,18 @@ enum {
         if (indexPath.row == ROW_FAVORITES) {
         }
         else if (indexPath.row == ROW_UPDATES) {
-            UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
-            [userTimeline loadUserTimeline:user.screenName];
-            [self.navigationController pushViewController:userTimeline animated:true];
+            if (user.statusesCount != 0) {
+                UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
+                [userTimeline loadUserTimeline:user.screenName];
+                [self.navigationController pushViewController:userTimeline animated:true];
+            }
         }
         else {
-            FriendsViewController *friends = [[[FriendsViewController alloc] initWithScreenName:user.screenName isFollowers:(indexPath.row == 1)] autorelease];
-            [self.navigationController pushViewController:friends animated:true];
+            int count = (indexPath.row == ROW_FOLLOWERS) ? user.followersCount : user.friendsCount;
+            if (count > 0) {
+                FriendsViewController *friends = [[[FriendsViewController alloc] initWithScreenName:user.screenName isFollowers:(indexPath.row == 1)] autorelease];
+                [self.navigationController pushViewController:friends animated:true];
+            }
         }
         
     }
