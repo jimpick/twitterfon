@@ -220,6 +220,13 @@ NSString* sMethods[4] = {
     [self get:url];
 }
 
+- (void)searchWithQueryString:(NSString*)query
+{
+    NSMutableString *url = [NSMutableString stringWithString:@"http://search.twitter.com/search.json"];
+    [url appendString:query];
+    [self get:url];
+}
+
 - (void)trends
 {
     [super get:@"http://search.twitter.com/trends.json"];
