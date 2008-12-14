@@ -24,6 +24,7 @@
     LoadCell*               loadCell;
     Timeline*               timeline;
     int                     indexOfLoadCell;
+    int                     page;
     NSMutableArray*         deletedMessage;
     TwitterClient*          twitterClient;
     BOOL                    didCheckFriendship;

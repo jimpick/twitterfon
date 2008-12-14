@@ -30,6 +30,7 @@
         userCell = [[UserCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"UserCell"];
         loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
         user = nil;
+        page = 1;
 	}
 	return self;
 }
@@ -106,8 +107,11 @@
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [timeline countMessages] + 2;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    int count = [timeline countMessages] + 1;
+    if (page > 0) ++count;
+    return count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -196,9 +200,9 @@
         [twitterClient friendship:screenName create:true];
 
     }
-    else {
+    else if (page > 0) {
         indexOfLoadCell = indexPath.row;
-        int page = ([timeline countMessages] / 20) + 1;
+        ++page;
         
         twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userTimelineDidReceive:messages:)];
         NSMutableDictionary *param = [NSMutableDictionary dictionary];
@@ -213,12 +217,13 @@
 
 - (void)userTimelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
 {
+   twitterClient = nil;
 
     [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
     [loadCell setType:MSG_TYPE_LOAD_FROM_WEB];
     
     if (obj == nil) {
-        goto out;
+        return;
     }
     
     NSArray *ary = nil;
@@ -226,13 +231,19 @@
         ary = (NSArray*)obj;
     }
     else {
-        goto out;
+        return;
     }
     
-    if ([ary count] == 0) goto out;
+    if ([ary count] == 0) {
+        page = -1;
+        [self.tableView beginUpdates];
+        NSIndexPath *path = [NSIndexPath indexPathForRow:indexOfLoadCell inSection:0];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationLeft];
+        [self.tableView endUpdates];
+        return;
+    }
     
     NSMutableArray *insertIndexPath = [[[NSMutableArray alloc] init] autorelease];
-    NSMutableArray *deleteIndexPath = [[[NSMutableArray alloc] init] autorelease];
 
     // Add messages to the timeline
     for (int i = 0; i < [ary count]; ++i) {
@@ -241,7 +252,7 @@
         [m updateAttribute];
         [timeline appendMessage:m];
     }
-
+    
     if (user) {
         [user release];
     }
@@ -259,11 +270,7 @@
     
     [self.tableView beginUpdates];
     [self.tableView insertRowsAtIndexPaths:insertIndexPath withRowAnimation:UITableViewRowAnimationTop];
-    [self.tableView deleteRowsAtIndexPaths:deleteIndexPath withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView endUpdates];
-    
-  out:
-    twitterClient = nil;
 }
 
 - (void)followDidRequest:(TwitterClient*)sender messages:(NSObject*)obj
