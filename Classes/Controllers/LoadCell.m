@@ -9,12 +9,23 @@
 #import "LoadCell.h"
 #import "ColorUtils.h"
 
+static NSString *sLabels[] = {
+    @"Load more people...",
+    @"Load more tweets...",
+    @"Load all stored tweets...",
+    @"Load this user's timeline...",
+    @"Loading...",
+    @"Send request...",
+    @"Follow request has been sent.",
+};
+
 @implementation LoadCell
 
 @synthesize spinner;
 @synthesize type;
 
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
+{
 	self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier];
     
     // name label
@@ -37,43 +48,15 @@
 - (void)setType:(loadCellType)aType
 {
     type = aType;
-    switch (type) {
-        case MSG_TYPE_LOAD_FROM_WEB:
-            label.text = @"Load more tweets...";
-            break;
-            
-        case MSG_TYPE_LOAD_FROM_DB:
-            label.text = @"Load all stored tweets...";
-            break;
-            
-        case MSG_TYPE_LOAD_USER_TIMELINE:
-            label.text = @"Load this user's timeline...";
-            break;
-            
-        case MSG_TYPE_LOADING:
-            label.text = @"Loading...";
-            break;
-            
-        case MSG_TYPE_REQUEST_FOLLOW:
-            label.text = @"Send request...";
-            break;
-            
-        case MSG_TYPE_REQUEST_FOLLOW_SENT:
-            label.text = @"Follow request has been sent.";
-            break;
-            
-        default:
-            break;
-    }
-    
-    CGRect bounds = [label textRectForBounds:CGRectMake(0, 0, 320, 48) limitedToNumberOfLines:1];
-    spinner.frame = CGRectMake(bounds.origin.x + bounds.size.width + 4, 16, 16, 16);
+    label.text = sLabels[type];
     [spinner stopAnimating];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    CGRect bounds = [label textRectForBounds:CGRectMake(0, 0, 320, 48) limitedToNumberOfLines:1];
+    spinner.frame = CGRectMake(bounds.origin.x + bounds.size.width + 4, (self.frame.size.height / 2) - 8, 16, 16);
     label.frame = CGRectMake(0, 0, 320, self.frame.size.height - 1);
 }
 
