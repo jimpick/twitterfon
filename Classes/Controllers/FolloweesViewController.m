@@ -124,8 +124,7 @@
     else {
         followee = [[index objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     }
-    cell.followee = followee;
-    [cell updateAttribute];
+    [cell setFollowee:followee];
     return cell;
 }
 

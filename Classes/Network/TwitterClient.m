@@ -119,11 +119,22 @@ NSString* sMethods[4] = {
     
 }
 
+- (void)getFriends:(NSString*)screen_name page:(int)page isFollowers:(BOOL)isFollowers
+{
+    needAuth = true;
+    request = (isFollowers) ? TWITTER_REQUEST_FOLLOWERS_LIST : TWITTER_REQUEST_FRIENDS_LIST;
+    NSString* url = [NSString stringWithFormat:@"https://twitter.com/statuses/%@/%@.json?page=%d",
+                    (isFollowers) ? @"followers" : @"friends", [screen_name encodeAsURIComponent], page];
+    
+    [self get:url];
+
+}
+
 - (void)friendship:(NSString*)screen_name create:(BOOL)create
 {
     needAuth = true;
     request = (create) ? TWITTER_REQUEST_CREATE_FRIENDSHIP : TWITTER_REQUEST_DESTROY_FRIENDSHIP;
-    NSString *url = [NSString stringWithFormat:@"http://twitter.com/friendships/%@/%@.json",
+    NSString *url = [NSString stringWithFormat:@"https://twitter.com/friendships/%@/%@.json",
                      create ? @"create" : @"destroy",
                      screen_name];
 

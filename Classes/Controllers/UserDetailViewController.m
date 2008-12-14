@@ -10,7 +10,17 @@
 #import "UserDetailViewController.h"
 #import "TwitterFonAppDelegate.h"
 #import "WebViewController.h"
+#import "FriendsViewController.h"
+#import "UserTimelineController.h"
 #import "Followee.h"
+
+enum {
+    ROW_FRIENDS,
+    ROW_FOLLOWERS,
+    ROW_UPDATES,
+    ROW_FAVORITES,
+    NUM_ROWS,
+};
 
 @implementation UserDetailViewController
 
@@ -60,7 +70,8 @@
     }
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated 
+{
     if (twitterClient) {
         [twitterClient cancel];
         [twitterClient release];
@@ -91,7 +102,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return (detailLoaded) ? 3 : 0;
+        return (detailLoaded) ? NUM_ROWS : 0;
     }
     else {
         return 1;
@@ -112,14 +123,17 @@
     if (indexPath.section == 0) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         switch (indexPath.row) {
-            case 0:
+            case ROW_FRIENDS:
                 cell.text = [NSString stringWithFormat:@"%d following", user.friendsCount];
                 break;
-            case 1:
+            case ROW_FOLLOWERS:
                 cell.text = [NSString stringWithFormat:@"%d follower%s", user.followersCount, (user.followersCount) ? "s" : ""];
                 break;
-            case 2:
-                cell.text = [NSString stringWithFormat:@"Favorites"];
+            case ROW_UPDATES:
+                cell.text = [NSString stringWithFormat:@" %d update%s", user.statusesCount, (user.statusesCount) ? "s" : ""];
+                break;
+            case ROW_FAVORITES:
+                cell.text = [NSString stringWithFormat:@" %d favorite%s", user.favoritesCount, (user.favoritesCount) ? "s" : ""];
                 break;
         }
     }
@@ -138,6 +152,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+    if (indexPath.section == 0) {
+        if (indexPath.row == ROW_FAVORITES) {
+        }
+        else if (indexPath.row == ROW_UPDATES) {
+            UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
+            [userTimeline loadUserTimeline:user.screenName];
+            [self.navigationController pushViewController:userTimeline animated:true];
+        }
+        else {
+            FriendsViewController *friends = [[[FriendsViewController alloc] initWithScreenName:user.screenName isFollowers:(indexPath.row == 1)] autorelease];
+            [self.navigationController pushViewController:friends animated:true];
+        }
+        
+    }
     if (indexPath.row == 0 && indexPath.section == 1) {
         twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(followDidRequest:messages:)];
         [twitterClient friendship:user.screenName create:!user.following];
@@ -199,6 +227,7 @@
                               [NSIndexPath indexPathForRow:0 inSection:0],
                               [NSIndexPath indexPathForRow:1 inSection:0],
                               [NSIndexPath indexPathForRow:2 inSection:0],
+                              [NSIndexPath indexPathForRow:3 inSection:0],
                               nil];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];

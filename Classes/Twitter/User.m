@@ -17,6 +17,7 @@ sqlite3_stmt *insert_statement = nil;
 @synthesize protected;
 @synthesize friendsCount;
 @synthesize statusesCount;
+@synthesize favoritesCount;
 @synthesize following;
 @synthesize notifications;
 
@@ -36,6 +37,7 @@ sqlite3_stmt *insert_statement = nil;
     
     friendsCount    = ([dic objectForKey:@"friends_count"]   == [NSNull null]) ? 0 : [[dic objectForKey:@"friends_count"] longValue];
     statusesCount   = ([dic objectForKey:@"statuses_count"]  == [NSNull null]) ? 0 : [[dic objectForKey:@"statuses_count"] longValue];
+    favoritesCount  = ([dic objectForKey:@"favourites_count"]  == [NSNull null]) ? 0 : [[dic objectForKey:@"favourites_count"] longValue];
     following       = ([dic objectForKey:@"following"]       == [NSNull null]) ? 0 : [[dic objectForKey:@"following"] boolValue];
     notifications   = ([dic objectForKey:@"notifications"]   == [NSNull null]) ? 0 : [[dic objectForKey:@"notifications"] boolValue];
     

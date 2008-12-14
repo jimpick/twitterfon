@@ -12,11 +12,9 @@
 @interface FolloweeCell : UITableViewCell {
 	UILabel*    name;
 	UILabel*    screenName;
-    Followee*   followee;
 }
 
-- (void)updateAttribute;
-
-@property(nonatomic, assign) Followee* followee;
+- (void)setFollowee:(Followee*)Followee;
+- (void)setUser:(User*)user;
 
 @end

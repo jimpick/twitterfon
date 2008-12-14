@@ -13,6 +13,7 @@
 	NSString*   profileImageUrl;
     uint32_t    friendsCount;
     uint32_t    statusesCount;
+    uint32_t    favoritesCount;
     BOOL        notifications;
     BOOL        protected;
     BOOL        following;
@@ -29,6 +30,7 @@
 @property (nonatomic, assign) BOOL      protected;
 @property (nonatomic, assign) uint32_t  friendsCount;
 @property (nonatomic, assign) uint32_t  statusesCount;
+@property (nonatomic, assign) uint32_t  favoritesCount;
 @property (nonatomic, assign) BOOL      following;
 @property (nonatomic, assign) BOOL      notifications;
 

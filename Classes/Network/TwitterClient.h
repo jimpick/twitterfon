@@ -13,6 +13,8 @@ typedef enum {
     TWITTER_REQUEST_SEARCH,
     TWITTER_REQUEST_TRENDS,
     TWITTER_REQUEST_USER,
+    TWITTER_REQUEST_FRIENDS_LIST,
+    TWITTER_REQUEST_FOLLOWERS_LIST,
     TWITTER_REQUEST_CREATE_FRIENDSHIP,
     TWITTER_REQUEST_DESTROY_FRIENDSHIP,
     TWITTER_REQUEST_FRIENDSHIP_EXISTS,
@@ -35,6 +37,7 @@ typedef enum {
 - (void)getUser:(NSString*)screen_name;
 - (void)post:(NSString*)tweet inReplyTo:(sqlite_int64)messageId;
 - (void)send:(NSString*)text to:(NSString*)screen_name;
+- (void)getFriends:(NSString*)screen_name page:(int)page isFollowers:(BOOL)isFollowers;
 - (void)destroy:(Message*)message isDirectMessage:(BOOL)isDirectMessage;
 - (void)favorite:(Message*)message;
 - (void)friendship:(NSString*)screen_name create:(BOOL)create;

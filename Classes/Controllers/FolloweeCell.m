@@ -11,8 +11,6 @@
 
 @implementation FolloweeCell
 
-@synthesize followee;
-
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
         // name label
@@ -38,29 +36,28 @@
 }
 
 - (void)dealloc {
-    [name release];
-    [screenName release];
     [super dealloc];
 }
 
-- (void)updateAttribute
+- (void)setFollowee:(Followee*)followee
 {
-    
     screenName.text = followee.screenName;
     name.text = followee.name;
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     self.image = [appDelegate.imageStore getImage:followee.profileImageUrl delegate:self];
 }
 
-- (void)imageStoreDidGetNewImage:(UIImage*)image
+- (void)setUser:(User*)user
+{
+    screenName.text = user.screenName;
+    name.text = user.name;
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    self.image = [appDelegate.imageStore getImage:user.profileImageUrl delegate:self];
+}
+
+- (void)profileImageDidGetNewImage:(UIImage*)image
 {
     [self setNeedsDisplay];
 }
-
-- (void)layoutSubviews
-{
-	[super layoutSubviews];
-}
-
 
 @end

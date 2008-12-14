@@ -81,6 +81,7 @@
 		6EADBE940EBDB1B000093782 /* Followee.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADBE930EBDB1B000093782 /* Followee.m */; };
 		6EADC0A20EBDC48D00093782 /* FolloweeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC09F0EBDC48D00093782 /* FolloweeCell.m */; };
 		6EADC0A30EBDC48D00093782 /* FolloweesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC0A10EBDC48D00093782 /* FolloweesViewController.m */; };
+		6EAE76040EF3904600BF6CD4 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE76030EF3904600BF6CD4 /* FriendsViewController.m */; };
 		6EBEE5840EB2F65400C18F0A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE5830EB2F65400C18F0A /* SearchViewController.m */; };
 		6ECCAD970EBE5B2E002B39F6 /* SearchHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */; };
 		6ECCAF700EBED555002B39F6 /* MessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCAF6F0EBED555002B39F6 /* MessageCellView.m */; };
@@ -223,6 +224,8 @@
 		6EADC09F0EBDC48D00093782 /* FolloweeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FolloweeCell.m; path = Controllers/FolloweeCell.m; sourceTree = "<group>"; };
 		6EADC0A00EBDC48D00093782 /* FolloweesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FolloweesViewController.h; path = Controllers/FolloweesViewController.h; sourceTree = "<group>"; };
 		6EADC0A10EBDC48D00093782 /* FolloweesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FolloweesViewController.m; path = Controllers/FolloweesViewController.m; sourceTree = "<group>"; };
+		6EAE76020EF3904600BF6CD4 /* FriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendsViewController.h; path = Controllers/FriendsViewController.h; sourceTree = "<group>"; };
+		6EAE76030EF3904600BF6CD4 /* FriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendsViewController.m; path = Controllers/FriendsViewController.m; sourceTree = "<group>"; };
 		6EBEE5820EB2F65400C18F0A /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = Controllers/SearchViewController.h; sourceTree = "<group>"; };
 		6EBEE5830EB2F65400C18F0A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = Controllers/SearchViewController.m; sourceTree = "<group>"; };
 		6ECCAD950EBE5B2E002B39F6 /* SearchHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchHistoryViewController.h; path = Controllers/SearchHistoryViewController.h; sourceTree = "<group>"; };
@@ -438,6 +441,8 @@
 				6E38370F0EB4789F00B0CE69 /* favorited.png */,
 				6E943F1A0E6527C600E8ECF2 /* usercell_background.png */,
 				6E021A720E60109000D0869A /* lock.png */,
+				6E0378300EF352A20045CD12 /* deleteButton_pressed.png */,
+				6E0378310EF352A20045CD12 /* deleteButton.png */,
 			);
 			name = UserView;
 			sourceTree = "<group>";
@@ -578,6 +583,15 @@
 			name = LinkView;
 			sourceTree = "<group>";
 		};
+		6EAE75FE0EF38FA100BF6CD4 /* FriendsView */ = {
+			isa = PBXGroup;
+			children = (
+				6EAE76020EF3904600BF6CD4 /* FriendsViewController.h */,
+				6EAE76030EF3904600BF6CD4 /* FriendsViewController.m */,
+			);
+			name = FriendsView;
+			sourceTree = "<group>";
+		};
 		6EBEE5790EB2F58E00C18F0A /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -638,7 +652,6 @@
 		6EDC025B0E34537600FF142E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6EAE759B0EF3870700BF6CD4 /* LinkView */,
 				6E74DA700ED957EC000E169F /* Application */,
 				6E8265C90E375122005D2370 /* TimelineView */,
 				6E102A360E5DD63D00440C58 /* UserView */,
@@ -646,6 +659,8 @@
 				6E8265C80E375119005D2370 /* Post */,
 				6E38EF7F0E38275300887690 /* Web View */,
 				6E8265CA0E37513B005D2370 /* Settings */,
+				6EAE759B0EF3870700BF6CD4 /* LinkView */,
+				6EAE75FE0EF38FA100BF6CD4 /* FriendsView */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -708,8 +723,6 @@
 		6EED14400E33E5BF00C71EA4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				6E0378300EF352A20045CD12 /* deleteButton_pressed.png */,
-				6E0378310EF352A20045CD12 /* deleteButton.png */,
 				6E08A3550EDFC185000D25FE /* TabBar */,
 				6E08A3650EDFC20D000D25FE /* Timeline */,
 				6E08A3640EDFC1D5000D25FE /* UserView */,
@@ -876,6 +889,7 @@
 				6E6846B10EE2D85E009847F3 /* UserViewController.m in Sources */,
 				6EDB36D10EE72CC900440173 /* UserViewActionCell.m in Sources */,
 				6E03783F0EF354030045CD12 /* DeleteButtonCell.m in Sources */,
+				6EAE76040EF3904600BF6CD4 /* FriendsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
