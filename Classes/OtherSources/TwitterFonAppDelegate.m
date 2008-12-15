@@ -262,7 +262,8 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
     
     NSMutableArray *array = [NSMutableArray array];
     NSString *tmp = message.text;
-    
+
+    // Find URLs
     while ([tmp matches:urlRegexp withSubstring:array]) {
         NSString *url = [array objectAtIndex:0];
         [array removeAllObjects];
@@ -274,7 +275,8 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
         tmp = [tmp substringFromIndex:r.location + r.length];
         [array removeAllObjects];
     }
-    
+
+    // Find screen names
     tmp = message.text;
     while ([tmp matches:nameRegexp withSubstring:array]) {
         NSString *username = [array objectAtIndex:0];
@@ -283,7 +285,8 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
         tmp = [tmp substringFromIndex:r.location + r.length];
         [array removeAllObjects];
     }
-    
+
+    // Find hashtags
     tmp = message.text;
     while ([tmp matches:hashRegexp withSubstring:array]) {
         NSString *hash = [array objectAtIndex:0];
@@ -293,18 +296,13 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
         [array removeAllObjects];
         hasHash = true;
     }
-    
+#if 0
+    // Check in-reply-to
+    Message *inReplyToMessage = nil;
     if (message.inReplyToMessageId) {
-        Message *m = [Message messageWithId:message.inReplyToMessageId];
-        if (m) {
-            [links removeObject:[NSString stringWithFormat:@"@%@", m.user.screenName]];
-            [links addObject:[NSString stringWithFormat:@"In-Reply-To @%@:%@", m.user.screenName, m.text]];
-        }
-        else {
-            [links addObject:[NSString stringWithFormat:@"In-Reply-To-Message: %lld", message.inReplyToUserId]];
-        }
-    }
-    
+        inReplyToMessage = [Message messageWithId:message.inReplyToMessageId];
+    }        
+#endif    
     if ([links count] == 1) {
         NSString* url = [links objectAtIndex:0];
         NSRange r = [url rangeOfString:@"http://"];
@@ -315,6 +313,12 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
             if (hasHash) {
                 [self search:[links objectAtIndex:0]];
             }
+#if 0
+            else if (inReplyToMessage) {
+                UserViewController *userView = [[[UserViewController alloc] initWithMessage:inReplyToMessage] autorelease];
+                [nav pushViewController:userView animated:true];
+            }
+#endif
             else {
                 UserTimelineController *userTimeline = [[[UserTimelineController alloc] init] autorelease];
                 NSString *screenName = [links objectAtIndex:0];
@@ -327,7 +331,6 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
         nav.navigationBar.tintColor = nil;
         
         LinkViewController* linkView = [[[LinkViewController alloc] init] autorelease];
-        linkView.message = message;
         linkView.links   = links;
         [nav pushViewController:linkView animated:true];
     }

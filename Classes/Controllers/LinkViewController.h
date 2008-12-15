@@ -11,10 +11,8 @@
 
 @interface LinkViewController : UITableViewController {
     NSMutableArray*     links;
-    Message*            message;
 }
 
-@property(nonatomic, retain) Message* message;
 @property(nonatomic, retain) NSArray *links;
 
 @end

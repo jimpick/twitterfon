@@ -13,7 +13,6 @@
 @implementation LinkViewController
 
 @synthesize links;
-@synthesize message;
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -23,7 +22,6 @@
 
 - (void)dealloc
 {
-    [message release];
     [links release];
     [super dealloc];
 }
