@@ -9,6 +9,7 @@
 #import "TwitterFonAppDelegate.h"
 #import "UserView.h"
 #import "QuartzUtils.h"
+#import "ColorUtils.h"
 
 #define kMessageUserProtected @"This user has protected their updates."
 #define kMessageDetail        @"You need to send a request before you can start following this person."
@@ -40,7 +41,7 @@
 
     url = [UIButton buttonWithType:UIButtonTypeCustom];
     url.font = [UIFont boldSystemFontOfSize:14];  	
-    [url setTitleColor:[UIColor colorWithRed:0.208 green:0.310 blue:0.518 alpha:1.0] forState:UIControlStateNormal];
+    [url setTitleColor:[UIColor cellLabelColor] forState:UIControlStateNormal];
     [url setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
     [url setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
     url.lineBreakMode = UILineBreakModeTailTruncation;

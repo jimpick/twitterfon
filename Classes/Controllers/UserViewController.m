@@ -12,6 +12,7 @@
 #import "MessageCell.h"
 #import "UserTimelineController.h"
 #import "UserDetailViewController.h"
+#import "ColorUtils.h"
 
 NSString* sCellActionText[3] = {
     @"Send a repply Send a DM retweet",
@@ -137,7 +138,7 @@ NSString* sDeleteMessage[2] = {
             cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
         }
         cell.textAlignment = UITextAlignmentCenter;
-        cell.textColor = [UIColor colorWithRed:0.195 green:0.309 blue:0.520 alpha:1.0];
+        cell.textColor = [UIColor cellLabelColor];
         if (indexPath.section == 1) {
             cell.accessoryType = UITableViewCellAccessoryNone;
             return actionCell;

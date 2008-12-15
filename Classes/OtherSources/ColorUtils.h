@@ -13,4 +13,5 @@
 
 + (UIColor*)navigationColorForTab:(int)tab;
 + (UIColor*)cellColorForTab:(int)tab;
++ (UIColor*)cellLabelColor;
 @end

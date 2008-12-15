@@ -31,7 +31,7 @@ static NSString *sLabels[] = {
     // name label
     label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
     label.backgroundColor = [UIColor whiteColor];
-    label.textColor = [UIColor colorWithRed:0.195 green:0.309 blue:0.520 alpha:1.0];
+    label.textColor = [UIColor cellLabelColor];
     label.highlightedTextColor = [UIColor whiteColor];
     label.font = [UIFont boldSystemFontOfSize:16];
     label.numberOfLines = 1;

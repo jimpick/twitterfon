@@ -11,7 +11,7 @@
 static UIColor *gNavigationBarColors[4];
 static UIColor *gUnreadCellColors[5];
 
-@implementation UIColor (NSStringUtils)
+@implementation UIColor (UIColorUtils)
 
 + (void) initTwitterFonColorScheme
 {
@@ -37,6 +37,11 @@ static UIColor *gUnreadCellColors[5];
 + (UIColor*)cellColorForTab:(int)tab
 {
     return gUnreadCellColors[tab];
+}
+
++ (UIColor*)cellLabelColor
+{
+    return [UIColor colorWithRed:0.195 green:0.309 blue:0.520 alpha:1.0];
 }
 
 @end

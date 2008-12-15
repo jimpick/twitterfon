@@ -13,6 +13,7 @@
 #import "FriendsViewController.h"
 #import "UserTimelineController.h"
 #import "Followee.h"
+#import "ColorUtils.h"
 
 enum {
     ROW_FRIENDS,
@@ -139,7 +140,7 @@ enum {
     }
     else if (indexPath.section == 1) {
         cell.textAlignment = UITextAlignmentCenter;
-        cell.textColor = [UIColor colorWithRed:0.195 green:0.309 blue:0.520 alpha:1.0];
+        cell.textColor = [UIColor cellLabelColor];
         if (user.following) {
             cell.text = @"Remove This User";
         }
