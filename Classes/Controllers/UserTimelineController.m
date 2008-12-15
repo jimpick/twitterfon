@@ -23,7 +23,7 @@
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
         self.tableView = [[[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain] autorelease];
-        timeline = [[Timeline alloc] initWithDelegate:self];
+        timeline = [[Timeline alloc] init];
         deletedMessage = [[NSMutableArray alloc] init];
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         imageStore = appDelegate.imageStore;
@@ -141,20 +141,11 @@
         return userCell;
     }
     else {
-        Message *m = [timeline messageAtIndex:indexPath.row - 1];        
-        if (m) {
-            MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
-            if (!cell) {
-                cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
-            }
-            cell.message = m;
+        MessageCell* cell = [timeline getMessageCell:tableView atIndex:indexPath.row - 1];
+        if (cell) {
             cell.inEditing = self.editing;
-            
+            [cell.profileImage setImage:[imageStore getImage:cell.message.user.profileImageUrl delegate:self] forState:UIControlStateNormal];
             [cell update:MSG_CELL_TYPE_USER];
-            TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-            if ([timeline countMessages] == 1 && appDelegate.selectedTab == TAB_MESSAGES) {
-                cell.profileImage.hidden = true;
-            }
             return cell;
         }
         else {

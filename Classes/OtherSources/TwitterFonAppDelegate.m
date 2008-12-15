@@ -7,9 +7,9 @@
 //
 
 #import "TwitterFonAppDelegate.h"
-#import "TimelineViewController.h"
-#import "UserTimelineController.h"
+#import "FriendsTimelineController.h"
 #import "SearchViewController.h"
+#import "UserTimelineController.h"
 #import "LinkViewController.h"
 #import "DBConnection.h"
 #import "TwitterClient.h"
@@ -75,7 +75,7 @@
     for (int tab = 0; tab < 3; ++tab) {
         UINavigationController* nav = (UINavigationController*)[views objectAtIndex:tab];
         BOOL flag = (loadall) ? true : ((tab == 0) ? true : false);
-        [(TimelineViewController*)[nav topViewController] restoreAndLoadTimeline:flag];
+        [(FriendsTimelineController*)[nav topViewController] restoreAndLoadTimeline:flag];
     }
     
 	[window addSubview:tabBarController.view];
@@ -164,7 +164,7 @@
 {
     settingsView = nil;
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];    
-    [(TimelineViewController*)[nav topViewController] reload:self];
+    [(FriendsTimelineController*)[nav topViewController] reload:self];
 }
 
 - (PostViewController*)postView

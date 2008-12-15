@@ -46,7 +46,6 @@
 		6E3837100EB4789F00B0CE69 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370E0EB4789F00B0CE69 /* favorite.png */; };
 		6E3837110EB4789F00B0CE69 /* favorited.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370F0EB4789F00B0CE69 /* favorited.png */; };
 		6E3EABA00EC8782400599954 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E3EAB9F0EC8782400599954 /* dist.plist */; };
-		6E3ED88E0EB9439A0041687A /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3ED88D0EB9439A0041687A /* TimelineViewController.m */; };
 		6E3EDADE0EB9A2050041687A /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDADD0EB9A2050041687A /* OverlayView.m */; };
 		6E4011F10ECDF786009D452A /* open_safari.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E4011F00ECDF786009D452A /* open_safari.png */; };
 		6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */; };
@@ -75,13 +74,16 @@
 		6E8C57BA0ED0AEA300EC9D39 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C57B90ED0AEA300EC9D39 /* UserView.m */; };
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
 		6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E943F1A0E6527C600E8ECF2 /* usercell_background.png */; };
-		6E9CA2C70EB8D4E800D7F004 /* TimelineViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9CA2C60EB8D4E800D7F004 /* TimelineViewDataSource.m */; };
 		6EA0C19C0EBB1305000C0CD4 /* friends_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EA0C19B0EBB1305000C0CD4 /* friends_small.png */; };
 		6EADBC090EBD8F8E00093782 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADBC080EBD8F8E00093782 /* PostViewController.m */; };
 		6EADBE940EBDB1B000093782 /* Followee.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADBE930EBDB1B000093782 /* Followee.m */; };
 		6EADC0A20EBDC48D00093782 /* FolloweeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC09F0EBDC48D00093782 /* FolloweeCell.m */; };
 		6EADC0A30EBDC48D00093782 /* FolloweesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC0A10EBDC48D00093782 /* FolloweesViewController.m */; };
 		6EAE76040EF3904600BF6CD4 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE76030EF3904600BF6CD4 /* FriendsViewController.m */; };
+		6EAE81B50EF5BB4300BF6CD4 /* FriendsTimelineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE81B20EF5BB4300BF6CD4 /* FriendsTimelineController.m */; };
+		6EAE81B60EF5BB4300BF6CD4 /* FriendsTimelineDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE81B40EF5BB4300BF6CD4 /* FriendsTimelineDataSource.m */; };
+		6EAE81B90EF5BB4E00BF6CD4 /* SearchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE81B80EF5BB4E00BF6CD4 /* SearchResultsDataSource.m */; };
+		6EAE82B10EF5CBCB00BF6CD4 /* TimelineDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */; };
 		6EBEE5840EB2F65400C18F0A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE5830EB2F65400C18F0A /* SearchViewController.m */; };
 		6ECCAD970EBE5B2E002B39F6 /* SearchHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */; };
 		6ECCAF700EBED555002B39F6 /* MessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCAF6F0EBED555002B39F6 /* MessageCellView.m */; };
@@ -172,8 +174,6 @@
 		6E38370E0EB4789F00B0CE69 /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite.png; sourceTree = "<group>"; };
 		6E38370F0EB4789F00B0CE69 /* favorited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorited.png; sourceTree = "<group>"; };
 		6E3EAB9F0EC8782400599954 /* dist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dist.plist; sourceTree = "<group>"; };
-		6E3ED88D0EB9439A0041687A /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineViewController.m; path = Controllers/TimelineViewController.m; sourceTree = "<group>"; };
-		6E3ED88F0EB943B00041687A /* TimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineViewController.h; path = Controllers/TimelineViewController.h; sourceTree = "<group>"; };
 		6E3EDADC0EB9A2050041687A /* OverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverlayView.h; path = Controllers/OverlayView.h; sourceTree = "<group>"; };
 		6E3EDADD0EB9A2050041687A /* OverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OverlayView.m; path = Controllers/OverlayView.m; sourceTree = "<group>"; };
 		6E4011F00ECDF786009D452A /* open_safari.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = open_safari.png; sourceTree = "<group>"; };
@@ -213,8 +213,6 @@
 		6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeUtils.h; path = Classes/OtherSources/TimeUtils.h; sourceTree = "<group>"; };
 		6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeUtils.m; path = Classes/OtherSources/TimeUtils.m; sourceTree = "<group>"; };
 		6E943F1A0E6527C600E8ECF2 /* usercell_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usercell_background.png; sourceTree = "<group>"; };
-		6E9CA2C50EB8D4E800D7F004 /* TimelineViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineViewDataSource.h; path = Controllers/TimelineViewDataSource.h; sourceTree = "<group>"; };
-		6E9CA2C60EB8D4E800D7F004 /* TimelineViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineViewDataSource.m; path = Controllers/TimelineViewDataSource.m; sourceTree = "<group>"; };
 		6EA0C19B0EBB1305000C0CD4 /* friends_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends_small.png; sourceTree = "<group>"; };
 		6EADBC070EBD8F8E00093782 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostViewController.h; path = Controllers/PostViewController.h; sourceTree = "<group>"; };
 		6EADBC080EBD8F8E00093782 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostViewController.m; path = Controllers/PostViewController.m; sourceTree = "<group>"; };
@@ -226,6 +224,14 @@
 		6EADC0A10EBDC48D00093782 /* FolloweesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FolloweesViewController.m; path = Controllers/FolloweesViewController.m; sourceTree = "<group>"; };
 		6EAE76020EF3904600BF6CD4 /* FriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendsViewController.h; path = Controllers/FriendsViewController.h; sourceTree = "<group>"; };
 		6EAE76030EF3904600BF6CD4 /* FriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendsViewController.m; path = Controllers/FriendsViewController.m; sourceTree = "<group>"; };
+		6EAE81B10EF5BB4300BF6CD4 /* FriendsTimelineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendsTimelineController.h; path = Controllers/FriendsTimelineController.h; sourceTree = "<group>"; };
+		6EAE81B20EF5BB4300BF6CD4 /* FriendsTimelineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendsTimelineController.m; path = Controllers/FriendsTimelineController.m; sourceTree = "<group>"; };
+		6EAE81B30EF5BB4300BF6CD4 /* FriendsTimelineDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendsTimelineDataSource.h; path = Controllers/FriendsTimelineDataSource.h; sourceTree = "<group>"; };
+		6EAE81B40EF5BB4300BF6CD4 /* FriendsTimelineDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendsTimelineDataSource.m; path = Controllers/FriendsTimelineDataSource.m; sourceTree = "<group>"; };
+		6EAE81B70EF5BB4E00BF6CD4 /* SearchResultsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchResultsDataSource.h; path = Controllers/SearchResultsDataSource.h; sourceTree = "<group>"; };
+		6EAE81B80EF5BB4E00BF6CD4 /* SearchResultsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchResultsDataSource.m; path = Controllers/SearchResultsDataSource.m; sourceTree = "<group>"; };
+		6EAE82AF0EF5CBCB00BF6CD4 /* TimelineDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineDataSource.h; path = Controllers/TimelineDataSource.h; sourceTree = "<group>"; };
+		6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineDataSource.m; path = Controllers/TimelineDataSource.m; sourceTree = "<group>"; };
 		6EBEE5820EB2F65400C18F0A /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = Controllers/SearchViewController.h; sourceTree = "<group>"; };
 		6EBEE5830EB2F65400C18F0A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = Controllers/SearchViewController.m; sourceTree = "<group>"; };
 		6ECCAD950EBE5B2E002B39F6 /* SearchHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchHistoryViewController.h; path = Controllers/SearchHistoryViewController.h; sourceTree = "<group>"; };
@@ -551,10 +557,8 @@
 			children = (
 				6EED14220E33E59B00C71EA4 /* Timeline.h */,
 				6EED14230E33E59B00C71EA4 /* Timeline.m */,
-				6E9CA2C50EB8D4E800D7F004 /* TimelineViewDataSource.h */,
-				6E9CA2C60EB8D4E800D7F004 /* TimelineViewDataSource.m */,
-				6E3ED88F0EB943B00041687A /* TimelineViewController.h */,
-				6E3ED88D0EB9439A0041687A /* TimelineViewController.m */,
+				6EAE82AF0EF5CBCB00BF6CD4 /* TimelineDataSource.h */,
+				6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */,
 				6E10290F0E5D362C00440C58 /* LoadCell.h */,
 				6E1029100E5D362C00440C58 /* LoadCell.m */,
 				6EEBF7170E3B20830003EA63 /* MessageCell.h */,
@@ -592,6 +596,17 @@
 			name = FriendsView;
 			sourceTree = "<group>";
 		};
+		6EAE81540EF5B54100BF6CD4 /* FriendsTimeline */ = {
+			isa = PBXGroup;
+			children = (
+				6EAE81B10EF5BB4300BF6CD4 /* FriendsTimelineController.h */,
+				6EAE81B20EF5BB4300BF6CD4 /* FriendsTimelineController.m */,
+				6EAE81B30EF5BB4300BF6CD4 /* FriendsTimelineDataSource.h */,
+				6EAE81B40EF5BB4300BF6CD4 /* FriendsTimelineDataSource.m */,
+			);
+			name = FriendsTimeline;
+			sourceTree = "<group>";
+		};
 		6EBEE5790EB2F58E00C18F0A /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -599,6 +614,8 @@
 				6E3EDADD0EB9A2050041687A /* OverlayView.m */,
 				6EBEE5820EB2F65400C18F0A /* SearchViewController.h */,
 				6EBEE5830EB2F65400C18F0A /* SearchViewController.m */,
+				6EAE81B70EF5BB4E00BF6CD4 /* SearchResultsDataSource.h */,
+				6EAE81B80EF5BB4E00BF6CD4 /* SearchResultsDataSource.m */,
 				6E1C6E750EB53E4700E34D9B /* TrendsDataSource.h */,
 				6E1C6E760EB53E4700E34D9B /* TrendsDataSource.m */,
 				6E1C6F3C0EB5897A00E34D9B /* SearchHistoryDataSource.h */,
@@ -654,6 +671,7 @@
 			children = (
 				6E74DA700ED957EC000E169F /* Application */,
 				6E8265C90E375122005D2370 /* TimelineView */,
+				6EAE81540EF5B54100BF6CD4 /* FriendsTimeline */,
 				6E102A360E5DD63D00440C58 /* UserView */,
 				6EBEE5790EB2F58E00C18F0A /* Search */,
 				6E8265C80E375119005D2370 /* Post */,
@@ -864,8 +882,6 @@
 				6E1C6E780EB53E4700E34D9B /* TrendsDataSource.m in Sources */,
 				6E1C6F3E0EB5897A00E34D9B /* SearchHistoryDataSource.m in Sources */,
 				6E1C72E70EB5ABED00E34D9B /* LocationManager.m in Sources */,
-				6E9CA2C70EB8D4E800D7F004 /* TimelineViewDataSource.m in Sources */,
-				6E3ED88E0EB9439A0041687A /* TimelineViewController.m in Sources */,
 				6E3EDADE0EB9A2050041687A /* OverlayView.m in Sources */,
 				6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */,
 				6E48E93B0EBD7439005E1837 /* PostView.m in Sources */,
@@ -890,6 +906,10 @@
 				6EDB36D10EE72CC900440173 /* UserViewActionCell.m in Sources */,
 				6E03783F0EF354030045CD12 /* DeleteButtonCell.m in Sources */,
 				6EAE76040EF3904600BF6CD4 /* FriendsViewController.m in Sources */,
+				6EAE81B50EF5BB4300BF6CD4 /* FriendsTimelineController.m in Sources */,
+				6EAE81B60EF5BB4300BF6CD4 /* FriendsTimelineDataSource.m in Sources */,
+				6EAE81B90EF5BB4E00BF6CD4 /* SearchResultsDataSource.m in Sources */,
+				6EAE82B10EF5CBCB00BF6CD4 /* TimelineDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,11 +12,10 @@ static sqlite3_stmt *select_statement = nil;
 
 @synthesize messages;
 
-- (id)initWithDelegate:(id)aDelegate
+- (id)init
 {
 	self = [super init];
 	messages = [[NSMutableArray array] retain];
-    delegate = aDelegate;
 	return self;
 }
 
@@ -109,6 +108,20 @@ static sqlite3_stmt *select_statement = nil;
         }
     }
     return -1;
+}
+
+- (MessageCell*)getMessageCell:(UITableView*)tableView atIndex:(int)index
+{
+    Message* message = [self messageAtIndex:index];
+    if (message == nil) return nil;
+    
+    MessageCell* cell = (MessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
+    if (!cell) {
+        cell = [[[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
+    }
+        
+    cell.message = message;
+    return cell;
 }
 
 - (int)restore:(MessageType)aType all:(BOOL)all

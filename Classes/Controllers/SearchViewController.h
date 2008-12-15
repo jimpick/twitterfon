@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "TrendsDataSource.h"
+#import "SearchResultsDataSource.h"
 #import "SearchHistoryDataSource.h"
-#import "TimelineViewDataSource.h"
 #import "LocationManager.h"
 #import "OverlayView.h"
 #import "CustomSearchBar.h"
@@ -19,7 +19,7 @@
     UIBarButtonItem*            trendsButton;
     UIBarButtonItem*            reloadButton;
     TrendsDataSource*           trends;
-    TimelineViewDataSource*     search;
+    SearchResultsDataSource*    search;
     SearchHistoryDataSource*    history;
     IBOutlet UITableView*       searchView;
     OverlayView*                overlayView;

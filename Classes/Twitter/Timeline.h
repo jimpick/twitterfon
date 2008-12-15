@@ -1,9 +1,9 @@
 #import <UIKit/UIKit.h>
 #import "Message.h"
+#import "MessageCell.h"
 
 @interface Timeline : NSObject
 {
-	NSObject*       delegate;
 	NSMutableArray* messages;
     MessageType     type;
     int             insertPosition;
@@ -13,7 +13,7 @@
 
 @property (nonatomic, readonly) NSArray* messages;
 
-- (id)initWithDelegate:(id)aDelegate;
+- (id)init;
 
 - (int)restore:(MessageType)type all:(BOOL)flag;
 
@@ -33,5 +33,7 @@
 - (int)indexOfObject:(Message*)message;
 
 - (void)updateFavorite:(Message*)message;
+
+- (MessageCell*)getMessageCell:(UITableView*)tableView atIndex:(int)index;
 
 @end

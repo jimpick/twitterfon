@@ -53,7 +53,7 @@
     //
     trends  = [[TrendsDataSource alloc] initWithDelegate:self];
     history = [[SearchHistoryDataSource alloc] initWithDelegate:self];
-    search  = [[TimelineViewDataSource alloc] initWithController:self messageType:MSG_TYPE_SEARCH_RESULT];
+    search  = [[SearchResultsDataSource alloc] initWithController:self];
     [self setDataSource:search];
     
     // Overlay view
@@ -357,24 +357,26 @@
     if (self.navigationController.tabBarController.selectedIndex == TAB_SEARCH &&
         self.navigationController.topViewController == self) {
 
+        NSMutableArray *array = [NSMutableArray array];
         if (isReload) {
             if (count > 8) count = 8;
-            NSMutableArray *array = [NSMutableArray array];
             for (int i = 0; i < count; ++i) {
                 [array addObject:[NSIndexPath indexPathForRow:i inSection:0]];
             }
-            [self.tableView beginUpdates];
-            [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationTop];
-            [self.tableView endUpdates];
         }
         else if (count && position) {
-            NSArray *arr = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:position inSection:0]];
-            [self.tableView beginUpdates];
-            [self.tableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationTop];
-            [self.tableView endUpdates];
+            if (count > 2) count = 2;
+            for (int i = 0; i < count; ++i) {
+                [array addObject:[NSIndexPath indexPathForRow:position + i inSection:0]];
+            }
         }
         else {
             [self reloadTable];
+        }
+        if ([array count]) {
+            [self.tableView beginUpdates];
+            [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationTop];
+            [self.tableView endUpdates];
         }
     }
     else {
@@ -394,7 +396,7 @@
     searchBar.locationButton.enabled = true;
 }
 
-- (void)timelineDidFailToUpdate:(TimelineViewDataSource*)sender position:(int)position
+- (void)timelineDidFailToUpdate:(SearchResultsDataSource*)sender position:(int)position
 {
     isReload = false;
     if (position == 0) {

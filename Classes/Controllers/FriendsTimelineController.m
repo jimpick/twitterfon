@@ -6,18 +6,18 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
-#import "TimelineViewController.h"
-#import "TimelineViewDataSource.h"
+#import "FriendsTimelineController.h"
+#import "FriendsTimelineDataSource.h"
 #import "TwitterFonAppDelegate.h"
 #import "ColorUtils.h"
 
-@interface TimelineViewController (Private)
+@interface FriendsTimelineController (Private)
 - (void)scrollToFirstUnread:(NSTimer*)timer;
 - (void)didLeaveTab:(UINavigationController*)navigationController;
 @end
 
 
-@implementation TimelineViewController
+@implementation FriendsTimelineController
 
 //
 // UIViewController methods
@@ -98,7 +98,7 @@
     firstTimeToAppear = true;
     stopwatch = [[Stopwatch alloc] init];
     tab       = [self navigationController].tabBarItem.tag;
-    timelineDataSource = [[TimelineViewDataSource alloc] initWithController:self messageType:tab];
+    timelineDataSource = [[FriendsTimelineDataSource alloc] initWithController:self messageType:tab];
     currentDataSource = timelineDataSource;
     if (load) [self loadTimeline];
 
@@ -121,7 +121,7 @@
     }
     else {
         if (sentMessageDataSource == nil) {
-            sentMessageDataSource = [[TimelineViewDataSource alloc] initWithController:self messageType:MSG_TYPE_SENT];
+            sentMessageDataSource = [[FriendsTimelineDataSource alloc] initWithController:self messageType:MSG_TYPE_SENT];
             [sentMessageDataSource getTimeline];
         }
         currentDataSource         = sentMessageDataSource;
@@ -212,7 +212,7 @@
 //
 // TimelineDelegate
 //
-- (void)timelineDidUpdate:(TimelineViewDataSource*)sender count:(int)count insertAt:(int)position
+- (void)timelineDidUpdate:(FriendsTimelineDataSource*)sender count:(int)count insertAt:(int)position
 {
     self.navigationItem.leftBarButtonItem.enabled = true;
 
@@ -250,7 +250,7 @@
 
 }
 
-- (void)timelineDidFailToUpdate:(TimelineViewDataSource*)sender position:(int)position
+- (void)timelineDidFailToUpdate:(FriendsTimelineDataSource*)sender position:(int)position
 {
     self.navigationItem.leftBarButtonItem.enabled = true;
 }

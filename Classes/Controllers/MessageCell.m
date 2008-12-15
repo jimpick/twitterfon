@@ -68,6 +68,14 @@ static UIImage* sFavorited = nil;
 {
     cellType            = aType;
     cellView.message    = message;
+    
+    self.contentView.backgroundColor = (message.unread) ? [UIColor cellColorForTab:message.type] : [UIColor whiteColor];
+
+    if (cellType != MSG_CELL_TYPE_USER && message.hasReply) {
+        if (message.type == MSG_TYPE_FRIENDS || message.type == MSG_TYPE_SEARCH_RESULT) {
+            self.contentView.backgroundColor = [UIColor cellColorForTab:TAB_REPLIES];
+        }
+    }
 
     self.selectionStyle = (cellType == MSG_CELL_TYPE_USER) ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
     self.accessoryType = message.accessoryType;
