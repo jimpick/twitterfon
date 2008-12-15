@@ -19,11 +19,14 @@
     UserMessageCell*        messageCell;
     DeleteButtonCell*       deleteCell;
     Message*                message;
+    Message*                inReplyToMessage;
+    User*                   inReplyToUser;
     TwitterClient*          twitterClient;
     BOOL                    hasDeleteButton;
     BOOL                    isDirectMessage;
 }
 
 - (id)initWithMessage:(Message*)message;
+- (id)initWithMessageId:(sqlite_int64)messageId;
 
 @end

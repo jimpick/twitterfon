@@ -97,6 +97,7 @@ typedef enum {
 - (void)updateAttribute;
 
 - (void)insertDB;
+- (void)insertDBIfFollowing;
 - (void)deleteFromDB;
 - (void)updateFavoriteState;
 

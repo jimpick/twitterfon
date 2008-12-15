@@ -296,13 +296,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
         [array removeAllObjects];
         hasHash = true;
     }
-#if 0
-    // Check in-reply-to
-    Message *inReplyToMessage = nil;
-    if (message.inReplyToMessageId) {
-        inReplyToMessage = [Message messageWithId:message.inReplyToMessageId];
-    }        
-#endif    
+  
     if ([links count] == 1) {
         NSString* url = [links objectAtIndex:0];
         NSRange r = [url rangeOfString:@"http://"];
@@ -313,12 +307,6 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
             if (hasHash) {
                 [self search:[links objectAtIndex:0]];
             }
-#if 0
-            else if (inReplyToMessage) {
-                UserViewController *userView = [[[UserViewController alloc] initWithMessage:inReplyToMessage] autorelease];
-                [nav pushViewController:userView animated:true];
-            }
-#endif
             else {
                 UserTimelineController *userTimeline = [[[UserTimelineController alloc] init] autorelease];
                 NSString *screenName = [links objectAtIndex:0];

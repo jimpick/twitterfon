@@ -43,12 +43,14 @@
 		textColor       = [UIColor blackColor];
         timestampColor  = [UIColor grayColor];
 	}
-
+    
+    float textFontSize = (message.cellType == MSG_CELL_TYPE_DETAIL) ? 14 : 13;
+    
 	[textColor set];
     if (message.cellType == MSG_CELL_TYPE_NORMAL) {
         [message.user.screenName drawInRect:CGRectMake(0, 0, CELL_WIDTH - DETAIL_BUTTON_WIDTH, TOP) withFont:[UIFont boldSystemFontOfSize:14]];
     }
-	[message.text drawInRect:message.textBounds withFont:[UIFont systemFontOfSize:13]];
+	[message.text drawInRect:message.textBounds withFont:[UIFont systemFontOfSize:textFontSize]];
 	[timestampColor set];
     if (message.cellType != MSG_CELL_TYPE_NORMAL) {
         NSString *timestamp;

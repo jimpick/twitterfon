@@ -2,7 +2,8 @@
 #import "DBConnection.h"
 #import "StringUtil.h"
 
-sqlite3_stmt *insert_statement = nil;
+static sqlite3_stmt *insert_statement = nil;
+static sqlite3_stmt* user_by_id_statement = nil;
 
 @implementation User
 
@@ -81,6 +82,38 @@ sqlite3_stmt *insert_statement = nil;
     if ((id)profileImageUrl == [NSNull null]) profileImageUrl = @"";
 	
 	return self;
+}
+
++ (User*)userWithId:(int)id
+{
+    sqlite3* database = [DBConnection getSharedDatabase];
+    if (user_by_id_statement == nil) {
+        static char *sql = "SELECT * FROM users WHERE user_id = ?";
+        if (sqlite3_prepare_v2(database, sql, -1, &user_by_id_statement, NULL) != SQLITE_OK) {
+            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+        }
+    }
+    
+    sqlite3_bind_int64(user_by_id_statement, 1, id);
+    int ret = sqlite3_step(user_by_id_statement);
+    if (ret != SQLITE_ROW) {
+        sqlite3_reset(user_by_id_statement);
+        return nil;
+    }
+    
+    User *user = [[[User alloc] init] autorelease];
+    user.userId           = (uint32_t)sqlite3_column_int(user_by_id_statement, 0);
+    user.name             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(user_by_id_statement, 1)];
+    user.screenName       = [NSString stringWithUTF8String:(char*)sqlite3_column_text(user_by_id_statement, 2)];
+    user.location         = [NSString stringWithUTF8String:(char*)sqlite3_column_text(user_by_id_statement, 3)];
+    user.description      = [NSString stringWithUTF8String:(char*)sqlite3_column_text(user_by_id_statement, 4)];
+    user.url              = [NSString stringWithUTF8String:(char*)sqlite3_column_text(user_by_id_statement, 5)];
+    user.followersCount   = (uint32_t)sqlite3_column_int(user_by_id_statement, 6);
+    user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(user_by_id_statement, 7)];
+    user.protected        = (uint32_t)sqlite3_column_int(user_by_id_statement, 8) ? true : false;
+
+    sqlite3_reset(user_by_id_statement);
+    return user;
 }
 
 - (id)copyWithZone:(NSZone *)zone

@@ -337,8 +337,8 @@ int sTextWidth[] = {
 
 + (void)calcTextBounds:(Message*)message textWidth:(int)textWidth
 {
-    static UILabel *sLabel = nil;
-    static CGRect bounds, result;
+    UILabel* label;
+    CGRect bounds, result;
 
     if (message.cellType == MSG_CELL_TYPE_NORMAL) {
         bounds = CGRectMake(0, TOP, textWidth, 200);
@@ -351,14 +351,11 @@ int sTextWidth[] = {
         result = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, message.textHeight);
     }
     else {
-        if (sLabel == nil) {
-            sLabel = [[UILabel alloc] initWithFrame: CGRectZero];        
-            sLabel.font = [UIFont systemFontOfSize:13];
-            sLabel.numberOfLines = 10;
-        }
-        
-        sLabel.text = message.text;
-        result = [sLabel textRectForBounds:bounds limitedToNumberOfLines:10];
+        label = [[UILabel alloc] initWithFrame: CGRectZero];        
+        label.font = [UIFont systemFontOfSize:(message.cellType == MSG_CELL_TYPE_DETAIL) ? 14 : 13];
+        label.numberOfLines = 10;
+        label.text = message.text;
+        result = [label textRectForBounds:bounds limitedToNumberOfLines:10];
     }
 
     message.textBounds = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, result.size.height);
@@ -486,6 +483,22 @@ int sTextWidth[] = {
     
     if (type == MSG_TYPE_FRIENDS) {
         [Followee insertDB:user];
+    }
+}
+
+- (void)insertDBIfFollowing
+{
+    sqlite3* database = [DBConnection getSharedDatabase];
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(database, "SELECT user_id FROM followees where user_id = ?", -1, &stmt, NULL) != SQLITE_OK) {
+        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+    }
+    sqlite3_bind_int(stmt, 1, user.userId);
+    
+    int success = sqlite3_step(stmt);
+    sqlite3_finalize(stmt);
+    if (success == SQLITE_ROW) {
+        [self insertDB];
     }
 }
 

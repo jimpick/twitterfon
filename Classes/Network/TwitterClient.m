@@ -91,6 +91,14 @@ NSString* sMethods[4] = {
     [super get:url];
 }
 
+- (void)getMessage:(sqlite_int64)messageId
+{
+    needAuth = true;
+    request = TWITTER_REQUEST_MESSAGE;
+    NSString *url = [NSString stringWithFormat:@"https://twitter.com/statuses/show/%lld.json", messageId];
+    [super get:url];
+}
+
 - (void)post:(NSString*)tweet inReplyTo:(sqlite_int64)messageId
 {
     needAuth = true;
@@ -303,7 +311,8 @@ NSString* sMethods[4] = {
     NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"null_friends_timelne.json"];
     NSData *data = [fileManager contentsAtPath:path];
     content = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-#endif    
+#endif
+
     NSObject *obj = [content JSONValue];
     if (request == TWITTER_REQUEST_FRIENDSHIP_EXISTS) {
         obj = [NSNumber numberWithBool:[content isEqualToString:@"\"true\""]];
