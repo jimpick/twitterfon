@@ -345,11 +345,13 @@ enum {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     TwitterClient* client = [[TwitterClient alloc] initWithTarget:appDelegate action:@selector(messageDidDelete:messages:)];
     client.context = [message retain];
-    
-    UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
-    
-    if ([c respondsToSelector:@selector(removeMessage:)]) {
-        [c removeMessage:message];
+
+    NSArray *array = self.navigationController.viewControllers;
+    for (int i = 0; i < [array count] - 1; ++i) {
+        UIViewController *c = [self.navigationController.viewControllers objectAtIndex:i];
+        if ([c respondsToSelector:@selector(removeMessage:)]) {
+            [c removeMessage:message];
+        }
     }
 
     [client destroy:message isDirectMessage:isDirectMessage];

@@ -349,6 +349,12 @@
     }
 }
 
+- (void) removeMessage:(Message*)message
+{
+    [timeline removeMessage:message];
+    [self.tableView reloadData];
+}
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) return false;
