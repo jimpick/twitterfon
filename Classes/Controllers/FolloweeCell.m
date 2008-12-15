@@ -41,6 +41,12 @@
     [super dealloc];
 }
 
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    receiver.imageContainer = nil;
+}
+
 - (void)setFollowee:(Followee*)followee
 {
     receiver = followee;

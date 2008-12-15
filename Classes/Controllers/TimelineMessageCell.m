@@ -16,6 +16,14 @@
     [imageButton setNeedsDisplay];
 }
 
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    message.user.imageContainer = nil;
+}
+
+
 - (void)didTouchImageButton:(id)sender
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
