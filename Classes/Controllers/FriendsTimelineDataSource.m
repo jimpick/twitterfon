@@ -160,7 +160,7 @@ static UIAlertView* sAlert = nil;
     }
     
     int unread = 0;
-    LOG(@"Received %d messages", [ary count]);
+    LOG(@"Received %d messages on tab %d", [ary count], messageType);
     
     Message *lastMessage = [timeline lastMessage];
     if ([ary count]) {
