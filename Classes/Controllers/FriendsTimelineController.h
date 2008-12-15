@@ -24,6 +24,7 @@
 
 - (void)loadTimeline;
 - (void)restoreAndLoadTimeline:(BOOL)load;
+- (void)postTweetDidSucceed:(Message*)message;
 
 - (IBAction)reload:(id)sender;
 - (IBAction)segmentDidChange:(id)sender;

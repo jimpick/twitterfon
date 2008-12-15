@@ -17,14 +17,12 @@
 #import "REString.h"
 
 
-@interface NSObject (TimelineViewControllerDelegate)
-- (void)postTweetDidSucceed:(NSDictionary*)dic;
+@interface NSObject (TwitterFonAppDelegateDelegate)
 - (void)postViewAnimationDidFinish;
 - (void)didLeaveTab:(UINavigationController*)navigationController;
 - (void)didSelectTab:(UINavigationController*)navigationController;
 - (void)updateFavorite:(Message*)message;
 - (void)toggleFavorite:(BOOL)favorited message:(Message*)message;
-- (void)removeMessage:(Message*)message;
 @end
 
 @implementation TwitterFonAppDelegate
@@ -330,14 +328,18 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 - (void)postTweetDidSucceed:(NSDictionary*)dic isDirectMessage:(BOOL)isDirectMessage
 {
     UINavigationController* nav;
+    Message *message;
     if (isDirectMessage) {
         nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_MESSAGES];
+        message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_SENT];
     }
     else {
         nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
+        message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
     }
-    UIViewController *c = [nav.viewControllers objectAtIndex:0];;
-    [c postTweetDidSucceed:dic];
+    [message insertDB];
+    FriendsTimelineController *c = (FriendsTimelineController*)[nav.viewControllers objectAtIndex:0];
+    [c postTweetDidSucceed:message];
 }
 
 - (void)postViewAnimationDidFinish:(BOOL)isDirectMessage
