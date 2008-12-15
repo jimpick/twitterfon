@@ -4,12 +4,10 @@
 @interface ImageStore : NSObject
 {
 	NSMutableDictionary*    images;
-    id                      delegate;
 }
 
-- (id)initWithDelegate:(id)delegate;
-
-- (UIImage*)getImage:(NSString*)url delegate:(id)aDelegate;
+- (UIImage*)getProfileImage:(User*)user isLarge:(BOOL)isLarge;
+- (UIImage*)getProfileImage:(NSString*)url delegate:(id)delegate;
 - (void)releaseImage:(NSString*)url;
 - (void)didReceiveMemoryWarning;
 

@@ -68,7 +68,7 @@
             [appDelegate search:cell.text];
         }
         else {
-            UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
+            UserTimelineController* userTimeline = [[[UserTimelineController alloc] init] autorelease];
             [userTimeline loadUserTimeline:[cell.text substringFromIndex:1]];
             [self.navigationController pushViewController:userTimeline animated:true];
         }

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 
-@interface Followee : NSObject {
+@interface Followee : ImageStoreReceiver {
 	uint32_t    userId;
     NSString*   name;
 	NSString*   screenName;

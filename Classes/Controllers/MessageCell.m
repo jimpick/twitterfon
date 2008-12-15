@@ -39,6 +39,14 @@ static UIImage* sFavorited = nil;
     [super dealloc];
 }    
 
+- (void)updateImage:(UIImage*)image
+{
+    if (cellType != MSG_CELL_TYPE_USER) {
+        [profileImage setImage:image forState:UIControlStateNormal];
+        [profileImage setNeedsDisplay];
+    }
+}
+
 - (void)didTouchLinkButton:(id)sender
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
@@ -69,6 +77,12 @@ static UIImage* sFavorited = nil;
     cellType            = aType;
     cellView.message    = message;
     
+    if (cellType != MSG_CELL_TYPE_USER) {
+        message.user.imageContainer = self;
+        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+        [profileImage setImage:[appDelegate.imageStore getProfileImage:message.user isLarge:false] forState:UIControlStateNormal];
+    }
+    
     self.contentView.backgroundColor = (message.unread) ? [UIColor cellColorForTab:message.type] : [UIColor whiteColor];
 
     if (cellType != MSG_CELL_TYPE_USER && message.hasReply) {
@@ -76,7 +90,8 @@ static UIImage* sFavorited = nil;
             self.contentView.backgroundColor = [UIColor cellColorForTab:TAB_REPLIES];
         }
     }
-
+    
+    
     self.selectionStyle = (cellType == MSG_CELL_TYPE_USER) ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
     self.accessoryType = message.accessoryType;
 

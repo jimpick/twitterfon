@@ -62,7 +62,6 @@
 {
     MessageCell* cell = [timeline getMessageCell:tableView atIndex:indexPath.row];
     if (cell) {
-        [cell.profileImage setImage:[imageStore getImage:cell.message.user.profileImageUrl delegate:controller] forState:UIControlStateNormal];
         [cell update:MSG_CELL_TYPE_NORMAL];
         return cell;
     }
@@ -167,7 +166,6 @@
         Message* m = [Message messageWithSearchResult:[array objectAtIndex:i]];
         if ([timeline indexOfObject:m] == -1) {
             [timeline insertMessage:m atIndex:insertPosition];
-            [imageStore getImage:m.user.profileImageUrl delegate:controller];
             if (since_id) {
                 m.unread = true;
             }

@@ -1,7 +1,8 @@
 #import <UIKit/UIKit.h>
 #import "sqlite3.h"
+#import "ImageStoreReceiver.h"
 
-@interface User : NSObject
+@interface User : ImageStoreReceiver
 {
 	uint32_t    userId;
     NSString*   name;

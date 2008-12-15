@@ -31,6 +31,8 @@
         name.font = [UIFont systemFontOfSize:14];
         name.frame = CGRectMake(LEFT, 30, CELL_WIDTH, 16);
         [self.contentView addSubview:name];
+        
+        receiver = nil;
     }
     return self;
 }
@@ -41,23 +43,32 @@
 
 - (void)setFollowee:(Followee*)followee
 {
+    receiver = followee;
+    receiver.imageContainer = self;
+    
     screenName.text = followee.screenName;
     name.text = followee.name;
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    self.image = [appDelegate.imageStore getImage:followee.profileImageUrl delegate:self];
+    self.image = [appDelegate.imageStore getProfileImage:followee.profileImageUrl delegate:receiver];
 }
 
 - (void)setUser:(User*)user
 {
+    user.imageContainer = self;
+    receiver = user;
+    
     screenName.text = user.screenName;
     name.text = user.name;
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    self.image = [appDelegate.imageStore getImage:user.profileImageUrl delegate:self];
+    self.image = [appDelegate.imageStore getProfileImage:user isLarge:false];
 }
 
-- (void)profileImageDidGetNewImage:(UIImage*)image
+- (void)updateImage:(UIImage*)image
 {
+    self.image = image;
     [self setNeedsDisplay];
+    [self setNeedsLayout];
+    receiver = nil;
 }
 
 @end

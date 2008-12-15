@@ -22,7 +22,6 @@
 - (void)postViewAnimationDidFinish;
 - (void)didLeaveTab:(UINavigationController*)navigationController;
 - (void)didSelectTab:(UINavigationController*)navigationController;
-- (void)imageStoreDidGetNewImage:(UIImage*)image;
 - (void)updateFavorite:(Message*)message;
 - (void)toggleFavorite:(BOOL)favorited message:(Message*)message;
 - (void)removeMessage:(Message*)message;
@@ -61,7 +60,7 @@
     }
     
     [UIColor initTwitterFonColorScheme];
-    imageStore = [[ImageStore alloc] initWithDelegate:self];    
+    imageStore = [[ImageStore alloc] init];
     postView = nil;
 
     selectedTab = 0;
@@ -194,15 +193,6 @@
     [search search:query];
 }
 
-- (void)profileImageDidGetNewImage:(UIImage*)image delegate:(id)delegate
-{
-    for (UINavigationController *c in tabBarController.viewControllers) {
-        if (c.topViewController == delegate && [delegate respondsToSelector:@selector(imageStoreDidGetNewImage:)]) {
-        [delegate imageStoreDidGetNewImage:image];
-        }
-    }
-}
-
 //
 // UITabBarControllerDelegate
 //
@@ -294,7 +284,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
                 [self search:[links objectAtIndex:0]];
             }
             else {
-                UserTimelineController *userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
+                UserTimelineController *userTimeline = [[[UserTimelineController alloc] init] autorelease];
                 NSString *screenName = [links objectAtIndex:0];
                 [userTimeline loadUserTimeline:[screenName substringFromIndex:1]];
                 [nav pushViewController:userTimeline animated:true];

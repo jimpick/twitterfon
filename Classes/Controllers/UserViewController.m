@@ -50,10 +50,6 @@ NSString* sDeleteMessage[2] = {
         
         actionCell.message = message;
         
-        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        ImageStore *imageStore = appDelegate.imageStore;
-        NSString *url = [m.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-        userView.profileImage = [imageStore getImage:url delegate:self];
         [userView setUser:message.user];
         
         self.title = message.user.screenName;
@@ -83,10 +79,11 @@ NSString* sDeleteMessage[2] = {
 }
 
 - (void)dealloc {
+    message.user.imageContainer = self;
     [messageCell release];
     [actionCell release];
-    [message release];
     [userView release];
+    [message release];
     [super dealloc];
 }
 
@@ -161,17 +158,13 @@ NSString* sDeleteMessage[2] = {
     switch (indexPath.section) {
         case 2:
             if (indexPath.row == 0) {
-                UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
+                UserTimelineController* userTimeline = [[[UserTimelineController alloc] init] autorelease];
                 [userTimeline setUser:message.user];
                 [self.navigationController pushViewController:userTimeline animated:true];
             }
             else if (indexPath.row == 1) {
                 UserDetailViewController *detailView = [[[UserDetailViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
                 detailView.user = message.user;
-                TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-                NSString *url = [message.user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-                detailView.userView.profileImage = [appDelegate.imageStore getImage:url delegate:self];
-                
                 [self.navigationController pushViewController:detailView animated:true];
             }
             break;
@@ -254,12 +247,6 @@ NSString* sDeleteMessage[2] = {
 - (void)toggleFavorite:(BOOL)favorited message:(Message*)m
 {
     [messageCell toggleFavorite:favorited];
-}
-
-- (void)imageStoreDidGetNewImage:(UIImage*)image
-{
-    userView.profileImage = image;
-    [userView setNeedsDisplay];
 }
 
 @end

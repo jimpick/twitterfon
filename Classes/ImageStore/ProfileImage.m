@@ -2,10 +2,6 @@
 #import "ImageDownloader.h"
 #import "DBConnection.h"
 
-@interface NSObject (ImageStoreDelegate)
-- (void)profileImageDidGetNewImage:(UIImage*)image delegate:(id)delegate;
-@end
-
 UIImage *sProfileImage = nil;
 UIImage *sProfileImageSmall = nil;
 
@@ -26,12 +22,11 @@ static sqlite3_stmt *select_statement = nil;
 
 @synthesize image;
 
-- (ProfileImage*)initWithURL:(NSString*)aUrl appDelegate:(id)anAppDelegate delegate:(id)aDelegate
+- (ProfileImage*)initWithURL:(NSString*)aUrl delegate:(id)aDelegate
 {
 	self = [super init];
     url  = [aUrl copy];
     delegate = aDelegate;
-    appDelegate = anAppDelegate;
     database = [DBConnection getSharedDatabase];
 
     if (select_statement == nil) {
@@ -84,6 +79,7 @@ static sqlite3_stmt *select_statement = nil;
 
 - (void)requestImage
 {
+    [delegate retain];
     ImageDownloader* dl = [[ImageDownloader alloc] initWithDelegate:self];
     [dl get:url];
 }
@@ -159,7 +155,10 @@ static sqlite3_stmt *select_statement = nil;
 - (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
 {
 	image = [[UIImage imageWithData:sender.buf] retain];
+
     if (!image) {
+        [delegate release];
+        delegate = nil;
         return;
     }
 
@@ -168,15 +167,25 @@ static sqlite3_stmt *select_statement = nil;
         [self insertImage:sender.buf];
     }
     [self convertImage];
-    [appDelegate profileImageDidGetNewImage:image delegate:delegate];
+    
+    if ([delegate respondsToSelector:@selector(profileImageDidGetNewImage:)]) {
+        [delegate performSelector:@selector(profileImageDidGetNewImage:) withObject:image];
+    }
+    [delegate release];
+    delegate = nil;
 }
 
 - (void)imageDownloaderDidFail:(ImageDownloader*)sender error:(NSError*)error
 {
+    [delegate release];
+    delegate = nil;
 }
 
 - (void)dealloc
 {
+    if (delegate) {
+        [delegate release];
+    }
     [url release];
     [image release];
 	[super dealloc];

@@ -68,7 +68,6 @@ static UIAlertView* sAlert = nil;
     
     MessageCell* cell = [timeline getMessageCell:tableView atIndex:indexPath.row];
     if (cell) {
-        [cell.profileImage setImage:[imageStore getImage:cell.message.user.profileImageUrl delegate:controller] forState:UIControlStateNormal];
         [cell update:MSG_CELL_TYPE_NORMAL];
         return cell;
     }
@@ -187,8 +186,6 @@ static UIAlertView* sAlert = nil;
                 
                 [timeline insertMessage:m atIndex:insertPosition];
                 ++unread;
-				
-               	[imageStore getImage:m.user.profileImageUrl delegate:controller];
             }
         }
         

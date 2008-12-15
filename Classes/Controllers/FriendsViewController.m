@@ -30,9 +30,6 @@
 
         loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
         [loadCell setType:MSG_TYPE_LOAD_MORE_FRIENDS];
-        
-        TwitterFonAppDelegate *delegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        imageStore = delegate.imageStore;
     }
     return self;
 }
@@ -100,10 +97,6 @@
         User *user = [friends objectAtIndex:indexPath.row];
         UserDetailViewController *detailView = [[[UserDetailViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
         detailView.user = user;
-        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        NSString *url = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-        detailView.userView.profileImage = [appDelegate.imageStore getImage:url delegate:detailView];
-        
         [self.navigationController pushViewController:detailView animated:true];
     }
 }
@@ -165,11 +158,6 @@
         [self.tableView endUpdates];    
     }
     
-}
-
-- (void)imageStoreDidGetNewImage:(UIImage*)image
-{
-	[self.tableView reloadData];
 }
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail

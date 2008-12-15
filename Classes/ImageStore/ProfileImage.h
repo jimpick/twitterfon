@@ -8,11 +8,10 @@
 	UIImage*            image;
     sqlite3*            database;
     NSString*           url;
-    id                  appDelegate;
 }
 
 @property (nonatomic, readonly) UIImage* image;
 
-- (ProfileImage*)initWithURL:(NSString*)url appDelegate:(id)anAppDelegate delegate:(id)aDelegate;
+- (ProfileImage*)initWithURL:(NSString*)url delegate:(id)delegate;
 
 @end

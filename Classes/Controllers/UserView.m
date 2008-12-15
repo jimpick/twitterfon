@@ -149,6 +149,9 @@
 -(void)setUser:(User*)aUser
 {
     user = aUser;
+    user.imageContainer = self;
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    profileImage = [[appDelegate.imageStore getProfileImage:user isLarge:true] retain];
     
     if ([user.url length]) {
         [url setTitle:user.url forState:UIControlStateNormal];
@@ -169,7 +172,12 @@
         [label release];
         height = r.size.height + 115;
     }
+    [self setNeedsDisplay];
+}
 
+- (void)updateImage:(UIImage*)image
+{
+    profileImage = [image retain];
     [self setNeedsDisplay];
 }
 

@@ -18,15 +18,14 @@
 
 @implementation UserTimelineController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    if (self = [super initWithNibName:nil bundle:nil]) {
 		// Initialization code
         self.tableView = [[[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain] autorelease];
         timeline = [[Timeline alloc] init];
         deletedMessage = [[NSMutableArray alloc] init];
-        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        imageStore = appDelegate.imageStore;
+
         userCell = [[UserCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"UserCell"];
         loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
         user = nil;
@@ -38,6 +37,7 @@
 - (void)dealloc {
     [userCell release];
     [loadCell release];
+    user.imageContainer = nil;
     [user release];
     [twitterClient release];
     [deletedMessage release];
@@ -83,6 +83,8 @@
 - (void)setUser:(User *)aUser
 {
     user = [aUser copy];
+    [userCell.userView setUser:user];
+    user.imageContainer = userCell.userView;
     screenName = user.screenName;
     
     [self loadUserTimeline:user.screenName];
@@ -134,8 +136,6 @@
 	
     if (indexPath.row == 0) {
         if (user) {
-            NSString *url = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-            userCell.userView.profileImage = [imageStore getImage:url delegate:self];
             [userCell.userView setUser:user];
         }
         return userCell;
@@ -144,7 +144,6 @@
         MessageCell* cell = [timeline getMessageCell:tableView atIndex:indexPath.row - 1];
         if (cell) {
             cell.inEditing = self.editing;
-            [cell.profileImage setImage:[imageStore getImage:cell.message.user.profileImageUrl delegate:self] forState:UIControlStateNormal];
             [cell update:MSG_CELL_TYPE_USER];
             return cell;
         }
@@ -165,9 +164,6 @@
         }
         UserDetailViewController *detailView = [[[UserDetailViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
         detailView.user = user;
-        NSString *url = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-        detailView.userView.profileImage = [imageStore getImage:url delegate:self];
-        
         [self.navigationController pushViewController:detailView animated:true];
         return;
     }
@@ -248,9 +244,6 @@
         [user release];
     }
     user = [[timeline lastMessage].user copy];
-
-    NSString *url = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-    userCell.userView.profileImage = [imageStore getImage:url delegate:self];
     [userCell.userView setUser:user];
     
     int count = [ary count];
@@ -293,8 +286,8 @@
             [user release];
         }
         user = [[User alloc] initWithJsonDictionary:dic];
-        NSString *url = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-        userCell.userView.profileImage = [imageStore getImage:url delegate:self];    
+        user.imageContainer = userCell.userView;
+        [userCell.userView setUser:user];
         [userCell.userView setNeedsDisplay];
         
         [self.tableView reloadData];
@@ -391,12 +384,6 @@
 {
     [self.navigationItem setHidesBackButton:editing animated:animated];
     [super setEditing:editing animated:animated];
-}
-
-- (void)imageStoreDidGetNewImage:(UIImage*)image
-{
-    userCell.userView.profileImage = image;
-    [userCell.userView setNeedsDisplay];
 }
 
 @end

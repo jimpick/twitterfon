@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "LoadCell.h"
 #import "TwitterClient.h"
-#import "ImageStore.h"
 
 @interface FriendsViewController : UITableViewController {
     NSString*           screenName;
@@ -19,7 +18,6 @@
     int                 page;
     LoadCell*           loadCell;
     TwitterClient*      twitterClient;
-    ImageStore*         imageStore;
 }
 
 - (id)initWithScreenName:(NSString*)screenName isFollowers:(BOOL)isFollowers;

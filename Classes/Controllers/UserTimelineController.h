@@ -11,14 +11,12 @@
 #import "LoadCell.h"
 #import "Message.h"
 #import "Timeline.h"
-#import "ImageStore.h"
 #import "TwitterClient.h"
 
 @class TimelineViewDataSource;
 
 @interface UserTimelineController : UITableViewController {
     UserCell*               userCell;
-    ImageStore*             imageStore;
     User*                   user;
     NSString*               screenName;
     LoadCell*               loadCell;

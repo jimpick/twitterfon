@@ -191,14 +191,6 @@
     [currentDataSource.timeline updateFavorite:message];
 }
 
-//
-// ImageStoreDelegate
-//
-- (void)imageStoreDidGetNewImage:(UIImage*)image
-{
-	[self.tableView reloadData];
-}
-
 - (void)scrollToFirstUnread:(NSTimer*)timer
 {
     if (unread) {

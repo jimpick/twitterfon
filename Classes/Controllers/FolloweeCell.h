@@ -10,8 +10,9 @@
 #import "Followee.h"
 
 @interface FolloweeCell : UITableViewCell {
-	UILabel*    name;
-	UILabel*    screenName;
+	UILabel*                name;
+	UILabel*                screenName;
+    ImageStoreReceiver*     receiver;
 }
 
 - (void)setFollowee:(Followee*)Followee;

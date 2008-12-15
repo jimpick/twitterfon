@@ -4,11 +4,10 @@
 
 @implementation ImageStore
 
-- (id)initWithDelegate:(id)aDelegate
+- (id)init
 {
 	self = [super init];
     images = [[NSMutableDictionary dictionary] retain];
-    delegate = aDelegate;
 	return self;
 }
 
@@ -18,11 +17,24 @@
 	[super dealloc];
 }
 
-- (UIImage*)getImage:(NSString*)url delegate:(id)aDelegate
+- (UIImage*)getProfileImage:(User*)user isLarge:(BOOL)isLarge
 {
-	ProfileImage* image = [images objectForKey:url];
+    NSString *url;
+    if (isLarge) {
+        url = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
+    }
+    else {
+        url = user.profileImageUrl;
+    }
+    
+    return [self getProfileImage:url delegate:user];
+}
+
+- (UIImage*)getProfileImage:(NSString*)url delegate:(id)delegate
+{
+    ProfileImage* image = [images objectForKey:url];
 	if (!image) {  
-        image = [[[ProfileImage alloc] initWithURL:url appDelegate:delegate delegate:aDelegate] autorelease];
+        image = [[[ProfileImage alloc] initWithURL:url delegate:delegate] autorelease];
         [images setObject:image forKey:url];
     }
     return image.image;

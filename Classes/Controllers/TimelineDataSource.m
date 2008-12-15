@@ -18,9 +18,6 @@
 - (id)init
 {
     [super init];
-    
-    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    imageStore  = appDelegate.imageStore;
     loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
     timeline   = [[Timeline alloc] init];
     return self;

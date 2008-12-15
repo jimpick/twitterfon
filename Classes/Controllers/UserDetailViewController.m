@@ -50,6 +50,7 @@ enum {
     
     userView = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 387)];
     userView.hasDetail = true;
+    user.imageContainer = userView;
     [userView setUser:user];
     
     detailView = [[UserDetailView alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
@@ -87,10 +88,10 @@ enum {
 
 - (void)dealloc 
 {
+    user.imageContainer = nil;
     [user release];
     [twitterClient release];
     [detailView release];
-    [userView release];
     [super dealloc];
 }
 
@@ -158,7 +159,7 @@ enum {
         }
         else if (indexPath.row == ROW_UPDATES) {
             if (user.statusesCount != 0) {
-                UserTimelineController* userTimeline = [[[UserTimelineController alloc] initWithNibName:nil bundle:nil] autorelease];
+                UserTimelineController* userTimeline = [[[UserTimelineController alloc] init] autorelease];
                 [userTimeline loadUserTimeline:user.screenName];
                 [self.navigationController pushViewController:userTimeline animated:true];
             }
@@ -323,12 +324,6 @@ enum {
     else {
         [postView reply:user.screenName];
     }
-}
-
-- (void)imageStoreDidGetNewImage:(UIImage*)image
-{
-    userView.profileImage = image;
-    [userView setNeedsDisplay];
 }
 
 @end

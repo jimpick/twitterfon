@@ -406,11 +406,6 @@
     searchBar.locationButton.enabled = true;
 }
 
-- (void)imageStoreDidGetNewImage:(UIImage*)image
-{
-	[self.tableView reloadData];
-}
-
 //
 // LocationManager delegate
 //

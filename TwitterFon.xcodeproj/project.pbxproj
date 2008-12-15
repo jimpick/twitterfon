@@ -116,6 +116,7 @@
 		6EED144E0E33E5BF00C71EA4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14410E33E5BF00C71EA4 /* Icon.png */; };
 		6EED14520E33E5BF00C71EA4 /* messages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14450E33E5BF00C71EA4 /* messages.png */; };
 		6EED14560E33E5BF00C71EA4 /* replies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14490E33E5BF00C71EA4 /* replies.png */; };
+		6EF838360EF5E4EB001523B4 /* ImageStoreReceiver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF838350EF5E4EB001523B4 /* ImageStoreReceiver.m */; };
 		6EFC28700EBDD46D00FBBB3D /* LinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -289,6 +290,8 @@
 		6EED14410E33E5BF00C71EA4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		6EED14450E33E5BF00C71EA4 /* messages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messages.png; sourceTree = "<group>"; };
 		6EED14490E33E5BF00C71EA4 /* replies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replies.png; sourceTree = "<group>"; };
+		6EF838340EF5E4EB001523B4 /* ImageStoreReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageStoreReceiver.h; sourceTree = "<group>"; };
+		6EF838350EF5E4EB001523B4 /* ImageStoreReceiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageStoreReceiver.m; sourceTree = "<group>"; };
 		6EFC286E0EBDD46D00FBBB3D /* LinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinkViewController.h; path = Controllers/LinkViewController.h; sourceTree = "<group>"; };
 		6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinkViewController.m; path = Controllers/LinkViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -546,8 +549,6 @@
 				6EE9354C0E42FFF6008084DF /* ProgressWindow.m */,
 				6EADC0A00EBDC48D00093782 /* FolloweesViewController.h */,
 				6EADC0A10EBDC48D00093782 /* FolloweesViewController.m */,
-				6EADC09E0EBDC48D00093782 /* FolloweeCell.h */,
-				6EADC09F0EBDC48D00093782 /* FolloweeCell.m */,
 			);
 			name = Post;
 			sourceTree = "<group>";
@@ -590,6 +591,8 @@
 		6EAE75FE0EF38FA100BF6CD4 /* FriendsView */ = {
 			isa = PBXGroup;
 			children = (
+				6EADC09E0EBDC48D00093782 /* FolloweeCell.h */,
+				6EADC09F0EBDC48D00093782 /* FolloweeCell.m */,
 				6EAE76020EF3904600BF6CD4 /* FriendsViewController.h */,
 				6EAE76030EF3904600BF6CD4 /* FriendsViewController.m */,
 			);
@@ -707,6 +710,8 @@
 				6EED14080E33E59B00C71EA4 /* ImageStore.m */,
 				6EED14090E33E59B00C71EA4 /* ProfileImage.h */,
 				6EED140A0E33E59B00C71EA4 /* ProfileImage.m */,
+				6EF838340EF5E4EB001523B4 /* ImageStoreReceiver.h */,
+				6EF838350EF5E4EB001523B4 /* ImageStoreReceiver.m */,
 			);
 			path = ImageStore;
 			sourceTree = "<group>";
@@ -910,6 +915,7 @@
 				6EAE81B60EF5BB4300BF6CD4 /* FriendsTimelineDataSource.m in Sources */,
 				6EAE81B90EF5BB4E00BF6CD4 /* SearchResultsDataSource.m in Sources */,
 				6EAE82B10EF5CBCB00BF6CD4 /* TimelineDataSource.m in Sources */,
+				6EF838360EF5E4EB001523B4 /* ImageStoreReceiver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

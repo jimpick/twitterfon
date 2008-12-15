@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ImageStore.h"
 #import "Timeline.h"
 #import "TwitterClient.h"
 #import "LoadCell.h"
@@ -15,7 +14,6 @@
 @interface TimelineDataSource : NSObject {
 	Timeline*               timeline;
     TwitterClient*          twitterClient;
-    ImageStore*             imageStore;
     LoadCell*               loadCell;
     CGPoint                 contentOffset;
 }
