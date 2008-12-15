@@ -298,7 +298,12 @@ NSString* sMethods[4] = {
             goto out;
         }
     }
-
+#if 0
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"null_friends_timelne.json"];
+    NSData *data = [fileManager contentsAtPath:path];
+    content = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+#endif    
     NSObject *obj = [content JSONValue];
     if (request == TWITTER_REQUEST_FRIENDSHIP_EXISTS) {
         obj = [NSNumber numberWithBool:[content isEqualToString:@"\"true\""]];

@@ -56,6 +56,9 @@ static sqlite3_stmt* message_by_id_statement = nil;
     
 	messageId           = [[dic objectForKey:@"id"] longLongValue];
     stringOfCreatedAt   = [dic objectForKey:@"created_at"];
+    if ((id)stringOfCreatedAt == [NSNull null]) {
+        stringOfCreatedAt = @"";
+    }
 
     favorited = [dic objectForKey:@"favorited"] == [NSNull null] ? 0 : [[dic objectForKey:@"favorited"] boolValue];
     
@@ -126,6 +129,10 @@ static sqlite3_stmt* message_by_id_statement = nil;
     
 	messageId           = [[dic objectForKey:@"id"] longLongValue];
     stringOfCreatedAt   = [dic objectForKey:@"created_at"];
+    stringOfCreatedAt   = [dic objectForKey:@"created_at"];
+    if ((id)stringOfCreatedAt == [NSNull null]) {
+        stringOfCreatedAt = @"";
+    }
     
     NSString *tweet = [dic objectForKey:@"text"];
     

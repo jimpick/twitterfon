@@ -78,7 +78,7 @@ sqlite3_stmt *insert_statement = nil;
     
     if ((id)name == [NSNull null]) name = @"";
     if ((id)screenName == [NSNull null]) screenName = @"";
-    if ((id)url == [NSNull null]) url = @"";
+    if ((id)profileImageUrl == [NSNull null]) profileImageUrl = @"";
 	
 	return self;
 }
