@@ -144,6 +144,20 @@
     [self edit];
 }
 
+- (void)editWithURL:(NSString*)URL title:(NSString*)title
+{
+    isDirectMessage = false;
+    if ([TinyURL needToDecode:URL]) {
+        TinyURL *encoder = [[TinyURL alloc] initWithDelegate:self];
+        [encoder encode:URL];
+    }
+    
+    // Always append the URL to tail
+    NSString *str = [NSString stringWithFormat:@"%@ %@: %@", text.text, title, URL];
+    text.text = str;
+    [self edit];
+}
+
 - (IBAction) close: (id) sender
 {
     [recipient resignFirstResponder];

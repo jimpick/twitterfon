@@ -52,6 +52,7 @@
 - (void)reply:(NSString*)user;
 - (void)inReplyTo:(Message*)message;
 - (void)editWithURL:(NSString*)URL;
+- (void)editWithURL:(NSString*)URL title:(NSString*)title;
 - (void)editDirectMessage:(NSString*)aRecipient;
 
 - (void)checkProgressWindowState;

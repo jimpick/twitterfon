@@ -87,8 +87,40 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    // Always return yes so far
+    NSString *host = [url host];
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
+
+    if ([host isEqualToString:@"post"]) {
+        NSMutableArray *array = [NSMutableArray array];
+        if ([[url query] matches:@".*twitter.com/([A-Za-z0-9_]+)" withSubstring:array]) {
+            UserTimelineController *userTimeline = [[[UserTimelineController alloc] init] autorelease];
+            [userTimeline loadUserTimeline:[array objectAtIndex:0]];
+            [nav pushViewController:userTimeline animated:false];
+        }
+        else {
+            [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(postURL:) userInfo:url repeats:false];
+        }
+    }
+    if ([host isEqualToString:@"user_timeline"]) {
+        UserTimelineController *userTimeline = [[[UserTimelineController alloc] init] autorelease];
+        [userTimeline loadUserTimeline:[url query]];
+        [nav pushViewController:userTimeline animated:false];
+    }
+    if ([host isEqualToString:@"search"]) {
+        [self search:[url query]];
+    }
     return YES;
+}
+
+- (void)postURL:(NSTimer*)timer
+{
+    NSURL *url = [timer userInfo];
+    if ([[url path] length] > 1) {
+        [self.postView editWithURL:[url query] title:[[url path] substringFromIndex:1]];
+    }
+    else {
+        [self.postView editWithURL:[url query]];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
