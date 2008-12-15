@@ -21,12 +21,13 @@ static sqlite3_stmt *select_statement = nil;
 @implementation ProfileImage
 
 @synthesize image;
+@synthesize isLoading;
 
-- (ProfileImage*)initWithURL:(NSString*)aUrl delegate:(id)aDelegate
+- (ProfileImage*)initWithURL:(NSString*)aUrl
 {
 	self = [super init];
     url  = [aUrl copy];
-    delegate = aDelegate;
+
     database = [DBConnection getSharedDatabase];
 
     if (select_statement == nil) {
@@ -47,14 +48,22 @@ static sqlite3_stmt *select_statement = nil;
         [self resizeImage];
         [self convertImage];
     } else {
-        
         NSRange r = [url rangeOfString:@"_bigger."];
         image = [ProfileImage defaultProfileImage:(r.location != NSNotFound) ? true : false];
+        isLoading = true;
         [self requestImage];
     }
     sqlite3_reset(select_statement);
 
 	return self;
+}
+
+- (void)addDelegate:(id)delegate
+{
+    if (delegates == nil) {
+        delegates = [[NSMutableArray array] retain];
+    }
+    [delegates addObject:delegate];
 }
 
 - (void)insertImage:(NSData*)buf
@@ -79,7 +88,6 @@ static sqlite3_stmt *select_statement = nil;
 
 - (void)requestImage
 {
-    [delegate retain];
     ImageDownloader* dl = [[ImageDownloader alloc] initWithDelegate:self];
     [dl get:url];
 }
@@ -154,11 +162,12 @@ static sqlite3_stmt *select_statement = nil;
 
 - (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
 {
+    isLoading = false;
 	image = [[UIImage imageWithData:sender.buf] retain];
 
     if (!image) {
-        [delegate release];
-        delegate = nil;
+        [delegates release];
+        delegates = nil;
         return;
     }
 
@@ -167,24 +176,28 @@ static sqlite3_stmt *select_statement = nil;
         [self insertImage:sender.buf];
     }
     [self convertImage];
-    
-    if ([delegate respondsToSelector:@selector(profileImageDidGetNewImage:)]) {
-        [delegate performSelector:@selector(profileImageDidGetNewImage:) withObject:image];
+
+    for (int i = 0; i < [delegates count]; ++i) {
+        id delegate = [delegates objectAtIndex:i];
+        if ([delegate respondsToSelector:@selector(profileImageDidGetNewImage:)]) {
+            [delegate performSelector:@selector(profileImageDidGetNewImage:) withObject:image];
+        }
     }
-    [delegate release];
-    delegate = nil;
+    [delegates release];
+    delegates = nil;
 }
 
 - (void)imageDownloaderDidFail:(ImageDownloader*)sender error:(NSError*)error
 {
-    [delegate release];
-    delegate = nil;
+    isLoading = false;
+    [delegates release];
+    delegates = nil;
 }
 
 - (void)dealloc
 {
-    if (delegate) {
-        [delegate release];
+    if (delegates) {
+        [delegates release];
     }
     [url release];
     [image release];

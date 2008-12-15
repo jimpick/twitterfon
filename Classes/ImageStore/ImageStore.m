@@ -32,12 +32,15 @@
 
 - (UIImage*)getProfileImage:(NSString*)url delegate:(id)delegate
 {
-    ProfileImage* image = [images objectForKey:url];
-	if (!image) {  
-        image = [[[ProfileImage alloc] initWithURL:url delegate:delegate] autorelease];
-        [images setObject:image forKey:url];
+    ProfileImage* profileImage = [images objectForKey:url];
+	if (!profileImage) {
+        profileImage = [[(ProfileImage*)[ProfileImage alloc] initWithURL:url] autorelease];
+        [images setObject:profileImage forKey:url];
     }
-    return image.image;
+    if (profileImage.isLoading) {
+        [profileImage addDelegate:delegate];
+    }
+    return profileImage.image;
 }
 
 - (void)didReceiveMemoryWarning
