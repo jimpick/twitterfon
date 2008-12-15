@@ -9,7 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SearchResultsDataSource.h"
 #import "UserViewController.h"
-#import "MessageCell.h"
+#import "TimelineMessageCell.h"
 
 @interface NSObject (SearchResultsDataSourceDelegate)
 - (void)timelineDidUpdate:(SearchResultsDataSource*)sender count:(int)count insertAt:(int)position;
@@ -60,9 +60,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MessageCell* cell = [timeline getMessageCell:tableView atIndex:indexPath.row];
+    TimelineMessageCell* cell = [timeline getMessageCell:tableView atIndex:indexPath.row];
     if (cell) {
-        [cell update:MSG_CELL_TYPE_NORMAL];
         return cell;
     }
     else {

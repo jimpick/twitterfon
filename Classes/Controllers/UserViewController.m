@@ -9,7 +9,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "TwitterFonAppDelegate.h"
 #import "UserViewController.h"
-#import "MessageCell.h"
 #import "UserTimelineController.h"
 #import "UserDetailViewController.h"
 #import "ColorUtils.h"
@@ -40,12 +39,12 @@ NSString* sDeleteMessage[2] = {
 {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
         message = [m copy];
-        message.cellType = MSG_CELL_TYPE_USER;
+        message.cellType = MSG_CELL_TYPE_DETAIL;
         [message updateAttribute];
         userView = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 387)];
         
         actionCell  = [[UserViewActionCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ActionCell"];
-        messageCell = [[MessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"MessageCell"];
+        messageCell = [[UserMessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"MessageCell"];
         deleteCell  = [[DeleteButtonCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"DeleteCell"];
         
         actionCell.message = message;
@@ -124,7 +123,7 @@ NSString* sDeleteMessage[2] = {
     
     if (indexPath.section == 0) {
         messageCell.message = message;
-        [messageCell update:MSG_CELL_TYPE_USER];
+        [messageCell update];
         messageCell.contentView.backgroundColor = [UIColor clearColor];
         return messageCell;
     }

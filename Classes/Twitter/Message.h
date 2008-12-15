@@ -18,23 +18,20 @@ typedef enum {
 
 #define IMAGE_PADDING       10
 #define H_MARGIN            10
-#define INDICATOR_WIDTH     24
-#define DETAIL_BUTTON_WIDTH 41
-
-#define DETAIL_BUTTON_USER  (DETAIL_BUTTON_WIDTH - H_MARGIN)
-#define DETAIL_BUTTON_OTHER (DETAIL_BUTTON_WIDTH - INDICATOR_WIDTH) 
+#define INDICATOR_WIDTH     (30 - H_MARGIN)
+#define DETAIL_BUTTON_WIDTH (45 - H_MARGIN)
 
 #define IMAGE_WIDTH         48
-#define USER_CELL_PADDING   10
 #define USER_CELL_LEFT      42
 
 #define TOP                 16
 #define LEFT                (IMAGE_PADDING * 2 + IMAGE_WIDTH)
-#define CELL_WIDTH          (320 - INDICATOR_WIDTH - LEFT)
+#define CELL_WIDTH          (320 - LEFT)
 #define TIMESTAMP_WIDTH     60
 #define TIMESTAMP_LEFT      (LEFT + CELL_WIDTH) - TIMESTAMP_WIDTH
 
-#define USER_CELL_WIDTH     (320 - (USER_CELL_LEFT + USER_CELL_PADDING * 2))
+#define USER_CELL_WIDTH     (320 - USER_CELL_LEFT)
+#define DETAIL_CELL_WIDTH   (300 - USER_CELL_LEFT)
 
 @interface Message : NSObject
 {

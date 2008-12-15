@@ -103,7 +103,6 @@
 		6EEBF70F0E3B1FD40003EA63 /* StringUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7090E3B1FD40003EA63 /* StringUtil.m */; };
 		6EEBF7100E3B1FD40003EA63 /* TwitterFonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */; };
 		6EEBF7160E3B20610003EA63 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7130E3B20610003EA63 /* SettingsViewController.m */; };
-		6EEBF71D0E3B20830003EA63 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7180E3B20830003EA63 /* MessageCell.m */; };
 		6EEBF7280E3B209A0003EA63 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7270E3B209A0003EA63 /* WebViewController.m */; };
 		6EED142B0E33E59B00C71EA4 /* ImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14080E33E59B00C71EA4 /* ImageStore.m */; };
 		6EED142C0E33E59B00C71EA4 /* ProfileImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED140A0E33E59B00C71EA4 /* ProfileImage.m */; };
@@ -117,6 +116,9 @@
 		6EED14520E33E5BF00C71EA4 /* messages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14450E33E5BF00C71EA4 /* messages.png */; };
 		6EED14560E33E5BF00C71EA4 /* replies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14490E33E5BF00C71EA4 /* replies.png */; };
 		6EF838360EF5E4EB001523B4 /* ImageStoreReceiver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF838350EF5E4EB001523B4 /* ImageStoreReceiver.m */; };
+		6EF83C700EF61ABE001523B4 /* MessageCellBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C6F0EF61ABE001523B4 /* MessageCellBase.m */; };
+		6EF83C740EF61BA7001523B4 /* TimelineMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C730EF61BA7001523B4 /* TimelineMessageCell.m */; };
+		6EF83C800EF61CF3001523B4 /* UserMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C7F0EF61CF3001523B4 /* UserMessageCell.m */; };
 		6EFC28700EBDD46D00FBBB3D /* LinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -266,8 +268,6 @@
 		6EEBF70B0E3B1FD40003EA63 /* TwitterFonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitterFonAppDelegate.m; path = OtherSources/TwitterFonAppDelegate.m; sourceTree = "<group>"; };
 		6EEBF7110E3B20610003EA63 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = Controllers/SettingsViewController.h; sourceTree = "<group>"; };
 		6EEBF7130E3B20610003EA63 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Controllers/SettingsViewController.m; sourceTree = "<group>"; };
-		6EEBF7170E3B20830003EA63 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageCell.h; path = Controllers/MessageCell.h; sourceTree = "<group>"; };
-		6EEBF7180E3B20830003EA63 /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageCell.m; path = Controllers/MessageCell.m; sourceTree = "<group>"; };
 		6EEBF7260E3B209A0003EA63 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = Controllers/WebViewController.h; sourceTree = "<group>"; };
 		6EEBF7270E3B209A0003EA63 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = Controllers/WebViewController.m; sourceTree = "<group>"; };
 		6EED14070E33E59B00C71EA4 /* ImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageStore.h; sourceTree = "<group>"; };
@@ -292,6 +292,12 @@
 		6EED14490E33E5BF00C71EA4 /* replies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replies.png; sourceTree = "<group>"; };
 		6EF838340EF5E4EB001523B4 /* ImageStoreReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageStoreReceiver.h; sourceTree = "<group>"; };
 		6EF838350EF5E4EB001523B4 /* ImageStoreReceiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageStoreReceiver.m; sourceTree = "<group>"; };
+		6EF83C6E0EF61ABE001523B4 /* MessageCellBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageCellBase.h; path = Controllers/MessageCellBase.h; sourceTree = "<group>"; };
+		6EF83C6F0EF61ABE001523B4 /* MessageCellBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageCellBase.m; path = Controllers/MessageCellBase.m; sourceTree = "<group>"; };
+		6EF83C720EF61BA7001523B4 /* TimelineMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineMessageCell.h; path = Controllers/TimelineMessageCell.h; sourceTree = "<group>"; };
+		6EF83C730EF61BA7001523B4 /* TimelineMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineMessageCell.m; path = Controllers/TimelineMessageCell.m; sourceTree = "<group>"; };
+		6EF83C7E0EF61CF3001523B4 /* UserMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserMessageCell.h; path = Controllers/UserMessageCell.h; sourceTree = "<group>"; };
+		6EF83C7F0EF61CF3001523B4 /* UserMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserMessageCell.m; path = Controllers/UserMessageCell.m; sourceTree = "<group>"; };
 		6EFC286E0EBDD46D00FBBB3D /* LinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinkViewController.h; path = Controllers/LinkViewController.h; sourceTree = "<group>"; };
 		6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinkViewController.m; path = Controllers/LinkViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -519,6 +525,8 @@
 			children = (
 				6E08FB9C0E5D266B00106492 /* UserCell.h */,
 				6E08FB9D0E5D266B00106492 /* UserCell.m */,
+				6EF83C7E0EF61CF3001523B4 /* UserMessageCell.h */,
+				6EF83C7F0EF61CF3001523B4 /* UserMessageCell.m */,
 				6E08FB750E5D252200106492 /* UserTimelineController.h */,
 				6E08FB760E5D252200106492 /* UserTimelineController.m */,
 			);
@@ -562,8 +570,10 @@
 				6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */,
 				6E10290F0E5D362C00440C58 /* LoadCell.h */,
 				6E1029100E5D362C00440C58 /* LoadCell.m */,
-				6EEBF7170E3B20830003EA63 /* MessageCell.h */,
-				6EEBF7180E3B20830003EA63 /* MessageCell.m */,
+				6EF83C6E0EF61ABE001523B4 /* MessageCellBase.h */,
+				6EF83C6F0EF61ABE001523B4 /* MessageCellBase.m */,
+				6EF83C720EF61BA7001523B4 /* TimelineMessageCell.h */,
+				6EF83C730EF61BA7001523B4 /* TimelineMessageCell.m */,
 				6ECCAF6E0EBED555002B39F6 /* MessageCellView.h */,
 				6ECCAF6F0EBED555002B39F6 /* MessageCellView.m */,
 			);
@@ -873,7 +883,6 @@
 				6EEBF70F0E3B1FD40003EA63 /* StringUtil.m in Sources */,
 				6EEBF7100E3B1FD40003EA63 /* TwitterFonAppDelegate.m in Sources */,
 				6EEBF7160E3B20610003EA63 /* SettingsViewController.m in Sources */,
-				6EEBF71D0E3B20830003EA63 /* MessageCell.m in Sources */,
 				6EEBF7280E3B209A0003EA63 /* WebViewController.m in Sources */,
 				6E092C3B0E3B41D40039FEE3 /* TFConnection.m in Sources */,
 				6EDD27740E3B5429002E09A0 /* TinyURL.m in Sources */,
@@ -916,6 +925,9 @@
 				6EAE81B90EF5BB4E00BF6CD4 /* SearchResultsDataSource.m in Sources */,
 				6EAE82B10EF5CBCB00BF6CD4 /* TimelineDataSource.m in Sources */,
 				6EF838360EF5E4EB001523B4 /* ImageStoreReceiver.m in Sources */,
+				6EF83C700EF61ABE001523B4 /* MessageCellBase.m in Sources */,
+				6EF83C740EF61BA7001523B4 /* TimelineMessageCell.m in Sources */,
+				6EF83C800EF61CF3001523B4 /* UserMessageCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

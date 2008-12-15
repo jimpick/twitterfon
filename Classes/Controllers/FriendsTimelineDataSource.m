@@ -11,8 +11,7 @@
 #import "TwitterFonAppDelegate.h"
 #import "UserViewController.h"
 
-#import "MessageCell.h"
-#import "TimeUtils.h"
+#import "TimelineMessageCell.h"
 #import "DBConnection.h"
 
 static UIAlertView* sAlert = nil;
@@ -66,9 +65,8 @@ static UIAlertView* sAlert = nil;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    MessageCell* cell = [timeline getMessageCell:tableView atIndex:indexPath.row];
+    TimelineMessageCell* cell = [timeline getMessageCell:tableView atIndex:indexPath.row];
     if (cell) {
-        [cell update:MSG_CELL_TYPE_NORMAL];
         return cell;
     }
     else {
@@ -160,7 +158,7 @@ static UIAlertView* sAlert = nil;
     }
     
     int unread = 0;
-    LOG(@"Received %d messages on tab %d", [ary count], messageType);
+    NSLog(@"Received %d messages on tab %d", [ary count], messageType);
     
     Message *lastMessage = [timeline lastMessage];
     if ([ary count]) {

@@ -205,11 +205,17 @@ static sqlite3_stmt* message_by_id_statement = nil;
 static NSString *userRegexp = @"@([0-9a-zA-Z_]+)";
 static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
 
+int sTextWidth[] = {
+    CELL_WIDTH,
+    USER_CELL_WIDTH,
+    DETAIL_CELL_WIDTH,
+};
+
 - (void)updateAttribute
 {
     // Check link and @username to set accessoryType and set text width
     //
-    int textWidth = (cellType == MSG_CELL_TYPE_USER) ? USER_CELL_WIDTH : CELL_WIDTH;
+    int textWidth = sTextWidth[cellType];
     
     NSRange range;
     NSMutableArray *array = [[NSMutableArray alloc] init];
@@ -244,10 +250,17 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
     range = [text rangeOfString:@"http://"];
     if (range.location != NSNotFound || hasUsername) {    
         accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        textWidth -= (cellType == MSG_CELL_TYPE_USER) ? DETAIL_BUTTON_USER : DETAIL_BUTTON_OTHER;
+        textWidth -= DETAIL_BUTTON_WIDTH;
     }
     else {
-        accessoryType = (cellType == MSG_CELL_TYPE_USER) ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDisclosureIndicator;
+        if (cellType == MSG_CELL_TYPE_DETAIL) {
+            accessoryType = UITableViewCellAccessoryNone;
+            textWidth -= H_MARGIN;
+        }
+        else {
+            accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            textWidth -= INDICATOR_WIDTH;
+        }
     }
 
     // Calculate text bounds and cell height here
@@ -320,11 +333,11 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
     static UILabel *sLabel = nil;
     static CGRect bounds, result;
 
-    if (message.cellType == MSG_CELL_TYPE_USER) {
-        bounds = CGRectMake(0, 3, textWidth, 200);
+    if (message.cellType == MSG_CELL_TYPE_NORMAL) {
+        bounds = CGRectMake(0, TOP, textWidth, 200);
     }
     else {
-        bounds = CGRectMake(0, TOP, textWidth, 200);
+        bounds = CGRectMake(0, 3, textWidth, 200);
     }
     
     if (message.textHeight) {
@@ -344,12 +357,12 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
     message.textBounds = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, result.size.height);
     message.textHeight = result.size.height;
     
-    if (message.cellType == MSG_CELL_TYPE_USER) {
-        result.size.height += 22;
-    }
-    else {
+    if (message.cellType == MSG_CELL_TYPE_NORMAL) {
         result.size.height += 18 + 15 + 2;
         if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
+    }
+    else {
+        result.size.height += 22;
     }
     message.cellHeight = result.size.height;
 }

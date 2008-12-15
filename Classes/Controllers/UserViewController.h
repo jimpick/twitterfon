@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "UserView.h"
 #import "UserViewActionCell.h"
-#import "MessageCell.h"
+#import "UserMessageCell.h"
 #import "TwitterClient.h"
 #import "DeleteButtonCell.h"
 
 @interface UserViewController : UITableViewController <UIActionSheetDelegate> {
     UserView*               userView;
     UserViewActionCell*     actionCell;
-    MessageCell*            messageCell;
+    UserMessageCell*        messageCell;
     DeleteButtonCell*       deleteCell;
     Message*                message;
     TwitterClient*          twitterClient;

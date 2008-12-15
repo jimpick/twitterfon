@@ -7,7 +7,6 @@
 //
 
 #import "MessageCellView.h"
-#import "MessageCell.h"
 
 @implementation MessageCellView
 
@@ -35,7 +34,7 @@
     UIColor* textColor;
     UIColor* timestampColor;
     
-	MessageCell* cell = (MessageCell*)self.superview.superview;
+	UITableViewCell* cell = (UITableViewCell*)self.superview.superview;
 	if (cell.selected) {
 		textColor       = [UIColor whiteColor];
         timestampColor  = [UIColor lightGrayColor];
@@ -46,12 +45,12 @@
 	}
 
 	[textColor set];
-    if (message.cellType != MSG_CELL_TYPE_USER) {
+    if (message.cellType == MSG_CELL_TYPE_NORMAL) {
         [message.user.screenName drawInRect:CGRectMake(0, 0, CELL_WIDTH - DETAIL_BUTTON_WIDTH, TOP) withFont:[UIFont boldSystemFontOfSize:14]];
     }
 	[message.text drawInRect:message.textBounds withFont:[UIFont systemFontOfSize:13]];
 	[timestampColor set];
-    if (message.cellType == MSG_CELL_TYPE_USER) {
+    if (message.cellType != MSG_CELL_TYPE_NORMAL) {
         NSString *timestamp;
         if ([message.source length]) {
             timestamp = [message.timestamp stringByAppendingFormat:@" from %@", message.source];

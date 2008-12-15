@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "Message.h"
-#import "MessageCell.h"
+
+@class TimelineMessageCell;
 
 @interface Timeline : NSObject
 {
@@ -34,6 +35,6 @@
 
 - (void)updateFavorite:(Message*)message;
 
-- (MessageCell*)getMessageCell:(UITableView*)tableView atIndex:(int)index;
+- (TimelineMessageCell*)getMessageCell:(UITableView*)tableView atIndex:(int)index;
 
 @end

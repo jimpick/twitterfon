@@ -10,7 +10,7 @@
 #import "TwitterFonAppDelegate.h"
 #import "UserDetailViewController.h"
 #import "UserViewController.h"
-#import "MessageCell.h"
+#import "UserMessageCell.h"
 
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)removeMessage:(Message*)message;
@@ -141,10 +141,16 @@
         return userCell;
     }
     else {
-        MessageCell* cell = [timeline getMessageCell:tableView atIndex:indexPath.row - 1];
-        if (cell) {
+        Message* message = [timeline messageAtIndex:indexPath.row - 1];
+        if (message) {
+            UserMessageCell* cell = (UserMessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
+            if (!cell) {
+                cell = [[[UserMessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
+            }
+        
+            cell.message = message;
             cell.inEditing = self.editing;
-            [cell update:MSG_CELL_TYPE_USER];
+            [cell update];
             return cell;
         }
         else {
@@ -272,7 +278,7 @@
 {
     int index = [timeline indexOfObject:m];
     if (index < 0) return;
-    MessageCell* cell = (MessageCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index + 1 inSection:0]];
+    UserMessageCell* cell = (UserMessageCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index + 1 inSection:0]];
     [cell toggleFavorite:favorited];
 }
 
