@@ -129,7 +129,6 @@ static sqlite3_stmt* message_by_id_statement = nil;
     
 	messageId           = [[dic objectForKey:@"id"] longLongValue];
     stringOfCreatedAt   = [dic objectForKey:@"created_at"];
-    stringOfCreatedAt   = [dic objectForKey:@"created_at"];
     if ((id)stringOfCreatedAt == [NSNull null]) {
         stringOfCreatedAt = @"";
     }
@@ -152,18 +151,6 @@ static sqlite3_stmt* message_by_id_statement = nil;
     [self updateAttribute];
     
 	return self;
-}
-
-
-+ (Message*)messageWithLoadMessage:(MessageType)aType page:(int)page
-{
-    Message *m = [[[Message alloc] init] autorelease];
-    m.type = aType;
-    m.cellHeight = 48;
-    m.page = page;
-    m.textBounds = CGRectMake(0, 0, 320, 48);
-    m.accessoryType = UITableViewCellAccessoryNone;
-    return m;
 }
 
 + (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type

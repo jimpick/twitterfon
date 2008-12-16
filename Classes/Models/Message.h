@@ -88,7 +88,6 @@ typedef enum {
 + (Message*)messageWithId:(sqlite_int64)aMessageId;
 + (Message*)messageWithJsonDictionary:(NSDictionary*)dic type:(MessageType)type;
 + (Message*)messageWithSearchResult:(NSDictionary*)dic;
-+ (Message*)messageWithLoadMessage:(MessageType)type page:(int)page;
 + (Message*)initWithDB:(sqlite3_stmt*)statement type:(MessageType)type;
 + (BOOL)isExists:(sqlite_int64)aMessageId type:(MessageType)aType;
 + (void)calcTextBounds:(Message*)message textWidth:(int)textWidth;
