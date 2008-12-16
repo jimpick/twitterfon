@@ -43,8 +43,7 @@ typedef enum {
 - (void)destroy:(Message*)message isDirectMessage:(BOOL)isDirectMessage;
 - (void)favorite:(Message*)message;
 - (void)friendship:(NSString*)screen_name create:(BOOL)create;
-- (void)search:(NSDictionary*)params;
-- (void)searchWithQueryString:(NSString*)query;
+- (void)search:(NSString*)query;
 - (void)existFriendship:(NSString*)screen_name;
 - (void)updateLocation:(float)latitude longitude:(float)longitude;
 - (void)trends;

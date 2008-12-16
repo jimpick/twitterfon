@@ -179,6 +179,7 @@
 
 - (void)geoSearch
 {
+    [self makeRead];
     [overlayView setMessage:@"Searching..." spinner:true];
 
     int distance = [LocationDistanceWindow distanceOf:[[NSUserDefaults standardUserDefaults] integerForKey:@"searchDistance"]];
@@ -206,7 +207,7 @@
         }
         else {
             isReload = true;
-            [search searchSubstance:true];
+            [search reload];
         }
     }
     else {
@@ -359,7 +360,6 @@
         unread += count;
         [self navigationController].tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", unread];
     }
-    
 
     if (self.navigationController.tabBarController.selectedIndex == TAB_SEARCH &&
         self.navigationController.topViewController == self) {

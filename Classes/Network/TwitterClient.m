@@ -210,25 +210,7 @@ NSString* sMethods[4] = {
     [self post:url body:postString];
 }
 
-- (void)search:(NSDictionary*)params
-{
-    NSString* url = @"http://search.twitter.com/search.json";
-
-    int i = 0;
-    for (id key in params) {
-        NSString *value = [params objectForKey:key];
-        if (i == 0) {
-            url = [NSString stringWithFormat:@"%@?%@=%@", url, key, [value encodeAsURIComponent]];
-        }
-        else {
-            url = [NSString stringWithFormat:@"%@&%@=%@", url, key, [value encodeAsURIComponent]];
-        }
-        ++i;
-    }
-    [self get:url];
-}
-
-- (void)searchWithQueryString:(NSString*)query
+- (void)search:(NSString*)query
 {
     NSMutableString *url = [NSMutableString stringWithString:@"http://search.twitter.com/search.json"];
     [url appendString:query];

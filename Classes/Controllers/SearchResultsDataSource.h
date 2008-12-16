@@ -11,20 +11,20 @@
 
 @interface SearchResultsDataSource : TimelineDataSource <UITableViewDataSource, UITableViewDelegate> {
     UITableViewController*  controller;
-    NSString*               query;
-    float                   latitude, longitude;
-    int                     distance;
+    NSString*               nextPageUrl;
+    NSString*               refreshUrl;
     int                     insertPosition;
-    uint64_t                since_id;
-
+    BOOL                    isReloading, isPaging;
+    
+    int                     since_id;
+    NSString*               geocode;
 }
 
-@property(nonatomic, copy) NSString* query;
-
 - (id)initWithController:(UITableViewController*)controller;
-- (BOOL)searchSubstance:(BOOL)reload;
 - (void)search:(NSString*)query;
 - (void)geocode:(float)latitude longitude:(float)longitude distance:(int)distance;
+- (void)reload;
+- (void)nextPage;
 - (int)countResults;
 
 @end
