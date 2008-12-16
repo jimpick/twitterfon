@@ -223,6 +223,10 @@ int sTextWidth[] = {
     // Check link and @username to set accessoryType and set text width
     //
     int textWidth = sTextWidth[cellType];
+    if (cellType == MSG_CELL_TYPE_DETAIL && 
+        (type == MSG_TYPE_MESSAGES || type == MSG_TYPE_SENT)) {
+        textWidth += STAR_BUTTON_WIDTH;
+    }
     
     NSRange range;
     NSMutableArray *array = [[NSMutableArray alloc] init];

@@ -43,6 +43,11 @@ static UIImage* sFavorited = nil;
     else {
         [imageButton setImage:[UserMessageCell favoriteImage] forState:UIControlStateNormal];
     }
+    
+    if (message.type == MSG_TYPE_MESSAGES || message.type == MSG_TYPE_SENT) {
+        cellView.frame = CGRectOffset(cellView.frame, -32, 0);
+        imageButton.hidden = true;
+    }
 
     if (inEditing) {
         cellView.frame = CGRectOffset(cellView.frame, -32, 0);

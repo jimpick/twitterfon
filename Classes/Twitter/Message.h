@@ -23,6 +23,7 @@ typedef enum {
 
 #define IMAGE_WIDTH         48
 #define USER_CELL_LEFT      42
+#define STAR_BUTTON_WIDTH   32
 
 #define TOP                 16
 #define LEFT                (IMAGE_PADDING * 2 + IMAGE_WIDTH)
