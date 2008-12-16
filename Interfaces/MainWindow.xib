@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.02">
 	<data>
 		<int key="IBDocument.SystemTarget">512</int>
-		<string key="IBDocument.SystemVersion">9F33</string>
+		<string key="IBDocument.SystemVersion">9G55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">672</string>
-		<string key="IBDocument.AppKitVersion">949.34</string>
-		<string key="IBDocument.HIToolboxVersion">352.00</string>
+		<string key="IBDocument.AppKitVersion">949.43</string>
+		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="163"/>
+			<integer value="106"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -26,52 +26,74 @@
 			<object class="IBUITabBarController" id="1034742383">
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-				<object class="IBUINavigationController" key="IBUISelectedViewController" id="305943513">
-					<string key="IBUITitle">Friends</string>
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="309390216">
-						<string key="IBUITitle">Friends</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">friends.png</string>
-						</object>
+				<object class="IBUINavigationController" key="IBUISelectedViewController" id="785888307">
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="1016338279">
+						<int key="IBUISystemItemIdentifier">8</int>
 						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="1034742383"/>
-					<object class="IBUINavigationBar" key="IBUINavigationBar" id="1016907684">
+					<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
+					<object class="IBUINavigationBar" key="IBUINavigationBar" id="801319795">
 						<nil key="NSNextResponder"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrameSize">{320, 44}</string>
+						<string key="NSFrameSize">{0, 0}</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 					</object>
 					<object class="NSMutableArray" key="IBUIViewControllers">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="IBUIViewController" id="1031856950">
-							<string key="IBUITitle">Friends</string>
-							<object class="IBUINavigationItem" key="IBUINavigationItem" id="643361368">
+						<object class="IBUIViewController" id="871911376">
+							<object class="IBUINavigationItem" key="IBUINavigationItem" id="668766300">
 								<reference key="IBUINavigationBar"/>
-								<string key="IBUITitle">Friends</string>
-								<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="386635562">
-									<int key="IBUIStyle">1</int>
-									<int key="IBUISystemItemIdentifier">13</int>
-								</object>
-								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="446488881">
-									<object class="NSCustomResource" key="IBUIImage" id="165116094">
-										<string key="NSClassName">NSImage</string>
-										<string key="NSResourceName">postbutton.png</string>
-									</object>
-									<int key="IBUIStyle">1</int>
-								</object>
+								<string key="IBUITitle">Search</string>
 							</object>
-							<reference key="IBUIParentViewController" ref="305943513"/>
-							<string key="IBUINibName">TimelineView</string>
+							<reference key="IBUIParentViewController" ref="785888307"/>
+							<string key="IBUINibName">SearchView</string>
 						</object>
 					</object>
 				</object>
 				<object class="NSMutableArray" key="IBUIViewControllers">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<reference ref="305943513"/>
+					<object class="IBUINavigationController" id="305943513">
+						<string key="IBUITitle">Friends</string>
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="309390216">
+							<string key="IBUITitle">Friends</string>
+							<object class="NSCustomResource" key="IBUIImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">friends.png</string>
+							</object>
+							<reference key="IBUITabBar"/>
+						</object>
+						<reference key="IBUIParentViewController" ref="1034742383"/>
+						<object class="IBUINavigationBar" key="IBUINavigationBar" id="1016907684">
+							<nil key="NSNextResponder"/>
+							<int key="NSvFlags">256</int>
+							<string key="NSFrameSize">{320, 44}</string>
+							<bool key="IBUIOpaque">NO</bool>
+							<bool key="IBUIClipsSubviews">YES</bool>
+							<bool key="IBUIMultipleTouchEnabled">YES</bool>
+						</object>
+						<object class="NSMutableArray" key="IBUIViewControllers">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBUIViewController" id="1031856950">
+								<string key="IBUITitle">Friends</string>
+								<object class="IBUINavigationItem" key="IBUINavigationItem" id="643361368">
+									<string key="IBUITitle">Friends</string>
+									<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="386635562">
+										<int key="IBUIStyle">1</int>
+										<int key="IBUISystemItemIdentifier">13</int>
+									</object>
+									<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="446488881">
+										<int key="IBUIStyle">1</int>
+										<int key="IBUISystemItemIdentifier">7</int>
+									</object>
+								</object>
+								<reference key="IBUIParentViewController" ref="305943513"/>
+								<string key="IBUINibName">TimelineView</string>
+							</object>
+						</object>
+					</object>
 					<object class="IBUINavigationController" id="740728481">
 						<string key="IBUITitle">Replies</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="538988508">
@@ -102,8 +124,8 @@
 										<int key="IBUISystemItemIdentifier">13</int>
 									</object>
 									<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="206404937">
-										<reference key="IBUIImage" ref="165116094"/>
 										<int key="IBUIStyle">1</int>
+										<int key="IBUISystemItemIdentifier">7</int>
 									</object>
 								</object>
 								<reference key="IBUIParentViewController" ref="740728481"/>
@@ -185,32 +207,7 @@
 							</object>
 						</object>
 					</object>
-					<object class="IBUINavigationController" id="785888307">
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="1016338279">
-							<int key="IBUISystemItemIdentifier">8</int>
-							<reference key="IBUITabBar"/>
-						</object>
-						<reference key="IBUIParentViewController" ref="1034742383"/>
-						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-						<object class="IBUINavigationBar" key="IBUINavigationBar" id="801319795">
-							<nil key="NSNextResponder"/>
-							<int key="NSvFlags">256</int>
-							<string key="NSFrameSize">{0, 0}</string>
-							<bool key="IBUIOpaque">NO</bool>
-							<bool key="IBUIClipsSubviews">YES</bool>
-							<bool key="IBUIMultipleTouchEnabled">YES</bool>
-						</object>
-						<object class="NSMutableArray" key="IBUIViewControllers">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUIViewController" id="871911376">
-								<object class="IBUINavigationItem" key="IBUINavigationItem" id="668766300">
-									<string key="IBUITitle">Search</string>
-								</object>
-								<reference key="IBUIParentViewController" ref="785888307"/>
-								<string key="IBUINibName">SearchView</string>
-							</object>
-						</object>
-					</object>
+					<reference ref="785888307"/>
 				</object>
 				<object class="IBUITabBar" key="IBUITabBar" id="795333663">
 					<nil key="NSNextResponder"/>

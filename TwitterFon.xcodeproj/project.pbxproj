@@ -36,7 +36,6 @@
 		6E1C73C20EB5B77700E34D9B /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C73C10EB5B77700E34D9B /* location.png */; };
 		6E1C78890EB7063900E34D9B /* trends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1C78880EB7063900E34D9B /* trends.png */; };
 		6E1FAE8D0EDAC4D7009407F6 /* db1.3.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6E1FAE8C0EDAC4D7009407F6 /* db1.3.sql */; };
-		6E2BCF1B0E3591B8003A8F69 /* postbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF1A0E3591B8003A8F69 /* postbutton.png */; };
 		6E2BCF260E3596D4003A8F69 /* friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BCF250E3596D4003A8F69 /* friends.png */; };
 		6E2BD0C10E35AE04003A8F69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */; };
 		6E2BD11F0E35B3D2003A8F69 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E2BD11E0E35B3D2003A8F69 /* Default.png */; };
@@ -165,7 +164,6 @@
 		6E1C73C10EB5B77700E34D9B /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		6E1C78880EB7063900E34D9B /* trends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trends.png; sourceTree = "<group>"; };
 		6E1FAE8C0EDAC4D7009407F6 /* db1.3.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = db1.3.sql; sourceTree = "<group>"; };
-		6E2BCF1A0E3591B8003A8F69 /* postbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = postbutton.png; sourceTree = "<group>"; };
 		6E2BCF250E3596D4003A8F69 /* friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends.png; sourceTree = "<group>"; };
 		6E2BD0C00E35AE04003A8F69 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6E2BD11E0E35B3D2003A8F69 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -467,7 +465,6 @@
 			children = (
 				6E89FD600EDEB8BD00778242 /* profileImage.png */,
 				6E89FD610EDEB8BD00778242 /* profileImageSmall.png */,
-				6E2BCF1A0E3591B8003A8F69 /* postbutton.png */,
 			);
 			name = Timeline;
 			sourceTree = "<group>";
@@ -814,7 +811,6 @@
 				6EED144E0E33E5BF00C71EA4 /* Icon.png in Resources */,
 				6EED14520E33E5BF00C71EA4 /* messages.png in Resources */,
 				6EED14560E33E5BF00C71EA4 /* replies.png in Resources */,
-				6E2BCF1B0E3591B8003A8F69 /* postbutton.png in Resources */,
 				6E2BCF260E3596D4003A8F69 /* friends.png in Resources */,
 				6E2BD11F0E35B3D2003A8F69 /* Default.png in Resources */,
 				6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */,
