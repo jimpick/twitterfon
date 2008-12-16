@@ -564,14 +564,14 @@
 				6EF9FE0E0EF80E5900EF8D1B /* Timeline.m */,
 				6EAE82AF0EF5CBCB00BF6CD4 /* TimelineDataSource.h */,
 				6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */,
-				6E10290F0E5D362C00440C58 /* LoadCell.h */,
-				6E1029100E5D362C00440C58 /* LoadCell.m */,
 				6EF9FE230EF8100E00EF8D1B /* TweetCellBase.h */,
 				6EF9FE240EF8100E00EF8D1B /* TweetCellBase.m */,
 				6EF9FE250EF8100E00EF8D1B /* TweetCellView.h */,
 				6EF9FE260EF8100E00EF8D1B /* TweetCellView.m */,
 				6EF9FE290EF8101C00EF8D1B /* TimelineCell.h */,
 				6EF9FE2A0EF8101C00EF8D1B /* TimelineCell.m */,
+				6E10290F0E5D362C00440C58 /* LoadCell.h */,
+				6E1029100E5D362C00440C58 /* LoadCell.m */,
 			);
 			name = Timeline;
 			sourceTree = "<group>";
