@@ -9,7 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SearchResultsDataSource.h"
 #import "TweetViewController.h"
-#import "TimelineMessageCell.h"
+#import "TimelineCell.h"
 #import "StringUtil.h"
 
 @interface NSObject (SearchResultsDataSourceDelegate)
@@ -60,7 +60,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TimelineMessageCell* cell = [timeline getMessageCell:tableView atIndex:indexPath.row];
+    TimelineCell* cell = [timeline getTimelineCell:tableView atIndex:indexPath.row];
     if (cell) {
         return cell;
     }

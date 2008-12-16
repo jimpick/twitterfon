@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
-#import "MessageCellBase.h"
+#import "TweetCellBase.h"
 
-@interface UserMessageCell : MessageCellBase
+@interface UserTimelineCell : TweetCellBase
 {
     UIActivityIndicatorView*    spinner;
     BOOL                        inEditing;

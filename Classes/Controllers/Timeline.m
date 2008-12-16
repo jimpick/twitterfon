@@ -1,5 +1,5 @@
 #import "Timeline.h"
-#import "TimelineMessageCell.h"
+#import "TimelineCell.h"
 #import "JSON.h"
 #import "Message.h"
 #import "TimeUtils.h"
@@ -111,14 +111,14 @@ static sqlite3_stmt *select_statement = nil;
     return -1;
 }
 
-- (TimelineMessageCell*)getMessageCell:(UITableView*)tableView atIndex:(int)index
+- (TimelineCell*)getTimelineCell:(UITableView*)tableView atIndex:(int)index
 {
     Message* message = [self messageAtIndex:index];
     if (message == nil) return nil;
     
-    TimelineMessageCell* cell = (TimelineMessageCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
+    TimelineCell* cell = (TimelineCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
     if (!cell) {
-        cell = [[[TimelineMessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
+        cell = [[[TimelineCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
     }
         
     cell.message = message;

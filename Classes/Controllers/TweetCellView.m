@@ -1,14 +1,14 @@
 //
-//  MessageCellView.m
+//  TweetCellView.m
 //  TwitterFon
 //
 //  Created by kaz on 11/2/08.
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
-#import "MessageCellView.h"
+#import "TweetCellView.h"
 
-@implementation MessageCellView
+@implementation TweetCellView
 
 @synthesize message;
 

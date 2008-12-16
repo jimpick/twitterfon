@@ -1,5 +1,5 @@
 //
-//  UserMessageCell.m
+//  UserTimelineCell.m
 //  TwitterFon
 //
 //  Created by kaz on 8/20/08.

@@ -12,7 +12,7 @@
 #import "TweetViewController.h"
 #import "ProfileViewController.h"
 
-#import "TimelineMessageCell.h"
+#import "TimelineCell.h"
 #import "DBConnection.h"
 
 static UIAlertView* sAlert = nil;
@@ -66,7 +66,7 @@ static UIAlertView* sAlert = nil;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    TimelineMessageCell* cell = [timeline getMessageCell:tableView atIndex:indexPath.row];
+    TimelineCell* cell = [timeline getTimelineCell:tableView atIndex:indexPath.row];
     if (cell) {
         return cell;
     }

@@ -1,12 +1,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "TwitterFonAppDelegate.h"
-#import "MessageCellBase.h"
-#import "ColorUtils.h"
-#import "StringUtil.h"
-#import "REString.h"
-#import "TimeUtils.h"
+#import "TweetCellBase.h"
 
-@implementation MessageCellBase
+@implementation TweetCellBase
 
 @synthesize message;
 
@@ -14,7 +10,7 @@
 {
 	[super initWithFrame:frame reuseIdentifier:reuseIdentifier];
 
-    cellView = [[[MessageCellView alloc] initWithFrame:CGRectZero] autorelease];
+    cellView = [[[TweetCellView alloc] initWithFrame:CGRectZero] autorelease];
     [self.contentView addSubview:cellView];
     
     imageButton = [UIButton buttonWithType:UIButtonTypeCustom];

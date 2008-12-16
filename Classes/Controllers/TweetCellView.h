@@ -1,5 +1,5 @@
 //
-//  MessageCellView.h
+//  TweetCellView.h
 //  TwitterFon
 //
 //  Created by kaz on 11/2/08.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Message.h"
 
-@interface MessageCellView : UIView {
+@interface TweetCellView : UIView {
     Message*    message;
 }
 

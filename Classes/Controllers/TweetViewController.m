@@ -75,7 +75,7 @@ enum {
 {
     userView    = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 387)];
     actionCell  = [[TweetViewActionCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ActionCell"];
-    messageCell = [[UserMessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"MessageCell"];
+    messageCell = [[UserTimelineCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"MessageCell"];
     deleteCell  = [[DeleteButtonCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"DeleteCell"];
 }
 

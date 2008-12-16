@@ -1,9 +1,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import "TwitterFonAppDelegate.h"
-#import "TimelineMessageCell.h"
+#import "TimelineCell.h"
 #import "ColorUtils.h"
 
-@implementation TimelineMessageCell
+@implementation TimelineCell
 
 - (void)dealloc
 {

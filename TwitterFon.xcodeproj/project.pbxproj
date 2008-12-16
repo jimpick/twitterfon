@@ -91,7 +91,6 @@
 		6EC53C710EF806EB009BCC92 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C6D0EF806EB009BCC92 /* NSString+SBJSON.m */; };
 		6EC53C720EF806EB009BCC92 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C6F0EF806EB009BCC92 /* SBJSON.m */; };
 		6ECCAD970EBE5B2E002B39F6 /* SearchHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */; };
-		6ECCAF700EBED555002B39F6 /* MessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCAF6F0EBED555002B39F6 /* MessageCellView.m */; };
 		6ECD90400EBEF9F400C3CD4D /* TwitPicClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECD903F0EBEF9F400C3CD4D /* TwitPicClient.m */; };
 		6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA50E38D3A0006E8AB7 /* forward.png */; };
 		6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA60E38D3A0006E8AB7 /* back.png */; };
@@ -113,10 +112,11 @@
 		6EED14520E33E5BF00C71EA4 /* messages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14450E33E5BF00C71EA4 /* messages.png */; };
 		6EED14560E33E5BF00C71EA4 /* replies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14490E33E5BF00C71EA4 /* replies.png */; };
 		6EF838360EF5E4EB001523B4 /* ImageStoreReceiver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF838350EF5E4EB001523B4 /* ImageStoreReceiver.m */; };
-		6EF83C700EF61ABE001523B4 /* MessageCellBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C6F0EF61ABE001523B4 /* MessageCellBase.m */; };
-		6EF83C740EF61BA7001523B4 /* TimelineMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C730EF61BA7001523B4 /* TimelineMessageCell.m */; };
-		6EF83C800EF61CF3001523B4 /* UserMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C7F0EF61CF3001523B4 /* UserMessageCell.m */; };
 		6EF9FE0F0EF80E5900EF8D1B /* Timeline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF9FE0E0EF80E5900EF8D1B /* Timeline.m */; };
+		6EF9FE270EF8100E00EF8D1B /* TweetCellBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF9FE240EF8100E00EF8D1B /* TweetCellBase.m */; };
+		6EF9FE280EF8100E00EF8D1B /* TweetCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF9FE260EF8100E00EF8D1B /* TweetCellView.m */; };
+		6EF9FE2B0EF8101C00EF8D1B /* TimelineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF9FE2A0EF8101C00EF8D1B /* TimelineCell.m */; };
+		6EF9FEDE0EF810C200EF8D1B /* UserTimelineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF9FEDD0EF810C200EF8D1B /* UserTimelineCell.m */; };
 		6EFC28700EBDD46D00FBBB3D /* LinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -249,8 +249,6 @@
 		6EC53C6F0EF806EB009BCC92 /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
 		6ECCAD950EBE5B2E002B39F6 /* SearchHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchHistoryViewController.h; path = Controllers/SearchHistoryViewController.h; sourceTree = "<group>"; };
 		6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchHistoryViewController.m; path = Controllers/SearchHistoryViewController.m; sourceTree = "<group>"; };
-		6ECCAF6E0EBED555002B39F6 /* MessageCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageCellView.h; path = Controllers/MessageCellView.h; sourceTree = "<group>"; };
-		6ECCAF6F0EBED555002B39F6 /* MessageCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageCellView.m; path = Controllers/MessageCellView.m; sourceTree = "<group>"; };
 		6ECD903E0EBEF9F400C3CD4D /* TwitPicClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitPicClient.h; path = Network/TwitPicClient.h; sourceTree = "<group>"; };
 		6ECD903F0EBEF9F400C3CD4D /* TwitPicClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitPicClient.m; path = Network/TwitPicClient.m; sourceTree = "<group>"; };
 		6ED17FA50E38D3A0006E8AB7 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
@@ -285,14 +283,16 @@
 		6EED14490E33E5BF00C71EA4 /* replies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replies.png; sourceTree = "<group>"; };
 		6EF838340EF5E4EB001523B4 /* ImageStoreReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageStoreReceiver.h; sourceTree = "<group>"; };
 		6EF838350EF5E4EB001523B4 /* ImageStoreReceiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageStoreReceiver.m; sourceTree = "<group>"; };
-		6EF83C6E0EF61ABE001523B4 /* MessageCellBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageCellBase.h; path = Controllers/MessageCellBase.h; sourceTree = "<group>"; };
-		6EF83C6F0EF61ABE001523B4 /* MessageCellBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageCellBase.m; path = Controllers/MessageCellBase.m; sourceTree = "<group>"; };
-		6EF83C720EF61BA7001523B4 /* TimelineMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineMessageCell.h; path = Controllers/TimelineMessageCell.h; sourceTree = "<group>"; };
-		6EF83C730EF61BA7001523B4 /* TimelineMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineMessageCell.m; path = Controllers/TimelineMessageCell.m; sourceTree = "<group>"; };
-		6EF83C7E0EF61CF3001523B4 /* UserMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserMessageCell.h; path = Controllers/UserMessageCell.h; sourceTree = "<group>"; };
-		6EF83C7F0EF61CF3001523B4 /* UserMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserMessageCell.m; path = Controllers/UserMessageCell.m; sourceTree = "<group>"; };
 		6EF9FE0D0EF80E5900EF8D1B /* Timeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Timeline.h; path = Controllers/Timeline.h; sourceTree = "<group>"; };
 		6EF9FE0E0EF80E5900EF8D1B /* Timeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Timeline.m; path = Controllers/Timeline.m; sourceTree = "<group>"; };
+		6EF9FE230EF8100E00EF8D1B /* TweetCellBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TweetCellBase.h; path = Controllers/TweetCellBase.h; sourceTree = "<group>"; };
+		6EF9FE240EF8100E00EF8D1B /* TweetCellBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TweetCellBase.m; path = Controllers/TweetCellBase.m; sourceTree = "<group>"; };
+		6EF9FE250EF8100E00EF8D1B /* TweetCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TweetCellView.h; path = Controllers/TweetCellView.h; sourceTree = "<group>"; };
+		6EF9FE260EF8100E00EF8D1B /* TweetCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TweetCellView.m; path = Controllers/TweetCellView.m; sourceTree = "<group>"; };
+		6EF9FE290EF8101C00EF8D1B /* TimelineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimelineCell.h; path = Controllers/TimelineCell.h; sourceTree = "<group>"; };
+		6EF9FE2A0EF8101C00EF8D1B /* TimelineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineCell.m; path = Controllers/TimelineCell.m; sourceTree = "<group>"; };
+		6EF9FEDC0EF810C200EF8D1B /* UserTimelineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserTimelineCell.h; path = Controllers/UserTimelineCell.h; sourceTree = "<group>"; };
+		6EF9FEDD0EF810C200EF8D1B /* UserTimelineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserTimelineCell.m; path = Controllers/UserTimelineCell.m; sourceTree = "<group>"; };
 		6EFC286E0EBDD46D00FBBB3D /* LinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinkViewController.h; path = Controllers/LinkViewController.h; sourceTree = "<group>"; };
 		6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinkViewController.m; path = Controllers/LinkViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -506,8 +506,8 @@
 			children = (
 				6E08FB9C0E5D266B00106492 /* UserCell.h */,
 				6E08FB9D0E5D266B00106492 /* UserCell.m */,
-				6EF83C7E0EF61CF3001523B4 /* UserMessageCell.h */,
-				6EF83C7F0EF61CF3001523B4 /* UserMessageCell.m */,
+				6EF9FEDC0EF810C200EF8D1B /* UserTimelineCell.h */,
+				6EF9FEDD0EF810C200EF8D1B /* UserTimelineCell.m */,
 				6E08FB750E5D252200106492 /* UserTimelineController.h */,
 				6E08FB760E5D252200106492 /* UserTimelineController.m */,
 			);
@@ -566,12 +566,12 @@
 				6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */,
 				6E10290F0E5D362C00440C58 /* LoadCell.h */,
 				6E1029100E5D362C00440C58 /* LoadCell.m */,
-				6EF83C6E0EF61ABE001523B4 /* MessageCellBase.h */,
-				6EF83C6F0EF61ABE001523B4 /* MessageCellBase.m */,
-				6EF83C720EF61BA7001523B4 /* TimelineMessageCell.h */,
-				6EF83C730EF61BA7001523B4 /* TimelineMessageCell.m */,
-				6ECCAF6E0EBED555002B39F6 /* MessageCellView.h */,
-				6ECCAF6F0EBED555002B39F6 /* MessageCellView.m */,
+				6EF9FE230EF8100E00EF8D1B /* TweetCellBase.h */,
+				6EF9FE240EF8100E00EF8D1B /* TweetCellBase.m */,
+				6EF9FE250EF8100E00EF8D1B /* TweetCellView.h */,
+				6EF9FE260EF8100E00EF8D1B /* TweetCellView.m */,
+				6EF9FE290EF8101C00EF8D1B /* TimelineCell.h */,
+				6EF9FE2A0EF8101C00EF8D1B /* TimelineCell.m */,
 			);
 			name = Timeline;
 			sourceTree = "<group>";
@@ -889,7 +889,6 @@
 				6EADC0A30EBDC48D00093782 /* FolloweesViewController.m in Sources */,
 				6EFC28700EBDD46D00FBBB3D /* LinkViewController.m in Sources */,
 				6ECCAD970EBE5B2E002B39F6 /* SearchHistoryViewController.m in Sources */,
-				6ECCAF700EBED555002B39F6 /* MessageCellView.m in Sources */,
 				6ECD90400EBEF9F400C3CD4D /* TwitPicClient.m in Sources */,
 				6E5CBCED0ECF7971008A18A2 /* ImageUtils.m in Sources */,
 				6E8C57BA0ED0AEA300EC9D39 /* UserView.m in Sources */,
@@ -905,9 +904,6 @@
 				6EAE81B90EF5BB4E00BF6CD4 /* SearchResultsDataSource.m in Sources */,
 				6EAE82B10EF5CBCB00BF6CD4 /* TimelineDataSource.m in Sources */,
 				6EF838360EF5E4EB001523B4 /* ImageStoreReceiver.m in Sources */,
-				6EF83C700EF61ABE001523B4 /* MessageCellBase.m in Sources */,
-				6EF83C740EF61BA7001523B4 /* TimelineMessageCell.m in Sources */,
-				6EF83C800EF61CF3001523B4 /* UserMessageCell.m in Sources */,
 				6E68219D0EF7BBB00079EC9E /* ProfileViewController.m in Sources */,
 				6E1BE7900EF7BF4C0075881E /* TweetViewActionCell.m in Sources */,
 				6E1BE7910EF7BF4C0075881E /* TweetViewController.m in Sources */,
@@ -919,6 +915,10 @@
 				6EC53C710EF806EB009BCC92 /* NSString+SBJSON.m in Sources */,
 				6EC53C720EF806EB009BCC92 /* SBJSON.m in Sources */,
 				6EF9FE0F0EF80E5900EF8D1B /* Timeline.m in Sources */,
+				6EF9FE270EF8100E00EF8D1B /* TweetCellBase.m in Sources */,
+				6EF9FE280EF8100E00EF8D1B /* TweetCellView.m in Sources */,
+				6EF9FE2B0EF8101C00EF8D1B /* TimelineCell.m in Sources */,
+				6EF9FEDE0EF810C200EF8D1B /* UserTimelineCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

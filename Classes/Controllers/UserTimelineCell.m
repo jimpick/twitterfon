@@ -1,16 +1,16 @@
 #import <QuartzCore/QuartzCore.h>
 #import "TwitterFonAppDelegate.h"
-#import "UserMessageCell.h"
+#import "UserTimelineCell.h"
 
 static UIImage* sFavorite = nil;
 static UIImage* sFavorited = nil;
 
-@interface UserMessageCell(Private)
+@interface UserTimelineCell(Private)
 + (UIImage*) favoriteImage;
 + (UIImage*) favoritedImage;
 @end
 
-@implementation UserMessageCell
+@implementation UserTimelineCell
 
 @synthesize inEditing;
 
@@ -38,10 +38,10 @@ static UIImage* sFavorited = nil;
     cellView.frame = CGRectMake(USER_CELL_LEFT, 0, USER_CELL_WIDTH, message.cellHeight - 1);
         
     if (message.favorited) {
-        [imageButton setImage:[UserMessageCell favoritedImage] forState:UIControlStateNormal];
+        [imageButton setImage:[UserTimelineCell favoritedImage] forState:UIControlStateNormal];
     }
     else {
-        [imageButton setImage:[UserMessageCell favoriteImage] forState:UIControlStateNormal];
+        [imageButton setImage:[UserTimelineCell favoriteImage] forState:UIControlStateNormal];
     }
     
     if (message.type == MSG_TYPE_MESSAGES || message.type == MSG_TYPE_SENT) {
@@ -81,10 +81,10 @@ static UIImage* sFavorited = nil;
 - (void)toggleFavorite:(BOOL)favorited
 {
     if (favorited) {
-        [imageButton setImage:[UserMessageCell favoritedImage] forState:UIControlStateNormal];
+        [imageButton setImage:[UserTimelineCell favoritedImage] forState:UIControlStateNormal];
     }
     else {
-        [imageButton setImage:[UserMessageCell favoriteImage] forState:UIControlStateNormal];
+        [imageButton setImage:[UserTimelineCell favoriteImage] forState:UIControlStateNormal];
     }    
     
     [self toggleSpinner:false];
