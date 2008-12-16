@@ -70,8 +70,14 @@
     
     // Load views
     NSArray *views = tabBarController.viewControllers;
-    
-  	BOOL loadall = [[NSUserDefaults standardUserDefaults] boolForKey:@"loadAllTabOnLaunch"];
+
+    BOOL loadall;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"loadAllTabOnLaunch"] == nil) {
+        loadall = true;
+    }
+    else {
+        loadall = [[NSUserDefaults standardUserDefaults] boolForKey:@"loadAllTabOnLaunch"];
+    }
     
     for (int tab = 0; tab < 3; ++tab) {
         UINavigationController* nav = (UINavigationController*)[views objectAtIndex:tab];
