@@ -75,7 +75,6 @@
 		6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E943F1A0E6527C600E8ECF2 /* usercell_background.png */; };
 		6EA0C19C0EBB1305000C0CD4 /* friends_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EA0C19B0EBB1305000C0CD4 /* friends_small.png */; };
 		6EADBC090EBD8F8E00093782 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADBC080EBD8F8E00093782 /* PostViewController.m */; };
-		6EADBE940EBDB1B000093782 /* Followee.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADBE930EBDB1B000093782 /* Followee.m */; };
 		6EADC0A20EBDC48D00093782 /* FolloweeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC09F0EBDC48D00093782 /* FolloweeCell.m */; };
 		6EADC0A30EBDC48D00093782 /* FolloweesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC0A10EBDC48D00093782 /* FolloweesViewController.m */; };
 		6EAE76040EF3904600BF6CD4 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE76030EF3904600BF6CD4 /* FriendsViewController.m */; };
@@ -84,6 +83,14 @@
 		6EAE81B90EF5BB4E00BF6CD4 /* SearchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE81B80EF5BB4E00BF6CD4 /* SearchResultsDataSource.m */; };
 		6EAE82B10EF5CBCB00BF6CD4 /* TimelineDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */; };
 		6EBEE5840EB2F65400C18F0A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE5830EB2F65400C18F0A /* SearchViewController.m */; };
+		6EC53C420EF805FE009BCC92 /* DBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C390EF805FE009BCC92 /* DBConnection.m */; };
+		6EC53C430EF805FE009BCC92 /* Followee.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C3B0EF805FE009BCC92 /* Followee.m */; };
+		6EC53C440EF805FE009BCC92 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C3D0EF805FE009BCC92 /* Message.m */; };
+		6EC53C460EF805FE009BCC92 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C410EF805FE009BCC92 /* User.m */; };
+		6EC53C500EF80661009BCC92 /* Timeline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C4F0EF80661009BCC92 /* Timeline.m */; };
+		6EC53C700EF806EB009BCC92 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C6B0EF806EB009BCC92 /* NSObject+SBJSON.m */; };
+		6EC53C710EF806EB009BCC92 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C6D0EF806EB009BCC92 /* NSString+SBJSON.m */; };
+		6EC53C720EF806EB009BCC92 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C6F0EF806EB009BCC92 /* SBJSON.m */; };
 		6ECCAD970EBE5B2E002B39F6 /* SearchHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */; };
 		6ECCAF700EBED555002B39F6 /* MessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCAF6F0EBED555002B39F6 /* MessageCellView.m */; };
 		6ECD90400EBEF9F400C3CD4D /* TwitPicClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECD903F0EBEF9F400C3CD4D /* TwitPicClient.m */; };
@@ -91,7 +98,6 @@
 		6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA60E38D3A0006E8AB7 /* back.png */; };
 		6EDC01240E33E6DA00FF142E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */; };
 		6EDC012F0E33E6F000FF142E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */; };
-		6EDC01D10E344B5600FF142E /* DBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC01D00E344B5600FF142E /* DBConnection.m */; };
 		6EDD27740E3B5429002E09A0 /* TinyURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDD27730E3B5429002E09A0 /* TinyURL.m */; };
 		6EE9354D0E42FFF6008084DF /* ProgressWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE9354C0E42FFF6008084DF /* ProgressWindow.m */; };
 		6EEBF7000E3B1F390003EA63 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF6FA0E3B1F390003EA63 /* ImageDownloader.m */; };
@@ -104,12 +110,6 @@
 		6EEBF7280E3B209A0003EA63 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7270E3B209A0003EA63 /* WebViewController.m */; };
 		6EED142B0E33E59B00C71EA4 /* ImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14080E33E59B00C71EA4 /* ImageStore.m */; };
 		6EED142C0E33E59B00C71EA4 /* ProfileImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED140A0E33E59B00C71EA4 /* ProfileImage.m */; };
-		6EED142D0E33E59B00C71EA4 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED140E0E33E59B00C71EA4 /* NSObject+SBJSON.m */; };
-		6EED142E0E33E59B00C71EA4 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14100E33E59B00C71EA4 /* NSString+SBJSON.m */; };
-		6EED142F0E33E59B00C71EA4 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14120E33E59B00C71EA4 /* SBJSON.m */; };
-		6EED14350E33E59B00C71EA4 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED141F0E33E59B00C71EA4 /* Message.m */; };
-		6EED14370E33E59B00C71EA4 /* Timeline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14230E33E59B00C71EA4 /* Timeline.m */; };
-		6EED14390E33E59B00C71EA4 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14270E33E59B00C71EA4 /* User.m */; };
 		6EED144E0E33E5BF00C71EA4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14410E33E5BF00C71EA4 /* Icon.png */; };
 		6EED14520E33E5BF00C71EA4 /* messages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14450E33E5BF00C71EA4 /* messages.png */; };
 		6EED14560E33E5BF00C71EA4 /* replies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14490E33E5BF00C71EA4 /* replies.png */; };
@@ -216,8 +216,6 @@
 		6EA0C19B0EBB1305000C0CD4 /* friends_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends_small.png; sourceTree = "<group>"; };
 		6EADBC070EBD8F8E00093782 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostViewController.h; path = Controllers/PostViewController.h; sourceTree = "<group>"; };
 		6EADBC080EBD8F8E00093782 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostViewController.m; path = Controllers/PostViewController.m; sourceTree = "<group>"; };
-		6EADBE920EBDB1B000093782 /* Followee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Followee.h; sourceTree = "<group>"; };
-		6EADBE930EBDB1B000093782 /* Followee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Followee.m; sourceTree = "<group>"; };
 		6EADC09E0EBDC48D00093782 /* FolloweeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FolloweeCell.h; path = Controllers/FolloweeCell.h; sourceTree = "<group>"; };
 		6EADC09F0EBDC48D00093782 /* FolloweeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FolloweeCell.m; path = Controllers/FolloweeCell.m; sourceTree = "<group>"; };
 		6EADC0A00EBDC48D00093782 /* FolloweesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FolloweesViewController.h; path = Controllers/FolloweesViewController.h; sourceTree = "<group>"; };
@@ -234,6 +232,23 @@
 		6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineDataSource.m; path = Controllers/TimelineDataSource.m; sourceTree = "<group>"; };
 		6EBEE5820EB2F65400C18F0A /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = Controllers/SearchViewController.h; sourceTree = "<group>"; };
 		6EBEE5830EB2F65400C18F0A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = Controllers/SearchViewController.m; sourceTree = "<group>"; };
+		6EC53C380EF805FE009BCC92 /* DBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBConnection.h; sourceTree = "<group>"; };
+		6EC53C390EF805FE009BCC92 /* DBConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBConnection.m; sourceTree = "<group>"; };
+		6EC53C3A0EF805FE009BCC92 /* Followee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Followee.h; sourceTree = "<group>"; };
+		6EC53C3B0EF805FE009BCC92 /* Followee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Followee.m; sourceTree = "<group>"; };
+		6EC53C3C0EF805FE009BCC92 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		6EC53C3D0EF805FE009BCC92 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		6EC53C3E0EF805FE009BCC92 /* Timeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timeline.h; sourceTree = "<group>"; };
+		6EC53C400EF805FE009BCC92 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		6EC53C410EF805FE009BCC92 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		6EC53C4F0EF80661009BCC92 /* Timeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timeline.m; sourceTree = "<group>"; };
+		6EC53C690EF806EB009BCC92 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		6EC53C6A0EF806EB009BCC92 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		6EC53C6B0EF806EB009BCC92 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		6EC53C6C0EF806EB009BCC92 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		6EC53C6D0EF806EB009BCC92 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		6EC53C6E0EF806EB009BCC92 /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
+		6EC53C6F0EF806EB009BCC92 /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
 		6ECCAD950EBE5B2E002B39F6 /* SearchHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchHistoryViewController.h; path = Controllers/SearchHistoryViewController.h; sourceTree = "<group>"; };
 		6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchHistoryViewController.m; path = Controllers/SearchHistoryViewController.m; sourceTree = "<group>"; };
 		6ECCAF6E0EBED555002B39F6 /* MessageCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageCellView.h; path = Controllers/MessageCellView.h; sourceTree = "<group>"; };
@@ -244,8 +259,6 @@
 		6ED17FA60E38D3A0006E8AB7 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		6EDC01CF0E344B5600FF142E /* DBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBConnection.h; sourceTree = "<group>"; };
-		6EDC01D00E344B5600FF142E /* DBConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBConnection.m; sourceTree = "<group>"; };
 		6EDD27720E3B5429002E09A0 /* TinyURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TinyURL.h; path = Network/TinyURL.h; sourceTree = "<group>"; };
 		6EDD27730E3B5429002E09A0 /* TinyURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TinyURL.m; path = Network/TinyURL.m; sourceTree = "<group>"; };
 		6EE9354B0E42FFF6008084DF /* ProgressWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressWindow.h; path = Controllers/ProgressWindow.h; sourceTree = "<group>"; };
@@ -269,19 +282,6 @@
 		6EED14080E33E59B00C71EA4 /* ImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageStore.m; sourceTree = "<group>"; };
 		6EED14090E33E59B00C71EA4 /* ProfileImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImage.h; sourceTree = "<group>"; };
 		6EED140A0E33E59B00C71EA4 /* ProfileImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileImage.m; sourceTree = "<group>"; };
-		6EED140C0E33E59B00C71EA4 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
-		6EED140D0E33E59B00C71EA4 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
-		6EED140E0E33E59B00C71EA4 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
-		6EED140F0E33E59B00C71EA4 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
-		6EED14100E33E59B00C71EA4 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
-		6EED14110E33E59B00C71EA4 /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
-		6EED14120E33E59B00C71EA4 /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
-		6EED141E0E33E59B00C71EA4 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		6EED141F0E33E59B00C71EA4 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
-		6EED14220E33E59B00C71EA4 /* Timeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Timeline.h; path = Twitter/Timeline.h; sourceTree = "<group>"; };
-		6EED14230E33E59B00C71EA4 /* Timeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Timeline.m; path = Twitter/Timeline.m; sourceTree = "<group>"; };
-		6EED14260E33E59B00C71EA4 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		6EED14270E33E59B00C71EA4 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		6EED14410E33E5BF00C71EA4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		6EED14450E33E5BF00C71EA4 /* messages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messages.png; sourceTree = "<group>"; };
 		6EED14490E33E5BF00C71EA4 /* replies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replies.png; sourceTree = "<group>"; };
@@ -320,10 +320,8 @@
 			children = (
 				6EEBF6C90E3AE3780003EA63 /* Network */,
 				6EDC025B0E34537600FF142E /* Controllers */,
-				6EED141D0E33E59B00C71EA4 /* Twitter */,
-				6EDC01CE0E344B5600FF142E /* DB */,
 				6EED14040E33E59B00C71EA4 /* ImageStore */,
-				6EED140B0E33E59B00C71EA4 /* JSON */,
+				6EC53C370EF805FE009BCC92 /* Models */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -351,6 +349,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				6EC53C680EF806EB009BCC92 /* JSON */,
 				6EEBF7030E3B1FD40003EA63 /* ColorUtils.h */,
 				6EEBF7040E3B1FD40003EA63 /* ColorUtils.m */,
 				6E138FEE0E67F76A0037BE46 /* DebugUtils.h */,
@@ -561,8 +560,6 @@
 		6E8265C90E375122005D2370 /* Timeline */ = {
 			isa = PBXGroup;
 			children = (
-				6EED14220E33E59B00C71EA4 /* Timeline.h */,
-				6EED14230E33E59B00C71EA4 /* Timeline.m */,
 				6EAE82AF0EF5CBCB00BF6CD4 /* TimelineDataSource.h */,
 				6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */,
 				6E10290F0E5D362C00440C58 /* LoadCell.h */,
@@ -641,6 +638,38 @@
 			name = Search;
 			sourceTree = "<group>";
 		};
+		6EC53C370EF805FE009BCC92 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6EC53C380EF805FE009BCC92 /* DBConnection.h */,
+				6EC53C390EF805FE009BCC92 /* DBConnection.m */,
+				6EC53C3A0EF805FE009BCC92 /* Followee.h */,
+				6EC53C3B0EF805FE009BCC92 /* Followee.m */,
+				6EC53C3C0EF805FE009BCC92 /* Message.h */,
+				6EC53C3D0EF805FE009BCC92 /* Message.m */,
+				6EC53C3E0EF805FE009BCC92 /* Timeline.h */,
+				6EC53C4F0EF80661009BCC92 /* Timeline.m */,
+				6EC53C400EF805FE009BCC92 /* User.h */,
+				6EC53C410EF805FE009BCC92 /* User.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6EC53C680EF806EB009BCC92 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				6EC53C690EF806EB009BCC92 /* JSON.h */,
+				6EC53C6A0EF806EB009BCC92 /* NSObject+SBJSON.h */,
+				6EC53C6B0EF806EB009BCC92 /* NSObject+SBJSON.m */,
+				6EC53C6C0EF806EB009BCC92 /* NSString+SBJSON.h */,
+				6EC53C6D0EF806EB009BCC92 /* NSString+SBJSON.m */,
+				6EC53C6E0EF806EB009BCC92 /* SBJSON.h */,
+				6EC53C6F0EF806EB009BCC92 /* SBJSON.m */,
+			);
+			name = JSON;
+			path = Classes/OtherSources/JSON;
+			sourceTree = "<group>";
+		};
 		6ECCAD9D0EBE5B53002B39F6 /* interfaces */ = {
 			isa = PBXGroup;
 			children = (
@@ -665,15 +694,6 @@
 				6E08A4D80EDFD0B5000D25FE /* CustomSearchTextField.m */,
 			);
 			name = CustomSearchBar;
-			sourceTree = "<group>";
-		};
-		6EDC01CE0E344B5600FF142E /* DB */ = {
-			isa = PBXGroup;
-			children = (
-				6EDC01CF0E344B5600FF142E /* DBConnection.h */,
-				6EDC01D00E344B5600FF142E /* DBConnection.m */,
-			);
-			path = DB;
 			sourceTree = "<group>";
 		};
 		6EDC025B0E34537600FF142E /* Controllers */ = {
@@ -724,33 +744,6 @@
 				6EF838350EF5E4EB001523B4 /* ImageStoreReceiver.m */,
 			);
 			path = ImageStore;
-			sourceTree = "<group>";
-		};
-		6EED140B0E33E59B00C71EA4 /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				6EED140C0E33E59B00C71EA4 /* JSON.h */,
-				6EED140D0E33E59B00C71EA4 /* NSObject+SBJSON.h */,
-				6EED140E0E33E59B00C71EA4 /* NSObject+SBJSON.m */,
-				6EED140F0E33E59B00C71EA4 /* NSString+SBJSON.h */,
-				6EED14100E33E59B00C71EA4 /* NSString+SBJSON.m */,
-				6EED14110E33E59B00C71EA4 /* SBJSON.h */,
-				6EED14120E33E59B00C71EA4 /* SBJSON.m */,
-			);
-			path = JSON;
-			sourceTree = "<group>";
-		};
-		6EED141D0E33E59B00C71EA4 /* Twitter */ = {
-			isa = PBXGroup;
-			children = (
-				6EED14260E33E59B00C71EA4 /* User.h */,
-				6EED14270E33E59B00C71EA4 /* User.m */,
-				6EED141E0E33E59B00C71EA4 /* Message.h */,
-				6EED141F0E33E59B00C71EA4 /* Message.m */,
-				6EADBE920EBDB1B000093782 /* Followee.h */,
-				6EADBE930EBDB1B000093782 /* Followee.m */,
-			);
-			path = Twitter;
 			sourceTree = "<group>";
 		};
 		6EED14400E33E5BF00C71EA4 /* Images */ = {
@@ -868,13 +861,6 @@
 			files = (
 				6EED142B0E33E59B00C71EA4 /* ImageStore.m in Sources */,
 				6EED142C0E33E59B00C71EA4 /* ProfileImage.m in Sources */,
-				6EED142D0E33E59B00C71EA4 /* NSObject+SBJSON.m in Sources */,
-				6EED142E0E33E59B00C71EA4 /* NSString+SBJSON.m in Sources */,
-				6EED142F0E33E59B00C71EA4 /* SBJSON.m in Sources */,
-				6EED14350E33E59B00C71EA4 /* Message.m in Sources */,
-				6EED14370E33E59B00C71EA4 /* Timeline.m in Sources */,
-				6EED14390E33E59B00C71EA4 /* User.m in Sources */,
-				6EDC01D10E344B5600FF142E /* DBConnection.m in Sources */,
 				6EEBF7000E3B1F390003EA63 /* ImageDownloader.m in Sources */,
 				6EEBF70C0E3B1FD40003EA63 /* ColorUtils.m in Sources */,
 				6EEBF70D0E3B1FD40003EA63 /* main.m in Sources */,
@@ -899,7 +885,6 @@
 				6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */,
 				6E48E93B0EBD7439005E1837 /* PostView.m in Sources */,
 				6EADBC090EBD8F8E00093782 /* PostViewController.m in Sources */,
-				6EADBE940EBDB1B000093782 /* Followee.m in Sources */,
 				6EADC0A20EBDC48D00093782 /* FolloweeCell.m in Sources */,
 				6EADC0A30EBDC48D00093782 /* FolloweesViewController.m in Sources */,
 				6EFC28700EBDD46D00FBBB3D /* LinkViewController.m in Sources */,
@@ -926,6 +911,14 @@
 				6E68219D0EF7BBB00079EC9E /* ProfileViewController.m in Sources */,
 				6E1BE7900EF7BF4C0075881E /* TweetViewActionCell.m in Sources */,
 				6E1BE7910EF7BF4C0075881E /* TweetViewController.m in Sources */,
+				6EC53C420EF805FE009BCC92 /* DBConnection.m in Sources */,
+				6EC53C430EF805FE009BCC92 /* Followee.m in Sources */,
+				6EC53C440EF805FE009BCC92 /* Message.m in Sources */,
+				6EC53C460EF805FE009BCC92 /* User.m in Sources */,
+				6EC53C500EF80661009BCC92 /* Timeline.m in Sources */,
+				6EC53C700EF806EB009BCC92 /* NSObject+SBJSON.m in Sources */,
+				6EC53C710EF806EB009BCC92 /* NSString+SBJSON.m in Sources */,
+				6EC53C720EF806EB009BCC92 /* SBJSON.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
