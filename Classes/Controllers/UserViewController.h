@@ -22,8 +22,9 @@
     Message*                inReplyToMessage;
     User*                   inReplyToUser;
     TwitterClient*          twitterClient;
-    BOOL                    hasDeleteButton;
+    BOOL                    isOwnTweet;
     BOOL                    isDirectMessage;
+    int                     *sections;
 }
 
 - (id)initWithMessage:(Message*)message;

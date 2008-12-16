@@ -19,9 +19,14 @@ NSString* sCellActionText[3] = {
     @"Retweet this message",
 };
 
-NSString* sCellDetailText[2] = {
+NSString* sUserDetailText[2] = {
     @"This User's Timeline",
     @"Profile",
+};
+
+NSString* sYourDetailText[2] = {
+    @"Your Timeline",
+    @"Your Profile",
 };
 
 NSString* sDeleteMessage[2] = {
@@ -29,12 +34,25 @@ NSString* sDeleteMessage[2] = {
     @"Delete this message",
 };
 
+#define NUM_SECTIONS 3
+
 enum {
     SECTION_MESSAGE,
     SECTION_ACTIONS,
     SECTION_MORE_ACTIONS,
     SECTION_DELETE,
-    NUM_SECTIONS,
+};
+
+int sUserSection[] = {
+    SECTION_MESSAGE,
+    SECTION_ACTIONS,
+    SECTION_MORE_ACTIONS,
+};
+
+int sOwnSection[] = {
+    SECTION_MESSAGE,
+    SECTION_MORE_ACTIONS,
+    SECTION_DELETE,
 };
 
 enum {
@@ -78,14 +96,12 @@ enum {
     self.title = message.user.screenName;
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     if ([message.user.screenName caseInsensitiveCompare:username] == NSOrderedSame) {
-        hasDeleteButton = true;
+        isOwnTweet = true;
+        sections = sOwnSection;
     }
-#if 0
-    else  {
-        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
-        self.navigationItem.rightBarButtonItem = button;
+    else {
+        sections = sUserSection;
     }
-#endif
 }
 
 - (id)initWithMessage:(Message*)m
@@ -114,7 +130,7 @@ enum {
     
     if ([self tabBarController].selectedIndex == MSG_TYPE_MESSAGES) {
         isDirectMessage = true;
-        hasDeleteButton = true;
+        isOwnTweet      = true;
     }
 }
 
@@ -146,7 +162,7 @@ enum {
 
         Message *m = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
         [self setMessage:m];
-        if (hasDeleteButton) {
+        if (isOwnTweet) {
             [m insertDB];
         }
         else {
@@ -171,7 +187,7 @@ enum {
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
     if (message) {
-        return (hasDeleteButton) ? NUM_SECTIONS : NUM_SECTIONS - 1;
+        return NUM_SECTIONS;
     }
     else {
         return 1;
@@ -182,9 +198,10 @@ enum {
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
     if (message) {
-        switch (section) {
+        int s = sections[section];
+        switch (s) {
             case SECTION_MESSAGE:
-                return (message.inReplyToMessageId) ? 2 : 1;
+                return 1;
             case SECTION_ACTIONS:
                 return 1;
             case SECTION_MORE_ACTIONS:
@@ -198,7 +215,7 @@ enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == SECTION_MESSAGE && indexPath.row == 0) {
+    if (indexPath.section == SECTION_MESSAGE && indexPath.row == ROW_MESSAGE) {
         return message.cellHeight;
     }
     else {
@@ -216,10 +233,12 @@ enum {
         return messageCell;
     }
     
-    if (indexPath.section == SECTION_ACTIONS) {
+    int section = sections[indexPath.section];
+    
+    if (section == SECTION_ACTIONS) {
         return actionCell;
     }
-    else if (indexPath.section == SECTION_DELETE) {
+    else if (section == SECTION_DELETE) {
         int index = (isDirectMessage) ? 1 : 0;
         [deleteCell setTitle:sDeleteMessage[index]];
         return deleteCell;
@@ -231,7 +250,7 @@ enum {
         cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    if (indexPath.section == SECTION_MESSAGE) {
+    if (section == SECTION_MESSAGE) {
         cell.font = [UIFont boldSystemFontOfSize:14];
         cell.textColor = [UIColor cellLabelColor];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -245,18 +264,19 @@ enum {
             cell.text = [NSString stringWithFormat:@"In-reply-to-message-id: %lld", message.inReplyToMessageId];
         }
     }
-    else if (indexPath.section == SECTION_MORE_ACTIONS) {
+    else if (section == SECTION_MORE_ACTIONS) {
         cell.textAlignment = UITextAlignmentCenter;
         cell.textColor = [UIColor cellLabelColor];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.text = sCellDetailText[indexPath.row];
+        cell.text = (isOwnTweet) ? sYourDetailText[indexPath.row] : sUserDetailText[indexPath.row];
     }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
+    int section = sections[indexPath.section];
+    switch (section) {
         case SECTION_MESSAGE:
             if (indexPath.row == 1) {
                 UserViewController *controller = [UserViewController alloc];
