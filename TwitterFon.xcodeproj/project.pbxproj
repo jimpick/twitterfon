@@ -87,7 +87,6 @@
 		6EC53C430EF805FE009BCC92 /* Followee.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C3B0EF805FE009BCC92 /* Followee.m */; };
 		6EC53C440EF805FE009BCC92 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C3D0EF805FE009BCC92 /* Message.m */; };
 		6EC53C460EF805FE009BCC92 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C410EF805FE009BCC92 /* User.m */; };
-		6EC53C500EF80661009BCC92 /* Timeline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C4F0EF80661009BCC92 /* Timeline.m */; };
 		6EC53C700EF806EB009BCC92 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C6B0EF806EB009BCC92 /* NSObject+SBJSON.m */; };
 		6EC53C710EF806EB009BCC92 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C6D0EF806EB009BCC92 /* NSString+SBJSON.m */; };
 		6EC53C720EF806EB009BCC92 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C6F0EF806EB009BCC92 /* SBJSON.m */; };
@@ -117,6 +116,7 @@
 		6EF83C700EF61ABE001523B4 /* MessageCellBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C6F0EF61ABE001523B4 /* MessageCellBase.m */; };
 		6EF83C740EF61BA7001523B4 /* TimelineMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C730EF61BA7001523B4 /* TimelineMessageCell.m */; };
 		6EF83C800EF61CF3001523B4 /* UserMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C7F0EF61CF3001523B4 /* UserMessageCell.m */; };
+		6EF9FE0F0EF80E5900EF8D1B /* Timeline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF9FE0E0EF80E5900EF8D1B /* Timeline.m */; };
 		6EFC28700EBDD46D00FBBB3D /* LinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -238,10 +238,8 @@
 		6EC53C3B0EF805FE009BCC92 /* Followee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Followee.m; sourceTree = "<group>"; };
 		6EC53C3C0EF805FE009BCC92 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		6EC53C3D0EF805FE009BCC92 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
-		6EC53C3E0EF805FE009BCC92 /* Timeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timeline.h; sourceTree = "<group>"; };
 		6EC53C400EF805FE009BCC92 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		6EC53C410EF805FE009BCC92 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		6EC53C4F0EF80661009BCC92 /* Timeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timeline.m; sourceTree = "<group>"; };
 		6EC53C690EF806EB009BCC92 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		6EC53C6A0EF806EB009BCC92 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		6EC53C6B0EF806EB009BCC92 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -293,6 +291,8 @@
 		6EF83C730EF61BA7001523B4 /* TimelineMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineMessageCell.m; path = Controllers/TimelineMessageCell.m; sourceTree = "<group>"; };
 		6EF83C7E0EF61CF3001523B4 /* UserMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserMessageCell.h; path = Controllers/UserMessageCell.h; sourceTree = "<group>"; };
 		6EF83C7F0EF61CF3001523B4 /* UserMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserMessageCell.m; path = Controllers/UserMessageCell.m; sourceTree = "<group>"; };
+		6EF9FE0D0EF80E5900EF8D1B /* Timeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Timeline.h; path = Controllers/Timeline.h; sourceTree = "<group>"; };
+		6EF9FE0E0EF80E5900EF8D1B /* Timeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Timeline.m; path = Controllers/Timeline.m; sourceTree = "<group>"; };
 		6EFC286E0EBDD46D00FBBB3D /* LinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinkViewController.h; path = Controllers/LinkViewController.h; sourceTree = "<group>"; };
 		6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinkViewController.m; path = Controllers/LinkViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -560,6 +560,8 @@
 		6E8265C90E375122005D2370 /* Timeline */ = {
 			isa = PBXGroup;
 			children = (
+				6EF9FE0D0EF80E5900EF8D1B /* Timeline.h */,
+				6EF9FE0E0EF80E5900EF8D1B /* Timeline.m */,
 				6EAE82AF0EF5CBCB00BF6CD4 /* TimelineDataSource.h */,
 				6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */,
 				6E10290F0E5D362C00440C58 /* LoadCell.h */,
@@ -647,8 +649,6 @@
 				6EC53C3B0EF805FE009BCC92 /* Followee.m */,
 				6EC53C3C0EF805FE009BCC92 /* Message.h */,
 				6EC53C3D0EF805FE009BCC92 /* Message.m */,
-				6EC53C3E0EF805FE009BCC92 /* Timeline.h */,
-				6EC53C4F0EF80661009BCC92 /* Timeline.m */,
 				6EC53C400EF805FE009BCC92 /* User.h */,
 				6EC53C410EF805FE009BCC92 /* User.m */,
 			);
@@ -915,10 +915,10 @@
 				6EC53C430EF805FE009BCC92 /* Followee.m in Sources */,
 				6EC53C440EF805FE009BCC92 /* Message.m in Sources */,
 				6EC53C460EF805FE009BCC92 /* User.m in Sources */,
-				6EC53C500EF80661009BCC92 /* Timeline.m in Sources */,
 				6EC53C700EF806EB009BCC92 /* NSObject+SBJSON.m in Sources */,
 				6EC53C710EF806EB009BCC92 /* NSString+SBJSON.m in Sources */,
 				6EC53C720EF806EB009BCC92 /* SBJSON.m in Sources */,
+				6EF9FE0F0EF80E5900EF8D1B /* Timeline.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
