@@ -68,7 +68,7 @@ static sqlite3_stmt* message_by_id_statement = nil;
         text = @"";
     }
     else {
-        tweet = [[tweet  unescapeHTML] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+        tweet = [[tweet unescapeHTML] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
         text  = [[tweet stringByReplacingOccurrencesOfString:@"\r" withString:@" "] retain];
     }
 

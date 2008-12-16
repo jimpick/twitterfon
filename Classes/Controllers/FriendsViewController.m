@@ -140,6 +140,7 @@
         }
         User *user = [[User alloc] initWithJsonDictionary:dic];
         [friends addObject:user];
+        [user release];
     }
     
     if (prevCount == 0) {

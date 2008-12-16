@@ -24,14 +24,22 @@ static sqlite3_stmt* user_by_id_statement = nil;
 
 - (void)updateWithJSonDictionary:(NSDictionary*)dic
 {
+    [name release];
+    [screenName release];
+    [location release];
+    [description release];
+    [url release];
+    [profileImageUrl release];
+    
     userId          = [[dic objectForKey:@"id"] longValue];
     
-    name            = [[dic objectForKey:@"name"] retain];
-	screenName      = [[dic objectForKey:@"screen_name"] retain];
-	location        = [[dic objectForKey:@"location"] retain];
-	description     = [[dic objectForKey:@"description"] retain];
-	url             = [[dic objectForKey:@"url"] retain];
-    profileImageUrl = [[dic objectForKey:@"profile_image_url"] retain];
+    name            = [dic objectForKey:@"name"];
+	screenName      = [dic objectForKey:@"screen_name"];
+//	location        = [dic objectForKey:@"location"];
+    location = @"&gt;Test";
+	description     = [dic objectForKey:@"description"];
+	url             = [dic objectForKey:@"url"];
+    profileImageUrl = [dic objectForKey:@"profile_image_url"];
 
     followersCount  = ([dic objectForKey:@"followers_count"] == [NSNull null]) ? 0 : [[dic objectForKey:@"followers_count"] longValue];
     protected       = ([dic objectForKey:@"protected"]       == [NSNull null]) ? 0 : [[dic objectForKey:@"protected"] boolValue];
@@ -49,8 +57,12 @@ static sqlite3_stmt* user_by_id_statement = nil;
     if ((id)url == [NSNull null]) url = @"";
     if ((id)profileImageUrl == [NSNull null]) profileImageUrl = @"";
     
-    self.location    = [location unescapeHTML];
-    self.description = [description unescapeHTML];
+    [name retain];
+    [screenName retain];
+    location = [[location unescapeHTML] retain];
+    description = [[description unescapeHTML] retain];
+    [url retain];
+    [profileImageUrl retain];
 }
 
 - (User*)initWithJsonDictionary:(NSDictionary*)dic
@@ -68,18 +80,21 @@ static sqlite3_stmt* user_by_id_statement = nil;
 	
 	userId          = [[dic objectForKey:@"from_user_id"] longValue];
     
-    name            = [[dic objectForKey:@"from_user"] retain];
-	screenName      = [[dic objectForKey:@"from_user"] retain];
+    name            = [dic objectForKey:@"from_user"];
+	screenName      = [dic objectForKey:@"from_user"];
 	location        = @"";
 	url             = @"";
     followersCount  = 0;
-    profileImageUrl = [[dic objectForKey:@"profile_image_url"] retain];
+    profileImageUrl = [dic objectForKey:@"profile_image_url"];
     protected       = false;
     description     = @"";
     
     if ((id)name == [NSNull null]) name = @"";
     if ((id)screenName == [NSNull null]) screenName = @"";
     if ((id)profileImageUrl == [NSNull null]) profileImageUrl = @"";
+    [name retain];
+    [screenName retain];
+    [profileImageUrl retain];
 	
 	return self;
 }
