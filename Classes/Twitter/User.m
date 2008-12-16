@@ -35,8 +35,7 @@ static sqlite3_stmt* user_by_id_statement = nil;
     
     name            = [dic objectForKey:@"name"];
 	screenName      = [dic objectForKey:@"screen_name"];
-//	location        = [dic objectForKey:@"location"];
-    location = @"&gt;Test";
+	location        = [dic objectForKey:@"location"];
 	description     = [dic objectForKey:@"description"];
 	url             = [dic objectForKey:@"url"];
     profileImageUrl = [dic objectForKey:@"profile_image_url"];
