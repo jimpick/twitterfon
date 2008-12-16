@@ -10,6 +10,7 @@
 #import "FriendsTimelineDataSource.h"
 #import "TwitterFonAppDelegate.h"
 #import "UserViewController.h"
+#import "UserDetailViewController.h"
 
 #import "TimelineMessageCell.h"
 #import "DBConnection.h"
@@ -82,8 +83,15 @@ static UIAlertView* sAlert = nil;
     if (m) {
         // Display user view
         //
-        UserViewController* userView = [[[UserViewController alloc] initWithMessage:m] autorelease];
-        [[controller navigationController] pushViewController:userView animated:TRUE];
+        if (messageType == MSG_TYPE_MESSAGES || messageType == MSG_TYPE_SENT) {
+            UserDetailViewController *userDetail = [[[UserDetailViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
+            userDetail.user = m.user;
+            [[controller navigationController] pushViewController:userDetail animated:true];
+        }
+        else {
+            UserViewController* userView = [[[UserViewController alloc] initWithMessage:m] autorelease];
+            [[controller navigationController] pushViewController:userView animated:TRUE];
+        }
     }      
     else {
         // Restore tweets from DB
