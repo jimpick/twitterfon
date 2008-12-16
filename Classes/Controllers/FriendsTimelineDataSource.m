@@ -9,8 +9,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "FriendsTimelineDataSource.h"
 #import "TwitterFonAppDelegate.h"
-#import "UserViewController.h"
-#import "UserDetailViewController.h"
+#import "TweetViewController.h"
+#import "ProfileViewController.h"
 
 #import "TimelineMessageCell.h"
 #import "DBConnection.h"
@@ -84,13 +84,12 @@ static UIAlertView* sAlert = nil;
         // Display user view
         //
         if (messageType == MSG_TYPE_MESSAGES || messageType == MSG_TYPE_SENT) {
-            UserDetailViewController *userDetail = [[[UserDetailViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
-            userDetail.user = m.user;
-            [[controller navigationController] pushViewController:userDetail animated:true];
+            ProfileViewController *profile = [[[ProfileViewController alloc] initWithProfile:m.user] autorelease];
+            [[controller navigationController] pushViewController:profile animated:true];
         }
         else {
-            UserViewController* userView = [[[UserViewController alloc] initWithMessage:m] autorelease];
-            [[controller navigationController] pushViewController:userView animated:TRUE];
+            TweetViewController* tweetView = [[[TweetViewController alloc] initWithMessage:m] autorelease];
+            [[controller navigationController] pushViewController:tweetView animated:TRUE];
         }
     }      
     else {

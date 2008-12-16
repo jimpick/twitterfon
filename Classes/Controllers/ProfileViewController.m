@@ -7,7 +7,7 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import "UserDetailViewController.h"
+#import "ProfileViewController.h"
 #import "TwitterFonAppDelegate.h"
 #import "WebViewController.h"
 #import "FriendsViewController.h"
@@ -23,20 +23,12 @@ enum {
     NUM_ROWS,
 };
 
-@implementation UserDetailViewController
+@implementation ProfileViewController
 
-@synthesize user;
-@synthesize userView;
-
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithProfile:(User*)aUser
 {
-    self = [super initWithStyle:style];
+    self = [super initWithStyle:UITableViewStyleGrouped];
     
-    return self;
-}
-
-- (void)setUser:(User*)aUser
-{
     user = [aUser copy];
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     if ([username caseInsensitiveCompare:user.screenName] == NSOrderedSame) {
@@ -52,8 +44,8 @@ enum {
     userView.hasDetail = true;
     user.imageContainer = userView;
     [userView setUser:user];
-    
-    detailView = [[UserDetailView alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
+
+    return self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -91,7 +83,6 @@ enum {
     user.imageContainer = nil;
     [user release];
     [twitterClient release];
-    [detailView release];
     [super dealloc];
 }
 
@@ -225,7 +216,6 @@ enum {
 
         [user updateWithJSonDictionary:dic];
         [userView setUser:user];
-        detailView.user = user;
         detailLoaded = true;
 
 //        followingLoaded = true;

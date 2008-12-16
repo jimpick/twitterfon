@@ -1,5 +1,5 @@
 //
-//  UserViewController.m
+//  TweetViewController.m
 //  TwitterFon
 //
 //  Created by kaz on 11/30/08.
@@ -8,9 +8,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "TwitterFonAppDelegate.h"
-#import "UserViewController.h"
+#import "TweetViewController.h"
 #import "UserTimelineController.h"
-#import "UserDetailViewController.h"
+#import "ProfileViewController.h"
 #import "ColorUtils.h"
 
 NSString* sCellActionText[3] = {
@@ -69,12 +69,12 @@ enum {
 - (void)removeMessage:(Message*)message;
 @end
 
-@implementation UserViewController
+@implementation TweetViewController
 
 - (void)initCommon
 {
     userView    = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 387)];
-    actionCell  = [[UserViewActionCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ActionCell"];
+    actionCell  = [[TweetViewActionCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ActionCell"];
     messageCell = [[UserMessageCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"MessageCell"];
     deleteCell  = [[DeleteButtonCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"DeleteCell"];
 }
@@ -279,14 +279,14 @@ enum {
     switch (section) {
         case SECTION_MESSAGE:
             if (indexPath.row == 1) {
-                UserViewController *controller = [UserViewController alloc];
+                TweetViewController *messageView = [TweetViewController alloc];
                 if (inReplyToMessage) {
-                    [[controller initWithMessage:inReplyToMessage] autorelease];
+                    [[messageView initWithMessage:inReplyToMessage] autorelease];
                 }
                 else {
-                    [[controller initWithMessageId:message.inReplyToMessageId] autorelease];
+                    [[messageView initWithMessageId:message.inReplyToMessageId] autorelease];
                 }
-                [self.navigationController pushViewController:controller animated:true];
+                [self.navigationController pushViewController:messageView animated:true];
             }
             break;
         case SECTION_MORE_ACTIONS:
@@ -296,9 +296,8 @@ enum {
                 [self.navigationController pushViewController:userTimeline animated:true];
             }
             else if (indexPath.row == ROW_PROFILE) {
-                UserDetailViewController *detailView = [[[UserDetailViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
-                detailView.user = message.user;
-                [self.navigationController pushViewController:detailView animated:true];
+                ProfileViewController *profile = [[[ProfileViewController alloc] initWithProfile:message.user] autorelease];
+                [self.navigationController pushViewController:profile animated:true];
             }
             break;
             

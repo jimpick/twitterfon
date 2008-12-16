@@ -7,15 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 #import "UserView.h"
-#import "UserDetailView.h"
 #import "TwitterClient.h"
 
-@interface UserDetailViewController : UITableViewController
+@interface ProfileViewController : UITableViewController
 {
     User*           user;
     UserView*       userView;
-    UserDetailView* detailView;
     TwitterClient*  twitterClient;
     
     BOOL            detailLoaded;
@@ -23,7 +22,6 @@
     BOOL            ownInfo;
 }
 
-@property(nonatomic, copy) User* user;
-@property(nonatomic, readonly) UserView* userView;
+-(id)initWithProfile:(User*)user;
 
 @end

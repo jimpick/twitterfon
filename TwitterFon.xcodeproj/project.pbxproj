@@ -29,6 +29,8 @@
 		6E08FB9E0E5D266B00106492 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E08FB9D0E5D266B00106492 /* UserCell.m */; };
 		6E092C3B0E3B41D40039FEE3 /* TFConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E092C3A0E3B41D40039FEE3 /* TFConnection.m */; };
 		6E1029110E5D362C00440C58 /* LoadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1029100E5D362C00440C58 /* LoadCell.m */; };
+		6E1BE7900EF7BF4C0075881E /* TweetViewActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1BE78D0EF7BF4C0075881E /* TweetViewActionCell.m */; };
+		6E1BE7910EF7BF4C0075881E /* TweetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1BE78F0EF7BF4C0075881E /* TweetViewController.m */; };
 		6E1C6E780EB53E4700E34D9B /* TrendsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C6E760EB53E4700E34D9B /* TrendsDataSource.m */; };
 		6E1C6F3E0EB5897A00E34D9B /* SearchHistoryDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C6F3D0EB5897A00E34D9B /* SearchHistoryDataSource.m */; };
 		6E1C72E70EB5ABED00E34D9B /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C72E60EB5ABED00E34D9B /* LocationManager.m */; };
@@ -50,7 +52,7 @@
 		6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */; };
 		6E48E93B0EBD7439005E1837 /* PostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E93A0EBD7439005E1837 /* PostView.m */; };
 		6E5CBCED0ECF7971008A18A2 /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5CBCEC0ECF7971008A18A2 /* ImageUtils.m */; };
-		6E6846B10EE2D85E009847F3 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E6846B00EE2D85E009847F3 /* UserViewController.m */; };
+		6E68219D0EF7BBB00079EC9E /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E68219C0EF7BBB00079EC9E /* ProfileViewController.m */; };
 		6E6DC59D0EC077FD00F9EB74 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5940EC077FD00F9EB74 /* MainWindow.xib */; };
 		6E6DC59E0EC077FD00F9EB74 /* PostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5950EC077FD00F9EB74 /* PostView.xib */; };
 		6E6DC59F0EC077FD00F9EB74 /* SearchHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5960EC077FD00F9EB74 /* SearchHistoryView.xib */; };
@@ -60,8 +62,6 @@
 		6E6DC5A40EC077FD00F9EB74 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC59B0EC077FD00F9EB74 /* WebView.xib */; };
 		6E6DC5A50EC077FD00F9EB74 /* FolloweesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */; };
 		6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC6230EC07F3D00F9EB74 /* camera.png */; };
-		6E716C1A0ED2BD880092245A /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E716C180ED2BD880092245A /* UserDetailViewController.m */; };
-		6E716C1D0ED2BDC20092245A /* UserDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E716C1C0ED2BDC20092245A /* UserDetailView.m */; };
 		6E74DA890ED95AC5000E169F /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E74DA870ED95AC5000E169F /* TabBarController.m */; };
 		6E89F34A0EDD230A00778242 /* search_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E89F3490EDD230A00778242 /* search_shadow.png */; };
 		6E89F5EC0EDD58BF00778242 /* location_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E89F5EB0EDD58BF00778242 /* location_small.png */; };
@@ -89,7 +89,6 @@
 		6ECD90400EBEF9F400C3CD4D /* TwitPicClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECD903F0EBEF9F400C3CD4D /* TwitPicClient.m */; };
 		6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA50E38D3A0006E8AB7 /* forward.png */; };
 		6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA60E38D3A0006E8AB7 /* back.png */; };
-		6EDB36D10EE72CC900440173 /* UserViewActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDB36D00EE72CC900440173 /* UserViewActionCell.m */; };
 		6EDC01240E33E6DA00FF142E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */; };
 		6EDC012F0E33E6F000FF142E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */; };
 		6EDC01D10E344B5600FF142E /* DBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EDC01D00E344B5600FF142E /* DBConnection.m */; };
@@ -154,6 +153,10 @@
 		6E10290F0E5D362C00440C58 /* LoadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadCell.h; path = Controllers/LoadCell.h; sourceTree = "<group>"; };
 		6E1029100E5D362C00440C58 /* LoadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadCell.m; path = Controllers/LoadCell.m; sourceTree = "<group>"; };
 		6E138FEE0E67F76A0037BE46 /* DebugUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugUtils.h; path = Classes/OtherSources/DebugUtils.h; sourceTree = "<group>"; };
+		6E1BE78C0EF7BF4C0075881E /* TweetViewActionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TweetViewActionCell.h; path = Controllers/TweetViewActionCell.h; sourceTree = "<group>"; };
+		6E1BE78D0EF7BF4C0075881E /* TweetViewActionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TweetViewActionCell.m; path = Controllers/TweetViewActionCell.m; sourceTree = "<group>"; };
+		6E1BE78E0EF7BF4C0075881E /* TweetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TweetViewController.h; path = Controllers/TweetViewController.h; sourceTree = "<group>"; };
+		6E1BE78F0EF7BF4C0075881E /* TweetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TweetViewController.m; path = Controllers/TweetViewController.m; sourceTree = "<group>"; };
 		6E1C6E750EB53E4700E34D9B /* TrendsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrendsDataSource.h; path = Controllers/TrendsDataSource.h; sourceTree = "<group>"; };
 		6E1C6E760EB53E4700E34D9B /* TrendsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrendsDataSource.m; path = Controllers/TrendsDataSource.m; sourceTree = "<group>"; };
 		6E1C6F3C0EB5897A00E34D9B /* SearchHistoryDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchHistoryDataSource.h; path = Controllers/SearchHistoryDataSource.h; sourceTree = "<group>"; };
@@ -184,8 +187,8 @@
 		6E48E93A0EBD7439005E1837 /* PostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostView.m; path = Controllers/PostView.m; sourceTree = "<group>"; };
 		6E5CBCEB0ECF7971008A18A2 /* ImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageUtils.h; path = Classes/OtherSources/ImageUtils.h; sourceTree = "<group>"; };
 		6E5CBCEC0ECF7971008A18A2 /* ImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageUtils.m; path = Classes/OtherSources/ImageUtils.m; sourceTree = "<group>"; };
-		6E6846AF0EE2D85E009847F3 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserViewController.h; path = Controllers/UserViewController.h; sourceTree = "<group>"; };
-		6E6846B00EE2D85E009847F3 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserViewController.m; path = Controllers/UserViewController.m; sourceTree = "<group>"; };
+		6E68219B0EF7BBB00079EC9E /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileViewController.h; path = Controllers/ProfileViewController.h; sourceTree = "<group>"; };
+		6E68219C0EF7BBB00079EC9E /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileViewController.m; path = Controllers/ProfileViewController.m; sourceTree = "<group>"; };
 		6E6DC5940EC077FD00F9EB74 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = Interfaces/MainWindow.xib; sourceTree = "<group>"; };
 		6E6DC5950EC077FD00F9EB74 /* PostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PostView.xib; path = Interfaces/PostView.xib; sourceTree = "<group>"; };
 		6E6DC5960EC077FD00F9EB74 /* SearchHistoryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SearchHistoryView.xib; path = Interfaces/SearchHistoryView.xib; sourceTree = "<group>"; };
@@ -195,10 +198,6 @@
 		6E6DC59B0EC077FD00F9EB74 /* WebView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WebView.xib; path = Interfaces/WebView.xib; sourceTree = "<group>"; };
 		6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FolloweesView.xib; path = Interfaces/FolloweesView.xib; sourceTree = "<group>"; };
 		6E6DC6230EC07F3D00F9EB74 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
-		6E716C170ED2BD880092245A /* UserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDetailViewController.h; path = Controllers/UserDetailViewController.h; sourceTree = "<group>"; };
-		6E716C180ED2BD880092245A /* UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDetailViewController.m; path = Controllers/UserDetailViewController.m; sourceTree = "<group>"; };
-		6E716C1B0ED2BDC20092245A /* UserDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDetailView.h; path = Controllers/UserDetailView.h; sourceTree = "<group>"; };
-		6E716C1C0ED2BDC20092245A /* UserDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDetailView.m; path = Controllers/UserDetailView.m; sourceTree = "<group>"; };
 		6E74DA870ED95AC5000E169F /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarController.m; path = Controllers/TabBarController.m; sourceTree = "<group>"; };
 		6E74DA880ED95AC5000E169F /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarController.h; path = Controllers/TabBarController.h; sourceTree = "<group>"; };
 		6E89F3490EDD230A00778242 /* search_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_shadow.png; sourceTree = "<group>"; };
@@ -243,8 +242,6 @@
 		6ECD903F0EBEF9F400C3CD4D /* TwitPicClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitPicClient.m; path = Network/TwitPicClient.m; sourceTree = "<group>"; };
 		6ED17FA50E38D3A0006E8AB7 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
 		6ED17FA60E38D3A0006E8AB7 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
-		6EDB36CF0EE72CC900440173 /* UserViewActionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserViewActionCell.h; path = Controllers/UserViewActionCell.h; sourceTree = "<group>"; };
-		6EDB36D00EE72CC900440173 /* UserViewActionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserViewActionCell.m; path = Controllers/UserViewActionCell.m; sourceTree = "<group>"; };
 		6EDC01230E33E6DA00FF142E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		6EDC012E0E33E6F000FF142E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6EDC01CF0E344B5600FF142E /* DBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBConnection.h; sourceTree = "<group>"; };
@@ -322,7 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				6EEBF6C90E3AE3780003EA63 /* Network */,
-				6EDC025B0E34537600FF142E /* Views */,
+				6EDC025B0E34537600FF142E /* Controllers */,
 				6EED141D0E33E59B00C71EA4 /* Twitter */,
 				6EDC01CE0E344B5600FF142E /* DB */,
 				6EED14040E33E59B00C71EA4 /* ImageStore */,
@@ -480,44 +477,32 @@
 			name = Search;
 			sourceTree = "<group>";
 		};
-		6E102A360E5DD63D00440C58 /* UserView */ = {
+		6E1BE7BF0EF7C0370075881E /* DirectMessage */ = {
 			isa = PBXGroup;
 			children = (
-				6E8C57B80ED0AEA300EC9D39 /* UserView.h */,
-				6E8C57B90ED0AEA300EC9D39 /* UserView.m */,
-				6E03783D0EF354030045CD12 /* DeleteButtonCell.h */,
-				6E03783E0EF354030045CD12 /* DeleteButtonCell.m */,
-				6EDB36CF0EE72CC900440173 /* UserViewActionCell.h */,
-				6EDB36D00EE72CC900440173 /* UserViewActionCell.m */,
-				6E6846AF0EE2D85E009847F3 /* UserViewController.h */,
-				6E6846B00EE2D85E009847F3 /* UserViewController.m */,
-				6E6846AC0EE2D7D6009847F3 /* UserTimelineView */,
-				6E1FAB400EDA6A39009407F6 /* UserDetailView */,
 			);
-			name = UserView;
+			name = DirectMessage;
 			sourceTree = "<group>";
 		};
-		6E1FAB400EDA6A39009407F6 /* UserDetailView */ = {
+		6E1FAB400EDA6A39009407F6 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				6E716C170ED2BD880092245A /* UserDetailViewController.h */,
-				6E716C180ED2BD880092245A /* UserDetailViewController.m */,
-				6E716C1B0ED2BDC20092245A /* UserDetailView.h */,
-				6E716C1C0ED2BDC20092245A /* UserDetailView.m */,
+				6E68219B0EF7BBB00079EC9E /* ProfileViewController.h */,
+				6E68219C0EF7BBB00079EC9E /* ProfileViewController.m */,
 			);
-			name = UserDetailView;
+			name = Profile;
 			sourceTree = "<group>";
 		};
-		6E38EF7F0E38275300887690 /* Web View */ = {
+		6E38EF7F0E38275300887690 /* Web */ = {
 			isa = PBXGroup;
 			children = (
 				6EEBF7260E3B209A0003EA63 /* WebViewController.h */,
 				6EEBF7270E3B209A0003EA63 /* WebViewController.m */,
 			);
-			name = "Web View";
+			name = Web;
 			sourceTree = "<group>";
 		};
-		6E6846AC0EE2D7D6009847F3 /* UserTimelineView */ = {
+		6E6846AC0EE2D7D6009847F3 /* UserTimeline */ = {
 			isa = PBXGroup;
 			children = (
 				6E08FB9C0E5D266B00106492 /* UserCell.h */,
@@ -527,7 +512,22 @@
 				6E08FB750E5D252200106492 /* UserTimelineController.h */,
 				6E08FB760E5D252200106492 /* UserTimelineController.m */,
 			);
-			name = UserTimelineView;
+			name = UserTimeline;
+			sourceTree = "<group>";
+		};
+		6E74D0E20EF7B440003BB7B1 /* Tweets */ = {
+			isa = PBXGroup;
+			children = (
+				6E8C57B80ED0AEA300EC9D39 /* UserView.h */,
+				6E8C57B90ED0AEA300EC9D39 /* UserView.m */,
+				6E03783D0EF354030045CD12 /* DeleteButtonCell.h */,
+				6E03783E0EF354030045CD12 /* DeleteButtonCell.m */,
+				6E1BE78C0EF7BF4C0075881E /* TweetViewActionCell.h */,
+				6E1BE78D0EF7BF4C0075881E /* TweetViewActionCell.m */,
+				6E1BE78E0EF7BF4C0075881E /* TweetViewController.h */,
+				6E1BE78F0EF7BF4C0075881E /* TweetViewController.m */,
+			);
+			name = Tweets;
 			sourceTree = "<group>";
 		};
 		6E74DA700ED957EC000E169F /* Application */ = {
@@ -558,7 +558,7 @@
 			name = Post;
 			sourceTree = "<group>";
 		};
-		6E8265C90E375122005D2370 /* TimelineView */ = {
+		6E8265C90E375122005D2370 /* Timeline */ = {
 			isa = PBXGroup;
 			children = (
 				6EED14220E33E59B00C71EA4 /* Timeline.h */,
@@ -574,7 +574,7 @@
 				6ECCAF6E0EBED555002B39F6 /* MessageCellView.h */,
 				6ECCAF6F0EBED555002B39F6 /* MessageCellView.m */,
 			);
-			name = TimelineView;
+			name = Timeline;
 			sourceTree = "<group>";
 		};
 		6E8265CA0E37513B005D2370 /* Settings */ = {
@@ -586,16 +586,16 @@
 			name = Settings;
 			sourceTree = "<group>";
 		};
-		6EAE759B0EF3870700BF6CD4 /* LinkView */ = {
+		6EAE759B0EF3870700BF6CD4 /* Links */ = {
 			isa = PBXGroup;
 			children = (
 				6EFC286E0EBDD46D00FBBB3D /* LinkViewController.h */,
 				6EFC286F0EBDD46D00FBBB3D /* LinkViewController.m */,
 			);
-			name = LinkView;
+			name = Links;
 			sourceTree = "<group>";
 		};
-		6EAE75FE0EF38FA100BF6CD4 /* FriendsView */ = {
+		6EAE75FE0EF38FA100BF6CD4 /* Friends */ = {
 			isa = PBXGroup;
 			children = (
 				6EADC09E0EBDC48D00093782 /* FolloweeCell.h */,
@@ -603,7 +603,7 @@
 				6EAE76020EF3904600BF6CD4 /* FriendsViewController.h */,
 				6EAE76030EF3904600BF6CD4 /* FriendsViewController.m */,
 			);
-			name = FriendsView;
+			name = Friends;
 			sourceTree = "<group>";
 		};
 		6EAE81540EF5B54100BF6CD4 /* FriendsTimeline */ = {
@@ -676,21 +676,24 @@
 			path = DB;
 			sourceTree = "<group>";
 		};
-		6EDC025B0E34537600FF142E /* Views */ = {
+		6EDC025B0E34537600FF142E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				6E74DA700ED957EC000E169F /* Application */,
-				6E8265C90E375122005D2370 /* TimelineView */,
+				6E8265C90E375122005D2370 /* Timeline */,
 				6EAE81540EF5B54100BF6CD4 /* FriendsTimeline */,
-				6E102A360E5DD63D00440C58 /* UserView */,
+				6E74D0E20EF7B440003BB7B1 /* Tweets */,
+				6E1BE7BF0EF7C0370075881E /* DirectMessage */,
+				6E6846AC0EE2D7D6009847F3 /* UserTimeline */,
+				6E1FAB400EDA6A39009407F6 /* Profile */,
 				6EBEE5790EB2F58E00C18F0A /* Search */,
 				6E8265C80E375119005D2370 /* Post */,
-				6E38EF7F0E38275300887690 /* Web View */,
+				6E38EF7F0E38275300887690 /* Web */,
 				6E8265CA0E37513B005D2370 /* Settings */,
-				6EAE759B0EF3870700BF6CD4 /* LinkView */,
-				6EAE75FE0EF38FA100BF6CD4 /* FriendsView */,
+				6EAE759B0EF3870700BF6CD4 /* Links */,
+				6EAE75FE0EF38FA100BF6CD4 /* Friends */,
 			);
-			name = Views;
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 		6EEBF6C90E3AE3780003EA63 /* Network */ = {
@@ -906,14 +909,10 @@
 				6E5CBCED0ECF7971008A18A2 /* ImageUtils.m in Sources */,
 				6E8C57BA0ED0AEA300EC9D39 /* UserView.m in Sources */,
 				6E35BD630ED16B5300C332C2 /* QuartzUtils.c in Sources */,
-				6E716C1A0ED2BD880092245A /* UserDetailViewController.m in Sources */,
-				6E716C1D0ED2BDC20092245A /* UserDetailView.m in Sources */,
 				6E74DA890ED95AC5000E169F /* TabBarController.m in Sources */,
 				6E89F7C60EDE267D00778242 /* CustomSearchBar.m in Sources */,
 				6E08A4D90EDFD0B5000D25FE /* CustomSearchTextField.m in Sources */,
 				6E08A88D0EE00DB9000D25FE /* LocationDistanceWindow.m in Sources */,
-				6E6846B10EE2D85E009847F3 /* UserViewController.m in Sources */,
-				6EDB36D10EE72CC900440173 /* UserViewActionCell.m in Sources */,
 				6E03783F0EF354030045CD12 /* DeleteButtonCell.m in Sources */,
 				6EAE76040EF3904600BF6CD4 /* FriendsViewController.m in Sources */,
 				6EAE81B50EF5BB4300BF6CD4 /* FriendsTimelineController.m in Sources */,
@@ -924,6 +923,9 @@
 				6EF83C700EF61ABE001523B4 /* MessageCellBase.m in Sources */,
 				6EF83C740EF61BA7001523B4 /* TimelineMessageCell.m in Sources */,
 				6EF83C800EF61CF3001523B4 /* UserMessageCell.m in Sources */,
+				6E68219D0EF7BBB00079EC9E /* ProfileViewController.m in Sources */,
+				6E1BE7900EF7BF4C0075881E /* TweetViewActionCell.m in Sources */,
+				6E1BE7910EF7BF4C0075881E /* TweetViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

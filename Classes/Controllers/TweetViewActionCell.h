@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Message.h"
 
-@interface UserViewActionCell : UITableViewCell {
+@interface TweetViewActionCell : UITableViewCell {
     UIButton    *reply, *dm, *retweet;
     Message*    message;
 }

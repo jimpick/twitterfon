@@ -8,8 +8,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UserTimelineController.h"
 #import "TwitterFonAppDelegate.h"
-#import "UserDetailViewController.h"
-#import "UserViewController.h"
+#import "ProfileViewController.h"
+#import "TweetViewController.h"
 #import "UserMessageCell.h"
 
 @interface NSObject (TimelineViewControllerDelegate)
@@ -168,9 +168,8 @@
         if ([timeline countMessages] == 0) {
             return;
         }
-        UserDetailViewController *detailView = [[[UserDetailViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
-        detailView.user = user;
-        [self.navigationController pushViewController:detailView animated:true];
+        ProfileViewController *profile = [[[ProfileViewController alloc] initWithProfile:user] autorelease];
+        [self.navigationController pushViewController:profile animated:true];
         return;
     }
     
@@ -178,8 +177,8 @@
     if (m) {
         // Display user timeline
         //
-        UserViewController* userView = [[[UserViewController alloc] initWithMessage:m] autorelease];
-        [self.navigationController pushViewController:userView animated:TRUE];
+        TweetViewController* tweetView = [[[TweetViewController alloc] initWithMessage:m] autorelease];
+        [self.navigationController pushViewController:tweetView animated:TRUE];
         return;
     }
     

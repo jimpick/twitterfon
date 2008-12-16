@@ -8,7 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "SearchResultsDataSource.h"
-#import "UserViewController.h"
+#import "TweetViewController.h"
 #import "TimelineMessageCell.h"
 #import "StringUtil.h"
 
@@ -77,8 +77,8 @@
     if (m) {
         // Display user timeline
         //
-        UserViewController* userView = [[[UserViewController alloc] initWithMessage:m] autorelease];
-        [[controller navigationController] pushViewController:userView animated:TRUE];
+        TweetViewController* tweetView = [[[TweetViewController alloc] initWithMessage:m] autorelease];
+        [[controller navigationController] pushViewController:tweetView animated:TRUE];
     }      
     else {
         [loadCell.spinner startAnimating];

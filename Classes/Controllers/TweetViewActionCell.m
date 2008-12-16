@@ -6,10 +6,10 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
-#import "UserViewActionCell.h"
+#import "TweetViewActionCell.h"
 #import "TwitterFonAppDelegate.h"
 
-@implementation UserViewActionCell
+@implementation TweetViewActionCell
 
 @synthesize message;
 

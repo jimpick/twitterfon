@@ -8,7 +8,7 @@
 
 #import "TwitterFonAppDelegate.h"
 #import "FriendsViewController.h"
-#import "UserDetailViewController.h"
+#import "ProfileViewController.h"
 #import "LoadCell.h"
 #import "FolloweeCell.h"
 
@@ -95,9 +95,8 @@
     }
     else {
         User *user = [friends objectAtIndex:indexPath.row];
-        UserDetailViewController *detailView = [[[UserDetailViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
-        detailView.user = user;
-        [self.navigationController pushViewController:detailView animated:true];
+        ProfileViewController *profile = [[[ProfileViewController alloc] initWithProfile:user] autorelease];
+        [self.navigationController pushViewController:profile animated:true];
     }
 }
 
