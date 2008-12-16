@@ -25,5 +25,6 @@
 - (BOOL)searchSubstance:(BOOL)reload;
 - (void)search:(NSString*)query;
 - (void)geocode:(float)latitude longitude:(float)longitude distance:(int)distance;
+- (int)countResults;
 
 @end

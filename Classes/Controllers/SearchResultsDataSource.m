@@ -126,6 +126,11 @@
     return true;
 }
 
+- (int)countResults
+{
+    return [timeline countMessages];
+}
+
 - (void)search:(NSString*)aQuery
 { 
     [timeline removeAllMessages];

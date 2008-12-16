@@ -81,6 +81,13 @@
         [username length] == 0 || [password length] == 0) {
         [self openSettingsView];
     }
+    
+    int interval  = [[NSUserDefaults standardUserDefaults] integerForKey:@"autoRefresh"];
+    if (interval > 0) {
+        interval = interval * 60;
+        if (interval < 180) interval = 180;
+        [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(autoRefresh:) userInfo:nil repeats:true];
+    }
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
@@ -118,6 +125,18 @@
     }
     else {
         [self.postView editWithURL:[url query]];
+    }
+}
+
+- (void)autoRefresh:(NSTimer*)timer
+{
+    NSArray *views = tabBarController.viewControllers;
+    for (int i = 0; i < [views count]; ++i) {
+        UINavigationController* nav = (UINavigationController*)[views objectAtIndex:i];
+        UIViewController *c = [nav.viewControllers objectAtIndex:0];
+        if ([c respondsToSelector:@selector(autoRefresh)]) {
+            [c performSelector:@selector(autoRefresh)];
+        }
     }
 }
 

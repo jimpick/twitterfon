@@ -101,13 +101,17 @@
     timelineDataSource = [[FriendsTimelineDataSource alloc] initWithController:self messageType:tab];
     currentDataSource = timelineDataSource;
     if (load) [self loadTimeline];
-
 }
 
-- (IBAction) reload: (id) sender
+- (IBAction) reload:(id) sender
 {
     self.navigationItem.leftBarButtonItem.enabled = false;
     [currentDataSource getTimeline];
+}
+
+- (void)autoRefresh
+{
+    [self reload:nil];
 }
 
 - (IBAction) segmentDidChange:(id)sender

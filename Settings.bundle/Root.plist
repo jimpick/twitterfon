@@ -78,7 +78,6 @@
 			<key>Values</key>
 			<array>
 				<integer>0</integer>
-				<integer>1</integer>
 				<integer>3</integer>
 				<integer>5</integer>
 				<string>10</string>
@@ -86,7 +85,6 @@
 			<key>Titles</key>
 			<array>
 				<string>No auto refresh</string>
-				<string>Every 1 minute</string>
 				<string>Every 3 minutes</string>
 				<string>Every 5 minutes</string>
 				<string>Every 10 minutes</string>

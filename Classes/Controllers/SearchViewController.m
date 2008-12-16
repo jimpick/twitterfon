@@ -216,6 +216,13 @@
     self.navigationItem.leftBarButtonItem.enabled = false;
 }
 
+- (void)autoRefresh
+{
+    if (self.tableView.dataSource == search && [search countResults]) {
+        [self reload:nil];
+    }
+}
+
 - (void)reloadTable
 {
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:false];
