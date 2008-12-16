@@ -96,10 +96,15 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    NSString *host = [url host];
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
-
-    if ([host isEqualToString:@"post"]) {
+    NSString *method = [[url path] substringFromIndex:1];
+#if 0    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:method message:[url query] delegate:self
+                                          cancelButtonTitle:@"Close" otherButtonTitles: nil];
+    [alert show];	
+    [alert release];
+#endif    
+    if ([method isEqualToString:@"post"]) {
         NSMutableArray *array = [NSMutableArray array];
         if ([[url query] matches:@".*twitter.com/([A-Za-z0-9_]+)" withSubstring:array]) {
             UserTimelineController *userTimeline = [[[UserTimelineController alloc] init] autorelease];
@@ -110,12 +115,12 @@
             [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(postURL:) userInfo:url repeats:false];
         }
     }
-    if ([host isEqualToString:@"user_timeline"]) {
+    if ([method isEqualToString:@"user_timeline"]) {
         UserTimelineController *userTimeline = [[[UserTimelineController alloc] init] autorelease];
         [userTimeline loadUserTimeline:[url query]];
         [nav pushViewController:userTimeline animated:false];
     }
-    if ([host isEqualToString:@"search"]) {
+    if ([method isEqualToString:@"search"]) {
         [self search:[url query]];
     }
     return YES;
@@ -124,12 +129,7 @@
 - (void)postURL:(NSTimer*)timer
 {
     NSURL *url = [timer userInfo];
-    if ([[url path] length] > 1) {
-        [self.postView editWithURL:[url query] title:[[url path] substringFromIndex:1]];
-    }
-    else {
-        [self.postView editWithURL:[url query]];
-    }
+    [self.postView editWithURL:[url query]];
 }
 
 - (void)setNextTimer:(NSTimeInterval)interval
@@ -141,7 +141,6 @@
 {
     [lastRefreshDate release];
     lastRefreshDate = [[NSDate date] retain];
-    NSLog(@"Auto refresh");
     NSArray *views = tabBarController.viewControllers;
     for (int i = 0; i < [views count]; ++i) {
         UINavigationController* nav = (UINavigationController*)[views objectAtIndex:i];
@@ -174,7 +173,6 @@
     else if (autoRefreshInterval) {
         NSDate *now = [NSDate date];
         NSTimeInterval diff = autoRefreshInterval - [now timeIntervalSinceDate:lastRefreshDate];
-        NSLog(@"%d", (int)diff);
         if (diff < 0) {
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;            
             diff = 2.0;
