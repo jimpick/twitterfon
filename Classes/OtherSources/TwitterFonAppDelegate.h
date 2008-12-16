@@ -29,6 +29,10 @@ typedef enum {
     SettingsViewController*         settingsView;
     ImageStore*                     imageStore;
     int                             selectedTab;
+
+    NSTimeInterval                  autoRefreshInterval;
+    NSTimer*                        autoRefreshTimer;
+    NSDate*                         lastRefreshDate;
 }
 
 - (IBAction)post:(id)sender;

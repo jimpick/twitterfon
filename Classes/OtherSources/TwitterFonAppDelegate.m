@@ -25,6 +25,10 @@
 - (void)toggleFavorite:(BOOL)favorited message:(Message*)message;
 @end
 
+@interface TwitterFonAppDelegate(Private)
+- (void)setNextTimer:(NSTimeInterval)interval;
+@end
+
 @implementation TwitterFonAppDelegate
 
 @synthesize window;
@@ -81,12 +85,12 @@
         [username length] == 0 || [password length] == 0) {
         [self openSettingsView];
     }
-    
-    int interval  = [[NSUserDefaults standardUserDefaults] integerForKey:@"autoRefresh"];
+    int interval = [[NSUserDefaults standardUserDefaults] integerForKey:@"autoRefresh"];
+    autoRefreshInterval = 0;
     if (interval > 0) {
-        interval = interval * 60;
-        if (interval < 180) interval = 180;
-        [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(autoRefresh:) userInfo:nil repeats:true];
+        autoRefreshInterval = interval * 60;
+        if (autoRefreshInterval < 180) autoRefreshInterval = 180;
+        [self setNextTimer:autoRefreshInterval];
     }
 }
 
@@ -128,8 +132,16 @@
     }
 }
 
+- (void)setNextTimer:(NSTimeInterval)interval
+{
+    autoRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(autoRefresh:) userInfo:nil repeats:false];    
+}
+
 - (void)autoRefresh:(NSTimer*)timer
 {
+    [lastRefreshDate release];
+    lastRefreshDate = [[NSDate date] retain];
+    NSLog(@"Auto refresh");
     NSArray *views = tabBarController.viewControllers;
     for (int i = 0; i < [views count]; ++i) {
         UINavigationController* nav = (UINavigationController*)[views objectAtIndex:i];
@@ -138,10 +150,17 @@
             [c performSelector:@selector(autoRefresh)];
         }
     }
+
+    [self setNextTimer:autoRefreshInterval];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+    if (autoRefreshTimer) {
+        [autoRefreshTimer invalidate];
+        autoRefreshTimer = nil;
+    }
+    
     if (postView != nil) {
         [self.postView saveTweet];
     }
@@ -149,6 +168,20 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    if (lastRefreshDate == nil) {
+        lastRefreshDate = [[NSDate date] retain];
+    }
+    else if (autoRefreshInterval) {
+        NSDate *now = [NSDate date];
+        NSTimeInterval diff = autoRefreshInterval - [now timeIntervalSinceDate:lastRefreshDate];
+        NSLog(@"%d", (int)diff);
+        if (diff < 0) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;            
+            diff = 2.0;
+        }
+        [self setNextTimer:diff];
+    }
+
     if (postView != nil) {
         [self.postView checkProgressWindowState];
     }
