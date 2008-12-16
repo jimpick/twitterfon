@@ -236,9 +236,11 @@
 
 - (void)search:(NSString*)query
 {
+    int previousTab = tabBarController.selectedIndex;
     tabBarController.selectedIndex = TAB_SEARCH;
     UINavigationController *nav = [[tabBarController viewControllers] objectAtIndex:TAB_SEARCH];
-    SearchViewController *search = (SearchViewController*)[nav topViewController];
+    [nav popToRootViewControllerAnimated:(previousTab == TAB_SEARCH)];
+    SearchViewController *search = (SearchViewController*)[nav.viewControllers objectAtIndex:0];
     [search search:query];
 }
 
