@@ -510,5 +510,34 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
     [sts release];
 }
 
+//
+// Common utilities
+//
+
+static UIAlertView *sAlert = nil;
+
++ (void)alert:(NSString*)title message:(NSString*)message
+{
+    if (sAlert) return;
+    
+    sAlert = [[UIAlertView alloc] initWithTitle:title
+                                        message:message
+                                        delegate:self
+                               cancelButtonTitle:@"Close"
+                               otherButtonTitles:nil];
+    [sAlert show];
+    [sAlert release];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonInde
+{
+    sAlert = nil;
+}
+
++(TwitterFonAppDelegate*)getAppDelegate
+{
+    return (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+}
+
 @end
 

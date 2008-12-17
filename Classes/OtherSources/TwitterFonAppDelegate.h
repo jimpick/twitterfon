@@ -49,6 +49,10 @@ typedef enum {
 - (void)openLinksViewController:(Status*)status;
 - (void)toggleFavorite:(Status*)status;
 
++ (void)alert:(NSString*)title message:(NSString*)detail;
+
++ (TwitterFonAppDelegate*)getAppDelegate;
+
 @property (nonatomic, readonly) UIWindow*           window;
 @property (nonatomic, assign) PostViewController*   postView;
 @property (nonatomic, readonly) ImageStore*         imageStore;
