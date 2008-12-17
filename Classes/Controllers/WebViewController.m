@@ -35,11 +35,7 @@ typedef enum {
 
 - (void)viewDidLoad
 {
-    UIImage *image = [UIImage imageNamed:@"postbutton.png"];
-    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithImage:image 
-                                                           style:UIBarButtonItemStylePlain 
-                                                           target:self
-                                                           action:@selector(postTweet:)];
+    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(postTweet:)];
     self.navigationItem.rightBarButtonItem = postButton;
 
     titleLabel.font = [UIFont boldSystemFontOfSize:18];
