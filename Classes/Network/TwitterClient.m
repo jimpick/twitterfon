@@ -295,8 +295,8 @@ NSString* sMethods[4] = {
 
     NSObject *obj = [content JSONValue];
     if (request == TWITTER_REQUEST_FRIENDSHIP_EXISTS) {
-        NSRange r = [content rangeOfString:@"true"];
-        obj = [NSNumber numberWithBool:(r.location != NSNotFound)];
+        NSRange r = [content rangeOfString:@"true" options:NSCaseInsensitiveSearch];
+  	  	obj = [NSNumber numberWithBool:r.location != NSNotFound];
     }
     
     if ([obj isKindOfClass:[NSDictionary class]]) {
