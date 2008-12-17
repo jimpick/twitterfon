@@ -20,7 +20,7 @@
     return self;
 }
 
-- (void)setstatus:(Status*)value
+- (void)setStatus:(Status*)value
 {
     if (status != value) {
 		[status release];
