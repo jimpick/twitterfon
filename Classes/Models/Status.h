@@ -30,8 +30,8 @@
     BOOL            truncated;
     sqlite_int64    inReplyToStatusId;
     int             inReplyToUserId;
+    NSString*       inReplyToScreenName;
     
-    int             textHeight;
     CGRect          textBounds;
     CGFloat         cellHeight;
 }
@@ -43,17 +43,16 @@
 @property (nonatomic, assign) BOOL          truncated;
 @property (nonatomic, assign) sqlite_int64  inReplyToStatusId;
 @property (nonatomic, assign) int           inReplyToUserId;
+@property (nonatomic, retain) NSString*     inReplyToScreenName;
 
 @property (nonatomic, assign) CGFloat       cellHeight;
 @property (nonatomic, assign) CGRect        textBounds;
-@property (nonatomic, assign) int           textHeight;
 
 + (Status*)statusWithId:(sqlite_int64)statusId;
 + (Status*)statusWithJsonDictionary:(NSDictionary*)dic type:(TweetType)type;
 + (Status*)statusWithSearchResult:(NSDictionary*)dic;
 + (Status*)initWithDB:(sqlite3_stmt*)statement type:(TweetType)type;
 + (BOOL)isExists:(sqlite_int64)statusId type:(TweetType)aType;
-+ (void)calcTextBounds:(Status*)status textWidth:(int)textWidth;
 
 - (Status*)initWithJsonDictionary:(NSDictionary*)dic type:(TweetType)type;
 - (Status*)initWithSearchResult:(NSDictionary*)dic;

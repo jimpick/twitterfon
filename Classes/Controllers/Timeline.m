@@ -127,7 +127,7 @@ static sqlite3_stmt *select_statement = nil;
 - (int)restore:(TweetType)aType all:(BOOL)all
 {
     if (select_statement == nil) {
-        static char *sql = "SELECT * FROM messages,users WHERE messages.user_id = users.user_id AND messages.type = ? ORDER BY id DESC LIMIT ? OFFSET ?";
+        static char *sql = "SELECT * FROM statuses,users WHERE statuses.user_id = users.user_id AND statuses.type = ? ORDER BY id DESC LIMIT ? OFFSET ?";
         select_statement = [DBConnection prepate:sql];
     }
 

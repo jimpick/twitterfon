@@ -75,6 +75,7 @@
 		6E8C57BA0ED0AEA300EC9D39 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C57B90ED0AEA300EC9D39 /* UserView.m */; };
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
 		6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E943F1A0E6527C600E8ECF2 /* usercell_background.png */; };
+		6E97A5E60EF8A91100168291 /* DirectMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E97A5E50EF8A91100168291 /* DirectMessage.m */; };
 		6EA0C19C0EBB1305000C0CD4 /* friends_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EA0C19B0EBB1305000C0CD4 /* friends_small.png */; };
 		6EADBC090EBD8F8E00093782 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADBC080EBD8F8E00093782 /* PostViewController.m */; };
 		6EADC0A20EBDC48D00093782 /* FolloweeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC09F0EBDC48D00093782 /* FolloweeCell.m */; };
@@ -218,6 +219,8 @@
 		6E943A8E0E64C4FF00E8ECF2 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeUtils.h; path = Classes/OtherSources/TimeUtils.h; sourceTree = "<group>"; };
 		6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeUtils.m; path = Classes/OtherSources/TimeUtils.m; sourceTree = "<group>"; };
 		6E943F1A0E6527C600E8ECF2 /* usercell_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usercell_background.png; sourceTree = "<group>"; };
+		6E97A5E40EF8A91100168291 /* DirectMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectMessage.h; sourceTree = "<group>"; };
+		6E97A5E50EF8A91100168291 /* DirectMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectMessage.m; sourceTree = "<group>"; };
 		6EA0C19B0EBB1305000C0CD4 /* friends_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends_small.png; sourceTree = "<group>"; };
 		6EADBC070EBD8F8E00093782 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostViewController.h; path = Controllers/PostViewController.h; sourceTree = "<group>"; };
 		6EADBC080EBD8F8E00093782 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostViewController.m; path = Controllers/PostViewController.m; sourceTree = "<group>"; };
@@ -654,6 +657,8 @@
 				6E3B13AA0EF835FC00070525 /* Tweet.m */,
 				6E3B13B60EF8383300070525 /* Status.h */,
 				6E3B13B70EF8383300070525 /* Status.m */,
+				6E97A5E40EF8A91100168291 /* DirectMessage.h */,
+				6E97A5E50EF8A91100168291 /* DirectMessage.m */,
 				6EC53C400EF805FE009BCC92 /* User.h */,
 				6EC53C410EF805FE009BCC92 /* User.m */,
 			);
@@ -925,6 +930,7 @@
 				6EF9FEDE0EF810C200EF8D1B /* UserTimelineCell.m in Sources */,
 				6E3B13AB0EF835FC00070525 /* Tweet.m in Sources */,
 				6E3B13B80EF8383300070525 /* Status.m in Sources */,
+				6E97A5E60EF8A91100168291 /* DirectMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

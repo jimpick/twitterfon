@@ -4,17 +4,17 @@ static sqlite3*             theDatabase = nil;
 
 #define MAIN_DATABASE_NAME @"db1.3.sql"
 
-//#define TEST_DELETE_TWEET
+#define TEST_DELETE_TWEET
 
 #ifdef TEST_DELETE_TWEET
 const char *delete_tweets = 
 "BEGIN;"
+//"DELETE FROM statuses;"
 //"DELETE FROM messages;"
 //"DELETE FROM images;"
-//"DELETE FROM messages WHERE type = 0 and id > (SELECT id FROM messages WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 1);"
-//"DELETE FROM messages WHERE type = 1 and id > (SELECT id FROM messages WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 1);"
-//"DELETE FROM messages WHERE type = 2 and id > (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 1);"
-//"DELETE FROM messages WHERE type = 3 and id > (SELECT id FROM messages WHERE type = 3 ORDER BY id DESC LIMIT 1 OFFSET 1);"
+//"DELETE FROM statuses WHERE type = 0 and id > (SELECT id FROM statuses WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 1);"
+//"DELETE FROM statuses WHERE type = 1 and id > (SELECT id FROM statuses WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 1);"
+//"DELETE FROM messages WHERE id > (SELECT id FROM messages ORDER BY id DESC LIMIT 1 OFFSET 1);"
 "COMMIT";
 #endif
 
@@ -58,6 +58,7 @@ const char *delete_tweets =
 //
 const char *delete_message_cache_sql = 
 "BEGIN;"
+"DELETE FROM statuses;"
 "DELETE FROM messages;"
 "DELETE FROM users;"
 "DELETE FROM followees;"
@@ -92,17 +93,17 @@ const char *delete_message_cache_sql =
 const char *cleanup_sql =
 "BEGIN;"
 "DELETE FROM images WHERE updated_at <= (SELECT updated_at FROM images order by updated_at LIMIT 1 OFFSET 5000);"
-"DELETE FROM messages WHERE type = 0 and id <= (SELECT id FROM messages WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 1000);"
-"DELETE FROM messages WHERE type = 1 and id <= (SELECT id FROM messages WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 1000);"
-"DELETE FROM messages WHERE type = 2 and id <= (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 1000);"
-"DELETE FROM messages WHERE type = 3 and id <= (SELECT id FROM messages WHERE type = 2 ORDER BY id DESC LIMIT 1 OFFSET 1000);"
+"DELETE FROM statuses WHERE type = 0 and id <= (SELECT id FROM statuses WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 2000);"
+"DELETE FROM statuses WHERE type = 1 and id <= (SELECT id FROM statuses WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 2000);"
 "COMMIT";
 
 
 const char *optimize_sql = 
+"REINDEX statuses;"
 "REINDEX messages;"
 "REINDEX images;"
 "REINDEX users;"
+"ANALYZE statuses;"
 "ANALYZE messages;"
 "ANALYZE images;"
 "ANALYZE users;"
@@ -132,77 +133,6 @@ const char *optimize_sql =
     }
 }
 
-//
-// migration
-//
-const char *update_v12_to_v13 = 
-// Create statuses and users table
-"CREATE TABLE statuses (            \
-'id'                     INTEGER,   \
-'type'                   INTEGER,   \
-'user_id'                INTEGER,   \
-'text'                   TEXT,      \
-'created_at'             INTEGER,   \
-'source'                 TEXT,      \
-'favorited'              INTEGER,   \
-'in_reply_to_status_id'  INTEGER,   \
-'in_reply_to_user_id'    INTEGER,   \
-'truncated'              INTEGER,   \
-PRIMARY KEY(type, id)               \
-);"
-"CREATE TABLE users (   \
-'user_id'                INTEGER PRIMARY KEY,    \
-'name'                   TEXT,   \
-'screen_name'            TEXT,   \
-'location'               TEXT,   \
-'description'            TEXT,   \
-'url'                    TEXT,   \
-'followers_count'        INTEGER,\
-'profile_image_url'      TEXT,   \
-'protected'              INTEGER \
-);"
-// Drop & Create index
-"BEGIN;"
-"DROP INDEX users_name;"
-"DROP INDEX users_screen_name;"
-"CREATE INDEX users_name on users(name);"
-"CREATE INDEX users_screen_name on users(screen_name);"
-"CREATE INDEX followees_name on followees(name);"
-"CREATE INDEX followees_screen_name on followees(screen_name);"
-// Copy data from old database (only statuses, not DM)
-"INSERT INTO users (user_id, name, screen_name, profile_image_url) SELECT * FROM followees;"
-"REPLACE INTO users SELECT user_id, name, screen_name, location, descripton, url, followers_count, profile_image_url, protected FROM messages ORDER BY id;"
-"INSERT INTO statuses (id, type, user_id, text, created_at, source, favorited) SELECT id, type, user_id, text, created_at, source, favorited FROM messages WHERE type != 2;"
-"DROP TABLE messages;"
-"COMMIT;"
-// Create new table for DM
-"CREATE TABLE messages (    \
-'id'                     INTEGER,   \
-'sender_id'              INTEGER,   \
-'recipient_id'           INTEGER,   \
-'text'                   TEXT,      \
-'sender_screen_name'     TEXT,      \
-'recipient_screen_name'  TEXT,      \
-'created_at'             INTEGER,   \
-PRIMARY KEY(id)                     \
-);"
-"CREATE TABLE senders (     \
-'id'                     INTEGER,   \
-'screen_name'            TEXT,      \
-'text'                   TEXT,      \
-'unread'                 INTEGER,   \
-'updated_at'             INTEGER,   \
-PRIMARY KEY(id)                     \
-);"
-// Optimize
-"REINDEX statuses;"
-"REINDEX users;"
-"REINDEX images;"
-"ANALYZE statuses;"
-"ANALYZE images;"
-"ANALYZE users;"
-"VACUUM;";
-
 // Creates a writable copy of the bundled default database in the application Documents directory.
 + (void)createEditableCopyOfDatabaseIfNeeded
 {
@@ -213,8 +143,9 @@ PRIMARY KEY(id)                     \
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:MAIN_DATABASE_NAME];
-    
-    // Update from version 1.2
+
+#if 0
+    // Update database
     NSString *oldDBPath = [documentsDirectory stringByAppendingPathComponent:@"db1.2.sql"];
     success = [fileManager fileExistsAtPath:oldDBPath];
     if (success) {
@@ -229,7 +160,7 @@ PRIMARY KEY(id)                     \
         NSLog(@"Failed to update database (Reason: %s). Discard version 1.2 data...", errmsg);
         [fileManager removeItemAtPath:oldDBPath error:&error];
     }
-    
+#endif    
     // No exists any database file. Create new one.
     success = [fileManager fileExistsAtPath:writableDBPath];
     if (success) return;

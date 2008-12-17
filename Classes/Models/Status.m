@@ -21,10 +21,10 @@ static sqlite3_stmt* status_by_id     = nil;
 @synthesize truncated;
 
 @synthesize textBounds;
-@synthesize textHeight;
 @synthesize cellHeight;
 @synthesize inReplyToStatusId;
 @synthesize inReplyToUserId;
+@synthesize inReplyToScreenName;
 
 - (void)dealloc
 {
@@ -83,8 +83,12 @@ static sqlite3_stmt* status_by_id     = nil;
         }
     }
     
-    inReplyToStatusId = [dic objectForKey:@"in_reply_to_status_id"] == [NSNull null] ? 0 : [[dic objectForKey:@"in_reply_to_status_id"] longLongValue];
-    inReplyToUserId   = [dic objectForKey:@"in_reply_to_user_id"]   == [NSNull null] ? 0 : [[dic objectForKey:@"in_reply_to_user_id"] longValue];
+    inReplyToStatusId   = [dic objectForKey:@"in_reply_to_status_id"]   == [NSNull null] ? 0 : [[dic objectForKey:@"in_reply_to_status_id"] longLongValue];
+    inReplyToUserId     = [dic objectForKey:@"in_reply_to_user_id"]     == [NSNull null] ? 0 : [[dic objectForKey:@"in_reply_to_user_id"] longValue];
+    inReplyToScreenName = [dic objectForKey:@"in_reply_to_screen_name"];
+    if ((id)inReplyToScreenName == [NSNull null]) inReplyToScreenName = @"";
+    if (inReplyToScreenName == nil) inReplyToScreenName = @"";
+    [inReplyToScreenName retain];
 	
 	NSDictionary* userDic = [dic objectForKey:@"user"];
 	if (userDic) {
@@ -160,12 +164,44 @@ static sqlite3_stmt* status_by_id     = nil;
     dist.favorited  = favorited;
     dist.truncated  = truncated;
 
-    dist.inReplyToStatusId = inReplyToStatusId;
-    dist.inReplyToUserId    = inReplyToUserId;
+    dist.inReplyToStatusId   = inReplyToStatusId;
+    dist.inReplyToUserId     = inReplyToUserId;
+    dist.inReplyToScreenName = inReplyToScreenName;
     
     [super copyWithZone:dist];
     
     return dist;
+}
+
+- (void)calcTextBounds:(int)textWidth
+{
+    CGRect bounds, result;
+    
+    if (cellType == TWEET_CELL_TYPE_NORMAL) {
+        bounds = CGRectMake(0, TOP, textWidth, 200);
+    }
+    else {
+        bounds = CGRectMake(0, 3, textWidth, 200);
+    }
+
+    static UILabel *label = nil;
+    if (label == nil) {
+        label = [[UILabel alloc] initWithFrame:CGRectZero];
+    }
+    label.font = [UIFont systemFontOfSize:(cellType == TWEET_CELL_TYPE_DETAIL) ? 14 : 13];
+    label.text = text;
+    result = [label textRectForBounds:bounds limitedToNumberOfLines:10];
+    
+    textBounds = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, result.size.height);
+    
+    if (cellType == TWEET_CELL_TYPE_NORMAL) {
+        result.size.height += 18 + 15 + 2;
+        if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
+    }
+    else {
+        result.size.height += 22;
+    }
+    cellHeight = result.size.height;
 }
 
 int sTextWidth[] = {
@@ -194,49 +230,13 @@ int sTextWidth[] = {
     }
     // Calculate text bounds and cell height here
     //
-    [Status calcTextBounds:self textWidth:textWidth];
-}
-
-+ (void)calcTextBounds:(Status*)status textWidth:(int)textWidth
-{
-    UILabel* label;
-    CGRect bounds, result;
-
-    if (status.cellType == TWEET_CELL_TYPE_NORMAL) {
-        bounds = CGRectMake(0, TOP, textWidth, 200);
-    }
-    else {
-        bounds = CGRectMake(0, 3, textWidth, 200);
-    }
-    
-    if (status.textHeight) {
-        result = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, status.textHeight);
-    }
-    else {
-        label = [[UILabel alloc] initWithFrame: CGRectZero];        
-        label.font = [UIFont systemFontOfSize:(status.cellType == TWEET_CELL_TYPE_DETAIL) ? 14 : 13];
-        label.numberOfLines = 10;
-        label.text = status.text;
-        result = [label textRectForBounds:bounds limitedToNumberOfLines:10];
-    }
-
-    status.textBounds = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, result.size.height);
-    status.textHeight = result.size.height;
-    
-    if (status.cellType == TWEET_CELL_TYPE_NORMAL) {
-        result.size.height += 18 + 15 + 2;
-        if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
-    }
-    else {
-        result.size.height += 22;
-    }
-    status.cellHeight = result.size.height;
+    [self calcTextBounds:textWidth];
 }
 
 + (Status*)statusWithId:(sqlite_int64)aStatusId
 {
     if (status_by_id == nil) {
-        status_by_id = [DBConnection prepate:"SELECT * FROM messages,users WHERE messages.user_id = users.user_id AND id = ?"];
+        status_by_id = [DBConnection prepate:"SELECT * FROM statuses,users WHERE statuses.user_id = users.user_id AND id = ?"];
     }
     
     sqlite3_bind_int64(status_by_id, 1, aStatusId);
@@ -267,8 +267,7 @@ int sTextWidth[] = {
     s.truncated             = (BOOL)sqlite3_column_int64(statement, 7);
     s.inReplyToStatusId     = (sqlite_int64)sqlite3_column_int64(statement, 8);
     s.inReplyToUserId       = (uint32_t)sqlite3_column_int64(statement, 9);
-    s.textHeight            = (uint32_t)sqlite3_column_int(statement, 10);
-    
+    s.inReplyToScreenName   = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 10)];
     
     s.user.userId           = (uint32_t)sqlite3_column_int(statement, 11);
     s.user.name             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 12)];
@@ -291,7 +290,7 @@ int sTextWidth[] = {
 + (BOOL)isExists:(sqlite_int64)aStatusId type:(TweetType)aType
 {
     if (select_statement== nil) {
-        select_statement = [DBConnection prepate:"SELECT id FROM messages WHERE id=? and type=?"];
+        select_statement = [DBConnection prepate:"SELECT id FROM statuses WHERE id=? and type=?"];
     }
     
     sqlite3_bind_int64(select_statement, 1, aStatusId);
@@ -304,7 +303,7 @@ int sTextWidth[] = {
 - (void)insertDB
 {
     if (insert_statement == nil) {
-        insert_statement = [DBConnection prepate:"INSERT INTO messages VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"];
+        insert_statement = [DBConnection prepate:"INSERT INTO statuses VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"];
     }
     sqlite3_bind_int64(insert_statement, 1, statusId);
     sqlite3_bind_int(insert_statement,   2, type);
@@ -317,7 +316,7 @@ int sTextWidth[] = {
     sqlite3_bind_int(insert_statement,   8, truncated);
     sqlite3_bind_int64(insert_statement, 9, inReplyToStatusId);
     sqlite3_bind_int(insert_statement,  10, inReplyToUserId);
-    sqlite3_bind_int(insert_statement,  11, (uint32_t)textHeight);
+    sqlite3_bind_text(insert_statement, 11, [inReplyToScreenName UTF8String], -1, SQLITE_TRANSIENT);
     
     int success = sqlite3_step(insert_statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
@@ -348,7 +347,7 @@ int sTextWidth[] = {
 
 - (void)deleteFromDB
 {
-    sqlite3_stmt* stmt = [DBConnection prepate:"DELETE FROM messages WHERE id = ?"];
+    sqlite3_stmt* stmt = [DBConnection prepate:"DELETE FROM statuses WHERE id = ?"];
 
     sqlite3_bind_int64(stmt, 1, statusId);
 
@@ -365,7 +364,7 @@ int sTextWidth[] = {
 
 - (void)updateFavoriteState
 {
-    sqlite3_stmt* stmt = [DBConnection prepate:"UPDATE messages SET favorited = ? WHERE id = ?"];
+    sqlite3_stmt* stmt = [DBConnection prepate:"UPDATE statuses SET favorited = ? WHERE id = ?"];
     sqlite3_bind_int(stmt, 1, favorited);
     sqlite3_bind_int64(stmt, 2, statusId);
     
