@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "TFConnection.h"
-#import "Message.h"
+#import "Status.h"
 
 typedef enum {
     TWITTER_REQUEST_TIMELINE,
@@ -33,15 +33,15 @@ typedef enum {
 
 - (id)initWithTarget:(id)delegate action:(SEL)action;
 
-- (void)getTimeline:(MessageType)type params:(NSDictionary*)params;
+- (void)getTimeline:(TweetType)type params:(NSDictionary*)params;
 - (void)getUserTimeline:(NSString*)screen_name params:(NSDictionary*)params;
 - (void)getUser:(NSString*)screen_name;
-- (void)getMessage:(sqlite_int64)messageId;
-- (void)post:(NSString*)tweet inReplyTo:(sqlite_int64)messageId;
+- (void)getMessage:(sqlite_int64)statusId;
+- (void)post:(NSString*)tweet inReplyTo:(sqlite_int64)statusId;
 - (void)send:(NSString*)text to:(NSString*)screen_name;
 - (void)getFriends:(NSString*)screen_name page:(int)page isFollowers:(BOOL)isFollowers;
-- (void)destroy:(Message*)message isDirectMessage:(BOOL)isDirectMessage;
-- (void)favorite:(Message*)message;
+- (void)destroy:(Status*)status isDirectMessage:(BOOL)isDirectMessage;
+- (void)favorite:(Status*)status;
 - (void)friendship:(NSString*)screen_name create:(BOOL)create;
 - (void)search:(NSString*)query;
 - (void)existFriendship:(NSString*)screen_name;

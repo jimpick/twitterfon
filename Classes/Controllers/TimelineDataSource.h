@@ -23,6 +23,6 @@
 
 - (id)init;
 - (void)cancel;
-- (void)removeAllMessages;
+- (void)removeAllStatuses;
 
 @end

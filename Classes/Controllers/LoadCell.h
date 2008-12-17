@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Message.h"
 
 typedef enum {
     MSG_TYPE_LOAD_MORE_FRIENDS,

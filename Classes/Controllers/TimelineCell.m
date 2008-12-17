@@ -20,7 +20,7 @@
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    message.user.imageContainer = nil;
+    status.user.imageContainer = nil;
 }
 
 
@@ -29,32 +29,32 @@
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     
     PostViewController* postView = appDelegate.postView;
-    if (message.type == MSG_TYPE_MESSAGES || message.type == MSG_TYPE_SENT) {
-        [postView editDirectMessage:message.user.screenName];
+    if (status.type == TWEET_TYPE_MESSAGES || status.type == TWEET_TYPE_SENT) {
+        [postView editDirectMessage:status.user.screenName];
     }
     else {
-        [postView inReplyTo:message];
+        [postView inReplyTo:status];
     }
 }
 
 - (void)update
 {
-    cellView.message    = message;
+    cellView.status = status;
     
-    message.user.imageContainer = self;
+    status.user.imageContainer = self;
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    [imageButton setImage:[appDelegate.imageStore getProfileImage:message.user isLarge:false] forState:UIControlStateNormal];
+    [imageButton setImage:[appDelegate.imageStore getProfileImage:status.user isLarge:false] forState:UIControlStateNormal];
     
-    self.contentView.backgroundColor = (message.unread) ? [UIColor cellColorForTab:message.type] : [UIColor whiteColor];
+    self.contentView.backgroundColor = (status.unread) ? [UIColor cellColorForTab:status.type] : [UIColor whiteColor];
 
-    if (message.hasReply) {
-        if (message.type == MSG_TYPE_FRIENDS || message.type == MSG_TYPE_SEARCH_RESULT) {
+    if (status.hasReply) {
+        if (status.type == TWEET_TYPE_FRIENDS || status.type == TWEET_TYPE_SEARCH_RESULT) {
             self.contentView.backgroundColor = [UIColor cellColorForTab:TAB_REPLIES];
         }
     }
     
-    self.accessoryType = message.accessoryType;
-    cellView.frame = CGRectMake(LEFT, 0, CELL_WIDTH, message.cellHeight - 1);
+    self.accessoryType = status.accessoryType;
+    cellView.frame = CGRectMake(LEFT, 0, CELL_WIDTH, status.cellHeight - 1);
 }
 
 - (void)layoutSubviews
@@ -64,7 +64,7 @@
     self.backgroundColor = self.contentView.backgroundColor;
     cellView.backgroundColor = self.contentView.backgroundColor;
     
-    imageButton.frame = CGRectMake(IMAGE_PADDING, (message.cellHeight - 48 - 1)/2, IMAGE_WIDTH, 48);
+    imageButton.frame = CGRectMake(IMAGE_PADDING, (status.cellHeight - 48 - 1)/2, IMAGE_WIDTH, 48);
 }
 
 @end

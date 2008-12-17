@@ -25,12 +25,8 @@
     searchResult = [[NSMutableArray alloc] init];
     numLetters = 0;
     inSearch = false;
-    sqlite3* database = [DBConnection getSharedDatabase];
     
-    sqlite3_stmt* statement;
-    if (sqlite3_prepare_v2(database, "SELECT * FROM followees ORDER BY UPPER(screen_name)", -1, &statement, NULL) != SQLITE_OK) {
-        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-    }
+    sqlite3_stmt* statement = [DBConnection prepate:"SELECT * FROM followees ORDER BY UPPER(screen_name)"];
 
     NSString *prevLetter = nil;
     NSMutableArray *array = nil;
@@ -171,11 +167,8 @@ static sqlite3_stmt *search_statement = nil;
     }
     else {
         inSearch = true;
-        sqlite3* database = [DBConnection getSharedDatabase];
         if (search_statement == nil) {
-            if (sqlite3_prepare_v2(database, "SELECT * FROM followees WHERE name LIKE ? OR screen_name LIKE ? ORDER BY UPPER(screen_name)", -1, &search_statement, NULL) != SQLITE_OK) {
-                NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-            }
+            search_statement = [DBConnection prepate:"SELECT * FROM followees WHERE name LIKE ? OR screen_name LIKE ? ORDER BY UPPER(screen_name)"];
         }
         
         sqlite3_bind_text(search_statement, 1, [[NSString stringWithFormat:@"%%%@%%", query] UTF8String], -1, SQLITE_TRANSIENT);    

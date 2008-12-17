@@ -46,6 +46,8 @@
 		6E382E940EB41E9000B0CE69 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6E382E930EB41E9000B0CE69 /* Settings.bundle */; };
 		6E3837100EB4789F00B0CE69 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370E0EB4789F00B0CE69 /* favorite.png */; };
 		6E3837110EB4789F00B0CE69 /* favorited.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E38370F0EB4789F00B0CE69 /* favorited.png */; };
+		6E3B13AB0EF835FC00070525 /* Tweet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3B13AA0EF835FC00070525 /* Tweet.m */; };
+		6E3B13B80EF8383300070525 /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3B13B70EF8383300070525 /* Status.m */; };
 		6E3EABA00EC8782400599954 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E3EAB9F0EC8782400599954 /* dist.plist */; };
 		6E3EDADE0EB9A2050041687A /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDADD0EB9A2050041687A /* OverlayView.m */; };
 		6E4011F10ECDF786009D452A /* open_safari.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E4011F00ECDF786009D452A /* open_safari.png */; };
@@ -85,7 +87,6 @@
 		6EBEE5840EB2F65400C18F0A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE5830EB2F65400C18F0A /* SearchViewController.m */; };
 		6EC53C420EF805FE009BCC92 /* DBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C390EF805FE009BCC92 /* DBConnection.m */; };
 		6EC53C430EF805FE009BCC92 /* Followee.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C3B0EF805FE009BCC92 /* Followee.m */; };
-		6EC53C440EF805FE009BCC92 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C3D0EF805FE009BCC92 /* Message.m */; };
 		6EC53C460EF805FE009BCC92 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C410EF805FE009BCC92 /* User.m */; };
 		6EC53C700EF806EB009BCC92 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C6B0EF806EB009BCC92 /* NSObject+SBJSON.m */; };
 		6EC53C710EF806EB009BCC92 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C6D0EF806EB009BCC92 /* NSString+SBJSON.m */; };
@@ -177,6 +178,10 @@
 		6E382E930EB41E9000B0CE69 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		6E38370E0EB4789F00B0CE69 /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite.png; sourceTree = "<group>"; };
 		6E38370F0EB4789F00B0CE69 /* favorited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorited.png; sourceTree = "<group>"; };
+		6E3B13A90EF8355B00070525 /* Tweet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tweet.h; sourceTree = "<group>"; };
+		6E3B13AA0EF835FC00070525 /* Tweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tweet.m; sourceTree = "<group>"; };
+		6E3B13B60EF8383300070525 /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
+		6E3B13B70EF8383300070525 /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
 		6E3EAB9F0EC8782400599954 /* dist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dist.plist; sourceTree = "<group>"; };
 		6E3EDADC0EB9A2050041687A /* OverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverlayView.h; path = Controllers/OverlayView.h; sourceTree = "<group>"; };
 		6E3EDADD0EB9A2050041687A /* OverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OverlayView.m; path = Controllers/OverlayView.m; sourceTree = "<group>"; };
@@ -236,8 +241,6 @@
 		6EC53C390EF805FE009BCC92 /* DBConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBConnection.m; sourceTree = "<group>"; };
 		6EC53C3A0EF805FE009BCC92 /* Followee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Followee.h; sourceTree = "<group>"; };
 		6EC53C3B0EF805FE009BCC92 /* Followee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Followee.m; sourceTree = "<group>"; };
-		6EC53C3C0EF805FE009BCC92 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		6EC53C3D0EF805FE009BCC92 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		6EC53C400EF805FE009BCC92 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		6EC53C410EF805FE009BCC92 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		6EC53C690EF806EB009BCC92 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -647,8 +650,10 @@
 				6EC53C390EF805FE009BCC92 /* DBConnection.m */,
 				6EC53C3A0EF805FE009BCC92 /* Followee.h */,
 				6EC53C3B0EF805FE009BCC92 /* Followee.m */,
-				6EC53C3C0EF805FE009BCC92 /* Message.h */,
-				6EC53C3D0EF805FE009BCC92 /* Message.m */,
+				6E3B13A90EF8355B00070525 /* Tweet.h */,
+				6E3B13AA0EF835FC00070525 /* Tweet.m */,
+				6E3B13B60EF8383300070525 /* Status.h */,
+				6E3B13B70EF8383300070525 /* Status.m */,
 				6EC53C400EF805FE009BCC92 /* User.h */,
 				6EC53C410EF805FE009BCC92 /* User.m */,
 			);
@@ -909,7 +914,6 @@
 				6E1BE7910EF7BF4C0075881E /* TweetViewController.m in Sources */,
 				6EC53C420EF805FE009BCC92 /* DBConnection.m in Sources */,
 				6EC53C430EF805FE009BCC92 /* Followee.m in Sources */,
-				6EC53C440EF805FE009BCC92 /* Message.m in Sources */,
 				6EC53C460EF805FE009BCC92 /* User.m in Sources */,
 				6EC53C700EF806EB009BCC92 /* NSObject+SBJSON.m in Sources */,
 				6EC53C710EF806EB009BCC92 /* NSString+SBJSON.m in Sources */,
@@ -919,6 +923,8 @@
 				6EF9FE280EF8100E00EF8D1B /* TweetCellView.m in Sources */,
 				6EF9FE2B0EF8101C00EF8D1B /* TimelineCell.m in Sources */,
 				6EF9FEDE0EF810C200EF8D1B /* UserTimelineCell.m in Sources */,
+				6E3B13AB0EF835FC00070525 /* Tweet.m in Sources */,
+				6E3B13B80EF8383300070525 /* Status.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -972,9 +978,9 @@
 				HEADER_SEARCH_PATHS = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.0.sdk/usr/include/libxml2;
 				OTHER_CFLAGS = "-DDISTRIBUTION";
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "22D9AA2E-FF06-4A10-A003-9610B2F8451F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "22D9AA2E-FF06-4A10-A003-9610B2F8451F";
-				"PROVISIONING_PROFILE[sdk=iphoneos2.1]" = "22D9AA2E-FF06-4A10-A003-9610B2F8451F";
+				PROVISIONING_PROFILE = "361F21B2-4791-4C09-94B0-2260453F4D3F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "361F21B2-4791-4C09-94B0-2260453F4D3F";
+				"PROVISIONING_PROFILE[sdk=iphoneos2.1]" = "0F74D6AA-1337-43EC-9E34-0AFB081302DE";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos2.0;
 			};

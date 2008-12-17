@@ -2,7 +2,6 @@
 
 @interface DBConnection : NSObject
 {
-    sqlite3*            database;
 }
 
 + (void)createEditableCopyOfDatabaseIfNeeded;
@@ -13,5 +12,11 @@
 
 + (void)deleteMessageCache;
 + (void)deleteImageCache;
+
++ (sqlite3_stmt*)prepate:(const char*)sql;
+
++ (void)assert;
++ (void)assertWithMessage:(NSString*)message;
++ (NSString*)errorMessage;
 
 @end

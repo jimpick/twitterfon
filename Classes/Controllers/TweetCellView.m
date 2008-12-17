@@ -10,7 +10,7 @@
 
 @implementation TweetCellView
 
-@synthesize message;
+@synthesize status;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -20,11 +20,11 @@
     return self;
 }
 
-- (void)setMessage:(Message*)value
+- (void)setstatus:(Status*)value
 {
-    if (message != value) {
-		[message release];
-		message = [value retain];
+    if (status != value) {
+		[status release];
+		status = [value retain];
 	}
     [super setNeedsDisplay];
 }
@@ -44,32 +44,32 @@
         timestampColor  = [UIColor grayColor];
 	}
     
-    float textFontSize = (message.cellType == MSG_CELL_TYPE_DETAIL) ? 14 : 13;
+    float textFontSize = (status.cellType == TWEET_CELL_TYPE_DETAIL) ? 14 : 13;
     
 	[textColor set];
-    if (message.cellType == MSG_CELL_TYPE_NORMAL) {
-        [message.user.screenName drawInRect:CGRectMake(0, 0, CELL_WIDTH - DETAIL_BUTTON_WIDTH, TOP) withFont:[UIFont boldSystemFontOfSize:14]];
+    if (status.cellType == TWEET_CELL_TYPE_NORMAL) {
+        [status.user.screenName drawInRect:CGRectMake(0, 0, CELL_WIDTH - DETAIL_BUTTON_WIDTH, TOP) withFont:[UIFont boldSystemFontOfSize:14]];
     }
-	[message.text drawInRect:message.textBounds withFont:[UIFont systemFontOfSize:textFontSize]];
+	[status.text drawInRect:status.textBounds withFont:[UIFont systemFontOfSize:textFontSize]];
 	[timestampColor set];
-    if (message.cellType != MSG_CELL_TYPE_NORMAL) {
+    if (status.cellType != TWEET_CELL_TYPE_NORMAL) {
         NSString *timestamp;
-        if ([message.source length]) {
-            timestamp = [message.timestamp stringByAppendingFormat:@" from %@", message.source];
+        if ([status.source length]) {
+            timestamp = [status.timestamp stringByAppendingFormat:@" from %@", status.source];
         }
         else {
-            timestamp = message.timestamp;
+            timestamp = status.timestamp;
         }
-        [timestamp drawInRect:CGRectMake(0, message.textBounds.size.height + 3, 250, 16) withFont:[UIFont systemFontOfSize:12]];
+        [timestamp drawInRect:CGRectMake(0, status.textBounds.size.height + 3, 250, 16) withFont:[UIFont systemFontOfSize:12]];
     }
     else {
-        [message.timestamp drawInRect:CGRectMake(0, TOP + message.textBounds.size.height - 1, 250, 16) withFont:[UIFont systemFontOfSize:12]];
+        [status.timestamp drawInRect:CGRectMake(0, TOP + status.textBounds.size.height - 1, 250, 16) withFont:[UIFont systemFontOfSize:12]];
     }
 }
 
 
 - (void)dealloc {
-    [message release];
+    [status release];
     [super dealloc];
 }
 

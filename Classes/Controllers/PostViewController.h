@@ -12,7 +12,7 @@
 #import "ProgressWindow.h"
 #import "FolloweesViewController.h"
 #import "LocationManager.h"
-#import "Message.h"
+#import "Status.h"
 #import "PostView.h"
 
 @interface PostViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
@@ -48,9 +48,9 @@
 @property(nonatomic, retain) UIImage*  selectedPhoto;
 
 - (void)post;
-- (void)retweet:(NSString*)message;
+- (void)retweet:(NSString*)status;
 - (void)reply:(NSString*)user;
-- (void)inReplyTo:(Message*)message;
+- (void)inReplyTo:(Status*)status;
 - (void)editWithURL:(NSString*)URL;
 - (void)editWithURL:(NSString*)URL title:(NSString*)title;
 - (void)editDirectMessage:(NSString*)aRecipient;

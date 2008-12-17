@@ -1,39 +1,37 @@
 #import <UIKit/UIKit.h>
-#import "Message.h"
+#import "Status.h"
 
 @class TimelineCell;
 
 @interface Timeline : NSObject
 {
-	NSMutableArray* messages;
-    MessageType     type;
+	NSMutableArray* statuses;
+    TweetType       type;
     int             insertPosition;
     int             since_id;
     int             page;
 }
 
-@property (nonatomic, readonly) NSArray* messages;
-
 - (id)init;
 
-- (int)restore:(MessageType)type all:(BOOL)flag;
+- (int)restore:(TweetType)type all:(BOOL)flag;
 
-- (int)countMessages;
-- (void)appendMessage:(Message*)message;
-- (void)insertMessage:(Message*)message atIndex:(int)index;
+- (int)countStatuses;
+- (void)appendStatus:(Status*)status;
+- (void)insertStatus:(Status*)status atIndex:(int)index;
 
-- (Message*)messageAtIndex:(int)i;
-- (Message*)messageById:(sqlite_int64)id;
-- (Message*)lastMessage;
+- (Status*)statusAtIndex:(int)i;
+- (Status*)statusById:(sqlite_int64)id;
+- (Status*)lastStatus;
 
-- (void)removeMessage:(Message*)message;
-- (void)removeMessageAtIndex:(int)index;
-- (void)removeLastMessage;
-- (void)removeAllMessages;
+- (void)removeStatus:(Status*)status;
+- (void)removeStatusAtIndex:(int)index;
+- (void)removeLastStatus;
+- (void)removeAllStatuses;
 
-- (int)indexOfObject:(Message*)message;
+- (int)indexOfObject:(Status*)status;
 
-- (void)updateFavorite:(Message*)message;
+- (void)updateFavorite:(Status*)status;
 
 - (TimelineCell*)getTimelineCell:(UITableView*)tableView atIndex:(int)index;
 

@@ -1,7 +1,7 @@
 #import "Timeline.h"
 #import "TimelineCell.h"
 #import "JSON.h"
-#import "Message.h"
+#import "Status.h"
 #import "TimeUtils.h"
 #import "DBConnection.h"
 
@@ -11,100 +11,98 @@ static sqlite3_stmt *select_statement = nil;
 
 #define MAX_ROW_COUNT   200
 
-@synthesize messages;
-
 - (id)init
 {
 	self = [super init];
-	messages = [[NSMutableArray array] retain];
+	statuses = [[NSMutableArray array] retain];
 	return self;
 }
 
 - (void)dealloc
 {
-	[messages release];
+	[statuses release];
 	[super dealloc];
 }
 
-- (int)countMessages
+- (int)countStatuses
 {
-    return [messages count];
+    return [statuses count];
 }
 
-- (Message*)messageAtIndex:(int)i
+- (Status*)statusAtIndex:(int)i
 {
-    if (i >= [messages count]) return NULL;
-    return [messages objectAtIndex:i];
+    if (i >= [statuses count]) return NULL;
+    return [statuses objectAtIndex:i];
 }
 
--(Message*)messageById:(sqlite_int64)messageId
+-(Status*)statusById:(sqlite_int64)statusId
 {
-    for (int i = 0; i < [messages count]; ++i) {
-        Message *m = [messages objectAtIndex:i];
-        if (m.messageId == messageId) {
+    for (int i = 0; i < [statuses count]; ++i) {
+        Status* m = [statuses objectAtIndex:i];
+        if (m.statusId == statusId) {
             return m;
         }
     }
     return nil;
 }
 
-- (Message*)lastMessage
+- (Status*)lastStatus
 {
-    return [messages lastObject];
+    return [statuses lastObject];
 }
 
-- (void)removeMessageAtIndex:(int)index
+- (void)removeStatusAtIndex:(int)index
 {
-    [messages removeObjectAtIndex:index];
+    [statuses removeObjectAtIndex:index];
 }
 
-- (void)removeAllMessages
+- (void)removeAllStatuses
 {
-    [messages removeAllObjects];
+    [statuses removeAllObjects];
 }
 
-- (void)removeMessage:(Message*)message
+- (void)removeStatus:(Status*)status
 {
-    for (int i = 0; i < [messages count]; ++i) {
-        Message *m = [messages objectAtIndex:i];
-        if (m.messageId == message.messageId) {
-            [messages removeObjectAtIndex:i];
+    for (int i = 0; i < [statuses count]; ++i) {
+        Status* m = [statuses objectAtIndex:i];
+        if (m.statusId == status.statusId) {
+            [statuses removeObjectAtIndex:i];
             return;
         }
     }
 }
 
-- (void)removeLastMessage
+- (void)removeLastStatus
 {
-    [messages removeLastObject];
+    [statuses removeLastObject];
 }
 
-- (void)updateFavorite:(Message*)message
+- (void)updateFavorite:(Status*)status
 {
-    for (int i = 0; i < [messages count]; ++i) {
-        Message *m = [messages objectAtIndex:i];
-        if (m.messageId == message.messageId) {
-            m.favorited = message.favorited;
+    for (int i = 0; i < [statuses count]; ++i) {
+        Status* m = [statuses objectAtIndex:i];
+        if (m.statusId == status.statusId) {
+            m.favorited = status.favorited;
             return;
         }
     }
 }
 
-- (void)appendMessage:(Message*)m
+- (void)appendStatus:(Status*)status
 {
-    [messages addObject:m];
+    [statuses addObject:status];
 }
 
-- (void)insertMessage:(Message*)m atIndex:(int)index
+- (void)insertStatus:(Status*)status atIndex:(int)index
 {
-    [messages insertObject:m atIndex:index];
+    [statuses insertObject:status atIndex:index];
 }
 
-- (int)indexOfObject:(Message*)message
+- (int)indexOfObject:(Status*)status
 {
-    for (int i = 0; i < [messages count]; ++i) {
-        Message *m = [messages objectAtIndex:i];
-        if (m.messageId == message.messageId) {
+    for (int i = 0; i < [statuses count]; ++i) {
+        Status* m = [statuses objectAtIndex:i];
+        if (m.statusId == status.statusId) {
             return i;
         }
     }
@@ -113,37 +111,33 @@ static sqlite3_stmt *select_statement = nil;
 
 - (TimelineCell*)getTimelineCell:(UITableView*)tableView atIndex:(int)index
 {
-    Message* message = [self messageAtIndex:index];
-    if (message == nil) return nil;
+    Status* status = [self statusAtIndex:index];
+    if (status == nil) return nil;
     
     TimelineCell* cell = (TimelineCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
     if (!cell) {
         cell = [[[TimelineCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
     }
         
-    cell.message = message;
+    cell.status = status;
     [cell update];
     return cell;
 }
 
-- (int)restore:(MessageType)aType all:(BOOL)all
+- (int)restore:(TweetType)aType all:(BOOL)all
 {
-    sqlite3* database = [DBConnection getSharedDatabase];
-
     if (select_statement == nil) {
         static char *sql = "SELECT * FROM messages,users WHERE messages.user_id = users.user_id AND messages.type = ? ORDER BY id DESC LIMIT ? OFFSET ?";
-        if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
-            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-        }
+        select_statement = [DBConnection prepate:sql];
     }
 
     sqlite3_bind_int(select_statement, 1, aType);
     sqlite3_bind_int(select_statement, 2, all ? 200 : 20);
-    sqlite3_bind_int(select_statement, 3, [messages count]);
+    sqlite3_bind_int(select_statement, 3, [statuses count]);
     int count = 0;
     while (sqlite3_step(select_statement) == SQLITE_ROW) {
-        Message *m = [Message initWithDB:select_statement type:aType];
-        [messages addObject:m];
+        Status* m = [Status initWithDB:select_statement type:aType];
+        [statuses addObject:m];
         ++count;
     }
     sqlite3_reset(select_statement);

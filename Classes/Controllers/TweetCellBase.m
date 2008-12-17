@@ -4,7 +4,7 @@
 
 @implementation TweetCellBase
 
-@synthesize message;
+@synthesize status;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -37,7 +37,7 @@
 - (void)didTouchLinkButton:(id)sender
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    [appDelegate openLinksViewController:message];
+    [appDelegate openLinksViewController:status];
 }
 
 - (void)layoutSubviews

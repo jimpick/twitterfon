@@ -1,16 +1,16 @@
 #import <UIKit/UIKit.h>
-#import "Message.h"
+#import "Status.h"
 #import "TweetCellView.h"
 
 #define MESSAGE_REUSE_INDICATOR @"TweetCell"
 
 @interface TweetCellBase : UITableViewCell
 {
-	Message*        message;
+	Status*         status;
     TweetCellView*  cellView;
     UIButton*       imageButton;
 }
 
-@property (nonatomic, assign) Message*  message;
+@property (nonatomic, assign) Status*  status;
 
 @end

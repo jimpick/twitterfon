@@ -136,9 +136,8 @@ const char *optimize_sql =
 // migration
 //
 const char *update_v12_to_v13 = 
-// Create database
-"BEGIN;"
-"CREATE TABLE messages_new (        \
+// Create statuses and users table
+"CREATE TABLE statuses (            \
 'id'                     INTEGER,   \
 'type'                   INTEGER,   \
 'user_id'                INTEGER,   \
@@ -146,7 +145,6 @@ const char *update_v12_to_v13 =
 'created_at'             INTEGER,   \
 'source'                 TEXT,      \
 'favorited'              INTEGER,   \
-'cell_height'            INTEGER,   \
 'in_reply_to_status_id'  INTEGER,   \
 'in_reply_to_user_id'    INTEGER,   \
 'truncated'              INTEGER,   \
@@ -164,24 +162,43 @@ PRIMARY KEY(type, id)               \
 'protected'              INTEGER \
 );"
 // Drop & Create index
+"BEGIN;"
 "DROP INDEX users_name;"
 "DROP INDEX users_screen_name;"
 "CREATE INDEX users_name on users(name);"
 "CREATE INDEX users_screen_name on users(screen_name);"
 "CREATE INDEX followees_name on followees(name);"
 "CREATE INDEX followees_screen_name on followees(screen_name);"
-// Copy data from old database
+// Copy data from old database (only statuses, not DM)
 "INSERT INTO users (user_id, name, screen_name, profile_image_url) SELECT * FROM followees;"
 "REPLACE INTO users SELECT user_id, name, screen_name, location, descripton, url, followers_count, profile_image_url, protected FROM messages ORDER BY id;"
-"INSERT INTO messages_new (id, type, user_id, text, created_at, source, favorited, cell_height) SELECT id, type, user_id, text, created_at, source, favorited, cell_height FROM messages;"
+"INSERT INTO statuses (id, type, user_id, text, created_at, source, favorited) SELECT id, type, user_id, text, created_at, source, favorited FROM messages WHERE type != 2;"
 "DROP TABLE messages;"
-"ALTER TABLE messages_new RENAME TO messages;"
 "COMMIT;"
+// Create new table for DM
+"CREATE TABLE messages (    \
+'id'                     INTEGER,   \
+'sender_id'              INTEGER,   \
+'recipient_id'           INTEGER,   \
+'text'                   TEXT,      \
+'sender_screen_name'     TEXT,      \
+'recipient_screen_name'  TEXT,      \
+'created_at'             INTEGER,   \
+PRIMARY KEY(id)                     \
+);"
+"CREATE TABLE senders (     \
+'id'                     INTEGER,   \
+'screen_name'            TEXT,      \
+'text'                   TEXT,      \
+'unread'                 INTEGER,   \
+'updated_at'             INTEGER,   \
+PRIMARY KEY(id)                     \
+);"
 // Optimize
-"REINDEX messages;"
+"REINDEX statuses;"
 "REINDEX users;"
 "REINDEX images;"
-"ANALYZE messages;"
+"ANALYZE statuses;"
 "ANALYZE images;"
 "ANALYZE users;"
 "VACUUM;";
@@ -222,6 +239,30 @@ PRIMARY KEY(type, id)               \
     if (!success) {
         NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
     }
+}
+
++ (sqlite3_stmt*)prepate:(const char*)sql
+{
+    sqlite3_stmt* stmt;
+    if (sqlite3_prepare_v2(theDatabase, sql, -1, &stmt, NULL) != SQLITE_OK) {
+        NSAssert2(0, @"Failed to prepare statement '%s' (%s)", sql, sqlite3_errmsg(theDatabase));
+    }
+    return stmt;
+}
+
++ (void)assert
+{
+    NSAssert1(0, @"Database Error: %s", sqlite3_errmsg(theDatabase));
+}
+
++ (void)assertWithMessage:(NSString*)message
+{
+    NSAssert2(0, @"Database Error: %@ (%s)", message, sqlite3_errmsg(theDatabase));
+}
+
++ (NSString*)errorMessage
+{
+    return [NSString stringWithUTF8String:sqlite3_errmsg(theDatabase)];
 }
 
 @end

@@ -44,7 +44,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    int count = [timeline countMessages];
+    int count = [timeline countStatuses];
     return (count) ? count + 1 : 0;
 }
 
@@ -53,7 +53,7 @@
 //
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Message *m = [timeline messageAtIndex:indexPath.row];
+    Status* m = [timeline statusAtIndex:indexPath.row];
     return m ? m.cellHeight : 78;
     
 }
@@ -72,7 +72,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Message *m = [timeline messageAtIndex:indexPath.row];
+    Status* m = [timeline statusAtIndex:indexPath.row];
     
     if (m) {
         // Display user timeline
@@ -90,7 +90,7 @@
 
 - (void)searchByQuery:(NSString*)query
 {
-    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(searchResultDidReceive:messages:)];
+    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(searchResultDidReceive:obj:)];
     [twitterClient search:query];
 }
 
@@ -103,7 +103,7 @@
     refreshUrl = nil;
     nextPageUrl = nil;
     insertPosition = 0;
-    [timeline removeAllMessages];
+    [timeline removeAllStatuses];
 }
 
 - (void)search:(NSString*)query
@@ -133,7 +133,7 @@
 
     isReloading = false;
     isPaging = true;
-    insertPosition = [timeline countMessages];
+    insertPosition = [timeline countStatuses];
     if (nextPageUrl) {
         [self searchByQuery:nextPageUrl];
     }
@@ -148,17 +148,17 @@
     geocode = [NSString stringWithFormat:@"?geocode=%f,%f,%d%@", latitude, longitude, distance, (useMetric) ? @"km" : @"mi"];
     [geocode retain];
 
-    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(geoSearchResultDidReceive:messages:)];
+    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(geoSearchResultDidReceive:obj:)];
     [twitterClient search:geocode];
     
 }
 
 - (int)countResults
 {
-    return [timeline countMessages];
+    return [timeline countStatuses];
 }
 
-- (NSDictionary*)searchResultDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
+- (NSDictionary*)searchResultDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
     twitterClient = nil;
     if (![obj isKindOfClass:[NSDictionary class]]) {
@@ -180,9 +180,9 @@
     // Add messages to the timeline
     //
     for (int i = [array count] - 1; i >= 0; --i) {
-        Message* m = [Message messageWithSearchResult:[array objectAtIndex:i]];
+        Status* m = [Status statusWithSearchResult:[array objectAtIndex:i]];
         if ([timeline indexOfObject:m] == -1) {
-            [timeline insertMessage:m atIndex:insertPosition];
+            [timeline insertStatus:m atIndex:insertPosition];
             if (isReloading) {
                 m.unread = true;
             }
@@ -218,9 +218,9 @@
     return dic;
 }
 
-- (void)geoSearchResultDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
+- (void)geoSearchResultDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
-    NSDictionary *dic = [self searchResultDidReceive:sender messages:obj];
+    NSDictionary *dic = [self searchResultDidReceive:sender obj:obj];
     if (dic && refreshUrl) {
         NSString *tmp = [refreshUrl stringByAppendingFormat:@"&%@", [geocode substringFromIndex:1]];
         [refreshUrl release];

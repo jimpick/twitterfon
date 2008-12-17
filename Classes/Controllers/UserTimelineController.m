@@ -13,7 +13,7 @@
 #import "UserTimelineCell.h"
 
 @interface NSObject (TimelineViewControllerDelegate)
-- (void)removeMessage:(Message*)message;
+- (void)removeStatus:(Status*)status;
 @end
 
 @implementation UserTimelineController
@@ -24,7 +24,6 @@
 		// Initialization code
         self.tableView = [[[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain] autorelease];
         timeline = [[Timeline alloc] init];
-        deletedMessage = [[NSMutableArray alloc] init];
 
         userCell = [[UserCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"UserCell"];
         loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
@@ -40,7 +39,6 @@
     user.imageContainer = nil;
     [user release];
     [twitterClient release];
-    [deletedMessage release];
     [timeline release];
 	[super dealloc];
 }
@@ -100,7 +98,7 @@
     
     [self setNavigationBar];
     
-    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userTimelineDidReceive:messages:)];
+    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userTimelineDidReceive:obj:)];
     [twitterClient getUserTimeline:screenName params:nil];
 }
 
@@ -111,7 +109,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    int count = [timeline countMessages] + 1;
+    int count = [timeline countStatuses] + 1;
     if (page > 0) ++count;
     return count;
 }
@@ -122,12 +120,12 @@
         return 113;
     }
     else {
-        Message *m = [timeline messageAtIndex:indexPath.row - 1];
+        Status* m = [timeline statusAtIndex:indexPath.row - 1];
         if (m) {
             return m.cellHeight;
         }
         else {
-            return ([timeline countMessages]) ? 78 : 48;
+            return ([timeline countStatuses]) ? 78 : 48;
         }
     }
 }
@@ -141,14 +139,14 @@
         return userCell;
     }
     else {
-        Message* message = [timeline messageAtIndex:indexPath.row - 1];
-        if (message) {
+        Status* status = [timeline statusAtIndex:indexPath.row - 1];
+        if (status) {
             UserTimelineCell* cell = (UserTimelineCell*)[tableView dequeueReusableCellWithIdentifier:MESSAGE_REUSE_INDICATOR];
             if (!cell) {
                 cell = [[[UserTimelineCell alloc] initWithFrame:CGRectZero reuseIdentifier:MESSAGE_REUSE_INDICATOR] autorelease];
             }
         
-            cell.message = message;
+            cell.status = status;
             cell.inEditing = self.editing;
             [cell update];
             return cell;
@@ -165,7 +163,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if (indexPath.row == 0) {
-        if ([timeline countMessages] == 0) {
+        if ([timeline countStatuses] == 0) {
             return;
         }
         ProfileViewController *profile = [[[ProfileViewController alloc] initWithProfile:user] autorelease];
@@ -173,7 +171,7 @@
         return;
     }
     
-    Message* m = [timeline messageAtIndex:indexPath.row - 1];
+    Status* m = [timeline statusAtIndex:indexPath.row - 1];
     if (m) {
         // Display user timeline
         //
@@ -188,7 +186,7 @@
     [loadCell.spinner startAnimating];
     
     if (loadCell.type == MSG_TYPE_REQUEST_FOLLOW) {
-        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(followDidRequest:messages:)];
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(followDidRequest:obj:)];
         [twitterClient friendship:screenName create:true];
 
     }
@@ -196,7 +194,7 @@
         indexOfLoadCell = indexPath.row;
         ++page;
         
-        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userTimelineDidReceive:messages:)];
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userTimelineDidReceive:obj:)];
         NSMutableDictionary *param = [NSMutableDictionary dictionary];
         if (page >= 2) {
             [param setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
@@ -207,7 +205,7 @@
     
 }
 
-- (void)userTimelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
+- (void)userTimelineDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
    twitterClient = nil;
 
@@ -239,16 +237,16 @@
 
     // Add messages to the timeline
     for (int i = 0; i < [ary count]; ++i) {
-        Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:MSG_TYPE_FRIENDS];
-        m.cellType = MSG_CELL_TYPE_USER;
+        Status* m = [Status statusWithJsonDictionary:[ary objectAtIndex:i] type:TWEET_TYPE_FRIENDS];
+        m.cellType = TWEET_CELL_TYPE_USER;
         [m updateAttribute];
-        [timeline appendMessage:m];
+        [timeline appendStatus:m];
     }
     
     if (user) {
         [user release];
     }
-    user = [[timeline lastMessage].user copy];
+    user = [[timeline lastStatus].user copy];
     [userCell.userView setUser:user];
     
     int count = [ary count];
@@ -262,7 +260,7 @@
     [self.tableView endUpdates];
 }
 
-- (void)followDidRequest:(TwitterClient*)sender messages:(NSObject*)obj
+- (void)followDidRequest:(TwitterClient*)sender obj:(NSObject*)obj
 {
     if ([obj isKindOfClass:[NSDictionary class]]) {
         [loadCell setType:MSG_TYPE_REQUEST_FOLLOW_SENT];
@@ -273,7 +271,7 @@
 
 // UserCell delegate
 //
-- (void)toggleFavorite:(BOOL)favorited message:(Message*)m
+- (void)toggleFavorite:(BOOL)favorited status:(Status*)m
 {
     int index = [timeline indexOfObject:m];
     if (index < 0) return;
@@ -281,7 +279,7 @@
     [cell toggleFavorite:favorited];
 }
 
-- (void)userDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
+- (void)userDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
     NSDictionary *dic = nil;
     if ([obj isKindOfClass:[NSDictionary class]]) {
@@ -319,7 +317,7 @@
         userCell.userView.protected = true;
         [userCell.userView setNeedsDisplay];
         
-        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userDidReceive:messages:)];
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userDidReceive:obj:)];
         [twitterClient getUser:screenName];
     }
     else {
@@ -340,7 +338,7 @@
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
     
-    if ([self tabBarController].selectedIndex == MSG_TYPE_MESSAGES) {
+    if ([self tabBarController].selectedIndex == TWEET_TYPE_MESSAGES) {
         [postView editDirectMessage:screenName];
     }
     else {
@@ -348,9 +346,9 @@
     }
 }
 
-- (void) removeMessage:(Message*)message
+- (void) removeStatus:(Status*)status
 {
-    [timeline removeMessage:message];
+    [timeline removeStatus:status];
     [self.tableView reloadData];
 }
 
@@ -362,7 +360,7 @@
     
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     if ([screenName caseInsensitiveCompare:username] == NSOrderedSame) {
-        Message* m = [timeline messageAtIndex:indexPath.row - 1];
+        Status* m = [timeline statusAtIndex:indexPath.row - 1];
         return (m) ? true : false;
     }
     else {
@@ -374,16 +372,16 @@
     forRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        Message *m = [timeline messageAtIndex:indexPath.row - 1];
+        Status* m = [timeline statusAtIndex:indexPath.row - 1];
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        TwitterClient* client = [[TwitterClient alloc] initWithTarget:appDelegate action:@selector(messageDidDelete:messages:)];
+        TwitterClient* client = [[TwitterClient alloc] initWithTarget:appDelegate action:@selector(messageDidDelete:obj:)];
         client.context = [m retain];
-        [timeline removeMessage:m];
+        [timeline removeStatus:m];
         
         UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
         
-        if ([c respondsToSelector:@selector(removeMessage:)]) {
-            [c removeMessage:m];
+        if ([c respondsToSelector:@selector(removeStatus:)]) {
+            [c removeStatus:m];
         }
         
         [client destroy:m isDirectMessage:false];

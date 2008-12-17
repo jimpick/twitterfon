@@ -23,28 +23,28 @@ static UIImage* sFavorited = nil;
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     [self toggleSpinner:true];
-    [appDelegate toggleFavorite:message];
+    [appDelegate toggleFavorite:status];
 }
 
 - (void)update
 {
-    cellView.message = message;
+    cellView.status = status;
     self.contentView.backgroundColor = [UIColor whiteColor];
-    self.accessoryType = message.accessoryType;
+    self.accessoryType = status.accessoryType;
     
-    self.selectionStyle = (message.cellType == MSG_CELL_TYPE_DETAIL) ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
+    self.selectionStyle = (status.cellType == TWEET_CELL_TYPE_DETAIL) ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
 
     self.contentView.backgroundColor = [UIColor whiteColor];
-    cellView.frame = CGRectMake(USER_CELL_LEFT, 0, USER_CELL_WIDTH, message.cellHeight - 1);
+    cellView.frame = CGRectMake(USER_CELL_LEFT, 0, USER_CELL_WIDTH, status.cellHeight - 1);
         
-    if (message.favorited) {
+    if (status.favorited) {
         [imageButton setImage:[UserTimelineCell favoritedImage] forState:UIControlStateNormal];
     }
     else {
         [imageButton setImage:[UserTimelineCell favoriteImage] forState:UIControlStateNormal];
     }
     
-    if (message.type == MSG_TYPE_MESSAGES || message.type == MSG_TYPE_SENT) {
+    if (status.type == TWEET_TYPE_MESSAGES || status.type == TWEET_TYPE_SENT) {
         cellView.frame = CGRectOffset(cellView.frame, -32, 0);
         imageButton.hidden = true;
     }
@@ -58,7 +58,7 @@ static UIImage* sFavorited = nil;
 - (void)layoutSubviews
 {
 	[super layoutSubviews];
-    imageButton.frame = CGRectMake(2, 0, 38, message.cellHeight);
+    imageButton.frame = CGRectMake(2, 0, 38, status.cellHeight);
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
@@ -100,7 +100,7 @@ static UIImage* sFavorited = nil;
 {
     if (spinner == nil) {
         spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
-        spinner.frame = CGRectMake(11, (message.cellHeight - 20)/2, 20, 20);
+        spinner.frame = CGRectMake(11, (status.cellHeight - 20)/2, 20, 20);
         spinner.hidesWhenStopped = YES;
         [self.contentView addSubview:spinner];
     }

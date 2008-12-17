@@ -197,12 +197,12 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
         [usernameField resignFirstResponder];
         [passwordField resignFirstResponder];
         [self saveSettings];
-        TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(accountDidVerify:messages:)];
+        TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(accountDidVerify:obj:)];
         [client verify];
     }
 }
 
-- (void)accountDidVerify:(TwitterClient*)sender messages:(NSObject*)messages;
+- (void)accountDidVerify:(TwitterClient*)sender obj:(NSObject*)obj;
 {
     [self dismissModalViewControllerAnimated:true];
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;

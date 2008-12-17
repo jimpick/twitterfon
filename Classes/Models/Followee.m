@@ -55,13 +55,8 @@ static sqlite3_stmt* delete_statement = nil;
 
 + (void)insertDB:(User*)user
 {
-    sqlite3* database = [DBConnection getSharedDatabase];
-    
     if (replace_statement == nil) {
-        static char *sql = "REPLACE INTO followees VALUES(?, ?, ?, ?)";
-        if (sqlite3_prepare_v2(database, sql, -1, &replace_statement, NULL) != SQLITE_OK) {
-            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-        }
+        replace_statement = [DBConnection prepate:"REPLACE INTO followees VALUES(?, ?, ?, ?)"];
     }
     
     sqlite3_bind_int(replace_statement,  1, user.userId);
@@ -72,19 +67,14 @@ static sqlite3_stmt* delete_statement = nil;
     int success = sqlite3_step(replace_statement);
     sqlite3_reset(replace_statement);
     if (success == SQLITE_ERROR) {
-        NSAssert2(0, @"Error: failed to execute SQL command in %@ with message '%s'.", NSStringFromSelector(_cmd), sqlite3_errmsg(database));
+        [DBConnection assertWithMessage:@"Failed to execute SQL"];
     }
 }
 
 + (void)deleteFromDB:(User*)user
 {
-    sqlite3* database = [DBConnection getSharedDatabase];
-    
     if (delete_statement == nil) {
-        static char *sql = "DELETE FROM followees WHERE user_id = ?";
-        if (sqlite3_prepare_v2(database, sql, -1, &delete_statement, NULL) != SQLITE_OK) {
-            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-        }
+        delete_statement = [DBConnection prepate:"DELETE FROM followees WHERE user_id = ?"];
     }
     
     sqlite3_bind_int(delete_statement,  1, user.userId);
@@ -92,7 +82,7 @@ static sqlite3_stmt* delete_statement = nil;
     int success = sqlite3_step(delete_statement);
     sqlite3_reset(delete_statement);
     if (success == SQLITE_ERROR) {
-        NSLog(@"Error: failed to execute SQL command in %@ with message '%s'.", NSStringFromSelector(_cmd), sqlite3_errmsg(database));
+        [DBConnection assertWithMessage:@"Failed to execute SQL command"];
     }
 }
 

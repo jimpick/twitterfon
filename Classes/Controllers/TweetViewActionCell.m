@@ -11,7 +11,7 @@
 
 @implementation TweetViewActionCell
 
-@synthesize message;
+@synthesize status;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -42,13 +42,13 @@
     PostViewController* postView = appDelegate.postView;
 
     if (sender == reply) {
-        [postView inReplyTo:message];
+        [postView inReplyTo:status];
     }
     else if (sender == dm) {
-        [postView editDirectMessage:message.user.screenName];
+        [postView editDirectMessage:status.user.screenName];
     }
     else if (sender == retweet) {
-        [postView retweet:[NSString stringWithFormat:@"RT @%@: %@", message.user.screenName, message.text]];
+        [postView retweet:[NSString stringWithFormat:@"RT @%@: %@", status.user.screenName, status.text]];
     }
 }
 

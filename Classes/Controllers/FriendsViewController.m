@@ -24,7 +24,7 @@
         self.navigationItem.title = [NSString stringWithFormat:@"%@'s %@", aName, (isFollowers) ? @"followers" : @"friends"];
         page = 1;
         
-        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendsDidReceive:messages:)];
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendsDidReceive:obj:)];
         [twitterClient getFriends:screenName page:page isFollowers:isFollowers];
 
 
@@ -90,7 +90,7 @@
         if (twitterClient) return;
         
         [loadCell.spinner startAnimating];
-        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendsDidReceive:messages:)];
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendsDidReceive:obj:)];
         [twitterClient getFriends:screenName page:page isFollowers:isFollowers];
     }
     else {
@@ -100,7 +100,7 @@
     }
 }
 
-- (void)friendsDidReceive:(TwitterClient*)client messages:(NSObject*)obj
+- (void)friendsDidReceive:(TwitterClient*)client obj:(NSObject*)obj
 {
     twitterClient = nil;
     [loadCell.spinner stopAnimating];

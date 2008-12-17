@@ -27,14 +27,14 @@ static UIAlertView* sAlert = nil;
 @synthesize timeline;
 @synthesize contentOffset;
 
-- (id)initWithController:(UITableViewController*)aController messageType:(MessageType)type
+- (id)initWithController:(UITableViewController*)aController tweetType:(TweetType)type
 {
     [super init];
     
-    controller  = aController;
-    messageType = type;
+    controller = aController;
+    tweetType  = type;
     [loadCell setType:MSG_TYPE_LOAD_FROM_DB];
-    isRestored = ([timeline restore:messageType all:false] < 20) ? true : false;
+    isRestored = ([timeline restore:tweetType all:false] < 20) ? true : false;
     return self;
 }
 
@@ -49,7 +49,7 @@ static UIAlertView* sAlert = nil;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    int count = [timeline countMessages];
+    int count = [timeline countStatuses];
     return (isRestored) ? count : count + 1;
 }
 
@@ -58,7 +58,7 @@ static UIAlertView* sAlert = nil;
 //
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Message *m = [timeline messageAtIndex:indexPath.row];
+    Status* m = [timeline statusAtIndex:indexPath.row];
     return m ? m.cellHeight : 78;
     
 }
@@ -78,12 +78,12 @@ static UIAlertView* sAlert = nil;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Message *m = [timeline messageAtIndex:indexPath.row];
+    Status* m = [timeline statusAtIndex:indexPath.row];
     
     if (m) {
         // Display user view
         //
-        if (messageType == MSG_TYPE_MESSAGES || messageType == MSG_TYPE_SENT) {
+        if (tweetType == TWEET_TYPE_MESSAGES || tweetType == TWEET_TYPE_SENT) {
             ProfileViewController *profile = [[[ProfileViewController alloc] initWithProfile:m.user] autorelease];
             [[controller navigationController] pushViewController:profile animated:true];
         }
@@ -95,7 +95,7 @@ static UIAlertView* sAlert = nil;
     else {
         // Restore tweets from DB
         //
-        int count = [timeline restore:messageType all:true];
+        int count = [timeline restore:tweetType all:true];
         isRestored = true;
         
         NSMutableArray *newPath = [[[NSMutableArray alloc] init] autorelease];
@@ -123,7 +123,7 @@ static UIAlertView* sAlert = nil;
 - (void)getTimeline
 {
     if (twitterClient) return;
-	twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(timelineDidReceive:messages:)];
+	twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(timelineDidReceive:obj:)];
     
     insertPosition = 0;
     
@@ -131,10 +131,10 @@ static UIAlertView* sAlert = nil;
 
     int since_id = 0;
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    for (int i = 0; i < [timeline countMessages]; ++i) {
-        Message *m = [timeline messageAtIndex:i];
+    for (int i = 0; i < [timeline countStatuses]; ++i) {
+        Status* m = [timeline statusAtIndex:i];
         if ([m.user.screenName caseInsensitiveCompare:username] != NSOrderedSame) {
-            since_id = m.messageId;
+            since_id = m.statusId;
             break;
         }
     }
@@ -144,10 +144,10 @@ static UIAlertView* sAlert = nil;
         [param setObject:@"200" forKey:@"count"];
     }
     
-    [twitterClient getTimeline:messageType params:param];
+    [twitterClient getTimeline:tweetType params:param];
 }
 
-- (void)timelineDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
+- (void)timelineDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
     twitterClient = nil;
     [loadCell.spinner stopAnimating];
@@ -165,9 +165,9 @@ static UIAlertView* sAlert = nil;
     }
     
     int unread = 0;
-    NSLog(@"Received %d messages on tab %d", [ary count], messageType);
+    NSLog(@"Received %d messages on tab %d", [ary count], tweetType);
     
-    Message *lastMessage = [timeline lastMessage];
+    Status* lastStatus = [timeline lastStatus];
     if ([ary count]) {
         sqlite3* database = [DBConnection getSharedDatabase];
         char *errmsg; 
@@ -179,17 +179,17 @@ static UIAlertView* sAlert = nil;
             if (![dic isKindOfClass:[NSDictionary class]]) {
                 continue;
             }
-            sqlite_int64 messageId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
-            if (![Message isExists:messageId type:messageType]) {
-                Message* m = [Message messageWithJsonDictionary:[ary objectAtIndex:i] type:messageType];
-                if (m.createdAt < lastMessage.createdAt) {
+            sqlite_int64 statusId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
+            if (![Status isExists:statusId type:tweetType]) {
+                Status* m = [Status statusWithJsonDictionary:[ary objectAtIndex:i] type:tweetType];
+                if (m.createdAt < lastStatus.createdAt) {
                     // Ignore stale message
                     continue;
                 }
                 [m insertDB];
                 m.unread = true;
                 
-                [timeline insertMessage:m atIndex:insertPosition];
+                [timeline insertStatus:m atIndex:insertPosition];
                 ++unread;
             }
         }

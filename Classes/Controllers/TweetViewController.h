@@ -15,11 +15,11 @@
 
 @interface TweetViewController : UITableViewController <UIActionSheetDelegate> {
     UserView*               userView;
-    UserTimelineCell*        messageCell;
+    UserTimelineCell*       tweetCell;;
     TweetViewActionCell*    actionCell;
     DeleteButtonCell*       deleteCell;
-    Message*                message;
-    Message*                inReplyToMessage;
+    Status*                 status;
+    Status*                 inReplyToStatus;
     User*                   inReplyToUser;
     TwitterClient*          twitterClient;
     BOOL                    isOwnTweet;
@@ -27,7 +27,7 @@
     int                     *sections;
 }
 
-- (id)initWithMessage:(Message*)message;
-- (id)initWithMessageId:(sqlite_int64)messageId;
+- (id)initWithMessage:(Status*)status;
+- (id)initWithMessageId:(sqlite_int64)statusId;
 
 @end

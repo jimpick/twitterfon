@@ -11,7 +11,7 @@
 #import "WebViewController.h"
 #import "SettingsViewController.h"
 #import "ImageStore.h"
-#import "Message.h"
+#import "Status.h"
 
 typedef enum {
     TAB_FRIENDS,
@@ -37,7 +37,7 @@ typedef enum {
 
 - (IBAction)post:(id)sender;
 
-- (void)postTweetDidSucceed:(NSDictionary*)message isDirectMessage:(BOOL)isDirectMessage;
+- (void)postTweetDidSucceed:(NSDictionary*)status isDirectMessage:(BOOL)isDirectMessage;
 - (void)postViewAnimationDidFinish:(BOOL)isDirectMessage;
 
 - (void) openSettingsView;
@@ -46,8 +46,8 @@ typedef enum {
 - (void) openWebView:(NSString*)url;
 - (void) search:(NSString*)query;
 
-- (void)openLinksViewController:(Message*)message;
-- (void)toggleFavorite:(Message*)message;
+- (void)openLinksViewController:(Status*)status;
+- (void)toggleFavorite:(Status*)status;
 
 @property (nonatomic, readonly) UIWindow*           window;
 @property (nonatomic, assign) PostViewController*   postView;

@@ -28,14 +28,8 @@ static sqlite3_stmt *select_statement = nil;
 	self = [super init];
     url  = [aUrl copy];
 
-    database = [DBConnection getSharedDatabase];
-
     if (select_statement == nil) {
-        static const char *sql = "SELECT image FROM images WHERE url=?";
-        if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
-            NSLog(@"%s", sqlite3_errmsg(database));
-            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-        }
+        select_statement = [DBConnection prepate:"SELECT image FROM images WHERE url=?"];
     }
 
     // Note that the parameters are numbered from 1, not from 0.
@@ -70,10 +64,7 @@ static sqlite3_stmt *select_statement = nil;
 {
     
     if (insert_statement == nil) {
-        static const char *sql = "REPLACE INTO images VALUES(?, ?, DATETIME('now'))";
-        if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
-            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-        }
+        insert_statement = [DBConnection prepate:"REPLACE INTO images VALUES(?, ?, DATETIME('now'))"];
     }
     sqlite3_bind_text(insert_statement, 1, [url UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_blob(insert_statement, 2, buf.bytes, buf.length, SQLITE_TRANSIENT);
@@ -82,7 +73,7 @@ static sqlite3_stmt *select_statement = nil;
     sqlite3_reset(insert_statement);
     
     if (success != SQLITE_DONE) {
-        NSAssert2(0, @"Error: failed to execute SQL command in %@ with message '%s'.", NSStringFromSelector(_cmd), sqlite3_errmsg(database));
+        [DBConnection assert];
     }
 }
 

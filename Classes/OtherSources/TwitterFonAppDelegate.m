@@ -21,8 +21,8 @@
 - (void)postViewAnimationDidFinish;
 - (void)didLeaveTab:(UINavigationController*)navigationController;
 - (void)didSelectTab:(UINavigationController*)navigationController;
-- (void)updateFavorite:(Message*)message;
-- (void)toggleFavorite:(BOOL)favorited message:(Message*)message;
+- (void)updateFavorite:(Status*)status;
+- (void)toggleFavorite:(BOOL)favorited status:(Status*)status;
 @end
 
 @interface TwitterFonAppDelegate(Private)
@@ -42,6 +42,7 @@
     // bundle is altered, the code sign will fail. We want the database to be editable by users, 
     // so we need to create a copy of it in the application's Documents directory.     
     [DBConnection createEditableCopyOfDatabaseIfNeeded];
+    [DBConnection getSharedDatabase];
 
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *prevUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"prevUsername"];
@@ -308,7 +309,7 @@ static NSString *endRegexp  = @"[.,;:]$";
 static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
 static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 
-- (void)openLinksViewController:(Message*)message
+- (void)openLinksViewController:(Status*)status
 {
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
     
@@ -317,7 +318,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
     NSMutableArray *links = [NSMutableArray array];
     
     NSMutableArray *array = [NSMutableArray array];
-    NSString *tmp = message.text;
+    NSString *tmp = status.text;
 
     // Find URLs
     while ([tmp matches:urlRegexp withSubstring:array]) {
@@ -333,7 +334,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
     }
 
     // Find screen names
-    tmp = message.text;
+    tmp = status.text;
     while ([tmp matches:nameRegexp withSubstring:array]) {
         NSString *username = [array objectAtIndex:0];
         [links addObject:username];
@@ -343,7 +344,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
     }
 
     // Find hashtags
-    tmp = message.text;
+    tmp = status.text;
     while ([tmp matches:hashRegexp withSubstring:array]) {
         NSString *hash = [array objectAtIndex:0];
         [links addObject:hash];
@@ -386,18 +387,18 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 - (void)postTweetDidSucceed:(NSDictionary*)dic isDirectMessage:(BOOL)isDirectMessage
 {
     UINavigationController* nav;
-    Message *message;
+    Status* status;
     if (isDirectMessage) {
         nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_MESSAGES];
-        message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_SENT];
+        status = [Status statusWithJsonDictionary:dic type:TWEET_TYPE_SENT];
     }
     else {
         nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
-        message = [Message messageWithJsonDictionary:dic type:MSG_TYPE_FRIENDS];
+        status = [Status statusWithJsonDictionary:dic type:TWEET_TYPE_FRIENDS];
     }
-    [message insertDB];
+    [status insertDB];
     FriendsTimelineController *c = (FriendsTimelineController*)[nav.viewControllers objectAtIndex:0];
-    [c postTweetDidSucceed:message];
+    [c postTweetDidSucceed:status];
 }
 
 - (void)postViewAnimationDidFinish:(BOOL)isDirectMessage
@@ -418,13 +419,13 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 //
 // Bypass message deletion and toggle favorite completed
 //
-- (void)messageDidDelete:(TwitterClient*)client messages:(NSObject*)obj
+- (void)messageDidDelete:(TwitterClient*)client obj:(NSObject*)obj
 {
-    Message *m = (Message*)client.context;
+    Status* m = (Status*)client.context;
     if ([obj isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary*)obj;
-        sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];        
-        if (m.messageId == messageId) {
+        sqlite_int64 statusId = [[dic objectForKey:@"id"] longLongValue];        
+        if (m.statusId == statusId) {
             [m deleteFromDB];
         }
     }
@@ -434,22 +435,22 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 //
 // Handle favorites
 //
-- (void)toggleFavorite:(Message*)message
+- (void)toggleFavorite:(Status*)status
 {
-    TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(favoriteDidChange:messages:)];
-    client.context = [message retain];
-    [client favorite:message];
+    TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(favoriteDidChange:obj:)];
+    client.context = [status  retain];
+    [client favorite:status];
 }
 
-- (void)favoriteDidChange:(TwitterClient*)sender messages:(NSObject*)obj
+- (void)favoriteDidChange:(TwitterClient*)sender obj:(NSObject*)obj
 {
-    Message *m = sender.context;
+    Status* m = sender.context;
     
     if ([obj isKindOfClass:[NSDictionary class]]) {
         
         NSDictionary *dic = (NSDictionary*)obj;
-        sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];
-        if (m.messageId != messageId) {
+        sqlite_int64 statusId = [[dic objectForKey:@"id"] longLongValue];
+        if (m.statusId != statusId) {
             NSLog(@"Someting wrong with contet. Ignore error...");
             return;
         }
@@ -459,8 +460,8 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
         
         UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
         UIViewController *c = nav.topViewController;
-        if ([c respondsToSelector:@selector(toggleFavorite:message:)]) {
-            [c toggleFavorite:favorited message:m];
+        if ([c respondsToSelector:@selector(toggleFavorite:status:)]) {
+            [c toggleFavorite:favorited status:m];
         }
         
         c = [nav.viewControllers objectAtIndex:0];
@@ -473,7 +474,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    Message *m = sender.context;
+    Status* m = sender.context;
     
     if (sender.request == TWITTER_REQUEST_FAVORITE ||
         sender.request == TWITTER_REQUEST_DESTROY_FAVORITE) {
@@ -483,8 +484,8 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
             [m updateFavoriteState];
             UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
             UIViewController *c = nav.topViewController;
-            if ([c respondsToSelector:@selector(toggleFavorite:message:)]) {
-                [c toggleFavorite:favorited message:m];
+            if ([c respondsToSelector:@selector(toggleFavorite:status:)]) {
+                [c toggleFavorite:favorited status:m];
             }
         }
     }

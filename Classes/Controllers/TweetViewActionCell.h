@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Message.h"
+#import "Status.h"
 
 @interface TweetViewActionCell : UITableViewCell {
     UIButton    *reply, *dm, *retweet;
-    Message*    message;
+    Status*     status;
 }
 
-@property(nonatomic, assign) Message *message;
+@property(nonatomic, assign) Status* status;
 
 @end

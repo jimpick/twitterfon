@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Message.h"
+#import "Status.h"
 
 @interface LinkViewController : UITableViewController {
     NSMutableArray*     links;

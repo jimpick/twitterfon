@@ -38,13 +38,8 @@ static sqlite3_stmt *select_statement = nil;
     
     if ([query length] == 0) return 0;
     
-    sqlite3* database = [DBConnection getSharedDatabase];
-    
     if (select_statement == nil) {
-        static char *sql = "SELECT query FROM queries WHERE query LIKE ? ORDER BY UPPER(query)";
-        if (sqlite3_prepare_v2(database, sql, -1, &select_statement, NULL) != SQLITE_OK) {
-            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-        }
+        select_statement = [DBConnection prepate:"SELECT query FROM queries WHERE query LIKE ? ORDER BY UPPER(query)"];
     }
     
     sqlite3_bind_text(select_statement, 1, [[NSString stringWithFormat:@"%%%@%%", query] UTF8String], -1, SQLITE_TRANSIENT);    

@@ -1,4 +1,4 @@
-CREATE TABLE messages (
+CREATE TABLE statuses (
        'id'                     INTEGER,
        'type'                   INTEGER,
        'user_id'                INTEGER,
@@ -6,11 +6,30 @@ CREATE TABLE messages (
        'created_at'             INTEGER,
        'source'                 TEXT,
        'favorited'              INTEGER,
-       'cell_height'            INTEGER,
+       'truncated'              INTEGER,
        'in_reply_to_status_id'  INTEGER,
        'in_reply_to_user_id'    INTEGER,
-       'truncated'              INTEGER,
 PRIMARY KEY(type, id)
+);
+
+CREATE TABLE messages (
+       'id'                     INTEGER,
+       'sender_id'              INTEGER,
+       'recipient_id'           INTEGER,
+       'text'                   TEXT,
+       'sender_screen_name'     TEXT,
+       'recipient_screen_name'  TEXT,
+       'created_at'             INTEGER,
+PRIMARY KEY(id)
+);
+
+CREATE TABLE senders (
+       'id'                     INTEGER,
+       'screen_name'            TEXT,
+       'text'                   TEXT,
+       'unread'                 INTEGER,
+       'updated_at'             INTEGER,
+PRIMARY KEY(id)
 );
 
 CREATE TABLE users (

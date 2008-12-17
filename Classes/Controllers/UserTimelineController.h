@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UserCell.h"
 #import "LoadCell.h"
-#import "Message.h"
+#import "Status.h"
 #import "Timeline.h"
 #import "TwitterClient.h"
 
@@ -23,7 +23,7 @@
     Timeline*               timeline;
     int                     indexOfLoadCell;
     int                     page;
-    NSMutableArray*         deletedMessage;
+
     TwitterClient*          twitterClient;
     BOOL                    didCheckFriendship;
     

@@ -118,8 +118,8 @@
 - (void)makeRead
 {
     [self navigationController].tabBarItem.badgeValue = nil;
-    for (int i = 0; i < [search.timeline countMessages]; ++i) {
-        Message* m = [search.timeline messageAtIndex:i];
+    for (int i = 0; i < [search.timeline countStatuses]; ++i) {
+        Status* m = [search.timeline statusAtIndex:i];
         m.unread = false;
     }
     unread = 0;
@@ -145,35 +145,17 @@
     [search search:query];
     [overlayView setMessage:@"Searching..." spinner:true];
     
-    sqlite3* database = [DBConnection getSharedDatabase];
-    sqlite3_stmt *select, *insert;
     //
-    // Check existing
+    // Insert query to query history
     //
-    if (sqlite3_prepare_v2(database, "SELECT query FROM queries WHERE UPPER(query) = UPPER(?)", -1, &select, NULL) != SQLITE_OK) {
-        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-    }
-    
-    sqlite3_bind_text(select, 1, [[NSString stringWithFormat:@"%@", query] UTF8String], -1, SQLITE_TRANSIENT);    
+    sqlite3_stmt *stmt = [DBConnection prepate:"REPLACE INTO queries VALUES (?)"];
 
-    int result = sqlite3_step(select);
-    sqlite3_finalize(select);
-    if (result == SQLITE_ROW) {
-        return;
-    }
-
-    // Insert query to database
-    //
-    if (sqlite3_prepare_v2(database, "INSERT INTO queries VALUES (?)", -1, &insert, NULL) != SQLITE_OK) {
-        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-    }
-
-    sqlite3_bind_text(insert, 1, [query UTF8String], -1, SQLITE_TRANSIENT);
-    result = sqlite3_step(insert);
-    sqlite3_finalize(insert);
+    sqlite3_bind_text(stmt, 1, [query UTF8String], -1, SQLITE_TRANSIENT);
+    int result = sqlite3_step(stmt);
+    sqlite3_finalize(stmt);
     
     if (result == SQLITE_ERROR) {
-        NSAssert2(0, @"Error: failed to execute SQL command in %@ with message '%s'.", NSStringFromSelector(_cmd), sqlite3_errmsg(database));
+        [DBConnection assert];
     }
 }
 
@@ -308,7 +290,7 @@
     
     if (latitude && longitude) {
         [search cancel];
-        [search removeAllMessages];
+        [search removeAllStatuses];
         [self geoSearch];
     }
 }
@@ -418,7 +400,7 @@
 //
 - (void)locationManagerDidReceiveLocation:(LocationManager*)manager location:(CLLocation*)location
 {
-    [search removeAllMessages];
+    [search removeAllStatuses];
     [self reloadTable];
     
     latitude  = location.coordinate.latitude;

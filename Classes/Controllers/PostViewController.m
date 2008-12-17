@@ -101,24 +101,24 @@
     [self edit];
 }
 
-- (void)inReplyTo:(Message*)message
+- (void)inReplyTo:(Status*)status
 {
-    if (message.type == MSG_TYPE_MESSAGES) {
-        [self reply:message.user.screenName];
+    if (status.type == TWEET_TYPE_MESSAGES) {
+        [self reply:status.user.screenName];
     }
     else {
-        [postView editReply:message];
-        [self reply:message.user.screenName];
+        [postView editReply:status];
+        [self reply:status.user.screenName];
     }
 }
 
-- (void)retweet:(NSString*)message
+- (void)retweet:(NSString*)status
 {
     isDirectMessage = false;
     
-    textRange.location = [message length];
+    textRange.location = [status length];
     textRange.length = 0;
-    text.text = message;
+    text.text = status;
     [postView editRetweet];
     [self edit];
 }
@@ -210,13 +210,13 @@
 
 - (void)updateStatus
 {
-    TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(postDidSucceed:messages:)];
+    TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(postDidSucceed:obj:)];
    
     if (isDirectMessage) {
         [client send:text.text to:recipient.text];
     }
     else {
-        [client post:text.text inReplyTo:postView.inReplyToMessageId];
+        [client post:text.text inReplyTo:postView.inReplyToStatusId];
     }
     [progressWindow show];
     connection = client;
@@ -230,7 +230,7 @@
     accuracy.text = [NSString stringWithFormat:@"+/-%.0lfm", anAccuracy];
 }
 
-- (void)updateLocationDidSuccess:(TwitterClient*)sender messages:(NSObject*)messages
+- (void)updateLocationDidSuccess:(TwitterClient*)sender obj:(NSObject*)obj
 {
     latitude = longitude = 0;
     locationButton.style = UIBarButtonItemStyleBordered;
@@ -240,7 +240,7 @@
 
 - (IBAction) updateLocation
 {
-    TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(updateLocationDidSuccess:messages:)];
+    TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(updateLocationDidSuccess:obj:)];
     
 	[client updateLocation:latitude longitude:longitude];
     [progressWindow show];
@@ -494,7 +494,7 @@
     [manager autorelease];
 }
 
-- (void)postDidSucceed:(TwitterClient*)sender messages:(NSObject*)obj;
+- (void)postDidSucceed:(TwitterClient*)sender obj:(NSObject*)obj;
 {
     NSDictionary *dic = nil;
     if (obj && [obj isKindOfClass:[NSDictionary class]]) {
@@ -509,7 +509,7 @@
     }       
     
     text.text = @"";
-    postView.inReplyToMessageId = 0;
+    postView.inReplyToStatusId = 0;
     textRange.location = 0;
     textRange.length = 0;
     connection = nil;

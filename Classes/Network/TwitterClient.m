@@ -9,7 +9,6 @@
 #import "TwitterClient.h"
 #import "StringUtil.h"
 #import "JSON.h"
-#import "Message.h"
 
 static 
 NSString* sMethods[4] = {
@@ -20,7 +19,6 @@ NSString* sMethods[4] = {
 };
 
 @interface NSObject (TwitterClientDelegate)
-- (void)twitterClientDidSucceed:(TwitterClient*)sender messages:(NSObject*)messages;
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail;
 @end
 
@@ -41,7 +39,7 @@ NSString* sMethods[4] = {
     [super dealloc];
 }
 
-- (void)getTimeline:(MessageType)type params:(NSDictionary*)params
+- (void)getTimeline:(TweetType)type params:(NSDictionary*)params
 {
     needAuth = true;
     request = TWITTER_REQUEST_TIMELINE;
@@ -91,15 +89,15 @@ NSString* sMethods[4] = {
     [super get:url];
 }
 
-- (void)getMessage:(sqlite_int64)messageId
+- (void)getMessage:(sqlite_int64)statusId
 {
     needAuth = true;
     request = TWITTER_REQUEST_MESSAGE;
-    NSString *url = [NSString stringWithFormat:@"https://twitter.com/statuses/show/%lld.json", messageId];
+    NSString *url = [NSString stringWithFormat:@"https://twitter.com/statuses/show/%lld.json", statusId];
     [super get:url];
 }
 
-- (void)post:(NSString*)tweet inReplyTo:(sqlite_int64)messageId
+- (void)post:(NSString*)tweet inReplyTo:(sqlite_int64)statusId
 {
     needAuth = true;
     request = TWITTER_REQUEST_UPDATE;
@@ -107,7 +105,7 @@ NSString* sMethods[4] = {
     NSString* url = @"https://twitter.com/statuses/update.json";
     NSString *postString = [NSString stringWithFormat:@"status=%@&in_reply_to_status_id=%lld&source=twitterfon",
                             [tweet encodeAsURIComponent],
-                            messageId];
+                            statusId];
 
     NSLog(@"%@", postString);
     [self post:url body:postString];
@@ -164,17 +162,17 @@ NSString* sMethods[4] = {
     [self post:url body:@""];
 }
 
-- (void)destroy:(Message*)message isDirectMessage:(BOOL)isDirectMessage
+- (void)destroy:(Status*)status isDirectMessage:(BOOL)isDirectMessage
 {
     needAuth = true;
     request = TWITTER_REQUEST_DESTROY_MESSAGE;
 
     NSString *url;
     if (isDirectMessage) {
-        url = [NSString stringWithFormat:@"https://twitter.com/direct_messages/destroy/%lld.json", [message messageId]];
+        url = [NSString stringWithFormat:@"https://twitter.com/direct_messages/destroy/%lld.json", [status statusId]];
     }
     else {
-        url = [NSString stringWithFormat:@"https://twitter.com/statuses/destroy/%lld.json", [message messageId]];
+        url = [NSString stringWithFormat:@"https://twitter.com/statuses/destroy/%lld.json", [status  statusId]];
     }
     
     NSLog(@"%@", url);
@@ -182,14 +180,14 @@ NSString* sMethods[4] = {
     [self post:url body:@""];
 }
 
-- (void)favorite:(Message*)message
+- (void)favorite:(Status*)status
 {
     needAuth = true;
-    request = (message.favorited) ? TWITTER_REQUEST_DESTROY_FAVORITE : TWITTER_REQUEST_FAVORITE;
+    request = (status.favorited) ? TWITTER_REQUEST_DESTROY_FAVORITE : TWITTER_REQUEST_FAVORITE;
     
     NSString* url = [NSString stringWithFormat:@"https://twitter.com/favorites/%@/%lld.json",
-                     (message.favorited) ? @"destroy" : @"create",
-                     [message messageId]];
+                     (status.favorited) ? @"destroy" : @"create",
+                     [status statusId]];
     
     NSLog(@"%@", url);
     
@@ -297,7 +295,8 @@ NSString* sMethods[4] = {
 
     NSObject *obj = [content JSONValue];
     if (request == TWITTER_REQUEST_FRIENDSHIP_EXISTS) {
-        obj = [NSNumber numberWithBool:[content isEqualToString:@"\"true\""]];
+        NSRange r = [content rangeOfString:@"true"];
+        obj = [NSNumber numberWithBool:(r.location != NSNotFound)];
     }
     
     if ([obj isKindOfClass:[NSDictionary class]]) {

@@ -35,7 +35,7 @@
 - (void)getTrends:(BOOL)reload
 {
     if (reload || [trends count] == 0) {
-        TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(trendDidReceive:messages:)];
+        TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(trendDidReceive:obj:)];
         [client trends];
     }
     else {
@@ -75,7 +75,7 @@
 //
 // TwitterClient delegates
 //
-- (void)trendDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
+- (void)trendDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
     if ([obj isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary*)obj;

@@ -16,7 +16,7 @@
 
 @implementation PostView
 
-@synthesize inReplyToMessageId;
+@synthesize inReplyToStatusId;
 
 - (void)awakeFromNib
 {
@@ -24,10 +24,10 @@
     charCount.font = [UIFont boldSystemFontOfSize:16];
     
     text.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"tweet"];
-    NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"inReplyToMessageId"];
+    NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"inReplyToStatusId"];
     isDirectMessage = [[NSUserDefaults standardUserDefaults] boolForKey:@"isDirectMessage"];
-    inReplyToMessageId = [number longLongValue];
-    if (inReplyToMessageId) {
+    inReplyToStatusId = [number longLongValue];
+    if (inReplyToStatusId) {
         to.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"to"];
         recipient.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"recipient"];
     }
@@ -46,22 +46,22 @@
         recipient.text = @"";
         recipient.textColor = [UIColor blackColor];
     }
-    inReplyToMessageId = 0;
+    inReplyToStatusId = 0;
     to.text = @"To:";
 }
 
-- (void)editReply:(Message*)message
+- (void)editReply:(Status*)status
 {
     isDirectMessage = false;
-    if (inReplyToMessage) {
-        [inReplyToMessage release];
+    if (inReplyToStatus) {
+        [inReplyToStatus release];
     }
 
-    inReplyToMessage   = [message.text copy];
-    inReplyToMessageId = message.messageId;
+    inReplyToStatus   = [status.text copy];
+    inReplyToStatusId = status.statusId;
     
     to.text = @"In-Reply-To:";
-    recipient.text = inReplyToMessage;
+    recipient.text = inReplyToStatus;
     recipient.enabled = false;
     recipient.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
 }
@@ -74,7 +74,7 @@
 - (void)editRetweet
 {
     isDirectMessage = false;
-    inReplyToMessageId = 0;
+    inReplyToStatusId = 0;
 }
 
 - (void)createTransform:(BOOL)isDelete
@@ -117,7 +117,7 @@
 - (IBAction) undo:(id) sender
 {
     text.text = undoBuffer;
-    inReplyToMessageId = savedId;
+    inReplyToStatusId = savedId;
     [undoBuffer release];
     undoBuffer = nil;
     [self createTransform:true];
@@ -149,8 +149,8 @@
         [self createTransform:false];
         
         undoBuffer = [text.text retain];
-        savedId = inReplyToMessageId;
-        inReplyToMessageId = 0;
+        savedId = inReplyToStatusId;
+        inReplyToStatusId = 0;
         text.text = @"";
         charCount.textColor = [UIColor whiteColor];
         sendButton.enabled = false;
@@ -204,7 +204,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:to.text forKey:@"to"];
     [[NSUserDefaults standardUserDefaults] setObject:recipient.text forKey:@"recipient"];
     [[NSUserDefaults standardUserDefaults] setBool:isDirectMessage forKey:@"isDirectMessage"];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLongLong:inReplyToMessageId] forKey:@"inReplyToMessageId"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLongLong:inReplyToStatusId] forKey:@"inReplyToStatusId"];
     [[NSUserDefaults standardUserDefaults] synchronize];    
 }
 
@@ -220,7 +220,7 @@
         recipient.frame = CGRectMake(40, 0, 270, 44);
         text.frame = CGRectMake(5, 44, 310, 112);
     }
-    else if (inReplyToMessageId) {
+    else if (inReplyToStatusId) {
         to.hidden = false;
         to.frame = CGRectMake(9, 0, 100, 43);
         
@@ -241,7 +241,7 @@
 - (void)drawRect:(CGRect)rect 
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    if (isDirectMessage || inReplyToMessageId) {
+    if (isDirectMessage || inReplyToStatusId) {
         CGContextSetLineWidth(context, 1);
         CGContextSetAllowsAntialiasing(context, false);
         CGContextSetRGBStrokeColor(context, 0.666, 0.666, 0.666, 1.0);

@@ -1,6 +1,5 @@
 #import <UIKit/UIKit.h>
 #import "TFConnection.h"
-#import "Message.h"
 
 @interface TwitPicClient : TFConnection
 {

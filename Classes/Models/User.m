@@ -100,12 +100,8 @@ static sqlite3_stmt* user_by_id_statement = nil;
 
 + (User*)userWithId:(int)id
 {
-    sqlite3* database = [DBConnection getSharedDatabase];
     if (user_by_id_statement == nil) {
-        static char *sql = "SELECT * FROM users WHERE user_id = ?";
-        if (sqlite3_prepare_v2(database, sql, -1, &user_by_id_statement, NULL) != SQLITE_OK) {
-            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-        }
+        user_by_id_statement = [DBConnection prepate:"SELECT * FROM users WHERE user_id = ?"];
     }
     
     sqlite3_bind_int64(user_by_id_statement, 1, id);
@@ -148,13 +144,8 @@ static sqlite3_stmt* user_by_id_statement = nil;
 
 - (void)updateDB
 {
-    sqlite3* database = [DBConnection getSharedDatabase];
-    
     if (insert_statement == nil) {
-        static char *sql = "REPLACE INTO users VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
-            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-        }
+        insert_statement = [DBConnection prepate:"REPLACE INTO users VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"];
     }
     sqlite3_bind_int(insert_statement,  1, userId);
     sqlite3_bind_text(insert_statement, 2, [name UTF8String], -1, SQLITE_TRANSIENT);
@@ -170,7 +161,7 @@ static sqlite3_stmt* user_by_id_statement = nil;
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
     sqlite3_reset(insert_statement);
     if (success == SQLITE_ERROR) {
-        NSAssert2(0, @"Error: failed to execute SQL command in %@ with message '%s'.", NSStringFromSelector(_cmd), sqlite3_errmsg(database));
+        [DBConnection assert];
     }
 }
 

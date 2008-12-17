@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Message.h"
+#import "Status.h"
 
 @interface TweetCellView : UIView {
-    Message*    message;
+    Status*    status;
 }
 
-@property(nonatomic, retain) Message* message;
+@property(nonatomic, retain) Status* status;
 
 @end

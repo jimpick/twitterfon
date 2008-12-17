@@ -98,7 +98,7 @@
     firstTimeToAppear = true;
     stopwatch = [[Stopwatch alloc] init];
     tab       = [self navigationController].tabBarItem.tag;
-    timelineDataSource = [[FriendsTimelineDataSource alloc] initWithController:self messageType:tab];
+    timelineDataSource = [[FriendsTimelineDataSource alloc] initWithController:self tweetType:tab];
     currentDataSource = timelineDataSource;
     if (load) [self loadTimeline];
 }
@@ -125,7 +125,7 @@
     }
     else {
         if (sentMessageDataSource == nil) {
-            sentMessageDataSource = [[FriendsTimelineDataSource alloc] initWithController:self messageType:MSG_TYPE_SENT];
+            sentMessageDataSource = [[FriendsTimelineDataSource alloc] initWithController:self tweetType:TWEET_TYPE_SENT];
             [sentMessageDataSource getTimeline];
         }
         currentDataSource         = sentMessageDataSource;
@@ -155,13 +155,13 @@
         
 }
 
-- (void)postTweetDidSucceed:(Message*)message
+- (void)postTweetDidSucceed:(Status*)status
 {
     if (tab == TAB_FRIENDS) {
-        [currentDataSource.timeline insertMessage:message atIndex:0];
+        [currentDataSource.timeline insertStatus:status atIndex:0];
     }
     else if (tab == TAB_MESSAGES && sentMessageDataSource) {
-        [sentMessageDataSource.timeline insertMessage:message atIndex:0];
+        [sentMessageDataSource.timeline insertStatus:status atIndex:0];
     }
 }
 
@@ -172,29 +172,29 @@
 - (void)didLeaveTab:(UINavigationController*)navigationController
 {
     navigationController.tabBarItem.badgeValue = nil;
-    for (int i = 0; i < [currentDataSource.timeline countMessages]; ++i) {
-        Message* m = [currentDataSource.timeline messageAtIndex:i];
+    for (int i = 0; i < [currentDataSource.timeline countStatuses]; ++i) {
+        Status* m = [currentDataSource.timeline statusAtIndex:i];
         m.unread = false;
     }
     unread = 0;
 }
 
 
-- (void) removeMessage:(Message*)message
+- (void) removeStatus:(Status*)status
 {
-    [currentDataSource.timeline removeMessage:message];
+    [currentDataSource.timeline removeStatus:status];
     [self.tableView reloadData];
 }
 
-- (void) updateFavorite:(Message*)message
+- (void) updateFavorite:(Status*)status
 {
-    [currentDataSource.timeline updateFavorite:message];
+    [currentDataSource.timeline updateFavorite:status];
 }
 
 - (void)scrollToFirstUnread:(NSTimer*)timer
 {
     if (unread) {
-        if (unread < [currentDataSource.timeline countMessages]) {
+        if (unread < [currentDataSource.timeline countStatuses]) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:unread inSection:0];
             [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition: UITableViewScrollPositionBottom animated:true];
         }

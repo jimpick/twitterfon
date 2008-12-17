@@ -10,12 +10,12 @@
 
 @interface FriendsTimelineDataSource : TimelineDataSource <UITableViewDataSource, UITableViewDelegate> {
     UITableViewController*  controller;
-    MessageType             messageType;
+    TweetType               tweetType;
     int                     insertPosition;
     BOOL                    isRestored;
 }
 
-- (id)initWithController:(UITableViewController*)controller messageType:(MessageType)type;
+- (id)initWithController:(UITableViewController*)controller tweetType:(TweetType)type;
 - (void)getTimeline;
 
 @end

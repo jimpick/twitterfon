@@ -39,9 +39,9 @@
     }
 }
 
-- (void)removeAllMessages
+- (void)removeAllStatuses
 {
-    [timeline removeAllMessages];
+    [timeline removeAllStatuses];
 }
 
 @end

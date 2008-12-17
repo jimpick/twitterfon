@@ -15,6 +15,8 @@
 #import "Followee.h"
 #import "ColorUtils.h"
 
+#define USE_FRIENDSHIP_EXISTS_METHOD
+
 enum {
     ROW_FRIENDS,
     ROW_FOLLOWERS,
@@ -59,7 +61,7 @@ enum {
 {
     [super viewDidAppear:animated];
     if (!detailLoaded) {
-        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userDidReceive:messages:)];
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userDidReceive:obj:)];
         [twitterClient getUser:user.screenName];
     }
 }
@@ -165,7 +167,7 @@ enum {
         
     }
     if (indexPath.row == 0 && indexPath.section == 1) {
-        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(followDidRequest:messages:)];
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(followDidRequest:obj:)];
         [twitterClient friendship:user.screenName create:!user.following];
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:true];
@@ -208,7 +210,7 @@ enum {
     }
 }
 
-- (void)userDidReceive:(TwitterClient*)sender messages:(NSObject*)obj
+- (void)userDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
     NSDictionary *dic = nil;
     if ([obj isKindOfClass:[NSDictionary class]]) {
@@ -217,8 +219,9 @@ enum {
         [user updateWithJSonDictionary:dic];
         [userView setUser:user];
         detailLoaded = true;
-
-//        followingLoaded = true;
+#ifndef USE_FRIENDSHIP_EXISTS_METHOD        
+        followingLoaded = true;
+#endif
 
         NSArray *indexPath = [NSArray arrayWithObjects:
                               [NSIndexPath indexPathForRow:0 inSection:0],
@@ -228,25 +231,26 @@ enum {
                               nil];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];
-//        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationTop];  	 	 
+#ifndef USE_FRIENDSHIP_EXISTS_METHOD        
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationTop];  	 	 
+#endif
         [self.tableView endUpdates];
     }
     
     twitterClient = nil;
-#if 1
+#ifdef USE_FRIENDSHIP_EXISTS_METHOD
     if (!ownInfo) {   	 	 
-        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendshipDidCheck:messages:)];  	 	 
+        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendshipDidCheck:obj:)];  	 	 
         [twitterClient existFriendship:user.screenName];  	 	 
     }
 #endif
 }
 
-- (void)friendshipDidCheck:(TwitterClient*)sender messages:(NSObject*)obj   	 	 
-{  	 	 
+- (void)friendshipDidCheck:(TwitterClient*)sender obj:(NSObject*)obj   	 	 
+{
     followingLoaded = true;
     NSNumber *flag = (NSNumber*)obj;  	 	 
     user.following = [flag boolValue] ? 1 : 0;
-    
     [Followee updateDB:user];
 
     [self.tableView beginUpdates];  	 	 
@@ -271,7 +275,7 @@ enum {
     [self.tableView reloadData];
 }
 
-- (void)followDidRequest:(TwitterClient*)sender messages:(NSObject*)obj
+- (void)followDidRequest:(TwitterClient*)sender obj:(NSObject*)obj
 {
     if ([obj isKindOfClass:[NSDictionary class]]) {
         BOOL created = (sender.request == TWITTER_REQUEST_CREATE_FRIENDSHIP) ? true : false;
@@ -308,7 +312,7 @@ enum {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
     
-    if ([self tabBarController].selectedIndex == MSG_TYPE_MESSAGES) {
+    if ([self tabBarController].selectedIndex == TWEET_TYPE_MESSAGES) {
         [postView editDirectMessage:user.screenName];
     }
     else {
