@@ -4,7 +4,7 @@ static sqlite3*             theDatabase = nil;
 
 #define MAIN_DATABASE_NAME @"db1.3.sql"
 
-#define TEST_DELETE_TWEET
+//#define TEST_DELETE_TWEET
 
 #ifdef TEST_DELETE_TWEET
 const char *delete_tweets = 
@@ -14,7 +14,7 @@ const char *delete_tweets =
 //"DELETE FROM images;"
 //"DELETE FROM statuses WHERE type = 0 and id > (SELECT id FROM statuses WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 1);"
 //"DELETE FROM statuses WHERE type = 1 and id > (SELECT id FROM statuses WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 1);"
-"DELETE FROM direct_messages WHERE id > (SELECT id FROM direct_messages ORDER BY id DESC LIMIT 1 OFFSET 10);"
+//"DELETE FROM direct_messages WHERE id > (SELECT id FROM direct_messages ORDER BY id DESC LIMIT 1 OFFSET 10);"
 "COMMIT";
 #endif
 
