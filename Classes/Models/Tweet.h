@@ -16,7 +16,7 @@ typedef enum {
     TWEET_CELL_TYPE_DETAIL,
 } TweetCellType;
 
-@interface Tweet : NSObject
+@interface Tweet : ImageStoreReceiver
 {
 	NSString*       text;
     

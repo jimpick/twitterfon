@@ -15,11 +15,11 @@ static UIColor *gUnreadCellColors[5];
 
 + (void) initTwitterFonColorScheme
 {
-    gUnreadCellColors[0] = [[UIColor colorWithRed:0.827 green:1.000 blue:1.000 alpha:1.0] retain];
-    gUnreadCellColors[1] = [[UIColor colorWithRed:0.827 green:1.000 blue:0.820 alpha:1.0] retain];
-    gUnreadCellColors[2] = [[UIColor colorWithRed:0.988 green:0.812 blue:0.820 alpha:1.0] retain];
-    gUnreadCellColors[3] = [[UIColor colorWithRed:0.988 green:0.812 blue:0.820 alpha:1.0] retain];
-    gUnreadCellColors[4] = [[UIColor colorWithRed:0.996 green:0.929 blue:0.820 alpha:1.0] retain];
+    gUnreadCellColors[0] = [[UIColor colorWithRed:0.827 green:1.000 blue:1.000 alpha:1.0] retain]; // friends
+    gUnreadCellColors[1] = [[UIColor colorWithRed:0.827 green:1.000 blue:0.820 alpha:1.0] retain]; // replies
+    gUnreadCellColors[2] = [[UIColor colorWithRed:0.992 green:0.878 blue:0.820 alpha:1.0] retain]; // DM
+    gUnreadCellColors[3] = [[UIColor colorWithRed:0.988 green:0.812 blue:0.820 alpha:1.0] retain]; // favorites
+    gUnreadCellColors[4] = [[UIColor colorWithRed:0.996 green:0.929 blue:0.820 alpha:1.0] retain]; // search
     
     // Navigation Bar Color
     gNavigationBarColors[0] = [[UIColor colorWithRed:0.341 green:0.643 blue:0.859 alpha:1.0] retain];
@@ -44,4 +44,8 @@ static UIColor *gUnreadCellColors[5];
     return [UIColor colorWithRed:0.195 green:0.309 blue:0.520 alpha:1.0];
 }
 
++ (UIColor*)conversationBackground
+{
+    return [UIColor colorWithRed:0.827 green:0.851 blue:0.910 alpha:1.0];
+}
 @end

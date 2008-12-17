@@ -10,11 +10,11 @@ static sqlite3*             theDatabase = nil;
 const char *delete_tweets = 
 "BEGIN;"
 //"DELETE FROM statuses;"
-//"DELETE FROM messages;"
+//"DELETE FROM direct_messages;"
 //"DELETE FROM images;"
 //"DELETE FROM statuses WHERE type = 0 and id > (SELECT id FROM statuses WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 1);"
 //"DELETE FROM statuses WHERE type = 1 and id > (SELECT id FROM statuses WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 1);"
-//"DELETE FROM messages WHERE id > (SELECT id FROM messages ORDER BY id DESC LIMIT 1 OFFSET 1);"
+"DELETE FROM direct_messages WHERE id > (SELECT id FROM direct_messages ORDER BY id DESC LIMIT 1 OFFSET 10);"
 "COMMIT";
 #endif
 
@@ -59,7 +59,7 @@ const char *delete_tweets =
 const char *delete_message_cache_sql = 
 "BEGIN;"
 "DELETE FROM statuses;"
-"DELETE FROM messages;"
+"DELETE FROM direct_messages;"
 "DELETE FROM users;"
 "DELETE FROM followees;"
 "COMMIT;"
@@ -100,11 +100,11 @@ const char *cleanup_sql =
 
 const char *optimize_sql = 
 "REINDEX statuses;"
-"REINDEX messages;"
+"REINDEX direct_messages;"
 "REINDEX images;"
 "REINDEX users;"
 "ANALYZE statuses;"
-"ANALYZE messages;"
+"ANALYZE direct_messages;"
 "ANALYZE images;"
 "ANALYZE users;"
 "VACUUM;";
@@ -143,15 +143,20 @@ const char *optimize_sql =
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:MAIN_DATABASE_NAME];
-
-#if 0
-    // Update database
+    
+    //
+    // migration
+    //
+    // Update from version 1.2.*
+    //
     NSString *oldDBPath = [documentsDirectory stringByAppendingPathComponent:@"db1.2.sql"];
     success = [fileManager fileExistsAtPath:oldDBPath];
     if (success) {
         sqlite3 *db12 = [DBConnection openDatabase:@"db1.2.sql"];
         char *errmsg;
-        if (sqlite3_exec(db12, update_v12_to_v13, NULL, NULL, &errmsg) == SQLITE_OK) {
+        NSString *migrateSQL = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"update_v12_to_v13.sql"];
+        NSData *sqldata = [fileManager contentsAtPath:migrateSQL];
+        if (sqlite3_exec(db12, [sqldata bytes], NULL, NULL, &errmsg) == SQLITE_OK) {
             // succeeded to update.
             [fileManager moveItemAtPath:oldDBPath toPath:writableDBPath error:&error];
             NSLog(@"Updated database from version 1.2 to 1.3.");
@@ -160,8 +165,9 @@ const char *optimize_sql =
         NSLog(@"Failed to update database (Reason: %s). Discard version 1.2 data...", errmsg);
         [fileManager removeItemAtPath:oldDBPath error:&error];
     }
-#endif    
+    
     // No exists any database file. Create new one.
+    //
     success = [fileManager fileExistsAtPath:writableDBPath];
     if (success) return;
     // The writable database does not exist, so copy the default to the appropriate location.

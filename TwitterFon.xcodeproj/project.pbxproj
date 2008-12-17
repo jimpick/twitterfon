@@ -76,6 +76,16 @@
 		6E943A900E64C4FF00E8ECF2 /* TimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E943A8F0E64C4FF00E8ECF2 /* TimeUtils.m */; };
 		6E943F1B0E6527C600E8ECF2 /* usercell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E943F1A0E6527C600E8ECF2 /* usercell_background.png */; };
 		6E97A5E60EF8A91100168291 /* DirectMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E97A5E50EF8A91100168291 /* DirectMessage.m */; };
+		6E97A75E0EF8C78000168291 /* DMTimelineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E97A75C0EF8C78000168291 /* DMTimelineController.m */; };
+		6E97A8820EF8F7DA00168291 /* DirectMessage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E97A8810EF8F7DA00168291 /* DirectMessage.xib */; };
+		6E97AA8F0EF9142900168291 /* DMConversationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E97AA8E0EF9142900168291 /* DMConversationController.m */; };
+		6E97ABBB0EF91EC100168291 /* ChatBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E97ABBA0EF91EC100168291 /* ChatBubbleCell.m */; };
+		6E97ABBE0EF91F6C00168291 /* Balloon_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E97ABBC0EF91F6C00168291 /* Balloon_2.png */; };
+		6E97ABBF0EF91F6C00168291 /* Balloon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E97ABBD0EF91F6C00168291 /* Balloon_1.png */; };
+		6E97ABE40EF920FE00168291 /* ChatBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E97ABE30EF920FE00168291 /* ChatBubbleView.m */; };
+		6E97AD160EF93AB800168291 /* update_v12_to_v13.sql in Resources */ = {isa = PBXBuildFile; fileRef = 6E97AD150EF93AB800168291 /* update_v12_to_v13.sql */; };
+		6E97AD680EF94B5000168291 /* DirectMessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E97AD670EF94B5000168291 /* DirectMessageCellView.m */; };
+		6E97AD750EF94CE800168291 /* DirectMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E97AD740EF94CE800168291 /* DirectMessageCell.m */; };
 		6EA0C19C0EBB1305000C0CD4 /* friends_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EA0C19B0EBB1305000C0CD4 /* friends_small.png */; };
 		6EADBC090EBD8F8E00093782 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADBC080EBD8F8E00093782 /* PostViewController.m */; };
 		6EADC0A20EBDC48D00093782 /* FolloweeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC09F0EBDC48D00093782 /* FolloweeCell.m */; };
@@ -221,6 +231,22 @@
 		6E943F1A0E6527C600E8ECF2 /* usercell_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usercell_background.png; sourceTree = "<group>"; };
 		6E97A5E40EF8A91100168291 /* DirectMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectMessage.h; sourceTree = "<group>"; };
 		6E97A5E50EF8A91100168291 /* DirectMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectMessage.m; sourceTree = "<group>"; };
+		6E97A75B0EF8C78000168291 /* DMTimelineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMTimelineController.h; path = Controllers/DMTimelineController.h; sourceTree = "<group>"; };
+		6E97A75C0EF8C78000168291 /* DMTimelineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DMTimelineController.m; path = Controllers/DMTimelineController.m; sourceTree = "<group>"; };
+		6E97A8810EF8F7DA00168291 /* DirectMessage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = DirectMessage.xib; path = Interfaces/DirectMessage.xib; sourceTree = "<group>"; };
+		6E97AA8D0EF9142900168291 /* DMConversationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMConversationController.h; path = Controllers/DMConversationController.h; sourceTree = "<group>"; };
+		6E97AA8E0EF9142900168291 /* DMConversationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DMConversationController.m; path = Controllers/DMConversationController.m; sourceTree = "<group>"; };
+		6E97ABB90EF91EC100168291 /* ChatBubbleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatBubbleCell.h; path = Controllers/ChatBubbleCell.h; sourceTree = "<group>"; };
+		6E97ABBA0EF91EC100168291 /* ChatBubbleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatBubbleCell.m; path = Controllers/ChatBubbleCell.m; sourceTree = "<group>"; };
+		6E97ABBC0EF91F6C00168291 /* Balloon_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Balloon_2.png; sourceTree = "<group>"; };
+		6E97ABBD0EF91F6C00168291 /* Balloon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Balloon_1.png; sourceTree = "<group>"; };
+		6E97ABE20EF920FE00168291 /* ChatBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatBubbleView.h; path = Controllers/ChatBubbleView.h; sourceTree = "<group>"; };
+		6E97ABE30EF920FE00168291 /* ChatBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatBubbleView.m; path = Controllers/ChatBubbleView.m; sourceTree = "<group>"; };
+		6E97AD150EF93AB800168291 /* update_v12_to_v13.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = update_v12_to_v13.sql; sourceTree = "<group>"; };
+		6E97AD660EF94B5000168291 /* DirectMessageCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DirectMessageCellView.h; path = Controllers/DirectMessageCellView.h; sourceTree = "<group>"; };
+		6E97AD670EF94B5000168291 /* DirectMessageCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DirectMessageCellView.m; path = Controllers/DirectMessageCellView.m; sourceTree = "<group>"; };
+		6E97AD730EF94CE800168291 /* DirectMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DirectMessageCell.h; path = Controllers/DirectMessageCell.h; sourceTree = "<group>"; };
+		6E97AD740EF94CE800168291 /* DirectMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DirectMessageCell.m; path = Controllers/DirectMessageCell.m; sourceTree = "<group>"; };
 		6EA0C19B0EBB1305000C0CD4 /* friends_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends_small.png; sourceTree = "<group>"; };
 		6EADBC070EBD8F8E00093782 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostViewController.h; path = Controllers/PostViewController.h; sourceTree = "<group>"; };
 		6EADBC080EBD8F8E00093782 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostViewController.m; path = Controllers/PostViewController.m; sourceTree = "<group>"; };
@@ -383,6 +409,7 @@
 				6EED14400E33E5BF00C71EA4 /* Images */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				6E1FAE8C0EDAC4D7009407F6 /* db1.3.sql */,
+				6E97AD150EF93AB800168291 /* update_v12_to_v13.sql */,
 				6E382E930EB41E9000B0CE69 /* Settings.bundle */,
 			);
 			name = Resources;
@@ -485,6 +512,12 @@
 		6E1BE7BF0EF7C0370075881E /* DirectMessage */ = {
 			isa = PBXGroup;
 			children = (
+				6E97AD730EF94CE800168291 /* DirectMessageCell.h */,
+				6E97AD740EF94CE800168291 /* DirectMessageCell.m */,
+				6E97AD660EF94B5000168291 /* DirectMessageCellView.h */,
+				6E97AD670EF94B5000168291 /* DirectMessageCellView.m */,
+				6E97A75B0EF8C78000168291 /* DMTimelineController.h */,
+				6E97A75C0EF8C78000168291 /* DMTimelineController.m */,
 			);
 			name = DirectMessage;
 			sourceTree = "<group>";
@@ -591,6 +624,28 @@
 			name = Settings;
 			sourceTree = "<group>";
 		};
+		6E97ABC00EF91F7100168291 /* Conversation */ = {
+			isa = PBXGroup;
+			children = (
+				6E97ABBD0EF91F6C00168291 /* Balloon_1.png */,
+				6E97ABBC0EF91F6C00168291 /* Balloon_2.png */,
+			);
+			name = Conversation;
+			sourceTree = "<group>";
+		};
+		6E97AE610EF951FC00168291 /* Conversation */ = {
+			isa = PBXGroup;
+			children = (
+				6E97AA8D0EF9142900168291 /* DMConversationController.h */,
+				6E97AA8E0EF9142900168291 /* DMConversationController.m */,
+				6E97ABB90EF91EC100168291 /* ChatBubbleCell.h */,
+				6E97ABBA0EF91EC100168291 /* ChatBubbleCell.m */,
+				6E97ABE20EF920FE00168291 /* ChatBubbleView.h */,
+				6E97ABE30EF920FE00168291 /* ChatBubbleView.m */,
+			);
+			name = Conversation;
+			sourceTree = "<group>";
+		};
 		6EAE759B0EF3870700BF6CD4 /* Links */ = {
 			isa = PBXGroup;
 			children = (
@@ -691,6 +746,7 @@
 				6E6DC5990EC077FD00F9EB74 /* TimelineView.xib */,
 				6E6DC59B0EC077FD00F9EB74 /* WebView.xib */,
 				6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */,
+				6E97A8810EF8F7DA00168291 /* DirectMessage.xib */,
 			);
 			name = interfaces;
 			sourceTree = "<group>";
@@ -714,6 +770,7 @@
 				6EAE81540EF5B54100BF6CD4 /* FriendsTimeline */,
 				6E74D0E20EF7B440003BB7B1 /* Tweets */,
 				6E1BE7BF0EF7C0370075881E /* DirectMessage */,
+				6E97AE610EF951FC00168291 /* Conversation */,
 				6E6846AC0EE2D7D6009847F3 /* UserTimeline */,
 				6E1FAB400EDA6A39009407F6 /* Profile */,
 				6EBEE5790EB2F58E00C18F0A /* Search */,
@@ -765,6 +822,7 @@
 				6E08A3660EDFC226000D25FE /* Search */,
 				6E08A3630EDFC1AD000D25FE /* Post */,
 				6E08A3540EDFC169000D25FE /* WebView */,
+				6E97ABC00EF91F7100168291 /* Conversation */,
 				6E08A3530EDFC147000D25FE /* CustomSearchBar */,
 				6EED14410E33E5BF00C71EA4 /* Icon.png */,
 				6E2BD11E0E35B3D2003A8F69 /* Default.png */,
@@ -859,6 +917,10 @@
 				6E08ABE40EE0999C000D25FE /* SearchBarLeftPressed.png in Resources */,
 				6E0378320EF352A20045CD12 /* deleteButton_pressed.png in Resources */,
 				6E0378330EF352A20045CD12 /* deleteButton.png in Resources */,
+				6E97A8820EF8F7DA00168291 /* DirectMessage.xib in Resources */,
+				6E97ABBE0EF91F6C00168291 /* Balloon_2.png in Resources */,
+				6E97ABBF0EF91F6C00168291 /* Balloon_1.png in Resources */,
+				6E97AD160EF93AB800168291 /* update_v12_to_v13.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -931,6 +993,12 @@
 				6E3B13AB0EF835FC00070525 /* Tweet.m in Sources */,
 				6E3B13B80EF8383300070525 /* Status.m in Sources */,
 				6E97A5E60EF8A91100168291 /* DirectMessage.m in Sources */,
+				6E97A75E0EF8C78000168291 /* DMTimelineController.m in Sources */,
+				6E97AA8F0EF9142900168291 /* DMConversationController.m in Sources */,
+				6E97ABBB0EF91EC100168291 /* ChatBubbleCell.m in Sources */,
+				6E97ABE40EF920FE00168291 /* ChatBubbleView.m in Sources */,
+				6E97AD680EF94B5000168291 /* DirectMessageCellView.m in Sources */,
+				6E97AD750EF94CE800168291 /* DirectMessageCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

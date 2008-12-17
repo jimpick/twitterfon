@@ -1,3 +1,6 @@
+DROP INDEX users_name;
+DROP INDEX users_screen_name;
+
 CREATE TABLE statuses (
    'id'                         INTEGER,
     'type'                      INTEGER,
@@ -41,22 +44,23 @@ CREATE TABLE users (
 CREATE INDEX users_name on users(name);
 CREATE INDEX users_screen_name on users(screen_name);
 
-CREATE TABLE followees (
-    'user_id'                INTEGER PRIMARY KEY,
-    'name'                   TEXT,
-    'screen_name'            TEXT,
-    'profile_image_url'      TEXT
-);
 CREATE INDEX followees_name on followees(name);
 CREATE INDEX followees_screen_name on followees(screen_name);
 
-CREATE TABLE images (
-    'url'                    TEXT PRIMARY KEY,
-    'image'                  BLOB,
-    'updated_at'             DATETIME
-);
+BEGIN;
+INSERT INTO users (user_id, name, screen_name, profile_image_url) SELECT * FROM followees;
+UPDATE users SET location = '', description = '', url = '';
+REPLACE INTO users SELECT user_id, name, screen_name, location, descripton, url, followers_count, profile_image_url, protected FROM messages ORDER BY id;
+INSERT INTO statuses (id, type, user_id, text, created_at, source, favorited) SELECT id, type, user_id, text, created_at, source, favorited FROM messages WHERE type != 2;
+UPDATE statuses SET in_reply_to_screen_name = '';
 
-CREATE TABLE queries (
-    'query'                  TEXT PRIMARY KEY
-);
+DROP TABLE messages;
+COMMIT;
 
+REINDEX statuses;
+REINDEX users;
+REINDEX images;
+ANALYZE statuses;
+ANALYZE images;
+ANALYZE users;
+VACUUM;
