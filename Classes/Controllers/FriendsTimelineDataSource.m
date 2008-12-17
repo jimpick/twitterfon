@@ -58,8 +58,8 @@ static UIAlertView* sAlert = nil;
 //
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Status* m = [timeline statusAtIndex:indexPath.row];
-    return m ? m.cellHeight : 78;
+    Status* sts = [timeline statusAtIndex:indexPath.row];
+    return sts ? sts.cellHeight : 78;
     
 }
 
@@ -78,17 +78,17 @@ static UIAlertView* sAlert = nil;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Status* m = [timeline statusAtIndex:indexPath.row];
+    Status* sts = [timeline statusAtIndex:indexPath.row];
     
-    if (m) {
+    if (sts) {
         // Display user view
         //
         if (tweetType == TWEET_TYPE_MESSAGES || tweetType == TWEET_TYPE_SENT) {
-            ProfileViewController *profile = [[[ProfileViewController alloc] initWithProfile:m.user] autorelease];
+            ProfileViewController *profile = [[[ProfileViewController alloc] initWithProfile:sts.user] autorelease];
             [[controller navigationController] pushViewController:profile animated:true];
         }
         else {
-            TweetViewController* tweetView = [[[TweetViewController alloc] initWithMessage:m] autorelease];
+            TweetViewController* tweetView = [[[TweetViewController alloc] initWithMessage:sts] autorelease];
             [[controller navigationController] pushViewController:tweetView animated:TRUE];
         }
     }      
@@ -132,9 +132,9 @@ static UIAlertView* sAlert = nil;
     int since_id = 0;
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     for (int i = 0; i < [timeline countStatuses]; ++i) {
-        Status* m = [timeline statusAtIndex:i];
-        if ([m.user.screenName caseInsensitiveCompare:username] != NSOrderedSame) {
-            since_id = m.statusId;
+        Status* sts = [timeline statusAtIndex:i];
+        if ([sts.user.screenName caseInsensitiveCompare:username] != NSOrderedSame) {
+            since_id = sts.statusId;
             break;
         }
     }
@@ -181,15 +181,15 @@ static UIAlertView* sAlert = nil;
             }
             sqlite_int64 statusId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
             if (![Status isExists:statusId type:tweetType]) {
-                Status* m = [Status statusWithJsonDictionary:[ary objectAtIndex:i] type:tweetType];
-                if (m.createdAt < lastStatus.createdAt) {
+                Status* sts = [Status statusWithJsonDictionary:[ary objectAtIndex:i] type:tweetType];
+                if (sts.createdAt < lastStatus.createdAt) {
                     // Ignore stale message
                     continue;
                 }
-                [m insertDB];
-                m.unread = true;
+                [sts insertDB];
+                sts.unread = true;
                 
-                [timeline insertStatus:m atIndex:insertPosition];
+                [timeline insertStatus:sts atIndex:insertPosition];
                 ++unread;
             }
         }

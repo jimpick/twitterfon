@@ -53,8 +53,8 @@
 //
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Status* m = [timeline statusAtIndex:indexPath.row];
-    return m ? m.cellHeight : 78;
+    Status* sts = [timeline statusAtIndex:indexPath.row];
+    return sts ? sts.cellHeight : 78;
     
 }
 
@@ -72,12 +72,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Status* m = [timeline statusAtIndex:indexPath.row];
+    Status* sts = [timeline statusAtIndex:indexPath.row];
     
-    if (m) {
+    if (sts) {
         // Display user timeline
         //
-        TweetViewController* tweetView = [[[TweetViewController alloc] initWithMessage:m] autorelease];
+        TweetViewController* tweetView = [[[TweetViewController alloc] initWithMessage:sts] autorelease];
         [[controller navigationController] pushViewController:tweetView animated:TRUE];
     }      
     else {
@@ -180,11 +180,11 @@
     // Add messages to the timeline
     //
     for (int i = [array count] - 1; i >= 0; --i) {
-        Status* m = [Status statusWithSearchResult:[array objectAtIndex:i]];
-        if ([timeline indexOfObject:m] == -1) {
-            [timeline insertStatus:m atIndex:insertPosition];
+        Status* sts = [Status statusWithSearchResult:[array objectAtIndex:i]];
+        if ([timeline indexOfObject:sts] == -1) {
+            [timeline insertStatus:sts atIndex:insertPosition];
             if (isReloading) {
-                m.unread = true;
+                sts.unread = true;
             }
         }
     }

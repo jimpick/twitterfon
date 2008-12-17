@@ -119,8 +119,8 @@
 {
     [self navigationController].tabBarItem.badgeValue = nil;
     for (int i = 0; i < [search.timeline countStatuses]; ++i) {
-        Status* m = [search.timeline statusAtIndex:i];
-        m.unread = false;
+        Status* sts = [search.timeline statusAtIndex:i];
+        sts.unread = false;
     }
     unread = 0;
 }

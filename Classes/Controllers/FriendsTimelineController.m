@@ -173,8 +173,8 @@
 {
     navigationController.tabBarItem.badgeValue = nil;
     for (int i = 0; i < [currentDataSource.timeline countStatuses]; ++i) {
-        Status* m = [currentDataSource.timeline statusAtIndex:i];
-        m.unread = false;
+        Status* sts = [currentDataSource.timeline statusAtIndex:i];
+        sts.unread = false;
     }
     unread = 0;
 }

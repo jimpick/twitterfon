@@ -421,15 +421,15 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 //
 - (void)messageDidDelete:(TwitterClient*)client obj:(NSObject*)obj
 {
-    Status* m = (Status*)client.context;
+    Status* sts = (Status*)client.context;
     if ([obj isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary*)obj;
         sqlite_int64 statusId = [[dic objectForKey:@"id"] longLongValue];        
-        if (m.statusId == statusId) {
-            [m deleteFromDB];
+        if (sts.statusId == statusId) {
+            [sts deleteFromDB];
         }
     }
-    [m release];
+    [sts release];
 }
 
 //
@@ -444,54 +444,54 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 
 - (void)favoriteDidChange:(TwitterClient*)sender obj:(NSObject*)obj
 {
-    Status* m = sender.context;
+    Status* sts = sender.context;
     
     if ([obj isKindOfClass:[NSDictionary class]]) {
         
         NSDictionary *dic = (NSDictionary*)obj;
         sqlite_int64 statusId = [[dic objectForKey:@"id"] longLongValue];
-        if (m.statusId != statusId) {
+        if (sts.statusId != statusId) {
             NSLog(@"Someting wrong with contet. Ignore error...");
             return;
         }
         BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
-        m.favorited = favorited;
-        [m updateFavoriteState];
+        sts.favorited = favorited;
+        [sts updateFavoriteState];
         
         UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
         UIViewController *c = nav.topViewController;
         if ([c respondsToSelector:@selector(toggleFavorite:status:)]) {
-            [c toggleFavorite:favorited status:m];
+            [c toggleFavorite:favorited status:sts];
         }
         
         c = [nav.viewControllers objectAtIndex:0];
         if ([c respondsToSelector:@selector(updateFavorite:)]) {
-            [c updateFavorite:m];
+            [c updateFavorite:sts];
         }
     }
-    [m release];
+    [sts release];
 }
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    Status* m = sender.context;
+    Status* sts = sender.context;
     
     if (sender.request == TWITTER_REQUEST_FAVORITE ||
         sender.request == TWITTER_REQUEST_DESTROY_FAVORITE) {
         if (sender.statusCode == 404 || sender.statusCode == 403) {
             BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
-            m.favorited = favorited;
-            [m updateFavoriteState];
+            sts.favorited = favorited;
+            [sts updateFavoriteState];
             UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
             UIViewController *c = nav.topViewController;
             if ([c respondsToSelector:@selector(toggleFavorite:status:)]) {
-                [c toggleFavorite:favorited status:m];
+                [c toggleFavorite:favorited status:sts];
             }
         }
     }
     else {
         if (sender.statusCode == 404) {
-            [m deleteFromDB];
+            [sts deleteFromDB];
         }
         else {
             UIAlertView *alert;
@@ -507,7 +507,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
         }
     }
 
-    [m release];
+    [sts release];
 }
 
 @end

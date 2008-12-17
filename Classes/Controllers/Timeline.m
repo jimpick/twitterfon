@@ -38,9 +38,9 @@ static sqlite3_stmt *select_statement = nil;
 -(Status*)statusById:(sqlite_int64)statusId
 {
     for (int i = 0; i < [statuses count]; ++i) {
-        Status* m = [statuses objectAtIndex:i];
-        if (m.statusId == statusId) {
-            return m;
+        Status* sts = [statuses objectAtIndex:i];
+        if (sts.statusId == statusId) {
+            return sts;
         }
     }
     return nil;
@@ -64,8 +64,8 @@ static sqlite3_stmt *select_statement = nil;
 - (void)removeStatus:(Status*)status
 {
     for (int i = 0; i < [statuses count]; ++i) {
-        Status* m = [statuses objectAtIndex:i];
-        if (m.statusId == status.statusId) {
+        Status* sts = [statuses objectAtIndex:i];
+        if (sts.statusId == status.statusId) {
             [statuses removeObjectAtIndex:i];
             return;
         }
@@ -80,9 +80,9 @@ static sqlite3_stmt *select_statement = nil;
 - (void)updateFavorite:(Status*)status
 {
     for (int i = 0; i < [statuses count]; ++i) {
-        Status* m = [statuses objectAtIndex:i];
-        if (m.statusId == status.statusId) {
-            m.favorited = status.favorited;
+        Status* sts = [statuses objectAtIndex:i];
+        if (sts.statusId == status.statusId) {
+            sts.favorited = status.favorited;
             return;
         }
     }
@@ -101,8 +101,8 @@ static sqlite3_stmt *select_statement = nil;
 - (int)indexOfObject:(Status*)status
 {
     for (int i = 0; i < [statuses count]; ++i) {
-        Status* m = [statuses objectAtIndex:i];
-        if (m.statusId == status.statusId) {
+        Status* sts = [statuses objectAtIndex:i];
+        if (sts.statusId == status.statusId) {
             return i;
         }
     }
@@ -136,8 +136,8 @@ static sqlite3_stmt *select_statement = nil;
     sqlite3_bind_int(select_statement, 3, [statuses count]);
     int count = 0;
     while (sqlite3_step(select_statement) == SQLITE_ROW) {
-        Status* m = [Status initWithDB:select_statement type:aType];
-        [statuses addObject:m];
+        Status* sts = [Status initWithDB:select_statement type:aType];
+        [statuses addObject:sts];
         ++count;
     }
     sqlite3_reset(select_statement);

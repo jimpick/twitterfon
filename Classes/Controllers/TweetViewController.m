@@ -73,7 +73,7 @@ enum {
     deleteCell  = [[DeleteButtonCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"DeleteCell"];
 }
 
-- (void)setMessage:(Status*)sts
+- (void)setStatus:(Status*)sts
 {
     status = [sts copy];
     status.cellType = TWEET_CELL_TYPE_DETAIL;
@@ -98,11 +98,11 @@ enum {
     }
 }
 
-- (id)initWithMessage:(Status*)m
+- (id)initWithMessage:(Status*)sts
 {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
         [self initCommon];
-        [self setMessage:m];
+        [self setStatus:sts];
     }
 	return self;
 }
@@ -154,13 +154,13 @@ enum {
     if ([obj isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary*)obj;
 
-        Status* m = [Status statusWithJsonDictionary:dic type:TWEET_TYPE_FRIENDS];
-        [self setMessage:m];
+        Status* sts = [Status statusWithJsonDictionary:dic type:TWEET_TYPE_FRIENDS];
+        [self setStatus:sts];
         if (isOwnTweet) {
-            [m insertDB];
+            [sts insertDB];
         }
         else {
-            [m insertDBIfFollowing];
+            [sts insertDBIfFollowing];
         }
         [self.tableView reloadData];
     }

@@ -120,9 +120,9 @@
         return 113;
     }
     else {
-        Status* m = [timeline statusAtIndex:indexPath.row - 1];
-        if (m) {
-            return m.cellHeight;
+        Status* sts = [timeline statusAtIndex:indexPath.row - 1];
+        if (sts) {
+            return sts.cellHeight;
         }
         else {
             return ([timeline countStatuses]) ? 78 : 48;
@@ -171,11 +171,11 @@
         return;
     }
     
-    Status* m = [timeline statusAtIndex:indexPath.row - 1];
-    if (m) {
+    Status* sts = [timeline statusAtIndex:indexPath.row - 1];
+    if (sts) {
         // Display user timeline
         //
-        TweetViewController* tweetView = [[[TweetViewController alloc] initWithMessage:m] autorelease];
+        TweetViewController* tweetView = [[[TweetViewController alloc] initWithMessage:sts] autorelease];
         [self.navigationController pushViewController:tweetView animated:TRUE];
         return;
     }
@@ -237,10 +237,10 @@
 
     // Add messages to the timeline
     for (int i = 0; i < [ary count]; ++i) {
-        Status* m = [Status statusWithJsonDictionary:[ary objectAtIndex:i] type:TWEET_TYPE_FRIENDS];
-        m.cellType = TWEET_CELL_TYPE_USER;
-        [m updateAttribute];
-        [timeline appendStatus:m];
+        Status* sts = [Status statusWithJsonDictionary:[ary objectAtIndex:i] type:TWEET_TYPE_FRIENDS];
+        sts.cellType = TWEET_CELL_TYPE_USER;
+        [sts updateAttribute];
+        [timeline appendStatus:sts];
     }
     
     if (user) {
@@ -271,9 +271,9 @@
 
 // UserCell delegate
 //
-- (void)toggleFavorite:(BOOL)favorited status:(Status*)m
+- (void)toggleFavorite:(BOOL)favorited status:(Status*)sts
 {
-    int index = [timeline indexOfObject:m];
+    int index = [timeline indexOfObject:sts];
     if (index < 0) return;
     UserTimelineCell* cell = (UserTimelineCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index + 1 inSection:0]];
     [cell toggleFavorite:favorited];
@@ -360,8 +360,8 @@
     
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     if ([screenName caseInsensitiveCompare:username] == NSOrderedSame) {
-        Status* m = [timeline statusAtIndex:indexPath.row - 1];
-        return (m) ? true : false;
+        Status* sts = [timeline statusAtIndex:indexPath.row - 1];
+        return (sts) ? true : false;
     }
     else {
         return false;
@@ -372,19 +372,19 @@
     forRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        Status* m = [timeline statusAtIndex:indexPath.row - 1];
+        Status* sts = [timeline statusAtIndex:indexPath.row - 1];
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         TwitterClient* client = [[TwitterClient alloc] initWithTarget:appDelegate action:@selector(messageDidDelete:obj:)];
-        client.context = [m retain];
-        [timeline removeStatus:m];
+        client.context = [sts retain];
+        [timeline removeStatus:sts];
         
         UIViewController *c = [self.navigationController.viewControllers objectAtIndex:0];
         
         if ([c respondsToSelector:@selector(removeStatus:)]) {
-            [c removeStatus:m];
+            [c removeStatus:sts];
         }
         
-        [client destroy:m isDirectMessage:false];
+        [client destroy:sts isDirectMessage:false];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     }
 }
