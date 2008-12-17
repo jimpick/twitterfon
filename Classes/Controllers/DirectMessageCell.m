@@ -24,8 +24,21 @@
     return self;
 }
 
+- (void)updateImage:(UIImage*)image
+{
+    self.image = image;
+    [self layoutSubviews];
+}
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    view.message.imageContainer = nil;
+}
+
 - (void)setMessage:(DirectMessage*)value
 {
+    value.imageContainer = self;
     view.message = value;
     self.contentView.backgroundColor = value.unread ? [UIColor cellColorForTab:TAB_MESSAGES] : [UIColor whiteColor];
     self.image = [[TwitterFonAppDelegate getAppDelegate].imageStore getProfileImage:value.senderProfileImageUrl delegate:value];
