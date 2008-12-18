@@ -26,7 +26,6 @@
     CGPoint                 contentOffset;
 }
 
-- (void)loadTimeline;
 - (void)restoreAndLoadTimeline:(BOOL)load;
 - (void)postTweetDidSucceed:(Tweet*)status;
 

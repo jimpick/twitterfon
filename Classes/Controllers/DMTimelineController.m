@@ -36,6 +36,8 @@ NSInteger sortByDate(id a, id b, void *context)
 - (void)scrollToFirstUnread:(NSTimer*)timer;
 - (void)getMessage:(BOOL)getSentMessage;
 - (void)restoreMessage:(BOOL)restoreAll;
+- (void)loadMessages:(BOOL)loadSentMessage;
+- (void)loadSentMessages;
 @end
 
 @implementation DMTimelineController
@@ -54,7 +56,10 @@ NSInteger sortByDate(id a, id b, void *context)
 - (void)viewDidLoad
 {
     if (!isLoaded) {
-        [self loadTimeline];
+        [self loadMessages:true];
+    }
+    else {
+        [self loadSentMessages];
     }
 }
 
@@ -162,17 +167,26 @@ NSInteger sortByDate(id a, id b, void *context)
 // Public methods
 //
 
-- (void)loadTimeline
+- (void)loadMessages:(BOOL)loadSentMessage
 {
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
     if (!(username == nil || password == nil ||
           [username length] == 0 || [password length] == 0)) {
         self.navigationItem.leftBarButtonItem.enabled = false;
-        [self getMessage:false];
+        [self getMessage:loadSentMessage];
     }
     isLoaded = true;
 }
+
+- (void)loadSentMessages
+{
+    self.navigationItem.leftBarButtonItem.enabled = false;
+    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(sentMessageDidReceived:obj:)];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:@"200" forKey:@"count"];
+    [twitterClient getTimeline:TWEET_TYPE_SENT params:nil];
+}   
 
 - (void)restoreMessage:(BOOL)restoreAll
 {
@@ -190,7 +204,7 @@ NSInteger sortByDate(id a, id b, void *context)
 {
     firstTimeToAppear = true;
     [self restoreMessage:false];
-    if (load) [self loadTimeline];
+    if (load) [self loadMessages:false];
 }
 
 - (void)getMessage:(BOOL)getSentMessage
@@ -252,11 +266,7 @@ NSInteger sortByDate(id a, id b, void *context)
     self.navigationItem.leftBarButtonItem.enabled = true;
     
     if (needToGetSentMessage) {
-        self.navigationItem.leftBarButtonItem.enabled = false;
-        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(sentMessageDidReceived:obj:)];
-        NSMutableDictionary *param = [NSMutableDictionary dictionary];
-        [param setObject:@"200" forKey:@"count"];
-        [twitterClient getTimeline:TWEET_TYPE_SENT params:nil];
+        [self loadSentMessages];
     }
     
     NSArray *ary = [self examObject:obj];
