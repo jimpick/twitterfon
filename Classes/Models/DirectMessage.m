@@ -25,6 +25,9 @@ static sqlite3_stmt* conversation_statement = nil;
 @synthesize recipientScreenName;
 @synthesize senderProfileImageUrl;
 
+@synthesize textRect;
+@synthesize needTimestamp;
+
 - (void)dealloc
 {
     [sender release];
@@ -103,11 +106,16 @@ static sqlite3_stmt* conversation_statement = nil;
     return dist;
 }
 
-- (void)calcTextBounds:(int)textWidth
+- (void)updateAttribute
 {
-    CGRect bounds, result;
+    [super updateAttribute];
+    int textWidth = MAX_TEXT_WIDTH;
     
-    bounds = CGRectMake(0, 3, textWidth, 200);
+    // Calculate text bounds and cell height here
+    //
+    CGRect bounds;
+    
+    bounds = CGRectMake(0, 0, textWidth, 200);
     
     static UILabel *label = nil;
     if (label == nil) {
@@ -116,27 +124,7 @@ static sqlite3_stmt* conversation_statement = nil;
     
     label.font = [UIFont systemFontOfSize:14];
     label.text = text;
-    result = [label textRectForBounds:bounds limitedToNumberOfLines:10];
-    
-    textBounds = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, result.size.height);
-    result.size.height += 22;
-    cellHeight = result.size.height;
-}
-
-#define BUBBLE_WIDTH 200
-
-- (void)updateAttribute
-{
-    [super updateAttribute];
-    int textWidth = BUBBLE_WIDTH;
-    
-    if (accessoryType = UITableViewCellAccessoryDetailDisclosureButton) {
-        textWidth -= DETAIL_BUTTON_WIDTH;
-    }
-
-    // Calculate text bounds and cell height here
-    //
-    [self calcTextBounds:textWidth];
+    textRect = [label textRectForBounds:bounds limitedToNumberOfLines:10];
 }
 
 + (DirectMessage*)initWithDB:(sqlite3_stmt*)statement
@@ -201,9 +189,19 @@ static sqlite3_stmt* conversation_statement = nil;
     sqlite3_bind_int(conversation_statement, 4, [messages count]);
 
     int count = 0;
+    time_t prev = 0;
     while (sqlite3_step(conversation_statement) == SQLITE_ROW) {
         DirectMessage *dm = [DirectMessage initWithDB:conversation_statement];
+        dm.cellType = TWEET_CELL_TYPE_NORMAL;
+        int diff = dm.createdAt - prev;
+        if (diff > TIMESTAMP_DIFF) {
+            DirectMessage *tm = [[DirectMessage alloc] init];
+            tm.cellType = TWEET_CELL_TYPE_TIMESTAMP;
+            tm.createdAt = dm.createdAt;
+            [messages addObject:tm];
+        }
         [messages addObject:dm];
+        prev = dm.createdAt;
         ++count;
     }
     sqlite3_reset(conversation_statement);

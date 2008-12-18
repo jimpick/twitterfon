@@ -37,7 +37,7 @@
 - (void)didTouchLinkButton:(id)sender
 {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    [appDelegate openLinksViewController:status];
+    [appDelegate openLinksViewController:status.text];
 }
 
 - (void)layoutSubviews

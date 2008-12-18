@@ -9,6 +9,7 @@
 #import "ChatBubbleCell.h"
 #import "DirectMessage.h"
 #import "ChatBubbleView.h"
+#import "TwitterFonAppDelegate.h"
 
 @implementation ChatBubbleCell
 
@@ -19,14 +20,34 @@
     cellView = [[[ChatBubbleView alloc] initWithFrame:CGRectZero] autorelease];
     [self.contentView addSubview:cellView];
 
+    self.target = self;
+    self.accessoryAction = @selector(didTouchLinkButton:);
+    
 	return self;
 }
 
 - (void)setMessage:(DirectMessage*)aMessage isOwn:(BOOL)isOwn
 {
-    self.text = message.text;
     message = aMessage;
-    cellView.type = isOwn;
+    self.accessoryType = aMessage.accessoryType;
+    if (self.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+        self.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
+    if (message.cellType == TWEET_CELL_TYPE_TIMESTAMP) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    else {
+        self.selectionStyle = UITableViewCellSelectionStyleBlue;
+    }
+        
+    [cellView setMessage:aMessage type:isOwn];
+}
+
+- (void)didTouchLinkButton:(id)sender
+{
+    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+    [appDelegate openLinksViewController:message.text];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

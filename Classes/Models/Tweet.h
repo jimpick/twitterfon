@@ -14,6 +14,7 @@ typedef enum {
     TWEET_CELL_TYPE_NORMAL,
     TWEET_CELL_TYPE_USER,
     TWEET_CELL_TYPE_DETAIL,
+    TWEET_CELL_TYPE_TIMESTAMP,
 } TweetCellType;
 
 @interface Tweet : ImageStoreReceiver

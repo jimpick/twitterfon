@@ -7,6 +7,8 @@
 //
 
 #import "ChatBubbleView.h"
+#import "TwitterFonAppDelegate.h"
+
 static UIImage* sGreenBubble = nil;
 static UIImage* sGrayBubble = nil;
 
@@ -17,8 +19,6 @@ static UIImage* sGrayBubble = nil;
 
 @implementation ChatBubbleView
 
-@synthesize type;
-
 - (id)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
@@ -27,16 +27,84 @@ static UIImage* sGrayBubble = nil;
     return self;
 }
 
+- (void)setMessage:(DirectMessage*)aMessage type:(BubbleType)aType
+{
+    message = aMessage;
+    type = aType;
+    if (message.cellType == TWEET_CELL_TYPE_NORMAL) {
+        image = [[TwitterFonAppDelegate getAppDelegate].imageStore getProfileImage:message.senderProfileImageUrl delegate:self];
+        [image retain];
+    }
+    [self setNeedsDisplay];    
+}
+
+#define IMAGE_SIZE 32
+#define IMAGE_H_PADDING 8
+
 - (void)drawRect:(CGRect)rect 
 {
-    UIImage *background;
-    if (type == BUBBLE_TYPE_GRAY) {
-        background = [ChatBubbleView grayBubble];
+    //CGContextRef c = UIGraphicsGetCurrentContext();
+    
+    if (message.cellType == TWEET_CELL_TYPE_NORMAL) {
+        // Draw message with chat bubble and profile icon
+        //
+        CGRect imageRect = CGRectMake(0, 0, IMAGE_SIZE, IMAGE_SIZE);
+        imageRect.origin.y = rect.origin.y + rect.size.height - IMAGE_SIZE - 3;
+        if (type == BUBBLE_TYPE_GRAY) {
+            imageRect.origin.x = IMAGE_H_PADDING;
+        }
+        else {
+            imageRect.origin.x = 320 - IMAGE_H_PADDING - IMAGE_SIZE;
+        }
+        [image drawInRect:imageRect];
+        
+        // Draw chat bubble
+        UIImage *bubble;
+        CGRect bubbleRect = message.textRect;
+        
+        int width = bubbleRect.size.width + 30;
+        width = (width / 10) * 10 + ((width % 10) ? 10 : 0);
+        bubbleRect.size.width = width;
+        
+        bubbleRect.size.height += 15;
+        bubbleRect.origin.y = rect.size.height - bubbleRect.size.height;
+        
+        if (type == BUBBLE_TYPE_GRAY) {
+            bubble = [ChatBubbleView grayBubble];
+            bubbleRect.origin.x = IMAGE_SIZE + IMAGE_H_PADDING;
+        }
+        else {
+            bubble = [ChatBubbleView greenBubble];
+            bubbleRect.origin.x = 320 - bubbleRect.size.width - IMAGE_SIZE - IMAGE_H_PADDING;
+        }
+        [bubble drawInRect:bubbleRect];
+        
+        [[UIColor blackColor] set];
+        bubbleRect.origin.y += 6;
+        bubbleRect.size.width = message.textRect.size.width;
+        if (type == BUBBLE_TYPE_GRAY) {
+            bubbleRect.origin.x += 20;
+        }
+        else {
+            bubbleRect.origin.x += 10;
+        }
+        [message.text drawInRect:bubbleRect withFont:[UIFont systemFontOfSize:14]];
     }
     else {
-        background = [ChatBubbleView greenBubble];
-    }    
-    [background drawInRect:rect];
+        // Draw timestamp only
+        //
+        UIColor *timestampColor = [UIColor darkGrayColor];
+        [timestampColor set];
+        
+        NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+        
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:message.createdAt];
+        NSString *formattedDateString = [dateFormatter stringFromDate:date];
+        [formattedDateString drawInRect:CGRectMake(0, 6, 320, 16) withFont:[UIFont boldSystemFontOfSize:12]
+                          lineBreakMode:UILineBreakModeTailTruncation alignment:UITextAlignmentCenter];
+    }
 }
 
 

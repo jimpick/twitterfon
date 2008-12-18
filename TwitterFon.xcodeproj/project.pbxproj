@@ -512,12 +512,12 @@
 		6E1BE7BF0EF7C0370075881E /* DirectMessage */ = {
 			isa = PBXGroup;
 			children = (
+				6E97A75B0EF8C78000168291 /* DMTimelineController.h */,
+				6E97A75C0EF8C78000168291 /* DMTimelineController.m */,
 				6E97AD730EF94CE800168291 /* DirectMessageCell.h */,
 				6E97AD740EF94CE800168291 /* DirectMessageCell.m */,
 				6E97AD660EF94B5000168291 /* DirectMessageCellView.h */,
 				6E97AD670EF94B5000168291 /* DirectMessageCellView.m */,
-				6E97A75B0EF8C78000168291 /* DMTimelineController.h */,
-				6E97A75C0EF8C78000168291 /* DMTimelineController.m */,
 			);
 			name = DirectMessage;
 			sourceTree = "<group>";
@@ -708,14 +708,14 @@
 				6EC53C390EF805FE009BCC92 /* DBConnection.m */,
 				6EC53C3A0EF805FE009BCC92 /* Followee.h */,
 				6EC53C3B0EF805FE009BCC92 /* Followee.m */,
+				6EC53C400EF805FE009BCC92 /* User.h */,
+				6EC53C410EF805FE009BCC92 /* User.m */,
 				6E3B13A90EF8355B00070525 /* Tweet.h */,
 				6E3B13AA0EF835FC00070525 /* Tweet.m */,
 				6E3B13B60EF8383300070525 /* Status.h */,
 				6E3B13B70EF8383300070525 /* Status.m */,
 				6E97A5E40EF8A91100168291 /* DirectMessage.h */,
 				6E97A5E50EF8A91100168291 /* DirectMessage.m */,
-				6EC53C400EF805FE009BCC92 /* User.h */,
-				6EC53C410EF805FE009BCC92 /* User.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";

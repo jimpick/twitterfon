@@ -309,7 +309,7 @@ static NSString *endRegexp  = @"[.,;:]$";
 static NSString *nameRegexp = @"(@[0-9a-zA-Z_]+)";
 static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 
-- (void)openLinksViewController:(Status*)status
+- (void)openLinksViewController:(NSString*)text
 {
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
     
@@ -318,7 +318,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
     NSMutableArray *links = [NSMutableArray array];
     
     NSMutableArray *array = [NSMutableArray array];
-    NSString *tmp = status.text;
+    NSString *tmp = text;
 
     // Find URLs
     while ([tmp matches:urlRegexp withSubstring:array]) {
@@ -334,7 +334,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
     }
 
     // Find screen names
-    tmp = status.text;
+    tmp = text;
     while ([tmp matches:nameRegexp withSubstring:array]) {
         NSString *username = [array objectAtIndex:0];
         [links addObject:username];
@@ -344,7 +344,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
     }
 
     // Find hashtags
-    tmp = status.text;
+    tmp = text;
     while ([tmp matches:hashRegexp withSubstring:array]) {
         NSString *hash = [array objectAtIndex:0];
         [links addObject:hash];

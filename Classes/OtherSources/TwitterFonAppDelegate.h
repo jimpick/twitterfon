@@ -46,7 +46,7 @@ typedef enum {
 - (void) openWebView:(NSString*)url;
 - (void) search:(NSString*)query;
 
-- (void)openLinksViewController:(Status*)status;
+- (void)openLinksViewController:(NSString*)text;
 - (void)toggleFavorite:(Status*)status;
 
 + (void)alert:(NSString*)title message:(NSString*)detail;

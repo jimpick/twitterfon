@@ -38,24 +38,6 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.tintColor = nil;
  }
-/*
- - (void)viewDidAppear:(BOOL)animated {
- [super viewDidAppear:animated];
- }
- */
-/*
- - (void)viewWillDisappear:(BOOL)animated {
- }
- */
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- }
- */
-/*
- - (void)didReceiveMemoryWarning {
- [super didReceiveMemoryWarning];
- }
- */
 
 - (void)dealloc {
     [messages release];
@@ -73,22 +55,31 @@
     return [messages count];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DirectMessage *dm = [messages objectAtIndex:indexPath.row];
+    float ret = dm.textRect.size.height + 5 + 5 + 5; // bubble height
+    if (dm.cellType == TWEET_CELL_TYPE_TIMESTAMP) {
+        return 26;
+    }
+    else {
+        return ret + 4;
+    }
+
+//    ret += (dm.needTimestamp) ? 24 : 4;
+    return ret;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    static NSString *CellIdentifier = @"ChatBubble";
+    DirectMessage *dm = [messages objectAtIndex:indexPath.row];
     
-    ChatBubbleCell *cell = (ChatBubbleCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    ChatBubbleCell *cell = (ChatBubbleCell*)[tableView dequeueReusableCellWithIdentifier:@"ChatBubble"];
     if (cell == nil) {
-        cell = [[[ChatBubbleCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[ChatBubbleCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ChatBubble"] autorelease];
     }
     
-    DirectMessage *dm = [messages objectAtIndex:indexPath.row];
-
     [cell setMessage:dm isOwn:dm.senderId != firstMessage.senderId];
-    cell.text = dm.text;
-    cell.font = [UIFont systemFontOfSize:16];
-//    cell.image = [[TwitterFonAppDelegate getAppDelegate].imageStore getProfileImage:dm.profileImageUrl delegate:dm];
-    // Configure the cell
     return cell;
 }
 

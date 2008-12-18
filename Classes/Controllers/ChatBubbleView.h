@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DirectMessage.h"
 
 typedef enum {
     BUBBLE_TYPE_GRAY,
@@ -15,9 +16,11 @@ typedef enum {
 
 @interface ChatBubbleView : UIView
 {
-    BubbleType  type;
+    BubbleType      type;
+    DirectMessage*  message;
+    UIImage*        image;
 }
 
-@property(nonatomic, assign) BubbleType type;
+- (void)setMessage:(DirectMessage*)message type:(BubbleType)type;
 
 @end
