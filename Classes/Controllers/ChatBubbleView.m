@@ -50,9 +50,12 @@ static UIImage* sGrayBubble = nil;
 
 - (void)drawRect:(CGRect)rect 
 {
-    //CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextRef c = UIGraphicsGetCurrentContext();
     
     if (message.cellType == TWEET_CELL_TYPE_NORMAL) {
+        
+        CGContextSetShadowWithColor(c, CGSizeMake(0, -1), 3, [[UIColor darkGrayColor] CGColor]);        
+        
         // Draw message with chat bubble and profile icon
         //
         CGRect imageRect = CGRectMake(0, 0, IMAGE_SIZE, IMAGE_SIZE);
@@ -64,6 +67,8 @@ static UIImage* sGrayBubble = nil;
             imageRect.origin.x = 320 - IMAGE_H_PADDING - IMAGE_SIZE;
         }
         [image drawInRect:imageRect];
+        
+        CGContextSetShadowWithColor(c, CGSizeMake(0, 0), 0, [[UIColor whiteColor] CGColor]);        
         
         // Draw chat bubble
         UIImage *bubble;
