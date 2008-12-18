@@ -7,6 +7,8 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
+
+#import "TwitterFonAppDelegate.h"
 #import "SearchResultsDataSource.h"
 #import "TweetViewController.h"
 #import "TimelineCell.h"
@@ -237,14 +239,7 @@
     if ([controller respondsToSelector:@selector(timelineDidFailToUpdate:position:)]) {
         [controller timelineDidFailToUpdate:self position:insertPosition];
     }
-
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
-                                                    message:detail
-                                                   delegate:self
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles: nil];
-    [alert show];	
-    [alert release];
+    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
 }
 
 @end

@@ -6,6 +6,7 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
+#import "TwitterFonAppDelegate.h"
 #import "TrendsDataSource.h"
 #import "TwitterClient.h"
 
@@ -93,14 +94,7 @@
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
-                                                    message:detail
-                                                   delegate:self
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles: nil];
-    [alert show];	
-    [alert release];
-    
+    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
     [delegate searchTrendsDidFailToLoad];
 }
 

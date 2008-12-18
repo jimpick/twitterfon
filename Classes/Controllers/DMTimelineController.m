@@ -335,7 +335,7 @@ NSInteger sortByDate(id a, id b, void *context)
     [loadCell.spinner stopAnimating];
     self.navigationItem.leftBarButtonItem.enabled = true;
     
-    [TwitterFonAppDelegate alert:error message:detail];
+    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
 }
 
 

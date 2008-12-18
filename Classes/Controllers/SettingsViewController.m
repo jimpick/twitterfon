@@ -184,13 +184,8 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
 - (IBAction)done:(id)sender
 {
     if (![usernameField.text matches:@"^[0-9A-Za-z_]+$" withSubstring:nil]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid screen name"
-                                                        message:@"Username can only contain letters, numbers and '_'"
-                                                       delegate:self
-                                              cancelButtonTitle:@"Close"
-                                              otherButtonTitles: nil];
-        [alert show];	
-        [alert release];  
+        [[TwitterFonAppDelegate getAppDelegate] alert:@"Invalid screen name" 
+                                              message:@"Username can only contain letters, numbers and '_'"];
     }
     else {
         doneButton.enabled = false;    
@@ -211,13 +206,7 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
-                                                    message:detail
-                                                   delegate:self
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles: nil];
-    [alert show];	
-    [alert release];  
+    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
     doneButton.enabled = true;
 }
 

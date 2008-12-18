@@ -15,8 +15,6 @@
 #import "TimelineCell.h"
 #import "DBConnection.h"
 
-static UIAlertView* sAlert = nil;
-
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)timelineDidUpdate:(FriendsTimelineDataSource*)sender count:(int)count insertAt:(int)position;
 - (void)timelineDidFailToUpdate:(FriendsTimelineDataSource*)sender position:(int)position;
@@ -218,24 +216,8 @@ static UIAlertView* sAlert = nil;
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         [appDelegate openSettingsView];
     }
-
-    //
-    // Save alert view to static pointer to avoid displaying alert view many times at the same time.
-    //
-    if (sAlert) return;
     
-    sAlert = [[UIAlertView alloc] initWithTitle:error
-                                        message:detail
-                                       delegate:self
-                              cancelButtonTitle:@"Close"
-                              otherButtonTitles: nil];
-    [sAlert show];	
-    [sAlert release];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonInde
-{
-    sAlert = nil;
+    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
 }
 
 @end

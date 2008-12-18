@@ -106,10 +106,7 @@
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
     NSString *method = [[url path] substringFromIndex:1];
 #if 0    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:method message:[url query] delegate:self
-                                          cancelButtonTitle:@"Close" otherButtonTitles: nil];
-    [alert show];	
-    [alert release];
+    [self alert:method message:[url query]]
 #endif    
     if ([method isEqualToString:@"post"]) {
         NSMutableArray *array = [NSMutableArray array];
@@ -494,16 +491,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
             [sts deleteFromDB];
         }
         else {
-            UIAlertView *alert;
-        
-            alert = [[UIAlertView alloc] initWithTitle:error
-                                               message:detail
-                                              delegate:self
-                                     cancelButtonTitle:@"Close"
-                                     otherButtonTitles: nil];
-        
-            [alert show];	
-            [alert release];
+            [self alert:error message:detail];
         }
     }
 
@@ -516,7 +504,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 
 static UIAlertView *sAlert = nil;
 
-+ (void)alert:(NSString*)title message:(NSString*)message
+- (void)alert:(NSString*)title message:(NSString*)message
 {
     if (sAlert) return;
     

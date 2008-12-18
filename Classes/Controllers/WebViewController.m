@@ -205,13 +205,7 @@ static NSString *schemes[NUM_SCHEMES][2] = {
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     if ([error code] <= NSURLErrorBadURL) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed to load the page"
-                                                        message:[error localizedDescription]
-                                                       delegate:nil
-                                              cancelButtonTitle:@"Close"
-                                              otherButtonTitles:nil];
-        [alert show];	
-        [alert release];
+        [[TwitterFonAppDelegate getAppDelegate] alert:@"Failed to load the page" message:[error localizedDescription]];
     }
     [self updateToolbar:BUTTON_RELOAD];
 }

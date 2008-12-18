@@ -6,6 +6,7 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
+#import "TwitterFonAppDelegate.h"
 #import "LocationManager.h"
 
 @interface NSObject (LocationManagerDelegate)
@@ -99,14 +100,7 @@
         [location release];
         location = nil;
     }
-
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Service Error"
-                                                    message:@"Operation timeout"
-                                                   delegate:self
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles: nil];
-    [alert show];
-    [alert release];
+    [[TwitterFonAppDelegate getAppDelegate] alert:@"Location Service Error" message:@"Operation timeout"];
     [delegate locationManagerDidFail:self];
 }
 
@@ -115,14 +109,7 @@
     [locationManager stopUpdatingLocation];
     
     if (!([error code] == kCLErrorDenied && [[error domain] isEqualToString:kCLErrorDomain])) {
-    
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Service Error"
-                                                        message:[error localizedDescription]
-                                                       delegate:self
-                                              cancelButtonTitle:@"Close"
-                                              otherButtonTitles: nil];
-        [alert show];	
-        [alert release];
+        [[TwitterFonAppDelegate getAppDelegate] alert:@"Location Service Error" message:[error localizedDescription]];
     }
     else if ([error code] == kCLErrorLocationUnknown) {
         // Ignore this error and keep tracking

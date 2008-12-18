@@ -257,13 +257,8 @@
     
     static NSString *nameRegexp = @"^[0-9a-zA-Z_]+$";
     if (isDirectMessage && ![recipient.text matches:nameRegexp withSubstring:nil]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't send this message"
-                                                        message:@"Recipient's name contains wrong character. Username can only contain letters, numbers and '_'."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"Close"
-                                              otherButtonTitles: nil];
-        [alert show];	
-        [alert release];    
+        [[TwitterFonAppDelegate getAppDelegate] alert:@"Can't send this message" 
+                                              message:@"Recipient's name contains wrong character. Username can only contain letters, numbers and '_'."];
         return;
     }
     
@@ -303,13 +298,7 @@
 
 - (void)twitPicClientDidFail:(TwitPicClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
-                                                    message:detail
-                                                   delegate:nil
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles: nil];
-    [alert show];	
-    [alert release];    
+    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
     [sender release];
     connection = nil;
     [progressWindow hide];
@@ -519,13 +508,7 @@
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
-                                                    message:detail
-                                                   delegate:nil
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles: nil];
-    [alert show];	
-    [alert release];    
+    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail]; 
     connection = nil;
     [progressWindow hide];
 }
@@ -560,13 +543,7 @@
 
 - (void)tinyURLDidFail:(TinyURL*)sender error:(NSString*)error
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TinyURL error"
-                                                    message:error
-                                                   delegate:self
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles: nil];
-    [alert show];	
-    [alert release];
+    [[TwitterFonAppDelegate getAppDelegate] alert:@"Error encoding TinyURL" message:error];
 }
 
 //

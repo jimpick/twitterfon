@@ -169,13 +169,7 @@ enum {
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
 {
     twitterClient = nil;
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
-                                                    message:detail
-                                                   delegate:self
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles: nil];
-    [alert show];	
-    [alert release];
+    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 

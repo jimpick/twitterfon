@@ -164,14 +164,8 @@
 {
     twitterClient = nil;
     [loadCell.spinner stopAnimating];
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error
-                                                    message:detail
-                                                   delegate:self
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles: nil];
-    [alert show];	
-    [alert release];
+
+    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
 }
 
 @end

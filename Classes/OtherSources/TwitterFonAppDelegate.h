@@ -49,7 +49,7 @@ typedef enum {
 - (void)openLinksViewController:(NSString*)text;
 - (void)toggleFavorite:(Status*)status;
 
-+ (void)alert:(NSString*)title message:(NSString*)detail;
+- (void)alert:(NSString*)title message:(NSString*)detail;
 
 + (TwitterFonAppDelegate*)getAppDelegate;
 

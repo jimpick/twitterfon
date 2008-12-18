@@ -321,15 +321,7 @@
         [twitterClient getUser:screenName];
     }
     else {
-        UIAlertView *alert;
-        alert = [[UIAlertView alloc] initWithTitle:error
-                                           message:detail
-                                          delegate:self
-                                 cancelButtonTitle:@"Close"
-                                 otherButtonTitles: nil];
-        
-        [alert show];	
-        [alert release];
+        [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
     }
 }
 
