@@ -27,12 +27,19 @@ static UIImage* sGrayBubble = nil;
     return self;
 }
 
+- (void)updateImage:(UIImage*)anImage
+{
+    image = [anImage retain];
+    [self setNeedsDisplay];
+}
+
 - (void)setMessage:(DirectMessage*)aMessage type:(BubbleType)aType
 {
     message = aMessage;
     type = aType;
     if (message.cellType == TWEET_CELL_TYPE_NORMAL) {
-        image = [[TwitterFonAppDelegate getAppDelegate].imageStore getProfileImage:message.senderProfileImageUrl delegate:self];
+        message.imageContainer = self;
+        image = [[TwitterFonAppDelegate getAppDelegate].imageStore getProfileImage:message.senderProfileImageUrl delegate:message];
         [image retain];
     }
     [self setNeedsDisplay];    

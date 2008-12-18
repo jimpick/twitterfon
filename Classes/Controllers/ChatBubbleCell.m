@@ -26,11 +26,17 @@
 	return self;
 }
 
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    message.imageContainer = nil;
+}
+
 - (void)setMessage:(DirectMessage*)aMessage isOwn:(BOOL)isOwn
 {
     message = aMessage;
     self.accessoryType = aMessage.accessoryType;
-    if (self.accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+    if (self.accessoryType == UITableViewCellAccessoryDisclosureIndicator || isOwn) {
         self.accessoryType = UITableViewCellAccessoryNone;
     }
     
@@ -40,7 +46,8 @@
     else {
         self.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
-        
+
+    message.imageContainer = cellView;
     [cellView setMessage:aMessage type:isOwn];
 }
 
