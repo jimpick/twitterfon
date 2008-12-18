@@ -34,8 +34,6 @@
     [loadCell setType:MSG_TYPE_LOAD_FROM_DB];
     isRestored = ([timeline restore:tweetType all:false] < 20) ? true : false;
 
-//    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
-//    self.navigationController.navigationItem.rightBarButtonItem = button;
     return self;
 }
 

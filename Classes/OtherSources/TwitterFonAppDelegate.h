@@ -29,7 +29,7 @@ typedef enum {
     SettingsViewController*         settingsView;
     ImageStore*                     imageStore;
     int                             selectedTab;
-
+    BOOL                            initialized;
     NSTimeInterval                  autoRefreshInterval;
     NSTimer*                        autoRefreshTimer;
     NSDate*                         lastRefreshDate;

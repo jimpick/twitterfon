@@ -26,6 +26,7 @@
 @end
 
 @interface TwitterFonAppDelegate(Private)
+- (void)postInit;
 - (void)setNextTimer:(NSTimeInterval)interval;
 @end
 
@@ -38,9 +39,6 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-    // The application ships with a default database in its bundle. If anything in the application
-    // bundle is altered, the code sign will fail. We want the database to be editable by users, 
-    // so we need to create a copy of it in the application's Documents directory.     
     [DBConnection createEditableCopyOfDatabaseIfNeeded];
     [DBConnection getSharedDatabase];
 
@@ -65,13 +63,24 @@
     [UIColor initTwitterFonColorScheme];
     imageStore = [[ImageStore alloc] init];
     postView = nil;
-
     selectedTab = 0;
     tabBarController.selectedIndex = TAB_FRIENDS;
     
-    // Load views
-    NSArray *views = tabBarController.viewControllers;
+  	[window addSubview:tabBarController.view];
+    
+    if (username == nil || password == nil ||
+        [username length] == 0 || [password length] == 0) {
+        [self openSettingsView];
+    }
+    else {
+        [self postInit];
+    }
+}
 
+- (void)postInit
+{
+    // Load views
+    //
     BOOL loadall;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"loadAllTabOnLaunch"] == nil) {
         loadall = true;
@@ -79,19 +88,13 @@
     else {
         loadall = [[NSUserDefaults standardUserDefaults] boolForKey:@"loadAllTabOnLaunch"];
     }
-    
+    NSArray *views = tabBarController.viewControllers;
     for (int tab = 0; tab < 3; ++tab) {
         UINavigationController* nav = (UINavigationController*)[views objectAtIndex:tab];
         BOOL flag = (loadall) ? true : ((tab == 0) ? true : false);
         [(FriendsTimelineController*)[nav topViewController] restoreAndLoadTimeline:flag];
     }
     
-	[window addSubview:tabBarController.view];
-    
-    if (username == nil || password == nil ||
-        [username length] == 0 || [password length] == 0) {
-        [self openSettingsView];
-    }
     int interval = [[NSUserDefaults standardUserDefaults] integerForKey:@"autoRefresh"];
     autoRefreshInterval = 0;
     if (interval > 0) {
@@ -99,6 +102,7 @@
         if (autoRefreshInterval < 180) autoRefreshInterval = 180;
         [self setNextTimer:autoRefreshInterval];
     }
+    initialized = true;
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
@@ -246,8 +250,9 @@
 - (void)closeSettingsView
 {
     settingsView = nil;
-    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:0];    
-    [(FriendsTimelineController*)[nav topViewController] reload:self];
+    if (!initialized) {
+        [self postInit];
+    }
 }
 
 - (PostViewController*)postView

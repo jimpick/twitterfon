@@ -27,8 +27,7 @@
     if (!isLoaded) {
         [self loadTimeline];
     }
-    self.tableView.dataSource = currentDataSource;
-    self.tableView.delegate   = currentDataSource;
+
 }
 
 - (void) dealloc
@@ -88,7 +87,7 @@
     if (!(username == nil || password == nil ||
           [username length] == 0 || [password length] == 0)) {
         self.navigationItem.leftBarButtonItem.enabled = false;
-        [currentDataSource getTimeline];
+        [timelineDataSource getTimeline];
     }
     isLoaded = true;
 }
@@ -98,15 +97,17 @@
     firstTimeToAppear = true;
     stopwatch = [[Stopwatch alloc] init];
     tab       = [self navigationController].tabBarItem.tag;
+    
     timelineDataSource = [[FriendsTimelineDataSource alloc] initWithController:self tweetType:tab];
-    currentDataSource = timelineDataSource;
+    self.tableView.dataSource = timelineDataSource;
+    self.tableView.delegate   = timelineDataSource;
     if (load) [self loadTimeline];
 }
 
 - (IBAction) reload:(id) sender
 {
     self.navigationItem.leftBarButtonItem.enabled = false;
-    [currentDataSource getTimeline];
+    [timelineDataSource getTimeline];
 }
 
 - (void)autoRefresh
@@ -114,36 +115,12 @@
     [self reload:nil];
 }
 
-- (IBAction) segmentDidChange:(id)sender
-{
-    UISegmentedControl* control = (UISegmentedControl*)sender;
-    currentDataSource.contentOffset = self.tableView.contentOffset;
-    if (control.selectedSegmentIndex == 0) {
-        currentDataSource         = timelineDataSource;
-        self.tableView.dataSource = timelineDataSource;
-        self.tableView.delegate   = timelineDataSource;
-    }
-    else {
-        if (sentMessageDataSource == nil) {
-            sentMessageDataSource = [[FriendsTimelineDataSource alloc] initWithController:self tweetType:TWEET_TYPE_SENT];
-            [sentMessageDataSource getTimeline];
-        }
-        currentDataSource         = sentMessageDataSource;
-        self.tableView.dataSource = sentMessageDataSource;
-        self.tableView.delegate   = sentMessageDataSource;
-    }
-    [self.tableView setContentOffset:currentDataSource.contentOffset animated:false];
-    [self didLeaveTab:self.navigationController];
-    [self.tableView reloadData];
-    [self.tableView flashScrollIndicators];
-}
-
 - (void)postViewAnimationDidFinish
 {
     if (self.navigationController.topViewController != self) return;
     
     
-    if (tab == TAB_FRIENDS || (tab == TAB_MESSAGES && sentMessageDataSource == currentDataSource)) {
+    if (tab == TAB_FRIENDS) {
         //
         // Do animation if the controller displays friends timeline or sent direct messages.
         //
@@ -158,10 +135,7 @@
 - (void)postTweetDidSucceed:(Status*)status
 {
     if (tab == TAB_FRIENDS) {
-        [currentDataSource.timeline insertStatus:status atIndex:0];
-    }
-    else if (tab == TAB_MESSAGES && sentMessageDataSource) {
-        [sentMessageDataSource.timeline insertStatus:status atIndex:0];
+        [timelineDataSource.timeline insertStatus:status atIndex:0];
     }
 }
 
@@ -172,8 +146,8 @@
 - (void)didLeaveTab:(UINavigationController*)navigationController
 {
     navigationController.tabBarItem.badgeValue = nil;
-    for (int i = 0; i < [currentDataSource.timeline countStatuses]; ++i) {
-        Status* sts = [currentDataSource.timeline statusAtIndex:i];
+    for (int i = 0; i < [timelineDataSource.timeline countStatuses]; ++i) {
+        Status* sts = [timelineDataSource.timeline statusAtIndex:i];
         sts.unread = false;
     }
     unread = 0;
@@ -182,19 +156,19 @@
 
 - (void) removeStatus:(Status*)status
 {
-    [currentDataSource.timeline removeStatus:status];
+    [timelineDataSource.timeline removeStatus:status];
     [self.tableView reloadData];
 }
 
 - (void) updateFavorite:(Status*)status
 {
-    [currentDataSource.timeline updateFavorite:status];
+    [timelineDataSource.timeline updateFavorite:status];
 }
 
 - (void)scrollToFirstUnread:(NSTimer*)timer
 {
     if (unread) {
-        if (unread < [currentDataSource.timeline countStatuses]) {
+        if (unread < [timelineDataSource.timeline countStatuses]) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:unread inSection:0];
             [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition: UITableViewScrollPositionBottom animated:true];
         }
@@ -209,8 +183,7 @@
     self.navigationItem.leftBarButtonItem.enabled = true;
 
     if (self.navigationController.tabBarController.selectedIndex == tab &&
-        self.navigationController.topViewController == self &&
-        sender == currentDataSource) {
+        self.navigationController.topViewController == self) {
 
         [self.tableView beginUpdates];
         if (position) {

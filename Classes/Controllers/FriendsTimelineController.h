@@ -16,9 +16,7 @@
     int                         unread;
     BOOL                        isLoaded;
     BOOL                        firstTimeToAppear;
-    FriendsTimelineDataSource*  currentDataSource;
     FriendsTimelineDataSource*  timelineDataSource;
-    FriendsTimelineDataSource*  sentMessageDataSource;
     CGPoint                     contentOffset;
 }
 
@@ -27,6 +25,5 @@
 - (void)postTweetDidSucceed:(Status*)status;
 
 - (IBAction)reload:(id)sender;
-- (IBAction)segmentDidChange:(id)sender;
 
 @end
