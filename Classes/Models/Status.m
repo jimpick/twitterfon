@@ -219,7 +219,7 @@ int sTextWidth[] = {
         textWidth += STAR_BUTTON_WIDTH;
     }
     
-    if (accessoryType = UITableViewCellAccessoryDetailDisclosureButton) {
+    if (accessoryType == UITableViewCellAccessoryDetailDisclosureButton) {
         textWidth -= DETAIL_BUTTON_WIDTH;
     }
     else if (cellType == TWEET_CELL_TYPE_DETAIL) {
