@@ -49,7 +49,7 @@ static UIImage* sGrayBubble = nil;
         // Draw message with chat bubble and profile icon
         //
         CGRect imageRect = CGRectMake(0, 0, IMAGE_SIZE, IMAGE_SIZE);
-        imageRect.origin.y = rect.origin.y + rect.size.height - IMAGE_SIZE - 3;
+        imageRect.origin.y = rect.size.height - IMAGE_SIZE - 1 - 4;
         if (type == BUBBLE_TYPE_GRAY) {
             imageRect.origin.x = IMAGE_H_PADDING;
         }
@@ -65,9 +65,8 @@ static UIImage* sGrayBubble = nil;
         int width = bubbleRect.size.width + 30;
         width = (width / 10) * 10 + ((width % 10) ? 10 : 0);
         bubbleRect.size.width = width;
-        
         bubbleRect.size.height += 15;
-        bubbleRect.origin.y = rect.size.height - bubbleRect.size.height;
+        bubbleRect.origin.y = 4;
         
         if (type == BUBBLE_TYPE_GRAY) {
             bubble = [ChatBubbleView grayBubble];

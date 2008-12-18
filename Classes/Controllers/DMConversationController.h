@@ -14,6 +14,7 @@
 {
     NSMutableArray*     messages;
     DirectMessage*      firstMessage;
+    BOOL                isFirstTime;
 }
 
 - (id)initWithMessage:(DirectMessage*)message;

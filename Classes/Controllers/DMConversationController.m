@@ -29,6 +29,7 @@
     messages = [[NSMutableArray alloc] init];
     firstMessage = msg;
     [DirectMessage getConversation:msg.senderId messages:messages all:false];
+    isFirstTime = true;
     
     return self;
 }
@@ -37,7 +38,13 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.tintColor = nil;
- }
+    [self.tableView reloadData];
+    if (isFirstTime) {
+        NSIndexPath *path = [NSIndexPath indexPathForRow:[messages count] - 1 inSection:0];
+        [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:false];
+        isFirstTime = false;
+    }
+}
 
 - (void)dealloc {
     [messages release];
@@ -63,7 +70,7 @@
         return 26;
     }
     else {
-        return ret + 4;
+        return ret + 5;
     }
 
 //    ret += (dm.needTimestamp) ? 24 : 4;
