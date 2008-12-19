@@ -37,7 +37,7 @@
 
     h1,h2 {
       color: #4c566c;
-      text-shadow: white 1px 0px 2px; 
+      text-shadow: white 0px 1px 2px; 
     }
 
     body[orient="landscape"] > *:not(.toolbar) {
@@ -61,7 +61,8 @@
     .footer {
         text-align:center;
         color: #333;
-        text-shadow: white 1px 0px 2px; 
+        text-shadow: white 0px 1px 2px; 
+	line-height: 150%;
     }
     p {
         padding: 0px;
@@ -135,9 +136,9 @@
   <p>
     <br/>
     <div class="footer">
-    <hr style="margin: 0 -10px"/>
+    <hr style="margin: 0 -5px"/>
     <em>Original html created by <a href="http://joemaller.com/">Joe Maller</a>.</em><br/>
-    Powered by <a href="http://naan.net/"><strong>naan</strong>studio</a>
+    <strong>Powered by </strong><a href="http://naan.net/"><strong>naan</strong>studio</a>
     </div>
   </p>
 
