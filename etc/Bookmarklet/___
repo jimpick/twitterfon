@@ -58,6 +58,11 @@
         padding: 10px;
         background: #fff;
     }
+    .footer {
+        text-align:center;
+        color: #333;
+        text-shadow: white 1px 0px 2px; 
+    }
     p {
         padding: 0px;
     margin: 5px 0px;
@@ -128,10 +133,11 @@
 </div>
 	
   <p>
-    <div style="text-align:center">
+    <br/>
+    <div class="footer">
+    <hr style="margin: 0 -10px"/>
     <em>Original html created by <a href="http://joemaller.com/">Joe Maller</a>.</em><br/>
-    <hr/>
-    Powered by <a href="http://naan.net/">naan studio</a>
+    Powered by <a href="http://naan.net/"><strong>naan</strong>studio</a>
     </div>
   </p>
 
