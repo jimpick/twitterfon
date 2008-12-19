@@ -7,6 +7,7 @@
 
 - (void)dealloc
 {
+    status.user.imageContainer = nil;    
     [super dealloc];
 }    
 

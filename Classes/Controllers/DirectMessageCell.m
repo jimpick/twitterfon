@@ -53,6 +53,7 @@
 }
 
 - (void)dealloc {
+    view.message.imageContainer = nil;
     [super dealloc];
 }
 
