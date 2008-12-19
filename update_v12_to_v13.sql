@@ -51,11 +51,11 @@ BEGIN;
 INSERT INTO users (user_id, name, screen_name, profile_image_url) SELECT * FROM followees;
 UPDATE users SET location = '', description = '', url = '';
 REPLACE INTO users SELECT user_id, name, screen_name, location, descripton, url, followers_count, profile_image_url, protected FROM messages ORDER BY id;
-INSERT INTO statuses (id, type, user_id, text, created_at, source, favorited) SELECT id, type, user_id, text, created_at, source, favorited FROM messages WHERE type != 2;
+INSERT INTO statuses (id, type, user_id, text, created_at, source, favorited) SELECT id, type, user_id, text, created_at, source, favorited FROM messages WHERE messages.type != 2;
 UPDATE statuses SET in_reply_to_screen_name = '';
+COMMIT;
 
 DROP TABLE messages;
-COMMIT;
 
 REINDEX statuses;
 REINDEX users;

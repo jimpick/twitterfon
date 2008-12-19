@@ -156,7 +156,8 @@ const char *optimize_sql =
         char *errmsg;
         NSString *migrateSQL = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"update_v12_to_v13.sql"];
         NSData *sqldata = [fileManager contentsAtPath:migrateSQL];
-        if (sqlite3_exec(db12, [sqldata bytes], NULL, NULL, &errmsg) == SQLITE_OK) {
+        NSString *sql = [[[NSString alloc] initWithData:sqldata encoding:NSUTF8StringEncoding] autorelease];
+        if (sqlite3_exec(db12, [sql UTF8String], NULL, NULL, &errmsg) == SQLITE_OK) {
             // succeeded to update.
             [fileManager moveItemAtPath:oldDBPath toPath:writableDBPath error:&error];
             NSLog(@"Updated database from version 1.2 to 1.3.");

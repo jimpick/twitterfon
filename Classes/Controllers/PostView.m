@@ -25,7 +25,7 @@
     
     text.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"tweet"];
     NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"inReplyToStatusId"];
-    isDirectMessage = [[NSUserDefaults standardUserDefaults] boolForKey:@"isDirectMessage"];
+    isDirectMessage = false;
     inReplyToStatusId = [number longLongValue];
     if (inReplyToStatusId) {
         to.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"to"];

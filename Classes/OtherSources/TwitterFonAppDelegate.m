@@ -28,6 +28,7 @@
 
 @interface TwitterFonAppDelegate(Private)
 - (void)postInit;
+- (void)initializeUserDefaults;
 - (void)setNextTimer:(NSTimeInterval)interval;
 @end
 
@@ -42,14 +43,15 @@
 {
     [DBConnection createEditableCopyOfDatabaseIfNeeded];
     [DBConnection getSharedDatabase];
+    [self initializeUserDefaults];
 
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *prevUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"prevUsername"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
     
-  	BOOL needDeleteMessageCache = [[NSUserDefaults standardUserDefaults] boolForKey:@"deleteMessageCache"];
-    
-    if ([username caseInsensitiveCompare:prevUsername] != NSOrderedSame) {
+ 	BOOL needDeleteMessageCache = [[NSUserDefaults standardUserDefaults] boolForKey:@"deleteMessageCache"];
+
+    if (prevUsername != nil && [username caseInsensitiveCompare:prevUsername] != NSOrderedSame) {
         needDeleteMessageCache = true;
     }
     
@@ -69,12 +71,34 @@
     
   	[window addSubview:tabBarController.view];
     
-    if (username == nil || password == nil ||
-        [username length] == 0 || [password length] == 0) {
+    if ([username length] == 0 || [password length] == 0) {
         [self openSettingsView];
     }
     else {
         [self postInit];
+    }
+}
+
+- (void)initializeUserDefaults
+{
+    NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                         @"",                             @"username",
+                         @"",                             @"password",
+                         [NSNumber numberWithBool:false], @"deleteMessageCache",
+                         [NSNumber numberWithBool:true],  @"loadAllTabOnLaunch",
+                         [NSNumber numberWithInt:0],      @"autoRefresh",
+                         @"",                             @"tweet",
+                         [NSNumber numberWithLongLong:0], @"inReplyToStatusId",
+                         @"",                             @"to",
+                         @"",                             @"recipient",
+                         [NSNumber numberWithInt:1],      @"searchDistance",
+                         [NSNumber numberWithInt:50],     @"launchCount",
+                         nil];
+
+    for (id key in dic) {
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:key] == nil) {
+            [[NSUserDefaults standardUserDefaults] setObject:[dic objectForKey:key] forKey:key];
+        }
     }
 }
 
