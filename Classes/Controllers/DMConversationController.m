@@ -107,8 +107,13 @@
 
     NSIndexPath *path = [NSIndexPath indexPathForRow:[messages count]-1 inSection:0];
     NSArray *indexPaths = [NSArray arrayWithObject:path];
+    CGSize size = self.tableView.contentSize;
+    CGPoint point = self.tableView.contentOffset;
+    UITableViewRowAnimation anim = (size.height == point.y + self.tableView.bounds.size.height) ? 
+        UITableViewRowAnimationBottom : UITableViewRowAnimationTop;
+    
     [self.tableView beginUpdates];
-    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:anim];
     [self.tableView endUpdates];
     [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:true];
     
