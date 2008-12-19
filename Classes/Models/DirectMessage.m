@@ -32,6 +32,9 @@ static sqlite3_stmt* conversation_statement = nil;
 {
     [sender release];
     [recipient release];
+    [senderScreenName release];
+    [recipientScreenName release];
+    [senderProfileImageUrl release];
   	[super dealloc];
 }
 
@@ -195,7 +198,7 @@ static sqlite3_stmt* conversation_statement = nil;
         dm.cellType = TWEET_CELL_TYPE_NORMAL;
         int diff = dm.createdAt - prev;
         if (diff > TIMESTAMP_DIFF) {
-            DirectMessage *tm = [[DirectMessage alloc] init];
+            DirectMessage *tm = [[[DirectMessage alloc] init] autorelease];
             tm.cellType = TWEET_CELL_TYPE_TIMESTAMP;
             tm.createdAt = dm.createdAt;
             [messages addObject:tm];
