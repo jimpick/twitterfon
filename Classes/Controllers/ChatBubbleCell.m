@@ -73,7 +73,6 @@
 }
 
 - (void)dealloc {
-    message.imageContainer = nil;    
     [super dealloc];
 }
 

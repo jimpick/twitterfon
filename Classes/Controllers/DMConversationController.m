@@ -47,6 +47,9 @@
 }
 
 - (void)dealloc {
+    for (DirectMessage *dm in messages) {
+        dm.imageContainer = nil;
+    }        
     [messages release];
     [super dealloc];
 }

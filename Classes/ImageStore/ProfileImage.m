@@ -151,6 +151,18 @@ static sqlite3_stmt *select_statement = nil;
 }
 
 
+- (void)delegateToUpdateImage:(NSTimer*)timer
+{
+    for (int i = 0; i < [delegates count]; ++i) {
+        id delegate = [delegates objectAtIndex:i];
+        if ([delegate respondsToSelector:@selector(profileImageDidGetNewImage:)]) {
+            [delegate performSelector:@selector(profileImageDidGetNewImage:) withObject:image];
+        }
+    }
+    [delegates release];
+    delegates = nil;
+}
+
 - (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
 {
     isLoading = false;
@@ -167,15 +179,11 @@ static sqlite3_stmt *select_statement = nil;
         [self insertImage:sender.buf];
     }
     [self convertImage];
-
-    for (int i = 0; i < [delegates count]; ++i) {
-        id delegate = [delegates objectAtIndex:i];
-        if ([delegate respondsToSelector:@selector(profileImageDidGetNewImage:)]) {
-            [delegate performSelector:@selector(profileImageDidGetNewImage:) withObject:image];
-        }
-    }
-    [delegates release];
-    delegates = nil;
+#if 0 
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(delegateToUpdateImage:) userInfo:nil repeats:false];
+#else
+    [self delegateToUpdateImage:nil];
+#endif
 }
 
 - (void)imageDownloaderDidFail:(ImageDownloader*)sender error:(NSError*)error
