@@ -494,7 +494,12 @@
     
     if (dic) {
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        [appDelegate postTweetDidSucceed:dic isDirectMessage:isDirectMessage];
+        if (isDirectMessage) {
+            [appDelegate sendMessageDidSucceed:dic];
+        }
+        else {
+            [appDelegate postTweetDidSucceed:dic];
+        }
     }       
     
     text.text = @"";

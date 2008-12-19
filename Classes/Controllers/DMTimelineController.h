@@ -27,7 +27,6 @@
 }
 
 - (void)restoreAndLoadTimeline:(BOOL)load;
-- (void)postTweetDidSucceed:(Tweet*)status;
 
 - (IBAction)reload:(id)sender;
 

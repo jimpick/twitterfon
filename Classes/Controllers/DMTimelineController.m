@@ -348,22 +348,6 @@ NSInteger sortByDate(id a, id b, void *context)
     [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
 }
 
-
-- (void)postViewAnimationDidFinish
-{
-    if (self.navigationController.topViewController != self) return;
-    
-    NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil];
-    [self.tableView beginUpdates];
-    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
-    [self.tableView endUpdates];
-        
-}
-
-- (void)postTweetDidSucceed:(Tweet*)status
-{
-    // TO BE IMPLEMENTED
-}
 //
 // TwitterFonApPDelegate delegate
 //

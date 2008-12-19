@@ -95,37 +95,28 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-/*
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-    }
-    if (editingStyle == UITableViewCellEditingStyleInsert) {
-    }
-}
-*/
-
-/*
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
 - (void)postTweet:(id)sender
 {
     PostViewController* postView = [TwitterFonAppDelegate getAppDelegate].postView;
     [postView editDirectMessage:self.navigationItem.title];
+}
+
+- (void)postViewAnimationDidFinish
+{
+    if (self.navigationController.topViewController != self) return;
+
+    NSIndexPath *path = [NSIndexPath indexPathForRow:[messages count]-1 inSection:0];
+    NSArray *indexPaths = [NSArray arrayWithObject:path];
+    [self.tableView beginUpdates];
+    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+    [self.tableView endUpdates];
+    [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:true];
+    
+}
+
+- (void)sendMessageDidSucceed:(DirectMessage*)dm
+{
+    [messages addObject:dm];
 }
 
 @end

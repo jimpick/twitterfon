@@ -11,6 +11,8 @@
 #import "SearchViewController.h"
 #import "UserTimelineController.h"
 #import "LinkViewController.h"
+#import "Status.h"
+#import "DirectMessage.h"
 #import "DBConnection.h"
 #import "TwitterClient.h"
 #import "ColorUtils.h"
@@ -18,7 +20,6 @@
 
 
 @interface NSObject (TwitterFonAppDelegateDelegate)
-- (void)postViewAnimationDidFinish;
 - (void)didLeaveTab:(UINavigationController*)navigationController;
 - (void)didSelectTab:(UINavigationController*)navigationController;
 - (void)updateFavorite:(Status*)status;
@@ -386,21 +387,24 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 //
 // Bypass posted message to friends timeline view...
 //
-- (void)postTweetDidSucceed:(NSDictionary*)dic isDirectMessage:(BOOL)isDirectMessage
+- (void)postTweetDidSucceed:(NSDictionary*)dic
 {
-    UINavigationController* nav;
-    Status* status;
-    if (isDirectMessage) {
-        nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_MESSAGES];
-        status = [Status statusWithJsonDictionary:dic type:TWEET_TYPE_SENT];
-    }
-    else {
-        nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
-        status = [Status statusWithJsonDictionary:dic type:TWEET_TYPE_FRIENDS];
-    }
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FRIENDS];
+    Status *status = [Status statusWithJsonDictionary:dic type:TWEET_TYPE_FRIENDS];
     [status insertDB];
     FriendsTimelineController *c = (FriendsTimelineController*)[nav.viewControllers objectAtIndex:0];
     [c postTweetDidSucceed:status];
+}
+
+- (void)sendMessageDidSucceed:(NSDictionary*)dic
+{
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_MESSAGES];
+    DirectMessage *dm = [DirectMessage messageWithJsonDictionary:dic];
+    [dm insertDB];
+    UIViewController *c = nav.topViewController;
+    if ([c respondsToSelector:@selector(sendMessageDidSucceed:)]) {
+        [c performSelector:@selector(sendMessageDidSucceed:) withObject:dm];
+    }
 }
 
 - (void)postViewAnimationDidFinish:(BOOL)isDirectMessage
@@ -412,9 +416,9 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
     else if (isDirectMessage && selectedTab == TAB_MESSAGES) {
         nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_MESSAGES];    
     }
-    UIViewController *c = [nav.viewControllers objectAtIndex:0];
+    UIViewController *c = nav.topViewController;
     if ([c respondsToSelector:@selector(postViewAnimationDidFinish)]) {
-        [c postViewAnimationDidFinish];
+        [c performSelector:@selector(postViewAnimationDidFinish)];
     }
 }
 

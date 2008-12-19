@@ -37,7 +37,8 @@ typedef enum {
 
 - (IBAction)post:(id)sender;
 
-- (void)postTweetDidSucceed:(NSDictionary*)status isDirectMessage:(BOOL)isDirectMessage;
+- (void)postTweetDidSucceed:(NSDictionary*)status;
+- (void)sendMessageDidSucceed:(NSDictionary*)message;
 - (void)postViewAnimationDidFinish:(BOOL)isDirectMessage;
 
 - (void) openSettingsView;
