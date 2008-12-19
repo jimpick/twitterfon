@@ -67,10 +67,10 @@ enum {
 
 - (void)initCommon
 {
-    userView     = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 387)];
-    actionCell   = [[TweetViewActionCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ActionCell"];
-    tweetCell = [[UserTimelineCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"MessageCell"];
-    deleteCell  = [[DeleteButtonCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"DeleteCell"];
+    userView   = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 387)];
+    actionCell = [[TweetViewActionCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ActionCell"];
+    tweetCell  = [[UserTimelineCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"MessageCell"];
+    deleteCell = [[DeleteButtonCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"DeleteCell"];
 }
 
 - (void)setStatus:(Status*)sts
@@ -138,7 +138,7 @@ enum {
 }
 
 - (void)dealloc {
-    status.user.imageContainer = self;
+    status.user.imageContainer = nil;
     [inReplyToUser release];
     [inReplyToStatus release];
     [tweetCell release];
