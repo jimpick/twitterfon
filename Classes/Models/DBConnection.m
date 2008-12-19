@@ -93,8 +93,8 @@ const char *delete_message_cache_sql =
 const char *cleanup_sql =
 "BEGIN;"
 "DELETE FROM images WHERE updated_at <= (SELECT updated_at FROM images order by updated_at LIMIT 1 OFFSET 5000);"
-"DELETE FROM statuses WHERE type = 0 and id <= (SELECT id FROM statuses WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 2000);"
-"DELETE FROM statuses WHERE type = 1 and id <= (SELECT id FROM statuses WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 2000);"
+"DELETE FROM statuses WHERE type = 0 and id <= (SELECT id FROM statuses WHERE type = 0 ORDER BY id DESC LIMIT 1 OFFSET 4000);"
+"DELETE FROM statuses WHERE type = 1 and id <= (SELECT id FROM statuses WHERE type = 1 ORDER BY id DESC LIMIT 1 OFFSET 1000);"
 "COMMIT";
 
 
