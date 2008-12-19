@@ -71,10 +71,12 @@
 
 - (void)didReceiveMemoryWarning 
 {
+#if 0
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     if (appDelegate.selectedTab != [self navigationController].tabBarItem.tag) {
         [super didReceiveMemoryWarning];
     }
+#endif
 }
 
 //
