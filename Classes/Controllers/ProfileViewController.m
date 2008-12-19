@@ -21,7 +21,7 @@ enum {
     ROW_FRIENDS,
     ROW_FOLLOWERS,
     ROW_UPDATES,
-    ROW_FAVORITES,
+//    ROW_FAVORITES,
     NUM_ROWS,
 };
 
@@ -127,9 +127,11 @@ enum {
             case ROW_UPDATES:
                 cell.text = [NSString stringWithFormat:@" %d update%s", user.statusesCount, (user.statusesCount) ? "s" : ""];
                 break;
+#if 0
             case ROW_FAVORITES:
                 cell.text = [NSString stringWithFormat:@" %d favorite%s", user.favoritesCount, (user.favoritesCount) ? "s" : ""];
                 break;
+#endif
         }
     }
     else if (indexPath.section == 1) {
@@ -148,9 +150,12 @@ enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if (indexPath.section == 0) {
+#if 0
         if (indexPath.row == ROW_FAVORITES) {
         }
-        else if (indexPath.row == ROW_UPDATES) {
+        else
+#endif
+        if (indexPath.row == ROW_UPDATES) {
             if (user.statusesCount != 0) {
                 UserTimelineController* userTimeline = [[[UserTimelineController alloc] init] autorelease];
                 [userTimeline loadUserTimeline:user.screenName];
@@ -227,7 +232,7 @@ enum {
                               [NSIndexPath indexPathForRow:0 inSection:0],
                               [NSIndexPath indexPathForRow:1 inSection:0],
                               [NSIndexPath indexPathForRow:2 inSection:0],
-                              [NSIndexPath indexPathForRow:3 inSection:0],
+//                              [NSIndexPath indexPathForRow:3 inSection:0],
                               nil];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];
