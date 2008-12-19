@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <title>Post with TwitterFon</title>
+  <!-- 	
+	This file is placed in the root level of the server and renamed on the server to "___"
+	These instructions can be used to install any bookmarklet, just link here with the bookmarklet code in the query string
+    -->
+  
+  <style type="text/css" media="screen">
+    /*	
+    *	iPhone CSS info gleaned from my head and:
+    *
+    *	- iUi: 
+    *      http://iui.googlecode.com    
+    *
+    *	- Ankur Kothari: 
+    *      http://lipidity.com/apple/iphone-webkit-css-3/
+    *
+    */
+    
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        color: #000;
+        font-family: Helvetica;
+        overflow-x: hidden;
+        background: url('twitterfon_bookmarklet_background.png');
+        -webkit-user-select: none;
+        -webkit-text-size-adjust: none;
+    }
+
+    h1,h2 {
+      color: #4c566c;
+      text-shadow: white 1px 0px 2px; 
+    }
+
+    body[orient="landscape"] > *:not(.toolbar) {
+        min-height: 268px;
+    }
+
+    body > *[selected="true"] {
+        display: block;
+    }
+
+    .content{margin:0 6px;}
+
+    .content em {font-size: 14px;}
+    .cell {
+        font-size:18px;
+        border: 1px solid #999;
+        -webkit-border-radius: 10px;
+        padding: 10px;
+        background: #fff;
+    }
+    p {
+        padding: 0px;
+    margin: 5px 0px;
+    }
+
+    h1{font-size:18px;}
+    h2{font-size:18px;}
+
+    .content img {
+        display: block;
+        margin: 15px auto;
+        width: 300px;
+    }
+  </style>
+
+  <script type="text/javascript" charset="utf-8">
+    if (document.location.search.indexOf('iTransmogrify') > -1)
+    document.title='iTransmogrify!';
+    window.addEventListener("load", function(){window.scrollTo(0,1)})
+  </script>
+</head>
+
+<body>
+<div class="content">
+  <h1>TwitterFon Bookmarklet Setup</h1>
+  <div class="cell">
+    <p>
+    You're here, so let's install the bookmarklet directly onto your iPhone!
+    </p>
+  </div>
+  <h2>
+    Step 1: Bookmark this page
+  </h2>
+  <div class="cell">
+    <p>
+      Tap the add button at the bottom of the screen, make a note of the name and bookmarks folder, then click Save.
+    </p>
+    <p>
+      <img src="add_bookmark.png" style="width: 280px;" alt="add bookmark button"/>
+    </p>
+    <p>
+      <img src="save_bookmark.png" style="width: 280px" alt="save bookmark" />
+    </p>
+  </div>
+  <h2>
+    Step 2: Edit the Bookmark
+  </h2>
+  <div class="cell">
+  <p>
+    Tap the Bookmarks button at the bottom of the screen, navigate through your Bookmarks folders until you find the new bookmark. <strong>Click Edit.</strong>
+  </p>
+  <p>
+    <img src="open_bookmark.png" style="width: 280px;" alt="edit bookmark"/>
+  </p>
+  <p>
+    Tap the address in the second field, then tap-drag all the way to the left, this will take a few seconds.
+  </p>
+
+  <p>
+    <img src="edit_bookmark.png" style="width: 280px" alt="delete this text"/>
+  </p>
+  <p>
+    Place the editing point after the blue-shaded text, between the "?" and the j in "javascript", then tap and hold down the delete key.
+  </p>
+  <p>
+    That's it! You've enabled the bookmarklet, enjoy!
+  </p>
+</div>
+	
+  <p>
+    <div style="text-align:center">
+    <em>Original html created by <a href="http://joemaller.com/">Joe Maller</a>.</em><br/>
+    <hr/>
+    Powered by <a href="http://naan.net/">naan studio</a>
+    </div>
+  </p>
+
+</div>
+</body>
+</html>
