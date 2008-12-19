@@ -183,8 +183,10 @@ NSInteger sortByDate(id a, id b, void *context)
 {
     self.navigationItem.leftBarButtonItem.enabled = false;
     twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(sentMessageDidReceived:obj:)];
+#if 0
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setObject:@"200" forKey:@"count"];
+#endif
     [twitterClient getTimeline:TWEET_TYPE_SENT params:nil];
 }   
 
@@ -221,10 +223,11 @@ NSInteger sortByDate(id a, id b, void *context)
         [param setObject:[NSString stringWithFormat:@"%d", since_id] forKey:@"since_id"];
         [param setObject:@"200" forKey:@"count"];
     }
+#if 0
     else {
         [param setObject:@"200" forKey:@"count"];
     }
-
+#endif
     [twitterClient getTimeline:TWEET_TYPE_MESSAGES params:param];
     
     needToGetSentMessage = getSentMessage;
