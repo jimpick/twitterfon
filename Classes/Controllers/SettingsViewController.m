@@ -53,7 +53,7 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
     usernameField.text = user;
     passwordField.text = pass;
     
-    UIBarButtonItem *done  = [[UIBarButtonItem alloc] initWithTitle:@"Sign In"
+    UIBarButtonItem *done  = [[UIBarButtonItem alloc] initWithTitle:@"Done"
                                                               style:UIBarButtonItemStyleDone 
                                                              target:self 
                                                              action:@selector(done:)];
