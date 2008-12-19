@@ -44,7 +44,8 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else {
-        self.selectionStyle = UITableViewCellSelectionStyleBlue;
+//        self.selectionStyle = UITableViewCellSelectionStyleBlue;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 
     message.imageContainer = cellView;
