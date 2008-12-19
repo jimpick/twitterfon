@@ -159,7 +159,7 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
             
         case SECTION_HELP:
             if (indexPath.row == ROW_HELP) {
-                [self openURL:@"http://naan.net/trac/wiki/TwitterFon"];
+                [self openURL:@"http://twitterfon.com/"];
             }
             break;
             
