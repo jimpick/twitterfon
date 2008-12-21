@@ -91,7 +91,7 @@
                          [NSNumber numberWithLongLong:0], @"inReplyToStatusId",
                          @"",                             @"to",
                          @"",                             @"recipient",
-                         [NSNumber numberWithInt:3],      @"searchDistance",
+                         [NSNumber numberWithInt:2],      @"searchDistance",
                          [NSNumber numberWithInt:50],     @"launchCount",
                          nil];
 
