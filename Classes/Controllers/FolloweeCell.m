@@ -38,7 +38,6 @@
 }
 
 - (void)dealloc {
-    receiver.imageContainer = nil;    
     [super dealloc];
 }
 
