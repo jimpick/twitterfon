@@ -15,6 +15,8 @@
 #import "TimelineCell.h"
 #import "DBConnection.h"
 
+#import "DebugUtils.h"
+
 @interface NSObject (TimelineViewControllerDelegate)
 - (void)timelineDidUpdate:(FriendsTimelineDataSource*)sender count:(int)count insertAt:(int)position;
 - (void)timelineDidFailToUpdate:(FriendsTimelineDataSource*)sender position:(int)position;
@@ -191,7 +193,7 @@
     }
     
     int unread = 0;
-    NSLog(@"Received %d messages on tab %d", [ary count], tweetType);
+    LOG(@"Received %d tweets on tab %d", [ary count], tweetType);
     
     Status* lastStatus = [timeline lastStatus];
     if ([ary count]) {

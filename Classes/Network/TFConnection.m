@@ -8,6 +8,7 @@
 
 #import "TFConnection.h"
 #import "StringUtil.h"
+#import "DebugUtils.h"
 
 #define NETWORK_TIMEOUT 120.0
 
@@ -54,7 +55,7 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
     
     NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
     [URL autorelease];
-    NSLog(@"%@", URL);
+    LOG(@"%@", URL);
 	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
                                          cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                                      timeoutInterval:NETWORK_TIMEOUT];
@@ -74,6 +75,7 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
     statusCode = 0;
     
     NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
+    LOG(@"%@", URL);    
     [URL autorelease];
 	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
                                                        cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -137,9 +139,7 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
     response = (NSHTTPURLResponse*)aResponse;
     if (response) {
         statusCode = response.statusCode;
-#ifdef DEBUG
-        NSLog(@"Response: %d", statusCode);
-#endif
+        LOG(@"Response: %d", statusCode);
     }
 	[buf setLength:0];
 }

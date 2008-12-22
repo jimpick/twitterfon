@@ -107,7 +107,6 @@ NSString* sMethods[4] = {
                             [tweet encodeAsURIComponent],
                             statusId];
 
-    NSLog(@"%@", postString);
     [self post:url body:postString];
     
 }
@@ -144,8 +143,6 @@ NSString* sMethods[4] = {
                      create ? @"create" : @"destroy",
                      screen_name];
 
-    NSLog(@"%@", url);
-    
     [self post:url body:@""];
 }
 
@@ -175,8 +172,6 @@ NSString* sMethods[4] = {
         url = [NSString stringWithFormat:@"https://twitter.com/statuses/destroy/%lld.json", [status  statusId]];
     }
     
-    NSLog(@"%@", url);
-    
     [self post:url body:@""];
 }
 
@@ -189,8 +184,6 @@ NSString* sMethods[4] = {
                      (status.favorited) ? @"destroy" : @"create",
                      [status statusId]];
     
-    NSLog(@"%@", url);
-    
     [self post:url body:@""];    
 }
 
@@ -200,8 +193,6 @@ NSString* sMethods[4] = {
     request = TWITTER_REQUEST_UPDATE_LOCATION;
     
 	NSString* url = @"https://twitter.com/account/update_location.json";
-    
-    NSLog(@"%@", url);
     
     NSString *postString = [NSString stringWithFormat:@"location=iPhone: %f,%f", latitude, longitude];
     
