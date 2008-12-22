@@ -202,7 +202,7 @@
 
 + (BOOL)isExists:(sqlite_int64)anId
 {
-    Statement *stmt = nil;
+    static Statement *stmt = nil;
     if (stmt == nil) {
         stmt = [DBConnection statementWithQuery:"SELECT id FROM direct_messages WHERE id=?"];
         [stmt retain];
@@ -216,7 +216,7 @@
 
 - (void)insertDB
 {
-    Statement *stmt = nil;
+    static Statement *stmt = nil;
     if (stmt == nil) {
         stmt = [DBConnection statementWithQuery:"INSERT INTO direct_messages VALUES(?, ?, ?, ?, ?, ?, ?)"];
         [stmt retain];
