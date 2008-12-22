@@ -25,7 +25,6 @@
 
 @implementation UserView
 
-@synthesize profileImage;
 @synthesize user;
 @synthesize protected;
 @synthesize hasDetail;
@@ -149,10 +148,13 @@
 -(void)setUser:(User*)aUser
 {
     user = aUser;
-    user.imageContainer = self;
-    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    profileImage = [[appDelegate.imageStore getProfileImage:user isLarge:true] retain];
-    
+
+    if (profileImage) {
+        [profileImage release];
+    }
+    profileImage = [self getProfileImage:user.profileImageUrl isLarge:true];
+    [profileImage retain];
+
     if ([user.url length]) {
         [url setTitle:user.url forState:UIControlStateNormal];
         [url setTitle:user.url forState:UIControlStateHighlighted];
@@ -177,6 +179,9 @@
 
 - (void)updateImage:(UIImage*)image
 {
+    if (profileImage != image) {
+        [profileImage release];
+    }
     profileImage = [image retain];
     [self setNeedsDisplay];
 }

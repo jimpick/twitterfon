@@ -1,10 +1,11 @@
 #import <UIKit/UIKit.h>
 #import "Status.h"
 #import "TweetCellView.h"
+#import "ProfileImageCell.h"
 
 #define MESSAGE_REUSE_INDICATOR @"TweetCell"
 
-@interface TweetCellBase : UITableViewCell
+@interface TweetCellBase : ProfileImageCell
 {
 	Status*         status;
     TweetCellView*  cellView;

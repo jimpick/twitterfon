@@ -26,10 +26,11 @@
 	return self;
 }
 
-- (void)prepareForReuse
+- (void)updateImage:(UIImage*)image
 {
-    [super prepareForReuse];
-    message.imageContainer = nil;
+    // Perhaps, you need re-implement on deliver class
+    cellView.image = image;
+    [cellView setNeedsDisplay];
 }
 
 - (void)setMessage:(DirectMessage*)aMessage isOwn:(BOOL)isOwn
@@ -48,8 +49,11 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 
-    message.imageContainer = cellView;
     [cellView setMessage:aMessage type:isOwn];
+    // Ignore timestamp cell
+    if (aMessage.cellType == TWEET_CELL_TYPE_NORMAL) {    
+        cellView.image = [self getProfileImage:aMessage.senderProfileImageUrl isLarge:false];
+    }
 }
 
 - (void)didTouchLinkButton:(id)sender

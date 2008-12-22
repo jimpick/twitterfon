@@ -2,6 +2,8 @@
 #import "ImageDownloader.h"
 #import "DBConnection.h"
 
+//#define IMAGE_STORE_TEST
+
 UIImage *sProfileImage = nil;
 UIImage *sProfileImageSmall = nil;
 
@@ -42,7 +44,11 @@ UIImage *sProfileImageSmall = nil;
         NSRange r = [url rangeOfString:@"_bigger."];
         image = [ProfileImage defaultProfileImage:(r.location != NSNotFound) ? true : false];
         isLoading = true;
+#ifdef IMAGE_STORE_TEST        
+        [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(requestImage) userInfo:nil repeats:false];
+#else
         [self requestImage];
+#endif
     }
     [stmt reset];
 
@@ -54,11 +60,24 @@ UIImage *sProfileImageSmall = nil;
     if (delegates == nil) {
         delegates = [[NSMutableArray array] retain];
     }
+    // Avoid to add duplicate delegate
+    [delegates removeObject:delegate];
     [delegates addObject:delegate];
+}
+
+- (void)removeDelegate:(id)delegate
+{
+    if (delegates == nil) {
+        return;
+    }    
+    [delegates removeObject:delegate];
 }
 
 - (void)insertImage:(NSData*)buf
 {
+#ifdef IMAGE_STORE_TEST
+    return;
+#endif    
     static Statement* stmt = nil;
     if (stmt == nil) {
         stmt = [DBConnection statementWithQuery:"REPLACE INTO images VALUES(?, ?, DATETIME('now'))"];
@@ -146,19 +165,6 @@ UIImage *sProfileImageSmall = nil;
     UIGraphicsEndImageContext();
 }
 
-
-- (void)delegateToUpdateImage:(NSTimer*)timer
-{
-    for (int i = 0; i < [delegates count]; ++i) {
-        id delegate = [delegates objectAtIndex:i];
-        if ([delegate respondsToSelector:@selector(profileImageDidGetNewImage:)]) {
-            [delegate performSelector:@selector(profileImageDidGetNewImage:) withObject:image];
-        }
-    }
-    [delegates release];
-    delegates = nil;
-}
-
 - (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
 {
     isLoading = false;
@@ -175,11 +181,16 @@ UIImage *sProfileImageSmall = nil;
         [self insertImage:sender.buf];
     }
     [self convertImage];
-#if 0 
-    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(delegateToUpdateImage:) userInfo:nil repeats:false];
-#else
-    [self delegateToUpdateImage:nil];
-#endif
+    
+    // Delegate to update images
+    for (int i = 0; i < [delegates count]; ++i) {
+        id delegate = [delegates objectAtIndex:i];
+        if ([delegate respondsToSelector:@selector(profileImageDidGetNewImage:)]) {
+            [delegate performSelector:@selector(profileImageDidGetNewImage:) withObject:image];
+        }
+    }
+    [delegates release];
+    delegates = nil;
 }
 
 - (void)imageDownloaderDidFail:(ImageDownloader*)sender error:(NSError*)error

@@ -138,7 +138,6 @@ enum {
 }
 
 - (void)dealloc {
-    status.user.imageContainer = nil;
     [inReplyToUser release];
     [inReplyToStatus release];
     [tweetCell release];

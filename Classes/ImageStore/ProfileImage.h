@@ -16,5 +16,6 @@
 
 - (ProfileImage*)initWithURL:(NSString*)url;
 - (void)addDelegate:(id)delegate;
+- (void)removeDelegate:(id)delegate;
 
 @end

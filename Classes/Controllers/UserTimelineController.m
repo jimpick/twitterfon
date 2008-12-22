@@ -36,7 +36,6 @@
 - (void)dealloc {
     [userCell release];
     [loadCell release];
-    user.imageContainer = nil;
     [user release];
     [twitterClient release];
     [timeline release];
@@ -82,7 +81,6 @@
 {
     user = [aUser copy];
     [userCell.userView setUser:user];
-    user.imageContainer = userCell.userView;
     screenName = user.screenName;
     
     [self loadUserTimeline:user.screenName];
@@ -289,7 +287,6 @@
             [user release];
         }
         user = [[User alloc] initWithJsonDictionary:dic];
-        user.imageContainer = userCell.userView;
         [userCell.userView setUser:user];
         [userCell.userView setNeedsDisplay];
         

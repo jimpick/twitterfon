@@ -2,7 +2,7 @@
 #import "sqlite3.h"
 #import "ImageStoreReceiver.h"
 
-@interface User : ImageStoreReceiver
+@interface User : NSObject
 {
 	uint32_t    userId;
     NSString*   name;

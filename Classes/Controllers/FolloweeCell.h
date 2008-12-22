@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Followee.h"
+#import "ProfileImageCell.h"
 
-@interface FolloweeCell : UITableViewCell {
+@interface FolloweeCell : ProfileImageCell {
 	UILabel*                name;
 	UILabel*                screenName;
-    ImageStoreReceiver*     receiver;
 }
 
 - (void)setFollowee:(Followee*)Followee;

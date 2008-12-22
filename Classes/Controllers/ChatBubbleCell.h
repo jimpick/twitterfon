@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ProfileImageCell.h"
 
 @class DirectMessage;
 @class ChatBubbleView;
 
-@interface ChatBubbleCell : UITableViewCell 
+@interface ChatBubbleCell : ProfileImageCell 
 {
     DirectMessage*      message;
     ChatBubbleView*     cellView;

@@ -21,6 +21,8 @@ typedef enum {
     UIImage*        image;
 }
 
+@property(nonatomic, retain) UIImage* image;
+
 - (void)setMessage:(DirectMessage*)message type:(BubbleType)type;
 
 @end

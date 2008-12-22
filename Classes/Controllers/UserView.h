@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 #import "TwitterClient.h"
+#import "ProfileImageView.h"
 
 typedef enum {
     FOLLOW_BUTTON_NOT_LOADED = -1,
@@ -17,7 +18,7 @@ typedef enum {
     FOLLOW_BUTTON_REMOVE    = 2,
 } followButtonState;
 
-@interface UserView : UIView {
+@interface UserView : ProfileImageView {
     User*               user;
   	UIButton*           url;
     UIButton*           followButton;
@@ -33,7 +34,6 @@ typedef enum {
 
 @property(nonatomic, assign) User*      user;
 @property(nonatomic, assign) BOOL       protected;
-@property(nonatomic, retain) UIImage*   profileImage;
 @property(nonatomic, assign) BOOL       hasDetail;
 @property(nonatomic, assign) float      height;
 

@@ -17,7 +17,7 @@ typedef enum {
     TWEET_CELL_TYPE_TIMESTAMP,
 } TweetCellType;
 
-@interface Tweet : ImageStoreReceiver
+@interface Tweet : NSObject
 {
 	NSString*       text;
     

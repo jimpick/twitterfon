@@ -16,6 +16,7 @@
 #import "LoadCell.h"
 #import "TwitterClient.h"
 #import "ColorUtils.h"
+#import "DebugUtils.h"
 
 // sort function of DM timeline
 //
@@ -255,7 +256,7 @@ NSInteger sortByDate(id a, id b, void *context)
     NSArray *ary = nil;
     if ([obj isKindOfClass:[NSArray class]]) {
         ary = (NSArray*)obj;
-        NSLog(@"Received %d messages", [ary count]);
+        LOG(@"Received %d messages", [ary count]);
         return ary;
     }
     return nil;
@@ -302,7 +303,7 @@ NSInteger sortByDate(id a, id b, void *context)
     
     [timeline release];
     timeline = [[messages allValues] mutableCopy];
-    NSLog(@"Updated %d messages", [timeline count]);
+    LOG(@"Updated %d messages", [timeline count]);
     [timeline sortUsingFunction:sortByDate context:nil];
     
     [self.tableView reloadData];

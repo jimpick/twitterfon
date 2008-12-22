@@ -7,7 +7,6 @@
 
 - (void)dealloc
 {
-    status.user.imageContainer = nil;    
     [super dealloc];
 }    
 
@@ -16,14 +15,6 @@
     [imageButton setImage:image forState:UIControlStateNormal];
     [imageButton setNeedsDisplay];
 }
-
-
-- (void)prepareForReuse
-{
-    [super prepareForReuse];
-    status.user.imageContainer = nil;
-}
-
 
 - (void)didTouchImageButton:(id)sender
 {
@@ -41,10 +32,8 @@
 - (void)update
 {
     cellView.status = status;
-    
-    status.user.imageContainer = self;
-    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    [imageButton setImage:[appDelegate.imageStore getProfileImage:status.user isLarge:false] forState:UIControlStateNormal];
+    [imageButton setImage:[self getProfileImage:status.user.profileImageUrl isLarge:false]
+                 forState:UIControlStateNormal];
     
     self.contentView.backgroundColor = (status.unread) ? [UIColor cellColorForTab:status.type] : [UIColor whiteColor];
 

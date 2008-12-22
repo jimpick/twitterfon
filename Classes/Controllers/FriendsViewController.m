@@ -46,9 +46,6 @@
 - (void)dealloc {
     [screenName release];
     [loadCell release];
-    for (User *user in friends) {
-        user.imageContainer = nil;
-    }
     [friends release];
     [super dealloc];
 }

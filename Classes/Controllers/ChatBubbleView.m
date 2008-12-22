@@ -19,6 +19,8 @@ static UIImage* sGrayBubble = nil;
 
 @implementation ChatBubbleView
 
+@synthesize image;
+
 - (id)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
@@ -27,21 +29,10 @@ static UIImage* sGrayBubble = nil;
     return self;
 }
 
-- (void)updateImage:(UIImage*)anImage
-{
-    image = [anImage retain];
-    [self setNeedsDisplay];
-}
-
 - (void)setMessage:(DirectMessage*)aMessage type:(BubbleType)aType
 {
     message = aMessage;
     type = aType;
-    if (message.cellType == TWEET_CELL_TYPE_NORMAL) {
-        message.imageContainer = self;
-        image = [[TwitterFonAppDelegate getAppDelegate].imageStore getProfileImage:message.senderProfileImageUrl delegate:message];
-        [image retain];
-    }
     [self setNeedsDisplay];    
 }
 
@@ -120,6 +111,7 @@ static UIImage* sGrayBubble = nil;
 
 
 - (void)dealloc {
+    [image release];
     [super dealloc];
 }
 

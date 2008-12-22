@@ -30,18 +30,11 @@
     [self layoutSubviews];
 }
 
-- (void)prepareForReuse
-{
-    [super prepareForReuse];
-    view.message.imageContainer = nil;
-}
-
 - (void)setMessage:(DirectMessage*)value
 {
-    value.imageContainer = self;
     view.message = value;
     self.contentView.backgroundColor = value.unread ? [UIColor cellColorForTab:TAB_MESSAGES] : [UIColor whiteColor];
-    self.image = [[TwitterFonAppDelegate getAppDelegate].imageStore getProfileImage:value.senderProfileImageUrl delegate:value];
+    self.image = [self getProfileImage:value.senderProfileImageUrl isLarge:false];
 }
 
 - (void)layoutSubviews
@@ -53,7 +46,6 @@
 }
 
 - (void)dealloc {
-    view.message.imageContainer = nil;
     [super dealloc];
 }
 

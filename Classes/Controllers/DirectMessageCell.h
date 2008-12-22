@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "DirectMessageCellView.h"
 #import "DirectMessage.h"
+#import "ProfileImageCell.h"
 
-@interface DirectMessageCell : UITableViewCell {
+@interface DirectMessageCell : ProfileImageCell {
     DirectMessageCellView*  view;
 }
 

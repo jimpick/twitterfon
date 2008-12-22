@@ -104,6 +104,8 @@
 		6EC53C710EF806EB009BCC92 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C6D0EF806EB009BCC92 /* NSString+SBJSON.m */; };
 		6EC53C720EF806EB009BCC92 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C6F0EF806EB009BCC92 /* SBJSON.m */; };
 		6ECCAD970EBE5B2E002B39F6 /* SearchHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */; };
+		6ECCDC200F00208200DBEB95 /* ProfileImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCDC1F0F00208200DBEB95 /* ProfileImageCell.m */; };
+		6ECCDD590F00323000DBEB95 /* ProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECCDD580F00323000DBEB95 /* ProfileImageView.m */; };
 		6ECD90400EBEF9F400C3CD4D /* TwitPicClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECD903F0EBEF9F400C3CD4D /* TwitPicClient.m */; };
 		6ED17FA70E38D3A0006E8AB7 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA50E38D3A0006E8AB7 /* forward.png */; };
 		6ED17FA80E38D3A0006E8AB7 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ED17FA60E38D3A0006E8AB7 /* back.png */; };
@@ -284,6 +286,10 @@
 		6EC53C6F0EF806EB009BCC92 /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
 		6ECCAD950EBE5B2E002B39F6 /* SearchHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchHistoryViewController.h; path = Controllers/SearchHistoryViewController.h; sourceTree = "<group>"; };
 		6ECCAD960EBE5B2E002B39F6 /* SearchHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchHistoryViewController.m; path = Controllers/SearchHistoryViewController.m; sourceTree = "<group>"; };
+		6ECCDC1E0F00208200DBEB95 /* ProfileImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImageCell.h; sourceTree = "<group>"; };
+		6ECCDC1F0F00208200DBEB95 /* ProfileImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileImageCell.m; sourceTree = "<group>"; };
+		6ECCDD570F00323000DBEB95 /* ProfileImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImageView.h; sourceTree = "<group>"; };
+		6ECCDD580F00323000DBEB95 /* ProfileImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileImageView.m; sourceTree = "<group>"; };
 		6ECD903E0EBEF9F400C3CD4D /* TwitPicClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitPicClient.h; path = Network/TwitPicClient.h; sourceTree = "<group>"; };
 		6ECD903F0EBEF9F400C3CD4D /* TwitPicClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitPicClient.m; path = Network/TwitPicClient.m; sourceTree = "<group>"; };
 		6ED17FA50E38D3A0006E8AB7 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
@@ -822,6 +828,10 @@
 				6EED140A0E33E59B00C71EA4 /* ProfileImage.m */,
 				6EF838340EF5E4EB001523B4 /* ImageStoreReceiver.h */,
 				6EF838350EF5E4EB001523B4 /* ImageStoreReceiver.m */,
+				6ECCDC1E0F00208200DBEB95 /* ProfileImageCell.h */,
+				6ECCDC1F0F00208200DBEB95 /* ProfileImageCell.m */,
+				6ECCDD570F00323000DBEB95 /* ProfileImageView.h */,
+				6ECCDD580F00323000DBEB95 /* ProfileImageView.m */,
 			);
 			path = ImageStore;
 			sourceTree = "<group>";
@@ -1013,6 +1023,8 @@
 				6E97AD680EF94B5000168291 /* DirectMessageCellView.m in Sources */,
 				6E97AD750EF94CE800168291 /* DirectMessageCell.m in Sources */,
 				6EA56C190EFF644C00A7902A /* Statement.m in Sources */,
+				6ECCDC200F00208200DBEB95 /* ProfileImageCell.m in Sources */,
+				6ECCDD590F00323000DBEB95 /* ProfileImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

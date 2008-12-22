@@ -10,7 +10,7 @@
 #import "User.h"
 #import "Statement.h"
 
-@interface Followee : ImageStoreReceiver {
+@interface Followee : NSObject {
 	uint32_t    userId;
     NSString*   name;
 	NSString*   screenName;

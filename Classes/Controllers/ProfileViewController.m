@@ -44,7 +44,6 @@ enum {
     
     userView = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 387)];
     userView.hasDetail = true;
-    user.imageContainer = userView;
     [userView setUser:user];
 
     return self;
@@ -82,7 +81,7 @@ enum {
 
 - (void)dealloc 
 {
-    user.imageContainer = nil;
+    [userView release];
     [user release];
     [twitterClient release];
     [super dealloc];
