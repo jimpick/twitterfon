@@ -2,9 +2,6 @@
 #import "DBConnection.h"
 #import "StringUtil.h"
 
-static sqlite3_stmt *insert_statement = nil;
-static sqlite3_stmt* user_by_id_statement = nil;
-
 @implementation User
 
 @synthesize userId;
@@ -100,29 +97,31 @@ static sqlite3_stmt* user_by_id_statement = nil;
 
 + (User*)userWithId:(int)id
 {
-    if (user_by_id_statement == nil) {
-        user_by_id_statement = [DBConnection prepate:"SELECT * FROM users WHERE user_id = ?"];
+    static Statement *stmt = nil;
+    if (stmt == nil) {
+        stmt = [DBConnection statementWithQuery:"SELECT * FROM users WHERE user_id = ?"];
+        [stmt retain];
     }
     
-    sqlite3_bind_int64(user_by_id_statement, 1, id);
-    int ret = sqlite3_step(user_by_id_statement);
+    [stmt bindInt64:id forIndex:1];
+    int ret = [stmt step];
     if (ret != SQLITE_ROW) {
-        sqlite3_reset(user_by_id_statement);
+        [stmt reset];
         return nil;
     }
     
     User *user = [[[User alloc] init] autorelease];
-    user.userId           = (uint32_t)sqlite3_column_int(user_by_id_statement, 0);
-    user.name             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(user_by_id_statement, 1)];
-    user.screenName       = [NSString stringWithUTF8String:(char*)sqlite3_column_text(user_by_id_statement, 2)];
-    user.location         = [NSString stringWithUTF8String:(char*)sqlite3_column_text(user_by_id_statement, 3)];
-    user.description      = [NSString stringWithUTF8String:(char*)sqlite3_column_text(user_by_id_statement, 4)];
-    user.url              = [NSString stringWithUTF8String:(char*)sqlite3_column_text(user_by_id_statement, 5)];
-    user.followersCount   = (uint32_t)sqlite3_column_int(user_by_id_statement, 6);
-    user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(user_by_id_statement, 7)];
-    user.protected        = (uint32_t)sqlite3_column_int(user_by_id_statement, 8) ? true : false;
+    user.userId           = [stmt getInt32:0];
+    user.name             = [stmt getString:1];
+    user.screenName       = [stmt getString:2];
+    user.location         = [stmt getString:3];
+    user.description      = [stmt getString:4];
+    user.url              = [stmt getString:5];
+    user.followersCount   = [stmt getInt32:6];
+    user.profileImageUrl  = [stmt getString:7];
+    user.protected        = [stmt getInt32:8] ? true : false;
 
-    sqlite3_reset(user_by_id_statement);
+    [stmt reset];
     return user;
 }
 
@@ -144,25 +143,25 @@ static sqlite3_stmt* user_by_id_statement = nil;
 
 - (void)updateDB
 {
-    if (insert_statement == nil) {
-        insert_statement = [DBConnection prepate:"REPLACE INTO users VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"];
+    static Statement *stmt = nil;
+    if (stmt == nil) {
+        stmt = [DBConnection statementWithQuery:"REPLACE INTO users VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"];
+        [stmt retain];
     }
-    sqlite3_bind_int(insert_statement,  1, userId);
-    sqlite3_bind_text(insert_statement, 2, [name UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement, 3, [screenName UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement, 4, [location UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement, 5, [description UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement, 6, [url UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(insert_statement,  7, followersCount);
-    sqlite3_bind_text(insert_statement, 8, [profileImageUrl UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(insert_statement,  9, protected);
+    [stmt bindInt32:userId              forIndex:1];
+    [stmt bindString:name               forIndex:2];
+    [stmt bindString:screenName         forIndex:3];
+    [stmt bindString:location           forIndex:4];
+    [stmt bindString:description        forIndex:5];
+    [stmt bindString:url                forIndex:6];
+    [stmt bindInt32:followersCount      forIndex:7];
+    [stmt bindString:profileImageUrl    forIndex:8];
+    [stmt bindInt32:protected           forIndex:9];
 
-    int success = sqlite3_step(insert_statement);
-    // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
-    sqlite3_reset(insert_statement);
-    if (success == SQLITE_ERROR) {
+    if ([stmt step] == SQLITE_ERROR) {
         [DBConnection assert];
     }
+    [stmt reset];
 }
 
 - (void)dealloc

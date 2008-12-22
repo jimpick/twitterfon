@@ -25,12 +25,11 @@
     self.editing = NO;
     
     queries = [[NSMutableArray alloc] init];
-    
-    sqlite3_stmt* statement = [DBConnection prepate:"SELECT query FROM queries ORDER BY UPPER(query)"];
-    while (sqlite3_step(statement) == SQLITE_ROW) {
-        [queries addObject:[NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 0)]];
+
+    Statement *stmt = [DBConnection statementWithQuery:"SELECT query FROM queries ORDER BY UPPER(query)"];
+    while ([stmt step] == SQLITE_ROW) {
+        [queries addObject:[stmt getString:0]];
     }
-    sqlite3_finalize(statement);
 }
 
 - (void)dealloc {
@@ -95,15 +94,12 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
-        sqlite3_stmt* statement = [DBConnection prepate:"DELETE FROM queries"];
-        
-        int success = sqlite3_step(statement);
-        if (success == SQLITE_ERROR) {
+        Statement *stmt = [DBConnection statementWithQuery:"DELETE FROM queries"];
+        if ([stmt step] == SQLITE_ERROR) {
             [DBConnection assert];
         }
         [queries removeAllObjects];
         [bookmarkView reloadData];
-        sqlite3_finalize(statement);
         self.editing = false;
         
         [[self parentViewController] dismissModalViewControllerAnimated:true];
@@ -132,18 +128,15 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-        sqlite3_stmt* statement = [DBConnection prepate:"DELETE FROM queries WHERE query = ?"];
+        Statement *stmt = [DBConnection statementWithQuery:"DELETE FROM queries WHERE query = ?"];
 
         NSString *query = [queries objectAtIndex:indexPath.row];
-        sqlite3_bind_text(statement, 1, [query UTF8String], -1, SQLITE_TRANSIENT);    
+        [stmt bindString:query forIndex:1];
 
-        int success = sqlite3_step(statement);
-        if (success == SQLITE_ERROR) {
+        if ([stmt step] == SQLITE_ERROR) {
             [DBConnection assert];
         }   
         [queries removeObject:query];
-        sqlite3_finalize(statement);
         
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     }

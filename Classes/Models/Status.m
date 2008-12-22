@@ -4,10 +4,6 @@
 #import "REString.h"
 #import "StringUtil.h"
 
-static sqlite3_stmt* insert_statement = nil;
-static sqlite3_stmt* select_statement = nil;
-static sqlite3_stmt* status_by_id     = nil;
-
 @interface Status (Private)
 - (void)insertDB;
 @end
@@ -235,23 +231,24 @@ int sTextWidth[] = {
 
 + (Status*)statusWithId:(sqlite_int64)aStatusId
 {
-    if (status_by_id == nil) {
-        status_by_id = [DBConnection prepate:"SELECT * FROM statuses,users WHERE statuses.user_id = users.user_id AND id = ?"];
+    static Statement *stmt = nil;
+    if (stmt == nil) {
+        stmt = [DBConnection statementWithQuery:"SELECT * FROM statuses,users WHERE statuses.user_id = users.user_id AND id = ?"];
+        [stmt retain];
     }
-    
-    sqlite3_bind_int64(status_by_id, 1, aStatusId);
-    int ret = sqlite3_step(status_by_id);
-    if (ret != SQLITE_ROW) {
-        sqlite3_reset(status_by_id);
+
+    [stmt bindInt64:aStatusId forIndex:1];
+    if ([stmt step] != SQLITE_ROW) {
+        [stmt reset];
         return nil;
     }
     
-    Status *s = [Status initWithDB:status_by_id type:TWEET_TYPE_FRIENDS];
-    sqlite3_reset(status_by_id);
+    Status *s = [Status initWithStatement:stmt type:TWEET_TYPE_FRIENDS];
+    [stmt reset];
     return s;
 }
 
-+ (Status*)initWithDB:(sqlite3_stmt*)statement type:(TweetType)type
++ (Status*)initWithStatement:(Statement*)stmt type:(TweetType)type
 {
     // sqlite3 statement should be:
     //  SELECT * FROM messsages,users
@@ -259,25 +256,25 @@ int sTextWidth[] = {
     Status *s               = [[[Status alloc] init] autorelease];
     s.user                  = [[User alloc] init];
     
-    s.statusId             = (sqlite_int64)sqlite3_column_int64(statement, 0);
-    s.text                  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
-    s.createdAt             = (time_t)sqlite3_column_int(statement, 4);
-    s.source                = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 5)];
-    s.favorited             = (BOOL)sqlite3_column_int(statement, 6);
-    s.truncated             = (BOOL)sqlite3_column_int64(statement, 7);
-    s.inReplyToStatusId     = (sqlite_int64)sqlite3_column_int64(statement, 8);
-    s.inReplyToUserId       = (uint32_t)sqlite3_column_int64(statement, 9);
-    s.inReplyToScreenName   = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 10)];
+    s.statusId              = [stmt getInt64:0];
+    s.text                  = [stmt getString:3];
+    s.createdAt             = [stmt getInt32:4];
+    s.source                = [stmt getString:5];
+    s.favorited             = [stmt getInt32:6];
+    s.truncated             = [stmt getInt32:7];
+    s.inReplyToStatusId     = [stmt getInt64:8];
+    s.inReplyToUserId       = [stmt getInt32:9];
+    s.inReplyToScreenName   = [stmt getString:10];
     
-    s.user.userId           = (uint32_t)sqlite3_column_int(statement, 11);
-    s.user.name             = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 12)];
-    s.user.screenName       = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 13)];
-    s.user.location         = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 14)];
-    s.user.description      = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 15)];
-    s.user.url              = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 16)];
-    s.user.followersCount   = (uint32_t)sqlite3_column_int(statement, 17);
-    s.user.profileImageUrl  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 18)];
-    s.user.protected        = (uint32_t)sqlite3_column_int(statement, 19) ? true : false;
+    s.user.userId           = [stmt getInt32:11];
+    s.user.name             = [stmt getString:12];
+    s.user.screenName       = [stmt getString:13];
+    s.user.location         = [stmt getString:14];
+    s.user.description      = [stmt getString:15];
+    s.user.url              = [stmt getString:16];
+    s.user.followersCount   = [stmt getInt32:17];
+    s.user.profileImageUrl  = [stmt getString:18];
+    s.user.protected        = [stmt getInt32:19];
     s.unread                = false;
     s.type                  = type;
 
@@ -289,45 +286,48 @@ int sTextWidth[] = {
 
 + (BOOL)isExists:(sqlite_int64)aStatusId type:(TweetType)aType
 {
-    if (select_statement== nil) {
-        select_statement = [DBConnection prepate:"SELECT id FROM statuses WHERE id=? and type=?"];
+    static Statement *stmt = nil;
+    if (stmt == nil) {
+        stmt = [DBConnection statementWithQuery:"SELECT id FROM statuses WHERE id=? and type=?"];
+        [stmt retain];
     }
     
-    sqlite3_bind_int64(select_statement, 1, aStatusId);
-    sqlite3_bind_int(select_statement, 2, aType);
-    BOOL result = (sqlite3_step(select_statement) == SQLITE_ROW) ? true : false;
-    sqlite3_reset(select_statement);
+    [stmt bindInt64:aStatusId forIndex:1];
+    [stmt bindInt32:aType forIndex:2];
+    
+    BOOL result = ([stmt step] == SQLITE_ROW) ? true : false;
+    [stmt reset];
     return result;
 }
 
 - (void)insertDB
 {
-    if (insert_statement == nil) {
-        insert_statement = [DBConnection prepate:"INSERT INTO statuses VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"];
+    static Statement *stmt = nil;
+    if (stmt == nil) {
+        stmt = [DBConnection statementWithQuery:"INSERT INTO statuses VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"];
+        [stmt retain];
     }
-    sqlite3_bind_int64(insert_statement, 1, statusId);
-    sqlite3_bind_int(insert_statement,   2, type);
-    sqlite3_bind_int(insert_statement,   3, user.userId);
+    [stmt bindInt64:statusId    forIndex:1];
+    [stmt bindInt32:type        forIndex:2];
+    [stmt bindInt32:user.userId forIndex:3];
     
-    sqlite3_bind_text(insert_statement,  4, [text UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(insert_statement,   5, createdAt);
-    sqlite3_bind_text(insert_statement,  6, [source UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(insert_statement,   7, favorited);
-    sqlite3_bind_int(insert_statement,   8, truncated);
-    sqlite3_bind_int64(insert_statement, 9, inReplyToStatusId);
-    sqlite3_bind_int(insert_statement,  10, inReplyToUserId);
-    sqlite3_bind_text(insert_statement, 11, [inReplyToScreenName UTF8String], -1, SQLITE_TRANSIENT);
+    [stmt bindString:text       forIndex:4];
+    [stmt bindInt32:createdAt   forIndex:5];
+    [stmt bindString:source     forIndex:6];
+    [stmt bindInt32:favorited   forIndex:7];
+    [stmt bindInt32:truncated   forIndex:8];
     
-    int success = sqlite3_step(insert_statement);
-    // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
-    sqlite3_reset(insert_statement);
-    if (success == SQLITE_ERROR) {
+    [stmt bindInt64:inReplyToStatusId    forIndex:9];
+    [stmt bindInt32:inReplyToUserId      forIndex:10];
+    [stmt bindString:inReplyToScreenName forIndex:11];
+    
+    if ([stmt step] == SQLITE_ERROR) {
         [DBConnection assert];
     }
-
-    // Update user and followee record
-    [user updateDB];
+    [stmt reset];
     
+    [user updateDB];
+
     if (type == TWEET_TYPE_FRIENDS) {
         [Followee insertDB:user];
     }
@@ -335,47 +335,26 @@ int sTextWidth[] = {
 
 - (void)insertDBIfFollowing
 {
-    sqlite3_stmt *stmt = [DBConnection prepate:"SELECT user_id FROM followees where user_id = ?"];
-    sqlite3_bind_int(stmt, 1, user.userId);
-    
-    int success = sqlite3_step(stmt);
-    sqlite3_finalize(stmt);
-    if (success == SQLITE_ROW) {
+    Statement *stmt = [DBConnection statementWithQuery:"SELECT user_id FROM followees where user_id = ?"];
+    [stmt bindInt32:user.userId forIndex:1];
+    if ([stmt step] == SQLITE_ROW) {
         [self insertDB];
     }
 }
 
 - (void)deleteFromDB
 {
-    sqlite3_stmt* stmt = [DBConnection prepate:"DELETE FROM statuses WHERE id = ?"];
-
-    sqlite3_bind_int64(stmt, 1, statusId);
-
-    sqlite3_step(stmt);
-    sqlite3_finalize(stmt);
-    
-    // ignore error
-#if 0    
-    if (success == SQLITE_ERROR) {
-        [DBConnection assert];
-    }    
-#endif
+    Statement *stmt = [DBConnection statementWithQuery:"DELETE FROM statuses WHERE id = ?"];
+    [stmt bindInt64:statusId forIndex:1];
+    [stmt step]; // ignore error
 }
 
 - (void)updateFavoriteState
 {
-    sqlite3_stmt* stmt = [DBConnection prepate:"UPDATE statuses SET favorited = ? WHERE id = ?"];
-    sqlite3_bind_int(stmt, 1, favorited);
-    sqlite3_bind_int64(stmt, 2, statusId);
-    
-    sqlite3_step(stmt);
-    sqlite3_finalize(stmt);
-    // ignore error
-#if 0
-    if (success == SQLITE_ERROR) {
-        [DBConnection assert];
-    }    
-#endif
+    Statement *stmt = [DBConnection statementWithQuery:"UPDATE statuses SET favorited = ? WHERE id = ?"];
+    [stmt bindInt32:favorited forIndex:1];
+    [stmt bindInt64:statusId forIndex:2];
+    [stmt step]; // ignore error
 }
 
 @end

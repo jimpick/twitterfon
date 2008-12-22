@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "User.h"
+#import "Statement.h"
 
 @interface Followee : ImageStoreReceiver {
 	uint32_t    userId;
@@ -25,6 +26,6 @@
 + (void)updateDB:(User*)user;
 + (void)deleteFromDB:(User*)user;
 
-+ (Followee*)initWithDB:(sqlite3_stmt*)statement;
++ (Followee*)initWithStatement:(Statement*)statement;
 
 @end

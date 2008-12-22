@@ -148,13 +148,9 @@
     //
     // Insert query to query history
     //
-    sqlite3_stmt *stmt = [DBConnection prepate:"REPLACE INTO queries VALUES (?)"];
-
-    sqlite3_bind_text(stmt, 1, [query UTF8String], -1, SQLITE_TRANSIENT);
-    int result = sqlite3_step(stmt);
-    sqlite3_finalize(stmt);
-    
-    if (result == SQLITE_ERROR) {
+    Statement *stmt = [DBConnection statementWithQuery:"REPLACE INTO queries VALUES (?)"];
+    [stmt bindString:query forIndex:1];
+    if ([stmt step] == SQLITE_ERROR) {
         [DBConnection assert];
     }
 }

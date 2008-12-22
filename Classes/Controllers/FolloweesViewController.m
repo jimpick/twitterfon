@@ -26,13 +26,13 @@
     numLetters = 0;
     inSearch = false;
     
-    sqlite3_stmt* statement = [DBConnection prepate:"SELECT * FROM followees ORDER BY UPPER(screen_name)"];
+    Statement *stmt = [DBConnection statementWithQuery:"SELECT * FROM followees ORDER BY UPPER(screen_name)"];
 
     NSString *prevLetter = nil;
     NSMutableArray *array = nil;
     
-    while (sqlite3_step(statement) == SQLITE_ROW) {
-        Followee *followee = [[Followee initWithDB:statement] autorelease];
+    while ([stmt step] == SQLITE_ROW) {
+        Followee *followee = [[Followee initWithStatement:stmt] autorelease];
         NSString *letter = [[followee.screenName substringToIndex:1] uppercaseString];
         if ([letter isEqualToString:prevLetter] == false) {
             [letters addObject:letter];
@@ -50,7 +50,6 @@
     if (array) {
         [index addObject:array];
     }
-    sqlite3_finalize(statement);
 }
 
 - (void)dealloc {
@@ -157,8 +156,6 @@
     friendsView.frame = CGRectMake(0, 44, 320, 436);
 }
 
-static sqlite3_stmt *search_statement = nil;
-
 - (void)searchBar:(UISearchBar *)aSearchBar textDidChange:(NSString *)query
 {
     [searchResult removeAllObjects];
@@ -167,18 +164,19 @@ static sqlite3_stmt *search_statement = nil;
     }
     else {
         inSearch = true;
-        if (search_statement == nil) {
-            search_statement = [DBConnection prepate:"SELECT * FROM followees WHERE name LIKE ? OR screen_name LIKE ? ORDER BY UPPER(screen_name)"];
+        static Statement *stmt = nil;
+        if (stmt == nil) {
+            stmt = [DBConnection statementWithQuery:"SELECT * FROM followees WHERE name LIKE ?1 OR screen_name LIKE ?1 ORDER BY UPPER(screen_name)"];
+            [stmt retain];
         }
+
+        [stmt bindString:[NSString stringWithFormat:@"%%%@%%", query] forIndex:1];
         
-        sqlite3_bind_text(search_statement, 1, [[NSString stringWithFormat:@"%%%@%%", query] UTF8String], -1, SQLITE_TRANSIENT);    
-        sqlite3_bind_text(search_statement, 2, [[NSString stringWithFormat:@"%%%@%%", query] UTF8String], -1, SQLITE_TRANSIENT);    
-        
-        while (sqlite3_step(search_statement) == SQLITE_ROW) {
-            Followee *followee = [[Followee initWithDB:search_statement] autorelease];
+        while ([stmt step] == SQLITE_ROW) {
+            Followee *followee = [[Followee initWithStatement:stmt] autorelease];
             [searchResult addObject:followee];
         }
-        sqlite3_reset(search_statement);
+        [stmt reset];
     }
     [friendsView reloadData];
 }

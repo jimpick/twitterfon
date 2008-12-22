@@ -278,9 +278,7 @@ NSInteger sortByDate(id a, id b, void *context)
     if ([ary count] == 0) return;
     
     // Retrieve DM from JSON object then insert them
-    sqlite3* database = [DBConnection getSharedDatabase];
-    char *errmsg; 
-    sqlite3_exec(database, "BEGIN", NULL, NULL, &errmsg); 
+    [DBConnection beginTransaction];
 
     for (int i = [ary count] - 1; i >= 0; --i) {
         NSDictionary *dic = (NSDictionary*)[ary objectAtIndex:i];
@@ -300,7 +298,7 @@ NSInteger sortByDate(id a, id b, void *context)
             ++unread;
         }
     }
-    sqlite3_exec(database, "COMMIT", NULL, NULL, &errmsg); 
+    [DBConnection commitTransaction];
     
     [timeline release];
     timeline = [[messages allValues] mutableCopy];
@@ -323,9 +321,7 @@ NSInteger sortByDate(id a, id b, void *context)
     if (ary == nil) return;
     
     // Retrieve DM from JSON object then insert them
-    sqlite3* database = [DBConnection getSharedDatabase];
-    char *errmsg; 
-    sqlite3_exec(database, "BEGIN", NULL, NULL, &errmsg); 
+    [DBConnection beginTransaction];
     
     for (int i = [ary count] - 1; i >= 0; --i) {
         NSDictionary *dic = (NSDictionary*)[ary objectAtIndex:i];
@@ -338,7 +334,7 @@ NSInteger sortByDate(id a, id b, void *context)
             [dm insertDB];
         }
     }
-    sqlite3_exec(database, "COMMIT", NULL, NULL, &errmsg); 
+    [DBConnection commitTransaction];
 }
 
 - (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail

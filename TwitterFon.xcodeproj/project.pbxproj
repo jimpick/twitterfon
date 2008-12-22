@@ -87,6 +87,7 @@
 		6E97AD680EF94B5000168291 /* DirectMessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E97AD670EF94B5000168291 /* DirectMessageCellView.m */; };
 		6E97AD750EF94CE800168291 /* DirectMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E97AD740EF94CE800168291 /* DirectMessageCell.m */; };
 		6EA0C19C0EBB1305000C0CD4 /* friends_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EA0C19B0EBB1305000C0CD4 /* friends_small.png */; };
+		6EA56C190EFF644C00A7902A /* Statement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA56C180EFF644C00A7902A /* Statement.m */; };
 		6EADBC090EBD8F8E00093782 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADBC080EBD8F8E00093782 /* PostViewController.m */; };
 		6EADC0A20EBDC48D00093782 /* FolloweeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC09F0EBDC48D00093782 /* FolloweeCell.m */; };
 		6EADC0A30EBDC48D00093782 /* FolloweesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EADC0A10EBDC48D00093782 /* FolloweesViewController.m */; };
@@ -248,6 +249,8 @@
 		6E97AD730EF94CE800168291 /* DirectMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DirectMessageCell.h; path = Controllers/DirectMessageCell.h; sourceTree = "<group>"; };
 		6E97AD740EF94CE800168291 /* DirectMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DirectMessageCell.m; path = Controllers/DirectMessageCell.m; sourceTree = "<group>"; };
 		6EA0C19B0EBB1305000C0CD4 /* friends_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends_small.png; sourceTree = "<group>"; };
+		6EA56C170EFF644C00A7902A /* Statement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Statement.h; sourceTree = "<group>"; };
+		6EA56C180EFF644C00A7902A /* Statement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Statement.m; sourceTree = "<group>"; };
 		6EADBC070EBD8F8E00093782 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostViewController.h; path = Controllers/PostViewController.h; sourceTree = "<group>"; };
 		6EADBC080EBD8F8E00093782 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostViewController.m; path = Controllers/PostViewController.m; sourceTree = "<group>"; };
 		6EADC09E0EBDC48D00093782 /* FolloweeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FolloweeCell.h; path = Controllers/FolloweeCell.h; sourceTree = "<group>"; };
@@ -646,6 +649,17 @@
 			name = Conversation;
 			sourceTree = "<group>";
 		};
+		6EA56C330EFF66F400A7902A /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				6EC53C380EF805FE009BCC92 /* DBConnection.h */,
+				6EC53C390EF805FE009BCC92 /* DBConnection.m */,
+				6EA56C170EFF644C00A7902A /* Statement.h */,
+				6EA56C180EFF644C00A7902A /* Statement.m */,
+			);
+			name = DB;
+			sourceTree = "<group>";
+		};
 		6EAE759B0EF3870700BF6CD4 /* Links */ = {
 			isa = PBXGroup;
 			children = (
@@ -704,8 +718,7 @@
 		6EC53C370EF805FE009BCC92 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				6EC53C380EF805FE009BCC92 /* DBConnection.h */,
-				6EC53C390EF805FE009BCC92 /* DBConnection.m */,
+				6EA56C330EFF66F400A7902A /* DB */,
 				6EC53C3A0EF805FE009BCC92 /* Followee.h */,
 				6EC53C3B0EF805FE009BCC92 /* Followee.m */,
 				6EC53C400EF805FE009BCC92 /* User.h */,
@@ -999,6 +1012,7 @@
 				6E97ABE40EF920FE00168291 /* ChatBubbleView.m in Sources */,
 				6E97AD680EF94B5000168291 /* DirectMessageCellView.m in Sources */,
 				6E97AD750EF94CE800168291 /* DirectMessageCell.m in Sources */,
+				6EA56C190EFF644C00A7902A /* Statement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

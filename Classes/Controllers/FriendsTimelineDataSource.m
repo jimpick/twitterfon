@@ -195,10 +195,7 @@
     
     Status* lastStatus = [timeline lastStatus];
     if ([ary count]) {
-        sqlite3* database = [DBConnection getSharedDatabase];
-        char *errmsg; 
-        sqlite3_exec(database, "BEGIN", NULL, NULL, &errmsg); 
-        
+        [DBConnection beginTransaction];
         // Add messages to the timeline
         for (int i = [ary count] - 1; i >= 0; --i) {
             NSDictionary *dic = (NSDictionary*)[ary objectAtIndex:i];
@@ -219,8 +216,7 @@
                 ++unread;
             }
         }
-        
-        sqlite3_exec(database, "COMMIT", NULL, NULL, &errmsg); 
+        [DBConnection commitTransaction];
     }
 
     if ([controller respondsToSelector:@selector(timelineDidUpdate:count:insertAt:)]) {

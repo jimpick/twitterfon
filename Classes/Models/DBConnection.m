@@ -1,4 +1,5 @@
 #import "DBConnection.h"
+#import "Statement.h"
 
 static sqlite3*             theDatabase = nil;
 
@@ -179,12 +180,21 @@ const char *optimize_sql =
     }
 }
 
-+ (sqlite3_stmt*)prepate:(const char*)sql
++ (void)beginTransaction
 {
-    sqlite3_stmt* stmt;
-    if (sqlite3_prepare_v2(theDatabase, sql, -1, &stmt, NULL) != SQLITE_OK) {
-        NSAssert2(0, @"Failed to prepare statement '%s' (%s)", sql, sqlite3_errmsg(theDatabase));
-    }
+    char *errmsg;     
+    sqlite3_exec(theDatabase, "BEGIN", NULL, NULL, &errmsg);     
+}
+
++ (void)commitTransaction
+{
+    char *errmsg;     
+    sqlite3_exec(theDatabase, "COMMIT", NULL, NULL, &errmsg);     
+}
+
++ (Statement*)statementWithQuery:(const char *)sql
+{
+    Statement* stmt = [Statement statementWithDB:theDatabase query:sql];
     return stmt;
 }
 

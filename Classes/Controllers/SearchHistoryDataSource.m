@@ -9,8 +9,6 @@
 #import "DBConnection.h"
 #import "SearchHistoryDataSource.h"
 
-static sqlite3_stmt *select_statement = nil;
-
 @interface NSObject (TrendsDataSourceDelegate)
 - (void)search:(NSString*)query;
 @end
@@ -37,17 +35,18 @@ static sqlite3_stmt *select_statement = nil;
     [queries removeAllObjects];
     
     if ([query length] == 0) return 0;
-    
-    if (select_statement == nil) {
-        select_statement = [DBConnection prepate:"SELECT query FROM queries WHERE query LIKE ? ORDER BY UPPER(query)"];
-    }
-    
-    sqlite3_bind_text(select_statement, 1, [[NSString stringWithFormat:@"%%%@%%", query] UTF8String], -1, SQLITE_TRANSIENT);    
 
-    while (sqlite3_step(select_statement) == SQLITE_ROW) {
-        [queries addObject:[NSString stringWithUTF8String:(char*)sqlite3_column_text(select_statement, 0)]];
+    static Statement* stmt = nil;
+    if (stmt == nil) {
+        stmt = [DBConnection statementWithQuery:"SELECT query FROM queries WHERE query LIKE ? ORDER BY UPPER(query)"];
+        [stmt retain];
     }
-    sqlite3_reset(select_statement);
+    [stmt bindString:[NSString stringWithFormat:@"%%%@%%", query] forIndex:1];
+
+    while ([stmt step] == SQLITE_ROW) {
+        [queries addObject:[stmt getString:0]];
+    }
+    [stmt reset];
     return [queries count];
 }
 

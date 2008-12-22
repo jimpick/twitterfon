@@ -5,10 +5,6 @@
 UIImage *sProfileImage = nil;
 UIImage *sProfileImageSmall = nil;
 
-//sqlite3 statements
-static sqlite3_stmt *insert_statement = nil;
-static sqlite3_stmt *select_statement = nil;
-
 @interface ProfileImage (Private)
 - (void)requestImage;
 + (UIImage*)defaultProfileImage:(BOOL)bigger;
@@ -28,16 +24,17 @@ static sqlite3_stmt *select_statement = nil;
 	self = [super init];
     url  = [aUrl copy];
 
-    if (select_statement == nil) {
-        select_statement = [DBConnection prepate:"SELECT image FROM images WHERE url=?"];
+    static Statement *stmt = nil;
+    if (stmt == nil) {
+        stmt = [DBConnection statementWithQuery:"SELECT image FROM images WHERE url=?"];
+        [stmt retain];
     }
 
     // Note that the parameters are numbered from 1, not from 0.
-    sqlite3_bind_text(select_statement, 1, [url UTF8String], -1, SQLITE_TRANSIENT);    
-    if (sqlite3_step(select_statement) == SQLITE_ROW) {
+    [stmt bindString:url forIndex:1];
+    if ([stmt step] == SQLITE_ROW) {
         // Restore image from Database
-        int length = sqlite3_column_bytes(select_statement, 0);
-        NSData *data = [NSData dataWithBytes:sqlite3_column_blob(select_statement, 0) length:length];
+        NSData *data = [stmt getData:0];
         image = [[UIImage imageWithData:data] retain];
         [self resizeImage];
         [self convertImage];
@@ -47,7 +44,7 @@ static sqlite3_stmt *select_statement = nil;
         isLoading = true;
         [self requestImage];
     }
-    sqlite3_reset(select_statement);
+    [stmt reset];
 
 	return self;
 }
@@ -62,19 +59,18 @@ static sqlite3_stmt *select_statement = nil;
 
 - (void)insertImage:(NSData*)buf
 {
-    
-    if (insert_statement == nil) {
-        insert_statement = [DBConnection prepate:"REPLACE INTO images VALUES(?, ?, DATETIME('now'))"];
+    static Statement* stmt = nil;
+    if (stmt == nil) {
+        stmt = [DBConnection statementWithQuery:"REPLACE INTO images VALUES(?, ?, DATETIME('now'))"];
+        [stmt retain];
     }
-    sqlite3_bind_text(insert_statement, 1, [url UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_blob(insert_statement, 2, buf.bytes, buf.length, SQLITE_TRANSIENT);
+    [stmt bindString:url forIndex:1];
+    [stmt bindData:buf forIndex:2];
 
-    int success = sqlite3_step(insert_statement);
-    sqlite3_reset(insert_statement);
-    
-    if (success != SQLITE_DONE) {
+    if ([stmt step] != SQLITE_DONE) {
         [DBConnection assert];
     }
+    [stmt reset];
 }
 
 - (void)requestImage

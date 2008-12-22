@@ -5,11 +5,6 @@
 #import "StringUtil.h"
 #import "Status.h"
 
-static sqlite3_stmt* insert_statement = nil;
-static sqlite3_stmt* select_statement = nil;
-static sqlite3_stmt* restore_statement = nil;
-static sqlite3_stmt* conversation_statement = nil;
-
 @interface DirectMessage(Private)
 - (void)insertDB;
 @end
@@ -130,7 +125,7 @@ static sqlite3_stmt* conversation_statement = nil;
     textRect = [label textRectForBounds:bounds limitedToNumberOfLines:10];
 }
 
-+ (DirectMessage*)initWithDB:(sqlite3_stmt*)statement
++ (DirectMessage*)initWithStatement:(Statement*)stmt
 {
     // sqlite3 statement should be:
     //  SELECT id, text, created_at FROM messsages WHERE sender_id = ?
@@ -139,14 +134,14 @@ static sqlite3_stmt* conversation_statement = nil;
     dm.sender               = nil;
     dm.recipient            = nil;
     
-    dm.messageId            = (sqlite_int64)sqlite3_column_int64(statement, 0);
-    dm.senderId             = (int)sqlite3_column_int(statement, 1);
-    dm.recipientId          = (int)sqlite3_column_int(statement, 2);
-    dm.text                 = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
-    dm.createdAt            = (time_t)sqlite3_column_int(statement, 4);
-    dm.senderScreenName     = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 5)];
-    dm.recipientScreenName  = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 6)];
-    dm.senderProfileImageUrl= [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 7)];    
+    dm.messageId            = [stmt getInt64:0];
+    dm.senderId             = [stmt getInt32:1];
+    dm.recipientId          = [stmt getInt32:2];
+    dm.text                 = [stmt getString:3];
+    dm.createdAt            = [stmt getInt32:4];
+    dm.senderScreenName     = [stmt getString:5];
+    dm.recipientScreenName  = [stmt getString:6];
+    dm.senderProfileImageUrl= [stmt getString:7];
     [dm updateAttribute];
     
     return dm;
@@ -154,47 +149,42 @@ static sqlite3_stmt* conversation_statement = nil;
 
 + (int)restore:(NSMutableArray*)array all:(BOOL)all
 {
-    if (restore_statement == nil) {
-        const char *sql = "SELECT direct_messages.*, users.profile_image_url FROM direct_messages,users \
-                           WHERE direct_messages.sender_id = users.user_id GROUP BY sender_id ORDER by id DESC LIMIT ?";
-        restore_statement = [DBConnection prepate:sql];
-    }
-    
-    sqlite3_bind_int(restore_statement, 1, all ? 1000 : 20);
+    const char *sql = "SELECT direct_messages.*, users.profile_image_url FROM direct_messages,users \
+                       WHERE direct_messages.sender_id = users.user_id GROUP BY sender_id ORDER by id DESC LIMIT ?";
+
+    Statement *stmt = [DBConnection statementWithQuery:sql];
+    [stmt bindInt32:all ? 200 : 20 forIndex:1];
    
     NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    
     int count = 0;
-    while (sqlite3_step(restore_statement) == SQLITE_ROW) {
-        DirectMessage *dm = [DirectMessage initWithDB:restore_statement];
+    
+    while ([stmt step] == SQLITE_ROW) {
+        DirectMessage *dm = [DirectMessage initWithStatement:stmt];
         if ([username caseInsensitiveCompare:dm.senderScreenName] != NSOrderedSame) {
 
             [array addObject:dm];
             ++count;
         }
     }
-    sqlite3_reset(restore_statement);
 
     return count;
 }
 
 + (int)getConversation:(int)senderId messages:(NSMutableArray*)messages all:(BOOL)all
 {
-    if (conversation_statement == nil) {
-        static char *sql = "SELECT direct_messages.*, users.profile_image_url FROM direct_messages,users \
-                            WHERE direct_messages.sender_id = users.user_id AND (sender_id = ? OR recipient_id = ?) ORDER BY id LIMIT ? OFFSET ?";
-        conversation_statement = [DBConnection prepate:sql];
-    }
-    
-    sqlite3_bind_int(conversation_statement, 1, senderId);
-    sqlite3_bind_int(conversation_statement, 2, senderId);
-    sqlite3_bind_int(conversation_statement, 3, all ? 10000 : 40);
-    sqlite3_bind_int(conversation_statement, 4, [messages count]);
+    static char *sql = "SELECT direct_messages.*, users.profile_image_url FROM direct_messages,users \
+                        WHERE direct_messages.sender_id = users.user_id AND (sender_id = ? OR recipient_id = ?) ORDER BY id LIMIT ? OFFSET ?";
+    Statement *stmt = [DBConnection statementWithQuery:sql];
+
+    [stmt bindInt32:senderId         forIndex:1];
+    [stmt bindInt32:senderId         forIndex:2];
+    [stmt bindInt32:all ? 200 : 40   forIndex:3];
+    [stmt bindInt32:[messages count] forIndex:4];
 
     int count = 0;
     time_t prev = 0;
-    while (sqlite3_step(conversation_statement) == SQLITE_ROW) {
-        DirectMessage *dm = [DirectMessage initWithDB:conversation_statement];
+    while ([stmt step] == SQLITE_ROW) {
+        DirectMessage *dm = [DirectMessage initWithStatement:stmt];
         dm.cellType = TWEET_CELL_TYPE_NORMAL;
         int diff = dm.createdAt - prev;
         if (diff > TIMESTAMP_DIFF) {
@@ -207,43 +197,45 @@ static sqlite3_stmt* conversation_statement = nil;
         prev = dm.createdAt;
         ++count;
     }
-    sqlite3_reset(conversation_statement);
     return count;
 }
 
 + (BOOL)isExists:(sqlite_int64)anId
 {
-    if (select_statement== nil) {
-        select_statement = [DBConnection prepate:"SELECT id FROM direct_messages WHERE id=?"];
+    Statement *stmt = nil;
+    if (stmt == nil) {
+        stmt = [DBConnection statementWithQuery:"SELECT id FROM direct_messages WHERE id=?"];
+        [stmt retain];
     }
-    
-    sqlite3_bind_int64(select_statement, 1, anId);
-    BOOL result = (sqlite3_step(select_statement) == SQLITE_ROW) ? true : false;
-    sqlite3_reset(select_statement);
+
+    [stmt bindInt64:anId forIndex:1];
+    BOOL result = ([stmt step] == SQLITE_ROW) ? true : false;
+    [stmt reset];
     return result;
 }
 
 - (void)insertDB
 {
-    if (insert_statement == nil) {
-        insert_statement = [DBConnection prepate:"INSERT INTO direct_messages VALUES(?, ?, ?, ?, ?, ?, ?)"];
+    Statement *stmt = nil;
+    if (stmt == nil) {
+        stmt = [DBConnection statementWithQuery:"INSERT INTO direct_messages VALUES(?, ?, ?, ?, ?, ?, ?)"];
+        [stmt retain];
     }
-    sqlite3_bind_int64(insert_statement, 1, messageId);
-    sqlite3_bind_int(insert_statement,   2, sender.userId);
-    sqlite3_bind_int(insert_statement,   3, recipient.userId);
     
-    sqlite3_bind_text(insert_statement,  4, [text UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(insert_statement,   5, createdAt);
-    sqlite3_bind_text(insert_statement,  6, [sender.screenName UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement,  7, [recipient.screenName UTF8String], -1, SQLITE_TRANSIENT);
+    [stmt bindInt64:messageId           forIndex:1];
+    [stmt bindInt32:sender.userId       forIndex:2];
+    [stmt bindInt32:recipient.userId    forIndex:3];
     
-    int success = sqlite3_step(insert_statement);
-    // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
-    sqlite3_reset(insert_statement);
-    if (success == SQLITE_ERROR) {
+    [stmt bindString:text               forIndex:4];
+    [stmt bindInt32:createdAt           forIndex:5];
+    [stmt bindString:sender.screenName  forIndex:6];
+    [stmt bindString:recipient.screenName forIndex:7];
+    
+    if ([stmt step] == SQLITE_ERROR) {
         [DBConnection assert];
     }
-
+    [stmt reset];
+    
     // Update user and followee record
     [sender updateDB];
     [recipient updateDB];
@@ -254,19 +246,9 @@ static sqlite3_stmt* conversation_statement = nil;
 
 - (void)deleteFromDB
 {
-    sqlite3_stmt* stmt = [DBConnection prepate:"DELETE FROM direct_messages WHERE id = ?"];
-
-    sqlite3_bind_int64(stmt, 1, messageId);
-
-    sqlite3_step(stmt);
-    sqlite3_finalize(stmt);
-    
-    // ignore error
-#if 0    
-    if (success == SQLITE_ERROR) {
-        [DBConnection assert];
-    }    
-#endif
+    Statement* stmt = [DBConnection statementWithQuery:"DELETE FROM direct_messages WHERE id = ?"];
+    [stmt bindInt64:messageId forIndex:1];
+    [stmt step];    // ignore error
 }
 
 @end

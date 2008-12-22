@@ -3,6 +3,8 @@
 #import "User.h"
 #import "Tweet.h"
 
+@class Statement;
+
 #define IMAGE_PADDING       10
 #define H_MARGIN            10
 #define INDICATOR_WIDTH     (30 - H_MARGIN)
@@ -51,7 +53,7 @@
 + (Status*)statusWithId:(sqlite_int64)statusId;
 + (Status*)statusWithJsonDictionary:(NSDictionary*)dic type:(TweetType)type;
 + (Status*)statusWithSearchResult:(NSDictionary*)dic;
-+ (Status*)initWithDB:(sqlite3_stmt*)statement type:(TweetType)type;
++ (Status*)initWithStatement:(Statement*)statement type:(TweetType)type;
 + (BOOL)isExists:(sqlite_int64)statusId type:(TweetType)aType;
 
 - (Status*)initWithJsonDictionary:(NSDictionary*)dic type:(TweetType)type;

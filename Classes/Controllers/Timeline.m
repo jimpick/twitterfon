@@ -5,8 +5,6 @@
 #import "TimeUtils.h"
 #import "DBConnection.h"
 
-static sqlite3_stmt *select_statement = nil;
-
 @implementation Timeline
 
 #define MAX_ROW_COUNT   200
@@ -126,21 +124,24 @@ static sqlite3_stmt *select_statement = nil;
 
 - (int)restore:(TweetType)aType all:(BOOL)all
 {
-    if (select_statement == nil) {
+    static Statement *stmt = nil;
+    if (stmt == nil) {
         static char *sql = "SELECT * FROM statuses,users WHERE statuses.user_id = users.user_id AND statuses.type = ? ORDER BY id DESC LIMIT ? OFFSET ?";
-        select_statement = [DBConnection prepate:sql];
+        stmt = [DBConnection statementWithQuery:sql];
+        [stmt retain];
     }
+    
+    [stmt bindInt32:aType            forIndex:1];
+    [stmt bindInt32:(all) ? 200 : 20 forIndex:2];
+    [stmt bindInt32:[statuses count] forIndex:3];
 
-    sqlite3_bind_int(select_statement, 1, aType);
-    sqlite3_bind_int(select_statement, 2, all ? 200 : 20);
-    sqlite3_bind_int(select_statement, 3, [statuses count]);
     int count = 0;
-    while (sqlite3_step(select_statement) == SQLITE_ROW) {
-        Status* sts = [Status initWithDB:select_statement type:aType];
+    while ([stmt step] == SQLITE_ROW) {
+        Status* sts = [Status initWithStatement:stmt type:aType];
         [statuses addObject:sts];
         ++count;
     }
-    sqlite3_reset(select_statement);
+    [stmt reset];
     return count;
 }
 
