@@ -47,8 +47,7 @@
 
 - (void)getPendingImage:(NSString*)previousURL
 {
-    [delegates removeObjectForKey:previousURL];
-    [pendingRequests removeObject:previousURL];
+    [self removeFromQueue:previousURL];
     
     if ([pendingRequests count] > 0) {
         NSString *url = [pendingRequests lastObject];
@@ -60,6 +59,12 @@
         [delegates removeObjectForKey:url];        
         [pendingRequests removeLastObject];
     }
+}
+
+- (void)removeFromQueue:(NSString*)url
+{
+    [delegates removeObjectForKey:url];
+    [pendingRequests removeObject:url];    
 }
 
 - (void)requestImage:(NSString*)url delegate:(id)delegate
@@ -94,7 +99,7 @@
     NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
     for (id key in images) {
 	ProfileImage* image = [images objectForKey:key];        
-        if (image.image.retainCount == 1) {
+        if (image.image.retainCount == 1 && image.isLoading == false) {
             LOG(@"Release image %@", image.image);
             [array addObject:key];
         }

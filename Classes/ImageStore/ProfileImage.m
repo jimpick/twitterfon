@@ -207,6 +207,8 @@ static UIImage *sProfileImageSmall = nil;
     if (delegates) {
         [delegates release];
     }
+    ImageStore *store = [TwitterFonAppDelegate getAppDelegate].imageStore;
+    [store removeFromQueue:url];
     [url release];
     [image release];
 	[super dealloc];

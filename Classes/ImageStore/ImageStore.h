@@ -13,6 +13,7 @@
 - (ProfileImage*)getProfileImage:(NSString*)url isLarge:(BOOL)flag delegate:(id)delegate;
 
 - (void)requestImage:(NSString*)url delegate:(id)delegate;
+- (void)removeFromQueue:(NSString*)url;
 
 - (void)releaseImage:(NSString*)url;
 - (void)didReceiveMemoryWarning;
