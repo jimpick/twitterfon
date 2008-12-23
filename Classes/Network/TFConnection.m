@@ -16,6 +16,7 @@
 
 @synthesize buf;
 @synthesize statusCode;
+@synthesize requestURL;
 
 NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
 
@@ -30,6 +31,7 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
 
 - (void)dealloc
 {
+    [requestURL release];
 	[connection release];
 	[buf release];
 	[super dealloc];
@@ -53,6 +55,8 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
 	[buf release];
     statusCode = 0;
     
+    self.requestURL = aURL;
+    
     NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
     [URL autorelease];
     LOG(@"%@", URL);
@@ -73,6 +77,8 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
     [connection release];
 	[buf release];
     statusCode = 0;
+    
+    self.requestURL = aURL;
     
     NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
     LOG(@"%@", URL);    
@@ -103,7 +109,9 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
     [connection release];
 	[buf release];
     statusCode = 0;
-    
+
+    self.requestURL = aURL;
+
     NSString *URL = (NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)aURL, (CFStringRef)@"%", NULL, kCFStringEncodingUTF8);
     [URL autorelease];
 	NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]

@@ -11,6 +11,7 @@ extern NSString *TWITTERFON_FORM_BOUNDARY;
 @interface TFConnection : NSObject
 {
 	id                  delegate;
+    NSString*           requestURL;
 	NSURLConnection*    connection;
     NSHTTPURLResponse*  response;
 	NSMutableData*      buf;
@@ -20,6 +21,7 @@ extern NSString *TWITTERFON_FORM_BOUNDARY;
 
 @property (nonatomic, readonly) NSMutableData* buf;
 @property (nonatomic, assign) int statusCode;
+@property (nonatomic, copy) NSString* requestURL;
 
 - (id)initWithDelegate:(id)delegate;
 - (void)get:(NSString*)URL;

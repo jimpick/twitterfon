@@ -5,8 +5,9 @@
 - (void)imageDownloaderDidFail:(ImageDownloader*)sender error:(NSError*)error;
 @end
 
-
 @implementation ImageDownloader
+
+@synthesize originalDelegate;
 
 - (void)dealloc
 {

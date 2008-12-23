@@ -1,11 +1,12 @@
 #import "ProfileImage.h"
 #import "ImageDownloader.h"
+#import "TwitterFonAppDelegate.h"
 #import "DBConnection.h"
 
 //#define IMAGE_STORE_TEST
 
-UIImage *sProfileImage = nil;
-UIImage *sProfileImageSmall = nil;
+static UIImage *sProfileImage = nil;
+static UIImage *sProfileImageSmall = nil;
 
 @interface ProfileImage (Private)
 - (void)requestImage;
@@ -55,6 +56,12 @@ UIImage *sProfileImageSmall = nil;
 	return self;
 }
 
+- (void)requestImage
+{
+    ImageStore *store = [TwitterFonAppDelegate getAppDelegate].imageStore;
+    [store requestImage:url delegate:self];
+}
+
 - (void)addDelegate:(id)delegate
 {
     if (delegates == nil) {
@@ -90,12 +97,6 @@ UIImage *sProfileImageSmall = nil;
         [DBConnection assert];
     }
     [stmt reset];
-}
-
-- (void)requestImage
-{
-    ImageDownloader* dl = [[ImageDownloader alloc] initWithDelegate:self];
-    [dl get:url];
 }
 
 - (BOOL)resizeImage
@@ -167,6 +168,7 @@ UIImage *sProfileImageSmall = nil;
 
 - (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
 {
+    
     isLoading = false;
 	image = [[UIImage imageWithData:sender.buf] retain];
 
