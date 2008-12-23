@@ -11,7 +11,7 @@
 #import "ImageStoreReceiver.h"
 
 @interface ProfileImageCell : UITableViewCell {
-    ProfileImage*           _profileImage;
+    NSString*               _profileImageUrl;
     ImageStoreReceiver*     _receiver;
 }
 

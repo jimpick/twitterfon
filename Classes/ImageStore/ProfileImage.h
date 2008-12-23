@@ -1,21 +1,22 @@
 #import <UIKit/UIKit.h>
-#import <sqlite3.h>
 #import "User.h"
+#import "ImageDownloader.h"
+
+@class ImageStore;
 
 @interface ProfileImage : NSObject
 {
-  	NSMutableArray*     delegates;
 	UIImage*            image;
-    sqlite3*            database;
     NSString*           url;
-    BOOL                isLoading;
+    ImageStore*         store;
+    ImageDownloader*    downloader;
 }
 
 @property(nonatomic, readonly) UIImage* image;
-@property(nonatomic, readonly) BOOL isLoading; 
+@property(nonatomic, copy) NSString* url;
+@property(nonatomic, assign) ImageDownloader* downloader;
 
-- (ProfileImage*)initWithURL:(NSString*)url;
-- (void)addDelegate:(id)delegate;
-- (void)removeDelegate:(id)delegate;
+- (ProfileImage*)initWithURL:(NSString*)url imageStore:(ImageStore*)store;
+- (void)requestImage;
 
 @end

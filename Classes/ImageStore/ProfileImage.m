@@ -3,29 +3,23 @@
 #import "TwitterFonAppDelegate.h"
 #import "DBConnection.h"
 
-//#define IMAGE_STORE_TEST
-
-static UIImage *sProfileImage = nil;
-static UIImage *sProfileImageSmall = nil;
-
 @interface ProfileImage (Private)
-- (void)requestImage;
-+ (UIImage*)defaultProfileImage:(BOOL)bigger;
-@end
-
-@interface ProfileImage (ProfileImagePrivate)
 - (BOOL)resizeImage;
 - (void)convertImage;
 @end
+
 @implementation ProfileImage
 
 @synthesize image;
-@synthesize isLoading;
+@synthesize url;
+@synthesize downloader;
 
-- (ProfileImage*)initWithURL:(NSString*)aUrl
+- (ProfileImage*)initWithURL:(NSString*)aUrl imageStore:(ImageStore*)aStore
 {
-	self = [super init];
-    url  = [aUrl copy];
+	self  = [super init];
+    url   = [aUrl copy];
+    store = aStore;
+    image = nil;
 
     static Statement *stmt = nil;
     if (stmt == nil) {
@@ -41,15 +35,6 @@ static UIImage *sProfileImageSmall = nil;
         image = [[UIImage imageWithData:data] retain];
         [self resizeImage];
         [self convertImage];
-    } else {
-        NSRange r = [url rangeOfString:@"_bigger."];
-        image = [ProfileImage defaultProfileImage:(r.location != NSNotFound) ? true : false];
-        isLoading = true;
-#ifdef IMAGE_STORE_TEST        
-        [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(requestImage) userInfo:nil repeats:false];
-#else
-        [self requestImage];
-#endif
     }
     [stmt reset];
 
@@ -58,33 +43,13 @@ static UIImage *sProfileImageSmall = nil;
 
 - (void)requestImage
 {
-    ImageStore *store = [TwitterFonAppDelegate getAppDelegate].imageStore;
-    [store requestImage:url delegate:self];
-}
-
-- (void)addDelegate:(id)delegate
-{
-    if (delegates == nil) {
-        delegates = [[NSMutableArray array] retain];
-    }
-    // Avoid to add duplicate delegate
-    [delegates removeObject:delegate];
-    [delegates addObject:delegate];
-}
-
-- (void)removeDelegate:(id)delegate
-{
-    if (delegates == nil) {
-        return;
-    }    
-    [delegates removeObject:delegate];
+    [self retain];
+    downloader = [[ImageDownloader alloc] initWithDelegate:self];
+    [downloader get:url];
 }
 
 - (void)insertImage:(NSData*)buf
-{
-#ifdef IMAGE_STORE_TEST
-    return;
-#endif    
+{ 
     static Statement* stmt = nil;
     if (stmt == nil) {
         stmt = [DBConnection statementWithQuery:"REPLACE INTO images VALUES(?, ?, DATETIME('now'))"];
@@ -168,66 +133,31 @@ static UIImage *sProfileImageSmall = nil;
 
 - (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
 {
-    
-    isLoading = false;
 	image = [[UIImage imageWithData:sender.buf] retain];
 
-    if (!image) {
-        [delegates release];
-        delegates = nil;
-        return;
+    if (image) {
+        if ([self resizeImage] == false)  {
+            // Insert to DB
+            [self insertImage:sender.buf];
+        }
+        [self convertImage];
     }
 
-    if ([self resizeImage] == false)  {
-        // Insert to DB
-        [self insertImage:sender.buf];
-    }
-    [self convertImage];
-    
-    // Delegate to update images
-    for (int i = 0; i < [delegates count]; ++i) {
-        id delegate = [delegates objectAtIndex:i];
-        if ([delegate respondsToSelector:@selector(profileImageDidGetNewImage:)]) {
-            [delegate performSelector:@selector(profileImageDidGetNewImage:) withObject:image];
-        }
-    }
-    [delegates release];
-    delegates = nil;
+    [store getPendingImage:self];
 }
 
 - (void)imageDownloaderDidFail:(ImageDownloader*)sender error:(NSError*)error
 {
-    isLoading = false;
-    [delegates release];
-    delegates = nil;
+    [store getPendingImage:self];
 }
 
 - (void)dealloc
 {
-    if (delegates) {
-        [delegates release];
-    }
-    ImageStore *store = [TwitterFonAppDelegate getAppDelegate].imageStore;
-    [store removeFromQueue:url];
+    [downloader cancel];
+    [downloader release];
     [url release];
     [image release];
 	[super dealloc];
 }
 
-
-+(UIImage*)defaultProfileImage:(BOOL)bigger
-{
-    if (bigger) {
-        if (sProfileImage == nil) {
-            sProfileImage = [[UIImage imageNamed:@"profileImage.png"] retain];
-        }
-        return sProfileImage;
-    }
-    else {
-        if (sProfileImageSmall == nil) {
-            sProfileImageSmall = [[UIImage imageNamed:@"profileImageSmall.png"] retain];
-        }
-        return sProfileImageSmall;
-    }
-}
 @end

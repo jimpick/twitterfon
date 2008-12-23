@@ -5,15 +5,16 @@
 @interface ImageStore : NSObject
 {
 	NSMutableDictionary*    images;
-    
-    NSMutableArray*         pendingRequests;
-    NSMutableDictionary*    delegates;    
+    NSMutableDictionary*    delegates;
+	NSMutableDictionary*    pending;
 }
 
-- (ProfileImage*)getProfileImage:(NSString*)url isLarge:(BOOL)flag delegate:(id)delegate;
+- (UIImage*)getProfileImage:(NSString*)url isLarge:(BOOL)flag delegate:(id)delegate;
 
-- (void)requestImage:(NSString*)url delegate:(id)delegate;
-- (void)removeFromQueue:(NSString*)url;
+- (void)getPendingImage:(ProfileImage*)profileImage;
+- (void)removeFromQueue:(ProfileImage*)profileImage;
+
+- (void)removeDelegate:(id)delegate forURL:(NSString*)key;
 
 - (void)releaseImage:(NSString*)url;
 - (void)didReceiveMemoryWarning;

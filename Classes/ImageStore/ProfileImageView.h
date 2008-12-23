@@ -11,7 +11,7 @@
 #import "ImageStoreReceiver.h"
 
 @interface ProfileImageView : UIView {
-    ProfileImage*           _profileImage;
+    NSString*               _profileImageUrl;
     ImageStoreReceiver*     _receiver;
 }
 

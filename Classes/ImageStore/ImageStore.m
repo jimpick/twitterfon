@@ -1,30 +1,37 @@
 #import "ProfileImage.h"
 #import "ImageStore.h"
-#import "ImageDownloader.h"
 #import "DebugUtils.h"
 
-#define MAX_CONNECTION 4
+#define MAX_CONNECTION 100
+
+static UIImage *sProfileImage = nil;
+static UIImage *sProfileImageSmall = nil;
+
+@interface ImageStore(Private)
++ (UIImage*)defaultProfileImage:(BOOL)bigger;
+@end
+
 
 @implementation ImageStore
 
 - (id)init
 {
 	self = [super init];
-    images = [[NSMutableDictionary dictionary] retain];
-    pendingRequests = [[NSMutableArray array] retain];
-    delegates = [[NSMutableDictionary dictionary] retain];    
-	return self;
+    images    = [[NSMutableDictionary dictionary] retain];
+    pending   = [[NSMutableDictionary dictionary] retain];
+    delegates = [[NSMutableDictionary dictionary] retain];
+    return self;
 }
 
 - (void)dealloc
 {
-    [pendingRequests release];
-    [delegates release];    
+    [delegates release];
+    [pending release];
     [images release];
 	[super dealloc];
 }
 
-- (ProfileImage*)getProfileImage:(NSString*)anURL isLarge:(BOOL)isLarge delegate:(id)delegate
+- (UIImage*)getProfileImage:(NSString*)anURL isLarge:(BOOL)isLarge delegate:(id)delegate
 {
     NSString *url;
     if (isLarge) {
@@ -34,73 +41,99 @@
         url = anURL;    
     }        
     
-    ProfileImage* profileImage = [images objectForKey:url];
-	if (!profileImage) {
-        profileImage = [[(ProfileImage*)[ProfileImage alloc] initWithURL:url] autorelease];
-        [images setObject:profileImage forKey:url];
+    UIImage *image = [images objectForKey:url];
+    if (image) {
+        return image;
     }
-    if (profileImage.isLoading) {
-        [profileImage addDelegate:delegate];
-    }
-    return profileImage;
-}
+    else {
+        ProfileImage *p = [pending objectForKey:url];
+        if (!p) {
+            p = [[[ProfileImage alloc] initWithURL:url imageStore:self] autorelease];
+            if (p.image) {
+                [images setObject:p.image forKey:url];
+                return p.image;
+            }
+            [pending setObject:p forKey:url];
+        }
 
-- (void)getPendingImage:(NSString*)previousURL
-{
-    [self removeFromQueue:previousURL];
-    
-    if ([pendingRequests count] > 0) {
-        NSString *url = [pendingRequests lastObject];
-        ImageDownloader* dl = [[ImageDownloader alloc] initWithDelegate:self];
-        dl.originalDelegate = [delegates objectForKey:url];
+        NSMutableArray *arr = [delegates objectForKey:url];
+        if (arr) {
+            [arr addObject:delegate];
+        }
+        else {
+            [delegates setObject:[NSMutableArray arrayWithObject:delegate] forKey:url];
+        }
+        if ([pending count] <= MAX_CONNECTION && p.downloader == nil) {
+            [p requestImage];
+        }
         
-        [dl get:url];
+        return [ImageStore defaultProfileImage:isLarge];
+    }
+}
+
+- (void)removeDelegate:(id)delegate forURL:(NSString*)key
+{
+    NSMutableArray *arr = [delegates objectForKey:key];
+    if (arr) {
+        [arr removeObject:delegate];
+        if ([arr count] == 0) {
+            [delegates removeObjectForKey:key];
+        }
+    }
+}
+
+- (void)removeFromQueue:(ProfileImage*)profileImage
+{
+    NSMutableArray *arr = [delegates objectForKey:profileImage.url];
+    if (arr) {
+        for (id delegate in arr) {
+            if ([delegate respondsToSelector:@selector(profileImageDidGetNewImage:)]) {
+                [delegate performSelector:@selector(profileImageDidGetNewImage:) withObject:profileImage.image];
+            }
+        }
+        [delegates removeObjectForKey:profileImage.url];
+    }
+    [pending removeObjectForKey:profileImage.url];
+    [profileImage autorelease];
+}
+
+- (void)getPendingImage:(ProfileImage*)profileImage
+{
+    if (profileImage.image) {
+        [images setObject:profileImage.image forKey:profileImage.url];
+    }
+    
+    [self removeFromQueue:profileImage];
+    
+    NSArray *keys = [pending allKeys];
+
+    for (NSString *url in keys) {
+        ProfileImage *p = [pending objectForKey:url];
         
-        [delegates removeObjectForKey:url];        
-        [pendingRequests removeLastObject];
+        NSMutableArray *arr = [delegates objectForKey:p.url];
+        if (arr == nil) {
+            [pending removeObjectForKey:p.url];
+        }
+        else if ([arr count] == 0) {
+            [delegates removeObjectForKey:p.url];
+            [pending removeObjectForKey:p.url];
+        }
+        else {
+            if (!p.downloader) {
+                [p requestImage];
+                break;
+            }
+        }
     }
-}
-
-- (void)removeFromQueue:(NSString*)url
-{
-    [delegates removeObjectForKey:url];
-    [pendingRequests removeObject:url];    
-}
-
-- (void)requestImage:(NSString*)url delegate:(id)delegate
-{
-    if ([pendingRequests count] < MAX_CONNECTION) {
-        ImageDownloader* dl = [[ImageDownloader alloc] initWithDelegate:self];
-        dl.originalDelegate = delegate;
-        [dl get:url];
-    }
-    
-    if ([delegates objectForKey:url] == nil) {
-        [pendingRequests addObject:url];
-        [delegates setObject:delegate forKey:url];    
-    }
-}
-
-- (void)imageDownloaderDidSucceed:(ImageDownloader*)sender
-{
-    [sender.originalDelegate imageDownloaderDidSucceed:sender];
-    [self getPendingImage:sender.requestURL];
-}
-
-- (void)imageDownloaderDidFail:(ImageDownloader*)sender error:(NSError*)error
-{
-    
-    [sender.originalDelegate imageDownloaderDidFail:sender error:error];
-    [self getPendingImage:sender.requestURL];
 }
 
 - (void)didReceiveMemoryWarning
 {
     NSMutableArray *array = [[[NSMutableArray alloc] init] autorelease];
     for (id key in images) {
-	ProfileImage* image = [images objectForKey:key];        
-        if (image.image.retainCount == 1 && image.isLoading == false) {
-            LOG(@"Release image %@", image.image);
+        UIImage* image = [images objectForKey:key];
+        if (image.retainCount == 1) {
+            LOG(@"Release image %@", image);
             [array addObject:key];
         }
     }
@@ -112,6 +145,22 @@
 	ProfileImage* image = [images objectForKey:url];    
     if (image) {
         [images removeObjectForKey:url];
+    }
+}
+
++(UIImage*)defaultProfileImage:(BOOL)bigger
+{
+    if (bigger) {
+        if (sProfileImage == nil) {
+            sProfileImage = [[UIImage imageNamed:@"profileImage.png"] retain];
+        }
+        return sProfileImage;
+    }
+    else {
+        if (sProfileImageSmall == nil) {
+            sProfileImageSmall = [[UIImage imageNamed:@"profileImageSmall.png"] retain];
+        }
+        return sProfileImageSmall;
     }
 }
 

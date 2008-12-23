@@ -3,9 +3,6 @@
 
 @interface ImageDownloader : TFConnection
 {
-    id      originalDelegate;
 }
-
-@property(nonatomic, assign) id originalDelegate;
 
 @end

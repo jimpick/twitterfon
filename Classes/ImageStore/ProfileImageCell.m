@@ -13,7 +13,6 @@
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
-        _profileImage = nil;
         _receiver = [[ImageStoreReceiver alloc] init];
     }
     return self;
@@ -29,28 +28,30 @@
 
 - (UIImage*)getProfileImage:(NSString*)url isLarge:(BOOL)flag
 {
+    if (_profileImageUrl != url) {
+        [_profileImageUrl release];
+    }
+    _profileImageUrl = [url copy];
+    
     ImageStore *store = [TwitterFonAppDelegate getAppDelegate].imageStore;
-    _profileImage = [store getProfileImage:url isLarge:flag delegate:_receiver];
+    UIImage *image = [store getProfileImage:url isLarge:flag delegate:_receiver];
     _receiver.imageContainer = self;
-    return _profileImage.image;
+    return image;
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    if (_profileImage) {
-        [_profileImage removeDelegate:_receiver];
-        _profileImage = nil;
-    }
+    ImageStore *store = [TwitterFonAppDelegate getAppDelegate].imageStore;
+    [store removeDelegate:_receiver forURL:_profileImageUrl];
     _receiver.imageContainer = nil;
 }
 
 - (void)dealloc {
     _receiver.imageContainer = nil;
-    if (_profileImage) {
-        [_profileImage removeDelegate:_receiver];
-        _profileImage = nil;
-    }
+    ImageStore *store = [TwitterFonAppDelegate getAppDelegate].imageStore;
+    [store removeDelegate:_receiver forURL:_profileImageUrl];
+    [_profileImageUrl release];
     [_receiver release];
     [super dealloc];
 }
