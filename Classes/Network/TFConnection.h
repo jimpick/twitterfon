@@ -13,7 +13,6 @@ extern NSString *TWITTERFON_FORM_BOUNDARY;
 	id                  delegate;
     NSString*           requestURL;
 	NSURLConnection*    connection;
-    NSHTTPURLResponse*  response;
 	NSMutableData*      buf;
     int                 statusCode;
     BOOL                needAuth;

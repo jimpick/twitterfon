@@ -144,9 +144,9 @@ NSString *TWITTERFON_FORM_BOUNDARY = @"0194784892923";
 
 - (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)aResponse
 {
-    response = (NSHTTPURLResponse*)aResponse;
-    if (response) {
-        statusCode = response.statusCode;
+    NSHTTPURLResponse *resp = (NSHTTPURLResponse*)aResponse;
+    if (resp) {
+        statusCode = resp.statusCode;
         LOG(@"Response: %d", statusCode);
     }
 	[buf setLength:0];

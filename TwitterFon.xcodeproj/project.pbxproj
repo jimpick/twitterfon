@@ -122,7 +122,6 @@
 		6EEBF7160E3B20610003EA63 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7130E3B20610003EA63 /* SettingsViewController.m */; };
 		6EEBF7280E3B209A0003EA63 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEBF7270E3B209A0003EA63 /* WebViewController.m */; };
 		6EED142B0E33E59B00C71EA4 /* ImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED14080E33E59B00C71EA4 /* ImageStore.m */; };
-		6EED142C0E33E59B00C71EA4 /* ProfileImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EED140A0E33E59B00C71EA4 /* ProfileImage.m */; };
 		6EED144E0E33E5BF00C71EA4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14410E33E5BF00C71EA4 /* Icon.png */; };
 		6EED14520E33E5BF00C71EA4 /* messages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14450E33E5BF00C71EA4 /* messages.png */; };
 		6EED14560E33E5BF00C71EA4 /* replies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EED14490E33E5BF00C71EA4 /* replies.png */; };
@@ -317,8 +316,6 @@
 		6EEBF7270E3B209A0003EA63 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = Controllers/WebViewController.m; sourceTree = "<group>"; };
 		6EED14070E33E59B00C71EA4 /* ImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageStore.h; sourceTree = "<group>"; };
 		6EED14080E33E59B00C71EA4 /* ImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageStore.m; sourceTree = "<group>"; };
-		6EED14090E33E59B00C71EA4 /* ProfileImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImage.h; sourceTree = "<group>"; };
-		6EED140A0E33E59B00C71EA4 /* ProfileImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileImage.m; sourceTree = "<group>"; };
 		6EED14410E33E5BF00C71EA4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		6EED14450E33E5BF00C71EA4 /* messages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messages.png; sourceTree = "<group>"; };
 		6EED14490E33E5BF00C71EA4 /* replies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replies.png; sourceTree = "<group>"; };
@@ -824,8 +821,6 @@
 			children = (
 				6EED14070E33E59B00C71EA4 /* ImageStore.h */,
 				6EED14080E33E59B00C71EA4 /* ImageStore.m */,
-				6EED14090E33E59B00C71EA4 /* ProfileImage.h */,
-				6EED140A0E33E59B00C71EA4 /* ProfileImage.m */,
 				6EF838340EF5E4EB001523B4 /* ImageStoreReceiver.h */,
 				6EF838350EF5E4EB001523B4 /* ImageStoreReceiver.m */,
 				6ECCDC1E0F00208200DBEB95 /* ProfileImageCell.h */,
@@ -955,7 +950,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EED142B0E33E59B00C71EA4 /* ImageStore.m in Sources */,
-				6EED142C0E33E59B00C71EA4 /* ProfileImage.m in Sources */,
 				6EEBF7000E3B1F390003EA63 /* ImageDownloader.m in Sources */,
 				6EEBF70C0E3B1FD40003EA63 /* ColorUtils.m in Sources */,
 				6EEBF70D0E3B1FD40003EA63 /* main.m in Sources */,

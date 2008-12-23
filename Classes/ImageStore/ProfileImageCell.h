@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ProfileImage.h"
 #import "ImageStoreReceiver.h"
 
 @interface ProfileImageCell : UITableViewCell {
