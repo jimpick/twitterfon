@@ -120,7 +120,7 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
         case SECTION_HELP:
             cell = [tableView dequeueReusableCellWithIdentifier:@"helpCell"];
             if (!cell) {
-                cell = [[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"helpCell"];
+                cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"helpCell"] autorelease];
             }
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.text =  @"Open Help Page";

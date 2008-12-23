@@ -88,7 +88,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    DirectMessage *dist = [[DirectMessage allocWithZone:zone] init];
+    DirectMessage *dist = [super copyWithZone:zone];
     
 	dist.messageId  = messageId;
 	dist.sender     = [sender copy];
@@ -98,8 +98,6 @@
     dist.senderScreenName      = senderScreenName;
     dist.recipientScreenName   = recipientScreenName;
     dist.senderProfileImageUrl = senderProfileImageUrl;
-
-    [super copyWithZone:dist];
     
     return dist;
 }

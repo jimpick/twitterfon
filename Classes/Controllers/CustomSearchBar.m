@@ -282,17 +282,17 @@ static NSString* sSearchBarPressedImages[3] = {
     return true;
 }
 
-- (void) becomeFirstResponder
+- (BOOL) becomeFirstResponder
 {
-    [textField becomeFirstResponder];
+    return [textField becomeFirstResponder];
 }
 
-- (void) resignFirstResponder
+- (BOOL) resignFirstResponder
 {
     if (!leftButtonExpanded) {
         textField.rightViewMode = UITextFieldViewModeUnlessEditing;
     }
-    [textField resignFirstResponder];
+    return [textField resignFirstResponder];
 }
 
 - (void)drawRect:(CGRect)rect

@@ -13,6 +13,12 @@
 
 @synthesize imageContainer;
 
+- (void)dealloc
+{
+    imageContainer = nil;
+    [super dealloc];
+}
+
 - (void)profileImageDidGetNewImage:(UIImage*)image
 {
     if (imageContainer) {

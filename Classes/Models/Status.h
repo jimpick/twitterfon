@@ -65,5 +65,4 @@
 - (void)deleteFromDB;
 - (void)updateFavoriteState;
 
-- (id)copyWithZone:(NSZone *)zone;
 @end

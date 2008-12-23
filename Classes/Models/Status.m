@@ -24,6 +24,7 @@
 
 - (void)dealloc
 {
+    [inReplyToScreenName release];
     [user release];
     [source release];
   	[super dealloc];
@@ -151,7 +152,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    Status *dist = [[Status allocWithZone:zone] init];
+    Status *dist = [super copyWithZone:zone];
     
 	dist.statusId  = statusId;
 	dist.user      = [user copy];
@@ -163,8 +164,6 @@
     dist.inReplyToStatusId   = inReplyToStatusId;
     dist.inReplyToUserId     = inReplyToUserId;
     dist.inReplyToScreenName = inReplyToScreenName;
-    
-    [super copyWithZone:dist];
     
     return dist;
 }

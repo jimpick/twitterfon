@@ -21,8 +21,9 @@
   	[super dealloc];
 }
 
-- (void)copyWithZone:(Tweet*)dist
+- (id)copyWithZone:(NSZone*)zone
 {
+    Tweet* dist = [[[self class] allocWithZone:zone] init];
 	dist.text       = text;
     dist.createdAt  = createdAt;
     dist.timestamp  = timestamp;
@@ -32,7 +33,9 @@
     dist.type       = type;
     dist.cellType   = cellType;
     
-    dist.accessoryType = accessoryType;    
+    dist.accessoryType = accessoryType;
+    
+    return dist;
 }
 
 static NSString *userRegexp = @"@([0-9a-zA-Z_]+)";

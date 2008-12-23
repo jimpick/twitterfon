@@ -46,6 +46,5 @@ typedef enum {
 
 - (NSString*)timestamp;
 - (void)updateAttribute;
-- (void)copyWithZone:(Tweet *)dist;
-
+- (id)copyWithZone:(NSZone*)zone;
 @end

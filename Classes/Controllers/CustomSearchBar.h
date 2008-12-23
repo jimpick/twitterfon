@@ -24,7 +24,7 @@
 
 @property(nonatomic, assign) UIButton* locationButton;
 @property(nonatomic, assign) UIButton* distanceButton;
-@property(nonatomic, assign) NSString* text;
+@property(nonatomic, retain) NSString* text;
 
 - (id)initWithFrame:(CGRect)frame delegate:(id)delegate;
 

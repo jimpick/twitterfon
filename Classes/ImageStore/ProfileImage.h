@@ -14,7 +14,7 @@
 
 @property(nonatomic, readonly) UIImage* image;
 @property(nonatomic, copy) NSString* url;
-@property(nonatomic, assign) ImageDownloader* downloader;
+@property(nonatomic, readonly) ImageDownloader* downloader;
 
 - (ProfileImage*)initWithURL:(NSString*)url imageStore:(ImageStore*)store;
 - (void)requestImage;
