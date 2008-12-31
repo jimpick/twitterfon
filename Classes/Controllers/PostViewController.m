@@ -184,7 +184,7 @@
     [progressWindow hide];
 }
 
-- (void)uploadPhoto:(id)sender
+- (void)uploadPhoto
 {
     float width  = selectedPhoto.size.width;
     float height = selectedPhoto.size.height;
@@ -276,7 +276,7 @@
         [self updateLocation];
     }
     else if (selectedPhoto) {
-        [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(uploadPhoto:) userInfo:nil repeats:false];
+        [self performSelector:@selector(uploadPhoto) withObject:nil afterDelay:0.1];
     }
     else {
         [self updateStatus];
@@ -443,7 +443,7 @@
     [navigation dismissModalViewControllerAnimated:true];
 }
 
-- (void)showKeyboard:(NSTimer*)timer
+- (void)showKeyboard
 {
     [text becomeFirstResponder];
     text.selectedRange = textRange;
@@ -451,7 +451,7 @@
 
 - (void)imagePickerControllerDidDisappear
 {
-    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(showKeyboard:) userInfo:nil repeats:NO];
+    [self performSelector:@selector(showKeyboard) withObject:nil afterDelay:0.1];
 }
 
 //

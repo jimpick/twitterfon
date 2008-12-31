@@ -145,7 +145,7 @@
             [nav pushViewController:userTimeline animated:false];
         }
         else {
-            [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(postURL:) userInfo:url repeats:false];
+            [self performSelector:@selector(postURL:) withObject:[url retain] afterDelay:0.3];
         }
     }
     if ([method isEqualToString:@"user_timeline"]) {
@@ -159,10 +159,10 @@
     return YES;
 }
 
-- (void)postURL:(NSTimer*)timer
+- (void)postURL:(NSURL*)url
 {
-    NSURL *url = [timer userInfo];
     [self.postView editWithURL:[url query]];
+    [url release];
 }
 
 - (void)setNextTimer:(NSTimeInterval)interval

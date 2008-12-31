@@ -12,7 +12,7 @@
 #import "ColorUtils.h"
 
 @interface FriendsTimelineController (Private)
-- (void)scrollToFirstUnread:(NSTimer*)timer;
+- (void)scrollToFirstUnread;
 - (void)didLeaveTab:(UINavigationController*)navigationController;
 @end
 
@@ -50,7 +50,7 @@
 {
     if (firstTimeToAppear) {
         firstTimeToAppear = false;
-        [self scrollToFirstUnread:nil];
+        [self scrollToFirstUnread];
     }
 	[super viewDidAppear:animated];
     if (stopwatch) {
@@ -165,7 +165,7 @@
     [timelineDataSource.timeline updateFavorite:status];
 }
 
-- (void)scrollToFirstUnread:(NSTimer*)timer
+- (void)scrollToFirstUnread
 {
     if (unread) {
         if (unread < [timelineDataSource.timeline countStatuses]) {
@@ -205,7 +205,7 @@
         [self.tableView endUpdates];
 
         if (position == 0 && unread == 0) {
-            [NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(scrollToFirstUnread:) userInfo:nil repeats:false];
+            [self performSelector:@selector(scrollToFirstUnread) withObject:nil afterDelay:0.4];
         }
     }
     if (count) {
