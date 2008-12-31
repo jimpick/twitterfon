@@ -136,6 +136,12 @@
     ++page;
     hasMore = true;
     
+    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    BOOL ownFriendsList = false;
+    if (!isFollowers && [screenName caseInsensitiveCompare:username] == NSOrderedSame) {
+        ownFriendsList = true;
+    }
+    
     // Add messages to the timeline
     for (int i = 0; i < [ary count]; ++i) {
         NSDictionary *dic = (NSDictionary*)[ary objectAtIndex:i];
@@ -143,6 +149,9 @@
             continue;
         }
         User *user = [[User alloc] initWithJsonDictionary:dic];
+        if (ownFriendsList) {
+            [Followee insertDB:user];
+        }
         [friends addObject:user];
         [user release];
     }
