@@ -232,6 +232,14 @@
 
 - (void)updateLocationDidSuccess:(TwitterClient*)sender obj:(NSObject*)obj
 {
+    connection = nil;
+    
+    if (sender.hasError) {
+        [progressWindow hide];
+        [sender alert];
+        return;
+    }
+    
     latitude = longitude = 0;
     locationButton.style = UIBarButtonItemStyleBordered;
     connection = nil;
@@ -485,13 +493,18 @@
 
 - (void)postDidSucceed:(TwitterClient*)sender obj:(NSObject*)obj;
 {
+    [progressWindow hide];
+    connection = nil;
+    if (sender.hasError) {
+        [sender alert];
+        return;
+    }
+    
     NSDictionary *dic = nil;
     if (obj && [obj isKindOfClass:[NSDictionary class]]) {
         dic = (NSDictionary*)obj;    
     }
-    
-    [progressWindow hide];
-    
+   
     if (dic) {
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
         if (isDirectMessage) {
@@ -506,16 +519,8 @@
     postView.inReplyToStatusId = 0;
     textRange.location = 0;
     textRange.length = 0;
-    connection = nil;
     [self close:self];
     didPost = (dic) ? true : false;
-}
-
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
-{
-    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail]; 
-    connection = nil;
-    [progressWindow hide];
 }
 
 - (void)saveTweet

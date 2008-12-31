@@ -150,6 +150,11 @@ enum {
 - (void)messageDidLoad:(TwitterClient*)client obj:(id)obj
 {
     twitterClient = nil;
+    if (client.hasError) {
+        [client alert];
+        return;
+    }
+
     if ([obj isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary*)obj;
 
@@ -163,12 +168,6 @@ enum {
         }
         [self.tableView reloadData];
     }
-}
-
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
-{
-    twitterClient = nil;
-    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 

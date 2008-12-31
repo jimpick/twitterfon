@@ -452,7 +452,16 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 - (void)messageDidDelete:(TwitterClient*)client obj:(NSObject*)obj
 {
     Status* sts = (Status*)client.context;
-    if ([obj isKindOfClass:[NSDictionary class]]) {
+
+    if (client.hasError) {
+        if (client.statusCode == 404) {
+            [sts deleteFromDB];
+        }
+        else {
+            [client alert];
+        }
+    }
+    else if ([obj isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary*)obj;
         sqlite_int64 statusId = [[dic objectForKey:@"id"] longLongValue];        
         if (sts.statusId == statusId) {
@@ -476,58 +485,36 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 {
     Status* sts = sender.context;
     
-    if ([obj isKindOfClass:[NSDictionary class]]) {
-        
-        NSDictionary *dic = (NSDictionary*)obj;
-        sqlite_int64 statusId = [[dic objectForKey:@"id"] longLongValue];
-        if (sts.statusId != statusId) {
-            NSLog(@"Someting wrong with contet. Ignore error...");
-            return;
-        }
-        BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
-        sts.favorited = favorited;
-        [sts updateFavoriteState];
-        
-        UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
-        UIViewController *c = nav.topViewController;
-        if ([c respondsToSelector:@selector(toggleFavorite:status:)]) {
-            [c toggleFavorite:favorited status:sts];
-        }
-        
-        c = [nav.viewControllers objectAtIndex:0];
-        if ([c respondsToSelector:@selector(updateFavorite:)]) {
-            [c updateFavorite:sts];
-        }
-    }
-    [sts release];
-}
-
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
-{
-    Status* sts = sender.context;
-    
-    if (sender.request == TWITTER_REQUEST_FAVORITE ||
-        sender.request == TWITTER_REQUEST_DESTROY_FAVORITE) {
+    if (sender.hasError) {
         if (sender.statusCode == 404 || sender.statusCode == 403) {
             BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
             sts.favorited = favorited;
             [sts updateFavoriteState];
-            UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
-            UIViewController *c = nav.topViewController;
-            if ([c respondsToSelector:@selector(toggleFavorite:status:)]) {
-                [c toggleFavorite:favorited status:sts];
-            }
-        }
-    }
-    else {
-        if (sender.statusCode == 404) {
-            [sts deleteFromDB];
         }
         else {
-            [self alert:error message:detail];
+            [sender alert];
         }
     }
-
+    else if ([obj isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dic = (NSDictionary*)obj;
+        sqlite_int64 statusId = [[dic objectForKey:@"id"] longLongValue];
+        if (sts.statusId == statusId) {
+            BOOL favorited = (sender.request == TWITTER_REQUEST_FAVORITE) ? true : false;
+            sts.favorited = favorited;
+            [sts updateFavoriteState];
+        }
+    }
+    
+    UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
+    UIViewController *c = nav.topViewController;
+    if ([c respondsToSelector:@selector(toggleFavorite:status:)]) {
+        [c toggleFavorite:sts.favorited status:sts];
+    }
+        
+    c = [nav.viewControllers objectAtIndex:0];
+    if ([c respondsToSelector:@selector(updateFavorite:)]) {
+        [c updateFavorite:sts];
+    }
     [sts release];
 }
 

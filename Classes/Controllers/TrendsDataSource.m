@@ -78,6 +78,12 @@
 //
 - (void)trendDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
+    if (sender.hasError) {
+        [sender alert];
+        [delegate searchTrendsDidFailToLoad];
+        return;
+    }
+    
     if ([obj isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = (NSDictionary*)obj;
         
@@ -91,12 +97,5 @@
     }
     [delegate searchTrendsDidLoad];
 }
-
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
-{
-    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
-    [delegate searchTrendsDidFailToLoad];
-}
-
 
 @end

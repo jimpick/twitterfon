@@ -268,6 +268,11 @@ NSInteger sortByDate(id a, id b, void *context)
     [loadCell.spinner stopAnimating];
     self.navigationItem.leftBarButtonItem.enabled = true;
     
+    if (sender.hasError) {
+        [sender alert];
+        return;
+    }
+    
     if (needToGetSentMessage) {
         [self loadSentMessages];
     }
@@ -318,6 +323,11 @@ NSInteger sortByDate(id a, id b, void *context)
     self.navigationItem.leftBarButtonItem.enabled = true;
     twitterClient = nil;
     
+    if (sender.hasError) {
+        [sender alert];
+        return;
+    }
+    
     NSArray *ary = [self examObject:obj];
     if (ary == nil) return;
     
@@ -336,15 +346,6 @@ NSInteger sortByDate(id a, id b, void *context)
         }
     }
     [DBConnection commitTransaction];
-}
-
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
-{
-    twitterClient = nil;
-    [loadCell.spinner stopAnimating];
-    self.navigationItem.leftBarButtonItem.enabled = true;
-    
-    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
 }
 
 //

@@ -160,6 +160,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:true];
+    
     if (indexPath.row == 0) {
         if ([timeline countStatuses] == 0) {
             return;
@@ -178,9 +180,7 @@
         return;
     }
     
-    [tableView deselectRowAtIndexPath:indexPath animated:true];
     if (twitterClient) return;
-    
     [loadCell.spinner startAnimating];
     
     if (loadCell.type == MSG_TYPE_REQUEST_FOLLOW) {
@@ -205,10 +205,25 @@
 
 - (void)userTimelineDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
-   twitterClient = nil;
-
-    [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
+    twitterClient = nil;
     [loadCell setType:MSG_TYPE_LOAD_FROM_WEB];
+    
+    if (sender.hasError) {
+        if (sender.statusCode == 401) {
+            [loadCell setType:MSG_TYPE_REQUEST_FOLLOW];
+            
+            userCell.accessoryType = UITableViewCellAccessoryNone;
+            userCell.userView.protected = true;
+            [userCell.userView setNeedsDisplay];
+            
+            twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userDidReceive:obj:)];
+            [twitterClient getUser:screenName];
+        }
+        else {
+            [sender alert];
+        }                
+        return;
+    }
     
     if (obj == nil) {
         return;
@@ -260,11 +275,18 @@
 
 - (void)followDidRequest:(TwitterClient*)sender obj:(NSObject*)obj
 {
+    twitterClient = nil;
+    
+    if (sender.hasError) {
+        [loadCell setType:MSG_TYPE_REQUEST_FOLLOW];
+        [sender alert];
+        return;
+    }    
+    
     if ([obj isKindOfClass:[NSDictionary class]]) {
         [loadCell setType:MSG_TYPE_REQUEST_FOLLOW_SENT];
         loadCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    twitterClient = nil;
 }
 
 // UserCell delegate
@@ -279,6 +301,12 @@
 
 - (void)userDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
+    twitterClient = nil;    
+    if (sender.hasError) {
+        [sender alert];
+        return;
+    }
+    
     NSDictionary *dic = nil;
     if ([obj isKindOfClass:[NSDictionary class]]) {
         dic = (NSDictionary*)obj;
@@ -291,34 +319,6 @@
         [userCell.userView setNeedsDisplay];
         
         [self.tableView reloadData];
-    }
-    twitterClient = nil;
-}
-
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
-{
-    [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfLoadCell inSection:0] animated:true];
-    [loadCell setType:MSG_TYPE_LOAD_USER_TIMELINE];
-
-    twitterClient = nil;
-    
-    if (sender.request == TWITTER_REQUEST_CREATE_FRIENDSHIP) {
-        [loadCell setType:MSG_TYPE_REQUEST_FOLLOW];
-    }
-    
-    if (sender.statusCode == 401) {
-        
-        [loadCell setType:MSG_TYPE_REQUEST_FOLLOW];
-
-        userCell.accessoryType = UITableViewCellAccessoryNone;
-        userCell.userView.protected = true;
-        [userCell.userView setNeedsDisplay];
-        
-        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(userDidReceive:obj:)];
-        [twitterClient getUser:screenName];
-    }
-    else {
-        [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
     }
 }
 

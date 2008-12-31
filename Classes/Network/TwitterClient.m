@@ -6,6 +6,7 @@
 //  Copyright naan studio 2008. All rights reserved.
 //
 
+#import "TwitterFonAppDelegate.h"
 #import "TwitterClient.h"
 #import "StringUtil.h"
 #import "JSON.h"
@@ -18,32 +19,32 @@ NSString* sMethods[4] = {
     @"direct_messages/sent",
 };
 
-@interface NSObject (TwitterClientDelegate)
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail;
-@end
-
 @implementation TwitterClient
 
 @synthesize request;
 @synthesize context;
+@synthesize hasError;
+@synthesize errorMessage;
+@synthesize errorDetail;
 
 - (id)initWithTarget:(id)aDelegate action:(SEL)anAction
 {
     [super initWithDelegate:aDelegate];
     action = anAction;
+    hasError = false;
     return self;
 }
 
 - (void)dealloc
 {
+    [errorMessage release];
+    [errorDetail release];
     [super dealloc];
 }
 
 - (void)getTimeline:(TweetType)type params:(NSDictionary*)params
 {
     needAuth = true;
-    request = TWITTER_REQUEST_TIMELINE;
-    
     NSString *url = [NSString stringWithFormat:@"https://twitter.com/%@.json", sMethods[type]];
     
     int i = 0;
@@ -63,8 +64,6 @@ NSString* sMethods[4] = {
 - (void)getUserTimeline:(NSString*)screen_name params:(NSDictionary*)params
 {
     needAuth = true;
-    request = TWITTER_REQUEST_TIMELINE;
-    
     NSString *url = [NSString stringWithFormat:@"https://twitter.com/statuses/user_timeline/%@.json", screen_name];
     
     int i = 0;
@@ -84,7 +83,6 @@ NSString* sMethods[4] = {
 - (void)getUser:(NSString*)screen_name
 {
     needAuth = true;
-    request = TWITTER_REQUEST_USER;
     NSString *url = [NSString stringWithFormat:@"https://twitter.com/users/show/%@.json", screen_name];
     [super get:url];
 }
@@ -92,7 +90,6 @@ NSString* sMethods[4] = {
 - (void)getMessage:(sqlite_int64)statusId
 {
     needAuth = true;
-    request = TWITTER_REQUEST_MESSAGE;
     NSString *url = [NSString stringWithFormat:@"https://twitter.com/statuses/show/%lld.json", statusId];
     [super get:url];
 }
@@ -100,7 +97,6 @@ NSString* sMethods[4] = {
 - (void)post:(NSString*)tweet inReplyTo:(sqlite_int64)statusId
 {
     needAuth = true;
-    request = TWITTER_REQUEST_UPDATE;
     
     NSString* url = @"https://twitter.com/statuses/update.json";
     NSString *postString = [NSString stringWithFormat:@"status=%@&in_reply_to_status_id=%lld&source=twitterfon",
@@ -114,8 +110,6 @@ NSString* sMethods[4] = {
 - (void)send:(NSString*)text to:(NSString*)user
 {
     needAuth = true;
-    request = TWITTER_REQUEST_SEND_DIRECT_MESSAGE;
-    
     NSString* url = @"https://twitter.com/direct_messages/new.json";
     
     NSString *postString = [NSString stringWithFormat:@"text=%@&user=%@", [text encodeAsURIComponent], [user encodeAsURIComponent]];
@@ -127,7 +121,6 @@ NSString* sMethods[4] = {
 - (void)getFriends:(NSString*)screen_name page:(int)page isFollowers:(BOOL)isFollowers
 {
     needAuth = true;
-    request = (isFollowers) ? TWITTER_REQUEST_FOLLOWERS_LIST : TWITTER_REQUEST_FRIENDS_LIST;
     NSString* url = [NSString stringWithFormat:@"https://twitter.com/statuses/%@/%@.json?page=%d",
                     (isFollowers) ? @"followers" : @"friends", [screen_name encodeAsURIComponent], page];
     
@@ -162,7 +155,6 @@ NSString* sMethods[4] = {
 - (void)destroy:(Status*)status isDirectMessage:(BOOL)isDirectMessage
 {
     needAuth = true;
-    request = TWITTER_REQUEST_DESTROY_MESSAGE;
 
     NSString *url;
     if (isDirectMessage) {
@@ -190,7 +182,6 @@ NSString* sMethods[4] = {
 - (void)updateLocation:(float)latitude longitude:(float)longitude
 {
     needAuth = true;
-    request = TWITTER_REQUEST_UPDATE_LOCATION;
     
 	NSString* url = @"https://twitter.com/account/update_location.json";
     
@@ -219,14 +210,24 @@ NSString* sMethods[4] = {
     [super get:url];
 }
 
+- (void)authError
+{
+    self.errorMessage = @"Authentication Failed";
+    self.errorDetail  = @"Wrong username/Email and password combination.";    
+    [delegate performSelector:action withObject:self withObject:nil];    
+}
+
 - (void)TFConnectionDidFailWithError:(NSError*)error
 {
+    hasError = true;
     if (error.code ==  NSURLErrorUserCancelledAuthentication) {
         statusCode = 401;
-        [delegate twitterClientDidFail:self error:@"Authentication Failed" detail:@"Wrong username/Email and password combination."];
+        [self authError];
     }
     else {
-        [delegate twitterClientDidFail:self error:@"Connection Failed" detail:[error localizedDescription]];
+        self.errorMessage = @"Connection Failed";
+        self.errorDetail  = [error localizedDescription];
+        [delegate performSelector:action withObject:self withObject:nil];
     }
     [self autorelease];
 }
@@ -247,7 +248,8 @@ NSString* sMethods[4] = {
 
 - (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-    [delegate twitterClientDidFail:self error:@"Authentication Failed" detail:@"Wrong username/Email and password combination."];
+    hasError = true;
+    [self authError];
     [self autorelease];
 }
 
@@ -255,7 +257,8 @@ NSString* sMethods[4] = {
 {
     switch (statusCode) {
         case 401: // Not Authorized: either you need to provide authentication credentials, or the credentials provided aren't valid.
-            [delegate twitterClientDidFail:self error:@"Authentication Failed" detail:@"Wrong username/Email and password combination."];
+            hasError = true;
+            [self authError];
             goto out;
             
         case 304: // Not Modified: there was no new data to return.
@@ -273,7 +276,10 @@ NSString* sMethods[4] = {
         case 503: // Service Unavailable: the Twitter servers are up, but are overloaded with requests.  Try again later.
         default:
         {
-            [delegate twitterClientDidFail:self error:@"Server responded with an error" detail:[NSHTTPURLResponse localizedStringForStatusCode:statusCode]];
+            hasError = true;
+            self.errorMessage = @"Server responded with an error";
+            self.errorDetail  = [NSHTTPURLResponse localizedStringForStatusCode:statusCode];
+            [delegate performSelector:action withObject:self withObject:nil];
             goto out;
         }
     }
@@ -295,18 +301,21 @@ NSString* sMethods[4] = {
         NSString *msg = [dic objectForKey:@"error"];
         if (msg) {
             NSLog(@"Twitter responded with an error: %@", msg);
-            [delegate twitterClientDidFail:self error:@"Server error" detail:msg];
-        }
-        else {
-            [delegate performSelector:action withObject:self withObject:obj];
+            hasError = true;
+            self.errorMessage = @"Twitter Server Error";
+            self.errorDetail  = msg;
         }
     }
-    else {
-        [delegate performSelector:action withObject:self withObject:obj];
-    }
+    
+    [delegate performSelector:action withObject:self withObject:obj];
     
   out:
     [self autorelease];
+}
+
+- (void)alert
+{
+    [[TwitterFonAppDelegate getAppDelegate] alert:errorMessage message:errorDetail];
 }
 
 @end

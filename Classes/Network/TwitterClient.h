@@ -3,19 +3,8 @@
 #import "Status.h"
 
 typedef enum {
-    TWITTER_REQUEST_TIMELINE,
     TWITTER_REQUEST_FAVORITE,
     TWITTER_REQUEST_DESTROY_FAVORITE,
-    TWITTER_REQUEST_UPDATE,
-    TWITTER_REQUEST_MESSAGE,
-    TWITTER_REQUEST_SEND_DIRECT_MESSAGE,
-    TWITTER_REQUEST_UPDATE_LOCATION,
-    TWITTER_REQUEST_DESTROY_MESSAGE,
-    TWITTER_REQUEST_SEARCH,
-    TWITTER_REQUEST_TRENDS,
-    TWITTER_REQUEST_USER,
-    TWITTER_REQUEST_FRIENDS_LIST,
-    TWITTER_REQUEST_FOLLOWERS_LIST,
     TWITTER_REQUEST_CREATE_FRIENDSHIP,
     TWITTER_REQUEST_DESTROY_FRIENDSHIP,
     TWITTER_REQUEST_FRIENDSHIP_EXISTS,
@@ -26,10 +15,16 @@ typedef enum {
     RequestType request;
     id          context;
     SEL         action;
+    BOOL        hasError;
+    NSString*   errorMessage;
+    NSString*   errorDetail;
 }
 
 @property(nonatomic, readonly) RequestType request;
 @property(nonatomic, assign) id context;
+@property(nonatomic, assign) BOOL hasError;
+@property(nonatomic, copy) NSString* errorMessage;
+@property(nonatomic, copy) NSString* errorDetail;
 
 - (id)initWithTarget:(id)delegate action:(SEL)action;
 
@@ -48,5 +43,7 @@ typedef enum {
 - (void)updateLocation:(float)latitude longitude:(float)longitude;
 - (void)trends;
 - (void)verify;
+
+- (void)alert;
 
 @end

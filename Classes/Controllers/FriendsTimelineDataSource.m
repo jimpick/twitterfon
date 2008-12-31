@@ -179,6 +179,18 @@
 {
     twitterClient = nil;
     [loadCell.spinner stopAnimating];
+    
+    if (sender.hasError) {
+        if ([controller respondsToSelector:@selector(timelineDidFailToUpdate:position:)]) {
+            [controller timelineDidFailToUpdate:self position:insertPosition];
+        }
+        
+        if (sender.statusCode == 401) {
+            TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+            [appDelegate openSettingsView];
+        }
+        [sender alert];
+    }
    
     if (obj == nil) {
         return;
@@ -224,23 +236,6 @@
     if ([controller respondsToSelector:@selector(timelineDidUpdate:count:insertAt:)]) {
         [controller timelineDidUpdate:self count:unread insertAt:insertPosition];
 	}
-}
-
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
-{
-    twitterClient = nil;
-    [loadCell.spinner stopAnimating];
-    
-    if ([controller respondsToSelector:@selector(timelineDidFailToUpdate:position:)]) {
-        [controller timelineDidFailToUpdate:self position:insertPosition];
-    }
-    
-    if (sender.statusCode == 401) {
-        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        [appDelegate openSettingsView];
-    }
-    
-    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
 }
 
 @end

@@ -163,6 +163,16 @@
 - (NSDictionary*)searchResultDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
     twitterClient = nil;
+    [loadCell.spinner stopAnimating];    
+    
+    if (sender.hasError) {
+        if ([controller respondsToSelector:@selector(timelineDidFailToUpdate:position:)]) {
+            [controller timelineDidFailToUpdate:self position:insertPosition];
+        }
+        [sender alert];
+        return nil;
+    }
+    
     if (![obj isKindOfClass:[NSDictionary class]]) {
         [controller noSearchResult];
         return nil;
@@ -176,8 +186,6 @@
         [controller noSearchResult];
         return nil;
     }
-    
-    [loadCell.spinner stopAnimating];
     
     // Add messages to the timeline
     //
@@ -229,17 +237,6 @@
         refreshUrl = [tmp retain];
         NSLog(@"%@", refreshUrl);
     }
-}
-
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
-{
-    twitterClient = nil;
-    [loadCell.spinner stopAnimating];
-    
-    if ([controller respondsToSelector:@selector(timelineDidFailToUpdate:position:)]) {
-        [controller timelineDidFailToUpdate:self position:insertPosition];
-    }
-    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
 }
 
 @end

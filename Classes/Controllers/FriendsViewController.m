@@ -105,6 +105,11 @@
     twitterClient = nil;
     [loadCell.spinner stopAnimating];
     
+    if (client.hasError) {
+        [client alert];
+        return;
+    }
+    
     int prevCount = [friends count];
     
     if (obj == nil) {
@@ -158,14 +163,6 @@
         [self.tableView endUpdates];    
     }
     
-}
-
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
-{
-    twitterClient = nil;
-    [loadCell.spinner stopAnimating];
-
-    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
 }
 
 @end

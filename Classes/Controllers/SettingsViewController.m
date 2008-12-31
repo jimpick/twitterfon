@@ -199,15 +199,15 @@ static NSString* sSectionHeader[NUM_SECTIONS] = {
 
 - (void)accountDidVerify:(TwitterClient*)sender obj:(NSObject*)obj;
 {
-    [self dismissModalViewControllerAnimated:true];
-    TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    [appDelegate closeSettingsView];
-}
-
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
-{
-    [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
-    doneButton.enabled = true;
+    if (sender.hasError) {
+        [sender alert];
+        doneButton.enabled = true;
+    }
+    else {
+        [self dismissModalViewControllerAnimated:true];
+        TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
+        [appDelegate closeSettingsView];
+    }
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField

@@ -216,6 +216,13 @@ enum {
 
 - (void)userDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
+    twitterClient = nil;    
+    
+    if (sender.hasError) {
+        [sender alert];
+        return;
+    }
+    
     NSDictionary *dic = nil;
     if ([obj isKindOfClass:[NSDictionary class]]) {
         dic = (NSDictionary*)obj;
@@ -241,7 +248,7 @@ enum {
         [self.tableView endUpdates];
     }
     
-    twitterClient = nil;
+
 #ifdef USE_FRIENDSHIP_EXISTS_METHOD
     if (!ownInfo) {   	 	 
         twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(friendshipDidCheck:obj:)];  	 	 
@@ -252,6 +259,13 @@ enum {
 
 - (void)friendshipDidCheck:(TwitterClient*)sender obj:(NSObject*)obj   	 	 
 {
+    twitterClient = nil;
+    
+    if (sender.hasError) {
+        [sender alert];
+        return;
+    }
+    
     followingLoaded = true;
     NSNumber *flag = (NSNumber*)obj;  	 	 
     user.following = [flag boolValue] ? 1 : 0;
@@ -260,8 +274,6 @@ enum {
     [self.tableView beginUpdates];  	 	 
     [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationTop];  	 	 
     [self.tableView endUpdates];  	 	 
-    
-    twitterClient = nil;
 }
     
 
@@ -281,25 +293,16 @@ enum {
 
 - (void)followDidRequest:(TwitterClient*)sender obj:(NSObject*)obj
 {
-    if ([obj isKindOfClass:[NSDictionary class]]) {
-        BOOL created = (sender.request == TWITTER_REQUEST_CREATE_FRIENDSHIP) ? true : false;
+    BOOL created = (sender.request == TWITTER_REQUEST_CREATE_FRIENDSHIP) ? true : false;
+    if (sender.hasError && sender.statusCode == 403) {
         [self updateFriendship:created];
     }
-    twitterClient = nil;
-}
-
-- (void)twitterClientDidFail:(TwitterClient*)sender error:(NSString*)error detail:(NSString*)detail
-{
-    if ((sender.request == TWITTER_REQUEST_CREATE_FRIENDSHIP ||
-         sender.request == TWITTER_REQUEST_DESTROY_FRIENDSHIP) &&
-        sender.statusCode == 403) {
-        BOOL created = (sender.request == TWITTER_REQUEST_CREATE_FRIENDSHIP) ? true : false;
+    else if ([obj isKindOfClass:[NSDictionary class]]) {
         [self updateFriendship:created];
     }
     else {
-        [[TwitterFonAppDelegate getAppDelegate] alert:error message:detail];
+        [sender alert];
     }
-   
     twitterClient = nil;
 }
 
