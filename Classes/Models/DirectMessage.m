@@ -1,3 +1,4 @@
+#import "TwitterFonAppDelegate.h"
 #import "DirectMessage.h"
 #import "DBConnection.h"
 #import "Followee.h"
@@ -153,13 +154,11 @@
     Statement *stmt = [DBConnection statementWithQuery:sql];
     [stmt bindInt32:all ? 200 : 20 forIndex:1];
    
-    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     int count = 0;
     
     while ([stmt step] == SQLITE_ROW) {
         DirectMessage *dm = [DirectMessage initWithStatement:stmt];
-        if ([username caseInsensitiveCompare:dm.senderScreenName] != NSOrderedSame) {
-
+        if ([TwitterFonAppDelegate isMyScreenName:dm.senderScreenName] == false) {
             [array addObject:dm];
             ++count;
         }

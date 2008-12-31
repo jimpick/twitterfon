@@ -1,5 +1,6 @@
 #import "Tweet.h"
 #import "REString.h"
+#import "TwitterFonAppDelegate.h"
 
 @implementation Tweet
 
@@ -47,12 +48,11 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
     NSMutableArray *array = [[NSMutableArray alloc] init];
     int hasUsername = 0;
     hasReply = false;
-    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     NSString *tmp = text;
     
     while ([tmp matches:userRegexp withSubstring:array]) {
         NSString *match = [array objectAtIndex:0]; 
-        if ([username caseInsensitiveCompare:match] == NSOrderedSame) {
+        if ([TwitterFonAppDelegate isMyScreenName:match]) {
             hasReply = true;
             if (type != TWEET_TYPE_REPLIES) {
                 ++hasUsername;

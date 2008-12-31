@@ -88,8 +88,8 @@ enum {
     actionCell.status = status;
     [userView setUser:status.user];
     self.title = status.user.screenName;
-    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    if ([status.user.screenName caseInsensitiveCompare:username] == NSOrderedSame) {
+
+    if ([TwitterFonAppDelegate isMyScreenName:status.user.screenName]) {
         isOwnTweet = true;
         sections = sOwnSection;
     }

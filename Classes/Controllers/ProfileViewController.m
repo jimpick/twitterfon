@@ -32,8 +32,7 @@ enum {
     self = [super initWithStyle:UITableViewStyleGrouped];
     
     user = [aUser copy];
-    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    if ([username caseInsensitiveCompare:user.screenName] == NSOrderedSame) {
+    if ([TwitterFonAppDelegate isMyScreenName:user.screenName]) {
         ownInfo = true;
     }
     else {

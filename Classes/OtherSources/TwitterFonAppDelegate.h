@@ -33,6 +33,8 @@ typedef enum {
     NSTimeInterval                  autoRefreshInterval;
     NSTimer*                        autoRefreshTimer;
     NSDate*                         lastRefreshDate;
+    
+    NSString*                       screenName;
 }
 
 - (IBAction)post:(id)sender;
@@ -52,11 +54,13 @@ typedef enum {
 
 - (void)alert:(NSString*)title message:(NSString*)detail;
 
++ (BOOL)isMyScreenName:(NSString*)screen_name;
 + (TwitterFonAppDelegate*)getAppDelegate;
 
 @property (nonatomic, readonly) UIWindow*           window;
 @property (nonatomic, assign) PostViewController*   postView;
 @property (nonatomic, readonly) ImageStore*         imageStore;
 @property (nonatomic, assign) int                   selectedTab;
+@property (nonatomic, retain) NSString*             screenName;
 
 @end

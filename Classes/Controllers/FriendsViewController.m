@@ -136,9 +136,8 @@
     ++page;
     hasMore = true;
     
-    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     BOOL ownFriendsList = false;
-    if (!isFollowers && [screenName caseInsensitiveCompare:username] == NSOrderedSame) {
+    if (!isFollowers && [TwitterFonAppDelegate isMyScreenName:screenName]) {
         ownFriendsList = true;
     }
     

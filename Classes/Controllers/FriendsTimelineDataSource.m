@@ -131,10 +131,9 @@
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
 
     int since_id = 0;
-    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     for (int i = 0; i < [timeline countStatuses]; ++i) {
         Status* sts = [timeline statusAtIndex:i];
-        if ([sts.user.screenName caseInsensitiveCompare:username] != NSOrderedSame) {
+        if ([TwitterFonAppDelegate isMyScreenName:sts.user.screenName] == false) {
             since_id = sts.statusId;
             break;
         }
@@ -158,10 +157,9 @@
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     
     int since_id = 0;
-    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     for (int i = 0; i < [timeline countStatuses]; ++i) {
         Status* sts = [timeline statusAtIndex:i];
-        if ([sts.user.screenName caseInsensitiveCompare:username] != NSOrderedSame) {
+        if ([TwitterFonAppDelegate isMyScreenName:sts.user.screenName] == false) {
             since_id = sts.statusId;
             break;
         }

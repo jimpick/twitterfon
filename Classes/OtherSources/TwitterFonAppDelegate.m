@@ -38,6 +38,7 @@
 @synthesize postView;
 @synthesize imageStore;
 @synthesize selectedTab;
+@synthesize screenName;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
@@ -104,6 +105,8 @@
 
 - (void)postInit
 {
+    screenName = [[[NSUserDefaults standardUserDefaults] stringForKey:@"username"] retain];
+    
     // Load views
     //
     BOOL loadall;
@@ -127,6 +130,7 @@
         if (autoRefreshInterval < 180) autoRefreshInterval = 180;
         [self setNextTimer:autoRefreshInterval];
     }
+    
     initialized = true;
 }
 
@@ -229,6 +233,7 @@
 
 - (void)dealloc
 {
+    [screenName release];
 	[tabBarController release];
 	[window release];
     [imageStore release];
@@ -393,8 +398,8 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
             }
             else {
                 UserTimelineController *userTimeline = [[[UserTimelineController alloc] init] autorelease];
-                NSString *screenName = [links objectAtIndex:0];
-                [userTimeline loadUserTimeline:[screenName substringFromIndex:1]];
+                NSString *aScreenName = [links objectAtIndex:0];
+                [userTimeline loadUserTimeline:[aScreenName substringFromIndex:1]];
                 [nav pushViewController:userTimeline animated:true];
             }
         }
@@ -540,6 +545,12 @@ static UIAlertView *sAlert = nil;
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonInde
 {
     sAlert = nil;
+}
+
++ (BOOL)isMyScreenName:(NSString*)screen_name
+{
+    TwitterFonAppDelegate *delegate = [TwitterFonAppDelegate getAppDelegate];
+    return ([delegate.screenName caseInsensitiveCompare:screen_name] == NSOrderedSame) ? true : false;
 }
 
 +(TwitterFonAppDelegate*)getAppDelegate

@@ -67,8 +67,7 @@
 {
     self.title = screenName;
     
-    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    if ([screenName caseInsensitiveCompare:username] == NSOrderedSame) {
+    if ([TwitterFonAppDelegate isMyScreenName:screenName]) {
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
     }
     else {
@@ -347,8 +346,7 @@
     
     if (twitterClient) return false;
     
-    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    if ([screenName caseInsensitiveCompare:username] == NSOrderedSame) {
+    if ([TwitterFonAppDelegate isMyScreenName:screenName]) {
         Status* sts = [timeline statusAtIndex:indexPath.row - 1];
         return (sts) ? true : false;
     }
