@@ -193,13 +193,17 @@ NSInteger sortByDate(id a, id b, void *context)
 - (void)restoreMessage:(BOOL)restoreAll
 {
     isRestored = restoreAll;
-    [timeline removeAllObjects];
-    [messages removeAllObjects];
-    [DirectMessage restore:timeline all:restoreAll];
-    for (int i = 0; i < [timeline count]; ++i) {
-        DirectMessage *dm = [timeline objectAtIndex:i];
-        [messages setObject:dm forKey:[NSString stringWithFormat:@"%d", dm.senderId]];
+    NSMutableArray *array = [NSMutableArray array];
+    [DirectMessage restore:array all:restoreAll];
+    for (int i = 0; i < [array count]; ++i) {
+        DirectMessage *dm = [array objectAtIndex:i];
+        NSString *ids = [NSString stringWithFormat:@"%d", dm.senderId];
+        if (![messages objectForKey:ids]) {
+            [messages setObject:dm forKey:ids];
+            [timeline addObject:dm];
+        }
     }    
+    [timeline sortUsingFunction:sortByDate context:nil];
 }
 
 - (void)restoreAndLoadTimeline:(BOOL)load
