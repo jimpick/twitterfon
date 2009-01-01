@@ -35,12 +35,14 @@
     view.message = value;
     self.contentView.backgroundColor = value.unread ? [UIColor cellColorForTab:TAB_MESSAGES] : [UIColor whiteColor];
     self.image = [self getProfileImage:value.senderProfileImageUrl isLarge:false];
+    
+    view.frame = CGRectMake(48 + 20, 0, 320 - 48 - 20 - 10, view.message.cellHeight - 1);
+    
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    view.frame = CGRectMake(48 + 20, 0, 320 - 48 - 20 - 10, 48 + 16 + 2);
     self.backgroundColor = self.contentView.backgroundColor;
     view.backgroundColor = self.contentView.backgroundColor;
 }

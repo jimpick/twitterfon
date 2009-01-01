@@ -118,6 +118,8 @@
     label.font = [UIFont systemFontOfSize:14];
     label.text = text;
     textRect = [label textRectForBounds:bounds limitedToNumberOfLines:10];
+    
+    [self calcTextBounds:CELL_WIDTH - INDICATOR_WIDTH];
 }
 
 + (DirectMessage*)initWithStatement:(Statement*)stmt
@@ -138,7 +140,7 @@
     dm.recipientScreenName  = [stmt getString:6];
     dm.senderProfileImageUrl= [stmt getString:7];
     [dm updateAttribute];
-    
+
     return dm;
 }
 

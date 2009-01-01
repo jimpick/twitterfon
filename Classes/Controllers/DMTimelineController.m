@@ -129,7 +129,9 @@ NSInteger sortByDate(id a, id b, void *context)
 {
     if (indexPath.row == [timeline count]) return 78;
     
-    return 48 + 3 + 16;
+    DirectMessage *dm = [timeline objectAtIndex:indexPath.row];
+    
+    return dm.cellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -298,11 +300,11 @@ NSInteger sortByDate(id a, id b, void *context)
         sqlite_int64 aId = [[[ary objectAtIndex:i] objectForKey:@"id"] longLongValue];
         if (![DirectMessage isExists:aId]) {
             DirectMessage* dm = [DirectMessage messageWithJsonDictionary:[ary objectAtIndex:i]];
+            [dm insertDB];
             if (dm.createdAt < lastDM.createdAt) {
                 // Ignore stale message
                 continue;
             }
-            [dm insertDB];
             dm.unread = true;
             [messages setObject:dm forKey:[NSString stringWithFormat:@"%d", dm.senderId]];
             ++unread;

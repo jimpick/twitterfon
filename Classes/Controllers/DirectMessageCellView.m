@@ -52,10 +52,10 @@
     float textFontSize = 13;
     
 	[textColor set];
-    [message.senderScreenName drawInRect:CGRectMake(0, 3, CELL_WIDTH, TOP) withFont:[UIFont boldSystemFontOfSize:14]];
-	[message.text drawInRect:CGRectMake(0, TOP + 3, CELL_WIDTH, 32) withFont:[UIFont systemFontOfSize:textFontSize] lineBreakMode:UILineBreakModeTailTruncation];
+    [message.senderScreenName drawInRect:CGRectMake(0, 0, CELL_WIDTH, TOP) withFont:[UIFont boldSystemFontOfSize:14]];
+    [message.text drawInRect:message.textBounds withFont:[UIFont systemFontOfSize:textFontSize]];
 	[timestampColor set];
-    [message.timestamp drawInRect:CGRectMake(0, TOP + 32 + 1, 250, 13) withFont:[UIFont systemFontOfSize:12]];
+    [message.timestamp drawInRect:CGRectMake(0, TOP + message.textBounds.size.height, 250, 13) withFont:[UIFont systemFontOfSize:12]];
 }
 
 

@@ -33,9 +33,6 @@
     sqlite_int64    inReplyToStatusId;
     int             inReplyToUserId;
     NSString*       inReplyToScreenName;
-    
-    CGRect          textBounds;
-    CGFloat         cellHeight;
 }
 
 @property (nonatomic, assign) sqlite_int64  statusId;
@@ -46,9 +43,6 @@
 @property (nonatomic, assign) sqlite_int64  inReplyToStatusId;
 @property (nonatomic, assign) int           inReplyToUserId;
 @property (nonatomic, retain) NSString*     inReplyToScreenName;
-
-@property (nonatomic, assign) CGFloat       cellHeight;
-@property (nonatomic, assign) CGRect        textBounds;
 
 + (Status*)statusWithId:(sqlite_int64)statusId;
 + (Status*)statusWithJsonDictionary:(NSDictionary*)dic type:(TweetType)type;

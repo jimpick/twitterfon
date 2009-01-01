@@ -30,6 +30,9 @@ typedef enum {
     TweetType       type;
     TweetCellType   cellType;
     
+    CGRect          textBounds;
+    CGFloat         cellHeight;    
+    
     UITableViewCellAccessoryType accessoryType;
 }
 
@@ -42,9 +45,13 @@ typedef enum {
 @property (nonatomic, assign) TweetType         type;
 @property (nonatomic, assign) TweetCellType     cellType;
 
+@property (nonatomic, assign) CGFloat       cellHeight;
+@property (nonatomic, assign) CGRect        textBounds;
+
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 
 - (NSString*)timestamp;
 - (void)updateAttribute;
+- (void)calcTextBounds:(int)textWidth;
 - (id)copyWithZone:(NSZone*)zone;
 @end

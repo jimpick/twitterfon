@@ -16,8 +16,6 @@
 @synthesize favorited;
 @synthesize truncated;
 
-@synthesize textBounds;
-@synthesize cellHeight;
 @synthesize inReplyToStatusId;
 @synthesize inReplyToUserId;
 @synthesize inReplyToScreenName;
@@ -164,37 +162,6 @@
     dist.inReplyToScreenName = inReplyToScreenName;
     
     return dist;
-}
-
-- (void)calcTextBounds:(int)textWidth
-{
-    CGRect bounds, result;
-    
-    if (cellType == TWEET_CELL_TYPE_NORMAL) {
-        bounds = CGRectMake(0, TOP, textWidth, 200);
-    }
-    else {
-        bounds = CGRectMake(0, 3, textWidth, 200);
-    }
-
-    static UILabel *label = nil;
-    if (label == nil) {
-        label = [[UILabel alloc] initWithFrame:CGRectZero];
-    }
-    label.font = [UIFont systemFontOfSize:(cellType == TWEET_CELL_TYPE_DETAIL) ? 14 : 13];
-    label.text = text;
-    result = [label textRectForBounds:bounds limitedToNumberOfLines:10];
-    
-    textBounds = CGRectMake(bounds.origin.x, bounds.origin.y, textWidth, result.size.height);
-    
-    if (cellType == TWEET_CELL_TYPE_NORMAL) {
-        result.size.height += 18 + 15 + 2;
-        if (result.size.height < IMAGE_WIDTH + 1) result.size.height = IMAGE_WIDTH + 1;
-    }
-    else {
-        result.size.height += 22;
-    }
-    cellHeight = result.size.height;
 }
 
 int sTextWidth[] = {
