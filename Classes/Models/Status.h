@@ -14,7 +14,7 @@
 #define USER_CELL_LEFT      42
 #define STAR_BUTTON_WIDTH   32
 
-#define TOP                 16
+#define TOP                 (16 + 1)
 #define LEFT                (IMAGE_PADDING * 2 + IMAGE_WIDTH)
 #define CELL_WIDTH          (320 - LEFT)
 #define TIMESTAMP_WIDTH     60
