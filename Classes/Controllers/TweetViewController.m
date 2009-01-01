@@ -81,9 +81,11 @@ enum {
     
     if (status.inReplyToStatusId) {
         inReplyToStatus = [[Status statusWithId:status.inReplyToStatusId] retain];
+#if 0
         if (inReplyToStatus == nil) {
             inReplyToUser = [[User userWithId:status.inReplyToUserId] retain];
         }
+#endif
     }        
     actionCell.status = status;
     [userView setUser:status.user];

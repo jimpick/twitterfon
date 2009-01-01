@@ -33,4 +33,6 @@
 - (void)setUser:(User *)user;
 - (void)loadUserTimeline:(NSString*)screenName;
 
+@property(nonatomic, copy) NSString* screenName;
+
 @end

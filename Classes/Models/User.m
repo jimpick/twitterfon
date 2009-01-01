@@ -1,6 +1,7 @@
 #import "User.h"
 #import "DBConnection.h"
 #import "StringUtil.h"
+#import "UserStore.h"
 
 @implementation User
 
@@ -97,6 +98,10 @@
 
 + (User*)userWithId:(int)id
 {
+    User *user = [UserStore getUserWithId:(int)id];
+    
+    if (user) return user;
+    
     static Statement *stmt = nil;
     if (stmt == nil) {
         stmt = [DBConnection statementWithQuery:"SELECT * FROM users WHERE user_id = ?"];
@@ -110,7 +115,7 @@
         return nil;
     }
     
-    User *user = [[[User alloc] init] autorelease];
+    user = [[[User alloc] init] autorelease];
     user.userId           = [stmt getInt32:0];
     user.name             = [stmt getString:1];
     user.screenName       = [stmt getString:2];
@@ -122,23 +127,28 @@
     user.protected        = [stmt getInt32:8] ? true : false;
 
     [stmt reset];
+    [UserStore setUser:user];
     return user;
 }
 
-- (id)copyWithZone:(NSZone *)zone
++ (User*)userWithJsonDictionary:(NSDictionary*)dic
 {
-    User *dist = [[User allocWithZone:zone] init];
-	dist.userId             = userId;
-    dist.name               = name;
-	dist.screenName         = screenName;
-	dist.location           = location;
-	dist.description        = description;
-	dist.url                = url;
-	dist.followersCount     = followersCount;
-	dist.profileImageUrl    = profileImageUrl;
-    dist.protected          = protected;
+    User *u = [UserStore getUser:[dic objectForKey:@"screen_name"]];
+    if (u) return u;
     
-    return dist;
+    u = [[User alloc] initWithJsonDictionary:dic];
+    [UserStore setUser:u];
+    return u;
+}
+
++ (User*)userWithSearchResult:(NSDictionary*)dic
+{
+    User *u = [UserStore getUser:[dic objectForKey:@"from_user"]];
+    if (u) return u;
+    
+    u = [[User alloc] initWithSearchResult:dic];
+    [UserStore setUser:u];
+    return u;    
 }
 
 - (void)updateDB

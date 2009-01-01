@@ -25,7 +25,6 @@
 - (void)dealloc
 {
     [inReplyToScreenName release];
-    [user release];
     [source release];
   	[super dealloc];
 }
@@ -89,7 +88,7 @@
 	
 	NSDictionary* userDic = [dic objectForKey:@"user"];
 	if (userDic) {
-        user = [[User alloc] initWithJsonDictionary:userDic];
+        user = [User userWithJsonDictionary:userDic];
     }
     else {
         if (type == TWEET_TYPE_MESSAGES) {
@@ -98,7 +97,7 @@
         else {
             userDic = [dic objectForKey:@"recipient"];
         }
-        user = [[User alloc] initWithJsonDictionary:userDic];
+        user = [User userWithJsonDictionary:userDic];
     }
 
     [self updateAttribute];
@@ -133,7 +132,7 @@
     // parse source parameter
     source = @"";
     
-    user = [[User alloc] initWithSearchResult:dic];
+    user = [User userWithSearchResult:dic];
     
     [self updateAttribute];
     
@@ -155,8 +154,7 @@
     Status *dist = [super copyWithZone:zone];
     
 	dist.statusId  = statusId;
-	dist.user      = [user copy];
-    [dist.user release];
+	dist.user      = user;
     dist.source     = source;
     dist.favorited  = favorited;
     dist.truncated  = truncated;
@@ -232,7 +230,7 @@ int sTextWidth[] = {
 {
     static Statement *stmt = nil;
     if (stmt == nil) {
-        stmt = [DBConnection statementWithQuery:"SELECT * FROM statuses,users WHERE statuses.user_id = users.user_id AND id = ?"];
+        stmt = [DBConnection statementWithQuery:"SELECT * FROM statuses WHERE id = ?"];
         [stmt retain];
     }
 
@@ -250,10 +248,9 @@ int sTextWidth[] = {
 + (Status*)initWithStatement:(Statement*)stmt type:(TweetType)type
 {
     // sqlite3 statement should be:
-    //  SELECT * FROM messsages,users
+    //  SELECT * FROM messsages
     //
     Status *s               = [[[Status alloc] init] autorelease];
-    s.user                  = [[User alloc] init];
     
     s.statusId              = [stmt getInt64:0];
     s.text                  = [stmt getString:3];
@@ -265,15 +262,8 @@ int sTextWidth[] = {
     s.inReplyToUserId       = [stmt getInt32:9];
     s.inReplyToScreenName   = [stmt getString:10];
     
-    s.user.userId           = [stmt getInt32:11];
-    s.user.name             = [stmt getString:12];
-    s.user.screenName       = [stmt getString:13];
-    s.user.location         = [stmt getString:14];
-    s.user.description      = [stmt getString:15];
-    s.user.url              = [stmt getString:16];
-    s.user.followersCount   = [stmt getInt32:17];
-    s.user.profileImageUrl  = [stmt getString:18];
-    s.user.protected        = [stmt getInt32:19];
+    s.user = [User userWithId:[stmt getInt32:2]];
+    
     s.unread                = false;
     s.type                  = type;
 

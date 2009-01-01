@@ -126,7 +126,7 @@
 {
     static Statement *stmt = nil;
     if (stmt == nil) {
-        static char *sql = "SELECT * FROM statuses,users WHERE statuses.user_id = users.user_id AND statuses.type = ? ORDER BY id DESC LIMIT ? OFFSET ?";
+        static char *sql = "SELECT * FROM statuses WHERE statuses.type = ? ORDER BY id DESC LIMIT ? OFFSET ?";
         stmt = [DBConnection statementWithQuery:sql];
         [stmt retain];
     }

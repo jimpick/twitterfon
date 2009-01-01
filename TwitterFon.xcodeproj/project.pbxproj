@@ -65,6 +65,7 @@
 		6E6DC5A50EC077FD00F9EB74 /* FolloweesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */; };
 		6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC6230EC07F3D00F9EB74 /* camera.png */; };
 		6E74DA890ED95AC5000E169F /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E74DA870ED95AC5000E169F /* TabBarController.m */; };
+		6E7C7F850F0C30AC009836B6 /* UserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7C7F840F0C30AC009836B6 /* UserStore.m */; };
 		6E89F34A0EDD230A00778242 /* search_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E89F3490EDD230A00778242 /* search_shadow.png */; };
 		6E89F5EC0EDD58BF00778242 /* location_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E89F5EB0EDD58BF00778242 /* location_small.png */; };
 		6E89F7C60EDE267D00778242 /* CustomSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E89F7C40EDE267D00778242 /* CustomSearchBar.m */; };
@@ -218,6 +219,8 @@
 		6E6DC6230EC07F3D00F9EB74 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		6E74DA870ED95AC5000E169F /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarController.m; path = Controllers/TabBarController.m; sourceTree = "<group>"; };
 		6E74DA880ED95AC5000E169F /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarController.h; path = Controllers/TabBarController.h; sourceTree = "<group>"; };
+		6E7C7F830F0C30AC009836B6 /* UserStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserStore.h; sourceTree = "<group>"; };
+		6E7C7F840F0C30AC009836B6 /* UserStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserStore.m; sourceTree = "<group>"; };
 		6E89F3490EDD230A00778242 /* search_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_shadow.png; sourceTree = "<group>"; };
 		6E89F5EB0EDD58BF00778242 /* location_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_small.png; sourceTree = "<group>"; };
 		6E89F7C40EDE267D00778242 /* CustomSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomSearchBar.m; path = Controllers/CustomSearchBar.m; sourceTree = "<group>"; };
@@ -722,6 +725,8 @@
 			isa = PBXGroup;
 			children = (
 				6EA56C330EFF66F400A7902A /* DB */,
+				6E7C7F830F0C30AC009836B6 /* UserStore.h */,
+				6E7C7F840F0C30AC009836B6 /* UserStore.m */,
 				6EC53C3A0EF805FE009BCC92 /* Followee.h */,
 				6EC53C3B0EF805FE009BCC92 /* Followee.m */,
 				6EC53C400EF805FE009BCC92 /* User.h */,
@@ -1019,6 +1024,7 @@
 				6EA56C190EFF644C00A7902A /* Statement.m in Sources */,
 				6ECCDC200F00208200DBEB95 /* ProfileImageCell.m in Sources */,
 				6ECCDD590F00323000DBEB95 /* ProfileImageView.m in Sources */,
+				6E7C7F850F0C30AC009836B6 /* UserStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

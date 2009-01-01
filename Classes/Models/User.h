@@ -36,12 +36,12 @@
 @property (nonatomic, assign) BOOL      notifications;
 
 + (User*)userWithId:(int)id;
++ (User*)userWithJsonDictionary:(NSDictionary*)dic;
++ (User*)userWithSearchResult:(NSDictionary*)dic;
 
 - (User*)initWithJsonDictionary:(NSDictionary*)dic;
 - (User*)initWithSearchResult:(NSDictionary*)dic;
 - (void)updateWithJSonDictionary:(NSDictionary*)dic;
-- (id)copyWithZone:(NSZone *)zone;
-
 - (void)updateDB;
 
 @end

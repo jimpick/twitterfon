@@ -26,8 +26,6 @@
 
 - (void)dealloc
 {
-    [sender release];
-    [recipient release];
     [senderScreenName release];
     [recipientScreenName release];
     [senderProfileImageUrl release];
@@ -65,11 +63,11 @@
     
 	NSDictionary* senderDic = [dic objectForKey:@"sender"];
 	if (senderDic) {
-        sender = [[User alloc] initWithJsonDictionary:senderDic];
+        sender = [User userWithJsonDictionary:senderDic];
     }
     NSDictionary* recipientDic = [dic objectForKey:@"recipient"];
 	if (recipientDic) {
-        recipient = [[User alloc] initWithJsonDictionary:recipientDic];
+        recipient = [User userWithJsonDictionary:recipientDic];
     }
     senderId = sender.userId;
     recipientId = recipient.userId;
@@ -92,10 +90,8 @@
     DirectMessage *dist = [super copyWithZone:zone];
     
 	dist.messageId  = messageId;
-	dist.sender     = [sender copy];
-	dist.recipient  = [recipient copy];
-    [dist.sender release];
-    [dist.recipient release];
+	dist.sender     = sender;
+	dist.recipient  = recipient;
     dist.senderScreenName      = senderScreenName;
     dist.recipientScreenName   = recipientScreenName;
     dist.senderProfileImageUrl = senderProfileImageUrl;

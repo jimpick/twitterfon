@@ -18,6 +18,8 @@
 
 @implementation UserTimelineController
 
+@synthesize screenName;
+
 - (id)init
 {
     if (self = [super initWithNibName:nil bundle:nil]) {
@@ -34,9 +36,9 @@
 }
 
 - (void)dealloc {
+    [screenName release];
     [userCell release];
     [loadCell release];
-    [user release];
     [twitterClient release];
     [timeline release];
 	[super dealloc];
@@ -78,9 +80,9 @@
 
 - (void)setUser:(User *)aUser
 {
-    user = [aUser copy];
+    user = aUser;
     [userCell.userView setUser:user];
-    screenName = user.screenName;
+    self.screenName = user.screenName;
     
     [self loadUserTimeline:user.screenName];
 }
@@ -88,7 +90,7 @@
 - (void)loadUserTimeline:(NSString*)aScreenName
 {
     indexOfLoadCell = 1;
-    screenName = aScreenName;
+    self.screenName = aScreenName;
     
     [loadCell setType:MSG_TYPE_LOADING];
     [loadCell.spinner startAnimating];
@@ -255,10 +257,7 @@
         [timeline appendStatus:sts];
     }
     
-    if (user) {
-        [user release];
-    }
-    user = [[timeline lastStatus].user copy];
+    user = [timeline lastStatus].user;
     [userCell.userView setUser:user];
     
     int count = [ary count];
@@ -310,10 +309,7 @@
     if ([obj isKindOfClass:[NSDictionary class]]) {
         dic = (NSDictionary*)obj;
 
-        if (user) {
-            [user release];
-        }
-        user = [[User alloc] initWithJsonDictionary:dic];
+        user = [User userWithJsonDictionary:dic];
         [userCell.userView setUser:user];
         [userCell.userView setNeedsDisplay];
         

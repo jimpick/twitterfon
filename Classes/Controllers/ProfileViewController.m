@@ -31,7 +31,7 @@ enum {
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     
-    user = [aUser copy];
+    user = aUser;
     if ([TwitterFonAppDelegate isMyScreenName:user.screenName]) {
         ownInfo = true;
     }
@@ -81,7 +81,6 @@ enum {
 - (void)dealloc 
 {
     [userView release];
-    [user release];
     [twitterClient release];
     [super dealloc];
 }
