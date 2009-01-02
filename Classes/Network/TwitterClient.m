@@ -44,6 +44,7 @@ NSString* sMethods[4] = {
 
 - (void)getTimeline:(TweetType)type params:(NSDictionary*)params
 {
+    request = type;
     needAuth = true;
     NSString *url = [NSString stringWithFormat:@"https://twitter.com/%@.json", sMethods[type]];
     
@@ -285,9 +286,20 @@ NSString* sMethods[4] = {
     }
 #if 0
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"null_friends_timelne.json"];
-    NSData *data = [fileManager contentsAtPath:path];
-    content = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+    NSString *pathStr;
+    if (request == 0) {
+        pathStr = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"friends_timeline.json"];
+    }
+    else if (request == 1) {
+        pathStr = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"replies.json"];
+    }
+    else if (request == 2) {
+        pathStr = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"direct_messages.json"];
+    }
+    if (request <= 2) {
+        NSData *data = [fileManager contentsAtPath:pathStr];
+        content = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+    }
 #endif
 
     NSObject *obj = [content JSONValue];
