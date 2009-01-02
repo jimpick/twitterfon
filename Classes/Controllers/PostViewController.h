@@ -37,6 +37,7 @@
     TFConnection*               connection;
     BOOL                        didPost;
     BOOL                        isDirectMessage;
+    BOOL                        isRetweet;
     BOOL                        recipientIsFirstResponder;
     NSRange                     textRange;
 

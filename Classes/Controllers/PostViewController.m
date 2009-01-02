@@ -85,6 +85,7 @@
 - (void)editDirectMessage:(NSString*)aRecipient
 {
     isDirectMessage = true;
+    isRetweet = false;
     [postView editDirectMessage:aRecipient];
 
 
@@ -94,6 +95,7 @@
 - (void)reply:(NSString*)screenName
 {
     isDirectMessage = false;
+    isRetweet = false;
     text.text = [NSString stringWithFormat:@"@%@ %@", screenName, text.text];
     textRange.location = [text.text length];
     textRange.length = 0;
@@ -115,6 +117,7 @@
 - (void)retweet:(NSString*)status
 {
     isDirectMessage = false;
+    isRetweet = true;
     
     textRange.location = [status length];
     textRange.length = 0;
@@ -126,6 +129,7 @@
 - (void)post
 {
     isDirectMessage = false;
+    isRetweet = false;
     [postView editPost];
     [self edit];
 }
@@ -133,6 +137,8 @@
 - (void)editWithURL:(NSString*)URL
 {
     isDirectMessage = false;
+    isRetweet = false;
+    
     if ([TinyURL needToDecode:URL]) {
         TinyURL *encoder = [[TinyURL alloc] initWithDelegate:self];
         [encoder encode:URL];
@@ -147,6 +153,8 @@
 - (void)editWithURL:(NSString*)URL title:(NSString*)title
 {
     isDirectMessage = false;
+    isRetweet = false;
+    
     if ([TinyURL needToDecode:URL]) {
         TinyURL *encoder = [[TinyURL alloc] initWithDelegate:self];
         [encoder encode:URL];
@@ -611,7 +619,9 @@
 {
     CATransition *t = (CATransition*)animation;
     if (t.type == kCATransitionMoveIn) {
-        sendButton.enabled = false;
+        if (!isRetweet) {
+            sendButton.enabled = false;
+        }
     }
     else {
         [self.view removeFromSuperview];
