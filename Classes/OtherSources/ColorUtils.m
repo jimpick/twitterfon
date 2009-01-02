@@ -47,6 +47,6 @@ static UIColor *gUnreadCellColors[5];
 
 + (UIColor*)conversationBackground
 {
-    return [UIColor colorWithRed:0.827 green:0.851 blue:0.910 alpha:1.0];
+    return [UIColor colorWithRed:0.859 green:0.886 blue:0.929 alpha:1.0];
 }
 @end

@@ -35,7 +35,7 @@
 @property (nonatomic, assign) BOOL          needTimestamp;
 
 + (int)restore:(NSMutableArray*)array all:(BOOL)all;
-+ (int)getConversation:(int)senderId messages:(NSMutableArray*)messages all:(BOOL)all;
++ (int)getConversation:(int)senderId messages:(NSMutableArray*)messages offset:(int)offset;
 + (DirectMessage*)messageWithJsonDictionary:(NSDictionary*)dic;
 
 + (BOOL)isExists:(sqlite_int64)messageId;;

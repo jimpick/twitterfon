@@ -28,7 +28,7 @@
     
     messages = [[NSMutableArray alloc] init];
     firstMessage = msg;
-    [DirectMessage getConversation:msg.senderId messages:messages all:false];
+    [DirectMessage getConversation:msg.senderId messages:messages offset:0];
     isFirstTime = true;
     
     return self;

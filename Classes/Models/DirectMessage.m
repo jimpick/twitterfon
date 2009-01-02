@@ -165,16 +165,16 @@
     return count;
 }
 
-+ (int)getConversation:(int)senderId messages:(NSMutableArray*)messages all:(BOOL)all
++ (int)getConversation:(int)senderId messages:(NSMutableArray*)messages offset:(int)offset
 {
     static char *sql = "SELECT direct_messages.*, users.profile_image_url FROM direct_messages,users \
                         WHERE direct_messages.sender_id = users.user_id AND (sender_id = ? OR recipient_id = ?) ORDER BY id DESC LIMIT ? OFFSET ?";
     Statement *stmt = [DBConnection statementWithQuery:sql];
 
-    [stmt bindInt32:senderId         forIndex:1];
-    [stmt bindInt32:senderId         forIndex:2];
-    [stmt bindInt32:all ? 200 : 50   forIndex:3];
-    [stmt bindInt32:[messages count] forIndex:4];
+    [stmt bindInt32:senderId    forIndex:1];
+    [stmt bindInt32:senderId    forIndex:2];
+    [stmt bindInt32:50          forIndex:3];
+    [stmt bindInt32:offset      forIndex:4];
     
     NSMutableArray *array = [NSMutableArray array];
 
