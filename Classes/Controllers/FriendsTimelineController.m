@@ -167,6 +167,9 @@
 
 - (void)scrollToFirstUnread
 {
+    BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"autoScrollToFirstUnread"];
+    if (flag == false) return;
+    
     if (unread) {
         if (unread < [timelineDataSource.timeline countStatuses]) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:unread inSection:0];

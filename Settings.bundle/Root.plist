@@ -90,6 +90,16 @@
 				<string>Every 10 minutes</string>
 			</array>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Auto scroll to unread</string>
+			<key>Key</key>
+			<string>autoScrollToFirstUnread</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
 	</array>
 </dict>
 </plist>

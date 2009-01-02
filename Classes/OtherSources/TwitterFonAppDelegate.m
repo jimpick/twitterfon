@@ -87,6 +87,7 @@
                          @"",                             @"password",
                          [NSNumber numberWithBool:false], @"deleteMessageCache",
                          [NSNumber numberWithBool:true],  @"loadAllTabOnLaunch",
+                         [NSNumber numberWithBool:true],  @"autoScrollToFirstUnread",
                          [NSNumber numberWithInt:5],      @"autoRefresh",
                          @"",                             @"tweet",
                          [NSNumber numberWithLongLong:0], @"inReplyToStatusId",
