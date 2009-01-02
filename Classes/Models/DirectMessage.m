@@ -165,43 +165,25 @@
     return count;
 }
 
-+ (int)getConversation:(int)senderId messages:(NSMutableArray*)messages offset:(int)offset
++ (int)getConversation:(int)senderId messages:(NSMutableArray*)messages
 {
     static char *sql = "SELECT direct_messages.*, users.profile_image_url FROM direct_messages,users \
                         WHERE direct_messages.sender_id = users.user_id AND (sender_id = ? OR recipient_id = ?) ORDER BY id DESC LIMIT ? OFFSET ?";
     Statement *stmt = [DBConnection statementWithQuery:sql];
-
-    [stmt bindInt32:senderId    forIndex:1];
-    [stmt bindInt32:senderId    forIndex:2];
-    [stmt bindInt32:50          forIndex:3];
-    [stmt bindInt32:offset      forIndex:4];
     
-    NSMutableArray *array = [NSMutableArray array];
-
+    [stmt bindInt32:senderId                forIndex:1];
+    [stmt bindInt32:senderId                forIndex:2];
+    [stmt bindInt32:NUM_MESSAGE_PER_PAGE    forIndex:3];
+    [stmt bindInt32:[messages count]        forIndex:4];
+    
     int count = 0;
     DirectMessage *dm;
     while ([stmt step] == SQLITE_ROW) {
         dm = [DirectMessage initWithStatement:stmt];
-        dm.cellType = TWEET_CELL_TYPE_NORMAL;
-
-        [array addObject:dm];
+        [messages insertObject:dm atIndex:0];
         ++count;
     }
-    
-    time_t prev = 0;
-    for (int i = [array count] - 1; i >= 0; --i) {
-        dm = [array objectAtIndex:i];
-        int diff = dm.createdAt - prev;
-        if (diff > TIMESTAMP_DIFF) {
-            DirectMessage *tm = [[[DirectMessage alloc] init] autorelease];
-            tm.cellType = TWEET_CELL_TYPE_TIMESTAMP;
-            tm.createdAt = dm.createdAt;
-            [messages addObject:tm];
-        }
-        [messages addObject:dm];
-        prev = dm.createdAt;
-    }
-    
+
     return count;
 }
 

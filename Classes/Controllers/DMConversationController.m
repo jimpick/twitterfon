@@ -23,12 +23,14 @@
     
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
     self.navigationItem.rightBarButtonItem = button;
-
-//    self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     messages = [[NSMutableArray alloc] init];
     firstMessage = msg;
-    [DirectMessage getConversation:msg.senderId messages:messages offset:0];
+    int count = [DirectMessage getConversation:msg.senderId messages:messages];
+    hasMore = (count == NUM_MESSAGE_PER_PAGE) ? true : false;
+    
+    loadCell = [[LoadEarlierMessageCell alloc] initWithDelegate:self];
+    
     isFirstTime = true;
     
     return self;
@@ -40,13 +42,16 @@
     self.navigationController.navigationBar.tintColor = nil;
     [self.tableView reloadData];
     if (isFirstTime) {
-        NSIndexPath *path = [NSIndexPath indexPathForRow:[messages count] - 1 inSection:0];
+        int pos = [messages count] - 1;
+        if (hasMore) ++pos;
+        NSIndexPath *path = [NSIndexPath indexPathForRow:pos inSection:0];
         [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:false];
         isFirstTime = false;
     }
 }
 
 - (void)dealloc {
+    [loadCell release];
     [messages release];
     [super dealloc];
 }
@@ -59,27 +64,53 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-    return [messages count];
+    return [messages count] + (hasMore ? 1 : 0);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DirectMessage *dm = [messages objectAtIndex:indexPath.row];
+    time_t prev = 0;
+    
+    int index = indexPath.row;
+    
+    if (hasMore) {
+        if (index == 0) {
+            return 46 + 10 + 1;
+        }
+        --index;
+    }
+    
+    if (index - 1 >= 0) {
+        DirectMessage *prevDM = [messages objectAtIndex:index - 1];
+        prev = prevDM.createdAt;
+    }
+    
+    DirectMessage *dm = [messages objectAtIndex:index];
     float ret = dm.textRect.size.height + 5 + 5 + 5; // bubble height
-    if (dm.cellType == TWEET_CELL_TYPE_TIMESTAMP) {
-        return 26;
+
+    int diff = dm.createdAt - prev;
+    if (diff > TIMESTAMP_DIFF) {
+        dm.needTimestamp = true;
+        ret += 26;
     }
     else {
-        return ret + 5;
+        dm.needTimestamp = false;
+        ret += 5;
     }
-
-//    ret += (dm.needTimestamp) ? 24 : 4;
     return ret;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    DirectMessage *dm = [messages objectAtIndex:indexPath.row];
+    int index = indexPath.row;
+    if (hasMore) {
+        if (index == 0) {
+            return loadCell;
+        }
+        --index;
+    }
+    
+    DirectMessage *dm = [messages objectAtIndex:index];
     
     ChatBubbleCell *cell = (ChatBubbleCell*)[tableView dequeueReusableCellWithIdentifier:@"ChatBubble"];
     if (cell == nil) {
@@ -95,6 +126,22 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+- (void)loadEarlierMessages:(id)sender
+{
+    int count = [DirectMessage getConversation:firstMessage.senderId messages:messages];
+    hasMore = (count > 0) ? true : false;
+    if (count) {
+        [self.tableView reloadData];
+    }
+    else {
+        NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
+        [self.tableView beginUpdates];
+        [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView endUpdates];
+    }
+   
+}
+
 - (void)postTweet:(id)sender
 {
     PostViewController* postView = [TwitterFonAppDelegate getAppDelegate].postView;
@@ -105,7 +152,9 @@
 {
     if (self.navigationController.topViewController != self) return;
 
-    NSIndexPath *path = [NSIndexPath indexPathForRow:[messages count]-1 inSection:0];
+    int pos = [messages count] - 1;
+    if (hasMore) ++pos;
+    NSIndexPath *path = [NSIndexPath indexPathForRow:pos inSection:0];
     NSArray *indexPaths = [NSArray arrayWithObject:path];
     CGSize size = self.tableView.contentSize;
     CGPoint point = self.tableView.contentOffset;

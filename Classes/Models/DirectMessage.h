@@ -5,7 +5,9 @@
 
 #define MAX_BUBBLE_WIDTH (320 - 32 - 8 - 20 - 20)
 #define MAX_TEXT_WIDTH   (MAX_BUBBLE_WIDTH - 30)
-#define TIMESTAMP_DIFF   (60 * 60)
+#define TIMESTAMP_DIFF   (60 * 30)
+
+#define NUM_MESSAGE_PER_PAGE    40
 
 @interface DirectMessage : Tweet
 {
@@ -35,7 +37,7 @@
 @property (nonatomic, assign) BOOL          needTimestamp;
 
 + (int)restore:(NSMutableArray*)array all:(BOOL)all;
-+ (int)getConversation:(int)senderId messages:(NSMutableArray*)messages offset:(int)offset;
++ (int)getConversation:(int)senderId messages:(NSMutableArray*)messages;
 + (DirectMessage*)messageWithJsonDictionary:(NSDictionary*)dic;
 
 + (BOOL)isExists:(sqlite_int64)messageId;;

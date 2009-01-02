@@ -39,7 +39,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor conversationBackground];
 }
 
 - (void)dealloc {

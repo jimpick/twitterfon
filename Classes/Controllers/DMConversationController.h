@@ -7,14 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LoadEarlierMessageCell.h"
 
 @class DirectMessage;
 
 @interface DMConversationController : UITableViewController 
 {
-    NSMutableArray*     messages;
-    DirectMessage*      firstMessage;
-    BOOL                isFirstTime;
+    LoadEarlierMessageCell* loadCell;
+    NSMutableArray*         messages;
+    DirectMessage*          firstMessage;
+    BOOL                    isFirstTime;
+    BOOL                    hasMore;
 }
 
 - (id)initWithMessage:(DirectMessage*)message;

@@ -122,7 +122,6 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
     // Convert timestamp string to UNIX time
     //
     struct tm created;
-    setenv("TZ", "GMT", 1);
     time_t now;
     time(&now);
     
@@ -140,7 +139,6 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
 {
     // Calculate distance time string
     //
-    setenv("TZ", "GMT", 1);
     time_t now;
     time(&now);
     
@@ -171,7 +169,7 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
         if (dateFormatter == nil) {
             dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-            [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+            [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
         }
         
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:createdAt];        

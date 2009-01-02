@@ -10,6 +10,7 @@
 #import "DirectMessage.h"
 #import "ChatBubbleView.h"
 #import "TwitterFonAppDelegate.h"
+#import "ColorUtils.h"
 
 @implementation ChatBubbleCell
 
@@ -28,7 +29,6 @@
 
 - (void)updateImage:(UIImage*)image
 {
-    // Perhaps, you need re-implement on deliver class
     cellView.image = image;
     [cellView setNeedsDisplay];
 }
@@ -41,19 +41,10 @@
         self.accessoryType = UITableViewCellAccessoryNone;
     }
     
-    if (message.cellType == TWEET_CELL_TYPE_TIMESTAMP) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    else {
-//        self.selectionStyle = UITableViewCellSelectionStyleBlue;
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 
     [cellView setMessage:aMessage type:isOwn];
-    // Ignore timestamp cell
-    if (aMessage.cellType == TWEET_CELL_TYPE_NORMAL) {    
-        cellView.image = [self getProfileImage:aMessage.senderProfileImageUrl isLarge:false];
-    }
+    cellView.image = [self getProfileImage:aMessage.senderProfileImageUrl isLarge:false];
 }
 
 - (void)didTouchLinkButton:(id)sender
@@ -62,18 +53,11 @@
     [appDelegate openLinksViewController:message.text];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     cellView.frame = self.bounds;
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor conversationBackground];
 }
 
 - (void)dealloc {
