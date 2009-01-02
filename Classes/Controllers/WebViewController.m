@@ -156,7 +156,6 @@ typedef enum {
                             [titleLabel.text encodeAsURIComponent],
                             currentURL,
                             [body encodeAsURIComponent]];
-        NSLog(@"%@", mailTo);
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:mailTo]];
     }
 }
