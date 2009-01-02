@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "WebViewController.h"
 #import "TwitterFonAppDelegate.h"
+#import "StringUtil.h"
 
 #define kAnimationKey @"transitionViewAnimation"
 
@@ -129,9 +130,35 @@ typedef enum {
     [webView goForward];
 }
 
-- (IBAction) openSafari: (id)sender
+- (IBAction) onAction:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:currentURL];
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                      destructiveButtonTitle:nil
+                                           otherButtonTitles:@"Open with Safari", @"Email This Link", nil];
+    [as showInView:self.navigationController.parentViewController.view];
+    [as release];
+    
+}
+
+- (void)actionSheet:(UIActionSheet *)as clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (as.cancelButtonIndex == buttonIndex) return;
+
+    if (buttonIndex == 0) {
+        [[UIApplication sharedApplication] openURL:currentURL];
+    }
+    else {
+        NSString *body = @"\n\nSent from <a href=\"http://twitterfon.net\">TwitterFon</a>";
+        
+        NSString *mailTo = [NSString stringWithFormat:@"mailto:?subject=%@&body=%@%@",
+                            [titleLabel.text encodeAsURIComponent],
+                            currentURL,
+                            [body encodeAsURIComponent]];
+        NSLog(@"%@", mailTo);
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:mailTo]];
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

@@ -50,7 +50,6 @@
 		6E3B13B80EF8383300070525 /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3B13B70EF8383300070525 /* Status.m */; };
 		6E3EABA00EC8782400599954 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E3EAB9F0EC8782400599954 /* dist.plist */; };
 		6E3EDADE0EB9A2050041687A /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDADD0EB9A2050041687A /* OverlayView.m */; };
-		6E4011F10ECDF786009D452A /* open_safari.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E4011F00ECDF786009D452A /* open_safari.png */; };
 		6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */; };
 		6E48E93B0EBD7439005E1837 /* PostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E93A0EBD7439005E1837 /* PostView.m */; };
 		6E5CBCED0ECF7971008A18A2 /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5CBCEC0ECF7971008A18A2 /* ImageUtils.m */; };
@@ -202,7 +201,6 @@
 		6E3EAB9F0EC8782400599954 /* dist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dist.plist; sourceTree = "<group>"; };
 		6E3EDADC0EB9A2050041687A /* OverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverlayView.h; path = Controllers/OverlayView.h; sourceTree = "<group>"; };
 		6E3EDADD0EB9A2050041687A /* OverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OverlayView.m; path = Controllers/OverlayView.m; sourceTree = "<group>"; };
-		6E4011F00ECDF786009D452A /* open_safari.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = open_safari.png; sourceTree = "<group>"; };
 		6E48E2B20EBD2A27005E1837 /* PostImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostImagePickerController.h; path = Controllers/PostImagePickerController.h; sourceTree = "<group>"; };
 		6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostImagePickerController.m; path = Controllers/PostImagePickerController.m; sourceTree = "<group>"; };
 		6E48E9390EBD7439005E1837 /* PostView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostView.h; path = Controllers/PostView.h; sourceTree = "<group>"; };
@@ -467,7 +465,6 @@
 			children = (
 				6ED17FA50E38D3A0006E8AB7 /* forward.png */,
 				6ED17FA60E38D3A0006E8AB7 /* back.png */,
-				6E4011F00ECDF786009D452A /* open_safari.png */,
 			);
 			name = WebView;
 			sourceTree = "<group>";
@@ -931,7 +928,6 @@
 				6E6DC5A50EC077FD00F9EB74 /* FolloweesView.xib in Resources */,
 				6E6DC6240EC07F3D00F9EB74 /* camera.png in Resources */,
 				6E3EABA00EC8782400599954 /* dist.plist in Resources */,
-				6E4011F10ECDF786009D452A /* open_safari.png in Resources */,
 				6E1FAE8D0EDAC4D7009407F6 /* db1.3.sql in Resources */,
 				6E89F34A0EDD230A00778242 /* search_shadow.png in Resources */,
 				6E89F5EC0EDD58BF00778242 /* location_small.png in Resources */,

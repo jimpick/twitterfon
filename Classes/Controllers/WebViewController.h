@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WebViewController : UIViewController {
+@interface WebViewController : UIViewController <UIActionSheetDelegate> {
     IBOutlet UIWebView* webView;
     IBOutlet UILabel*   titleLabel;
     IBOutlet UIToolbar* toolbar;
@@ -29,7 +29,7 @@
 
 - (IBAction)goBack: (id)sender;
 - (IBAction)goForward: (id)sender;
-- (IBAction)openSafari: (id)sender;
+- (IBAction)onAction: (id)sender;
 
 - (IBAction)reload:(id)sender;
 - (IBAction)stop:(id)sender;
