@@ -134,8 +134,11 @@
     }
     
     DirectMessage *dm = [messages objectAtIndex:index];
-    DMDetailViewController *c = [[[DMDetailViewController alloc] initWithMessage:dm] autorelease];
-    [self.navigationController pushViewController:c animated:true];
+    [dm loadUserObject];
+    if (dm.sender) {
+        DMDetailViewController *c = [[[DMDetailViewController alloc] initWithMessage:dm] autorelease];
+        [self.navigationController pushViewController:c animated:true];
+    }
 }
 
 - (void)loadEarlierMessages:(id)sender

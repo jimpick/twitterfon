@@ -51,7 +51,6 @@ enum {
     messageCell = [[DMDetailCell alloc] initWithMessage:value];
     
     message = value;
-    [message loadUserObject];
     [userView setUser:message.sender];
     self.title = message.sender.screenName;
     

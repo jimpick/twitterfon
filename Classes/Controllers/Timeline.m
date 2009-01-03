@@ -138,8 +138,10 @@
     int count = 0;
     while ([stmt step] == SQLITE_ROW) {
         Status* sts = [Status initWithStatement:stmt type:aType];
-        [statuses addObject:sts];
-        ++count;
+        if (sts) {
+            [statuses addObject:sts];
+            ++count;
+        }
     }
     [stmt reset];
     return count;

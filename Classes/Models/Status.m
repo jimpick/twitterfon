@@ -217,7 +217,11 @@ int sTextWidth[] = {
     s.inReplyToScreenName   = [stmt getString:10];
     
     s.user = [User userWithId:[stmt getInt32:2]];
-    
+
+    if (s.user == nil) {
+        return nil;
+    }
+
     s.unread                = false;
     s.type                  = type;
 
