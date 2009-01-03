@@ -18,6 +18,7 @@
     DirectMessage*          firstMessage;
     BOOL                    isFirstTime;
     BOOL                    hasMore;
+    CGPoint                 contentOffset;
 }
 
 - (id)initWithMessage:(DirectMessage*)message;

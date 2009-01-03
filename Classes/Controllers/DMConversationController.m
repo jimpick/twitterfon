@@ -19,8 +19,6 @@
 {
     self = [super initWithStyle:UITableViewStylePlain];
     self.navigationItem.title = msg.senderScreenName;
-    self.tableView.separatorColor = [UIColor conversationBackground];
-    self.tableView.backgroundColor = [UIColor conversationBackground];
     
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
     self.navigationItem.rightBarButtonItem = button;
@@ -37,6 +35,12 @@
     return self;
 }
 
+- (void)viewDidLoad
+{
+    self.tableView.separatorColor = [UIColor conversationBackground];
+    self.tableView.backgroundColor = [UIColor conversationBackground];
+}
+
  - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -49,6 +53,14 @@
         [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:false];
         isFirstTime = false;
     }
+    else {
+        [self.tableView setContentOffset:contentOffset animated:false];    
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    contentOffset = self.tableView.contentOffset;
 }
 
 - (void)dealloc {
