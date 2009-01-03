@@ -52,7 +52,11 @@
 
 + (void)insertDB:(User*)user
 {
-    Statement *stmt = [DBConnection statementWithQuery:"REPLACE INTO followees VALUES(?, ?, ?, ?)"];
+    static Statement *stmt = nil;
+    if (stmt == nil) {
+        stmt = [DBConnection statementWithQuery:"REPLACE INTO followees VALUES(?, ?, ?, ?)"];
+        [stmt retain];
+    }
     
     [stmt bindInt32:user.userId             forIndex:1];
     [stmt bindString:user.name              forIndex:2];
@@ -62,6 +66,7 @@
     if ([stmt step] == SQLITE_ERROR) {
         [DBConnection assertWithMessage:@"Failed to insert User into friends table"];
     }
+    [stmt reset];
 }
 
 + (void)deleteFromDB:(User*)user
