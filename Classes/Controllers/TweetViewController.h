@@ -19,14 +19,11 @@
     TweetViewActionCell*    actionCell;
     DeleteButtonCell*       deleteCell;
     Status*                 status;
-    Status*                 inReplyToStatus;
-    User*                   inReplyToUser;
-    TwitterClient*          twitterClient;
+
     BOOL                    isOwnTweet;
     int                     *sections;
 }
 
 - (id)initWithMessage:(Status*)status;
-- (id)initWithMessageId:(sqlite_int64)statusId;
 
 @end

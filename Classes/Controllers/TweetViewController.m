@@ -54,38 +54,26 @@ enum {
     ROW_PROFILE,
 };
 
-@interface NSObject (UserViewControllerDelegate)
-- (void)removeStatus:(Status*)status;
-@end
-
 @implementation TweetViewController
 
-- (void)initCommon
+- (id)initWithMessage:(Status*)sts
 {
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    
     userView   = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 387)];
     actionCell = [[TweetViewActionCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ActionCell"];
     tweetCell  = [[UserTimelineCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"MessageCell"];
     deleteCell = [[DeleteButtonCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"DeleteCell"];
-}
-
-- (void)setStatus:(Status*)sts
-{
+    
+    
     status = [sts copy];
     status.cellType = TWEET_CELL_TYPE_DETAIL;
     [status  updateAttribute];
     
-    if (status.inReplyToStatusId) {
-        inReplyToStatus = [[Status statusWithId:status.inReplyToStatusId] retain];
-#if 0
-        if (inReplyToStatus == nil) {
-            inReplyToUser = [[User userWithId:status.inReplyToUserId] retain];
-        }
-#endif
-    }        
     actionCell.status = status;
     [userView setUser:status.user];
     self.title = status.user.screenName;
-
+    
     if ([TwitterFonAppDelegate isMyScreenName:status.user.screenName]) {
         isOwnTweet = true;
         sections = sOwnSection;
@@ -93,24 +81,7 @@ enum {
     else {
         sections = sUserSection;
     }
-}
-
-- (id)initWithMessage:(Status*)sts
-{
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-        [self initCommon];
-        [self setStatus:sts];
-    }
-	return self;
-}
-
-- (id)initWithMessageId:(sqlite_int64)statusId
-{
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-        [self initCommon];
-        twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(messageDidLoad:obj:)];
-        [twitterClient getMessage:statusId];
-    }
+    
 	return self;
 }
 
@@ -120,47 +91,13 @@ enum {
     self.navigationController.navigationBar.tintColor = nil;
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    if (twitterClient) {
-        [twitterClient cancel];
-        [twitterClient release];
-        twitterClient = nil;
-    }
-}
-
 - (void)dealloc {
-    [inReplyToUser release];
-    [inReplyToStatus release];
     [tweetCell release];
     [deleteCell release];
     [actionCell release];
     [userView release];
     [status  release];
     [super dealloc];
-}
-
-- (void)messageDidLoad:(TwitterClient*)client obj:(id)obj
-{
-    twitterClient = nil;
-    if (client.hasError) {
-        [client alert];
-        return;
-    }
-
-    if ([obj isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *dic = (NSDictionary*)obj;
-
-        Status* sts = [Status statusWithJsonDictionary:dic type:TWEET_TYPE_FRIENDS];
-        [self setStatus:sts];
-        if (isOwnTweet) {
-            [sts insertDB];
-        }
-        else {
-            [sts insertDBIfFollowing];
-        }
-        [self.tableView reloadData];
-    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -232,15 +169,6 @@ enum {
         cell.font = [UIFont boldSystemFontOfSize:14];
         cell.textColor = [UIColor cellLabelColor];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        if (inReplyToStatus) {
-            cell.text = [NSString stringWithFormat:@"In-reply-to %@: %@", inReplyToStatus.user.screenName, inReplyToStatus.text];
-        }
-        else if (inReplyToUser) {
-            cell.text = [NSString stringWithFormat:@"In-reply-to %@", inReplyToUser.screenName];
-        }
-        else {
-            cell.text = [NSString stringWithFormat:@"In-reply-to-message-id: %lld", status.inReplyToStatusId];
-        }
     }
     else if (section == SECTION_MORE_ACTIONS) {
         cell.textAlignment = UITextAlignmentCenter;
@@ -257,14 +185,7 @@ enum {
     switch (section) {
         case SECTION_MESSAGE:
             if (indexPath.row == 1) {
-                TweetViewController *messageView = [TweetViewController alloc];
-                if (inReplyToStatus) {
-                    [[messageView initWithMessage:inReplyToStatus] autorelease];
-                }
-                else {
-                    [[messageView initWithMessageId:status.inReplyToStatusId] autorelease];
-                }
-                [self.navigationController pushViewController:messageView animated:true];
+                // to be implemented.
             }
             break;
         case SECTION_MORE_ACTIONS:
@@ -341,7 +262,7 @@ enum {
     for (int i = 0; i < [array count] - 1; ++i) {
         UIViewController *c = [self.navigationController.viewControllers objectAtIndex:i];
         if ([c respondsToSelector:@selector(removeStatus:)]) {
-            [c removeStatus:status];
+            [c performSelector:@selector(removeStatus:) withObject:status];
         }
     }
 
