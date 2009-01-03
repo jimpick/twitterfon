@@ -100,6 +100,22 @@
 			<key>DefaultValue</key>
 			<true/>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Cache (For next launch only)</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Clear local cache</string>
+			<key>Key</key>
+			<string>clearLocalCache</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
 	</array>
 </dict>
 </plist>

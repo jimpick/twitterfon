@@ -42,22 +42,24 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-    [DBConnection createEditableCopyOfDatabaseIfNeeded:false];
-    [DBConnection getSharedDatabase];
     [self initializeUserDefaults];
 
+ 	BOOL forceCreate = [[NSUserDefaults standardUserDefaults] boolForKey:@"clearLocalCache"];
+    [DBConnection createEditableCopyOfDatabaseIfNeeded:forceCreate];
+    [DBConnection getSharedDatabase];
+    [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"clearLocalCache"];
+    
 	NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
 	NSString *prevUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"prevUsername"];
 	NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
     
- 	BOOL needDeleteMessageCache = [[NSUserDefaults standardUserDefaults] boolForKey:@"deleteMessageCache"];
+    BOOL needDeleteMessageCache = false;
 
     if (prevUsername != nil && [username caseInsensitiveCompare:prevUsername] != NSOrderedSame) {
         needDeleteMessageCache = true;
     }
     
     [[NSUserDefaults standardUserDefaults] setObject:username forKey:@"prevUsername"];
-    [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"deleteMessageCache"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     if (needDeleteMessageCache) {
@@ -85,7 +87,7 @@
     NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:
                          @"",                             @"username",
                          @"",                             @"password",
-                         [NSNumber numberWithBool:false], @"deleteMessageCache",
+                         [NSNumber numberWithBool:false], @"clearLocalCache",
                          [NSNumber numberWithBool:true],  @"loadAllTabOnLaunch",
                          [NSNumber numberWithBool:true],  @"autoScrollToFirstUnread",
                          [NSNumber numberWithInt:5],      @"autoRefresh",
