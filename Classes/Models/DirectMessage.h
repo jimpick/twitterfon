@@ -41,11 +41,12 @@
 + (DirectMessage*)messageWithJsonDictionary:(NSDictionary*)dic;
 
 + (BOOL)isExists:(sqlite_int64)messageId;;
++ (int)countMessages:(int)userId;
 
 - (DirectMessage*)initWithJsonDictionary:(NSDictionary*)dic;
 
 - (void)updateAttribute;
-
+- (void)loadUserObject;
 - (void)insertDB;
 - (void)deleteFromDB;
 

@@ -7,6 +7,7 @@
 //
 
 #import "TwitterFonAppDelegate.h"
+#import "DirectMessage.h"
 #import "TwitterClient.h"
 #import "StringUtil.h"
 #import "JSON.h"
@@ -153,16 +154,18 @@ NSString* sMethods[4] = {
     [self post:url body:@""];
 }
 
-- (void)destroy:(Status*)status isDirectMessage:(BOOL)isDirectMessage
+- (void)destroy:(Tweet*)tweet
 {
     needAuth = true;
 
     NSString *url;
-    if (isDirectMessage) {
-        url = [NSString stringWithFormat:@"https://twitter.com/direct_messages/destroy/%lld.json", [status statusId]];
+    if ([tweet isKindOfClass:[Status class]]) {
+        Status *status = (Status*)tweet;
+        url = [NSString stringWithFormat:@"https://twitter.com/statuses/destroy/%lld.json", [status  statusId]];
     }
     else {
-        url = [NSString stringWithFormat:@"https://twitter.com/statuses/destroy/%lld.json", [status  statusId]];
+        DirectMessage *message = (DirectMessage*)tweet;
+        url = [NSString stringWithFormat:@"https://twitter.com/direct_messages/destroy/%lld.json", [message messageId]];
     }
     
     [self post:url body:@""];

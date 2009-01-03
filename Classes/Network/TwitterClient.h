@@ -39,7 +39,7 @@ typedef enum {
 - (void)post:(NSString*)tweet inReplyTo:(sqlite_int64)statusId;
 - (void)send:(NSString*)text to:(NSString*)screen_name;
 - (void)getFriends:(NSString*)screen_name page:(int)page isFollowers:(BOOL)isFollowers;
-- (void)destroy:(Status*)status isDirectMessage:(BOOL)isDirectMessage;
+- (void)destroy:(Tweet*)tweet;
 - (void)favorite:(Status*)status;
 - (void)friendship:(NSString*)screen_name create:(BOOL)create;
 - (void)search:(NSString*)query;

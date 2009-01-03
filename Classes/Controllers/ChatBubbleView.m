@@ -43,12 +43,12 @@ static UIImage* sGrayBubble = nil;
 - (void)drawRect:(CGRect)rect 
 {
     CGContextRef c = UIGraphicsGetCurrentContext();
-    
     float top = 0;
     
+    //
+    // Draw timestamp
+    //
     if (message.needTimestamp) {
-        // Draw timestamp
-        //
         UIColor *timestampColor = [UIColor darkGrayColor];
         [timestampColor set];
         
@@ -64,10 +64,11 @@ static UIImage* sGrayBubble = nil;
         top = 22;
     }
 
+    //
+    // Draw message profile image icon with drop shadow
+    //
     CGContextSetShadowWithColor(c, CGSizeMake(0, -1), 3, [[UIColor darkGrayColor] CGColor]);        
     
-    // Draw message with chat bubble and profile icon
-    //
     CGRect imageRect = CGRectMake(0, 0, IMAGE_SIZE, IMAGE_SIZE);
     imageRect.origin.y = rect.size.height - IMAGE_SIZE - 4;
     if (type == BUBBLE_TYPE_GRAY) {
@@ -78,9 +79,11 @@ static UIImage* sGrayBubble = nil;
     }
     [image drawInRect:imageRect];
 
-    CGContextSetShadowWithColor(c, CGSizeMake(0, 0), 0, [[UIColor whiteColor] CGColor]);        
-    
+    CGContextSetShadowWithColor(c, CGSizeMake(0, 0), 0, [[UIColor whiteColor] CGColor]);
+
+    //
     // Draw chat bubble
+    //
     UIImage *bubble;
     CGRect bubbleRect = message.textRect;
     
@@ -100,6 +103,9 @@ static UIImage* sGrayBubble = nil;
     }
     [bubble drawInRect:bubbleRect];
     
+    //
+    // Draw message text
+    //
     [[UIColor blackColor] set];
     bubbleRect.origin.y += 6;
     bubbleRect.size.width = message.textRect.size.width;

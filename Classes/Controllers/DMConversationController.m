@@ -8,6 +8,7 @@
 
 #import "TwitterFonAppDelegate.h"
 #import "DMConversationController.h"
+#import "DMDetailViewController.h"
 #import "DirectMessage.h"
 #import "ColorUtils.h"
 #import "ChatBubbleCell.h"
@@ -124,6 +125,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    int index = indexPath.row;
+    if (hasMore) {
+        if (index == 0) {
+            return;
+        }
+        --index;
+    }
+    
+    DirectMessage *dm = [messages objectAtIndex:index];
+    DMDetailViewController *c = [[[DMDetailViewController alloc] initWithMessage:dm] autorelease];
+    [self.navigationController pushViewController:c animated:true];
 }
 
 - (void)loadEarlierMessages:(id)sender
@@ -140,6 +152,12 @@
         [self.tableView endUpdates];
     }
    
+}
+
+- (void)removeMessage:(DirectMessage*)message
+{
+    [messages removeObject:message];
+    [self.tableView reloadData];
 }
 
 - (void)postTweet:(id)sender

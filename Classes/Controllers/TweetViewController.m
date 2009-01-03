@@ -13,17 +13,17 @@
 #import "ProfileViewController.h"
 #import "ColorUtils.h"
 
-NSString* sUserDetailText[2] = {
+static NSString* sUserDetailText[2] = {
     @"This User's Timeline",
     @"Profile",
 };
 
-NSString* sYourDetailText[2] = {
+static NSString* sYourDetailText[2] = {
     @"Your Timeline",
     @"Your Profile",
 };
 
-NSString* sDeleteMessage[2] = {
+static NSString* sDeleteMessage[2] = {
     @"Delete this tweet",
     @"Delete this message",
 };
@@ -143,6 +143,7 @@ enum {
     [inReplyToUser release];
     [inReplyToStatus release];
     [tweetCell release];
+    [deleteCell release];
     [actionCell release];
     [userView release];
     [status  release];
@@ -350,7 +351,7 @@ enum {
     // Delete message
     //
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-    TwitterClient* client = [[TwitterClient alloc] initWithTarget:appDelegate action:@selector(messageDidDelete:obj:)];
+    TwitterClient* client = [[TwitterClient alloc] initWithTarget:appDelegate action:@selector(tweetDidDelete:obj:)];
     client.context = [status retain];
 
     NSArray *array = self.navigationController.viewControllers;
@@ -361,7 +362,7 @@ enum {
         }
     }
 
-    [client destroy:status isDirectMessage:isDirectMessage];
+    [client destroy:status];
 
     [self.navigationController popViewControllerAnimated:true];
 }

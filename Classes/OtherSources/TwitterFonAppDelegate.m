@@ -455,8 +455,9 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 //
 // Bypass message deletion and toggle favorite completed
 //
-- (void)messageDidDelete:(TwitterClient*)client obj:(NSObject*)obj
+- (void)tweetDidDelete:(TwitterClient*)client obj:(NSObject*)obj
 {
+   
     Status* sts = (Status*)client.context;
 
     if (client.hasError) {
@@ -475,6 +476,49 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
         }
     }
     [sts release];
+}
+
+- (void)messageDidDelete:(TwitterClient*)client obj:(NSObject*)obj
+{
+    
+    DirectMessage *message = (DirectMessage*)client.context;
+    
+    BOOL success = true;
+    
+    if (client.hasError) {
+        if (client.statusCode == 404) {
+            [message deleteFromDB];
+        }
+        else {
+            [client alert];
+            success = false;
+        }
+    }
+    else if ([obj isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dic = (NSDictionary*)obj;
+        sqlite_int64 messageId = [[dic objectForKey:@"id"] longLongValue];        
+        if (message.messageId == messageId) {
+            [message deleteFromDB];
+        }
+        else {
+            success = false;
+        }
+    }
+    
+    if (success) {
+        UINavigationController *nav = nil;
+        nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_MESSAGES];   
+        
+        NSArray *array = nav.viewControllers;
+        for (int i = 0; i < [array count]; ++i) {
+            UIViewController *c = [nav.viewControllers objectAtIndex:i];
+            if ([c respondsToSelector:@selector(removeMessage:)]) {
+                [c performSelector:@selector(removeMessage:) withObject:message];
+            }
+        }  
+    }
+   
+    [message release];
 }
 
 //

@@ -357,7 +357,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Status* sts = [timeline statusAtIndex:indexPath.row - 1];
         TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
-        TwitterClient* client = [[TwitterClient alloc] initWithTarget:appDelegate action:@selector(messageDidDelete:obj:)];
+        TwitterClient* client = [[TwitterClient alloc] initWithTarget:appDelegate action:@selector(tweetDidDelete:obj:)];
         client.context = [sts retain];
         [timeline removeStatus:sts];
         
@@ -367,7 +367,7 @@
             [c removeStatus:sts];
         }
         
-        [client destroy:sts isDirectMessage:false];
+        [client destroy:sts];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     }
 }

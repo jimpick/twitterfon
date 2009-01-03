@@ -41,7 +41,7 @@
         self.accessoryType = UITableViewCellAccessoryNone;
     }
     
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.selectionStyle = UITableViewCellSelectionStyleBlue;
 
     [cellView setMessage:aMessage type:isOwn];
     cellView.image = [self getProfileImage:aMessage.senderProfileImageUrl isLarge:false];

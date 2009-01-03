@@ -50,8 +50,10 @@
 		6E3B13B80EF8383300070525 /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3B13B70EF8383300070525 /* Status.m */; };
 		6E3EABA00EC8782400599954 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E3EAB9F0EC8782400599954 /* dist.plist */; };
 		6E3EDADE0EB9A2050041687A /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3EDADD0EB9A2050041687A /* OverlayView.m */; };
+		6E41FE230F0ED77B0038D075 /* DMDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E41FE220F0ED77B0038D075 /* DMDetailCell.m */; };
 		6E48E2B40EBD2A27005E1837 /* PostImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */; };
 		6E48E93B0EBD7439005E1837 /* PostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48E93A0EBD7439005E1837 /* PostView.m */; };
+		6E49DB580F0EC8C2007EA8F5 /* DMDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E49DB570F0EC8C2007EA8F5 /* DMDetailViewController.m */; };
 		6E5CBCED0ECF7971008A18A2 /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5CBCEC0ECF7971008A18A2 /* ImageUtils.m */; };
 		6E68219D0EF7BBB00079EC9E /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E68219C0EF7BBB00079EC9E /* ProfileViewController.m */; };
 		6E6DC59D0EC077FD00F9EB74 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E6DC5940EC077FD00F9EB74 /* MainWindow.xib */; };
@@ -201,10 +203,14 @@
 		6E3EAB9F0EC8782400599954 /* dist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dist.plist; sourceTree = "<group>"; };
 		6E3EDADC0EB9A2050041687A /* OverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverlayView.h; path = Controllers/OverlayView.h; sourceTree = "<group>"; };
 		6E3EDADD0EB9A2050041687A /* OverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OverlayView.m; path = Controllers/OverlayView.m; sourceTree = "<group>"; };
+		6E41FE210F0ED77B0038D075 /* DMDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMDetailCell.h; path = Controllers/DMDetailCell.h; sourceTree = "<group>"; };
+		6E41FE220F0ED77B0038D075 /* DMDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DMDetailCell.m; path = Controllers/DMDetailCell.m; sourceTree = "<group>"; };
 		6E48E2B20EBD2A27005E1837 /* PostImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostImagePickerController.h; path = Controllers/PostImagePickerController.h; sourceTree = "<group>"; };
 		6E48E2B30EBD2A27005E1837 /* PostImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostImagePickerController.m; path = Controllers/PostImagePickerController.m; sourceTree = "<group>"; };
 		6E48E9390EBD7439005E1837 /* PostView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostView.h; path = Controllers/PostView.h; sourceTree = "<group>"; };
 		6E48E93A0EBD7439005E1837 /* PostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostView.m; path = Controllers/PostView.m; sourceTree = "<group>"; };
+		6E49DB560F0EC8C2007EA8F5 /* DMDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMDetailViewController.h; path = Controllers/DMDetailViewController.h; sourceTree = "<group>"; };
+		6E49DB570F0EC8C2007EA8F5 /* DMDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DMDetailViewController.m; path = Controllers/DMDetailViewController.m; sourceTree = "<group>"; };
 		6E5CBCEB0ECF7971008A18A2 /* ImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageUtils.h; path = Classes/OtherSources/ImageUtils.h; sourceTree = "<group>"; };
 		6E5CBCEC0ECF7971008A18A2 /* ImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageUtils.m; path = Classes/OtherSources/ImageUtils.m; sourceTree = "<group>"; };
 		6E68219B0EF7BBB00079EC9E /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileViewController.h; path = Controllers/ProfileViewController.h; sourceTree = "<group>"; };
@@ -659,6 +665,10 @@
 				6E97ABE30EF920FE00168291 /* ChatBubbleView.m */,
 				6E79DEBA0F0DC063006E0525 /* LoadEarlierMessageCell.h */,
 				6E79DEBB0F0DC063006E0525 /* LoadEarlierMessageCell.m */,
+				6E49DB560F0EC8C2007EA8F5 /* DMDetailViewController.h */,
+				6E49DB570F0EC8C2007EA8F5 /* DMDetailViewController.m */,
+				6E41FE210F0ED77B0038D075 /* DMDetailCell.h */,
+				6E41FE220F0ED77B0038D075 /* DMDetailCell.m */,
 			);
 			name = Conversation;
 			sourceTree = "<group>";
@@ -1035,6 +1045,8 @@
 				6ECCDD590F00323000DBEB95 /* ProfileImageView.m in Sources */,
 				6E7C7F850F0C30AC009836B6 /* UserStore.m in Sources */,
 				6E79DEBC0F0DC063006E0525 /* LoadEarlierMessageCell.m in Sources */,
+				6E49DB580F0EC8C2007EA8F5 /* DMDetailViewController.m in Sources */,
+				6E41FE230F0ED77B0038D075 /* DMDetailCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

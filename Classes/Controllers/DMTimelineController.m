@@ -372,9 +372,17 @@ NSInteger sortByDate(id a, id b, void *context)
 
 - (void) removeMessage:(DirectMessage*)message
 {
-    [messages removeObjectForKey:[NSString stringWithFormat:@"%d", message.senderId]];
-    [timeline removeObject:message];
-    [self.tableView reloadData];
+    if ([DirectMessage countMessages:message.senderId] == 0) {
+        [messages removeObjectForKey:[NSString stringWithFormat:@"%d", message.senderId]];
+        for (int i = 0; i < [timeline count]; ++i) {
+            DirectMessage *dm = [timeline objectAtIndex:i];
+            if (dm.senderId == message.senderId) {
+                [timeline removeObjectAtIndex:i];
+                break;
+            }
+        }
+        [self.tableView reloadData];
+    }
 }
 
 - (void)scrollToFirstUnread:(NSTimer*)timer

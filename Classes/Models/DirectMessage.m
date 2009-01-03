@@ -122,6 +122,12 @@
     [self calcTextBounds:CELL_WIDTH - INDICATOR_WIDTH];
 }
 
+- (void)loadUserObject
+{
+    self.sender    = [User userWithId:self.senderId];
+    self.recipient = [User userWithId:self.recipientId];
+}
+
 + (DirectMessage*)initWithStatement:(Statement*)stmt
 {
     // sqlite3 statement should be:
@@ -199,6 +205,19 @@
     BOOL result = ([stmt step] == SQLITE_ROW) ? true : false;
     [stmt reset];
     return result;
+}
+
++ (int)countMessages:(int)userId
+{
+    Statement* stmt = [DBConnection statementWithQuery:"SELECT count(*) FROM direct_messages WHERE sender_id = ?"];
+    [stmt bindInt64:userId forIndex:1];
+    
+    int ret = 0;
+    
+    if ([stmt step] == SQLITE_ROW) {
+        ret = [stmt getInt32:0];        
+    }
+    return ret;
 }
 
 - (void)insertDB
