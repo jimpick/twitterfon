@@ -1,5 +1,6 @@
 #import "DBConnection.h"
 #import "Statement.h"
+#import "TwitterFonAppDelegate.h"
 
 static sqlite3*             theDatabase = nil;
 
@@ -42,7 +43,11 @@ const char *delete_tweets =
 {
     if (theDatabase == nil) {
         theDatabase = [self openDatabase:MAIN_DATABASE_NAME];
-        NSAssert1(theDatabase, @"Can't open cache database. Please re-install TwitterFon", nil);
+        if (theDatabase == nil) {
+            [DBConnection createEditableCopyOfDatabaseIfNeeded:true];
+            [[TwitterFonAppDelegate getAppDelegate] alert:@"Local cache error" 
+                                                  message:@"Local cache database has been corrupted. Re-created new database."];
+        }
         
 #ifdef TEST_DELETE_TWEET
         char *errmsg;
@@ -135,7 +140,7 @@ const char *optimize_sql =
 }
 
 // Creates a writable copy of the bundled default database in the application Documents directory.
-+ (void)createEditableCopyOfDatabaseIfNeeded
++ (void)createEditableCopyOfDatabaseIfNeeded:(BOOL)force
 {
     // First, test for existence.
     BOOL success;
@@ -168,6 +173,10 @@ const char *optimize_sql =
         [fileManager removeItemAtPath:oldDBPath error:&error];
     }
     
+    if (force) {
+        [fileManager removeItemAtPath:writableDBPath error:&error];
+    }
+    
     // No exists any database file. Create new one.
     //
     success = [fileManager fileExistsAtPath:writableDBPath];
@@ -198,19 +207,10 @@ const char *optimize_sql =
     return stmt;
 }
 
-+ (void)assert
++ (void)alert
 {
-    NSAssert1(0, @"Database Error: %s", sqlite3_errmsg(theDatabase));
-}
-
-+ (void)assertWithMessage:(NSString*)message
-{
-    NSAssert2(0, @"Database Error: %@ (%s)", message, sqlite3_errmsg(theDatabase));
-}
-
-+ (NSString*)errorMessage
-{
-    return [NSString stringWithUTF8String:sqlite3_errmsg(theDatabase)];
+    NSString *sqlite3err = [NSString stringWithUTF8String:sqlite3_errmsg(theDatabase)];
+    [[TwitterFonAppDelegate getAppDelegate] alert:@"Local cache db error" message:sqlite3err];
 }
 
 @end

@@ -278,7 +278,7 @@ int sTextWidth[] = {
     [stmt bindString:inReplyToScreenName forIndex:11];
     
     if ([stmt step] == SQLITE_ERROR) {
-        [DBConnection assert];
+        [DBConnection alert];
     }
     [stmt reset];
     

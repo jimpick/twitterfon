@@ -96,7 +96,7 @@
     if (buttonIndex == 0) {
         Statement *stmt = [DBConnection statementWithQuery:"DELETE FROM queries"];
         if ([stmt step] == SQLITE_ERROR) {
-            [DBConnection assert];
+            [DBConnection alert];
         }
         [queries removeAllObjects];
         [bookmarkView reloadData];
@@ -134,7 +134,7 @@
         [stmt bindString:query forIndex:1];
 
         if ([stmt step] == SQLITE_ERROR) {
-            [DBConnection assert];
+            [DBConnection alert];
         }   
         [queries removeObject:query];
         

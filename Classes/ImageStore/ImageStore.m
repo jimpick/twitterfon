@@ -200,9 +200,8 @@ static UIImage *sProfileImageSmall = nil;
     [stmt bindString:url forIndex:1];
     [stmt bindData:buf forIndex:2];
     
-    if ([stmt step] != SQLITE_DONE) {
-        [DBConnection assert];
-    }
+    // Ignore error
+    [stmt step];
     [stmt reset];
 }
 

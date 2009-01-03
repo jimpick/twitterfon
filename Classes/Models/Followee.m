@@ -64,7 +64,7 @@
     [stmt bindString:user.profileImageUrl   forIndex:4];
 
     if ([stmt step] == SQLITE_ERROR) {
-        [DBConnection assertWithMessage:@"Failed to insert User into friends table"];
+        [DBConnection alert];
     }
     [stmt reset];
 }
@@ -76,7 +76,7 @@
     [stmt bindInt32:user.userId forIndex:1];
 
     if ([stmt step] == SQLITE_ERROR) {
-        [DBConnection assertWithMessage:@"Failed to execute SQL command"];
+        [DBConnection alert];
     }
 }
 

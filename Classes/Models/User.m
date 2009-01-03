@@ -169,7 +169,7 @@
     [stmt bindInt32:protected           forIndex:9];
 
     if ([stmt step] == SQLITE_ERROR) {
-        [DBConnection assert];
+        [DBConnection alert];
     }
     [stmt reset];
 }

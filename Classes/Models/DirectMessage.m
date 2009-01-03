@@ -238,7 +238,7 @@
     [stmt bindString:recipient.screenName forIndex:7];
     
     if ([stmt step] == SQLITE_ERROR) {
-        [DBConnection assert];
+        [DBConnection alert];
     }
     [stmt reset];
     

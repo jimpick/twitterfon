@@ -42,7 +42,7 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-    [DBConnection createEditableCopyOfDatabaseIfNeeded];
+    [DBConnection createEditableCopyOfDatabaseIfNeeded:false];
     [DBConnection getSharedDatabase];
     [self initializeUserDefaults];
 

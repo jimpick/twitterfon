@@ -8,7 +8,7 @@
 {
 }
 
-+ (void)createEditableCopyOfDatabaseIfNeeded;
++ (void)createEditableCopyOfDatabaseIfNeeded:(BOOL)force;
 + (void)deleteMessageCache;
 + (void)deleteImageCache;
 
@@ -20,8 +20,6 @@
 
 + (Statement*)statementWithQuery:(const char*)sql;
 
-+ (void)assert;
-+ (void)assertWithMessage:(NSString*)message;
-+ (NSString*)errorMessage;
++ (void)alert;
 
 @end
