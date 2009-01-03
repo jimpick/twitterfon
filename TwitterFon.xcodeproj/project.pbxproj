@@ -102,6 +102,7 @@
 		6EAE81B90EF5BB4E00BF6CD4 /* SearchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE81B80EF5BB4E00BF6CD4 /* SearchResultsDataSource.m */; };
 		6EAE82B10EF5CBCB00BF6CD4 /* TimelineDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */; };
 		6EBEE5840EB2F65400C18F0A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE5830EB2F65400C18F0A /* SearchViewController.m */; };
+		6EC261130F0F4A7B00C31A13 /* DMDetailCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC261120F0F4A7B00C31A13 /* DMDetailCellView.m */; };
 		6EC53C420EF805FE009BCC92 /* DBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C390EF805FE009BCC92 /* DBConnection.m */; };
 		6EC53C430EF805FE009BCC92 /* Followee.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C3B0EF805FE009BCC92 /* Followee.m */; };
 		6EC53C460EF805FE009BCC92 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C410EF805FE009BCC92 /* User.m */; };
@@ -284,6 +285,8 @@
 		6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimelineDataSource.m; path = Controllers/TimelineDataSource.m; sourceTree = "<group>"; };
 		6EBEE5820EB2F65400C18F0A /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = Controllers/SearchViewController.h; sourceTree = "<group>"; };
 		6EBEE5830EB2F65400C18F0A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = Controllers/SearchViewController.m; sourceTree = "<group>"; };
+		6EC261110F0F4A7B00C31A13 /* DMDetailCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMDetailCellView.h; path = Controllers/DMDetailCellView.h; sourceTree = "<group>"; };
+		6EC261120F0F4A7B00C31A13 /* DMDetailCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DMDetailCellView.m; path = Controllers/DMDetailCellView.m; sourceTree = "<group>"; };
 		6EC53C380EF805FE009BCC92 /* DBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBConnection.h; sourceTree = "<group>"; };
 		6EC53C390EF805FE009BCC92 /* DBConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBConnection.m; sourceTree = "<group>"; };
 		6EC53C3A0EF805FE009BCC92 /* Followee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Followee.h; sourceTree = "<group>"; };
@@ -669,6 +672,8 @@
 				6E49DB570F0EC8C2007EA8F5 /* DMDetailViewController.m */,
 				6E41FE210F0ED77B0038D075 /* DMDetailCell.h */,
 				6E41FE220F0ED77B0038D075 /* DMDetailCell.m */,
+				6EC261110F0F4A7B00C31A13 /* DMDetailCellView.h */,
+				6EC261120F0F4A7B00C31A13 /* DMDetailCellView.m */,
 			);
 			name = Conversation;
 			sourceTree = "<group>";
@@ -1047,6 +1052,7 @@
 				6E79DEBC0F0DC063006E0525 /* LoadEarlierMessageCell.m in Sources */,
 				6E49DB580F0EC8C2007EA8F5 /* DMDetailViewController.m in Sources */,
 				6E41FE230F0ED77B0038D075 /* DMDetailCell.m in Sources */,
+				6EC261130F0F4A7B00C31A13 /* DMDetailCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "DirectMessage.h"
+#import "DMDetailCellView.h"
 
 @interface DMDetailCell : UITableViewCell {
-    DirectMessage*  message;
-    UILabel*        messageLabel;
-    CGFloat         cellHeight;
+    DMDetailCellView*   cellView;
+    CGFloat             cellHeight;
 }
 
 @property(nonatomic, assign) CGFloat cellHeight;
