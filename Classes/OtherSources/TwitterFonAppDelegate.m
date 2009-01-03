@@ -97,6 +97,7 @@
                          @"",                             @"recipient",
                          [NSNumber numberWithInt:2],      @"searchDistance",
                          [NSNumber numberWithInt:50],     @"launchCount",
+                         [NSNumber numberWithInt:13],     @"fontSize",
                          nil];
 
     for (id key in dic) {
