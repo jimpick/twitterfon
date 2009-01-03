@@ -41,6 +41,7 @@
 + (DirectMessage*)messageWithJsonDictionary:(NSDictionary*)dic;
 
 + (BOOL)isExists:(sqlite_int64)messageId;;
++ (sqlite_int64)lastSentMessageId;
 + (int)countMessages:(int)userId;
 
 - (DirectMessage*)initWithJsonDictionary:(NSDictionary*)dic;

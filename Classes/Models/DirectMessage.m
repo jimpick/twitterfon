@@ -210,13 +210,26 @@
 + (int)countMessages:(int)userId
 {
     Statement* stmt = [DBConnection statementWithQuery:"SELECT count(*) FROM direct_messages WHERE sender_id = ?"];
-    [stmt bindInt64:userId forIndex:1];
+    [stmt bindInt32:userId forIndex:1];
     
     int ret = 0;
     
     if ([stmt step] == SQLITE_ROW) {
         ret = [stmt getInt32:0];        
     }
+    return ret;
+}
+
++ (sqlite_int64)lastSentMessageId
+{
+    Statement* stmt = [DBConnection statementWithQuery:"SELECT id FROM direct_messages WHERE sender_screen_name = ? ORDER BY id DESC LIMIT 1"];
+    [stmt bindString:[TwitterFonAppDelegate getAppDelegate].screenName forIndex:1];
+    
+    sqlite_int64 ret = 0;
+    if ([stmt step] == SQLITE_ROW) {
+        ret = [stmt getInt64:0];
+    }
+    NSLog(@"%lld", ret);
     return ret;
 }
 

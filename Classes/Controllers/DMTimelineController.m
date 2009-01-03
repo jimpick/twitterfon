@@ -185,11 +185,19 @@ NSInteger sortByDate(id a, id b, void *context)
 {
     self.navigationItem.leftBarButtonItem.enabled = false;
     twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(sentMessageDidReceived:obj:)];
-#if 0
+
+    sqlite_int64 since_id = [DirectMessage lastSentMessageId];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    [param setObject:@"200" forKey:@"count"];
+    if (since_id) {
+        [param setObject:[NSString stringWithFormat:@"%lld", since_id] forKey:@"since_id"];
+        [param setObject:@"200" forKey:@"count"];
+    }
+#if 0
+    else {
+        [param setObject:@"200" forKey:@"count"];
+    }
 #endif
-    [twitterClient getTimeline:TWEET_TYPE_SENT params:nil];
+    [twitterClient getTimeline:TWEET_TYPE_SENT params:param];
 }   
 
 - (void)restoreMessage:(BOOL)restoreAll
@@ -226,7 +234,7 @@ NSInteger sortByDate(id a, id b, void *context)
         DirectMessage *dm = [timeline objectAtIndex:0];
         int since_id = dm.messageId;
     
-        [param setObject:[NSString stringWithFormat:@"%d", since_id] forKey:@"since_id"];
+        [param setObject:[NSString stringWithFormat:@"%lld", since_id] forKey:@"since_id"];
         [param setObject:@"200" forKey:@"count"];
     }
 #if 0
