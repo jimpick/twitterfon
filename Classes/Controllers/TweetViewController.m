@@ -23,11 +23,6 @@ static NSString* sYourDetailText[2] = {
     @"Your Profile",
 };
 
-static NSString* sDeleteMessage[2] = {
-    @"Delete this tweet",
-    @"Delete this message",
-};
-
 #define NUM_SECTIONS 3
 
 enum {
@@ -123,11 +118,6 @@ enum {
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.tintColor = nil;
-    
-    if ([self tabBarController].selectedIndex == TWEET_TYPE_MESSAGES) {
-        isDirectMessage = true;
-        isOwnTweet      = true;
-    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -228,8 +218,7 @@ enum {
         return actionCell;
     }
     else if (section == SECTION_DELETE) {
-        int index = (isDirectMessage) ? 1 : 0;
-        [deleteCell setTitle:sDeleteMessage[index]];
+        [deleteCell setTitle:@"Delete this tweet"];
         return deleteCell;
     }
     
@@ -292,11 +281,10 @@ enum {
             
         case SECTION_DELETE:
         {
-            int index = (isDirectMessage) ? 1 : 0;
             UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
                                                             delegate:self
                                                    cancelButtonTitle:@"Cancel"
-                                              destructiveButtonTitle:sDeleteMessage[index]
+                                              destructiveButtonTitle:@"Delete this tweet"
                                                    otherButtonTitles:nil];
             [as showInView:self.navigationController.parentViewController.view];
             [as release];
@@ -334,12 +322,7 @@ enum {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
     
-    if ([self tabBarController].selectedIndex == TWEET_TYPE_MESSAGES) {
-        [postView editDirectMessage:status.user.screenName];
-    }
-    else {
-        [postView inReplyTo:status];
-    }
+    [postView inReplyTo:status];
 }
 
 - (void)actionSheet:(UIActionSheet *)as clickedButtonAtIndex:(NSInteger)buttonIndex

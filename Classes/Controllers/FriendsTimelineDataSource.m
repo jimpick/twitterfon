@@ -84,14 +84,8 @@
     if (sts) {
         // Display user view
         //
-        if (tweetType == TWEET_TYPE_MESSAGES || tweetType == TWEET_TYPE_SENT) {
-            ProfileViewController *profile = [[[ProfileViewController alloc] initWithProfile:sts.user] autorelease];
-            [[controller navigationController] pushViewController:profile animated:true];
-        }
-        else {
-            TweetViewController* tweetView = [[[TweetViewController alloc] initWithMessage:sts] autorelease];
-            [[controller navigationController] pushViewController:tweetView animated:TRUE];
-        }
+        TweetViewController* tweetView = [[[TweetViewController alloc] initWithMessage:sts] autorelease];
+        [[controller navigationController] pushViewController:tweetView animated:TRUE];
     }      
     else {
         // Restore tweets from DB

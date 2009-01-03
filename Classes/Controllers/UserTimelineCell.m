@@ -44,11 +44,6 @@ static UIImage* sFavorited = nil;
         [imageButton setImage:[UserTimelineCell favoriteImage] forState:UIControlStateNormal];
     }
     
-    if (status.type == TWEET_TYPE_MESSAGES || status.type == TWEET_TYPE_SENT) {
-        cellView.frame = CGRectOffset(cellView.frame, -32, 0);
-        imageButton.hidden = true;
-    }
-
     if (inEditing) {
         cellView.frame = CGRectOffset(cellView.frame, -32, 0);
         imageButton.hidden = true;

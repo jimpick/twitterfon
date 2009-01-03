@@ -88,15 +88,6 @@
 	if (userDic) {
         user = [User userWithJsonDictionary:userDic];
     }
-    else {
-        if (type == TWEET_TYPE_MESSAGES) {
-            userDic = [dic objectForKey:@"sender"];
-        }
-        else {
-            userDic = [dic objectForKey:@"recipient"];
-        }
-        user = [User userWithJsonDictionary:userDic];
-    }
 
     [self updateAttribute];
     unread = true;
@@ -174,11 +165,7 @@ int sTextWidth[] = {
 {
     [super updateAttribute];
     int textWidth = sTextWidth[cellType];
-    if (cellType == TWEET_CELL_TYPE_DETAIL && 
-        (type == TWEET_TYPE_MESSAGES || type == TWEET_TYPE_SENT)) {
-        textWidth += STAR_BUTTON_WIDTH;
-    }
-    
+
     if (accessoryType == UITableViewCellAccessoryDetailDisclosureButton) {
         textWidth -= DETAIL_BUTTON_WIDTH;
     }

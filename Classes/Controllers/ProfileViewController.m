@@ -309,7 +309,7 @@ enum {
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     PostViewController* postView = appDelegate.postView;
     
-    if ([self tabBarController].selectedIndex == TWEET_TYPE_MESSAGES) {
+    if ([self tabBarController].selectedIndex == TAB_MESSAGES) {
         [postView editDirectMessage:user.screenName];
     }
     else {

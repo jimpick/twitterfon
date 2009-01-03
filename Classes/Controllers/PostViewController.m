@@ -105,13 +105,9 @@
 
 - (void)inReplyTo:(Status*)status
 {
-    if (status.type == TWEET_TYPE_MESSAGES) {
-        [self reply:status.user.screenName];
-    }
-    else {
-        [postView editReply:status];
-        [self reply:status.user.screenName];
-    }
+    isDirectMessage = false;
+    [postView editReply:status];
+    [self reply:status.user.screenName];
 }
 
 - (void)retweet:(NSString*)status

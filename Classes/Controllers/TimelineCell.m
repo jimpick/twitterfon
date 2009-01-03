@@ -21,12 +21,7 @@
     TwitterFonAppDelegate *appDelegate = (TwitterFonAppDelegate*)[UIApplication sharedApplication].delegate;
     
     PostViewController* postView = appDelegate.postView;
-    if (status.type == TWEET_TYPE_MESSAGES || status.type == TWEET_TYPE_SENT) {
-        [postView editDirectMessage:status.user.screenName];
-    }
-    else {
-        [postView inReplyTo:status];
-    }
+    [postView inReplyTo:status];
 }
 
 - (void)update

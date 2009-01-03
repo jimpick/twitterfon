@@ -23,7 +23,6 @@
     User*                   inReplyToUser;
     TwitterClient*          twitterClient;
     BOOL                    isOwnTweet;
-    BOOL                    isDirectMessage;
     int                     *sections;
 }
 
