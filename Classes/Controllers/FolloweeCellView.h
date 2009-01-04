@@ -16,7 +16,7 @@
     NSString*   name;
 }
 
-@property(nonatomic, assign) NSString *screenName;
-@property(nonatomic, assign) NSString *name;
+@property(nonatomic, retain) NSString *screenName;
+@property(nonatomic, retain) NSString *name;
 
 @end

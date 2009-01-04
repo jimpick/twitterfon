@@ -30,6 +30,8 @@
 
 
 - (void)dealloc {
+    [screenName release];
+    [name release];
     [super dealloc];
 }
 
