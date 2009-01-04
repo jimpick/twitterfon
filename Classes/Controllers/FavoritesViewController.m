@@ -18,10 +18,17 @@
 
 @implementation FavoritesViewController
 
+- (void)awakeFromNib
+{
+    timeline = [[Timeline alloc] init];
+}
+
 - (void)viewDidLoad
 {
     if (timeline == nil) {
         timeline = [[Timeline alloc] init];
+    }
+    if (loadCell == nil) {
         loadCell = [[LoadCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"LoadCell"];
         if (screenName) {
             [loadCell setType:MSG_TYPE_LOAD_FROM_WEB];
@@ -112,6 +119,8 @@
     if (status.favorited) {
         Status *newStatus = [status copy];
         newStatus.cellType = TWEET_CELL_TYPE_NORMAL;
+        newStatus.type = TWEET_TYPE_FAVORITES;
+        newStatus.unread = false;
         [newStatus updateAttribute];
         [timeline appendStatus:newStatus];
     }
