@@ -40,7 +40,8 @@ typedef enum {
 - (void)send:(NSString*)text to:(NSString*)screen_name;
 - (void)getFriends:(NSString*)screen_name page:(int)page isFollowers:(BOOL)isFollowers;
 - (void)destroy:(Tweet*)tweet;
-- (void)favorite:(Status*)status;
+- (void)favorites:(NSString*)screenName page:(int)page;
+- (void)toggleFavorite:(Status*)status;
 - (void)friendship:(NSString*)screen_name create:(BOOL)create;
 - (void)search:(NSString*)query;
 - (void)existFriendship:(NSString*)screen_name;

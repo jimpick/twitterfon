@@ -171,7 +171,22 @@ NSString* sMethods[4] = {
     [self post:url body:@""];
 }
 
-- (void)favorite:(Status*)status
+- (void)favorites:(NSString*)screenName page:(int)page
+{
+    needAuth = true;
+    NSString *url;
+    
+    if (screenName) {
+        url = [NSString stringWithFormat:@"https://twitter.com/favorites/%@.json?page=%d", screenName, page];
+    }
+    else {
+        url = @"https://twitter.com/favorites.json";
+    }
+    
+    [self get:url];
+}
+
+- (void)toggleFavorite:(Status*)status
 {
     needAuth = true;
     request = (status.favorited) ? TWITTER_REQUEST_DESTROY_FAVORITE : TWITTER_REQUEST_FAVORITE;

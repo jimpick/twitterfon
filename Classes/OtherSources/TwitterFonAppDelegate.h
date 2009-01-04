@@ -17,6 +17,7 @@ typedef enum {
     TAB_FRIENDS,
     TAB_REPLIES,
     TAB_MESSAGES,
+    TAB_FAVORITES,
     TAB_SEARCH,
 } TAB_ITEM;
 

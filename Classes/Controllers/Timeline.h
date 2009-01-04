@@ -33,6 +33,8 @@
 
 - (void)updateFavorite:(Status*)status;
 
+- (void)sortByDate;
+
 - (TimelineCell*)getTimelineCell:(UITableView*)tableView atIndex:(int)index;
 
 @end

@@ -103,6 +103,9 @@
 		6EAE82B10EF5CBCB00BF6CD4 /* TimelineDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE82B00EF5CBCB00BF6CD4 /* TimelineDataSource.m */; };
 		6EBEE5840EB2F65400C18F0A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEE5830EB2F65400C18F0A /* SearchViewController.m */; };
 		6EC261130F0F4A7B00C31A13 /* DMDetailCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC261120F0F4A7B00C31A13 /* DMDetailCellView.m */; };
+		6EC2637C0F0F989500C31A13 /* FavoritesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC2637B0F0F989500C31A13 /* FavoritesView.xib */; };
+		6EC263830F0F98E600C31A13 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC263820F0F98E600C31A13 /* FavoritesViewController.m */; };
+		6EC266F80F1020D700C31A13 /* FolloweeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC266F70F1020D700C31A13 /* FolloweeCellView.m */; };
 		6EC53C420EF805FE009BCC92 /* DBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C390EF805FE009BCC92 /* DBConnection.m */; };
 		6EC53C430EF805FE009BCC92 /* Followee.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C3B0EF805FE009BCC92 /* Followee.m */; };
 		6EC53C460EF805FE009BCC92 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC53C410EF805FE009BCC92 /* User.m */; };
@@ -287,6 +290,11 @@
 		6EBEE5830EB2F65400C18F0A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = Controllers/SearchViewController.m; sourceTree = "<group>"; };
 		6EC261110F0F4A7B00C31A13 /* DMDetailCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMDetailCellView.h; path = Controllers/DMDetailCellView.h; sourceTree = "<group>"; };
 		6EC261120F0F4A7B00C31A13 /* DMDetailCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DMDetailCellView.m; path = Controllers/DMDetailCellView.m; sourceTree = "<group>"; };
+		6EC2637B0F0F989500C31A13 /* FavoritesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FavoritesView.xib; path = Interfaces/FavoritesView.xib; sourceTree = "<group>"; };
+		6EC263810F0F98E600C31A13 /* FavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FavoritesViewController.h; path = Controllers/FavoritesViewController.h; sourceTree = "<group>"; };
+		6EC263820F0F98E600C31A13 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FavoritesViewController.m; path = Controllers/FavoritesViewController.m; sourceTree = "<group>"; };
+		6EC266F60F1020D700C31A13 /* FolloweeCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FolloweeCellView.h; path = Controllers/FolloweeCellView.h; sourceTree = "<group>"; };
+		6EC266F70F1020D700C31A13 /* FolloweeCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FolloweeCellView.m; path = Controllers/FolloweeCellView.m; sourceTree = "<group>"; };
 		6EC53C380EF805FE009BCC92 /* DBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBConnection.h; sourceTree = "<group>"; };
 		6EC53C390EF805FE009BCC92 /* DBConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBConnection.m; sourceTree = "<group>"; };
 		6EC53C3A0EF805FE009BCC92 /* Followee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Followee.h; sourceTree = "<group>"; };
@@ -703,6 +711,8 @@
 			children = (
 				6EADC09E0EBDC48D00093782 /* FolloweeCell.h */,
 				6EADC09F0EBDC48D00093782 /* FolloweeCell.m */,
+				6EC266F60F1020D700C31A13 /* FolloweeCellView.h */,
+				6EC266F70F1020D700C31A13 /* FolloweeCellView.m */,
 				6EAE76020EF3904600BF6CD4 /* FriendsViewController.h */,
 				6EAE76030EF3904600BF6CD4 /* FriendsViewController.m */,
 			);
@@ -742,6 +752,15 @@
 				6ED501750EE11EE300087B83 /* CustomSearchBar */,
 			);
 			name = Search;
+			sourceTree = "<group>";
+		};
+		6EC263800F0F98C500C31A13 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				6EC263810F0F98E600C31A13 /* FavoritesViewController.h */,
+				6EC263820F0F98E600C31A13 /* FavoritesViewController.m */,
+			);
+			name = Favorites;
 			sourceTree = "<group>";
 		};
 		6EC53C370EF805FE009BCC92 /* Models */ = {
@@ -790,6 +809,7 @@
 				6E6DC5990EC077FD00F9EB74 /* TimelineView.xib */,
 				6E6DC59B0EC077FD00F9EB74 /* WebView.xib */,
 				6E6DC59C0EC077FD00F9EB74 /* FolloweesView.xib */,
+				6EC2637B0F0F989500C31A13 /* FavoritesView.xib */,
 				6E97A8810EF8F7DA00168291 /* DirectMessage.xib */,
 			);
 			name = interfaces;
@@ -815,6 +835,7 @@
 				6E74D0E20EF7B440003BB7B1 /* Tweets */,
 				6E1BE7BF0EF7C0370075881E /* DirectMessage */,
 				6E97AE610EF951FC00168291 /* Conversation */,
+				6EC263800F0F98C500C31A13 /* Favorites */,
 				6E6846AC0EE2D7D6009847F3 /* UserTimeline */,
 				6E1FAB400EDA6A39009407F6 /* Profile */,
 				6EBEE5790EB2F58E00C18F0A /* Search */,
@@ -968,6 +989,7 @@
 				6E97AD160EF93AB800168291 /* update_v12_to_v13.sql in Resources */,
 				6E79DE330F0DB173006E0525 /* EarlierButton.png in Resources */,
 				6E79DE3D0F0DB746006E0525 /* EalierButtonPressed.png in Resources */,
+				6EC2637C0F0F989500C31A13 /* FavoritesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1053,6 +1075,8 @@
 				6E49DB580F0EC8C2007EA8F5 /* DMDetailViewController.m in Sources */,
 				6E41FE230F0ED77B0038D075 /* DMDetailCell.m in Sources */,
 				6EC261130F0F4A7B00C31A13 /* DMDetailCellView.m in Sources */,
+				6EC263830F0F98E600C31A13 /* FavoritesViewController.m in Sources */,
+				6EC266F80F1020D700C31A13 /* FolloweeCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

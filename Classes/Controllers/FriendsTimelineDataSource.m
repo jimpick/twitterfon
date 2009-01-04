@@ -141,32 +141,6 @@
     [twitterClient getTimeline:tweetType params:param];
 }
 
-- (void)getFavorites
-{
-    if (twitterClient) return;
-	twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(timelineDidReceive:obj:)];
-    
-    insertPosition = 0;
-    
-    NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    
-    int since_id = 0;
-    for (int i = 0; i < [timeline countStatuses]; ++i) {
-        Status* sts = [timeline statusAtIndex:i];
-        if ([TwitterFonAppDelegate isMyScreenName:sts.user.screenName] == false) {
-            since_id = sts.statusId;
-            break;
-        }
-    }
-    
-    if (since_id) {
-        [param setObject:[NSString stringWithFormat:@"%d", since_id] forKey:@"since_id"];
-        [param setObject:@"200" forKey:@"count"];
-    }
-    
-    [twitterClient getTimeline:tweetType params:param];
-}
-
 - (void)timelineDidReceive:(TwitterClient*)sender obj:(NSObject*)obj
 {
     twitterClient = nil;

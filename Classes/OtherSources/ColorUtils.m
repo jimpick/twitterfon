@@ -8,7 +8,7 @@
 
 #import "ColorUtils.h"
 
-static UIColor *gNavigationBarColors[4];
+static UIColor *gNavigationBarColors[5];
 static UIColor *gUnreadCellColors[5];
 
 @implementation UIColor (UIColorUtils)
@@ -25,8 +25,8 @@ static UIColor *gUnreadCellColors[5];
     gNavigationBarColors[0] = [[UIColor colorWithRed:0.341 green:0.643 blue:0.859 alpha:1.0] retain];
     gNavigationBarColors[1] = [[UIColor colorWithRed:0.459 green:0.663 blue:0.557 alpha:1.0] retain];
     gNavigationBarColors[2] = [[UIColor colorWithRed:0.686 green:0.502 blue:0.447 alpha:1.0] retain];
-//    gNavigationBarColors[2] = [[UIColor colorWithRed:0.701 green:0.447 blue:0.459 alpha:1.0] retain];
-    gNavigationBarColors[3] = [UIColor whiteColor];
+    gNavigationBarColors[3] = [[UIColor colorWithRed:0.701 green:0.447 blue:0.459 alpha:1.0] retain];
+    gNavigationBarColors[4] = [UIColor whiteColor];
     
 }
 

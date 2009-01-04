@@ -12,6 +12,7 @@
 #import "WebViewController.h"
 #import "FriendsViewController.h"
 #import "UserTimelineController.h"
+#import "FavoritesViewController.h"
 #import "Followee.h"
 #import "ColorUtils.h"
 
@@ -21,7 +22,7 @@ enum {
     ROW_FRIENDS,
     ROW_FOLLOWERS,
     ROW_UPDATES,
-//    ROW_FAVORITES,
+    ROW_FAVORITES,
     NUM_ROWS,
 };
 
@@ -119,16 +120,14 @@ enum {
                 cell.text = [NSString stringWithFormat:@" %d following", user.friendsCount];
                 break;
             case ROW_FOLLOWERS:
-                cell.text = [NSString stringWithFormat:@" %d follower%s", user.followersCount, (user.followersCount) ? "s" : ""];
+                cell.text = [NSString stringWithFormat:@" %d follower%s", user.followersCount, (user.followersCount> 1) ? "s" : ""];
                 break;
             case ROW_UPDATES:
-                cell.text = [NSString stringWithFormat:@" %d update%s", user.statusesCount, (user.statusesCount) ? "s" : ""];
+                cell.text = [NSString stringWithFormat:@" %d update%s", user.statusesCount, (user.statusesCount > 1) ? "s" : ""];
                 break;
-#if 0
             case ROW_FAVORITES:
-                cell.text = [NSString stringWithFormat:@" %d favorite%s", user.favoritesCount, (user.favoritesCount) ? "s" : ""];
+                cell.text = [NSString stringWithFormat:@" %d favorite%s", user.favoritesCount, (user.favoritesCount > 1) ? "s" : ""];
                 break;
-#endif
         }
     }
     else if (indexPath.section == 1) {
@@ -147,12 +146,14 @@ enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if (indexPath.section == 0) {
-#if 0
         if (indexPath.row == ROW_FAVORITES) {
+            if (user.favoritesCount != 0) {
+                FavoritesViewController *c = [[FavoritesViewController alloc] initWithNibName:@"FavoritesView" bundle:nil];
+                [c loadTimeline:user.screenName];
+                [self.navigationController pushViewController:c animated:true];
+            }
         }
-        else
-#endif
-        if (indexPath.row == ROW_UPDATES) {
+        else if (indexPath.row == ROW_UPDATES) {
             if (user.statusesCount != 0) {
                 UserTimelineController* userTimeline = [[[UserTimelineController alloc] init] autorelease];
                 [userTimeline loadUserTimeline:user.screenName];
@@ -236,7 +237,7 @@ enum {
                               [NSIndexPath indexPathForRow:0 inSection:0],
                               [NSIndexPath indexPathForRow:1 inSection:0],
                               [NSIndexPath indexPathForRow:2 inSection:0],
-//                              [NSIndexPath indexPathForRow:3 inSection:0],
+                              [NSIndexPath indexPathForRow:3 inSection:0],
                               nil];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:indexPath withRowAnimation:UITableViewRowAnimationTop];

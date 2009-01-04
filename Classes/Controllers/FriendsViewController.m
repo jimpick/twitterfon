@@ -10,6 +10,7 @@
 #import "FriendsViewController.h"
 #import "ProfileViewController.h"
 #import "LoadCell.h"
+#import "Followee.h"
 #import "FolloweeCell.h"
 
 @implementation FriendsViewController

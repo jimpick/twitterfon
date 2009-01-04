@@ -531,7 +531,7 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
 {
     TwitterClient *client = [[TwitterClient alloc] initWithTarget:self action:@selector(favoriteDidChange:obj:)];
     client.context = [status  retain];
-    [client favorite:status];
+    [client toggleFavorite:status];
 }
 
 - (void)favoriteDidChange:(TwitterClient*)sender obj:(NSObject*)obj
@@ -567,6 +567,15 @@ static NSString *hashRegexp = @"(#[-a-zA-Z0-9_.+:=]+)";
     c = [nav.viewControllers objectAtIndex:0];
     if ([c respondsToSelector:@selector(updateFavorite:)]) {
         [c updateFavorite:sts];
+    }
+
+    // Add/remove from favorites tab
+    if (selectedTab != TAB_FAVORITES) {
+        nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:TAB_FAVORITES];
+        c = [nav.viewControllers objectAtIndex:0];
+        if ([c respondsToSelector:@selector(updateFavorite:)]) {
+            [c updateFavorite:sts];
+        }
     }
     [sts release];
 }

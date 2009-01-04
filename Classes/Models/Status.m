@@ -251,11 +251,16 @@ int sTextWidth[] = {
 {
     static Statement *stmt = nil;
     if (stmt == nil) {
-        stmt = [DBConnection statementWithQuery:"INSERT INTO statuses VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"];
+        stmt = [DBConnection statementWithQuery:"REPLACE INTO statuses VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"];
         [stmt retain];
     }
     [stmt bindInt64:statusId    forIndex:1];
-    [stmt bindInt32:type        forIndex:2];
+    if (type == TWEET_TYPE_FAVORITES) {
+        [stmt bindInt32:TWEET_TYPE_FRIENDS forIndex:2];
+    }
+    else {
+        [stmt bindInt32:type        forIndex:2];
+    }
     [stmt bindInt32:user.userId forIndex:3];
     
     [stmt bindString:text       forIndex:4];
@@ -268,7 +273,7 @@ int sTextWidth[] = {
     [stmt bindInt32:inReplyToUserId      forIndex:10];
     [stmt bindString:inReplyToScreenName forIndex:11];
     
-    if ([stmt step] == SQLITE_ERROR) {
+    if ([stmt step] != SQLITE_DONE) {
         [DBConnection alert];
     }
     [stmt reset];

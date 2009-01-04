@@ -5,6 +5,20 @@
 #import "TimeUtils.h"
 #import "DBConnection.h"
 
+static NSInteger sortByDate(id a, id b, void *context)
+{
+    Status* dma = (Status*)a;
+    Status* dmb = (Status*)b;
+    int diff = dmb.createdAt - dma.createdAt;
+    if (diff > 0)
+        return 1;
+    else if (diff < 0)
+        return -1;
+    else
+        return 0;
+}
+
+
 @implementation Timeline
 
 #define MAX_ROW_COUNT   200
@@ -84,6 +98,11 @@
             return;
         }
     }
+}
+
+- (void)sortByDate
+{
+    [statuses sortUsingFunction:sortByDate context:nil];    
 }
 
 - (void)appendStatus:(Status*)status
