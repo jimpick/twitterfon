@@ -36,8 +36,10 @@
         else {
             [loadCell setType:MSG_TYPE_LOAD_FROM_DB];
             [self restore:false];
-//            [self reload:nil];
+
+            
         }
+        [self reload:nil];
     }
 }
 
@@ -83,7 +85,6 @@
 {
     screenName = aScreenName;
     self.navigationItem.title = [NSString stringWithFormat:@"%@'s favorites", screenName];
-    [self reload:nil];
 }
 
 - (int)restore:(BOOL)all
