@@ -250,7 +250,7 @@
     [stmt bindString:sender.screenName  forIndex:6];
     [stmt bindString:recipient.screenName forIndex:7];
     
-    if ([stmt step] == SQLITE_ERROR) {
+    if ([stmt step] != SQLITE_DONE) {
         [DBConnection alert];
     }
     [stmt reset];

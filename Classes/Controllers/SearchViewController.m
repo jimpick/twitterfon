@@ -150,7 +150,7 @@
     //
     Statement *stmt = [DBConnection statementWithQuery:"REPLACE INTO queries VALUES (?)"];
     [stmt bindString:query forIndex:1];
-    if ([stmt step] == SQLITE_ERROR) {
+    if ([stmt step] != SQLITE_DONE) {
         [DBConnection alert];
     }
 }

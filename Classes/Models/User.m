@@ -168,7 +168,7 @@
     [stmt bindString:profileImageUrl    forIndex:8];
     [stmt bindInt32:protected           forIndex:9];
 
-    if ([stmt step] == SQLITE_ERROR) {
+    if ([stmt step] != SQLITE_DONE) {
         [DBConnection alert];
     }
     [stmt reset];

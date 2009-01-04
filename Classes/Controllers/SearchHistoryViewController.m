@@ -95,7 +95,7 @@
 {
     if (buttonIndex == 0) {
         Statement *stmt = [DBConnection statementWithQuery:"DELETE FROM queries"];
-        if ([stmt step] == SQLITE_ERROR) {
+        if ([stmt step] != SQLITE_DONE) {
             [DBConnection alert];
         }
         [queries removeAllObjects];
@@ -133,7 +133,7 @@
         NSString *query = [queries objectAtIndex:indexPath.row];
         [stmt bindString:query forIndex:1];
 
-        if ([stmt step] == SQLITE_ERROR) {
+        if ([stmt step] != SQLITE_DONE) {
             [DBConnection alert];
         }   
         [queries removeObject:query];

@@ -63,7 +63,7 @@
     [stmt bindString:user.screenName        forIndex:3];
     [stmt bindString:user.profileImageUrl   forIndex:4];
 
-    if ([stmt step] == SQLITE_ERROR) {
+    if ([stmt step] != SQLITE_DONE) {
         [DBConnection alert];
     }
     [stmt reset];
@@ -75,7 +75,7 @@
 
     [stmt bindInt32:user.userId forIndex:1];
 
-    if ([stmt step] == SQLITE_ERROR) {
+    if ([stmt step] != SQLITE_DONE) {
         [DBConnection alert];
     }
 }
