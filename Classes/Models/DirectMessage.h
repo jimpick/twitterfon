@@ -11,8 +11,6 @@
 
 @interface DirectMessage : Tweet
 {
-    sqlite_int64    messageId;
-	User*           sender;
 	User*           recipient;
     int             senderId;
     int             recipientId;
@@ -24,8 +22,9 @@
     BOOL            needTimestamp;
 }
 
-@property (nonatomic, assign) sqlite_int64  messageId;
-@property (nonatomic, retain) User*         sender;
+@property (getter=tweetId, setter=setTweetId:) sqlite_int64     messageId;
+@property (retain, getter=user, setter=setUser:) User*          sender;
+
 @property (nonatomic, retain) User*         recipient;
 @property (nonatomic, assign) int           senderId;
 @property (nonatomic, assign) int           recipientId;

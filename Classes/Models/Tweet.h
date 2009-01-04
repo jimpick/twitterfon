@@ -19,7 +19,9 @@ typedef enum {
 
 @interface Tweet : NSObject
 {
+    sqlite_int64    tweetId;
 	NSString*       text;
+    User*           user;
     
     NSString*       stringOfCreatedAt;
     time_t          createdAt;
@@ -36,7 +38,10 @@ typedef enum {
     UITableViewCellAccessoryType accessoryType;
 }
 
+@property (nonatomic, assign) sqlite_int64      tweetId;
 @property (nonatomic, retain) NSString*         text;
+@property (nonatomic, retain) User*             user;
+
 @property (nonatomic, assign) time_t            createdAt;
 @property (nonatomic, retain) NSString*         timestamp;
 

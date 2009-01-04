@@ -4,7 +4,10 @@
 
 @implementation Tweet
 
+@synthesize tweetId;
 @synthesize text;
+@synthesize user;
+
 @synthesize createdAt;
 @synthesize timestamp;
 
@@ -27,7 +30,10 @@
 - (id)copyWithZone:(NSZone*)zone
 {
     Tweet* dist = [[[self class] allocWithZone:zone] init];
+    dist.tweetId    = tweetId;
 	dist.text       = text;
+    dist.user       = user;
+    
     dist.createdAt  = createdAt;
     dist.timestamp  = timestamp;
 

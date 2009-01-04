@@ -12,8 +12,6 @@
 
 @implementation DirectMessage
 
-@synthesize messageId;
-@synthesize sender;
 @synthesize recipient;
 @synthesize senderId;
 @synthesize recipientId;
@@ -36,7 +34,7 @@
 {
 	self = [super init];
     
-	messageId           = [[dic objectForKey:@"id"] longLongValue];
+	tweetId             = [[dic objectForKey:@"id"] longLongValue];
     stringOfCreatedAt   = [dic objectForKey:@"created_at"];
     if ((id)stringOfCreatedAt == [NSNull null]) {
         stringOfCreatedAt = @"";
@@ -63,16 +61,16 @@
     
 	NSDictionary* senderDic = [dic objectForKey:@"sender"];
 	if (senderDic) {
-        sender = [User userWithJsonDictionary:senderDic];
+        user = [User userWithJsonDictionary:senderDic];
     }
     NSDictionary* recipientDic = [dic objectForKey:@"recipient"];
 	if (recipientDic) {
         recipient = [User userWithJsonDictionary:recipientDic];
     }
-    senderId = sender.userId;
+    senderId = user.userId;
     recipientId = recipient.userId;
     
-    self.senderProfileImageUrl = sender.profileImageUrl;
+    self.senderProfileImageUrl = user.profileImageUrl;
 
     [self updateAttribute];
     unread = true;
@@ -89,8 +87,6 @@
 {
     DirectMessage *dist = [super copyWithZone:zone];
     
-	dist.messageId  = messageId;
-	dist.sender     = sender;
 	dist.recipient  = recipient;
     dist.senderScreenName      = senderScreenName;
     dist.recipientScreenName   = recipientScreenName;
@@ -241,13 +237,13 @@
         [stmt retain];
     }
     
-    [stmt bindInt64:messageId           forIndex:1];
-    [stmt bindInt32:sender.userId       forIndex:2];
+    [stmt bindInt64:tweetId             forIndex:1];
+    [stmt bindInt32:user.userId         forIndex:2];
     [stmt bindInt32:recipient.userId    forIndex:3];
     
     [stmt bindString:text               forIndex:4];
     [stmt bindInt32:createdAt           forIndex:5];
-    [stmt bindString:sender.screenName  forIndex:6];
+    [stmt bindString:user.screenName    forIndex:6];
     [stmt bindString:recipient.screenName forIndex:7];
     
     if ([stmt step] != SQLITE_DONE) {
@@ -256,17 +252,17 @@
     [stmt reset];
     
     // Update user and followee record
-    [sender updateDB];
+    [user updateDB];
     [recipient updateDB];
 
     // Add user to followee database
-    [Followee insertDB:sender];
+    [Followee insertDB:user];
 }
 
 - (void)deleteFromDB
 {
     Statement* stmt = [DBConnection statementWithQuery:"DELETE FROM direct_messages WHERE id = ?"];
-    [stmt bindInt64:messageId forIndex:1];
+    [stmt bindInt64:tweetId forIndex:1];
     [stmt step];    // ignore error
 }
 

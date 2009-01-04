@@ -10,7 +10,6 @@
 
 @implementation Status
 
-@synthesize statusId;
 @synthesize user;
 @synthesize source;
 @synthesize favorited;
@@ -34,7 +33,7 @@
     type = aType;
     cellType = TWEET_CELL_TYPE_NORMAL;
     
-	statusId           = [[dic objectForKey:@"id"] longLongValue];
+	tweetId           = [[dic objectForKey:@"id"] longLongValue];
     stringOfCreatedAt   = [dic objectForKey:@"created_at"];
     if ((id)stringOfCreatedAt == [NSNull null]) {
         stringOfCreatedAt = @"";
@@ -102,7 +101,7 @@
     type = TWEET_TYPE_SEARCH_RESULT;
     cellType = TWEET_CELL_TYPE_NORMAL;
     
-	statusId           = [[dic objectForKey:@"id"] longLongValue];
+	tweetId           = [[dic objectForKey:@"id"] longLongValue];
     stringOfCreatedAt   = [dic objectForKey:@"created_at"];
     if ((id)stringOfCreatedAt == [NSNull null]) {
         stringOfCreatedAt = @"";
@@ -142,8 +141,6 @@
 {
     Status *dist = [super copyWithZone:zone];
     
-	dist.statusId  = statusId;
-	dist.user      = user;
     dist.source     = source;
     dist.favorited  = favorited;
     dist.truncated  = truncated;
@@ -254,7 +251,7 @@ int sTextWidth[] = {
         stmt = [DBConnection statementWithQuery:"REPLACE INTO statuses VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"];
         [stmt retain];
     }
-    [stmt bindInt64:statusId    forIndex:1];
+    [stmt bindInt64:tweetId    forIndex:1];
     if (type == TWEET_TYPE_FAVORITES) {
         [stmt bindInt32:TWEET_TYPE_FRIENDS forIndex:2];
     }
@@ -297,7 +294,7 @@ int sTextWidth[] = {
 - (void)deleteFromDB
 {
     Statement *stmt = [DBConnection statementWithQuery:"DELETE FROM statuses WHERE id = ?"];
-    [stmt bindInt64:statusId forIndex:1];
+    [stmt bindInt64:tweetId forIndex:1];
     [stmt step]; // ignore error
 }
 
@@ -305,7 +302,7 @@ int sTextWidth[] = {
 {
     Statement *stmt = [DBConnection statementWithQuery:"UPDATE statuses SET favorited = ? WHERE id = ?"];
     [stmt bindInt32:favorited forIndex:1];
-    [stmt bindInt64:statusId forIndex:2];
+    [stmt bindInt64:tweetId forIndex:2];
     [stmt step]; // ignore error
 }
 

@@ -25,8 +25,6 @@
 
 @interface Status : Tweet
 {
-    sqlite_int64    statusId;
-	User*           user;
     NSString*       source;
     BOOL            favorited;
     BOOL            truncated;
@@ -35,7 +33,7 @@
     NSString*       inReplyToScreenName;
 }
 
-@property (nonatomic, assign) sqlite_int64  statusId;
+@property (getter=tweetId, setter=setTweetId:) sqlite_int64  statusId;
 @property (nonatomic, retain) User*         user;
 @property (nonatomic, retain) NSString*     source;
 @property (nonatomic, assign) BOOL          favorited;

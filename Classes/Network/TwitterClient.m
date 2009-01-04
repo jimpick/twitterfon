@@ -161,11 +161,11 @@ NSString* sMethods[4] = {
     NSString *url;
     if ([tweet isKindOfClass:[Status class]]) {
         Status *status = (Status*)tweet;
-        url = [NSString stringWithFormat:@"https://twitter.com/statuses/destroy/%lld.json", [status  statusId]];
+        url = [NSString stringWithFormat:@"https://twitter.com/statuses/destroy/%lld.json", status.statusId];
     }
     else {
         DirectMessage *message = (DirectMessage*)tweet;
-        url = [NSString stringWithFormat:@"https://twitter.com/direct_messages/destroy/%lld.json", [message messageId]];
+        url = [NSString stringWithFormat:@"https://twitter.com/direct_messages/destroy/%lld.json", message.messageId];
     }
     
     [self post:url body:@""];
@@ -193,7 +193,7 @@ NSString* sMethods[4] = {
     
     NSString* url = [NSString stringWithFormat:@"https://twitter.com/favorites/%@/%lld.json",
                      (status.favorited) ? @"destroy" : @"create",
-                     [status statusId]];
+                     status.statusId];
     
     [self post:url body:@""];    
 }
