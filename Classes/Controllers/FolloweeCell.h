@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Followee.h"
 #import "ProfileImageCell.h"
 
-@interface FolloweeCell : ProfileImageCell {
-	UILabel*                name;
-	UILabel*                screenName;
+@class FolloweeCellView;
+@class Followee;
+
+@interface FolloweeCell : ProfileImageCell 
+{
+    FolloweeCellView*   cellView;
 }
 
 - (void)setFollowee:(Followee*)Followee;

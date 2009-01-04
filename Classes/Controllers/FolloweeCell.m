@@ -6,31 +6,17 @@
 //  Copyright 2008 naan studio. All rights reserved.
 //
 
-#import "Status.h"
+#import "Followee.h"
 #import "FolloweeCell.h"
+#import "FolloweeCellView.h"
 
 @implementation FolloweeCell
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
         // name label
-        screenName = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-        screenName.backgroundColor = [UIColor whiteColor];
-        screenName.textColor = [UIColor blackColor];
-        screenName.highlightedTextColor = [UIColor whiteColor];
-        screenName.font = [UIFont boldSystemFontOfSize:20];
-        screenName.textAlignment = UITextAlignmentLeft;
-        screenName.frame = CGRectMake(LEFT, 4, CELL_WIDTH, 24);
-        [self.contentView addSubview:screenName];
-        
-        // screenName label
-        name = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-        name.backgroundColor = [UIColor whiteColor];
-        name.textColor = [UIColor blackColor];
-        name.highlightedTextColor = [UIColor whiteColor];
-        name.font = [UIFont systemFontOfSize:14];
-        name.frame = CGRectMake(LEFT, 30, CELL_WIDTH, 16);
-        [self.contentView addSubview:name];
+        cellView = [[[FolloweeCellView alloc] initWithFrame:CGRectZero] autorelease];
+        [self.contentView addSubview:cellView];
     }
     return self;
 }
@@ -40,17 +26,27 @@
     [super dealloc];
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    CGRect r = self.bounds;
+    r.size.height -= 1;
+    cellView.frame = r;
+}
+
 - (void)setFollowee:(Followee*)followee
 {
-    screenName.text = followee.screenName;
-    name.text = followee.name;
+    cellView.screenName = followee.screenName;
+    cellView.name = followee.name;
+    [cellView setNeedsDisplay];
     self.image = [self getProfileImage:followee.profileImageUrl isLarge:false];
 }
 
 - (void)setUser:(User*)user
 {
-    screenName.text = user.screenName;
-    name.text = user.name;
+    cellView.screenName = user.screenName;
+    cellView.name = user.name;
+    [cellView setNeedsDisplay];
     self.image = [self getProfileImage:user.profileImageUrl isLarge:false];
 }
 

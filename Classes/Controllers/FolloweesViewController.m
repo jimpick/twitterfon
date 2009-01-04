@@ -9,6 +9,7 @@
 #import "FolloweesViewController.h"
 #import "PostViewController.h"
 #import "DBConnection.h"
+#import "Followee.h"
 #import "FolloweeCell.h"
 #import "User.h"
 
