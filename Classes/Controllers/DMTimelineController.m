@@ -20,7 +20,7 @@
 
 // sort function of DM timeline
 //
-NSInteger sortByDate(id a, id b, void *context)
+static NSInteger sortByDate(id a, id b, void *context)
 {
     DirectMessage* dma = (DirectMessage*)a;
     DirectMessage* dmb = (DirectMessage*)b;
