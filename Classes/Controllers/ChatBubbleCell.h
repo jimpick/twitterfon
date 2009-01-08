@@ -8,16 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "ProfileImageCell.h"
+#import "ChatBubbleView.h"
 
-@class DirectMessage;
+@class Tweet;
 @class ChatBubbleView;
 
 @interface ChatBubbleCell : ProfileImageCell 
 {
-    DirectMessage*      message;
+    Tweet*              message;
     ChatBubbleView*     cellView;
 }
 
-- (void)setMessage:(DirectMessage*)msg isOwn:(BOOL)isOwnMessage;
+- (void)setMessage:(Tweet*)msg isOwn:(BOOL)isOwnMessage;
+
++ (CGFloat)calcCellHeight:(Tweet*)msg interval:(int)diff;
 
 @end

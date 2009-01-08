@@ -9,18 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "LoadEarlierMessageCell.h"
 
-@class DirectMessage;
+@class Tweet;
 
-@interface DMConversationController : UITableViewController 
+@interface ConversationController : UITableViewController 
 {
     LoadEarlierMessageCell* loadCell;
     NSMutableArray*         messages;
-    DirectMessage*          firstMessage;
+    Tweet*                  firstMessage;
     BOOL                    isFirstTime;
     BOOL                    hasMore;
     CGPoint                 contentOffset;
 }
 
-- (id)initWithMessage:(DirectMessage*)message;
+- (id)initWithMessage:(Tweet*)message;
 
 @end

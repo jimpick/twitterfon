@@ -26,6 +26,7 @@ typedef enum {
     NSString*       stringOfCreatedAt;
     time_t          createdAt;
     NSString*       timestamp;
+    BOOL            needTimestamp;
 
     BOOL            unread;
     BOOL            hasReply;
@@ -44,6 +45,7 @@ typedef enum {
 
 @property (nonatomic, assign) time_t            createdAt;
 @property (nonatomic, retain) NSString*         timestamp;
+@property (nonatomic, assign) BOOL          needTimestamp;
 
 @property (nonatomic, assign) BOOL              unread;
 @property (nonatomic, assign) BOOL              hasReply;
@@ -55,8 +57,12 @@ typedef enum {
 
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 
+
+- (int)getConversation:(NSMutableArray*)messages;
+
 - (NSString*)timestamp;
 - (void)updateAttribute;
 - (void)calcTextBounds:(int)textWidth;
 - (id)copyWithZone:(NSZone*)zone;
+
 @end

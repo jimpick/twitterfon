@@ -7,25 +7,25 @@
 //
 
 #import "TwitterFonAppDelegate.h"
-#import "DMConversationController.h"
+#import "ConversationController.h"
 #import "DMDetailViewController.h"
 #import "DirectMessage.h"
 #import "ColorUtils.h"
 #import "ChatBubbleCell.h"
 
-@implementation DMConversationController
+@implementation ConversationController
 
-- (id)initWithMessage:(DirectMessage*)msg
+- (id)initWithMessage:(Tweet*)msg
 {
     self = [super initWithStyle:UITableViewStylePlain];
-    self.navigationItem.title = msg.senderScreenName;
+    self.navigationItem.title = msg.user.screenName;
     
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
     self.navigationItem.rightBarButtonItem = button;
     
     messages = [[NSMutableArray alloc] init];
     firstMessage = msg;
-    int count = [DirectMessage getConversation:msg.senderId messages:messages];
+    int count = [firstMessage getConversation:messages];
     hasMore = (count == NUM_MESSAGE_PER_PAGE) ? true : false;
     
     loadCell = [[LoadEarlierMessageCell alloc] initWithDelegate:self];
@@ -94,23 +94,13 @@
     }
     
     if (index - 1 >= 0) {
-        DirectMessage *prevDM = [messages objectAtIndex:index - 1];
-        prev = prevDM.createdAt;
+        Tweet *prevMsg = [messages objectAtIndex:index - 1];
+        prev = prevMsg.createdAt;
     }
     
-    DirectMessage *dm = [messages objectAtIndex:index];
-    float ret = dm.textRect.size.height + 5 + 5 + 5; // bubble height
-
-    int diff = dm.createdAt - prev;
-    if (diff > TIMESTAMP_DIFF) {
-        dm.needTimestamp = true;
-        ret += 26;
-    }
-    else {
-        dm.needTimestamp = false;
-        ret += 5;
-    }
-    return ret;
+    Tweet *msg = [messages objectAtIndex:index];
+    
+    return [ChatBubbleCell calcCellHeight:msg interval:msg.createdAt - prev];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -130,7 +120,8 @@
         cell = [[[ChatBubbleCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ChatBubble"] autorelease];
     }
     
-    [cell setMessage:dm isOwn:dm.senderId != firstMessage.senderId];
+    BOOL isOwn = [TwitterFonAppDelegate isMyScreenName:dm.user.screenName];
+    [cell setMessage:dm isOwn:isOwn];
     return cell;
 }
 
@@ -146,7 +137,6 @@
     }
     
     DirectMessage *dm = [messages objectAtIndex:index];
-    [dm loadUserObject];
     if (dm.sender) {
         DMDetailViewController *c = [[[DMDetailViewController alloc] initWithMessage:dm] autorelease];
         [self.navigationController pushViewController:c animated:true];
@@ -155,7 +145,7 @@
 
 - (void)loadEarlierMessages:(id)sender
 {
-    int count = [DirectMessage getConversation:firstMessage.senderId messages:messages];
+    int count = [firstMessage getConversation:messages];
     hasMore = (count > 0) ? true : false;
     if (count) {
         [self.tableView reloadData];

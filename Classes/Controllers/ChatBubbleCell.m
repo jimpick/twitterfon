@@ -7,7 +7,7 @@
 //
 
 #import "ChatBubbleCell.h"
-#import "DirectMessage.h"
+#import "Tweet.h"
 #import "ChatBubbleView.h"
 #import "TwitterFonAppDelegate.h"
 #import "ColorUtils.h"
@@ -33,7 +33,7 @@
     [cellView setNeedsDisplay];
 }
 
-- (void)setMessage:(DirectMessage*)aMessage isOwn:(BOOL)isOwn
+- (void)setMessage:(Tweet*)aMessage isOwn:(BOOL)isOwn
 {
     message = aMessage;
     self.accessoryType = aMessage.accessoryType;
@@ -44,7 +44,7 @@
     self.selectionStyle = UITableViewCellSelectionStyleBlue;
 
     [cellView setMessage:aMessage type:isOwn];
-    cellView.image = [self getProfileImage:aMessage.senderProfileImageUrl isLarge:false];
+    cellView.image = [self getProfileImage:aMessage.user.profileImageUrl isLarge:false];
 }
 
 - (void)didTouchLinkButton:(id)sender
@@ -62,6 +62,35 @@
 
 - (void)dealloc {
     [super dealloc];
+}
+
++ (CGFloat)calcCellHeight:(Tweet*)msg interval:(int)diff
+{
+    // Calculate text bounds and cell height here
+    //
+    CGRect bounds;
+    
+    bounds = CGRectMake(0, 0, CHAT_BUBBLE_TEXT_WIDTH, 200);
+    static UILabel *label = nil;
+    if (label == nil) {
+        label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.font = [UIFont systemFontOfSize:14];
+    }
+    
+    label.text = msg.text;
+    CGRect textRect = [label textRectForBounds:bounds limitedToNumberOfLines:10];        
+    CGFloat ret = textRect.size.height + 5 + 5 + 5; // bubble height
+
+    if (diff > CHAT_BUBBLE_TIMESTAMP_DIFF) {
+        msg.needTimestamp = true;
+        ret += 26;
+    }
+    else {
+        msg.needTimestamp = false;
+        ret += 5;
+    }
+    
+    return ret;
 }
 
 @end

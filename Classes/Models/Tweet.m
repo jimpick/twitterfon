@@ -10,6 +10,7 @@
 
 @synthesize createdAt;
 @synthesize timestamp;
+@synthesize needTimestamp;
 
 @synthesize unread;
 @synthesize hasReply;
@@ -139,6 +140,12 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
             createdAt = mktime(&created);
         }
     }
+}
+
+- (int)getConversation:(NSMutableArray*)messages
+{
+    // implement in deliver class
+    return 0;
 }
 
 - (NSString*)timestamp

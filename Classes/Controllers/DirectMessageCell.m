@@ -34,7 +34,7 @@
 {
     view.message = value;
     self.contentView.backgroundColor = value.unread ? [UIColor cellColorForTab:TAB_MESSAGES] : [UIColor whiteColor];
-    self.image = [self getProfileImage:value.senderProfileImageUrl isLarge:false];
+    self.image = [self getProfileImage:value.sender.profileImageUrl isLarge:false];
     
     view.frame = CGRectMake(48 + 20, 0, 320 - 48 - 20 - 10, view.message.cellHeight - 1);
     

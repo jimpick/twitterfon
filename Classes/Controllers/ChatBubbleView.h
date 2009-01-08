@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DirectMessage.h"
+#import "Tweet.h"
+
+#define CHAT_BUBBLE_WIDTH           (320 - 32 - 8 - 20 - 20)
+#define CHAT_BUBBLE_TEXT_WIDTH      (CHAT_BUBBLE_WIDTH - 30)
+#define CHAT_BUBBLE_TIMESTAMP_DIFF  (60 * 30)
 
 typedef enum {
     BUBBLE_TYPE_GRAY,
@@ -17,12 +21,12 @@ typedef enum {
 @interface ChatBubbleView : UIView
 {
     BubbleType      type;
-    DirectMessage*  message;
+    Tweet*          message;
     UIImage*        image;
 }
 
 @property(nonatomic, retain) UIImage* image;
 
-- (void)setMessage:(DirectMessage*)message type:(BubbleType)type;
+- (void)setMessage:(Tweet*)message type:(BubbleType)type;
 
 @end

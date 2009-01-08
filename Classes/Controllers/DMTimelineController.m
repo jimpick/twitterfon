@@ -7,7 +7,7 @@
 //
 
 #import "DMTimelineController.h"
-#import "DMConversationController.h"
+#import "ConversationController.h"
 #import "DirectMessage.h"
 #import "DirectMessageCell.h"
 #import "TwitterFonAppDelegate.h"
@@ -161,7 +161,7 @@ static NSInteger sortByDate(id a, id b, void *context)
     }
     else {
         DirectMessage *dm = [timeline objectAtIndex:indexPath.row];
-        DMConversationController *conv = [[[DMConversationController alloc] initWithMessage:dm] autorelease];
+        ConversationController *conv = [[[ConversationController alloc] initWithMessage:dm] autorelease];
         [self.navigationController pushViewController:conv animated:true];
     }
 }
@@ -232,7 +232,7 @@ static NSInteger sortByDate(id a, id b, void *context)
     
     if ([timeline count]) {
         DirectMessage *dm = [timeline objectAtIndex:0];
-        int since_id = dm.messageId;
+        sqlite_int64 since_id = dm.messageId;
     
         [param setObject:[NSString stringWithFormat:@"%lld", since_id] forKey:@"since_id"];
         [param setObject:@"200" forKey:@"count"];

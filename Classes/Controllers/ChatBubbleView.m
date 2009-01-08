@@ -30,7 +30,7 @@ static UIImage* sGrayBubble = nil;
     return self;
 }
 
-- (void)setMessage:(DirectMessage*)aMessage type:(BubbleType)aType
+- (void)setMessage:(Tweet*)aMessage type:(BubbleType)aType
 {
     message = aMessage;
     type = aType;
@@ -85,12 +85,13 @@ static UIImage* sGrayBubble = nil;
     // Draw chat bubble
     //
     UIImage *bubble;
-    CGRect bubbleRect = message.textRect;
+    int height = self.bounds.size.height - 5;
+    if (message.needTimestamp) height -= 21;
+    CGRect bubbleRect = CGRectMake(0, 0, CHAT_BUBBLE_TEXT_WIDTH, height);
     
     int width = bubbleRect.size.width + 30;
     width = (width / 10) * 10 + ((width % 10) ? 10 : 0);
     bubbleRect.size.width = width;
-    bubbleRect.size.height += 15;
     bubbleRect.origin.y = 4 + top;
     
     if (type == BUBBLE_TYPE_GRAY) {
@@ -108,7 +109,7 @@ static UIImage* sGrayBubble = nil;
     //
     [[UIColor blackColor] set];
     bubbleRect.origin.y += 6;
-    bubbleRect.size.width = message.textRect.size.width;
+    bubbleRect.size.width = CHAT_BUBBLE_TEXT_WIDTH;
     if (type == BUBBLE_TYPE_GRAY) {
         bubbleRect.origin.x += 20;
     }

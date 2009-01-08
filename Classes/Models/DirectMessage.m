@@ -17,16 +17,11 @@
 @synthesize recipientId;
 @synthesize senderScreenName;
 @synthesize recipientScreenName;
-@synthesize senderProfileImageUrl;
-
-@synthesize textRect;
-@synthesize needTimestamp;
 
 - (void)dealloc
 {
     [senderScreenName release];
     [recipientScreenName release];
-    [senderProfileImageUrl release];
   	[super dealloc];
 }
 
@@ -70,8 +65,6 @@
     senderId = user.userId;
     recipientId = recipient.userId;
     
-    self.senderProfileImageUrl = user.profileImageUrl;
-
     [self updateAttribute];
     unread = true;
 
@@ -90,38 +83,14 @@
 	dist.recipient  = recipient;
     dist.senderScreenName      = senderScreenName;
     dist.recipientScreenName   = recipientScreenName;
-    dist.senderProfileImageUrl = senderProfileImageUrl;
     
     return dist;
 }
 
 - (void)updateAttribute
 {
-    [super updateAttribute];
-    int textWidth = MAX_TEXT_WIDTH;
-    
-    // Calculate text bounds and cell height here
-    //
-    CGRect bounds;
-    
-    bounds = CGRectMake(0, 0, textWidth, 200);
-    
-    static UILabel *label = nil;
-    if (label == nil) {
-        label = [[UILabel alloc] initWithFrame:CGRectZero];
-    }
-    
-    label.font = [UIFont systemFontOfSize:14];
-    label.text = text;
-    textRect = [label textRectForBounds:bounds limitedToNumberOfLines:10];
-    
+    [super updateAttribute];  
     [self calcTextBounds:CELL_WIDTH - INDICATOR_WIDTH];
-}
-
-- (void)loadUserObject
-{
-    self.sender    = [User userWithId:self.senderId];
-    self.recipient = [User userWithId:self.recipientId];
 }
 
 + (DirectMessage*)initWithStatement:(Statement*)stmt
@@ -130,9 +99,7 @@
     //  SELECT id, text, created_at FROM messsages WHERE sender_id = ?
     //
     DirectMessage *dm       = [[[DirectMessage alloc] init] autorelease];
-    dm.sender               = nil;
-    dm.recipient            = nil;
-    
+   
     dm.messageId            = [stmt getInt64:0];
     dm.senderId             = [stmt getInt32:1];
     dm.recipientId          = [stmt getInt32:2];
@@ -140,7 +107,10 @@
     dm.createdAt            = [stmt getInt32:4];
     dm.senderScreenName     = [stmt getString:5];
     dm.recipientScreenName  = [stmt getString:6];
-    dm.senderProfileImageUrl= [stmt getString:7];
+    
+    dm.sender    = [User userWithId:dm.senderId];
+    dm.recipient = [User userWithId:dm.recipientId];    
+    
     [dm updateAttribute];
 
     return dm;
@@ -148,8 +118,7 @@
 
 + (int)restore:(NSMutableArray*)array all:(BOOL)all
 {
-    const char *sql = "SELECT direct_messages.*, users.profile_image_url FROM direct_messages,users \
-                       WHERE direct_messages.sender_id = users.user_id GROUP BY sender_id ORDER by id DESC LIMIT ?";
+    const char *sql = "SELECT * FROM direct_messages GROUP BY sender_id ORDER by id DESC LIMIT ?";
 
     Statement *stmt = [DBConnection statementWithQuery:sql];
     [stmt bindInt32:all ? 200 : 20 forIndex:1];
@@ -167,10 +136,9 @@
     return count;
 }
 
-+ (int)getConversation:(int)senderId messages:(NSMutableArray*)messages
+- (int)getConversation:(NSMutableArray*)messages
 {
-    static char *sql = "SELECT direct_messages.*, users.profile_image_url FROM direct_messages,users \
-                        WHERE direct_messages.sender_id = users.user_id AND (sender_id = ? OR recipient_id = ?) ORDER BY id DESC LIMIT ? OFFSET ?";
+    static char *sql = "SELECT * FROM direct_messages WHERE sender_id = ? OR recipient_id = ? ORDER BY id DESC LIMIT ? OFFSET ?";
     Statement *stmt = [DBConnection statementWithQuery:sql];
     
     [stmt bindInt32:senderId                forIndex:1];
