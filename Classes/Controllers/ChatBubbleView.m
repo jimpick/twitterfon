@@ -87,7 +87,7 @@ static UIImage* sGrayBubble = nil;
     UIImage *bubble;
     int height = self.bounds.size.height - 5;
     if (message.needTimestamp) height -= 21;
-    CGRect bubbleRect = CGRectMake(0, 0, CHAT_BUBBLE_TEXT_WIDTH, height);
+    CGRect bubbleRect = CGRectMake(0, 0, message.bubbleRect.size.width, height);
     
     int width = bubbleRect.size.width + 30;
     width = (width / 10) * 10 + ((width % 10) ? 10 : 0);
@@ -109,7 +109,7 @@ static UIImage* sGrayBubble = nil;
     //
     [[UIColor blackColor] set];
     bubbleRect.origin.y += 6;
-    bubbleRect.size.width = CHAT_BUBBLE_TEXT_WIDTH;
+    bubbleRect.size.width = message.bubbleRect.size.width;
     if (type == BUBBLE_TYPE_GRAY) {
         bubbleRect.origin.x += 20;
     }

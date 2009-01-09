@@ -36,7 +36,8 @@ typedef enum {
     TweetCellType   cellType;
     
     CGRect          textBounds;
-    CGFloat         cellHeight;    
+    CGRect          bubbleRect;
+    CGFloat         cellHeight;
     
     UITableViewCellAccessoryType accessoryType;
 }
@@ -56,6 +57,7 @@ typedef enum {
 
 @property (nonatomic, assign) CGFloat       cellHeight;
 @property (nonatomic, assign) CGRect        textBounds;
+@property (nonatomic, assign) CGRect        bubbleRect;
 
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 

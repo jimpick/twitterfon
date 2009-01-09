@@ -104,12 +104,15 @@ enum {
 
 - (void)viewWillAppear:(BOOL)animated 
 {
+  
     [super viewWillAppear:animated];
+    self.navigationItem.title = status.user.screenName;
     self.navigationController.navigationBar.tintColor = nil;
 }
 
 - (void)viewDidDisappear:(BOOL)animated   	 	 
 {  	 	 
+    self.navigationItem.title = @"Back";
     if (twitterClient) {  	 	 
         [twitterClient cancel];  	 	 
         [twitterClient release];  	 	 
@@ -226,7 +229,7 @@ enum {
         cell.textAlignment = UITextAlignmentCenter;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         if ([status hasConversation]) {
-            cell.text = @"Drill down this conversation";
+            cell.text = @"Show conversation";
         }
         else if (status.inReplyToStatusId) {
             Status *inReplyToStatus = [Status statusWithId:status.inReplyToStatusId];

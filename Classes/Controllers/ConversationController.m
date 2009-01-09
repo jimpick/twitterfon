@@ -20,9 +20,11 @@
 {
     self = [super initWithStyle:UITableViewStylePlain];
     self.navigationItem.title = msg.user.screenName;
-    
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
-    self.navigationItem.rightBarButtonItem = button;
+
+    if ([msg isKindOfClass:[DirectMessage class]]) {
+        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(postTweet:)]; 
+        self.navigationItem.rightBarButtonItem = button;
+    }
     
     messages = [[NSMutableArray alloc] init];
     firstMessage = msg;

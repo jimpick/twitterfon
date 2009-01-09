@@ -7,6 +7,7 @@
 //
 
 #import "ChatBubbleCell.h"
+#import "DirectMessage.h"
 #import "Tweet.h"
 #import "ChatBubbleView.h"
 #import "TwitterFonAppDelegate.h"
@@ -36,7 +37,9 @@
 - (void)setMessage:(Tweet*)aMessage type:(BubbleType)type
 {
     message = aMessage;
-    self.accessoryType = aMessage.accessoryType;
+    if ([message isKindOfClass:[DirectMessage class]]) {
+        self.accessoryType = aMessage.accessoryType;
+    }
     if (self.accessoryType == UITableViewCellAccessoryDisclosureIndicator || type != BUBBLE_TYPE_GRAY) {
         self.accessoryType = UITableViewCellAccessoryNone;
     }
@@ -78,8 +81,8 @@
     }
     
     label.text = msg.text;
-    CGRect textRect = [label textRectForBounds:bounds limitedToNumberOfLines:10];        
-    CGFloat ret = textRect.size.height + 5 + 5 + 5; // bubble height
+    msg.bubbleRect = [label textRectForBounds:bounds limitedToNumberOfLines:10];        
+    CGFloat ret = msg.bubbleRect.size.height + 5 + 5 + 5; // bubble height
 
     if (diff > CHAT_BUBBLE_TIMESTAMP_DIFF) {
         msg.needTimestamp = true;

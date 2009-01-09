@@ -17,6 +17,7 @@
 @synthesize type;
 @synthesize cellType;
 @synthesize textBounds;
+@synthesize bubbleRect;
 @synthesize cellHeight;
 
 @synthesize accessoryType;
