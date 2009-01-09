@@ -20,6 +20,7 @@
     DeleteButtonCell*       deleteCell;
     Status*                 status;
 
+    TwitterClient*          twitterClient;
     BOOL                    isOwnTweet;
     int                     *sections;
 }

@@ -147,9 +147,8 @@
     [stmt bindInt32:[messages count]        forIndex:4];
     
     int count = 0;
-    DirectMessage *dm;
     while ([stmt step] == SQLITE_ROW) {
-        dm = [DirectMessage initWithStatement:stmt];
+        DirectMessage *dm = [DirectMessage initWithStatement:stmt];
         [messages insertObject:dm atIndex:0];
         ++count;
     }

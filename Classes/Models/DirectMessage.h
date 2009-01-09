@@ -3,8 +3,6 @@
 #import "User.h"
 #import "Tweet.h"
 
-#define NUM_MESSAGE_PER_PAGE    40
-
 @interface DirectMessage : Tweet
 {
 	User*           recipient;

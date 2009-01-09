@@ -33,17 +33,17 @@
     [cellView setNeedsDisplay];
 }
 
-- (void)setMessage:(Tweet*)aMessage isOwn:(BOOL)isOwn
+- (void)setMessage:(Tweet*)aMessage type:(BubbleType)type
 {
     message = aMessage;
     self.accessoryType = aMessage.accessoryType;
-    if (self.accessoryType == UITableViewCellAccessoryDisclosureIndicator || isOwn) {
+    if (self.accessoryType == UITableViewCellAccessoryDisclosureIndicator || type != BUBBLE_TYPE_GRAY) {
         self.accessoryType = UITableViewCellAccessoryNone;
     }
     
     self.selectionStyle = UITableViewCellSelectionStyleBlue;
 
-    [cellView setMessage:aMessage type:isOwn];
+    [cellView setMessage:aMessage type:type];
     cellView.image = [self getProfileImage:aMessage.user.profileImageUrl isLarge:false];
 }
 

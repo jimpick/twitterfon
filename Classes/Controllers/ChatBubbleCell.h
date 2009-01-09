@@ -19,7 +19,7 @@
     ChatBubbleView*     cellView;
 }
 
-- (void)setMessage:(Tweet*)msg isOwn:(BOOL)isOwnMessage;
+- (void)setMessage:(Tweet*)msg type:(BubbleType)type;
 
 + (CGFloat)calcCellHeight:(Tweet*)msg interval:(int)diff;
 

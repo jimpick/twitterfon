@@ -2,6 +2,8 @@
 #import "User.h"
 #import "sqlite3.h"
 
+#define NUM_MESSAGE_PER_PAGE    40
+
 typedef enum {
     TWEET_TYPE_FRIENDS = 0,
     TWEET_TYPE_REPLIES,
@@ -63,6 +65,8 @@ typedef enum {
 - (NSString*)timestamp;
 - (void)updateAttribute;
 - (void)calcTextBounds:(int)textWidth;
+- (BOOL)hasConversation;
+
 - (id)copyWithZone:(NSZone*)zone;
 
 @end

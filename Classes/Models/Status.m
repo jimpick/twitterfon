@@ -3,10 +3,26 @@
 #import "DBConnection.h"
 #import "REString.h"
 #import "StringUtil.h"
+#import "TimeUtils.h"
 
 @interface Status (Private)
 - (void)insertDB;
 @end
+
+// sort function of DM timeline
+//
+static NSInteger sortByDateDesc(id a, id b, void *context)
+{
+    Status* dma = (Status*)a;
+    Status* dmb = (Status*)b;
+    int diff = dmb.createdAt - dma.createdAt;
+    if (diff > 0)
+        return -1;
+    else if (diff < 0)
+        return 1;
+    else
+        return 0;
+}
 
 @implementation Status
 
@@ -212,7 +228,7 @@ int sTextWidth[] = {
     s.inReplyToStatusId     = [stmt getInt64:8];
     s.inReplyToUserId       = [stmt getInt32:9];
     s.inReplyToScreenName   = [stmt getString:10];
-    
+
     s.user = [User userWithId:[stmt getInt32:2]];
 
     if (s.user == nil) {
@@ -242,6 +258,65 @@ int sTextWidth[] = {
     BOOL result = ([stmt step] == SQLITE_ROW) ? true : false;
     [stmt reset];
     return result;
+}
+
+- (BOOL)hasConversation
+{
+    sqlite_int64 inReplyTo = inReplyToStatusId;
+    
+    if (inReplyTo == 0) inReplyTo = -1;
+
+//    static char *sql = "SELECT count(*) FROM statuses WHERE id = ? OR in_reply_to_status_id = ?";
+    static char *sql = "SELECT count(*) FROM statuses WHERE id = ?";
+    Statement *stmt = [DBConnection statementWithQuery:sql];
+        
+    [stmt bindInt64:inReplyToStatusId       forIndex:1];
+//    [stmt bindInt64:tweetId                 forIndex:2];
+    [stmt step];
+        
+    return [stmt getInt32:0];
+}
+
+- (int)getConversation:(NSMutableArray*)messages
+{
+    NSMutableDictionary *hash = [NSMutableDictionary dictionary];
+    NSMutableArray *array = [NSMutableArray array];
+    
+    static char *sql = "SELECT * FROM statuses WHERE id = ? OR in_reply_to_status_id = ?";
+    Statement *stmt = [DBConnection statementWithQuery:sql];
+    
+    int count = 1;
+    [messages addObject:self];
+    [array addObject:self];
+    [hash setObject:self forKey:[NSString stringWithFormat:@"%lld", self.tweetId]];
+    
+    INIT_STOPWATCH(s);
+    
+    while ([array count]) {
+        Status *sts = [array lastObject];
+        [array removeLastObject];
+        [stmt bindInt64:sts.inReplyToStatusId   forIndex:1];
+        [stmt bindInt64:sts.tweetId             forIndex:2];
+    
+        while ([stmt step] == SQLITE_ROW) {
+            NSString *idStr = [NSString stringWithFormat:@"%lld", [stmt getInt64:0]];
+            if (![hash objectForKey:idStr]) {
+                Status *s = [Status initWithStatement:stmt type:TWEET_TYPE_FRIENDS];
+                [hash setObject:s forKey:idStr];
+                [messages addObject:s];
+                [array addObject:s];
+                // Up to 100 messages
+                if (++count >= 100) break;
+            }
+        }
+        [stmt reset];
+    }
+    
+    LAP(s, @"Decode conversation");
+    
+    [messages sortUsingFunction:sortByDateDesc context:nil];    
+    
+    return count;
 }
 
 - (void)insertDB

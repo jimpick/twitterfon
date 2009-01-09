@@ -10,6 +10,7 @@
 #import "TwitterFonAppDelegate.h"
 #import "TweetViewController.h"
 #import "UserTimelineController.h"
+#import "ConversationController.h"
 #import "ProfileViewController.h"
 #import "ColorUtils.h"
 
@@ -56,17 +57,17 @@ enum {
 
 @implementation TweetViewController
 
-- (id)initWithMessage:(Status*)sts
+- (void)initCommon
 {
-    self = [super initWithStyle:UITableViewStyleGrouped];
-    
     userView   = [[UserView alloc] initWithFrame:CGRectMake(0, 0, 320, 387)];
     actionCell = [[TweetViewActionCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ActionCell"];
     tweetCell  = [[UserTimelineCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"MessageCell"];
-    deleteCell = [[DeleteButtonCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"DeleteCell"];
-    
-    
-    status = [sts copy];
+    deleteCell = [[DeleteButtonCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"DeleteCell"];    
+}
+
+- (void)setStatus:(Status*)value
+{
+    status = [value copy];
     status.cellType = TWEET_CELL_TYPE_DETAIL;
     [status  updateAttribute];
     
@@ -82,13 +83,38 @@ enum {
         sections = sUserSection;
     }
     
-	return self;
+}
+
+- (id)initWithMessage:(Status*)sts
+{
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    [self initCommon];
+    [self setStatus:sts];
+    return self;
+}
+
+- (id)initWithMessageId:(sqlite_int64)statusId
+{
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    [self initCommon];  	  	 
+    twitterClient = [[TwitterClient alloc] initWithTarget:self action:@selector(messageDidLoad:obj:)];  	  	 
+    [twitterClient getMessage:statusId];  	  	 
+    return self;     
 }
 
 - (void)viewWillAppear:(BOOL)animated 
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.tintColor = nil;
+}
+
+- (void)viewDidDisappear:(BOOL)animated   	 	 
+{  	 	 
+    if (twitterClient) {  	 	 
+        [twitterClient cancel];  	 	 
+        [twitterClient release];  	 	 
+        twitterClient = nil;  	 	 
+    }  	 	 
 }
 
 - (void)dealloc {
@@ -99,6 +125,29 @@ enum {
     [status  release];
     [super dealloc];
 }
+
+- (void)messageDidLoad:(TwitterClient*)client obj:(id)obj   	 	 
+{  	 	 
+    twitterClient = nil;  	 	 
+    if (client.hasError) {  	 	 
+        [client alert];  	 	 
+        return;  	 	 
+    }  	 	 
+            
+    if ([obj isKindOfClass:[NSDictionary class]]) {  	 	 
+        NSDictionary *dic = (NSDictionary*)obj;  	 	 
+        
+        Status* sts = [Status statusWithJsonDictionary:dic type:TWEET_TYPE_FRIENDS];  	 	 
+        [self setStatus:sts];  	 	 
+        if (isOwnTweet) {  	 	 
+            [sts insertDB];  	 	 
+        }  	 	 
+        else {  	 	 
+            [sts insertDBIfFollowing];  	 	 
+        }  	 	 
+        [self.tableView reloadData];  	 	 
+    }  	 	 
+} 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
@@ -117,7 +166,13 @@ enum {
         int s = sections[section];
         switch (s) {
             case SECTION_MESSAGE:
-                return 1;
+                if (status.inReplyToStatusId) {
+                    return 2;
+                }
+                else {
+                    return ([status hasConversation]) ? 2 : 1;
+                }
+                break;
             case SECTION_ACTIONS:
                 return 1;
             case SECTION_MORE_ACTIONS:
@@ -166,9 +221,22 @@ enum {
     }
     
     if (section == SECTION_MESSAGE) {
-        cell.font = [UIFont boldSystemFontOfSize:14];
+        cell.font = [UIFont boldSystemFontOfSize:15];
         cell.textColor = [UIColor cellLabelColor];
+        cell.textAlignment = UITextAlignmentCenter;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        if ([status hasConversation]) {
+            cell.text = @"Drill down this conversation";
+        }
+        else if (status.inReplyToStatusId) {
+            Status *inReplyToStatus = [Status statusWithId:status.inReplyToStatusId];
+            if (inReplyToStatus) {
+                cell.text = [NSString stringWithFormat:@"In-reply-to: %@: %@", status.inReplyToScreenName, inReplyToStatus.text];
+            }
+            else {
+                cell.text = [NSString stringWithFormat:@"In-reply-to: %@", status.inReplyToScreenName];
+            }
+        }
     }
     else if (section == SECTION_MORE_ACTIONS) {
         cell.textAlignment = UITextAlignmentCenter;
@@ -185,7 +253,14 @@ enum {
     switch (section) {
         case SECTION_MESSAGE:
             if (indexPath.row == 1) {
-                // to be implemented.
+                if ([status hasConversation]) {
+                    ConversationController *conv = [[[ConversationController alloc] initWithMessage:status] autorelease];
+                    [self.navigationController pushViewController:conv animated:true];
+                }
+                else {
+                    TweetViewController *c = [[[TweetViewController alloc] initWithMessageId:status.inReplyToStatusId] autorelease];
+                    [self.navigationController pushViewController:c animated:TRUE];
+                }
             }
             break;
         case SECTION_MORE_ACTIONS:

@@ -148,6 +148,11 @@ static NSString *hashRegexp = @"(#[a-zA-Z0-9\\-_\\.+:=]+)";
     return 0;
 }
 
+- (BOOL)hasConversation
+{
+    return false;
+}
+
 - (NSString*)timestamp
 {
     // Calculate distance time string

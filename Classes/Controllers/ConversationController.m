@@ -9,6 +9,7 @@
 #import "TwitterFonAppDelegate.h"
 #import "ConversationController.h"
 #import "DMDetailViewController.h"
+#import "TweetViewController.h"
 #import "DirectMessage.h"
 #import "ColorUtils.h"
 #import "ChatBubbleCell.h"
@@ -47,14 +48,38 @@
     self.navigationController.navigationBar.tintColor = nil;
     [self.tableView reloadData];
     if (isFirstTime) {
-        int pos = [messages count] - 1;
-        if (hasMore) ++pos;
-        NSIndexPath *path = [NSIndexPath indexPathForRow:pos inSection:0];
-        [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:false];
-        isFirstTime = false;
+        if ([firstMessage isKindOfClass:[DirectMessage class]]) {
+            int pos = [messages count] - 1;
+            if (pos >= 0) {
+                if (hasMore) ++pos;
+                if (pos < 0) pos = 0;
+                NSIndexPath *path = [NSIndexPath indexPathForRow:pos inSection:0];
+                [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:false];
+            }
+        }
+        else {
+            int pos = [messages indexOfObject:firstMessage];
+            if (pos != NSNotFound) {
+                NSIndexPath *path = [NSIndexPath indexPathForRow:pos inSection:0];
+                [self.tableView selectRowAtIndexPath:path animated:false scrollPosition:UITableViewScrollPositionMiddle];
+            }
+        }
     }
     else {
         [self.tableView setContentOffset:contentOffset animated:false];    
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (isFirstTime) {
+        isFirstTime = false;
+        if ([firstMessage isKindOfClass:[Status class]]) {
+            int pos = [messages indexOfObject:firstMessage];
+            NSIndexPath *path = [NSIndexPath indexPathForRow:pos inSection:0];
+            [self.tableView deselectRowAtIndexPath:path animated:TRUE];
+        }
     }
 }
 
@@ -113,15 +138,21 @@
         --index;
     }
     
-    DirectMessage *dm = [messages objectAtIndex:index];
+    Tweet *msg = [messages objectAtIndex:index];
     
     ChatBubbleCell *cell = (ChatBubbleCell*)[tableView dequeueReusableCellWithIdentifier:@"ChatBubble"];
     if (cell == nil) {
         cell = [[[ChatBubbleCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ChatBubble"] autorelease];
     }
     
-    BOOL isOwn = [TwitterFonAppDelegate isMyScreenName:dm.user.screenName];
-    [cell setMessage:dm isOwn:isOwn];
+    if ([msg isKindOfClass:[DirectMessage class]]) {
+        BOOL isOwn = [TwitterFonAppDelegate isMyScreenName:msg.user.screenName];
+        [cell setMessage:msg type:isOwn ? BUBBLE_TYPE_GREEN : BUBBLE_TYPE_GRAY];
+    }
+    else {
+        Tweet *top = [messages objectAtIndex:0];
+        [cell setMessage:msg type:(top.user.userId == msg.user.userId) ? BUBBLE_TYPE_GREEN : BUBBLE_TYPE_GRAY];
+    }
     return cell;
 }
 
@@ -135,10 +166,14 @@
         }
         --index;
     }
-    
-    DirectMessage *dm = [messages objectAtIndex:index];
-    if (dm.sender) {
-        DMDetailViewController *c = [[[DMDetailViewController alloc] initWithMessage:dm] autorelease];
+
+    Tweet *tweet = [messages objectAtIndex:index];
+    if ([tweet isKindOfClass:[DirectMessage class]]) {
+        DMDetailViewController *c = [[[DMDetailViewController alloc] initWithMessage:tweet] autorelease];
+        [self.navigationController pushViewController:c animated:true];
+    }
+    else {
+        TweetViewController *c = [[[TweetViewController alloc] initWithMessage:tweet] autorelease];
         [self.navigationController pushViewController:c animated:true];
     }
 }
