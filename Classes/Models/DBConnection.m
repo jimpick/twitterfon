@@ -104,16 +104,7 @@ const char *cleanup_sql =
 "COMMIT";
 
 
-const char *optimize_sql = 
-"REINDEX statuses;"
-"REINDEX direct_messages;"
-"REINDEX images;"
-"REINDEX users;"
-"ANALYZE statuses;"
-"ANALYZE direct_messages;"
-"ANALYZE images;"
-"ANALYZE users;"
-"VACUUM;";
+const char *optimize_sql = "VACUUM; ANALYZE";
 
 + (void)closeDatabase
 {
