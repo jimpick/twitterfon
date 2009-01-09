@@ -58,6 +58,9 @@
     if (prevUsername != nil && [username caseInsensitiveCompare:prevUsername] != NSOrderedSame) {
         needDeleteMessageCache = true;
     }
+
+    NSString *versionStr = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    [[NSUserDefaults standardUserDefaults] setObject:versionStr forKey:@"appVersion"];
     
     [[NSUserDefaults standardUserDefaults] setObject:username forKey:@"prevUsername"];
     [[NSUserDefaults standardUserDefaults] synchronize];
