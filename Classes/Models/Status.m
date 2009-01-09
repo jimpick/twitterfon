@@ -280,31 +280,43 @@ int sTextWidth[] = {
 - (int)getConversation:(NSMutableArray*)messages
 {
     NSMutableDictionary *hash = [NSMutableDictionary dictionary];
-    NSMutableArray *array = [NSMutableArray array];
     
-    static char *sql = "SELECT * FROM statuses WHERE id = ? OR in_reply_to_status_id = ?";
-    Statement *stmt = [DBConnection statementWithQuery:sql];
+    NSMutableArray *idArray = [NSMutableArray array];
+    NSMutableArray *replyArray = [NSMutableArray array];
     
     int count = 1;
     [messages addObject:self];
-    [array addObject:self];
+    [idArray addObject:[NSNumber numberWithLongLong:self.tweetId]];
+    [replyArray addObject:[NSNumber numberWithLongLong:self.inReplyToStatusId]];
+     
     [hash setObject:self forKey:[NSString stringWithFormat:@"%lld", self.tweetId]];
     
     INIT_STOPWATCH(s);
     
-    while ([array count]) {
-        Status *sts = [array lastObject];
-        [array removeLastObject];
-        [stmt bindInt64:sts.inReplyToStatusId   forIndex:1];
-        [stmt bindInt64:sts.tweetId             forIndex:2];
-    
+    while ([idArray count]) {
+
+        NSString *replies = [idArray componentsJoinedByString:@","];
+        NSString *ids = [replyArray componentsJoinedByString:@","];
+        
+        [idArray removeAllObjects];
+        [replyArray removeAllObjects];
+
+        NSString *sql = [NSString stringWithFormat:@"SELECT * FROM statuses WHERE id IN (%@) OR in_reply_to_status_id IN (%@)", ids, replies];
+        Statement *stmt = [DBConnection statementWithQuery:[sql UTF8String]];
+        
+        //NSLog(@"Exec %@", sql);
         while ([stmt step] == SQLITE_ROW) {
             NSString *idStr = [NSString stringWithFormat:@"%lld", [stmt getInt64:0]];
+            //NSLog(@"Found %@", idStr);
             if (![hash objectForKey:idStr]) {
                 Status *s = [Status initWithStatement:stmt type:TWEET_TYPE_FRIENDS];
                 [hash setObject:s forKey:idStr];
                 [messages addObject:s];
-                [array addObject:s];
+                [idArray addObject:[NSNumber numberWithLongLong:s.tweetId]];
+                if (s.inReplyToStatusId) {
+                    [replyArray addObject:[NSNumber numberWithLongLong:s.inReplyToStatusId]];
+                }
+                
                 // Up to 100 messages
                 if (++count >= 100) break;
             }
