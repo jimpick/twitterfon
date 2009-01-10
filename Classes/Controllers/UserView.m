@@ -121,7 +121,7 @@
 
     // Name, location and URL
     url.hidden = false;
-    [user.name drawInRect:CGRectMake(93, 20, 189, 44) withFont:[UIFont boldSystemFontOfSize:18] lineBreakMode:UILineBreakModeTailTruncation];
+    [user.name drawInRect:CGRectMake(93, 20, 205, 32) withFont:[UIFont boldSystemFontOfSize:18] lineBreakMode:UILineBreakModeTailTruncation];
     [user.location drawInRect:CGRectMake(93, 59, 217, 18) withFont:[UIFont systemFontOfSize:14]];
     url.frame = CGRectMake(93, 77, 217, 18);
 
