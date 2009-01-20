@@ -617,6 +617,7 @@
     if (t.type == kCATransitionMoveIn) {
         if (!isRetweet) {
             sendButton.enabled = false;
+            [postView performSelector:@selector(setCharCount) withObject:nil afterDelay:0.5];
         }
     }
     else {
