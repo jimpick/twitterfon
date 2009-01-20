@@ -134,7 +134,10 @@
 + (User*)userWithJsonDictionary:(NSDictionary*)dic
 {
     User *u = [UserStore getUser:[dic objectForKey:@"screen_name"]];
-    if (u) return u;
+    if (u) {
+        [u updateWithJSonDictionary:dic];
+        return u;
+    }
     
     u = [[User alloc] initWithJsonDictionary:dic];
     [UserStore setUser:u];
