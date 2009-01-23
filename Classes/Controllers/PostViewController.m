@@ -162,6 +162,15 @@
     [self edit];
 }
 
+- (void)editWithMessage:(NSString*)message
+{
+    isDirectMessage = false;
+    isRetweet = false;
+    
+    text.text = message;
+    [self edit];
+}
+
 - (IBAction) close: (id) sender
 {
     [recipient resignFirstResponder];

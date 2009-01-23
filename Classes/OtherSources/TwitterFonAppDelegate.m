@@ -145,9 +145,7 @@
 {
     UINavigationController* nav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:selectedTab];
     NSString *method = [[url path] substringFromIndex:1];
-#if 0    
-    [self alert:method message:[url query]]
-#endif    
+
     if ([method isEqualToString:@"post"]) {
         NSMutableArray *array = [NSMutableArray array];
         if ([[url query] matches:@".*twitter.com/([A-Za-z0-9_]+)" withSubstring:array]) {
@@ -159,6 +157,9 @@
             [self performSelector:@selector(postURL:) withObject:[url retain] afterDelay:0.3];
         }
     }
+	if ([method isEqualToString:@"message"]) {
+		[self performSelector:@selector(postURLWithoutConvert:) withObject:[url retain] afterDelay:0.3];
+	}
     if ([method isEqualToString:@"user_timeline"]) {
         UserTimelineController *userTimeline = [[[UserTimelineController alloc] init] autorelease];
         [userTimeline loadUserTimeline:[url query]];
@@ -173,6 +174,12 @@
 - (void)postURL:(NSURL*)url
 {
     [self.postView editWithURL:[url query]];
+    [url release];
+}
+
+- (void)postURLWithoutConvert:(NSURL*)url
+{
+    [self.postView editWithMessage:[url query]];
     [url release];
 }
 

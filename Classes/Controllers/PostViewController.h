@@ -52,6 +52,7 @@
 - (void)retweet:(NSString*)status;
 - (void)reply:(NSString*)user;
 - (void)inReplyTo:(Status*)status;
+- (void)editWithMessage:(NSString*)message;
 - (void)editWithURL:(NSString*)URL;
 - (void)editWithURL:(NSString*)URL title:(NSString*)title;
 - (void)editDirectMessage:(NSString*)aRecipient;
